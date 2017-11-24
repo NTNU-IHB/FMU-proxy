@@ -1,8 +1,0 @@
-
-        @Override
-        public void write{{varName2}} ({{dataType}}Write req, StreamObserver<Status> responseObserver) {
-
-            Simulation fmu = fmus.get(req.getRef());
-            statusReply(fmu.write("{{varName1}}").with(req.getValue()), responseObserver);
-
-        }
