@@ -1,0 +1,3 @@
+rootProject.name = 'grpc-fmu'
+include 'protogen'
+
