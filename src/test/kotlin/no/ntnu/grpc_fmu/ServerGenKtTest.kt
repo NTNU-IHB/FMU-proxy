@@ -1,5 +1,6 @@
 package no.ntnu.grpc_fmu
 
+import no.mechatronics.sfi.grpc_fmu.ServerGen
 import no.ntnu.fmi4j.modeldescription.ModelDescription
 import org.apache.commons.io.IOUtils
 import org.junit.Assert

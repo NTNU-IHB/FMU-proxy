@@ -1,9 +1,9 @@
 package no.ntnu.grpc_fmu
 
+import no.mechatronics.sfi.grpc_fmu.ProtoGen
 import no.ntnu.fmi4j.CoSimulationFmu
 import no.ntnu.fmi4j.modeldescription.ModelDescription
 import org.apache.commons.io.IOUtils
-import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

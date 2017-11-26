@@ -1,6 +1,6 @@
-package no.ntnu.grpc_fmu
+package no.mechatronics.sfi.grpc_fmu
 
-import no.ntnu.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.modeldescription.ModelDescription
 import org.apache.commons.exec.CommandLine
 import org.apache.commons.io.FileUtils
 import org.jtwig.JtwigTemplate

@@ -1,7 +1,6 @@
-package no.ntnu.grpc_fmu
+package no.mechatronics.sfi.grpc_fmu
 
-import no.ntnu.fmi4j.Fmu
-import no.ntnu.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.modeldescription.ModelDescription
 import org.apache.commons.io.FileUtils
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
@@ -60,9 +59,6 @@ object ServerGen {
 
 }
 
-
-
-
 fun toRPCType1(typeName: String): String {
 
     when (typeName) {
@@ -88,17 +84,3 @@ fun toRPCType2(typeName: String): String {
     throw RuntimeException()
 
 }
-
-//fun toRPCType3(typeName: String): String {
-//
-//    when (typeName) {
-//        "Integer" -> return "Integer"
-//        "Real" -> return "Real"
-//        "String" -> return "String"
-//        "Boolean" -> return "bool"
-//    }
-//
-//    throw RuntimeException()
-//
-//}
-
