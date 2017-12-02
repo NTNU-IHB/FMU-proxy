@@ -11,10 +11,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
-import no.mechatronics.sfi.fmi4j.*;
-import no.mechatronics.sfi.fmi4j.jna.Fmi2Status;
+import no.mechatronics.sfi.fmi4j.Fmi2Simulation;
+import no.mechatronics.sfi.fmi4j.fmu.Fmu;
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
+import no.mechatronics.sfi.fmi4j.fmu.CoSimulationFmu;
+import no.mechatronics.sfi.fmi4j.jna.enums.Fmi2Status;
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelVariables;
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable;
+import no.mechatronics.sfi.fmi4j.modeldescription.types.ScalarVariable;
 import {{packageName}}.{{fmuName}}Proto.*;
 
 public class {{fmuName}}Server {
@@ -40,13 +43,13 @@ public class {{fmuName}}Server {
 
     private Server server;
     
-    private final CoSimulationFmu referenceFmu;
-    private final Map<Integer, CoSimulationFmu> fmus;
+    private final Fmi2Simulation referenceFmu;
+    private final Map<Integer, Fmi2Simulation> fmus;
     
-    private {{fmuName}}Server() {
+    private {{fmuName}}Server() throws IOException {
 
         this.fmus = new HashMap<>();
-        this.referenceFmu = new CoSimulationFmu(new File("{{fmuName}}.fmu"));
+        this.referenceFmu = new CoSimulationFmu(new FmuFile(new File("{{fmuName}}.fmu")));
 
     }
 
@@ -73,18 +76,19 @@ public class {{fmuName}}Server {
     private void disposeFmus() {
     
         disposeFmu(referenceFmu);
-        for (Fmu fmu : fmus.values()) {
+        for (Fmi2Simulation fmu : fmus.values()) {
             disposeFmu(fmu);
         }
         fmus.clear();
         
     }
 
-    private void disposeFmu(Fmu fmu) {
+    private void disposeFmu(Fmi2Simulation fmu) {
 
         try {
             fmu.terminate();
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }
@@ -119,7 +123,7 @@ public class {{fmuName}}Server {
         responseObserver.onCompleted();
     }
 
-    private static void Read(Fmu fmu, String varName, Var.Builder builder) {
+    private static void Read(Fmi2Simulation fmu, String varName, Var.Builder builder) {
 
         String typeName = fmu.getModelVariables().get(varName).getTypeName();
         switch(typeName) {
@@ -143,7 +147,7 @@ public class {{fmuName}}Server {
 
     }
 
-     private static Fmi2Status Write(Fmu fmu, VarWrite var) {
+     private static Fmi2Status Write(Fmi2Simulation fmu, VarWrite var) {
         
         String varName = var.getVarName();
         switch (var.getValueCase()) {
@@ -177,7 +181,11 @@ public class {{fmuName}}Server {
         public void createInstance(Empty req, StreamObserver<ModelReference> responseObserver) {
             
             int ref = refGenerator.incrementAndGet();
-            fmus.put(ref, new CoSimulationFmu(new File("{{fmuName}}.fmu")));
+            try {
+                fmus.put(ref, new CoSimulationFmu(new FmuFile(new File("PumpControlledWinch.fmu"))));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             
             ModelReference reply = ModelReference.newBuilder().setFmuId(ref).build();
             responseObserver.onNext(reply);
@@ -199,7 +207,7 @@ public class {{fmuName}}Server {
         @Override 
         public void getCurrentTime(ModelReference req, StreamObserver<Real> responseObserver) {
             
-            Fmu fmu = fmus.get(req.getFmuId());
+            Fmi2Simulation fmu = fmus.get(req.getFmuId());
             
             Real reply = Real.newBuilder().setValue(fmu.getCurrentTime()).build();
             responseObserver.onNext(reply);
@@ -210,7 +218,7 @@ public class {{fmuName}}Server {
         @Override 
         public void isTerminated(ModelReference req, StreamObserver<Bool> responseObserver) {
             
-            Fmu fmu = fmus.get(req.getFmuId());
+            Fmi2Simulation fmu = fmus.get(req.getFmuId());
             
             Bool reply = Bool.newBuilder().setValue(fmu.isTerminated()).build();
             responseObserver.onNext(reply);
@@ -224,7 +232,7 @@ public class {{fmuName}}Server {
             int ref = req.getFmuId();
             String varName = req.getVarName();
 
-            Fmu fmu = fmus.get(ref);
+            Fmi2Simulation fmu = fmus.get(ref);
             Var.Builder builder = Var.newBuilder();
             Read(fmu, varName, builder);
             Var reply = builder.build();
@@ -237,7 +245,7 @@ public class {{fmuName}}Server {
         @Override 
         public void write(VarWrite req, StreamObserver<Status> responseObserver) {
             
-            Fmu fmu = fmus.get(req.getFmuId());
+            Fmi2Simulation fmu = fmus.get(req.getFmuId());
             statusReply(Write(fmu, req), responseObserver);
 
         }
@@ -293,7 +301,9 @@ public class {{fmuName}}Server {
 
             int ref = req.getFmuId();
             double dt = req.getDt();
-            statusReply(fmus.get(ref).doStep(dt), responseObserver);
+            Fmi2Simulation fmu = fmus.get(ref);
+            fmu.doStep(dt);
+            statusReply(fmu.getLastStatus(), responseObserver);
 
         }
 

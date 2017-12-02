@@ -1,15 +1,11 @@
 package no.ntnu.grpc_fmu
 
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.ProtoGen
-import no.ntnu.fmi4j.CoSimulationFmu
-import no.ntnu.fmi4j.modeldescription.ModelDescription
-import org.apache.commons.io.IOUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-
 import org.junit.Assert.*
-import java.nio.charset.Charset
 
 class ProtoGenKtTest {
 
@@ -18,9 +14,9 @@ class ProtoGenKtTest {
     @Before
     fun setUp() {
 
-        val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
+        val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         assertNotNull(url)
-        modelDescription = ModelDescription.parseModelDescription(IOUtils.toString(url, Charset.forName("UTF-8")))
+        modelDescription = ModelDescription.parseModelDescription(url)
 
     }
 
