@@ -1,3 +1,4 @@
 rootProject.name = 'grpc-fmu'
-include 'protogen'
+include 'web'
+include 'servergen'
 

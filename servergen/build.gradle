@@ -1,0 +1,32 @@
+group 'no.mechatronics.sfi.grpc-fmu'
+version '0.1-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+    }
+}
+
+dependencies {
+    compile 'org.jtwig:jtwig-core:5.86.1.RELEASE'
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.0'
+    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.0'
+
+    compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
+    compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
+    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'generated/java'
+        }
+    }
+}

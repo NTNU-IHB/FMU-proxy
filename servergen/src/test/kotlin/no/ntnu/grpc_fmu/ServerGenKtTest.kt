@@ -1,13 +1,12 @@
 package no.ntnu.grpc_fmu
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.grpc_fmu.ProtoGen
+import no.mechatronics.sfi.grpc_fmu.ServerGen
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.*
 
-class ProtoGenKtTest {
+class ServerGenKtTest {
 
     lateinit var modelDescription: ModelDescription
 
@@ -15,27 +14,24 @@ class ProtoGenKtTest {
     fun setUp() {
 
         val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-        assertNotNull(url)
+        Assert.assertNotNull(url)
         modelDescription = ModelDescription.parseModelDescription(url)
 
     }
 
     @Test
-    fun generateProtoString() {
+    fun generateServerCode() {
 
-        println(ProtoGen.generateProtoString(modelDescription))
+        println(ServerGen.generateServerCode(modelDescription))
 
     }
 
     @Test
-    fun compileProto() {
+    fun generateServerCodeFile() {
 
-        val file = ProtoGen.generateProtoFile(modelDescription)
-        assertNotNull(file)
-
-        ProtoGen.compileProto(file)
-
-        Assert.assertTrue(file.delete())
+        val file = ServerGen.generateServerCodeFile(modelDescription, "generated/java/")
+        Assert.assertNotNull(file)
+       // Assert.assertTrue(file.delete())
 
     }
 

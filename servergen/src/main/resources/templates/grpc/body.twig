@@ -1,6 +1,7 @@
 package {{packageName}};
 
 import java.io.File;
+import java.net.URL;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,10 @@ public class {{fmuName}}Server {
 
         new Thread(() -> {
 
+            System.out.println("Press any key to stop application");
             Scanner sc = new Scanner(System.in);
             if (sc.hasNext()) {
+                System.out.println("Key pressed, stopping application..");
                 server.stop();
             }
 
@@ -42,14 +45,15 @@ public class {{fmuName}}Server {
     }
 
     private Server server;
-    
+    private final FmuFile fmuFile;
     private final Fmi2Simulation referenceFmu;
     private final Map<Integer, Fmi2Simulation> fmus;
     
     private {{fmuName}}Server() throws IOException {
 
         this.fmus = new HashMap<>();
-        this.referenceFmu = new CoSimulationFmu(new FmuFile(new File("{{fmuName}}.fmu")));
+        this.fmuFile = new FmuFile({{fmuName}}Server.class.getClassLoader().getResource("{{fmuName}}.fmu"));
+        this.referenceFmu = new CoSimulationFmu(this.fmuFile);
 
     }
 
@@ -181,11 +185,8 @@ public class {{fmuName}}Server {
         public void createInstance(Empty req, StreamObserver<ModelReference> responseObserver) {
             
             int ref = refGenerator.incrementAndGet();
-            try {
-                fmus.put(ref, new CoSimulationFmu(new FmuFile(new File("PumpControlledWinch.fmu"))));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            fmus.put(ref, new CoSimulationFmu(fmuFile));
+
             
             ModelReference reply = ModelReference.newBuilder().setFmuId(ref).build();
             responseObserver.onNext(reply);

@@ -21,37 +21,39 @@ object ServerGen {
         modelDescription.modelVariables.forEach({
 
             if (!isArray(it.name)) {
-                val readTemplate = JtwigTemplate.classpathTemplate("templates/serverread.twig")
-                sb.append(readTemplate.render(JtwigModel.newModel()
-                        .with("varName1", it.name)
-                        .with("varName2", convertName2(it.name))
-                        .with("primitive1", toRPCType2(it.typeName))
-                        .with("primitive2", it.typeName)
-                        .with("returnType", toRPCType1(it.typeName)))).append("\n")
+                JtwigTemplate.classpathTemplate("templates/grpc/read.twig").apply {
+                    sb.append(render(JtwigModel.newModel()
+                            .with("varName1", it.name)
+                            .with("varName2", convertName2(it.name))
+                            .with("primitive1", toRPCType2(it.typeName))
+                            .with("primitive2", it.typeName)
+                            .with("returnType", toRPCType1(it.typeName)))).append("\n")
+                }
 
-                val writeTemplate = JtwigTemplate.classpathTemplate("templates/serverwrite.twig")
-                sb.append(writeTemplate.render(JtwigModel.newModel()
-                        .with("varName1", it.name)
-                        .with("varName2", convertName2(it.name))
-                        .with("dataType", toRPCType1(it.typeName)))).append("\n")
+                JtwigTemplate.classpathTemplate("templates/grpc/write.twig").apply {
+                    sb.append(render(JtwigModel.newModel()
+                            .with("varName1", it.name)
+                            .with("varName2", convertName2(it.name))
+                            .with("dataType", toRPCType1(it.typeName)))).append("\n")
+                }
+
             }
 
         })
 
-        val protoTemplate = JtwigTemplate.classpathTemplate("templates/server.twig")
-        val model = JtwigModel.newModel()
-                .with("packageName", GrpcFmu.PACKAGE_NAME)
-                .with("fmuName", modelDescription.modelName)
-                .with("dynamicMethods", sb.toString())
-
-        return protoTemplate.render(model)
+        return JtwigTemplate.classpathTemplate("templates/grpc/body.twig").let {
+            it.render(JtwigModel.newModel()
+                    .with("packageName", GrpcFmu.PACKAGE_NAME)
+                    .with("fmuName", modelDescription.modelName)
+                    .with("dynamicMethods", sb.toString()))
+        }
 
     }
 
-    fun generateServerCodeFile(modelDescription: ModelDescription) : File {
+    fun generateServerCodeFile(modelDescription: ModelDescription, outputFolder: String) : File {
 
         LOG.info("Generating server code for source FMU '{}'", modelDescription.modelName)
-        val folder = GrpcFmu.JAVA_SRC_OUTPUT_FOLDER + File.separator + GrpcFmu.PACKAGE_NAME.replace(".", "\\")
+        val folder = outputFolder + GrpcFmu.PACKAGE_NAME.replace(".", "\\")
         val file = File("$folder${File.separator}${modelDescription.modelName}Server.java")
         FileUtils.writeStringToFile(file, generateServerCode(modelDescription), Charset.forName("UTF-8"))
         return file
