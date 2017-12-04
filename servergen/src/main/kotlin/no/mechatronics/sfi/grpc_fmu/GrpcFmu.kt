@@ -120,7 +120,7 @@ object GrpcFmu {
         try {
             ProcessBuilder()
                     .directory(baseFile)
-                    .command("gradlew.bat", "fatJar")
+                    .command("$baseFile/gradlew.bat", "fatJar")
                     .redirectError(ProcessBuilder.Redirect.INHERIT)
                     .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                     .start()
