@@ -1,12 +1,9 @@
-package no.ntnu.grpc_fmu
+package no.mechatronics.sfi.grpc_fmu
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.grpc_fmu.ProtoGen
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
-import java.io.File
 
 class ProtoGenKtTest {
 

@@ -76,7 +76,7 @@ object ProtoGen {
                 .start()
                 .waitFor()
 
-        LOG.info("Compiling done")
+        LOG.info("Compiling done!")
 
     }
 

@@ -19,8 +19,29 @@ import java.util.zip.ZipInputStream
 
 fun main(args: Array<String>) {
 
-    val url = GrpcFmu.javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-    GrpcFmu.generate(url)
+    if (args.isEmpty()) {
+        error("no args")
+
+    } else {
+
+        if (args.size == 1) {
+
+            val s = args[0]
+            if (s == "debug") {
+                GrpcFmu.generate(GrpcFmu.javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu"))
+            } else if (s.endsWith(".fmu", true)) {
+                with(File(s)) {
+                    if (exists()) {
+                        GrpcFmu.generate(this)
+                    } else {
+                        error("No such file: '$absolutePath'")
+                    }
+                }
+            }
+        }
+
+    }
+
 }
 
 object GrpcFmu {
@@ -28,8 +49,8 @@ object GrpcFmu {
     private val LOG = LoggerFactory.getLogger(GrpcFmu::class.java)
 
     const val PACKAGE_NAME = "no.mechatronics.sfi.grpc_fmu"
-//    const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
-//    const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
+    const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
+    const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
 
 
     fun generate(file: File) {
@@ -88,9 +109,12 @@ object GrpcFmu {
             }
         }
 
-        val protoFile = ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/src/main/proto/")
-        ProtoGen.compileProto(protoFile, "${baseFile.name}/src/main/proto/", "${baseFile.name}/src/main/java/")
-        ServerGen.generateServerCodeFile(modelDescription, "${baseFile.name}/src/main/java/")
+        val protoFile = ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER")
+        ProtoGen.compileProto(protoFile, "${baseFile.name}/src/main/proto/", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
+        ServerGen.generateServerCodeFile(modelDescription, "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
+        File(File(baseFile, "src/main/resources"), protoFile.name).let { file ->
+            FileUtils.copyFile(protoFile, file)
+        }
         protoFile.parentFile.deleteRecursively()
 
         try {
