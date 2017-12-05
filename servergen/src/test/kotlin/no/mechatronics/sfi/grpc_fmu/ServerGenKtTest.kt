@@ -5,6 +5,7 @@ import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.io.File
 
 class ServerGenKtTest {
 
@@ -29,8 +30,8 @@ class ServerGenKtTest {
     @Test
     fun generateServerCodeFile() {
 
-        val file = ServerGen.generateServerCodeFile(modelDescription, "generated/java/")
-        Assert.assertNotNull(file)
+        val out =  File("generated/java/" + GrpcFmu.PACKAGE_NAME)
+        val file = ServerGen.generateServerCodeFiles(modelDescription, out)
        // Assert.assertTrue(file.delete())
 
     }

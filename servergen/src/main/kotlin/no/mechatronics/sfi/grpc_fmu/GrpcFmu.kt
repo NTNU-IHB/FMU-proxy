@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
 import org.apache.commons.io.IOUtils
+import zmq.ZMQ
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -112,7 +113,7 @@ object GrpcFmu {
 
         val protoFile = ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER")
         ProtoGen.compileProto(baseFile, protoFile, "${baseFile.name}/src/main/proto/", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
-        ServerGen.generateServerCodeFile(modelDescription, "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
+        ServerGen.generateServerCodeFiles(modelDescription, File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"))
         File(File(baseFile, "src/main/resources"), protoFile.name).let { file ->
             FileUtils.copyFile(protoFile, file)
         }

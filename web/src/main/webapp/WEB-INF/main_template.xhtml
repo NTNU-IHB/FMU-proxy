@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title> Grpc-fmu - #{modulename}</title>
+        <base href="#{request.contextPath}" />
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit position="north" size="85">
+                <ui:insert name="modulename">
+                    <h3>Grpc-fmu - #{modulename}</h3>
+                </ui:insert>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="centerLayout" position="center">
+                <ui:insert name="contents" />
+            </p:layoutUnit>
+
+            
+            <p:layoutUnit position="south" size="40" style="text-align:center;">
+                <ui:include src="/WEB-INF/footer.xhtml"/>
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>
+
+</html>

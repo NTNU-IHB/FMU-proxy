@@ -15,9 +15,7 @@ object ServerGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ServerGen::class.java)
 
-    private fun className(modelDescription: ModelDescription) : String =  "${modelDescription.modelName}Server"
-
-    fun generateServerCode(modelDescription: ModelDescription) : String {
+    fun generateServerCode(modelDescription: ModelDescription) : ServerTemplate.ServerCode {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
@@ -42,20 +40,28 @@ object ServerGen {
 
         })
 
-        return ServerTemplate.generateBody(
+        return ServerTemplate.generateClass(
                 packageName = GrpcFmu.PACKAGE_NAME,
                 fmuName = modelDescription.modelName,
                 dynamicMethods = sb.toString())
 
     }
 
-    fun generateServerCodeFile(modelDescription: ModelDescription, outputFolder: String) : File {
+    fun generateServerCodeFiles(modelDescription: ModelDescription, outputFolder: File)  {
 
         LOG.info("Generating server code for source FMU '{}'", modelDescription.modelName)
-        val folder = outputFolder + GrpcFmu.PACKAGE_NAME.replace("", "\\")
-        return File("$folder${File.separator}${modelDescription.modelName}Server.java").also { file ->
-            FileUtils.writeStringToFile(file, generateServerCode(modelDescription), Charset.forName("UTF-8"))
+
+        val serverCode = generateServerCode(modelDescription)
+        File(outputFolder, "Main.java").also { file ->
+            FileUtils.writeStringToFile(file, serverCode.main, Charset.forName("UTF-8"))
         }
+        File(outputFolder, "HeartBeat.java").also { file ->
+            FileUtils.writeStringToFile(file, serverCode.heartbeat, Charset.forName("UTF-8"))
+        }
+        File(outputFolder, "${modelDescription.modelName}Server.java").also { file ->
+            FileUtils.writeStringToFile(file, serverCode.server, Charset.forName("UTF-8"))
+        }
+
 
     }
 

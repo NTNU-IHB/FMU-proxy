@@ -1,5 +1,3 @@
-group 'no.mechatronics.sfi.grpc-fmu'
-version '0.1-SNAPSHOT'
 
 buildscript {
     repositories {
