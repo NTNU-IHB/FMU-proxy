@@ -17,7 +17,7 @@ class GrpcFmuTest {
     @Before
     fun setUp() {
 
-        url = GrpcFmu.javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+        url = GrpcFmuTest::class.java.classLoader.getResource("fmus.cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
         val modelDescription = ModelDescription.parseModelDescription(url)
         generatedJar = File("${modelDescription.modelName}-all.jar")

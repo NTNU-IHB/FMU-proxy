@@ -2,9 +2,10 @@ package no.mechatronics.sfi.grpc_fmu
 
 import com.google.common.io.Files
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
+import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
+import no.mechatronics.sfi.grpc_fmu.templates.GradleTemplate
 import org.apache.commons.io.FileUtils
-import org.jtwig.JtwigModel
-import org.jtwig.JtwigTemplate
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
@@ -28,7 +29,7 @@ fun main(args: Array<String>) {
 
             val s = args[0]
             if (s == "debug") {
-                GrpcFmu.generate(GrpcFmu.javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu"))
+                GrpcFmu.generate(GrpcFmu.javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu"))
             } else if (s.endsWith(".fmu", true)) {
                 with(File(s)) {
                     if (exists()) {
@@ -78,13 +79,13 @@ object GrpcFmu {
                 IOUtils.copy(inputStream, fis)
             }
         }
-        JtwigTemplate.classpathTemplate("templates/gradlebuild.twig").apply {
-            val render = render(JtwigModel.newModel()
-                    .with("mainClass", "$PACKAGE_NAME.${modelDescription.modelName}Server"))
-            File(baseFile,"build.gradle").also {
-                FileUtils.write(it, render, Charset.forName("UTF-8"))
-            }
+
+        File(baseFile,"build.gradle").also {
+            FileUtils.write(it, GradleTemplate.generate(
+                    mainClass = "$PACKAGE_NAME.${modelDescription.modelName}Server"
+            ), Charset.forName("UTF-8"))
         }
+
         val zipStream = GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip")
         ZipInputStream(zipStream).use { zis ->
             var nextEntry: ZipEntry? = zis.nextEntry
@@ -110,7 +111,7 @@ object GrpcFmu {
         }
 
         val protoFile = ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER")
-        ProtoGen.compileProto(protoFile, "${baseFile.name}/src/main/proto/", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
+        ProtoGen.compileProto(baseFile, protoFile, "${baseFile.name}/src/main/proto/", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
         ServerGen.generateServerCodeFile(modelDescription, "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
         File(File(baseFile, "src/main/resources"), protoFile.name).let { file ->
             FileUtils.copyFile(protoFile, file)
@@ -120,7 +121,7 @@ object GrpcFmu {
         try {
             ProcessBuilder()
                     .directory(baseFile)
-                    .command("$baseFile/gradlew.bat", "fatJar")
+                    .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
                     .redirectError(ProcessBuilder.Redirect.INHERIT)
                     .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                     .start()
