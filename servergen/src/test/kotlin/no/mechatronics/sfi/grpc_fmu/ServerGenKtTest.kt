@@ -13,7 +13,7 @@ class ServerGenKtTest {
     @Before
     fun setUp() {
 
-        val url = ServerGenKtTest::class.java.classLoader.getResource("fmus.cs/PumpControlledWinch/PumpControlledWinch.fmu")
+        val url = ServerGenKtTest::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
         modelDescription = ModelDescription.parseModelDescription(url)
 

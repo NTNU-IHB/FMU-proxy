@@ -6,8 +6,6 @@ import no.mechatronics.sfi.grpc_fmu.convertName1
 import no.mechatronics.sfi.grpc_fmu.isArray
 import no.mechatronics.sfi.grpc_fmu.templates.ProtoTemplate
 import org.apache.commons.io.FileUtils
-import org.jtwig.JtwigTemplate
-import org.jtwig.JtwigModel
 import java.io.File
 import java.nio.charset.Charset
 import org.apache.commons.io.FilenameUtils
