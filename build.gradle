@@ -29,7 +29,7 @@ subprojects {
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
-        compile "no.mechatronics.sfi.fmi4j:fmi-import:0.1-ALPHA-5-SNAPSHOT"
+        compile "no.mechatronics.sfi.fmi4j:fmi-import:0.1-ALPHA-5"
 
         compile group: 'org.zeromq', name: 'jeromq', version: '0.3.6'
 
