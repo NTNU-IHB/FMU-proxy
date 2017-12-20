@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
 import org.apache.commons.io.IOUtils
-import zmq.ZMQ
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream

@@ -2,9 +2,9 @@ package no.mechatronics.sfi.grpc_fmu.templates
 
 object GradleTemplate {
 
-    fun generate(mainClass: String): String {
+    fun generate(mainClass: String) =
 
-        return """
+"""
 
 plugins {
     id "java"
@@ -12,14 +12,11 @@ plugins {
 
 repositories {
     mavenCentral()
-//    maven {
-//        url "https://oss.sonatype.org/content/repositories/snapshots/"
-//    }
 }
 
 dependencies {
 
-    compile "no.mechatronics.sfi.fmi4j:fmi-import:0.1-ALPHA-4"
+    compile "no.mechatronics.sfi.fmi4j:fmi-import:0.1-ALPHA-6"
 
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.0'
     compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.0'
@@ -43,8 +40,7 @@ task fatJar(type: Jar) {
     with jar
 }
 
-            """
+"""
 
     }
 
-}

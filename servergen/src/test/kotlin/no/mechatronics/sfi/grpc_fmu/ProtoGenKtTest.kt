@@ -37,12 +37,14 @@ class ProtoGenKtTest {
         val temp = Files.createTempDirectory("grpc_fmu").toFile()
 
         fun copyFile(name: String) {
-            val src = ProtoGenKtTest::class.java.classLoader.getResourceAsStream(name)
-            Assert.assertNotNull(src)
-            val fis = FileOutputStream(File(temp, name))
-            IOUtils.copy(src, fis)
-            fis.close()
-            src.close()
+
+            ProtoGenKtTest::class.java.classLoader.getResourceAsStream(name).use { src ->
+                Assert.assertNotNull(src)
+                FileOutputStream(File(temp, name)).use { fos ->
+                    IOUtils.copy(src, fos)
+                }
+            }
+
         }
 
         try {
