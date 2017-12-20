@@ -11,6 +11,8 @@ private const val HEARTBEAT_INTERVAL = 1000    //  msecs
 private const val PPP_READY = "\u0001" //  Signals worker is ready
 private const val PPP_HEARTBEAT = "\u0002"      //  Signals worker heartbeat
 
+private const val PORT = 7777
+
 object Heartbeat {
 
     private val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
@@ -25,7 +27,7 @@ object Heartbeat {
             val context = ZContext()
             val backend = context.createSocket(ZMQ.ROUTER)
 
-            backend.bind("tcp://*:" + 7777)
+            backend.bind("tcp://*:$PORT")
 
             var heartbeat_at = System.currentTimeMillis() + HEARTBEAT_INTERVAL
 
@@ -39,17 +41,21 @@ object Heartbeat {
                 }
 
                 //  Handle worker activity on backend
-                if (items[0].isReadable()) {
+                if (items[0].isReadable) {
                     val msg = ZMsg.recvMsg(backend) ?: break          //  Interrupted
+
                     val address = msg.unwrap()
                     val uuid = String(address.data)
 
                     //  Forward message to client if it's not a READY
                     val frame = msg.first
-                    if (String(frame.data) == PPP_READY) {
+                    if (String(frame.data, ZMQ.CHARSET) == PPP_READY) {
 
-
-
+                        val data = String(msg.last.data, ZMQ.CHARSET);
+                        val remoteFmu = RemoteFmu.parse(data)
+                        LOG.info("FMU {} connected!", remoteFmu)
+                        RemoteFmus.add(remoteFmu)
+                        workers[uuid] = Worker(address)
 
                     }
 
@@ -92,9 +98,9 @@ object Heartbeat {
 
             if (System.currentTimeMillis() > worker.expiry) {
                 it.remove()
-                val uuid = next.key
-                //ConnectedSimulations.getInstance().remove(uuid)
-                LOG.info("{}, disconnected!", uuid)
+                val guid = next.key
+                RemoteFmus.remove(guid)
+                LOG.info("{}, disconnected!", guid)
             }
         }
     }

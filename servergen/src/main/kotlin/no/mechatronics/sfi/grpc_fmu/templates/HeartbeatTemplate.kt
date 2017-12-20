@@ -21,14 +21,14 @@ class Heartbeat {
     private boolean stop;
 
     private final String xml;
-    private final int remote_port;
-    private final String remote_address;
+    private final int remotePort;
+    private final String remoteAddress;
     private final ModelDescription modelDescription;
 
-    public Heartbeat(String xml, String remote_address, int remote_port) {
+    public Heartbeat(String xml, String remoteAddress, int remotePort) {
         this.xml = xml;
-        this.remote_port = remote_port;
-        this.remote_address = remote_address;
+        this.remotePort = remotePort;
+        this.remoteAddress = remoteAddress;
         this.modelDescription = ModelDescription.parseModelDescription(xml);
     }
 
@@ -66,6 +66,8 @@ class Heartbeat {
             LOG.debug("Heartbeat server ready!");
             ZMsg msg = new ZMsg();
             msg.add(PPP_READY);
+            msg.add(remoteAddress.getBytes(ZMQ.CHARSET));
+            msg.add(remotePort);
             msg.add(xml.getBytes(ZMQ.CHARSET));
             msg.send(worker);
 

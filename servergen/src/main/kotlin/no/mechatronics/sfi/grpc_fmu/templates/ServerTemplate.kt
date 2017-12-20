@@ -55,17 +55,21 @@ package ${packageName};
 import java.util.Scanner;
 import java.net.ServerSocket;
 import java.io.IOException;
+import java.net.InetAddress;
 
 class Main {
 
     public static void main(String args[]) throws IOException, InterruptedException {
 
         final ${fmuName}Server server = new ${fmuName}Server();
-        server.start(findAvailablePort());
+
+        int port = getAvailablePort();
+        String hostAddress = getHostAddress();
+        server.start(port);
 
         new Thread(() -> {
 
-            System.out.println("Press any key to stop application");
+            System.out.println("Press any key to stop the application..");
             Scanner sc = new Scanner(System.in);
             if (sc.hasNext()) {
                 System.out.println("Key pressed, stopping application..");
@@ -78,7 +82,15 @@ class Main {
 
     }
 
-    private static int findAvailablePort() throws IOException {
+    private static String getHostAddress() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            return "127.0.0.1";
+        }
+    }
+
+    private static int getAvailablePort() throws IOException {
 
         try (ServerSocket ss = new ServerSocket(0)) {
             return ss.getLocalPort();

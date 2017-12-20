@@ -26,6 +26,7 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
 
     compile group: 'org.zeromq', name: 'jeromq', version: '0.3.6'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
 }
 
