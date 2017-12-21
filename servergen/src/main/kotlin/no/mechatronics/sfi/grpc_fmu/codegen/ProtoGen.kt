@@ -46,11 +46,12 @@ object ProtoGen {
 
     }
 
-    fun generateProtoFile(modelDescription: ModelDescription, outputFolder: String): File {
+    fun generateProtoFile(modelDescription: ModelDescription, outputFolder: String): Pair<String, File> {
 
-        val generalProtoFile = File(outputFolder + modelDescription.modelName + ".proto")
-        FileUtils.writeStringToFile(generalProtoFile, generateProtoString(modelDescription), Charset.forName("UTF-8"))
-        return generalProtoFile
+        val protoFile = File(outputFolder + modelDescription.modelName + ".proto")
+        val protoString = generateProtoString(modelDescription)
+        FileUtils.writeStringToFile(protoFile, protoString, Charset.forName("UTF-8"))
+        return Pair(protoString,  protoFile)
 
     }
 
@@ -58,14 +59,13 @@ object ProtoGen {
 
         LOG.info("Compiling proto..")
 
-        val baseName = FilenameUtils.getBaseName(protoFile.absolutePath)
-
         File(javaOut).apply {
             if (!exists()) {
                 mkdirs()
             }
         }
 
+        val baseName = FilenameUtils.getBaseName(protoFile.absolutePath)
         val cmd = arrayOf("${protocDir.absolutePath}/protoc.exe/", "--java_out=\"$javaOut\"", "--grpc-java_out=\"$javaOut\"", "--proto_path=\".\"", "\"$protoSrc$baseName.proto\"")
         ProcessBuilder()
                 .command(*cmd)

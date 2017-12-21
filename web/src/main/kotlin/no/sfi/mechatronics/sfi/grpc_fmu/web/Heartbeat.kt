@@ -11,7 +11,6 @@ private const val HEARTBEAT_INTERVAL = 1000    //  msecs
 private const val PPP_READY = "\u0001" //  Signals worker is ready
 private const val PPP_HEARTBEAT = "\u0002"      //  Signals worker heartbeat
 
-private const val PORT = 7777
 
 object Heartbeat {
 
@@ -20,14 +19,15 @@ object Heartbeat {
     private lateinit var thread: Thread
     private val workers: MutableMap<String, Worker> = HashMap()
 
-    fun start() {
+    fun start(port: Int = 7777) {
 
         thread = Thread({
+
 
             val context = ZContext()
             val backend = context.createSocket(ZMQ.ROUTER)
 
-            backend.bind("tcp://*:$PORT")
+            backend.bind("tcp://*:$port")
 
             var heartbeat_at = System.currentTimeMillis() + HEARTBEAT_INTERVAL
 
@@ -76,6 +76,7 @@ object Heartbeat {
                                 ZFrame.REUSE + ZFrame.MORE)
                         val frame = ZFrame(PPP_HEARTBEAT)
                         frame.send(backend, 0)
+
                     }
                     heartbeat_at = System.currentTimeMillis() + HEARTBEAT_INTERVAL
                 }

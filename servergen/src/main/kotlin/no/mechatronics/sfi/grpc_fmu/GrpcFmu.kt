@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
 import org.apache.commons.io.IOUtils
+import org.slf4j.Logger
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -18,50 +19,43 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 
-fun main(args: Array<String>) {
-
-    if (args.isEmpty()) {
-        error("no args")
-
-    } else {
-
-        if (args.size == 1) {
-
-            val s = args[0]
-            if (s == "debug") {
-                GrpcFmu.generate(GrpcFmu.javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu"))
-            } else if (s.endsWith(".fmu", true)) {
-                with(File(s)) {
-                    if (exists()) {
-                        GrpcFmu.generate(this)
-                    } else {
-                        error("No such file: '$absolutePath'")
-                    }
-                }
-            }
-        }
-
-    }
-
-}
-
 object GrpcFmu {
 
-    private val LOG = LoggerFactory.getLogger(GrpcFmu::class.java)
+    private val LOG: Logger = LoggerFactory.getLogger(GrpcFmu::class.java)
 
     const val PACKAGE_NAME = "no.mechatronics.sfi.grpc_fmu"
-    const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
-    const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
+    private const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
+    private const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
 
 
-    fun generate(file: File) {
-        generate(FileInputStream(file), ModelDescription.parseModelDescription(file))
+    fun generate(file: File) = generate(FileInputStream(file), exctractModelDescriptionXml(FileInputStream(file)))
+
+    fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
+
+    internal fun exctractModelDescriptionXml(stream: InputStream): String {
+
+        ZipInputStream(stream).use {
+
+            var nextEntry: ZipEntry? = it.nextEntry
+            while (nextEntry != null) {
+
+                val name = nextEntry.name
+                if (name == "modelDescription.xml") {
+                    return IOUtils.toString(it, Charset.forName("UTF-8"))
+                }
+
+                nextEntry = it.nextEntry
+            }
+
+        }
+
+        throw IllegalArgumentException("Input is not an valid FMU! No modelDescription.xml present!")
+
     }
-    fun generate(url: URL) {
-        generate(url.openStream(), ModelDescription.parseModelDescription(url))
-    }
 
-    private fun generate(inputStream: InputStream, modelDescription: ModelDescription) {
+    private fun generate(inputStream: InputStream, modelDescriptionXml: String) : File? {
+
+        val modelDescription = ModelDescription.parseModelDescription(modelDescriptionXml)
 
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists()) {
@@ -71,10 +65,17 @@ object GrpcFmu {
             }
         }
 
-        File(baseFile, "src/main/resources/${modelDescription.modelName}.fmu").let { file ->
-            if (!file.exists()) {
-                Files.createParentDirs(file)
+        val resourcesFile = File(baseFile,"src/main/resources/").apply {
+            if (!exists()) {
+                Files.createParentDirs(this)
             }
+        }
+
+        File(resourcesFile, "modelDescription.xml").let { file ->
+            FileUtils.writeStringToFile(file, modelDescriptionXml, Charset.forName("UTF-8"))
+        }
+
+        File(resourcesFile, "${modelDescription.modelName}.fmu").let { file ->
             FileOutputStream(file).use { fis ->
                 IOUtils.copy(inputStream, fis)
             }
@@ -110,13 +111,14 @@ object GrpcFmu {
             }
         }
 
-        val protoFile = ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER")
-        ProtoGen.compileProto(baseFile, protoFile, "${baseFile.name}/src/main/proto/", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
-        ServerGen.generateServerCodeFiles(modelDescription, File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"))
-        File(File(baseFile, "src/main/resources"), protoFile.name).let { file ->
-            FileUtils.copyFile(protoFile, file)
+
+        ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER").let { (protoString,  protoFile) ->
+            FileUtils.writeStringToFile(File(resourcesFile, "protoDefinition.proto"), protoString, Charset.forName("UTF-8"))
+            ProtoGen.compileProto(baseFile, protoFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
         }
-        protoFile.parentFile.deleteRecursively()
+
+        ServerGen.generateServerCodeFiles(modelDescription, File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"))
+
 
         try {
             ProcessBuilder()
@@ -127,7 +129,7 @@ object GrpcFmu {
                     .start()
                     .waitFor()
 
-            File(baseFile, "build/libs/${modelDescription.modelName}-all.jar").apply {
+            return File(baseFile, "build/libs/${modelDescription.modelName}-all.jar").apply {
                 if (exists()) {
                     val dir = File(".")
                     FileUtils.copyFileToDirectory(this, dir)
@@ -141,6 +143,8 @@ object GrpcFmu {
                 }
             }
         }
+
+        return null
     }
 
 

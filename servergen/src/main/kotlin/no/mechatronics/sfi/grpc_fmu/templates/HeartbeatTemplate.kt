@@ -11,7 +11,6 @@ package ${packageName};
 import org.zeromq.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
 
 class Heartbeat {
 
@@ -20,16 +19,14 @@ class Heartbeat {
     private Thread thread;
     private boolean stop;
 
-    private final String xml;
     private final int remotePort;
-    private final String remoteAddress;
-    private final ModelDescription modelDescription;
+    private final String remoteHostAddress;
+    private final ClientInfo info;
 
-    public Heartbeat(String xml, String remoteAddress, int remotePort) {
-        this.xml = xml;
+    public Heartbeat(String remoteHostAddress, int remotePort, ClientInfo clientInfo) {
+        this.info = clientInfo;
         this.remotePort = remotePort;
-        this.remoteAddress = remoteAddress;
-        this.modelDescription = ModelDescription.parseModelDescription(xml);
+        this.remoteHostAddress = remoteHostAddress;
     }
 
     public void start() {
@@ -59,16 +56,14 @@ class Heartbeat {
 
         private ZMQ.Socket worker_socket(ZContext ctx) {
             ZMQ.Socket worker = ctx.createSocket(ZMQ.DEALER);
-            worker.setIdentity(modelDescription.getGuid().getBytes(ZMQ.CHARSET));
-            worker.connect("tcp://" + remote_address + ':' + remote_port);
+            worker.setIdentity(info.getGuid().getBytes(ZMQ.CHARSET));
+            worker.connect("tcp://" + remoteHostAddress + ':' + remotePort);
 
             //  Tell queue we're ready for work
             LOG.debug("Heartbeat server ready!");
             ZMsg msg = new ZMsg();
             msg.add(PPP_READY);
-            msg.add(remoteAddress.getBytes(ZMQ.CHARSET));
-            msg.add(remotePort);
-            msg.add(xml.getBytes(ZMQ.CHARSET));
+            msg.add(info.toJson().getBytes(ZMQ.CHARSET));
             msg.send(worker);
 
             return worker;

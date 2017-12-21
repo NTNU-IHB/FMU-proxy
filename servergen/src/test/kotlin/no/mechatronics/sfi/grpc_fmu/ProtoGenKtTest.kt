@@ -55,7 +55,7 @@ class ProtoGenKtTest {
             val file = ProtoGen.generateProtoFile(modelDescription, "generated/proto/")
             assertNotNull(file)
 
-            ProtoGen.compileProto(temp, file, "generated/proto/","generated/java/")
+            ProtoGen.compileProto(temp, file.second, "generated/proto/","generated/java/")
 
         } finally {
             temp.deleteRecursively()

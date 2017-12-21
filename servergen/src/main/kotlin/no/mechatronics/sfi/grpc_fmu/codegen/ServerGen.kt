@@ -51,17 +51,21 @@ object ServerGen {
 
         LOG.info("Generating server code for source FMU '{}'", modelDescription.modelName)
 
-        val serverCode = generateServerCode(modelDescription)
-        File(outputFolder, "Main.java").also { file ->
-            FileUtils.writeStringToFile(file, serverCode.main, Charset.forName("UTF-8"))
-        }
-        File(outputFolder, "HeartBeat.java").also { file ->
-            FileUtils.writeStringToFile(file, serverCode.heartbeat, Charset.forName("UTF-8"))
-        }
-        File(outputFolder, "${modelDescription.modelName}Server.java").also { file ->
-            FileUtils.writeStringToFile(file, serverCode.server, Charset.forName("UTF-8"))
-        }
+        generateServerCode(modelDescription).apply {
+            File(outputFolder, "Main.java").also { file ->
+                FileUtils.writeStringToFile(file, main, Charset.forName("UTF-8"))
+            }
+            File(outputFolder, "HeartBeat.java").also { file ->
+                FileUtils.writeStringToFile(file, heartbeat, Charset.forName("UTF-8"))
+            }
+            File(outputFolder, "ClientInfo.java").also { file ->
+                FileUtils.writeStringToFile(file, clientInfo, Charset.forName("UTF-8"))
+            }
+            File(outputFolder, "${modelDescription.modelName}Server.java").also { file ->
+                FileUtils.writeStringToFile(file, server, Charset.forName("UTF-8"))
+            }
 
+        }
 
     }
 

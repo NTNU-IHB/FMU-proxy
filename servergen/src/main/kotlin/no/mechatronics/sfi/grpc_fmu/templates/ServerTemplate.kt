@@ -5,102 +5,15 @@ object ServerTemplate {
     class ServerCode(
             val main: String,
             val server: String,
-            val heartbeat: String
+            val heartbeat: String,
+            val clientInfo: String
     )
 
     fun generateClass(packageName: String, fmuName: String, dynamicMethods: String) = ServerCode(
-            main = generateMainClass(packageName, fmuName),
+            main = MainTemplate.generate(packageName, fmuName),
             server = generateServerClass(packageName, fmuName, dynamicMethods),
-            heartbeat = HeartbeatTemplate.generate(packageName))
-
-
-    fun generateWrite(varName1: String, varName2: String, dataType: String): String {
-        return """
-            
-        @Override
-        public void write${varName2} (${dataType}Write req, StreamObserver<Status> responseObserver) {
-
-            FmiSimulation fmu = fmus.get(req.getFmuId());
-            statusReply(fmu.write("${varName1}").with(req.getValue()), responseObserver);
-
-        }
-
-            """
-    }
-
-    fun generateRead(varName1: String, varName2: String, primitive1: String, primitive2: String, returnType: String): String {
-
-        return """
-
-        @Override
-        public void read${varName2}(ModelReference req, StreamObserver<${returnType}> responseObserver) {
-
-            FmiSimulation fmu = fmus.get(req.getFmuId());
-            ${primitive1} read = fmu.read("${varName1}").as${primitive2}();
-            ${returnType} reply = ${returnType}.newBuilder().setValue(read).build();
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-
-        }
-            
-            """
-
-    }
-
-    fun generateMainClass(packageName: String, fmuName: String): String {
-        return """
-
-package ${packageName};
-
-import java.util.Scanner;
-import java.net.ServerSocket;
-import java.io.IOException;
-import java.net.InetAddress;
-
-class Main {
-
-    public static void main(String args[]) throws IOException, InterruptedException {
-
-        final ${fmuName}Server server = new ${fmuName}Server();
-
-        int port = getAvailablePort();
-        String hostAddress = getHostAddress();
-        server.start(port);
-
-        new Thread(() -> {
-
-            System.out.println("Press any key to stop the application..");
-            Scanner sc = new Scanner(System.in);
-            if (sc.hasNext()) {
-                System.out.println("Key pressed, stopping application..");
-                server.stop();
-            }
-
-        }).start();
-
-        server.blockUntilShutdown();
-
-    }
-
-    private static String getHostAddress() {
-        try {
-            return InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException ex) {
-            return "127.0.0.1";
-        }
-    }
-
-    private static int getAvailablePort() throws IOException {
-
-        try (ServerSocket ss = new ServerSocket(0)) {
-            return ss.getLocalPort();
-        }
-
-    }
-
-}
-"""
-    }
+            heartbeat = HeartbeatTemplate.generate(packageName),
+            clientInfo = ClientInfoTemplate.generate(packageName))
 
 
     private fun generateServerClass(packageName: String, fmuName: String, dynamicMethods: String): String {
@@ -123,22 +36,32 @@ import no.mechatronics.sfi.fmi4j.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelVariables;
 import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable;
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
 import ${packageName}.${fmuName}Proto.*;
 
 public class ${fmuName}Server {
 
     private Server server;
+    private final FmuFile fmuFile;
     private final FmuBuilder builder;
-    private final FmiSimulation referenceFmu;
+    private final ModelDescription modelDescription;
     private final Map<Integer, FmiSimulation> fmus;
 
     public ${fmuName}Server() throws IOException {
 
         this.fmus = new HashMap<>();
-        FmuFile fmuFile = new FmuFile(${fmuName}Server.class.getClassLoader().getResource("${fmuName}.fmu"));
-        this.builder = new FmuBuilder(fmuFile);
-        this.referenceFmu = builder.asCoSimulationFmu().newInstance();
+        this.fmuFile = new FmuFile(getClass().getClassLoader().getResource("${fmuName}.fmu"));
+        this.modelDescription = ModelDescription.parseModelDescription(fmuFile.getModelDescriptionXml());
+        this.builder = new FmuBuilder(this.fmuFile);
 
+    }
+
+    public String getGuid() {
+        return modelDescription.getGuid();
+    }
+
+    public String getModelDescriptionXml() throws IOException {
+        return fmuFile.getModelDescriptionXml();
     }
 
     public void start(int port) throws IOException {
@@ -163,7 +86,6 @@ public class ${fmuName}Server {
 
     public void disposeFmus() {
 
-        disposeFmu(referenceFmu);
         for (FmiSimulation fmu : fmus.values()) {
             disposeFmu(fmu);
         }
@@ -273,7 +195,7 @@ public class ${fmuName}Server {
         @Override
         public void getModelName(Empty req, StreamObserver<Str> responseObserver) {
 
-            String modelName = referenceFmu.getModelDescription().getModelName();
+            String modelName = modelDescription.getModelName();
 
             Str reply = Str.newBuilder().setValue(modelName).build();
             responseObserver.onNext(reply);
@@ -330,7 +252,7 @@ public class ${fmuName}Server {
         @Override
         public void getModelVariableNames(Empty req, StreamObserver<StrList> responseObserver) {
 
-            List<String> modelVariableNames = referenceFmu.getModelVariables().getVariableNames();
+            List<String> modelVariableNames = modelDescription.getModelVariables().getVariableNames();
 
             StrList.Builder builder = StrList.newBuilder();
             for (String name : modelVariableNames) {
@@ -346,7 +268,7 @@ public class ${fmuName}Server {
         @Override
         public void getModelVariables(Empty req, StreamObserver<ScalarVariables> responseObserver) {
 
-            ModelVariables variables = referenceFmu.getModelVariables();
+            ModelVariables variables = modelDescription.getModelVariables();
 
             ScalarVariables.Builder builder = ScalarVariables.newBuilder();
             for (ScalarVariable variable : variables) {
@@ -406,6 +328,41 @@ public class ${fmuName}Server {
             
         """
     }
+
+
+    fun generateWrite(varName1: String, varName2: String, dataType: String): String {
+        return """
+
+        @Override
+        public void write${varName2} (${dataType}Write req, StreamObserver<Status> responseObserver) {
+
+            FmiSimulation fmu = fmus.get(req.getFmuId());
+            statusReply(fmu.write("${varName1}").with(req.getValue()), responseObserver);
+
+        }
+
+            """
+    }
+
+    fun generateRead(varName1: String, varName2: String, primitive1: String, primitive2: String, returnType: String): String {
+
+        return """
+
+        @Override
+        public void read${varName2}(ModelReference req, StreamObserver<${returnType}> responseObserver) {
+
+            FmiSimulation fmu = fmus.get(req.getFmuId());
+            ${primitive1} read = fmu.read("${varName1}").as${primitive2}();
+            ${returnType} reply = ${returnType}.newBuilder().setValue(read).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+
+        }
+
+            """
+
+    }
+
 }
 
 
