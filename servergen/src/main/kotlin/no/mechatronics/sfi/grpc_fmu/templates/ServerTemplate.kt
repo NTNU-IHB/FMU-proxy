@@ -4,16 +4,12 @@ object ServerTemplate {
 
     class ServerCode(
             val main: String,
-            val server: String,
-            val heartbeat: String,
-            val clientInfo: String
+            val server: String
     )
 
     fun generateClass(packageName: String, fmuName: String, dynamicMethods: String) = ServerCode(
             main = MainTemplate.generate(packageName, fmuName),
-            server = generateServerClass(packageName, fmuName, dynamicMethods),
-            heartbeat = HeartbeatTemplate.generate(packageName),
-            clientInfo = ClientInfoTemplate.generate(packageName))
+            server = generateServerClass(packageName, fmuName, dynamicMethods))
 
 
     private fun generateServerClass(packageName: String, fmuName: String, dynamicMethods: String): String {

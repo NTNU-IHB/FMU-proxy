@@ -55,12 +55,6 @@ object ServerGen {
             File(outputFolder, "Main.java").also { file ->
                 FileUtils.writeStringToFile(file, main, Charset.forName("UTF-8"))
             }
-            File(outputFolder, "HeartBeat.java").also { file ->
-                FileUtils.writeStringToFile(file, heartbeat, Charset.forName("UTF-8"))
-            }
-            File(outputFolder, "ClientInfo.java").also { file ->
-                FileUtils.writeStringToFile(file, clientInfo, Charset.forName("UTF-8"))
-            }
             File(outputFolder, "${modelDescription.modelName}Server.java").also { file ->
                 FileUtils.writeStringToFile(file, server, Charset.forName("UTF-8"))
             }

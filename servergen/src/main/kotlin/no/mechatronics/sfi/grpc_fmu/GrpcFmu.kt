@@ -1,10 +1,10 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.common.io.Files
+import io.grpc.internal.IoUtils
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
-import no.mechatronics.sfi.grpc_fmu.templates.GradleTemplate
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -81,11 +81,7 @@ object GrpcFmu {
             }
         }
 
-        File(baseFile,"build.gradle").also {
-            FileUtils.write(it, GradleTemplate.generate(
-                    mainClass = "$PACKAGE_NAME.${modelDescription.modelName}Server"
-            ), Charset.forName("UTF-8"))
-        }
+        IoUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), FileOutputStream(File(baseFile, "build.gradle")))
 
         val zipStream = GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip")
         ZipInputStream(zipStream).use { zis ->
