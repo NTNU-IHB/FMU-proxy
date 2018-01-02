@@ -53,7 +53,7 @@ object GrpcFmu {
 
     }
 
-    private fun generate(inputStream: InputStream, modelDescriptionXml: String) : File? {
+    private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
         val modelDescription = ModelDescription.parseModelDescription(modelDescriptionXml)
 
@@ -81,7 +81,10 @@ object GrpcFmu {
             }
         }
 
-        IoUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), FileOutputStream(File(baseFile, "build.gradle")))
+        FileOutputStream(File(baseFile, "build.gradle")).use {
+            IoUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), it)
+        }
+
 
         val zipStream = GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip")
         ZipInputStream(zipStream).use { zis ->
@@ -125,7 +128,7 @@ object GrpcFmu {
                     .start()
                     .waitFor()
 
-            return File(baseFile, "build/libs/${modelDescription.modelName}-all.jar").apply {
+            File(baseFile, "build/libs/${modelDescription.modelName}-all.jar").apply {
                 if (exists()) {
                     val dir = File(".")
                     FileUtils.copyFileToDirectory(this, dir)
@@ -133,14 +136,30 @@ object GrpcFmu {
                 }
             }
         } finally {
-            if (baseFile.exists()) {
-                if(baseFile.deleteRecursively()) {
-                    LOG.info("Deleted folder {}", baseFile.absolutePath)
+
+            fun deleteBaseFile(): Boolean {
+                if (baseFile.exists()) {
+                    if(baseFile.deleteRecursively()) {
+                        LOG.info("Deleted folder {}", baseFile.absolutePath)
+                        return true
+                    } else {
+                        LOG.info("Failed to delete folder {}", baseFile.absolutePath)
+                    }
+                    return false
                 }
+                return true
             }
+
+            if (!deleteBaseFile()) {
+                Runtime.getRuntime().addShutdownHook(Thread({
+                    deleteBaseFile()
+                }))
+            }
+
+
         }
 
-        return null
+
     }
 
 

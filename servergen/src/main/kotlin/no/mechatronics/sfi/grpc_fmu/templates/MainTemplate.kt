@@ -35,8 +35,8 @@ class Main {
         final ${fmuName}Server server = new ${fmuName}Server();
         server.start(localPort);
 
-        ClientInfo info = new ClientInfo(localHostAddress, localPort, server.getGuid(), server.getModelDescriptionXml());
-        Heartbeat beat = new Heartbeat(remoteHostAddress, remotePort, info);
+        RemoteFmu remoteFmu = new RemoteFmu(localHostAddress, localPort, server.getGuid(), server.getModelDescriptionXml());
+        Heartbeat beat = new Heartbeat(remoteHostAddress, remotePort, remoteFmu);
         beat.start();
 
 

@@ -32,7 +32,7 @@ class GrpcFmuTest {
     @After
     fun tearDown() {
         if (generatedJar.exists()) {
-            //generatedJar.delete()
+            generatedJar.delete()
         }
     }
 

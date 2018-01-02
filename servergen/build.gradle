@@ -8,6 +8,10 @@ buildscript {
     }
 }
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
@@ -19,6 +23,10 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
     compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+
+
+    compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT'
+
 }
 
 sourceSets {
