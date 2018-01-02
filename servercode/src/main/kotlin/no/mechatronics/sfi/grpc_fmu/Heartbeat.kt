@@ -12,7 +12,7 @@ import org.zeromq.ZMsg
 class Heartbeat(
         private val remoteHostAddress: String,
         private val remotePort: Int,
-        private val info: ClientInfo) {
+        private val info: RemoteFmu) {
 
     private var thread: Thread? = null
     private var stop: Boolean = false
@@ -56,7 +56,7 @@ class Heartbeat(
             LOG.debug("Heartbeat server ready!")
             val msg = ZMsg()
             msg.add(PPP_READY)
-            msg.add(info.toJson().toByteArray(ZMQ.CHARSET))
+            msg.add(RemoteFmu.toJson(info).toByteArray(ZMQ.CHARSET))
             msg.send(worker)
 
             return worker

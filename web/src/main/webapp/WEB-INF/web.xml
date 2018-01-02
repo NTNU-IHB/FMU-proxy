@@ -9,6 +9,12 @@
         <param-value>true</param-value>
     </context-param>
 
+    <listener>
+        <listener-class>
+            no.mechatronics.sfi.grpc_fmu.web.Main
+        </listener-class>
+    </listener>
+
    
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>

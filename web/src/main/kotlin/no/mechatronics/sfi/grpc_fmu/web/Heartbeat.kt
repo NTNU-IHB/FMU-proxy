@@ -1,5 +1,6 @@
-package no.sfi.mechatronics.sfi.grpc_fmu.web
+package no.mechatronics.sfi.grpc_fmu.web
 
+import no.mechatronics.sfi.grpc_fmu.RemoteFmu
 import org.zeromq.ZFrame
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,13 +17,12 @@ object Heartbeat {
 
     private val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
 
-    private lateinit var thread: Thread
+    private var thread: Thread? = null
     private val workers: MutableMap<String, Worker> = HashMap()
 
     fun start(port: Int = 7777) {
 
         thread = Thread({
-
 
             val context = ZContext()
             val backend = context.createSocket(ZMQ.ROUTER)
@@ -52,7 +52,7 @@ object Heartbeat {
                     if (String(frame.data, ZMQ.CHARSET) == PPP_READY) {
 
                         val data = String(msg.last.data, ZMQ.CHARSET);
-                        val remoteFmu = RemoteFmu.parse(data)
+                        val remoteFmu = RemoteFmu.fromJson(data)
                         LOG.info("FMU {} connected!", remoteFmu)
                         RemoteFmus.add(remoteFmu)
                         workers[uuid] = Worker(address)
@@ -89,6 +89,19 @@ object Heartbeat {
 
         })
 
+    }
+
+    fun stop() {
+        thread?.apply {
+            interrupt()
+        }
+    }
+
+    fun stopBlocking() {
+        thread?.apply {
+            interrupt()
+            join()
+        }
     }
 
     private fun purge(workers: MutableMap<String, Worker>) {
