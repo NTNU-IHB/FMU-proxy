@@ -110,7 +110,6 @@ object GrpcFmu {
             }
         }
 
-
         ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER").let { (protoString,  protoFile) ->
             FileUtils.writeStringToFile(File(resourcesFile, "protoDefinition.proto"), protoString, Charset.forName("UTF-8"))
             ProtoGen.compileProto(baseFile, protoFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
@@ -156,13 +155,9 @@ object GrpcFmu {
                 }))
             }
 
-
         }
 
-
     }
-
-
 
 }
 
