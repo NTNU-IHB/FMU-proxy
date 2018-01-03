@@ -3,6 +3,7 @@ package no.mechatronics.sfi.grpc_fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import org.apache.commons.io.IOUtils
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -14,6 +15,7 @@ import java.nio.file.Files
 class ProtoGenKtTest {
 
     lateinit var modelDescription: ModelDescription
+    lateinit var temp: File
 
     @Before
     fun setUp() {
@@ -22,6 +24,13 @@ class ProtoGenKtTest {
         assertNotNull(url)
         modelDescription = ModelDescription.parseModelDescription(url)
 
+        temp = Files.createTempDirectory("grpc_fmu").toFile()
+
+    }
+
+    @After
+    fun tearDown() {
+        temp.deleteRecursively()
     }
 
     @Test
@@ -34,7 +43,7 @@ class ProtoGenKtTest {
     @Test
     fun compileProto() {
 
-        val temp = Files.createTempDirectory("grpc_fmu").toFile()
+
 
         fun copyFile(name: String) {
 
@@ -47,19 +56,14 @@ class ProtoGenKtTest {
 
         }
 
-        try {
 
-            copyFile("protoc.exe")
-            copyFile("protoc-gen-grpc-java.exe")
+        copyFile("protoc.exe")
+        copyFile("protoc-gen-grpc-java.exe")
 
-            val file = ProtoGen.generateProtoFile(modelDescription, "generated/proto/")
-            assertNotNull(file)
+        val file = ProtoGen.generateProtoFile(modelDescription, "generated/proto/")
+        assertNotNull(file)
 
-            ProtoGen.compileProto(temp, file.second, "generated/proto/","generated/java/")
-
-        } finally {
-            temp.deleteRecursively()
-        }
+        ProtoGen.compileProto(temp, file.second, "generated/proto/","generated/java/")
 
         //Assert.assertTrue(file.delete())
 

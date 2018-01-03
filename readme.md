@@ -22,3 +22,8 @@ is then transmitted to a web service specified upon launch. The web service acts
 of entry and provides users with general information about the available FMUs, 
 as well as information necessary to connect to one over gRPC. 
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
+
+### Usage
+
+```
+servergen -fmu "fmu/location.fmu" -out "where/to/put/generated/jar"
