@@ -45,7 +45,7 @@ object Heartbeat {
                     val msg = ZMsg.recvMsg(backend) ?: break          //  Interrupted
 
                     val address = msg.unwrap()
-                    val uuid = String(address.data)
+                    val uuid = String(address.data, ZMQ.CHARSET)
 
                     //  Forward message to client if it's not a READY
                     val frame = msg.first
@@ -87,7 +87,7 @@ object Heartbeat {
             workers.clear()
             context.destroy()
 
-        })
+        }).apply { start() }
 
     }
 

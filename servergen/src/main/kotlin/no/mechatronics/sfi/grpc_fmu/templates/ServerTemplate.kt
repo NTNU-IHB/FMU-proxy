@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ object ServerTemplate {
 /*
  * The MIT License
  *
- * * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -115,7 +115,7 @@ public class ${fmuName}Server {
                 .build()
                 .start();
 
-        System.out.println("Port: " + port);
+        System.out.println("FMU listening for connections on port: " + port);
 
     }
 

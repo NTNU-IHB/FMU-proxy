@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,6 @@ class Main {
             if (args.isEmpty()) {
                 error("no args.. exiting!")
             }
-
 
             val options = Options().apply {
 

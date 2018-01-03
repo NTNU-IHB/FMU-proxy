@@ -28,9 +28,8 @@ import com.google.gson.Gson
 import java.util.*
 
 class RemoteFmu(
-        val hostAddress: String,
-        val port: Int,
         val guid: String,
+        val address: SocketAddress,
         val modelDescriptionXml: String
 ) {
 
@@ -48,7 +47,7 @@ class RemoteFmu(
     }
 
     override fun toString(): String {
-        return "RemoteFmu(hostAddress='$hostAddress', port=$port, guid='$guid', modelDescriptionXml='$modelDescriptionXml', protoDefinition='$protoDefinition')"
+        return "RemoteFmu(guid='$guid', address='$address')"
     }
 
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ object MainTemplate {
 /*
  * The MIT License
  *
- * * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -65,28 +65,15 @@ class Main {
 
     public static void main(String args[]) throws IOException, InterruptedException {
 
-        if (args == null || args.length != 1) {
-            throw new IllegalArgumentException("Expected remote hostAddress and port");
-        }
-
-        String[] split = args[0].split(":");
-        if (split.length != 2) {
-            throw new IllegalArgumentException("Expected remote hostAddress and port");
-        }
-
-        String remoteHostAddress = split[0];
-        int remotePort = Integer.parseInt(split[1]);
-
-        int localPort = getAvailablePort();
-        String localHostAddress = getHostAddress();
+        SocketAddress remoteAddress = InputParser.parse(args);
+        SocketAddress localAddress = new SocketAddress(getHostAddress(), getAvailablePort());
 
         final ${fmuName}Server server = new ${fmuName}Server();
-        server.start(localPort);
+        server.start(localAddress.getPort());
 
-        RemoteFmu remoteFmu = new RemoteFmu(localHostAddress, localPort, server.getGuid(), server.getModelDescriptionXml());
-        Heartbeat beat = new Heartbeat(remoteHostAddress, remotePort, remoteFmu);
+        RemoteFmu remoteFmu = new RemoteFmu(server.getGuid(), localAddress, server.getModelDescriptionXml());
+        Heartbeat beat = new Heartbeat(remoteAddress, remoteFmu);
         beat.start();
-
 
         new Thread(() -> {
 

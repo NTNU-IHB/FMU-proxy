@@ -32,8 +32,7 @@ import org.zeromq.ZMQ
 import org.zeromq.ZMsg
 
 class Heartbeat(
-        private val remoteHostAddress: String,
-        private val remotePort: Int,
+        private val remoteAddress: SocketAddress,
         private val remoteFmu: RemoteFmu) {
 
     private var thread: Thread? = null
@@ -41,17 +40,18 @@ class Heartbeat(
 
     fun start() {
         if (thread == null) {
-            thread = Thread(InnerClass())
+            thread = Thread(InnerClass()).apply {
+                start()
+            }
+
         }
     }
 
     fun stop() {
-
-        if (thread != null) {
+        thread?.apply {
             stop = true
-            thread!!.interrupt()
+            interrupt()
         }
-
     }
 
     companion object {
@@ -72,7 +72,7 @@ class Heartbeat(
         private fun workerSocket(ctx: ZContext): ZMQ.Socket {
             val worker = ctx.createSocket(ZMQ.DEALER)
             worker.identity = (remoteFmu.guid.toByteArray(ZMQ.CHARSET))
-            worker.connect("tcp://$remoteHostAddress:$remotePort")
+            worker.connect("tcp://${remoteAddress.hostAddress}:${remoteAddress.port}")
 
             //  Tell queue we're ready for work
             LOG.debug("Heartbeat server ready!")
@@ -102,12 +102,12 @@ class Heartbeat(
                 if (rc == -1) {
                     break              //  Interrupted
                 }
-                if (items[0].isReadable()) {
+                if (items[0].isReadable) {
                     val msg = ZMsg.recvMsg(worker) ?: break          //  Interrupted
                     when (msg.size) {
                         1 -> {
-                            val frame = msg.getFirst()
-                            if (PPP_HEARTBEAT == String(frame.getData())) {
+                            val frame = msg.first
+                            if (PPP_HEARTBEAT == String(frame.data)) {
                                 liveness = HEARTBEAT_LIVENESS
                             } else {
                                 LOG.warn("E: invalid message\n")
@@ -122,7 +122,7 @@ class Heartbeat(
                     }
                     interval = INTERVAL_INIT
                 } else if (--liveness == 0L) {
-                    LOG.warn("Heartbeat failure, can't reach queue")
+                    LOG.warn("Heartbeat failure, can't reach remote")
                     LOG.info("Reconnecting in {} msec", interval)
                     try {
                         Thread.sleep(interval.toLong())
@@ -146,7 +146,7 @@ class Heartbeat(
             }
             ctx.destroy()
 
-            LOG.info("{} stopped!", Heartbeat::class.java.simpleName)
+            LOG.debug("{} stopped!", Heartbeat::class.java.simpleName)
 
         }
 
