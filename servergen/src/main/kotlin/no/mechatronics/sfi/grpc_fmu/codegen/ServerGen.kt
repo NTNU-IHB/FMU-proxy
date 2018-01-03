@@ -10,6 +10,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
+import java.nio.file.Files
 
 object ServerGen {
 
@@ -52,6 +53,10 @@ object ServerGen {
         LOG.info("Generating server code for source FMU '{}'", modelDescription.modelName)
 
         generateServerCode(modelDescription).apply {
+
+            outputFolder.mkdirs()
+            println(outputFolder.absolutePath)
+
             File(outputFolder, "Main.java").also { file ->
                 FileUtils.writeStringToFile(file, main, Charset.forName("UTF-8"))
             }

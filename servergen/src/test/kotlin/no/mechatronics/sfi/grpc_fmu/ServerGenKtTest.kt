@@ -30,7 +30,7 @@ class ServerGenKtTest {
     @Test
     fun generateServerCodeFile() {
 
-        val out =  File("generated/java/" + GrpcFmu.PACKAGE_NAME)
+        val out =  File("generated/java/" + GrpcFmu.PACKAGE_NAME.replace(".", "//"))
         val file = ServerGen.generateServerCodeFiles(modelDescription, out)
        // Assert.assertTrue(file.delete())
 

@@ -1,32 +1,49 @@
 package no.mechatronics.sfi.grpc_fmu
 
+import org.apache.commons.cli.DefaultParser
+import org.apache.commons.cli.Options
 import java.io.File
 
+class Main {
 
-fun main(args: Array<String>) {
+    companion object {
 
-    if (args.isEmpty()) {
-        error("no args")
+        const val FMU_FILE = "fmu"
+        const val OUTPUT_FOLDER = "out"
 
-    } else {
+        @JvmStatic
+        fun main(args: Array<String>) {
 
-        if (args.size == 1) {
+            if (args.isEmpty()) {
+                error("no args.. exiting!")
+            }
 
-            val s = args[0]
-            if (s == "debug") {
-                GrpcFmu.generate(GrpcFmu.javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu"))
-            } else if (s.endsWith(".fmu", true)) {
-                with(File(s)) {
-                    if (exists()) {
-                        GrpcFmu.generate(this)
+
+            val options = Options().apply {
+
+                addOption(FMU_FILE, true, "Path to the fmu")
+                addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar")
+
+            }
+
+            val parser = DefaultParser()
+            val cmd = parser.parse(options, args)
+
+            cmd.apply {
+                getOptionValue(FMU_FILE)?.let { path ->
+                    val file = File(path.replace("\\", "/"))
+                    if (file.exists() && file.name.endsWith(".fmu", true)) {
+                        GrpcFmu.generate(file)
                     } else {
-                        error("No such file: '$absolutePath'")
+                        error("Not a valid file: ${file.absolutePath}")
                     }
                 }
             }
+
         }
 
     }
 
 }
+
 

@@ -8,6 +8,10 @@ buildscript {
     }
 }
 
+apply plugin: 'application'
+
+mainClassName = 'no.mechatronics.sfi.grpc_fmu.Main'
+
 repositories {
     mavenLocal()
 }
@@ -32,7 +36,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            srcDirs 'generated/java'
+            //srcDirs 'generated/java' //include during debug
         }
     }
 }
