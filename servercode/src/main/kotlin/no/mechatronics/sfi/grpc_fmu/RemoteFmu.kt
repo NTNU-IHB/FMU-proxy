@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import java.util.*
 
 class RemoteFmu(
@@ -34,17 +35,21 @@ class RemoteFmu(
 ) {
 
     companion object {
+
         fun toJson(info: RemoteFmu) = Gson().toJson(info)
         fun fromJson(json: String) = Gson().fromJson(json, RemoteFmu::class.java)
     }
 
-    val protoDefinition: String
 
-    init {
-        this.protoDefinition = Scanner(javaClass.classLoader
+
+    @delegate: Transient
+    val modelDescription: ModelDescription by lazy {
+        ModelDescription.parseModelDescription(modelDescriptionXml)
+    }
+
+    val protoDefinition = Scanner(javaClass.classLoader
                 .getResourceAsStream("protoDefinition.proto"), "UTF-8")
                 .useDelimiter("\\A").next();
-    }
 
     override fun toString(): String {
         return "RemoteFmu(guid='$guid', address='$address')"

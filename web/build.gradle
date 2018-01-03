@@ -3,17 +3,17 @@ apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
 }
 
 dependencies {
 
     providedCompile 'javax.servlet:servlet-api:2.2'
     providedCompile 'javax.servlet.jsp:jsp-api:2.2'
-    providedCompile 'javax.enterprise:cdi-api:1.2'
+    providedCompile 'javax.enterprise:cdi-api:2.0'
 
     compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.15'
-    compile group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.15'
+    runtime group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.15'
 
 //    runtime group: 'javax.inject', name: 'javax.inject', version: '1'
     runtime group: 'org.glassfish.web', name: 'javax.el', version: '2.2.6'
@@ -22,7 +22,7 @@ dependencies {
 
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
-    compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT'
+    compile project(':servercode')
 
 }
 

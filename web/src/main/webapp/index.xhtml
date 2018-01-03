@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/main_template.xhtml">
 
 
@@ -10,9 +11,16 @@
 
         <h2>Welcome to gRPC-FMU web interface!</h2>
 
-        <script type="text/javascript">
+        <h:form id="form">
+            <p:dataTable id="fmus" var="fmu" value="#{fmuOverview.fmus}">
+                <p:column headerText="Guid">
+                    <h:outputText value="#{fmu.guid}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
 
-        </script>
+
+
 
     </ui:define>
 </ui:composition>
