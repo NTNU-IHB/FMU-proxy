@@ -16,5 +16,5 @@ def subDirs = rootDir.listFiles(new FileFilter() {
 subDirs.each { File dir ->
     include dir.name
 }
-
+include 'generic-client'
 

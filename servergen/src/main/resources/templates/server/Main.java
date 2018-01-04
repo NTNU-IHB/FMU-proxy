@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package {{packageName}};
+package no.mechatronics.sfi.grpc_fmu;
 
 import java.util.Scanner;
 import java.net.ServerSocket;

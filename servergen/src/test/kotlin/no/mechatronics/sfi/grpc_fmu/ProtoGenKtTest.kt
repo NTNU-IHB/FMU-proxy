@@ -20,7 +20,8 @@ class ProtoGenKtTest {
     @Before
     fun setUp() {
 
-        val url = ProtoGenKtTest::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+        val url = ProtoGenKtTest::class.java.classLoader
+                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         assertNotNull(url)
         modelDescription = ModelDescription.parseModelDescription(url)
 

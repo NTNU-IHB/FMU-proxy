@@ -25,7 +25,6 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.common.io.Files
-import io.grpc.internal.IoUtils
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
@@ -71,7 +70,7 @@ object GrpcFmu {
 
         File(baseFile, "build.gradle").also { file ->
             FileOutputStream(file).use { fos ->
-                IoUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
+                IOUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
                 LOG.info("Copied build.gradle to {}", file)
             }
         }

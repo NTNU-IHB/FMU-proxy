@@ -3,11 +3,11 @@ syntax = "proto3";
 
 package no.mechatronics.sfi.grpc_fmu;
 
-option java_outer_classname = "{{fmuName}}Proto";
+option java_outer_classname = "PipeFlowProto";
 
 import "definitions.proto";
 
-service {{fmuName}}Service {
+service PipeFlowService {
 
     rpc CreateInstance (Empty) returns (ModelReference);
 
@@ -26,7 +26,4 @@ service {{fmuName}}Service {
     rpc Read (VarRead) returns (Var) {};
     rpc Write (VarWrite) returns (Status) {};
 
-    {{instanceServices}}
-
 }
-

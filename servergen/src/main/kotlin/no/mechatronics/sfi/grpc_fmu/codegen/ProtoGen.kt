@@ -135,7 +135,8 @@ object ProtoGen {
                 name = "definitions.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/definitions.proto").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("packageName", GrpcFmu.PACKAGE_NAME))!!
+                            //.with("packageName", GrpcFmu.PACKAGE_NAME)
+                    )!!
                 }
         )
 
@@ -143,7 +144,7 @@ object ProtoGen {
                 name = "service.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/service.proto").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("packageName", GrpcFmu.PACKAGE_NAME)
+                         //   .with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("instanceServices", sb.toString())!!)
                 }

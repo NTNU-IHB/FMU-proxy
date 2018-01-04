@@ -80,8 +80,8 @@ object ServerGen {
                 name = "Main.java",
                 text = JtwigTemplate.classpathTemplate("templates/server/Main.java").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("fmuName", modelDescription.modelName)
-                            .with("packageName", GrpcFmu.PACKAGE_NAME))!!
+                            //.with("packageName", GrpcFmu.PACKAGE_NAME)
+                            .with("fmuName", modelDescription.modelName))!!
                 }
         )
 
@@ -89,7 +89,7 @@ object ServerGen {
                 name = "${modelDescription.modelName}Server.java",
                 text = JtwigTemplate.classpathTemplate("templates/server/Server.java").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("packageName", GrpcFmu.PACKAGE_NAME)
+                            //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("dynamicMethods", sb.toString()))!!
                 }
