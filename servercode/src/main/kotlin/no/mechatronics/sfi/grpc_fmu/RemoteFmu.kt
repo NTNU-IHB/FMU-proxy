@@ -56,3 +56,46 @@ class RemoteFmu(
     }
 
 }
+
+
+
+object RemoteFmus {
+
+    private val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
+    private val changeListeners: MutableList<ChangeListener> = ArrayList()
+
+    fun get(): Set<RemoteFmu> = fmus
+
+    fun addListener(changeListener: ChangeListener) {
+        changeListeners.add(changeListener)
+    }
+
+    fun add(fmu: RemoteFmu): Boolean {
+        synchronized(fmus) {
+            val success = fmus.add(fmu)
+            if (success) {
+                changeListeners.forEach({ it.onAdd(fmu) })
+            }
+            return success
+        }
+    }
+
+    fun remove(guid: String): Boolean {
+        synchronized(fmus) {
+            for (fmu in fmus) {
+                if (fmu.guid == guid) {
+
+                    return fmus.remove(fmu).also { success ->
+                        if (success) {
+                            changeListeners.forEach({it.onRemove(fmu)})
+                        }
+                    }
+
+                }
+            }
+        }
+        return false
+
+    }
+
+}

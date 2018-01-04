@@ -4,6 +4,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
+import no.mechatronics.sfi.grpc_fmu.heartbeating.CentralHeartbeat
 
 
 class Main: ServletContextListener  {
@@ -13,13 +14,13 @@ class Main: ServletContextListener  {
     }
 
     override fun contextInitialized(sce: ServletContextEvent?) {
-        Heartbeat.start()
-        LOG.info("Heartbeat started")
+        CentralHeartbeat.start()
+        LOG.info("FmuHeartbeat started")
     }
 
     override fun contextDestroyed(sce: ServletContextEvent?) {
-        Heartbeat.stopBlocking()
-        LOG.info("Heartbeat stopped")
+        CentralHeartbeat.stopBlocking()
+        LOG.info("FmuHeartbeat stopped")
     }
 
 }

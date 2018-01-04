@@ -60,6 +60,7 @@ import java.net.ServerSocket;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import no.mechatronics.sfi.grpc_fmu.heartbeating.FmuHeartbeat;
 
 class Main {
 
@@ -72,7 +73,7 @@ class Main {
         server.start(localAddress.getPort());
 
         RemoteFmu remoteFmu = new RemoteFmu(server.getGuid(), localAddress, server.getModelDescriptionXml());
-        Heartbeat beat = new Heartbeat(remoteAddress, remoteFmu);
+        FmuHeartbeat beat = new FmuHeartbeat(remoteAddress, remoteFmu);
         beat.start();
 
         new Thread(() -> {
