@@ -1,5 +1,6 @@
 package no.mechatronics.sfi.grpc_fmu
 
+import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.Options
 import javax.swing.JOptionPane
@@ -9,7 +10,7 @@ object InputParser {
     @JvmStatic
     fun parse(args: Array<String>) : SocketAddress {
 
-        if (args == null || args.isEmpty()) {
+        if (args.isEmpty()) {
             return GUIParser.parse()
         } else {
             return ConsoleParser.parse(args)

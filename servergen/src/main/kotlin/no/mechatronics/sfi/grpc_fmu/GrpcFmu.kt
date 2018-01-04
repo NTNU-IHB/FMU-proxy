@@ -29,6 +29,7 @@ import io.grpc.internal.IoUtils
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
+import no.mechatronics.sfi.grpc_fmu.utils.exctractModelDescriptionXml
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -56,27 +57,6 @@ object GrpcFmu {
 
     fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
 
-    internal fun exctractModelDescriptionXml(stream: InputStream): String {
-
-        ZipInputStream(stream).use {
-
-            var nextEntry: ZipEntry? = it.nextEntry
-            while (nextEntry != null) {
-
-                val name = nextEntry.name
-                if (name == "modelDescription.xml") {
-                    return IOUtils.toString(it, Charset.forName("UTF-8"))
-                }
-
-                nextEntry = it.nextEntry
-            }
-
-        }
-
-        throw IllegalArgumentException("Input is not an valid FMU! No modelDescription.xml present!")
-
-    }
-
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
         val modelDescription = ModelDescription.parseModelDescription(modelDescriptionXml)
@@ -88,6 +68,40 @@ object GrpcFmu {
                 }
             }
         }
+
+        File(baseFile, "build.gradle").also { file ->
+            FileOutputStream(file).use { fos ->
+                IoUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
+                LOG.info("Copied build.gradle to {}", file)
+            }
+        }
+
+
+        GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
+            ZipInputStream(zipStream).use { zis ->
+                var nextEntry: ZipEntry? = zis.nextEntry
+                while (nextEntry != null) {
+
+                    if (!nextEntry.isDirectory) {
+                        File(baseFile, nextEntry.name).also { file ->
+
+                            if (!file.exists()) {
+                                if (!file.parentFile.exists()) {
+                                    Files.createParentDirs(file)
+                                }
+
+                                FileOutputStream(file).use { fis ->
+                                    IOUtils.copy(zis, fis)
+                                }
+                            }
+
+                        }
+                    }
+                    nextEntry = zis.nextEntry
+                }
+            }
+        }
+
 
         val resourcesFile = File(baseFile,"src/main/resources/").apply {
             if (!exists()) {
@@ -105,41 +119,16 @@ object GrpcFmu {
             }
         }
 
-        FileOutputStream(File(baseFile, "build.gradle")).use {
-            IoUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), it)
+        ProtoGen.generateProtoCode(modelDescription).apply {
+            definitions.create(resourcesFile)
+            service.create(resourcesFile)
+            compile(baseFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
         }
 
 
-        val zipStream = GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip")
-        ZipInputStream(zipStream).use { zis ->
-            var nextEntry: ZipEntry? = zis.nextEntry
-            while (nextEntry != null) {
-
-                if (!nextEntry.isDirectory) {
-                    File(baseFile, nextEntry.name).also { file ->
-
-                        if (!file.exists()) {
-                            if (!file.parentFile.exists()) {
-                                Files.createParentDirs(file)
-                            }
-
-                            FileOutputStream(file).use { fis ->
-                                IOUtils.copy(zis, fis)
-                            }
-                        }
-
-                    }
-                }
-                nextEntry = zis.nextEntry
-            }
-        }
-
-        ProtoGen.generateProtoFile(modelDescription, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER").let { (protoString,  protoFile) ->
-            FileUtils.writeStringToFile(File(resourcesFile, "protoDefinition.proto"), protoString, Charset.forName("UTF-8"))
-            ProtoGen.compileProto(baseFile, protoFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
-        }
-
-        ServerGen.generateServerCodeFiles(modelDescription, File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"))
+        ServerGen.generateServerCode(modelDescription)
+                .writeToDirectory(File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"
+        ))
 
 
         try {
@@ -182,26 +171,5 @@ object GrpcFmu {
         }
 
     }
-
-}
-
-
-fun isArray(name: String) : Boolean {
-    return "[" in name && "]" in name
-}
-
-fun convertName1(str: String): String {
-    return str.substring(0, 1).toUpperCase() + str.substring(1).replace(".", "_")
-}
-
-fun convertName2(str: String): String {
-
-    val split = str.replace("_".toRegex(), ".").split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-    val sb = StringBuilder()
-
-    for (s in split) {
-        sb.append(s.substring(0, 1).toUpperCase()).append(s.substring(1))
-    }
-    return sb.toString()
 
 }

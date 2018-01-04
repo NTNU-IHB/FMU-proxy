@@ -26,6 +26,9 @@ package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.grpc_fmu.misc.ChangeListener
+import no.mechatronics.sfi.grpc_fmu.misc.ProtoDefinitions
+import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
 import java.util.*
 
 class RemoteFmu(
@@ -47,9 +50,18 @@ class RemoteFmu(
         ModelDescription.parseModelDescription(modelDescriptionXml)
     }
 
-    val protoDefinition = Scanner(javaClass.classLoader
-                .getResourceAsStream("protoDefinition.proto"), "UTF-8")
-                .useDelimiter("\\A").next();
+    val protoDefinition: ProtoDefinitions
+
+    init {
+        val definitions = Scanner(javaClass.classLoader
+                .getResourceAsStream("definitions.proto"), "UTF-8")
+                .useDelimiter("\\A").next()
+        val service = Scanner(javaClass.classLoader
+                .getResourceAsStream("service.proto"), "UTF-8")
+                .useDelimiter("\\A").next()
+
+        protoDefinition = ProtoDefinitions(definitions, service)
+    }
 
     override fun toString(): String {
         return "RemoteFmu(guid='$guid', address='$address')"

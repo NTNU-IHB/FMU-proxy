@@ -1,10 +1,9 @@
 package no.mechatronics.sfi.grpc_fmu.web
 
 
-import no.mechatronics.sfi.grpc_fmu.ChangeListener
+import no.mechatronics.sfi.grpc_fmu.misc.ChangeListener
 import no.mechatronics.sfi.grpc_fmu.RemoteFmu
 import no.mechatronics.sfi.grpc_fmu.RemoteFmus
-import org.primefaces.context.RequestContext
 import java.io.Serializable
 import javax.faces.bean.ManagedBean
 import javax.faces.bean.ViewScoped

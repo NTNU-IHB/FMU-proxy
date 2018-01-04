@@ -26,60 +26,38 @@ package no.mechatronics.sfi.grpc_fmu.codegen
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.GrpcFmu
-import no.mechatronics.sfi.grpc_fmu.convertName1
-import no.mechatronics.sfi.grpc_fmu.isArray
-import no.mechatronics.sfi.grpc_fmu.templates.ProtoTemplate
-import org.apache.commons.io.FileUtils
+import no.mechatronics.sfi.grpc_fmu.utils.FileFuture
+import no.mechatronics.sfi.grpc_fmu.utils.convertName1
+import no.mechatronics.sfi.grpc_fmu.utils.isArray
 import java.io.File
-import java.nio.charset.Charset
-import org.apache.commons.io.FilenameUtils
+import org.jtwig.JtwigModel
+import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-object ProtoGen {
+private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
+private const val PROTOC_GRPC_EXE = "protoc-gen-java.exe"
 
-    private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
+class ProtoCode(
+         val definitions: FileFuture,
+         val service: FileFuture
+) {
 
-    fun generateProtoString(modelDescription: ModelDescription): String {
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(ProtoCode::class.java)
+    }
 
-        val sb = StringBuilder()
-        modelDescription.modelVariables.forEach({
+    fun writeToDir(dir: File) {
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
 
-            val isArray = isArray(it.name)
-            if (!isArray) {
-
-                sb.append(ProtoTemplate.generateRead(
-                        varName = convertName1(it.name),
-                        typeName = it.typeName
-                ))
-
-                sb.append(ProtoTemplate.generateWrite(
-                        varName = convertName1(it.name),
-                        typeName = it.typeName
-                ))
-
-            }
-
-        })
-
-        return ProtoTemplate.generateBody(
-                packageName = GrpcFmu.PACKAGE_NAME,
-                fmuName = modelDescription.modelName,
-                instanceServices = sb.toString()
-        )
+        definitions.create(dir)
+        service.create(dir)
 
     }
 
-    fun generateProtoFile(modelDescription: ModelDescription, outputFolder: String): Pair<String, File> {
-
-        val protoFile = File(outputFolder + modelDescription.modelName + ".proto")
-        val protoString = generateProtoString(modelDescription)
-        FileUtils.writeStringToFile(protoFile, protoString, Charset.forName("UTF-8"))
-        return Pair(protoString,  protoFile)
-
-    }
-
-    fun compileProto(protocDir: File, protoFile: File, protoSrc: String, javaOut: String) {
+    fun compile(baseDir: File, protoOut: String, javaOut: String) : Boolean {
 
         LOG.info("Compiling proto..")
 
@@ -89,18 +67,93 @@ object ProtoGen {
             }
         }
 
-        val baseName = FilenameUtils.getBaseName(protoFile.absolutePath)
-        val cmd = arrayOf("${protocDir.absolutePath}/protoc.exe/", "--java_out=\"$javaOut\"", "--grpc-java_out=\"$javaOut\"", "--proto_path=\".\"", "\"$protoSrc$baseName.proto\"")
-        ProcessBuilder()
+        writeToDir(File(protoOut))
+
+        val cmd = arrayOf(
+                "${baseDir.absolutePath}/$PROTOC_EXE/",
+                "--java_out=\"$javaOut\"",
+                "--grpc-java_out=\"$javaOut\"",
+                "--proto_path=\"$protoOut\"",
+                "\"$protoOut/${definitions.name}\"",
+                "\"$protoOut/${service.name}\"")
+
+        val status = ProcessBuilder()
                 .command(*cmd)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 .start()
                 .waitFor()
 
-        LOG.info("Compiling done!")
+        return if (status == 0) {
+            LOG.info("Compiling done!")
+            true
+        } else {
+            LOG.warn("Process exited with status: {}", status)
+            false
+        }
+
 
     }
+
+    override fun toString(): String {
+        return "ProtoCode(definitions=$definitions, service=$service)"
+    }
+
+
+}
+
+object ProtoGen {
+
+    private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
+
+    fun generateProtoCode(modelDescription: ModelDescription): ProtoCode {
+
+        val sb = StringBuilder()
+        modelDescription.modelVariables.forEach({
+
+            val isArray = isArray(it.name)
+            if (!isArray) {
+
+                sb.append(JtwigTemplate.classpathTemplate("templates/proto/read.proto").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("varName", convertName1(it.name))
+                            .with("typeName", it.typeName))!!
+                })
+
+                sb.append(JtwigTemplate.classpathTemplate("templates/proto/write.proto").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("varName", convertName1(it.name))
+                            .with("typeName", it.typeName))!!
+                })
+
+            }
+
+        })
+
+
+        val definitions = FileFuture(
+                name = "definitions.proto",
+                text = JtwigTemplate.classpathTemplate("templates/proto/definitions.proto").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("packageName", GrpcFmu.PACKAGE_NAME))!!
+                }
+        )
+
+        val service = FileFuture(
+                name = "service.proto",
+                text = JtwigTemplate.classpathTemplate("templates/proto/service.proto").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("packageName", GrpcFmu.PACKAGE_NAME)
+                            .with("fmuName", modelDescription.modelName)
+                            .with("instanceServices", sb.toString())!!)
+                }
+        )
+
+        return ProtoCode(definitions, service)
+
+
+    }
+
 
 }
 

@@ -26,96 +26,78 @@ package no.mechatronics.sfi.grpc_fmu.codegen
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.GrpcFmu
-import no.mechatronics.sfi.grpc_fmu.convertName2
-import no.mechatronics.sfi.grpc_fmu.isArray
-import no.mechatronics.sfi.grpc_fmu.templates.ServerTemplate
-import org.apache.commons.io.FileUtils
+import no.mechatronics.sfi.grpc_fmu.utils.*
+import org.jtwig.JtwigModel
+import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.nio.charset.Charset
-import java.nio.file.Files
+
+class ServerCode(
+        val main: FileFuture,
+        val server: FileFuture
+) {
+
+    fun writeToDirectory(dir: File) {
+        main.create(dir)
+        server.create(dir)
+    }
+
+}
 
 object ServerGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ServerGen::class.java)
 
-    fun generateServerCode(modelDescription: ModelDescription) : ServerTemplate.ServerCode {
+    fun generateServerCode(modelDescription: ModelDescription) : ServerCode {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
 
             if (!isArray(it.name)) {
 
-                sb.append(ServerTemplate.generateRead(
-                        varName1 = it.name,
-                        varName2 = convertName2(it.name),
-                        primitive1 = toRPCType2(it.typeName),
-                        primitive2 = it.typeName,
-                        returnType = toRPCType1(it.typeName)
-                ))
+                sb.append(JtwigTemplate.classpathTemplate("templates/server/Read.java").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("varName1",it.name)
+                            .with("varName2", convertName2(it.name))
+                            .with("primitive1", toRPCType2(it.typeName))
+                            .with("primitive2", it.typeName)
+                            .with("returnType", toRPCType1(it.typeName)))!!
+                })
 
-                sb.append(ServerTemplate.generateWrite(
-                        varName1 = it.name,
-                        varName2 = convertName2(it.name),
-                        dataType = toRPCType1(it.typeName)
-                ))
+                sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.java").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("varName1",it.name)
+                            .with("varName2", convertName2(it.name))
+                            .with("dataType", toRPCType1(it.typeName)))!!
+                })
 
             }
 
         })
 
-        return ServerTemplate.generateClass(
-                packageName = GrpcFmu.PACKAGE_NAME,
-                fmuName = modelDescription.modelName,
-                dynamicMethods = sb.toString())
+        val main = FileFuture(
+                name = "Main.java",
+                text = JtwigTemplate.classpathTemplate("templates/server/Main.java").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("fmuName", modelDescription.modelName)
+                            .with("packageName", GrpcFmu.PACKAGE_NAME))!!
+                }
+        )
+
+        val server = FileFuture(
+                name = "${modelDescription.modelName}Server.java",
+                text = JtwigTemplate.classpathTemplate("templates/server/Server.java").let { template ->
+                    template.render(JtwigModel.newModel()
+                            .with("packageName", GrpcFmu.PACKAGE_NAME)
+                            .with("fmuName", modelDescription.modelName)
+                            .with("dynamicMethods", sb.toString()))!!
+                }
+        )
+
+        return ServerCode(main, server)
 
     }
 
-    fun generateServerCodeFiles(modelDescription: ModelDescription, outputFolder: File)  {
-
-        LOG.info("Generating server code for source FMU '{}'", modelDescription.modelName)
-
-        generateServerCode(modelDescription).apply {
-
-            outputFolder.mkdirs()
-            println(outputFolder.absolutePath)
-
-            File(outputFolder, "Main.java").also { file ->
-                FileUtils.writeStringToFile(file, main, Charset.forName("UTF-8"))
-            }
-            File(outputFolder, "${modelDescription.modelName}Server.java").also { file ->
-                FileUtils.writeStringToFile(file, server, Charset.forName("UTF-8"))
-            }
-
-        }
-
-    }
-
-}
-
-fun toRPCType1(typeName: String): String {
-
-    when (typeName) {
-        "Integer" -> return "Int"
-        "Real" -> return "Real"
-        "String" -> return "Str"
-        "Boolean" -> return "Bool"
-    }
-
-    throw RuntimeException()
-
-}
-
-fun toRPCType2(typeName: String): String {
-
-    when (typeName) {
-        "Integer" -> return "int"
-        "Real" -> return "double"
-        "String" -> return "String"
-        "Boolean" -> return "bool"
-    }
-
-    throw RuntimeException(typeName)
 
 }

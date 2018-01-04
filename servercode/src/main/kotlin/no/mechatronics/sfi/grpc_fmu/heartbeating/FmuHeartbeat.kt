@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu.heartbeating
 
 import no.mechatronics.sfi.grpc_fmu.RemoteFmu
-import no.mechatronics.sfi.grpc_fmu.SocketAddress
+import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zeromq.ZContext
