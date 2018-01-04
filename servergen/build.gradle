@@ -10,13 +10,17 @@ buildscript {
 
 apply plugin: 'application'
 
-mainClassName = 'no.mechatronics.sfi.grpc_fmu.Main'
+mainClassName = 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
+
+def debug = true
 
 repositories {
     mavenLocal()
 }
 
 dependencies {
+
+    compile group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
@@ -28,15 +32,16 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
     compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
 
-
     compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT'
 
 }
 
-sourceSets {
-    main {
-        java {
-            //srcDirs 'generated/java' //include during debug
+if (debug) {
+    sourceSets {
+        main {
+            java {
+                srcDirs 'generated/java' //include during debug
+            }
         }
     }
 }

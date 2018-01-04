@@ -25,30 +25,89 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.grpc_fmu.misc.ChangeListener
+import no.mechatronics.sfi.grpc_fmu.misc.ProtoDefinitions
+import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
 import java.util.*
 
 class RemoteFmu(
-        val hostAddress: String,
-        val port: Int,
         val guid: String,
+        val address: SocketAddress,
         val modelDescriptionXml: String
 ) {
 
     companion object {
+
         fun toJson(info: RemoteFmu) = Gson().toJson(info)
         fun fromJson(json: String) = Gson().fromJson(json, RemoteFmu::class.java)
     }
 
-    val protoDefinition: String
+
+
+    @delegate: Transient
+    val modelDescription: ModelDescription by lazy {
+        ModelDescription.parseModelDescription(modelDescriptionXml)
+    }
+
+    val protoDefinition: ProtoDefinitions
 
     init {
-        this.protoDefinition = Scanner(javaClass.classLoader
-                .getResourceAsStream("protoDefinition.proto"), "UTF-8")
-                .useDelimiter("\\A").next();
+        val definitions = Scanner(javaClass.classLoader
+                .getResourceAsStream("definitions.proto"), "UTF-8")
+                .useDelimiter("\\A").next()
+        val service = Scanner(javaClass.classLoader
+                .getResourceAsStream("service.proto"), "UTF-8")
+                .useDelimiter("\\A").next()
+
+        protoDefinition = ProtoDefinitions(definitions, service)
     }
 
     override fun toString(): String {
-        return "RemoteFmu(hostAddress='$hostAddress', port=$port, guid='$guid', modelDescriptionXml='$modelDescriptionXml', protoDefinition='$protoDefinition')"
+        return "RemoteFmu(guid='$guid', address='$address')"
+    }
+
+}
+
+
+
+object RemoteFmus {
+
+    private val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
+    private val changeListeners: MutableList<ChangeListener> = ArrayList()
+
+    fun get(): Set<RemoteFmu> = fmus
+
+    fun addListener(changeListener: ChangeListener) {
+        changeListeners.add(changeListener)
+    }
+
+    fun add(fmu: RemoteFmu): Boolean {
+        synchronized(fmus) {
+            val success = fmus.add(fmu)
+            if (success) {
+                changeListeners.forEach({ it.onAdd(fmu) })
+            }
+            return success
+        }
+    }
+
+    fun remove(guid: String): Boolean {
+        synchronized(fmus) {
+            for (fmu in fmus) {
+                if (fmu.guid == guid) {
+
+                    return fmus.remove(fmu).also { success ->
+                        if (success) {
+                            changeListeners.forEach({it.onRemove(fmu)})
+                        }
+                    }
+
+                }
+            }
+        }
+        return false
+
     }
 
 }

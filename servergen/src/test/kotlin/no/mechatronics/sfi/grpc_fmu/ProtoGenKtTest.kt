@@ -36,14 +36,12 @@ class ProtoGenKtTest {
     @Test
     fun generateProtoString() {
 
-        println(ProtoGen.generateProtoString(modelDescription))
+        println(ProtoGen.generateProtoCode(modelDescription))
 
     }
 
     @Test
     fun compileProto() {
-
-
 
         fun copyFile(name: String) {
 
@@ -57,15 +55,11 @@ class ProtoGenKtTest {
         }
 
 
-        copyFile("protoc.exe")
+        copyFile("protoc-3.5.1-win32.exe")
         copyFile("protoc-gen-grpc-java.exe")
 
-        val file = ProtoGen.generateProtoFile(modelDescription, "generated/proto/")
-        assertNotNull(file)
+        Assert.assertTrue(ProtoGen.generateProtoCode(modelDescription).compile(temp,"generated/proto/", "generated/java/"))
 
-        ProtoGen.compileProto(temp, file.second, "generated/proto/","generated/java/")
-
-        //Assert.assertTrue(file.delete())
 
     }
 
