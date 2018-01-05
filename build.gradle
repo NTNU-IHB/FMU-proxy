@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+wrapper {
+    gradleVersion = '4.4.1'
+}
+
 subprojects {
 
     apply plugin: 'java'
