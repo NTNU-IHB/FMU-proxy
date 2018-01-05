@@ -1,18 +1,9 @@
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
-    }
-}
-
 apply plugin: 'application'
 
 mainClassName = 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
 
-def debug = true
+def debug = false
 
 repositories {
     mavenLocal()
@@ -25,12 +16,14 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
 
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.0'
-    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.0'
+    if (debug) {
+        compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.0'
+        compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.0'
 
-    compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
-    compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
-    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+        compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
+        compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
+        compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+    }
 
     compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT'
 

@@ -5,10 +5,6 @@ package no.mechatronics.sfi.grpc_fmu;
 
 option java_outer_classname = "FmiDefinitions";
 
-message Empty {
-
-}
-
 message ModelReference {
     uint32 fmu_id = 1;
 }
@@ -152,4 +148,8 @@ message VarWrite {
         string strValue = 7;
         bool boolValue = 8;
     }
+}
+
+message Empty {
+
 }

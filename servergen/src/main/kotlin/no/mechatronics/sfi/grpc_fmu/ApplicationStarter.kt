@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import org.apache.commons.cli.DefaultParser
+import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
 import java.io.File
 
@@ -32,34 +33,38 @@ class ApplicationStarter {
 
     companion object {
 
+        private const val HELP = "help"
+
         private const val FMU_FILE = "fmu"
         private const val OUTPUT_FOLDER = "out"
 
         @JvmStatic
         fun main(args: Array<String>) {
 
-            if (args.isEmpty()) {
-                error("no args.. exiting!")
-            }
-
             val options = Options().apply {
 
+                addOption(HELP, false, "Display this message")
+
                 addOption(FMU_FILE, true, "Path to the fmu")
-                addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar")
+                addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar (optional)")
 
             }
 
-            val parser = DefaultParser()
-            val cmd = parser.parse(options, args)
+            DefaultParser().parse(options, args).apply {
 
-            cmd.apply {
-                getOptionValue(FMU_FILE)?.let { path ->
-                    val file = File(path.replace("\\", "/"))
-                    if (file.exists() && file.name.endsWith(".fmu", true)) {
-                        GrpcFmu.generate(file)
-                    } else {
-                        error("Not a valid file: ${file.absolutePath}")
+                if (args.isEmpty() || hasOption(HELP)) {
+                    HelpFormatter().printHelp("servergen", options)
+                } else {
+
+                    getOptionValue(FMU_FILE)?.let { path ->
+                        val file = File(path.replace("\\", "/"))
+                        if (file.exists() && file.name.endsWith(".fmu", true)) {
+                            GrpcFmu.generate(file)
+                        } else {
+                            error("Not a valid file: ${file.absolutePath}")
+                        }
                     }
+
                 }
             }
 

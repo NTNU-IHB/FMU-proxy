@@ -14,7 +14,8 @@ class ServerGenKtTest {
     @Before
     fun setUp() {
 
-        val url = ServerGenKtTest::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+        val url = javaClass.classLoader
+                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
         modelDescription = ModelDescription.parseModelDescription(url)
 
@@ -22,16 +23,14 @@ class ServerGenKtTest {
 
     @Test
     fun generateServerCode() {
-
         println(ServerGen.generateServerCode(modelDescription))
-
     }
 
     @Test
     fun generateServerCodeFile() {
 
         val out =  File("generated/java/" + GrpcFmu.PACKAGE_NAME.replace(".", "//"))
-        val file = ServerGen.generateServerCode(modelDescription).writeToDirectory(out)
+        ServerGen.generateServerCode(modelDescription).writeToDirectory(out)
        // Assert.assertTrue(file.delete())
 
     }

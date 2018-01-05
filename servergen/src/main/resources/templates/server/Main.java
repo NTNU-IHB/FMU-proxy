@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package {{packageName}};
+package no.mechatronics.sfi.grpc_fmu;
 
 import java.util.Scanner;
 import java.net.ServerSocket;
@@ -34,31 +34,42 @@ import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress;
 
 class Main {
 
-    public static void main(String args[]) throws IOException, InterruptedException {
+    public static void main(String args[]) {
 
-        SocketAddress remoteAddress = InputParser.parse(args);
-        SocketAddress localAddress = new SocketAddress(getHostAddress(), getAvailablePort());
+        InputParser.parse(args, (SocketAddress remoteAddress, Integer localPort) -> {
 
-        final {{fmuName}}Server server = new {{fmuName}}Server();
-        server.start(localAddress.getPort());
+            try {
+                int myPort = localPort == null ? getAvailablePort() : localPort;
+                SocketAddress localAddress = new SocketAddress(getHostAddress(), myPort);
 
-        RemoteFmu remoteFmu = new RemoteFmu(server.getGuid(), localAddress, server.getModelDescriptionXml());
-        FmuHeartbeat beat = new FmuHeartbeat(remoteAddress, remoteFmu);
-        beat.start();
+                final {{fmuName}}Server server = new {{fmuName}}Server();
+                server.start(localAddress.getPort());
 
-        new Thread(() -> {
+                RemoteFmu remoteFmu = new RemoteFmu(server.getGuid(), localAddress, server.getModelDescriptionXml());
+                FmuHeartbeat beat = new FmuHeartbeat(remoteAddress, remoteFmu);
+                beat.start();
 
-            System.out.println("Press any key to stop the application..");
-            Scanner sc = new Scanner(System.in);
-            if (sc.hasNext()) {
-                System.out.println("Key pressed, stopping application..");
-                server.stop();
-                beat.stop();
+                new Thread(() -> {
+
+                    System.out.println("Press any key to stop the application..");
+                    Scanner sc = new Scanner(System.in);
+                    if (sc.hasNext()) {
+                        System.out.println("Key pressed, stopping application..");
+
+                        beat.stop();
+                        server.stop();
+
+                    }
+
+                }).start();
+
+                server.blockUntilShutdown();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
 
-        }).start();
 
-        server.blockUntilShutdown();
+        });
 
     }
 
