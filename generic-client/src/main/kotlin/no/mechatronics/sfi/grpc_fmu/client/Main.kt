@@ -4,7 +4,7 @@ import no.mechatronics.sfi.grpc_fmu.FmiDefinitions
 
 fun main(args: Array<String>) {
 
-    GenericFmuClient("127.0.0.1", 52523).use {
+    GenericFmuClient("127.0.0.1", 8000).use {
 
         println("connected")
 
@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
             println(it.name)
         }
 
-        println(fmu.read("BulkModulus"))
+       // println(fmu.read("BulkModulus"))
 
     }
 

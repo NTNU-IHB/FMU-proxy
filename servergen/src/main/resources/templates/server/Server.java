@@ -324,6 +324,8 @@ public class {{fmuName}}Server {
                     LOG.info("Terminated fmu with success: {}", flag);
                 } catch (java.lang.Exception ex) {
                     ex.printStackTrace();
+                } catch (java.lang.Error ex) {
+                    ex.printStackTrace();
                 }
             } else {
                 LOG.warn("No fmu with ref: {}", ref);

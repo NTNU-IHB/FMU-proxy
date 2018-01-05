@@ -3,7 +3,7 @@ apply plugin: 'application'
 
 mainClassName = 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
 
-def debug = true
+def debug = false
 
 repositories {
     mavenLocal()
