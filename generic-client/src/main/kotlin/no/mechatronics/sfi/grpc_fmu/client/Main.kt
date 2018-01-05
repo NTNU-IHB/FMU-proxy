@@ -4,7 +4,7 @@ import no.mechatronics.sfi.grpc_fmu.FmiDefinitions
 
 fun main(args: Array<String>) {
 
-    GenericFmuClient("127.0.0.1", 7000).use {
+    GenericFmuClient("127.0.0.1", 8000).use {
 
         println("connected")
 
@@ -15,11 +15,9 @@ fun main(args: Array<String>) {
         val modelVariables: FmiDefinitions.ScalarVariables = fmu.getModelVariables()
 
         modelVariables.valuesList.forEach {
-            println(it.name)
-            println(it.causality)
-
-            FmiDefinitions.Start.newBuilder().setBoolValue(true)
-
+            println("name: ${it.name}")
+            println("Causality: ${it.causality}")
+            println("Variability: ${it.variability}")
             val value: Any? = when (it.start.valueCase) {
                 FmiDefinitions.Start.ValueCase.INTVALUE -> it.start.intValue
                 FmiDefinitions.Start.ValueCase.REALVALUE -> it.start.realValue
@@ -27,7 +25,7 @@ fun main(args: Array<String>) {
                 FmiDefinitions.Start.ValueCase.BOOLVALUE -> it.start.boolValue
                 else -> null
             }
-            println(value)
+            println("Start: $value")
 
         }
 

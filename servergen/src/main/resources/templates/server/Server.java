@@ -269,7 +269,50 @@ public class {{fmuName}}Server {
 
         }
 
+        private FmiDefinitions.Causality getCausality(ScalarVariable variable) {
+
+            switch (variable.getCausality()) {
+                case INPUT: return FmiDefinitions.Causality.INPUT;
+                case OUTPUT: return FmiDefinitions.Causality.OUTPUT;
+                case CALCULATED_PARAMETER: return FmiDefinitions.Causality.CALCULATED_PARAMETER;
+                case PARAMETER: return FmiDefinitions.Causality.PARAMETER;
+                case LOCAL: return FmiDefinitions.Causality.LOCAL;
+                case INDEPENDENT: return FmiDefinitions.Causality.INDEPENDENT;
+                default: return FmiDefinitions.Causality.UNDEFINED_CAUSALITY;
+            }
+
+        }
+
+        private FmiDefinitions.Variability getVariability(ScalarVariable variable) {
+
+            switch (variable.getVariability()) {
+                case CONSTANT: return FmiDefinitions.Variability.CONSTANT;
+                case CONTINUOUS: return FmiDefinitions.Variability.CONTINUOUS;
+                case DISCRETE: return FmiDefinitions.Variability.DISCRETE;
+                case FIXED: return FmiDefinitions.Variability.FIXED;
+                case TUNABLE: return FmiDefinitions.Variability.TUNABLE;
+                default: return FmiDefinitions.Variability.UNDEFINED_VARIABILITY;
+            }
+
+        }
+
+        private FmiDefinitions.Initial getInitial(ScalarVariable variable) {
+
+            switch (variable.getInitial()) {
+                case CALCULATED: return FmiDefinitions.Initial.CALCULATED;
+                case EXACT: return FmiDefinitions.Initial.EXACT;
+                case APPROX: return FmiDefinitions.Initial.APPROX;
+                default: return FmiDefinitions.Initial.UNDEFINED_INITIAL;
+            }
+
+        }
+
         private FmiDefinitions.Start getStart(ScalarVariable variable) {
+
+            if (variable.getStart() == null) {
+                return FmiDefinitions.Start.getDefaultInstance();
+            }
+
             FmiDefinitions.Start.Builder builder = FmiDefinitions.Start.newBuilder();
             if (variable instanceof IntegerVariable) {
                 builder.setIntValue(((IntegerVariable) variable).getStart());
@@ -278,7 +321,7 @@ public class {{fmuName}}Server {
             } else if (variable instanceof StringVariable) {
                 builder.setStrValue(((StringVariable) variable).getStart());
             } else if (variable instanceof BooleanVariable) {
-                builder.setBooleanValue(((BooleanVariable) variable).getStart());
+                builder.setBoolValue(((BooleanVariable) variable).getStart());
             }
             return builder.build();
         }
@@ -292,6 +335,9 @@ public class {{fmuName}}Server {
             for (ScalarVariable variable : variables) {
                 builder.addValues(FmiDefinitions.ScalarVariable.newBuilder()
                         .setName(variable.getName())
+                        .setDescription(variable.getDescription())
+                        .setCausality(getCausality(variable))
+                        .setVariability(getVariability(variable))
                         .setStart(getStart(variable))
                         .build());
             }

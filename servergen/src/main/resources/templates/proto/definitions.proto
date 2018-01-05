@@ -14,26 +14,29 @@ message ModelReference {
 }
 
 enum Causality {
-    INPUT = 0;
-    OUTPUT = 1;
-    PARAMETER = 2;
-    CALCULATED_PARAMETER = 3;
-    LOCAL = 4;
-    INDEPENDENT = 5;
+    UNDEFINED_CAUSALITY = 0;
+    INPUT = 1;
+    OUTPUT = 2;
+    PARAMETER = 3;
+    CALCULATED_PARAMETER = 4;
+    LOCAL = 5;
+    INDEPENDENT = 6;
 }
 
 enum Variability {
-    CONSTANT =  0;
-    FIXED = 1;
-    CONTINUOUS = 2;
-    DISCRETE = 3;
-    TUNABLE = 4;
+    UNDEFINED_VARIABILITY = 0;
+    CONSTANT =  1;
+    FIXED = 2;
+    CONTINUOUS = 3;
+    DISCRETE = 4;
+    TUNABLE = 5;
 }
 
 enum Initial {
-    EXACT = 0;
-    APPROX = 1;
-    CALCULATED = 2;
+    UNDEFINED_INITIAL = 0;
+    EXACT = 1;
+    APPROX = 2;
+    CALCULATED = 3;
 }
 
 message ScalarVariables {
