@@ -52,8 +52,10 @@ class Main {
             Scanner sc = new Scanner(System.in);
             if (sc.hasNext()) {
                 System.out.println("Key pressed, stopping application..");
-                server.stop();
+
                 beat.stop();
+                server.stop();
+
             }
 
         }).start();

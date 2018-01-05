@@ -7,7 +7,7 @@ option java_outer_classname = "{{fmuName}}Proto";
 
 import "definitions.proto";
 
-service {{fmuName}}Service {
+service GenericFmuService {
 
     rpc CreateInstance (Empty) returns (ModelReference);
 
@@ -25,6 +25,10 @@ service {{fmuName}}Service {
 
     rpc Read (VarRead) returns (Var) {};
     rpc Write (VarWrite) returns (Status) {};
+
+}
+
+service {{fmuName}}Service {
 
     {{instanceServices}}
 

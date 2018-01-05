@@ -3,7 +3,9 @@ package no.mechatronics.sfi.grpc_fmu.client
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.grpc_fmu.FmiDefinitions
-import no.mechatronics.sfi.grpc_fmu.PipeFlowServiceGrpc
+import no.mechatronics.sfi.grpc_fmu.GenericFmuServiceGrpc
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.Closeable
 
 class GenericFmuClient(
@@ -11,8 +13,12 @@ class GenericFmuClient(
         port: Int
 ): Closeable {
 
+    companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
+    }
+
     private val channel: ManagedChannel
-    private val blockingStub: PipeFlowServiceGrpc.PipeFlowServiceBlockingStub
+    private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
 
     private val instances: MutableList<FmuInstance> = ArrayList()
 
@@ -20,7 +26,7 @@ class GenericFmuClient(
         channel = ManagedChannelBuilder.forAddress(host, port)
                   .usePlaintext(true)
                   .build()
-        blockingStub = PipeFlowServiceGrpc.newBlockingStub(channel)
+        blockingStub = GenericFmuServiceGrpc.newBlockingStub(channel)
 
     }
 
@@ -33,7 +39,9 @@ class GenericFmuClient(
     fun getModelName() = blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
 
     override fun close() {
-        instances.forEach({
+        LOG.info("Closing..")
+
+        instances.toList().forEach({
             it.terminate()
         })
         channel.shutdownNow()
@@ -50,9 +58,13 @@ class GenericFmuClient(
                 .build()).value
 
         fun terminate() {
-            blockingStub.terminate(FmiDefinitions.TerminateRequest.getDefaultInstance())
+            blockingStub.terminate(FmiDefinitions.TerminateRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .build())
             instances.remove(this)
         }
+
+        fun getModelVariables() = blockingStub.getModelVariables(FmiDefinitions.Empty.getDefaultInstance())
 
         fun read(varName: String) = blockingStub.read(FmiDefinitions.VarRead.newBuilder()
                 .setFmuId(fmuId)

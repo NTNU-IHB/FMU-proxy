@@ -26,6 +26,9 @@ package no.mechatronics.sfi.grpc_fmu;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +47,8 @@ import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable;
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
 
 public class {{fmuName}}Server {
+
+    private final static Logger LOG = LoggerFactory.getLogger({{fmuName}}Server.class);
 
     private Server server;
     private final FmuFile fmuFile;
@@ -71,11 +76,12 @@ public class {{fmuName}}Server {
     public void start(int port) throws IOException {
 
         server = ServerBuilder.forPort(port)
-            .addService(new ServiceImpl())
+            .addService(new GenericServiceImpl())
+            .addService(new {{fmuName}}ServiceImpl())
             .build()
             .start();
 
-        System.out.println("FMU listening for connections on port: " + port);
+        LOG.info("FMU listening for connections on port: {}", port);
 
     }
 
@@ -175,13 +181,10 @@ public class {{fmuName}}Server {
 
     }
 
-    private class ServiceImpl extends {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase {
+    private class GenericServiceImpl extends GenericFmuServiceGrpc.GenericFmuServiceImplBase {
 
-        private final AtomicInteger refGenerator;
+        private final AtomicInteger refGenerator = new AtomicInteger(0);
 
-        public ServiceImpl() {
-            this.refGenerator = new AtomicInteger(0);
-        }
 
         @Override
         public void createInstance(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ModelReference> responseObserver) {
@@ -313,17 +316,29 @@ public class {{fmuName}}Server {
         public void terminate(FmiDefinitions.TerminateRequest req, StreamObserver<FmiDefinitions.Empty> responseObserver) {
 
             int ref = req.getFmuId();
-            try {
-                fmus.get(ref).terminate();
-            } catch (java.lang.Exception ex) {
-                ex.printStackTrace();
-            } finally {
-                fmus.remove(ref);
+            FmiSimulation fmu = fmus.remove(ref);
+            if (fmu != null) {
+                LOG.info("Removed fmu instance from list");
+                try {
+                    boolean flag = fmu.terminate();
+                    LOG.info("Terminated fmu with success: {}", flag);
+                } catch (java.lang.Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                LOG.warn("No fmu with ref: {}", ref);
             }
+
+            responseObserver.onNext(FmiDefinitions.Empty.getDefaultInstance());
+            responseObserver.onCompleted();
 
         }
 
-        {{dynamicMethods}}
+    }
+
+    private class {{fmuName}}ServiceImpl extends {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase {
+
+            {{dynamicMethods}}
 
     }
 

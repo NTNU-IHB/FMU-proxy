@@ -20,11 +20,11 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.8.0)",
     comments = "Source: service.proto")
-public final class PipeFlowServiceGrpc {
+public final class GenericFmuServiceGrpc {
 
-  private PipeFlowServiceGrpc() {}
+  private GenericFmuServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "no.mechatronics.sfi.grpc_fmu.PipeFlowService";
+  public static final String SERVICE_NAME = "no.mechatronics.sfi.grpc_fmu.GenericFmuService";
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
@@ -39,20 +39,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference> getCreateInstanceMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference> getCreateInstanceMethod;
-    if ((getCreateInstanceMethod = PipeFlowServiceGrpc.getCreateInstanceMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getCreateInstanceMethod = PipeFlowServiceGrpc.getCreateInstanceMethod) == null) {
-          PipeFlowServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod = 
+    if ((getCreateInstanceMethod = GenericFmuServiceGrpc.getCreateInstanceMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getCreateInstanceMethod = GenericFmuServiceGrpc.getCreateInstanceMethod) == null) {
+          GenericFmuServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "CreateInstance"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "CreateInstance"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("CreateInstance"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("CreateInstance"))
                   .build();
           }
         }
@@ -71,20 +71,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetModelNameMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetModelNameMethod;
-    if ((getGetModelNameMethod = PipeFlowServiceGrpc.getGetModelNameMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getGetModelNameMethod = PipeFlowServiceGrpc.getGetModelNameMethod) == null) {
-          PipeFlowServiceGrpc.getGetModelNameMethod = getGetModelNameMethod = 
+    if ((getGetModelNameMethod = GenericFmuServiceGrpc.getGetModelNameMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetModelNameMethod = GenericFmuServiceGrpc.getGetModelNameMethod) == null) {
+          GenericFmuServiceGrpc.getGetModelNameMethod = getGetModelNameMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "GetModelName"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetModelName"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("GetModelName"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetModelName"))
                   .build();
           }
         }
@@ -103,20 +103,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> getGetModelVariableNamesMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> getGetModelVariableNamesMethod;
-    if ((getGetModelVariableNamesMethod = PipeFlowServiceGrpc.getGetModelVariableNamesMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getGetModelVariableNamesMethod = PipeFlowServiceGrpc.getGetModelVariableNamesMethod) == null) {
-          PipeFlowServiceGrpc.getGetModelVariableNamesMethod = getGetModelVariableNamesMethod = 
+    if ((getGetModelVariableNamesMethod = GenericFmuServiceGrpc.getGetModelVariableNamesMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetModelVariableNamesMethod = GenericFmuServiceGrpc.getGetModelVariableNamesMethod) == null) {
+          GenericFmuServiceGrpc.getGetModelVariableNamesMethod = getGetModelVariableNamesMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "GetModelVariableNames"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetModelVariableNames"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("GetModelVariableNames"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetModelVariableNames"))
                   .build();
           }
         }
@@ -135,20 +135,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> getGetModelVariablesMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> getGetModelVariablesMethod;
-    if ((getGetModelVariablesMethod = PipeFlowServiceGrpc.getGetModelVariablesMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getGetModelVariablesMethod = PipeFlowServiceGrpc.getGetModelVariablesMethod) == null) {
-          PipeFlowServiceGrpc.getGetModelVariablesMethod = getGetModelVariablesMethod = 
+    if ((getGetModelVariablesMethod = GenericFmuServiceGrpc.getGetModelVariablesMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetModelVariablesMethod = GenericFmuServiceGrpc.getGetModelVariablesMethod) == null) {
+          GenericFmuServiceGrpc.getGetModelVariablesMethod = getGetModelVariablesMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "GetModelVariables"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetModelVariables"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("GetModelVariables"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetModelVariables"))
                   .build();
           }
         }
@@ -167,20 +167,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getGetCurrentTimeMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getGetCurrentTimeMethod;
-    if ((getGetCurrentTimeMethod = PipeFlowServiceGrpc.getGetCurrentTimeMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getGetCurrentTimeMethod = PipeFlowServiceGrpc.getGetCurrentTimeMethod) == null) {
-          PipeFlowServiceGrpc.getGetCurrentTimeMethod = getGetCurrentTimeMethod = 
+    if ((getGetCurrentTimeMethod = GenericFmuServiceGrpc.getGetCurrentTimeMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetCurrentTimeMethod = GenericFmuServiceGrpc.getGetCurrentTimeMethod) == null) {
+          GenericFmuServiceGrpc.getGetCurrentTimeMethod = getGetCurrentTimeMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "GetCurrentTime"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetCurrentTime"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("GetCurrentTime"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetCurrentTime"))
                   .build();
           }
         }
@@ -199,20 +199,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getIsTerminatedMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getIsTerminatedMethod;
-    if ((getIsTerminatedMethod = PipeFlowServiceGrpc.getIsTerminatedMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getIsTerminatedMethod = PipeFlowServiceGrpc.getIsTerminatedMethod) == null) {
-          PipeFlowServiceGrpc.getIsTerminatedMethod = getIsTerminatedMethod = 
+    if ((getIsTerminatedMethod = GenericFmuServiceGrpc.getIsTerminatedMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getIsTerminatedMethod = GenericFmuServiceGrpc.getIsTerminatedMethod) == null) {
+          GenericFmuServiceGrpc.getIsTerminatedMethod = getIsTerminatedMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "IsTerminated"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "IsTerminated"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("IsTerminated"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("IsTerminated"))
                   .build();
           }
         }
@@ -231,20 +231,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.InitRequest,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getInitMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.InitRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getInitMethod;
-    if ((getInitMethod = PipeFlowServiceGrpc.getInitMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getInitMethod = PipeFlowServiceGrpc.getInitMethod) == null) {
-          PipeFlowServiceGrpc.getInitMethod = getInitMethod = 
+    if ((getInitMethod = GenericFmuServiceGrpc.getInitMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getInitMethod = GenericFmuServiceGrpc.getInitMethod) == null) {
+          GenericFmuServiceGrpc.getInitMethod = getInitMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.InitRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "Init"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Init"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.InitRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("Init"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Init"))
                   .build();
           }
         }
@@ -263,20 +263,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StepRequest,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getStepMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StepRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getStepMethod;
-    if ((getStepMethod = PipeFlowServiceGrpc.getStepMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getStepMethod = PipeFlowServiceGrpc.getStepMethod) == null) {
-          PipeFlowServiceGrpc.getStepMethod = getStepMethod = 
+    if ((getStepMethod = GenericFmuServiceGrpc.getStepMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getStepMethod = GenericFmuServiceGrpc.getStepMethod) == null) {
+          GenericFmuServiceGrpc.getStepMethod = getStepMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StepRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "Step"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Step"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StepRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("Step"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Step"))
                   .build();
           }
         }
@@ -295,20 +295,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> getTerminateMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> getTerminateMethod;
-    if ((getTerminateMethod = PipeFlowServiceGrpc.getTerminateMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getTerminateMethod = PipeFlowServiceGrpc.getTerminateMethod) == null) {
-          PipeFlowServiceGrpc.getTerminateMethod = getTerminateMethod = 
+    if ((getTerminateMethod = GenericFmuServiceGrpc.getTerminateMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getTerminateMethod = GenericFmuServiceGrpc.getTerminateMethod) == null) {
+          GenericFmuServiceGrpc.getTerminateMethod = getTerminateMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "Terminate"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Terminate"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("Terminate"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Terminate"))
                   .build();
           }
         }
@@ -327,20 +327,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> getReadMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> getReadMethod;
-    if ((getReadMethod = PipeFlowServiceGrpc.getReadMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getReadMethod = PipeFlowServiceGrpc.getReadMethod) == null) {
-          PipeFlowServiceGrpc.getReadMethod = getReadMethod = 
+    if ((getReadMethod = GenericFmuServiceGrpc.getReadMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getReadMethod = GenericFmuServiceGrpc.getReadMethod) == null) {
+          GenericFmuServiceGrpc.getReadMethod = getReadMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "Read"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Read"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("Read"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Read"))
                   .build();
           }
         }
@@ -359,20 +359,20 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteMethod() {
     io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteMethod;
-    if ((getWriteMethod = PipeFlowServiceGrpc.getWriteMethod) == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
-        if ((getWriteMethod = PipeFlowServiceGrpc.getWriteMethod) == null) {
-          PipeFlowServiceGrpc.getWriteMethod = getWriteMethod = 
+    if ((getWriteMethod = GenericFmuServiceGrpc.getWriteMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getWriteMethod = GenericFmuServiceGrpc.getWriteMethod) == null) {
+          GenericFmuServiceGrpc.getWriteMethod = getWriteMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.PipeFlowService", "Write"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Write"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
-                  .setSchemaDescriptor(new PipeFlowServiceMethodDescriptorSupplier("Write"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Write"))
                   .build();
           }
         }
@@ -383,29 +383,29 @@ public final class PipeFlowServiceGrpc {
   /**
    * Creates a new async stub that supports all call types for the service
    */
-  public static PipeFlowServiceStub newStub(io.grpc.Channel channel) {
-    return new PipeFlowServiceStub(channel);
+  public static GenericFmuServiceStub newStub(io.grpc.Channel channel) {
+    return new GenericFmuServiceStub(channel);
   }
 
   /**
    * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
-  public static PipeFlowServiceBlockingStub newBlockingStub(
+  public static GenericFmuServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new PipeFlowServiceBlockingStub(channel);
+    return new GenericFmuServiceBlockingStub(channel);
   }
 
   /**
    * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
-  public static PipeFlowServiceFutureStub newFutureStub(
+  public static GenericFmuServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new PipeFlowServiceFutureStub(channel);
+    return new GenericFmuServiceFutureStub(channel);
   }
 
   /**
    */
-  public static abstract class PipeFlowServiceImplBase implements io.grpc.BindableService {
+  public static abstract class GenericFmuServiceImplBase implements io.grpc.BindableService {
 
     /**
      */
@@ -572,20 +572,20 @@ public final class PipeFlowServiceGrpc {
 
   /**
    */
-  public static final class PipeFlowServiceStub extends io.grpc.stub.AbstractStub<PipeFlowServiceStub> {
-    private PipeFlowServiceStub(io.grpc.Channel channel) {
+  public static final class GenericFmuServiceStub extends io.grpc.stub.AbstractStub<GenericFmuServiceStub> {
+    private GenericFmuServiceStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private PipeFlowServiceStub(io.grpc.Channel channel,
+    private GenericFmuServiceStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PipeFlowServiceStub build(io.grpc.Channel channel,
+    protected GenericFmuServiceStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new PipeFlowServiceStub(channel, callOptions);
+      return new GenericFmuServiceStub(channel, callOptions);
     }
 
     /**
@@ -682,20 +682,20 @@ public final class PipeFlowServiceGrpc {
 
   /**
    */
-  public static final class PipeFlowServiceBlockingStub extends io.grpc.stub.AbstractStub<PipeFlowServiceBlockingStub> {
-    private PipeFlowServiceBlockingStub(io.grpc.Channel channel) {
+  public static final class GenericFmuServiceBlockingStub extends io.grpc.stub.AbstractStub<GenericFmuServiceBlockingStub> {
+    private GenericFmuServiceBlockingStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private PipeFlowServiceBlockingStub(io.grpc.Channel channel,
+    private GenericFmuServiceBlockingStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PipeFlowServiceBlockingStub build(io.grpc.Channel channel,
+    protected GenericFmuServiceBlockingStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new PipeFlowServiceBlockingStub(channel, callOptions);
+      return new GenericFmuServiceBlockingStub(channel, callOptions);
     }
 
     /**
@@ -781,20 +781,20 @@ public final class PipeFlowServiceGrpc {
 
   /**
    */
-  public static final class PipeFlowServiceFutureStub extends io.grpc.stub.AbstractStub<PipeFlowServiceFutureStub> {
-    private PipeFlowServiceFutureStub(io.grpc.Channel channel) {
+  public static final class GenericFmuServiceFutureStub extends io.grpc.stub.AbstractStub<GenericFmuServiceFutureStub> {
+    private GenericFmuServiceFutureStub(io.grpc.Channel channel) {
       super(channel);
     }
 
-    private PipeFlowServiceFutureStub(io.grpc.Channel channel,
+    private GenericFmuServiceFutureStub(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
-    protected PipeFlowServiceFutureStub build(io.grpc.Channel channel,
+    protected GenericFmuServiceFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
-      return new PipeFlowServiceFutureStub(channel, callOptions);
+      return new GenericFmuServiceFutureStub(channel, callOptions);
     }
 
     /**
@@ -906,10 +906,10 @@ public final class PipeFlowServiceGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final PipeFlowServiceImplBase serviceImpl;
+    private final GenericFmuServiceImplBase serviceImpl;
     private final int methodId;
 
-    MethodHandlers(PipeFlowServiceImplBase serviceImpl, int methodId) {
+    MethodHandlers(GenericFmuServiceImplBase serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -978,32 +978,32 @@ public final class PipeFlowServiceGrpc {
     }
   }
 
-  private static abstract class PipeFlowServiceBaseDescriptorSupplier
+  private static abstract class GenericFmuServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
-    PipeFlowServiceBaseDescriptorSupplier() {}
+    GenericFmuServiceBaseDescriptorSupplier() {}
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return no.mechatronics.sfi.grpc_fmu.PipeFlowProto.getDescriptor();
+      return no.mechatronics.sfi.grpc_fmu.GenericFmuProto.getDescriptor();
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
-      return getFileDescriptor().findServiceByName("PipeFlowService");
+      return getFileDescriptor().findServiceByName("GenericFmuService");
     }
   }
 
-  private static final class PipeFlowServiceFileDescriptorSupplier
-      extends PipeFlowServiceBaseDescriptorSupplier {
-    PipeFlowServiceFileDescriptorSupplier() {}
+  private static final class GenericFmuServiceFileDescriptorSupplier
+      extends GenericFmuServiceBaseDescriptorSupplier {
+    GenericFmuServiceFileDescriptorSupplier() {}
   }
 
-  private static final class PipeFlowServiceMethodDescriptorSupplier
-      extends PipeFlowServiceBaseDescriptorSupplier
+  private static final class GenericFmuServiceMethodDescriptorSupplier
+      extends GenericFmuServiceBaseDescriptorSupplier
       implements io.grpc.protobuf.ProtoMethodDescriptorSupplier {
     private final String methodName;
 
-    PipeFlowServiceMethodDescriptorSupplier(String methodName) {
+    GenericFmuServiceMethodDescriptorSupplier(String methodName) {
       this.methodName = methodName;
     }
 
@@ -1018,11 +1018,11 @@ public final class PipeFlowServiceGrpc {
   public static io.grpc.ServiceDescriptor getServiceDescriptor() {
     io.grpc.ServiceDescriptor result = serviceDescriptor;
     if (result == null) {
-      synchronized (PipeFlowServiceGrpc.class) {
+      synchronized (GenericFmuServiceGrpc.class) {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new PipeFlowServiceFileDescriptorSupplier())
+              .setSchemaDescriptor(new GenericFmuServiceFileDescriptorSupplier())
               .addMethod(getCreateInstanceMethod())
               .addMethod(getGetModelNameMethod())
               .addMethod(getGetModelVariableNamesMethod())
