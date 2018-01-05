@@ -26,6 +26,7 @@ package no.mechatronics.sfi.grpc_fmu;
 
 import java.io.IOException;
 
+import no.mechatronics.sfi.fmi4j.modeldescription.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,9 +43,6 @@ import no.mechatronics.sfi.fmi4j.FmiSimulation;
 import no.mechatronics.sfi.fmi4j.FmuBuilder;
 import no.mechatronics.sfi.fmi4j.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelVariables;
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
 
 public class {{fmuName}}Server {
 
@@ -271,6 +269,20 @@ public class {{fmuName}}Server {
 
         }
 
+        private FmiDefinitions.Start getStart(ScalarVariable variable) {
+            FmiDefinitions.Start.Builder builder = FmiDefinitions.Start.newBuilder();
+            if (variable instanceof IntegerVariable) {
+                builder.setIntValue(((IntegerVariable) variable).getStart());
+            } else if (variable instanceof RealVariable) {
+                builder.setRealValue(((RealVariable) variable).getStart());
+            } else if (variable instanceof StringVariable) {
+                builder.setStrValue(((StringVariable) variable).getStart());
+            } else if (variable instanceof BooleanVariable) {
+                builder.setBooleanValue(((BooleanVariable) variable).getStart());
+            }
+            return builder.build();
+        }
+
         @Override
         public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {
 
@@ -279,8 +291,9 @@ public class {{fmuName}}Server {
             FmiDefinitions.ScalarVariables.Builder builder = FmiDefinitions.ScalarVariables.newBuilder();
             for (ScalarVariable variable : variables) {
                 builder.addValues(FmiDefinitions.ScalarVariable.newBuilder()
-                    .setName(variable.getName())
-                    .build());
+                        .setName(variable.getName())
+                        .setStart(getStart(variable))
+                        .build());
             }
 
             FmiDefinitions.ScalarVariables reply = builder.build();

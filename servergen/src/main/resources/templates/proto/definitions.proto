@@ -40,18 +40,22 @@ message ScalarVariables {
     repeated ScalarVariable values = 1;
 }
 
+message Start {
+    oneof value {
+        int32 intValue = 1;
+        double realValue = 2;
+        string strValue = 3;
+        bool boolValue = 4;
+    }
+}
+
 message ScalarVariable {
     string name = 1;
     string description = 2;
     Initial initial = 3;
     Causality causality = 4;
     Variability variability = 5;
-    oneof start {
-        int32 intValue = 10;
-        double realValue = 11;
-        string strValue = 12;
-        bool boolValue = 13;
-    }
+    Start start = 6;
 }
 
 message Status {
