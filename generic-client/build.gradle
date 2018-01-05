@@ -42,15 +42,11 @@ protobuf {
 
 }
 
-def protoDir = 'src/main/proto'
+
 sourceSets {
     main {
         proto {
-            srcDir protoDir
-        }
-        java {
-            srcDirs protoDir
-            // srcDirs 'src/main/grpc'
+            srcDir '../proto'
         }
     }
 }
