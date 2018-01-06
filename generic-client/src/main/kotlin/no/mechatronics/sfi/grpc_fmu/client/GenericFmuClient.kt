@@ -39,7 +39,7 @@ class GenericFmuClient(
         }
     }
 
-    fun getModelName() = blockingStub.getModelName(EMPTY).value
+    fun getModelName(): String = blockingStub.getModelName(EMPTY).value
 
     override fun close() {
         LOG.info("Closing..")

@@ -25,7 +25,8 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.grpc_fmu.misc.ChangeListener
 import no.mechatronics.sfi.grpc_fmu.misc.ProtoDefinitions
 import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
@@ -46,8 +47,8 @@ class RemoteFmu(
 
 
     @delegate: Transient
-    val modelDescription: ModelDescription by lazy {
-        ModelDescription.parseModelDescription(modelDescriptionXml)
+    val modelDescription: IModelDescription by lazy {
+        ModelDescriptionParser.parse(modelDescriptionXml)
     }
 
     val protoDefinition: ProtoDefinitions

@@ -1,15 +1,19 @@
 package no.mechatronics.sfi.grpc_fmu
 
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
+
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.io.File
 
+import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
+import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+
+
 class ServerGenKtTest {
 
-    lateinit var modelDescription: ModelDescription
+    lateinit var modelDescription: IModelDescription
 
     @Before
     fun setUp() {
@@ -17,7 +21,7 @@ class ServerGenKtTest {
         val url = javaClass.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
-        modelDescription = ModelDescription.parseModelDescription(url)
+        modelDescription = ModelDescriptionParser.parse(url)
 
     }
 

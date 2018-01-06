@@ -80,6 +80,10 @@ message TerminateRequest {
     uint32 fmu_id = 1;
 }
 
+message ResetRequest {
+    uint32 fmu_id = 1;
+}
+
 message Int {
     int32 value = 1;
 }

@@ -1,7 +1,7 @@
 package no.mechatronics.sfi.grpc_fmu
 
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
+
+
 import org.apache.commons.io.IOUtils
 import org.junit.After
 import org.junit.Assert
@@ -12,9 +12,13 @@ import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Files
 
+import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
+import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+
 class ProtoGenKtTest {
 
-    lateinit var modelDescription: ModelDescription
+    lateinit var modelDescription: IModelDescription
     lateinit var temp: File
 
     @Before
@@ -23,7 +27,7 @@ class ProtoGenKtTest {
         val url = ProtoGenKtTest::class.java.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         assertNotNull(url)
-        modelDescription = ModelDescription.parseModelDescription(url)
+        modelDescription = ModelDescriptionParser.parse(url)
 
         temp = Files.createTempDirectory("grpc_fmu").toFile()
 

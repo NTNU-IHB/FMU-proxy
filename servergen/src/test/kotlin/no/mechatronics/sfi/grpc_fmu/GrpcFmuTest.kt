@@ -1,6 +1,6 @@
 package no.mechatronics.sfi.grpc_fmu
 
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -12,6 +12,8 @@ import java.net.URL
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+
 class GrpcFmuTest {
 
     lateinit var url: URL
@@ -22,7 +24,7 @@ class GrpcFmuTest {
 
         url = GrpcFmuTest::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
-        val modelDescription = ModelDescription.parseModelDescription(url)
+        val modelDescription = ModelDescriptionParser.parse(url)
         generatedJar = File("${modelDescription.modelName}-all.jar")
 
     }

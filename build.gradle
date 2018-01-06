@@ -33,9 +33,10 @@ subprojects {
     dependencies {
         compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
-        compile "no.mechatronics.sfi.fmi4j:fmi-import:0.1-ALPHA-6"
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
-        compile group: 'org.zeromq', name: 'jeromq', version: '0.3.6'
+        compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-ALPHA-7-SNAPSHOT'
 
         testCompile group: 'junit', name: 'junit', version: '4.12'
     }

@@ -26,7 +26,7 @@ package no.mechatronics.sfi.grpc_fmu;
 
 import java.io.IOException;
 
-import no.mechatronics.sfi.fmi4j.modeldescription.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,9 +40,10 @@ import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
 import no.mechatronics.sfi.fmi4j.FmiSimulation;
-import no.mechatronics.sfi.fmi4j.FmuBuilder;
-import no.mechatronics.sfi.fmi4j.FmuFile;
+import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder;
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
+import no.mechatronics.sfi.fmi4j.modeldescription.*;
 
 public class {{fmuName}}Server {
 
@@ -51,14 +52,14 @@ public class {{fmuName}}Server {
     private Server server;
     private final FmuFile fmuFile;
     private final FmuBuilder builder;
-    private final ModelDescription modelDescription;
+    private final IModelDescription modelDescription;
     private final Map<Integer, FmiSimulation> fmus;
 
     public {{fmuName}}Server() throws IOException {
 
         this.fmus = new HashMap<>();
         this.fmuFile = new FmuFile(getClass().getClassLoader().getResource("{{fmuName}}.fmu"));
-        this.modelDescription = ModelDescription.parseModelDescription(fmuFile.getModelDescriptionXml());
+        this.modelDescription = ModelDescriptionParser.parse(fmuFile.getModelDescriptionXml());
         this.builder = new FmuBuilder(this.fmuFile);
 
     }
@@ -392,6 +393,16 @@ public class {{fmuName}}Server {
 
             responseObserver.onNext(FmiDefinitions.Empty.getDefaultInstance());
             responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void reset(FmiDefinitions.ResetRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+
+            int ref = req.getFmuId();
+            FmiSimulation fmu = fmus.remove(ref);
+            fmu.reset();
+            statusReply(fmu.getLastStatus(), responseObserver);
 
         }
 

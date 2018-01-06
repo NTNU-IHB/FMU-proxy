@@ -20,56 +20,64 @@ public final class FmiDefinitions {
   public enum Causality
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>INPUT = 0;</code>
+     * <code>UNDEFINED_CAUSALITY = 0;</code>
      */
-    INPUT(0),
+    UNDEFINED_CAUSALITY(0),
     /**
-     * <code>OUTPUT = 1;</code>
+     * <code>INPUT = 1;</code>
      */
-    OUTPUT(1),
+    INPUT(1),
     /**
-     * <code>PARAMETER = 2;</code>
+     * <code>OUTPUT = 2;</code>
      */
-    PARAMETER(2),
+    OUTPUT(2),
     /**
-     * <code>CALCULATED_PARAMETER = 3;</code>
+     * <code>PARAMETER = 3;</code>
      */
-    CALCULATED_PARAMETER(3),
+    PARAMETER(3),
     /**
-     * <code>LOCAL = 4;</code>
+     * <code>CALCULATED_PARAMETER = 4;</code>
      */
-    LOCAL(4),
+    CALCULATED_PARAMETER(4),
     /**
-     * <code>INDEPENDENT = 5;</code>
+     * <code>LOCAL = 5;</code>
      */
-    INDEPENDENT(5),
+    LOCAL(5),
+    /**
+     * <code>INDEPENDENT = 6;</code>
+     */
+    INDEPENDENT(6),
     UNRECOGNIZED(-1),
     ;
 
     /**
-     * <code>INPUT = 0;</code>
+     * <code>UNDEFINED_CAUSALITY = 0;</code>
      */
-    public static final int INPUT_VALUE = 0;
+    public static final int UNDEFINED_CAUSALITY_VALUE = 0;
     /**
-     * <code>OUTPUT = 1;</code>
+     * <code>INPUT = 1;</code>
      */
-    public static final int OUTPUT_VALUE = 1;
+    public static final int INPUT_VALUE = 1;
     /**
-     * <code>PARAMETER = 2;</code>
+     * <code>OUTPUT = 2;</code>
      */
-    public static final int PARAMETER_VALUE = 2;
+    public static final int OUTPUT_VALUE = 2;
     /**
-     * <code>CALCULATED_PARAMETER = 3;</code>
+     * <code>PARAMETER = 3;</code>
      */
-    public static final int CALCULATED_PARAMETER_VALUE = 3;
+    public static final int PARAMETER_VALUE = 3;
     /**
-     * <code>LOCAL = 4;</code>
+     * <code>CALCULATED_PARAMETER = 4;</code>
      */
-    public static final int LOCAL_VALUE = 4;
+    public static final int CALCULATED_PARAMETER_VALUE = 4;
     /**
-     * <code>INDEPENDENT = 5;</code>
+     * <code>LOCAL = 5;</code>
      */
-    public static final int INDEPENDENT_VALUE = 5;
+    public static final int LOCAL_VALUE = 5;
+    /**
+     * <code>INDEPENDENT = 6;</code>
+     */
+    public static final int INDEPENDENT_VALUE = 6;
 
 
     public final int getNumber() {
@@ -90,12 +98,13 @@ public final class FmiDefinitions {
 
     public static Causality forNumber(int value) {
       switch (value) {
-        case 0: return INPUT;
-        case 1: return OUTPUT;
-        case 2: return PARAMETER;
-        case 3: return CALCULATED_PARAMETER;
-        case 4: return LOCAL;
-        case 5: return INDEPENDENT;
+        case 0: return UNDEFINED_CAUSALITY;
+        case 1: return INPUT;
+        case 2: return OUTPUT;
+        case 3: return PARAMETER;
+        case 4: return CALCULATED_PARAMETER;
+        case 5: return LOCAL;
+        case 6: return INDEPENDENT;
         default: return null;
       }
     }
@@ -154,48 +163,56 @@ public final class FmiDefinitions {
   public enum Variability
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>CONSTANT = 0;</code>
+     * <code>UNDEFINED_VARIABILITY = 0;</code>
      */
-    CONSTANT(0),
+    UNDEFINED_VARIABILITY(0),
     /**
-     * <code>FIXED = 1;</code>
+     * <code>CONSTANT = 1;</code>
      */
-    FIXED(1),
+    CONSTANT(1),
     /**
-     * <code>CONTINUOUS = 2;</code>
+     * <code>FIXED = 2;</code>
      */
-    CONTINUOUS(2),
+    FIXED(2),
     /**
-     * <code>DISCRETE = 3;</code>
+     * <code>CONTINUOUS = 3;</code>
      */
-    DISCRETE(3),
+    CONTINUOUS(3),
     /**
-     * <code>TUNABLE = 4;</code>
+     * <code>DISCRETE = 4;</code>
      */
-    TUNABLE(4),
+    DISCRETE(4),
+    /**
+     * <code>TUNABLE = 5;</code>
+     */
+    TUNABLE(5),
     UNRECOGNIZED(-1),
     ;
 
     /**
-     * <code>CONSTANT = 0;</code>
+     * <code>UNDEFINED_VARIABILITY = 0;</code>
      */
-    public static final int CONSTANT_VALUE = 0;
+    public static final int UNDEFINED_VARIABILITY_VALUE = 0;
     /**
-     * <code>FIXED = 1;</code>
+     * <code>CONSTANT = 1;</code>
      */
-    public static final int FIXED_VALUE = 1;
+    public static final int CONSTANT_VALUE = 1;
     /**
-     * <code>CONTINUOUS = 2;</code>
+     * <code>FIXED = 2;</code>
      */
-    public static final int CONTINUOUS_VALUE = 2;
+    public static final int FIXED_VALUE = 2;
     /**
-     * <code>DISCRETE = 3;</code>
+     * <code>CONTINUOUS = 3;</code>
      */
-    public static final int DISCRETE_VALUE = 3;
+    public static final int CONTINUOUS_VALUE = 3;
     /**
-     * <code>TUNABLE = 4;</code>
+     * <code>DISCRETE = 4;</code>
      */
-    public static final int TUNABLE_VALUE = 4;
+    public static final int DISCRETE_VALUE = 4;
+    /**
+     * <code>TUNABLE = 5;</code>
+     */
+    public static final int TUNABLE_VALUE = 5;
 
 
     public final int getNumber() {
@@ -216,11 +233,12 @@ public final class FmiDefinitions {
 
     public static Variability forNumber(int value) {
       switch (value) {
-        case 0: return CONSTANT;
-        case 1: return FIXED;
-        case 2: return CONTINUOUS;
-        case 3: return DISCRETE;
-        case 4: return TUNABLE;
+        case 0: return UNDEFINED_VARIABILITY;
+        case 1: return CONSTANT;
+        case 2: return FIXED;
+        case 3: return CONTINUOUS;
+        case 4: return DISCRETE;
+        case 5: return TUNABLE;
         default: return null;
       }
     }
@@ -279,32 +297,40 @@ public final class FmiDefinitions {
   public enum Initial
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>EXACT = 0;</code>
+     * <code>UNDEFINED_INITIAL = 0;</code>
      */
-    EXACT(0),
+    UNDEFINED_INITIAL(0),
     /**
-     * <code>APPROX = 1;</code>
+     * <code>EXACT = 1;</code>
      */
-    APPROX(1),
+    EXACT(1),
     /**
-     * <code>CALCULATED = 2;</code>
+     * <code>APPROX = 2;</code>
      */
-    CALCULATED(2),
+    APPROX(2),
+    /**
+     * <code>CALCULATED = 3;</code>
+     */
+    CALCULATED(3),
     UNRECOGNIZED(-1),
     ;
 
     /**
-     * <code>EXACT = 0;</code>
+     * <code>UNDEFINED_INITIAL = 0;</code>
      */
-    public static final int EXACT_VALUE = 0;
+    public static final int UNDEFINED_INITIAL_VALUE = 0;
     /**
-     * <code>APPROX = 1;</code>
+     * <code>EXACT = 1;</code>
      */
-    public static final int APPROX_VALUE = 1;
+    public static final int EXACT_VALUE = 1;
     /**
-     * <code>CALCULATED = 2;</code>
+     * <code>APPROX = 2;</code>
      */
-    public static final int CALCULATED_VALUE = 2;
+    public static final int APPROX_VALUE = 2;
+    /**
+     * <code>CALCULATED = 3;</code>
+     */
+    public static final int CALCULATED_VALUE = 3;
 
 
     public final int getNumber() {
@@ -325,9 +351,10 @@ public final class FmiDefinitions {
 
     public static Initial forNumber(int value) {
       switch (value) {
-        case 0: return EXACT;
-        case 1: return APPROX;
-        case 2: return CALCULATED;
+        case 0: return UNDEFINED_INITIAL;
+        case 1: return EXACT;
+        case 2: return APPROX;
+        case 3: return CALCULATED;
         default: return null;
       }
     }
@@ -2782,13 +2809,13 @@ public final class FmiDefinitions {
       if (!getDescriptionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, description_);
       }
-      if (initial_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.EXACT.getNumber()) {
+      if (initial_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.UNDEFINED_INITIAL.getNumber()) {
         output.writeEnum(3, initial_);
       }
-      if (causality_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.INPUT.getNumber()) {
+      if (causality_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.UNDEFINED_CAUSALITY.getNumber()) {
         output.writeEnum(4, causality_);
       }
-      if (variability_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.CONSTANT.getNumber()) {
+      if (variability_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.UNDEFINED_VARIABILITY.getNumber()) {
         output.writeEnum(5, variability_);
       }
       if (start_ != null) {
@@ -2808,15 +2835,15 @@ public final class FmiDefinitions {
       if (!getDescriptionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, description_);
       }
-      if (initial_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.EXACT.getNumber()) {
+      if (initial_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.UNDEFINED_INITIAL.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, initial_);
       }
-      if (causality_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.INPUT.getNumber()) {
+      if (causality_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.UNDEFINED_CAUSALITY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(4, causality_);
       }
-      if (variability_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.CONSTANT.getNumber()) {
+      if (variability_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.UNDEFINED_VARIABILITY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, variability_);
       }
@@ -5642,6 +5669,457 @@ public final class FmiDefinitions {
     }
 
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ResetRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:no.mechatronics.sfi.grpc_fmu.ResetRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>uint32 fmu_id = 1;</code>
+     */
+    int getFmuId();
+  }
+  /**
+   * Protobuf type {@code no.mechatronics.sfi.grpc_fmu.ResetRequest}
+   */
+  public  static final class ResetRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:no.mechatronics.sfi.grpc_fmu.ResetRequest)
+      ResetRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ResetRequest.newBuilder() to construct.
+    private ResetRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ResetRequest() {
+      fmuId_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResetRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              fmuId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.class, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.Builder.class);
+    }
+
+    public static final int FMU_ID_FIELD_NUMBER = 1;
+    private int fmuId_;
+    /**
+     * <code>uint32 fmu_id = 1;</code>
+     */
+    public int getFmuId() {
+      return fmuId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (fmuId_ != 0) {
+        output.writeUInt32(1, fmuId_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (fmuId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, fmuId_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest)) {
+        return super.equals(obj);
+      }
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest other = (no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest) obj;
+
+      boolean result = true;
+      result = result && (getFmuId()
+          == other.getFmuId());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FMU_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getFmuId();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code no.mechatronics.sfi.grpc_fmu.ResetRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:no.mechatronics.sfi.grpc_fmu.ResetRequest)
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.class, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.Builder.class);
+      }
+
+      // Construct using no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        fmuId_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_descriptor;
+      }
+
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest getDefaultInstanceForType() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.getDefaultInstance();
+      }
+
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest build() {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest buildPartial() {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest result = new no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest(this);
+        result.fmuId_ = fmuId_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest) {
+          return mergeFrom((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest other) {
+        if (other == no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.getDefaultInstance()) return this;
+        if (other.getFmuId() != 0) {
+          setFmuId(other.getFmuId());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int fmuId_ ;
+      /**
+       * <code>uint32 fmu_id = 1;</code>
+       */
+      public int getFmuId() {
+        return fmuId_;
+      }
+      /**
+       * <code>uint32 fmu_id = 1;</code>
+       */
+      public Builder setFmuId(int value) {
+        
+        fmuId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 fmu_id = 1;</code>
+       */
+      public Builder clearFmuId() {
+        
+        fmuId_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:no.mechatronics.sfi.grpc_fmu.ResetRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:no.mechatronics.sfi.grpc_fmu.ResetRequest)
+    private static final no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest();
+    }
+
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ResetRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ResetRequest>() {
+      public ResetRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResetRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ResetRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResetRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -15400,6 +15878,11 @@ public final class FmiDefinitions {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_no_mechatronics_sfi_grpc_fmu_TerminateRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_no_mechatronics_sfi_grpc_fmu_Int_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -15505,32 +15988,35 @@ public final class FmiDefinitions {
       "\022\014\n\004code\030\001 \001(\005\022\r\n\005value\030\002 \001(\t\",\n\013InitReq" +
       "uest\022\016\n\006fmu_id\030\001 \001(\r\022\r\n\005start\030\002 \001(\r\")\n\013S" +
       "tepRequest\022\016\n\006fmu_id\030\001 \001(\r\022\n\n\002dt\030\002 \001(\001\"\"" +
-      "\n\020TerminateRequest\022\016\n\006fmu_id\030\001 \001(\r\"\024\n\003In" +
-      "t\022\r\n\005value\030\001 \001(\005\":\n\010IntWrite\022\016\n\006fmu_id\030\001" +
-      " \001(\r\022\017\n\007varName\030\002 \001(\t\022\r\n\005value\030\003 \001(\005\"\031\n\007" +
-      "IntList\022\016\n\006values\030\001 \003(\005\"\025\n\004Real\022\r\n\005value" +
-      "\030\001 \001(\001\";\n\tRealWrite\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007v" +
-      "arName\030\002 \001(\t\022\r\n\005value\030\003 \001(\001\"\032\n\010RealList\022" +
-      "\016\n\006values\030\001 \003(\001\"\024\n\003Str\022\r\n\005value\030\001 \001(\t\":\n" +
-      "\010StrWrite\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007varName\030\002 \001" +
-      "(\t\022\r\n\005value\030\003 \001(\t\"\031\n\007StrList\022\016\n\006values\030\001" +
-      " \003(\t\"\025\n\004Bool\022\r\n\005value\030\001 \001(\010\";\n\tBoolWrite" +
-      "\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007varName\030\002 \001(\t\022\r\n\005val" +
-      "ue\030\003 \001(\010\"\032\n\010BoolList\022\016\n\006values\030\001 \003(\010\"`\n\003" +
-      "Var\022\022\n\010intValue\030\001 \001(\005H\000\022\023\n\trealValue\030\002 \001" +
-      "(\001H\000\022\022\n\010strValue\030\003 \001(\tH\000\022\023\n\tboolValue\030\004 " +
-      "\001(\010H\000B\007\n\005value\"*\n\007VarRead\022\016\n\006fmu_id\030\001 \001(" +
-      "\r\022\017\n\007varName\030\002 \001(\t\"\206\001\n\010VarWrite\022\016\n\006fmu_i" +
-      "d\030\001 \001(\r\022\017\n\007varName\030\002 \001(\t\022\022\n\010intValue\030\005 \001" +
-      "(\005H\000\022\023\n\trealValue\030\006 \001(\001H\000\022\022\n\010strValue\030\007 " +
-      "\001(\tH\000\022\023\n\tboolValue\030\010 \001(\010H\000B\007\n\005value\"\007\n\005E" +
-      "mpty*g\n\tCausality\022\t\n\005INPUT\020\000\022\n\n\006OUTPUT\020\001" +
-      "\022\r\n\tPARAMETER\020\002\022\030\n\024CALCULATED_PARAMETER\020" +
-      "\003\022\t\n\005LOCAL\020\004\022\017\n\013INDEPENDENT\020\005*Q\n\013Variabi" +
-      "lity\022\014\n\010CONSTANT\020\000\022\t\n\005FIXED\020\001\022\016\n\nCONTINU" +
-      "OUS\020\002\022\014\n\010DISCRETE\020\003\022\013\n\007TUNABLE\020\004*0\n\007Init" +
-      "ial\022\t\n\005EXACT\020\000\022\n\n\006APPROX\020\001\022\016\n\nCALCULATED" +
-      "\020\002B\020B\016FmiDefinitionsb\006proto3"
+      "\n\020TerminateRequest\022\016\n\006fmu_id\030\001 \001(\r\"\036\n\014Re" +
+      "setRequest\022\016\n\006fmu_id\030\001 \001(\r\"\024\n\003Int\022\r\n\005val" +
+      "ue\030\001 \001(\005\":\n\010IntWrite\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007" +
+      "varName\030\002 \001(\t\022\r\n\005value\030\003 \001(\005\"\031\n\007IntList\022" +
+      "\016\n\006values\030\001 \003(\005\"\025\n\004Real\022\r\n\005value\030\001 \001(\001\";" +
+      "\n\tRealWrite\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007varName\030\002" +
+      " \001(\t\022\r\n\005value\030\003 \001(\001\"\032\n\010RealList\022\016\n\006value" +
+      "s\030\001 \003(\001\"\024\n\003Str\022\r\n\005value\030\001 \001(\t\":\n\010StrWrit" +
+      "e\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007varName\030\002 \001(\t\022\r\n\005va" +
+      "lue\030\003 \001(\t\"\031\n\007StrList\022\016\n\006values\030\001 \003(\t\"\025\n\004" +
+      "Bool\022\r\n\005value\030\001 \001(\010\";\n\tBoolWrite\022\016\n\006fmu_" +
+      "id\030\001 \001(\r\022\017\n\007varName\030\002 \001(\t\022\r\n\005value\030\003 \001(\010" +
+      "\"\032\n\010BoolList\022\016\n\006values\030\001 \003(\010\"`\n\003Var\022\022\n\010i" +
+      "ntValue\030\001 \001(\005H\000\022\023\n\trealValue\030\002 \001(\001H\000\022\022\n\010" +
+      "strValue\030\003 \001(\tH\000\022\023\n\tboolValue\030\004 \001(\010H\000B\007\n" +
+      "\005value\"*\n\007VarRead\022\016\n\006fmu_id\030\001 \001(\r\022\017\n\007var" +
+      "Name\030\002 \001(\t\"\206\001\n\010VarWrite\022\016\n\006fmu_id\030\001 \001(\r\022" +
+      "\017\n\007varName\030\002 \001(\t\022\022\n\010intValue\030\005 \001(\005H\000\022\023\n\t" +
+      "realValue\030\006 \001(\001H\000\022\022\n\010strValue\030\007 \001(\tH\000\022\023\n" +
+      "\tboolValue\030\010 \001(\010H\000B\007\n\005value\"\007\n\005Empty*\200\001\n" +
+      "\tCausality\022\027\n\023UNDEFINED_CAUSALITY\020\000\022\t\n\005I" +
+      "NPUT\020\001\022\n\n\006OUTPUT\020\002\022\r\n\tPARAMETER\020\003\022\030\n\024CAL" +
+      "CULATED_PARAMETER\020\004\022\t\n\005LOCAL\020\005\022\017\n\013INDEPE" +
+      "NDENT\020\006*l\n\013Variability\022\031\n\025UNDEFINED_VARI" +
+      "ABILITY\020\000\022\014\n\010CONSTANT\020\001\022\t\n\005FIXED\020\002\022\016\n\nCO" +
+      "NTINUOUS\020\003\022\014\n\010DISCRETE\020\004\022\013\n\007TUNABLE\020\005*G\n" +
+      "\007Initial\022\025\n\021UNDEFINED_INITIAL\020\000\022\t\n\005EXACT" +
+      "\020\001\022\n\n\006APPROX\020\002\022\016\n\nCALCULATED\020\003B\020B\016FmiDef" +
+      "initionsb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -15592,98 +16078,104 @@ public final class FmiDefinitions {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_TerminateRequest_descriptor,
         new java.lang.String[] { "FmuId", });
-    internal_static_no_mechatronics_sfi_grpc_fmu_Int_descriptor =
+    internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_descriptor =
       getDescriptor().getMessageTypes().get(8);
+    internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_no_mechatronics_sfi_grpc_fmu_ResetRequest_descriptor,
+        new java.lang.String[] { "FmuId", });
+    internal_static_no_mechatronics_sfi_grpc_fmu_Int_descriptor =
+      getDescriptor().getMessageTypes().get(9);
     internal_static_no_mechatronics_sfi_grpc_fmu_Int_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Int_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_IntWrite_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_no_mechatronics_sfi_grpc_fmu_IntWrite_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_IntWrite_descriptor,
         new java.lang.String[] { "FmuId", "VarName", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_IntList_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_no_mechatronics_sfi_grpc_fmu_IntList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_IntList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Real_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_no_mechatronics_sfi_grpc_fmu_Real_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Real_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_RealWrite_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_no_mechatronics_sfi_grpc_fmu_RealWrite_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_RealWrite_descriptor,
         new java.lang.String[] { "FmuId", "VarName", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_RealList_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_no_mechatronics_sfi_grpc_fmu_RealList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_RealList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Str_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_no_mechatronics_sfi_grpc_fmu_Str_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Str_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_StrWrite_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_no_mechatronics_sfi_grpc_fmu_StrWrite_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_StrWrite_descriptor,
         new java.lang.String[] { "FmuId", "VarName", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_StrList_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_no_mechatronics_sfi_grpc_fmu_StrList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_StrList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Bool_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_no_mechatronics_sfi_grpc_fmu_Bool_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Bool_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_BoolWrite_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_no_mechatronics_sfi_grpc_fmu_BoolWrite_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_BoolWrite_descriptor,
         new java.lang.String[] { "FmuId", "VarName", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_BoolList_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_no_mechatronics_sfi_grpc_fmu_BoolList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_BoolList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Var_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_no_mechatronics_sfi_grpc_fmu_Var_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Var_descriptor,
         new java.lang.String[] { "IntValue", "RealValue", "StrValue", "BoolValue", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_VarRead_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_no_mechatronics_sfi_grpc_fmu_VarRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_VarRead_descriptor,
         new java.lang.String[] { "FmuId", "VarName", });
     internal_static_no_mechatronics_sfi_grpc_fmu_VarWrite_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_no_mechatronics_sfi_grpc_fmu_VarWrite_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_VarWrite_descriptor,
         new java.lang.String[] { "FmuId", "VarName", "IntValue", "RealValue", "StrValue", "BoolValue", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Empty_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_no_mechatronics_sfi_grpc_fmu_Empty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Empty_descriptor,

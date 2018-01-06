@@ -1,2 +1,2 @@
 
-    rpc Read{{varName}} (ModelReference) returns ({{typeName}}) {};
+    rpc Read{{varName}} (ModelReference) returns ({{typeName}});

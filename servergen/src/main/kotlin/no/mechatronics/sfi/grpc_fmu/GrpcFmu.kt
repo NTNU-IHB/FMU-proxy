@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.common.io.Files
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
 import no.mechatronics.sfi.grpc_fmu.utils.exctractModelDescriptionXml
@@ -58,7 +58,7 @@ object GrpcFmu {
 
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
-        val modelDescription = ModelDescription.parseModelDescription(modelDescriptionXml)
+        val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
 
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists()) {
