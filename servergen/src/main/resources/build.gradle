@@ -5,13 +5,16 @@ plugins {
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    mavenLocal() //servercode
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+    }
 }
 
 dependencies {
 
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.0'
-    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.0'
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
 
     compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
