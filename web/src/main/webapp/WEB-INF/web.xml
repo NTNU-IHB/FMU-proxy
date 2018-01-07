@@ -11,7 +11,7 @@
 
     <listener>
         <listener-class>
-            no.mechatronics.sfi.grpc_fmu.web.Main
+            no.mechatronics.sfi.grpc_fmu.web.ServletContextListenerImpl
         </listener-class>
     </listener>
 

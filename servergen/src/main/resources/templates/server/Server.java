@@ -68,7 +68,7 @@ public class {{fmuName}}Server {
         return modelDescription.getGuid();
     }
 
-    public String getModelDescriptionXml() throws IOException {
+    public String getModelDescriptionXml() {
         return fmuFile.getModelDescriptionXml();
     }
 

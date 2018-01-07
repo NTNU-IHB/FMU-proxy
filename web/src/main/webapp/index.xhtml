@@ -11,8 +11,18 @@
 
         <h2>Welcome to gRPC-FMU web interface!</h2>
 
+
+        <h:form>
+            <p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s">
+                <p:fileDownload value="#{protoDownload.file}" />
+            </p:commandButton>
+        </h:form>
+
         <h:form id="form">
             <p:dataTable id="fmus" var="fmu" value="#{fmuOverview.fmus}">
+                <p:column headerText="Model name">
+                    <h:outputText value="#{fmu.modelDescription.modelName}" />
+                </p:column>
                 <p:column headerText="Guid">
                     <h:outputText value="#{fmu.guid}" />
                 </p:column>

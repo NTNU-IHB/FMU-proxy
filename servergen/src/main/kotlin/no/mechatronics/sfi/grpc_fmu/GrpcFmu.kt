@@ -56,6 +56,21 @@ object GrpcFmu {
 
     fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
 
+    private fun createBuildFile(baseFile: File) {
+        File(baseFile, "build.gradle").also { file ->
+            FileOutputStream(file).use { fos ->
+                IOUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
+                LOG.info("Copied build.gradle to {}", file)
+            }
+        }
+    }
+
+    private fun createSettingsFile(baseFile: File) {
+        File(baseFile, "settings.gradle").also { file ->
+            file.createNewFile()
+        }
+    }
+
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
@@ -68,17 +83,8 @@ object GrpcFmu {
             }
         }
 
-        File(baseFile, "build.gradle").also { file ->
-            FileOutputStream(file).use { fos ->
-                IOUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
-                LOG.info("Copied build.gradle to {}", file)
-            }
-        }
-
-        File(baseFile, "settings.gradle").also { file ->
-            file.createNewFile()
-        }
-
+        createBuildFile(baseFile)
+        createSettingsFile(baseFile)
 
         GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
             ZipInputStream(zipStream).use { zis ->
@@ -132,7 +138,6 @@ object GrpcFmu {
         ServerGen.generateServerCode(modelDescription)
                 .writeToDirectory(File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"
         ))
-
 
         val status = ProcessBuilder()
                 .directory(baseFile)
