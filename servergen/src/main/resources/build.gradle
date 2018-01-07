@@ -27,11 +27,11 @@ dependencies {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'Fmu2jar',
+        attributes 'Implementation-Title': project.name,
         'Implementation-Version': "1.0",
         'Main-Class': 'no.mechatronics.sfi.grpc_fmu.Main'
     }
-    baseName = project.name + '-all'
+    baseName = project.name
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }

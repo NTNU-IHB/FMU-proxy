@@ -32,6 +32,17 @@ dependencies {
 
 }
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'gRPC-FMU',
+                'Implementation-Version': "1.0",
+                'Main-Class': 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
+    }
+    baseName = 'gRPC-FMU'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 if (debug) {
     sourceSets {
         main {

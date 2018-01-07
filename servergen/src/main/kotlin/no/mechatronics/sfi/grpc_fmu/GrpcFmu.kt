@@ -75,6 +75,10 @@ object GrpcFmu {
             }
         }
 
+        File(baseFile, "settings.gradle").also { file ->
+            file.createNewFile()
+        }
+
 
         GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
             ZipInputStream(zipStream).use { zis ->
@@ -130,43 +134,32 @@ object GrpcFmu {
         ))
 
 
-        try {
-            ProcessBuilder()
-                    .directory(baseFile)
-                    .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
-                    .redirectError(ProcessBuilder.Redirect.INHERIT)
-                    .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                    .start()
-                    .waitFor()
+        val status = ProcessBuilder()
+                .directory(baseFile)
+                .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
+                .redirectError(ProcessBuilder.Redirect.INHERIT)
+                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                .start()
+                .waitFor()
 
-            File(baseFile, "build/libs/${modelDescription.modelName}-all.jar").apply {
+        if (status == 0) {
+            File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
                 if (exists()) {
                     val dir = File(".")
                     FileUtils.copyFileToDirectory(this, dir)
                     LOG.info("Executable '{}' is located in directory '{}'", this.name, dir.absolutePath)
                 }
             }
-        } finally {
+        } else {
+            LOG.error("Process returned with status: {}", status)
+        }
 
-            fun deleteBaseFile(): Boolean {
-                if (baseFile.exists()) {
-                    if(baseFile.deleteRecursively()) {
-                        LOG.info("Deleted folder {}", baseFile.absolutePath)
-                        return true
-                    } else {
-                        LOG.info("Failed to delete folder {}", baseFile.absolutePath)
-                    }
-                    return false
-                }
-                return true
+        if (baseFile.exists()) {
+            if(baseFile.deleteRecursively()) {
+                LOG.info("Deleted folder {}", baseFile.absolutePath)
+            } else {
+                LOG.info("Failed to delete folder {}", baseFile.absolutePath)
             }
-
-            if (!deleteBaseFile()) {
-                Runtime.getRuntime().addShutdownHook(Thread({
-                    deleteBaseFile()
-                }))
-            }
-
         }
 
     }
