@@ -54,6 +54,14 @@ class GenericFmuClient(
             val fmuId: Int)
     {
 
+
+        val modelVariables
+            get() = blockingStub.getModelVariables(EMPTY)
+
+        val modelVariablenames
+            get() = blockingStub.getModelVariableNames(EMPTY)
+
+
         constructor(ref: FmiDefinitions.ModelReference) : this(ref.fmuId)
 
         fun init() = blockingStub.init(FmiDefinitions.InitRequest.newBuilder()
@@ -72,14 +80,15 @@ class GenericFmuClient(
             instances.remove(this)
         }
 
+        fun getReader(valueReference: Int) = VariableReader(fmuId, valueReference, blockingStub)
 
-        fun getModelVariables() = blockingStub.getModelVariables(EMPTY)
+        fun getReader(varName: String)
+                = modelVariables.valuesList.firstOrNull { it.varName!! == varName }!!.valueReference
 
-        fun getModelVariablenames() = blockingStub.getModelVariableNames(EMPTY)
+        fun getWriter(valueReference: Int) = VariableReader(fmuId, valueReference, blockingStub)
 
-        fun read(varName: String) = VariableReader(fmuId, varName, blockingStub)
-
-        fun write(varName: String) = VariableWriter(fmuId, varName, blockingStub)
+        fun getWriter(varName: String)
+                = modelVariables.valuesList.firstOrNull { it.varName!! == varName }!!.valueReference
 
     }
 
@@ -88,35 +97,35 @@ class GenericFmuClient(
 
 class VariableReader(
         val fmuId: Int,
-        val varName: String,
+        val valueReference: Int,
         val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
 ) {
 
     fun asInt() = blockingStub.read(FmiDefinitions.VarRead.newBuilder()
             .setFmuId(fmuId)
-            .setVarName(varName)
+            .setValueReference(valueReference)
             .build()).intValue
 
     fun asReal() = blockingStub.read(FmiDefinitions.VarRead.newBuilder()
             .setFmuId(fmuId)
-            .setVarName(varName)
+            .setValueReference(valueReference)
             .build()).realValue
 
     fun asString() = blockingStub.read(FmiDefinitions.VarRead.newBuilder()
             .setFmuId(fmuId)
-            .setVarName(varName)
+            .setValueReference(valueReference)
             .build()).strValue
 
     fun asBoolean() = blockingStub.read(FmiDefinitions.VarRead.newBuilder()
             .setFmuId(fmuId)
-            .setVarName(varName)
+            .setValueReference(valueReference)
             .build()).boolValue
 
 }
 
 class VariableWriter(
         val fmuId: Int,
-        val varName: String,
+        val valueReference: Int,
         val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
 ) {
 

@@ -57,7 +57,7 @@ object ServerGen {
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/server/Read.java").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("varName1",it.name)
+                            .with("valueReference", it.valueReference)
                             .with("varName2", convertName2(it.name))
                             .with("primitive1", toRPCType2(it.typeName))
                             .with("primitive2", it.typeName)
@@ -66,7 +66,7 @@ object ServerGen {
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.java").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("varName1",it.name)
+                            .with("valueReference", it.valueReference)
                             .with("varName2", convertName2(it.name))
                             .with("dataType", toRPCType1(it.typeName)))!!
                 })

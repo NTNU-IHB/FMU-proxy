@@ -134,24 +134,24 @@ public class {{fmuName}}Server {
         responseObserver.onCompleted();
     }
 
-    private static void Read(FmiSimulation fmu, String varName, FmiDefinitions.Var.Builder builder) {
+    private static void Read(FmiSimulation fmu, int valueReference, FmiDefinitions.Var.Builder builder) {
 
-        String typeName = fmu.getModelVariables().get(varName).getTypeName();
+        String typeName = fmu.getModelVariables().getByValueReference(valueReference).getTypeName();
         switch(typeName) {
             case "Integer": {
-                builder.setIntValue(fmu.read(varName).asInteger());
+                builder.setIntValue(fmu.getReader(valueReference).readInteger());
             }
             break;
             case "Real": {
-                builder.setRealValue(fmu.read(varName).asReal());
+                builder.setRealValue(fmu.getReader(valueReference).readReal());
             }
             break;
             case "String": {
-                builder.setStrValue(fmu.read(varName).asString());
+                builder.setStrValue(fmu.getReader(valueReference).readString());
             }
             break;
             case "Boolean": {
-                builder.setBoolValue(fmu.read(varName).asBoolean());
+                builder.setBoolValue(fmu.getReader(valueReference).readBoolean());
             }
             break;
         }
@@ -160,19 +160,19 @@ public class {{fmuName}}Server {
 
     private static Fmi2Status Write(FmiSimulation fmu, FmiDefinitions.VarWrite var) {
 
-        String varName = var.getVarName();
+        int valueReference = var.getValueReference();
         switch (var.getValueCase()) {
             case INTVALUE: {
-                return fmu.write(varName).with(var.getIntValue());
+                return fmu.getWriter(valueReference).write(var.getIntValue());
             }
             case REALVALUE: {
-                return fmu.write(varName).with(var.getRealValue());
+                return fmu.getWriter(valueReference).write(var.getRealValue());
             }
             case STRVALUE: {
-                return fmu.write(varName).with(var.getStrValue());
+                return fmu.getWriter(valueReference).write(var.getStrValue());
             }
             case BOOLVALUE: {
-                return fmu.write(varName).with(var.getBoolValue());
+                return fmu.getWriter(valueReference).write(var.getBoolValue());
             }
         }
 
@@ -234,11 +234,11 @@ public class {{fmuName}}Server {
         public void read(FmiDefinitions.VarRead req, StreamObserver<FmiDefinitions.Var> responseObserver) {
 
             int ref = req.getFmuId();
-            String varName = req.getVarName();
+            int vr = req.getValueReference();
 
             FmiSimulation fmu = fmus.get(ref);
             FmiDefinitions.Var.Builder builder = FmiDefinitions.Var.newBuilder();
-            Read(fmu, varName, builder);
+            Read(fmu, vr, builder);
             FmiDefinitions.Var reply = builder.build();
 
             responseObserver.onNext(reply);
@@ -335,7 +335,8 @@ public class {{fmuName}}Server {
             FmiDefinitions.ScalarVariables.Builder builder = FmiDefinitions.ScalarVariables.newBuilder();
             for (ScalarVariable variable : variables) {
                 builder.addValues(FmiDefinitions.ScalarVariable.newBuilder()
-                        .setName(variable.getName())
+                        .setValueReference(variable.getValueReference())
+                        .setVarName(variable.getName())
                         .setDescription(variable.getDescription())
                         .setCausality(getCausality(variable))
                         .setVariability(getVariability(variable))

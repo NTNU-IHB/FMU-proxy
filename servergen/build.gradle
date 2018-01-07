@@ -29,7 +29,7 @@ dependencies {
         compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
         compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
 
-        compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-ALPHA-7-SNAPSHOT'
+        compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-ALPHA-8-SNAPSHOT'
         compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT'
 
     }

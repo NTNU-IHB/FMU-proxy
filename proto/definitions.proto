@@ -35,10 +35,6 @@ enum Initial {
     CALCULATED = 3;
 }
 
-message ScalarVariables {
-    repeated ScalarVariable values = 1;
-}
-
 message Start {
     oneof value {
         int32 intValue = 1;
@@ -49,12 +45,17 @@ message Start {
 }
 
 message ScalarVariable {
-    string name = 1;
-    string description = 2;
-    Initial initial = 3;
-    Causality causality = 4;
-    Variability variability = 5;
-    Start start = 6;
+    uint32 valueReference = 1;
+    string varName = 2;
+    string description = 3;
+    Initial initial = 4;
+    Causality causality = 5;
+    Variability variability = 6;
+    Start start = 7;
+}
+
+message ScalarVariables {
+    repeated ScalarVariable values = 1;
 }
 
 message Status {
@@ -86,7 +87,7 @@ message Int {
 
 message IntWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     int32 value = 3;
 }
 
@@ -100,7 +101,7 @@ message Real {
 
 message RealWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     double value = 3;
 }
 
@@ -114,7 +115,7 @@ message Str {
 
 message StrWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     string value = 3;
 }
 
@@ -128,7 +129,7 @@ message Bool {
 
 message BoolWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     bool value = 3;
 }
 
@@ -147,12 +148,12 @@ message Var {
 
 message VarRead {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
 }
 
 message VarWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     oneof value {
         int32 intValue = 5;
         double realValue = 6;
