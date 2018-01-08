@@ -1,14 +1,14 @@
 
 plugins {
-    id "java"
+    id "java-library"
 }
 
 repositories {
     mavenCentral()
     mavenLocal() //servercode
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
-    }
+//    maven {
+//        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+//    }
 }
 
 dependencies {
@@ -20,7 +20,7 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
     compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-ALPHA-8-SNAPSHOT' //central
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-ALPHA-8' //central
     compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT' //local
 
 }
@@ -32,6 +32,8 @@ task fatJar(type: Jar) {
         'Main-Class': 'no.mechatronics.sfi.grpc_fmu.Main'
     }
     baseName = project.name
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
     with jar
 }

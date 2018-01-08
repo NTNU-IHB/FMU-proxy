@@ -270,81 +270,6 @@ public class {{fmuName}}Server {
 
         }
 
-        private FmiDefinitions.Causality getCausality(ScalarVariable variable) {
-
-            switch (variable.getCausality()) {
-                case INPUT: return FmiDefinitions.Causality.INPUT;
-                case OUTPUT: return FmiDefinitions.Causality.OUTPUT;
-                case CALCULATED_PARAMETER: return FmiDefinitions.Causality.CALCULATED_PARAMETER;
-                case PARAMETER: return FmiDefinitions.Causality.PARAMETER;
-                case LOCAL: return FmiDefinitions.Causality.LOCAL;
-                case INDEPENDENT: return FmiDefinitions.Causality.INDEPENDENT;
-                default: return FmiDefinitions.Causality.UNDEFINED_CAUSALITY;
-            }
-
-        }
-
-        private FmiDefinitions.Variability getVariability(ScalarVariable variable) {
-
-            switch (variable.getVariability()) {
-                case CONSTANT: return FmiDefinitions.Variability.CONSTANT;
-                case CONTINUOUS: return FmiDefinitions.Variability.CONTINUOUS;
-                case DISCRETE: return FmiDefinitions.Variability.DISCRETE;
-                case FIXED: return FmiDefinitions.Variability.FIXED;
-                case TUNABLE: return FmiDefinitions.Variability.TUNABLE;
-                default: return FmiDefinitions.Variability.UNDEFINED_VARIABILITY;
-            }
-
-        }
-
-        private FmiDefinitions.Initial getInitial(ScalarVariable variable) {
-
-            switch (variable.getInitial()) {
-                case CALCULATED: return FmiDefinitions.Initial.CALCULATED;
-                case EXACT: return FmiDefinitions.Initial.EXACT;
-                case APPROX: return FmiDefinitions.Initial.APPROX;
-                default: return FmiDefinitions.Initial.UNDEFINED_INITIAL;
-            }
-
-        }
-
-        private FmiDefinitions.Start getStart(ScalarVariable variable) {
-
-            if (variable.getStart() == null) {
-                return FmiDefinitions.Start.getDefaultInstance();
-            }
-
-            FmiDefinitions.Start.Builder builder = FmiDefinitions.Start.newBuilder();
-            if (variable instanceof IntegerVariable) {
-                builder.setIntValue(((IntegerVariable) variable).getStart());
-            } else if (variable instanceof RealVariable) {
-                builder.setRealValue(((RealVariable) variable).getStart());
-            } else if (variable instanceof StringVariable) {
-                builder.setStrValue(((StringVariable) variable).getStart());
-            } else if (variable instanceof BooleanVariable) {
-                builder.setBoolValue(((BooleanVariable) variable).getStart());
-            } else {
-                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
-            }
-            return builder.build();
-        }
-
-        private FmiDefinitions.VariableType getType(ScalarVariable variable) {
-
-            if (variable instanceof IntegerVariable) {
-                return (FmiDefinitions.VariableType.INTEGER);
-            } else if (variable instanceof RealVariable) {
-                return (FmiDefinitions.VariableType.REAL);
-            } else if (variable instanceof StringVariable) {
-                return (FmiDefinitions.VariableType.STRING);
-            } else if (variable instanceof BooleanVariable) {
-                return (FmiDefinitions.VariableType.BOOLEAN);
-            } else {
-                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
-            }
-
-        }
-
         @Override
         public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {
 
@@ -428,7 +353,83 @@ public class {{fmuName}}Server {
 
     }
 
-    private class {{fmuName}}ServiceImpl extends {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase {
+        private FmiDefinitions.Causality getCausality(ScalarVariable variable) {
+
+            switch (variable.getCausality()) {
+                case INPUT: return FmiDefinitions.Causality.INPUT;
+                case OUTPUT: return FmiDefinitions.Causality.OUTPUT;
+                case CALCULATED_PARAMETER: return FmiDefinitions.Causality.CALCULATED_PARAMETER;
+                case PARAMETER: return FmiDefinitions.Causality.PARAMETER;
+                case LOCAL: return FmiDefinitions.Causality.LOCAL;
+                case INDEPENDENT: return FmiDefinitions.Causality.INDEPENDENT;
+                default: return FmiDefinitions.Causality.UNDEFINED_CAUSALITY;
+            }
+
+        }
+
+        private FmiDefinitions.Variability getVariability(ScalarVariable variable) {
+
+            switch (variable.getVariability()) {
+                case CONSTANT: return FmiDefinitions.Variability.CONSTANT;
+                case CONTINUOUS: return FmiDefinitions.Variability.CONTINUOUS;
+                case DISCRETE: return FmiDefinitions.Variability.DISCRETE;
+                case FIXED: return FmiDefinitions.Variability.FIXED;
+                case TUNABLE: return FmiDefinitions.Variability.TUNABLE;
+                default: return FmiDefinitions.Variability.UNDEFINED_VARIABILITY;
+            }
+
+        }
+
+        private FmiDefinitions.Initial getInitial(ScalarVariable variable) {
+
+            switch (variable.getInitial()) {
+                case CALCULATED: return FmiDefinitions.Initial.CALCULATED;
+                case EXACT: return FmiDefinitions.Initial.EXACT;
+                case APPROX: return FmiDefinitions.Initial.APPROX;
+                default: return FmiDefinitions.Initial.UNDEFINED_INITIAL;
+            }
+
+        }
+
+        private FmiDefinitions.Start getStart(ScalarVariable variable) {
+
+            if (variable.getStart() == null) {
+                return FmiDefinitions.Start.getDefaultInstance();
+            }
+
+            FmiDefinitions.Start.Builder builder = FmiDefinitions.Start.newBuilder();
+            if (variable instanceof IntegerVariable) {
+                builder.setIntValue(((IntegerVariable) variable).getStart());
+            } else if (variable instanceof RealVariable) {
+                builder.setRealValue(((RealVariable) variable).getStart());
+            } else if (variable instanceof StringVariable) {
+                builder.setStrValue(((StringVariable) variable).getStart());
+            } else if (variable instanceof BooleanVariable) {
+                builder.setBoolValue(((BooleanVariable) variable).getStart());
+            } else {
+                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
+            }
+            return builder.build();
+        }
+
+        private FmiDefinitions.VariableType getType(ScalarVariable variable) {
+
+            if (variable instanceof IntegerVariable) {
+                return (FmiDefinitions.VariableType.INTEGER);
+            } else if (variable instanceof RealVariable) {
+                return (FmiDefinitions.VariableType.REAL);
+            } else if (variable instanceof StringVariable) {
+                return (FmiDefinitions.VariableType.STRING);
+            } else if (variable instanceof BooleanVariable) {
+                return (FmiDefinitions.VariableType.BOOLEAN);
+            } else {
+                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
+            }
+
+        }
+
+
+private class {{fmuName}}ServiceImpl extends {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase {
 
             {{dynamicMethods}}
 

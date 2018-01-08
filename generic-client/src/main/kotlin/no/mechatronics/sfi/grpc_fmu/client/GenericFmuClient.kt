@@ -13,9 +13,9 @@ class GenericFmuClient(
         port: Int
 ): AutoCloseable {
 
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
+    private companion object {
 
+        val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
         val EMPTY: FmiDefinitions.Empty = FmiDefinitions.Empty.getDefaultInstance()
 
     }
@@ -64,10 +64,10 @@ class GenericFmuClient(
         val modelVariableNames
             get() = blockingStub.getModelVariableNames(EMPTY)
 
-
         constructor(ref: FmiDefinitions.ModelReference) : this(ref.fmuId)
 
-        val currentTime: Double = blockingStub.getCurrentTime(modelRef).value
+        val currentTime: Double
+            get() = blockingStub.getCurrentTime(modelRef).value
 
         fun init() = blockingStub.init(FmiDefinitions.InitRequest.newBuilder()
                 .setFmuId(fmuId)
@@ -98,7 +98,6 @@ class GenericFmuClient(
                 = modelVariables.valuesList.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName")
 
     }
-
 
 }
 

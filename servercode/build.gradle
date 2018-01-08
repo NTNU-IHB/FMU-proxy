@@ -4,10 +4,6 @@ apply plugin: 'maven-publish'
 group = 'no.mechatronics.sfi.grpc_fmu'
 version = '0.1-SNAPSHOT'
 
-repositories {
-
-}
-
 dependencies {
 
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'

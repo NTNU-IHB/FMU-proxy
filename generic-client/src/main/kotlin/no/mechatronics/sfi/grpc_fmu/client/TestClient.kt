@@ -4,8 +4,7 @@ import no.mechatronics.sfi.grpc_fmu.FmiDefinitions
 
 fun main(args: Array<String>) {
 
-    GenericFmuClient("127.0.0.1", 50943).use {
-
+    GenericFmuClient("127.0.0.1", 8000).use {
 
         println("Connected to remote FMU ${it.getModelName()}")
 
