@@ -67,4 +67,4 @@ task copyProto(type: Copy) {
 
 }
 
-jar.dependsOn(copyProto)
+compileJava.dependsOn(copyProto)

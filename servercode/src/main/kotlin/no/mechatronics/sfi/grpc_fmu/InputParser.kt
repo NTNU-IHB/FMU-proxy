@@ -35,20 +35,16 @@ object InputParser {
                 .protectionDomain.codeSource.location.path).name
 
         DefaultParser().parse(options, args).also { cmd ->
-            if (args.isEmpty() || cmd.hasOption(HELP)) {
+            if (cmd.hasOption(HELP)) {
                 HelpFormatter().printHelp(jarName, options)
             } else {
-
-//                if (!cmd.hasOption(REMOTE)) {
-//                    error("No remote IP address provided!")
-//                }
 
                 var localPort: Int? = null
                 if (cmd.hasOption(LOCAL_PORT)) {
                     localPort = parseInt(cmd.getOptionValue(LOCAL_PORT))
                 }
 
-                val remote = cmd.getOptionValue(REMOTE).let {
+                val remote: SocketAddress? = cmd.getOptionValue(REMOTE).let {
                     if (it != null) {
                         parseAddress(it)
                     } else {

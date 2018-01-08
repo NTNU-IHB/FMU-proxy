@@ -35,6 +35,13 @@ enum Initial {
     CALCULATED = 3;
 }
 
+enum VariableType {
+    INTEGER = 0;
+    REAL = 1;
+    STRING = 2;
+    BOOLEAN = 3;
+}
+
 message Start {
     oneof value {
         int32 intValue = 1;
@@ -48,10 +55,11 @@ message ScalarVariable {
     uint32 valueReference = 1;
     string varName = 2;
     string description = 3;
-    Initial initial = 4;
-    Causality causality = 5;
-    Variability variability = 6;
-    Start start = 7;
+    VariableType type = 4;
+    Initial initial = 5;
+    Causality causality = 6;
+    Variability variability = 7;
+    Start start = 8;
 }
 
 message ScalarVariables {

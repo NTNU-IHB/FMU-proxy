@@ -407,6 +407,122 @@ public final class FmiDefinitions {
     // @@protoc_insertion_point(enum_scope:no.mechatronics.sfi.grpc_fmu.Initial)
   }
 
+  /**
+   * Protobuf enum {@code no.mechatronics.sfi.grpc_fmu.VariableType}
+   */
+  public enum VariableType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>INTEGER = 0;</code>
+     */
+    INTEGER(0),
+    /**
+     * <code>REAL = 1;</code>
+     */
+    REAL(1),
+    /**
+     * <code>STRING = 2;</code>
+     */
+    STRING(2),
+    /**
+     * <code>BOOLEAN = 3;</code>
+     */
+    BOOLEAN(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>INTEGER = 0;</code>
+     */
+    public static final int INTEGER_VALUE = 0;
+    /**
+     * <code>REAL = 1;</code>
+     */
+    public static final int REAL_VALUE = 1;
+    /**
+     * <code>STRING = 2;</code>
+     */
+    public static final int STRING_VALUE = 2;
+    /**
+     * <code>BOOLEAN = 3;</code>
+     */
+    public static final int BOOLEAN_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static VariableType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static VariableType forNumber(int value) {
+      switch (value) {
+        case 0: return INTEGER;
+        case 1: return REAL;
+        case 2: return STRING;
+        case 3: return BOOLEAN;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<VariableType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        VariableType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<VariableType>() {
+            public VariableType findValueByNumber(int number) {
+              return VariableType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.getDescriptor().getEnumTypes().get(3);
+    }
+
+    private static final VariableType[] VALUES = values();
+
+    public static VariableType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private VariableType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:no.mechatronics.sfi.grpc_fmu.VariableType)
+  }
+
   public interface ModelReferenceOrBuilder extends
       // @@protoc_insertion_point(interface_extends:no.mechatronics.sfi.grpc_fmu.ModelReference)
       com.google.protobuf.MessageOrBuilder {
@@ -853,763 +969,6 @@ public final class FmiDefinitions {
     }
 
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelReference getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface ScalarVariablesOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> 
-        getValuesList();
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getValues(int index);
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    int getValuesCount();
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    java.util.List<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
-        getValuesOrBuilderList();
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder getValuesOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code no.mechatronics.sfi.grpc_fmu.ScalarVariables}
-   */
-  public  static final class ScalarVariables extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
-      ScalarVariablesOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use ScalarVariables.newBuilder() to construct.
-    private ScalarVariables(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private ScalarVariables() {
-      values_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ScalarVariables(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                values_ = new java.util.ArrayList<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              values_.add(
-                  input.readMessage(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.parser(), extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.class, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.Builder.class);
-    }
-
-    public static final int VALUES_FIELD_NUMBER = 1;
-    private java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> values_;
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    public java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getValuesList() {
-      return values_;
-    }
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    public java.util.List<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
-        getValuesOrBuilderList() {
-      return values_;
-    }
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    public int getValuesCount() {
-      return values_.size();
-    }
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getValues(int index) {
-      return values_.get(index);
-    }
-    /**
-     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-     */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder getValuesOrBuilder(
-        int index) {
-      return values_.get(index);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      for (int i = 0; i < values_.size(); i++) {
-        output.writeMessage(1, values_.get(i));
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < values_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, values_.get(i));
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables)) {
-        return super.equals(obj);
-      }
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables other = (no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables) obj;
-
-      boolean result = true;
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (getValuesCount() > 0) {
-        hash = (37 * hash) + VALUES_FIELD_NUMBER;
-        hash = (53 * hash) + getValuesList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code no.mechatronics.sfi.grpc_fmu.ScalarVariables}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariablesOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.class, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.Builder.class);
-      }
-
-      // Construct using no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getValuesFieldBuilder();
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        if (valuesBuilder_ == null) {
-          values_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          valuesBuilder_.clear();
-        }
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
-      }
-
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getDefaultInstanceForType() {
-        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.getDefaultInstance();
-      }
-
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables build() {
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables buildPartial() {
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables result = new no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables(this);
-        int from_bitField0_ = bitField0_;
-        if (valuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            values_ = java.util.Collections.unmodifiableList(values_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.values_ = values_;
-        } else {
-          result.values_ = valuesBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables) {
-          return mergeFrom((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables other) {
-        if (other == no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.getDefaultInstance()) return this;
-        if (valuesBuilder_ == null) {
-          if (!other.values_.isEmpty()) {
-            if (values_.isEmpty()) {
-              values_ = other.values_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureValuesIsMutable();
-              values_.addAll(other.values_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.values_.isEmpty()) {
-            if (valuesBuilder_.isEmpty()) {
-              valuesBuilder_.dispose();
-              valuesBuilder_ = null;
-              values_ = other.values_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              valuesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getValuesFieldBuilder() : null;
-            } else {
-              valuesBuilder_.addAllMessages(other.values_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> values_ =
-        java.util.Collections.emptyList();
-      private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = new java.util.ArrayList<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>(values_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> valuesBuilder_;
-
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getValuesList() {
-        if (valuesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(values_);
-        } else {
-          return valuesBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public int getValuesCount() {
-        if (valuesBuilder_ == null) {
-          return values_.size();
-        } else {
-          return valuesBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getValues(int index) {
-        if (valuesBuilder_ == null) {
-          return values_.get(index);
-        } else {
-          return valuesBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder setValues(
-          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable value) {
-        if (valuesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureValuesIsMutable();
-          values_.set(index, value);
-          onChanged();
-        } else {
-          valuesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder setValues(
-          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder builderForValue) {
-        if (valuesBuilder_ == null) {
-          ensureValuesIsMutable();
-          values_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          valuesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder addValues(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable value) {
-        if (valuesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureValuesIsMutable();
-          values_.add(value);
-          onChanged();
-        } else {
-          valuesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder addValues(
-          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable value) {
-        if (valuesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureValuesIsMutable();
-          values_.add(index, value);
-          onChanged();
-        } else {
-          valuesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder addValues(
-          no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder builderForValue) {
-        if (valuesBuilder_ == null) {
-          ensureValuesIsMutable();
-          values_.add(builderForValue.build());
-          onChanged();
-        } else {
-          valuesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder addValues(
-          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder builderForValue) {
-        if (valuesBuilder_ == null) {
-          ensureValuesIsMutable();
-          values_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          valuesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder addAllValues(
-          java.lang.Iterable<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> values) {
-        if (valuesBuilder_ == null) {
-          ensureValuesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, values_);
-          onChanged();
-        } else {
-          valuesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder clearValues() {
-        if (valuesBuilder_ == null) {
-          values_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          valuesBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public Builder removeValues(int index) {
-        if (valuesBuilder_ == null) {
-          ensureValuesIsMutable();
-          values_.remove(index);
-          onChanged();
-        } else {
-          valuesBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder getValuesBuilder(
-          int index) {
-        return getValuesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder getValuesOrBuilder(
-          int index) {
-        if (valuesBuilder_ == null) {
-          return values_.get(index);  } else {
-          return valuesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public java.util.List<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
-           getValuesOrBuilderList() {
-        if (valuesBuilder_ != null) {
-          return valuesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(values_);
-        }
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder addValuesBuilder() {
-        return getValuesFieldBuilder().addBuilder(
-            no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder addValuesBuilder(
-          int index) {
-        return getValuesFieldBuilder().addBuilder(
-            index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
-       */
-      public java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder> 
-           getValuesBuilderList() {
-        return getValuesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
-          getValuesFieldBuilder() {
-        if (valuesBuilder_ == null) {
-          valuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder>(
-                  values_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          values_ = null;
-        }
-        return valuesBuilder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
-    }
-
-    // @@protoc_insertion_point(class_scope:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
-    private static final no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables();
-    }
-
-    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<ScalarVariables>
-        PARSER = new com.google.protobuf.AbstractParser<ScalarVariables>() {
-      public ScalarVariables parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScalarVariables(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<ScalarVariables> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ScalarVariables> getParserForType() {
-      return PARSER;
-    }
-
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -2502,42 +1861,51 @@ public final class FmiDefinitions {
         getDescriptionBytes();
 
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+     */
+    int getTypeValue();
+    /**
+     * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+     */
+    no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType getType();
+
+    /**
+     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
      */
     int getInitialValue();
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
      */
     no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial getInitial();
 
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
      */
     int getCausalityValue();
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
      */
     no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality getCausality();
 
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
      */
     int getVariabilityValue();
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
      */
     no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability getVariability();
 
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
      */
     boolean hasStart();
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
      */
     no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start getStart();
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
      */
     no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StartOrBuilder getStartOrBuilder();
   }
@@ -2557,6 +1925,7 @@ public final class FmiDefinitions {
       valueReference_ = 0;
       varName_ = "";
       description_ = "";
+      type_ = 0;
       initial_ = 0;
       causality_ = 0;
       variability_ = 0;
@@ -2613,22 +1982,28 @@ public final class FmiDefinitions {
             case 32: {
               int rawValue = input.readEnum();
 
-              initial_ = rawValue;
+              type_ = rawValue;
               break;
             }
             case 40: {
               int rawValue = input.readEnum();
 
-              causality_ = rawValue;
+              initial_ = rawValue;
               break;
             }
             case 48: {
               int rawValue = input.readEnum();
 
+              causality_ = rawValue;
+              break;
+            }
+            case 56: {
+              int rawValue = input.readEnum();
+
               variability_ = rawValue;
               break;
             }
-            case 58: {
+            case 66: {
               no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start.Builder subBuilder = null;
               if (start_ != null) {
                 subBuilder = start_.toBuilder();
@@ -2742,70 +2117,86 @@ public final class FmiDefinitions {
       }
     }
 
-    public static final int INITIAL_FIELD_NUMBER = 4;
+    public static final int TYPE_FIELD_NUMBER = 4;
+    private int type_;
+    /**
+     * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+     */
+    public int getTypeValue() {
+      return type_;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType getType() {
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType.valueOf(type_);
+      return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType.UNRECOGNIZED : result;
+    }
+
+    public static final int INITIAL_FIELD_NUMBER = 5;
     private int initial_;
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
      */
     public int getInitialValue() {
       return initial_;
     }
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
      */
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial getInitial() {
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.valueOf(initial_);
       return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.UNRECOGNIZED : result;
     }
 
-    public static final int CAUSALITY_FIELD_NUMBER = 5;
+    public static final int CAUSALITY_FIELD_NUMBER = 6;
     private int causality_;
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
      */
     public int getCausalityValue() {
       return causality_;
     }
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
      */
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality getCausality() {
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.valueOf(causality_);
       return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.UNRECOGNIZED : result;
     }
 
-    public static final int VARIABILITY_FIELD_NUMBER = 6;
+    public static final int VARIABILITY_FIELD_NUMBER = 7;
     private int variability_;
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
      */
     public int getVariabilityValue() {
       return variability_;
     }
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
      */
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability getVariability() {
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.valueOf(variability_);
       return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.UNRECOGNIZED : result;
     }
 
-    public static final int START_FIELD_NUMBER = 7;
+    public static final int START_FIELD_NUMBER = 8;
     private no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start start_;
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
      */
     public boolean hasStart() {
       return start_ != null;
     }
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
      */
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start getStart() {
       return start_ == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start.getDefaultInstance() : start_;
     }
     /**
-     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+     * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
      */
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StartOrBuilder getStartOrBuilder() {
       return getStart();
@@ -2832,17 +2223,20 @@ public final class FmiDefinitions {
       if (!getDescriptionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, description_);
       }
+      if (type_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType.INTEGER.getNumber()) {
+        output.writeEnum(4, type_);
+      }
       if (initial_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.UNDEFINED_INITIAL.getNumber()) {
-        output.writeEnum(4, initial_);
+        output.writeEnum(5, initial_);
       }
       if (causality_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.UNDEFINED_CAUSALITY.getNumber()) {
-        output.writeEnum(5, causality_);
+        output.writeEnum(6, causality_);
       }
       if (variability_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.UNDEFINED_VARIABILITY.getNumber()) {
-        output.writeEnum(6, variability_);
+        output.writeEnum(7, variability_);
       }
       if (start_ != null) {
-        output.writeMessage(7, getStart());
+        output.writeMessage(8, getStart());
       }
       unknownFields.writeTo(output);
     }
@@ -2862,21 +2256,25 @@ public final class FmiDefinitions {
       if (!getDescriptionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, description_);
       }
+      if (type_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType.INTEGER.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, type_);
+      }
       if (initial_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.UNDEFINED_INITIAL.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(4, initial_);
+          .computeEnumSize(5, initial_);
       }
       if (causality_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.UNDEFINED_CAUSALITY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(5, causality_);
+          .computeEnumSize(6, causality_);
       }
       if (variability_ != no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.UNDEFINED_VARIABILITY.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(6, variability_);
+          .computeEnumSize(7, variability_);
       }
       if (start_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, getStart());
+          .computeMessageSize(8, getStart());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2900,6 +2298,7 @@ public final class FmiDefinitions {
           .equals(other.getVarName());
       result = result && getDescription()
           .equals(other.getDescription());
+      result = result && type_ == other.type_;
       result = result && initial_ == other.initial_;
       result = result && causality_ == other.causality_;
       result = result && variability_ == other.variability_;
@@ -2925,6 +2324,8 @@ public final class FmiDefinitions {
       hash = (53 * hash) + getVarName().hashCode();
       hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
       hash = (53 * hash) + getDescription().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
       hash = (37 * hash) + INITIAL_FIELD_NUMBER;
       hash = (53 * hash) + initial_;
       hash = (37 * hash) + CAUSALITY_FIELD_NUMBER;
@@ -3070,6 +2471,8 @@ public final class FmiDefinitions {
 
         description_ = "";
 
+        type_ = 0;
+
         initial_ = 0;
 
         causality_ = 0;
@@ -3107,6 +2510,7 @@ public final class FmiDefinitions {
         result.valueReference_ = valueReference_;
         result.varName_ = varName_;
         result.description_ = description_;
+        result.type_ = type_;
         result.initial_ = initial_;
         result.causality_ = causality_;
         result.variability_ = variability_;
@@ -3166,6 +2570,9 @@ public final class FmiDefinitions {
         if (!other.getDescription().isEmpty()) {
           description_ = other.description_;
           onChanged();
+        }
+        if (other.type_ != 0) {
+          setTypeValue(other.getTypeValue());
         }
         if (other.initial_ != 0) {
           setInitialValue(other.getInitialValue());
@@ -3370,15 +2777,59 @@ public final class FmiDefinitions {
         return this;
       }
 
+      private int type_ = 0;
+      /**
+       * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+       */
+      public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+       */
+      public Builder setTypeValue(int value) {
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+       */
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType getType() {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType.valueOf(type_);
+        return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+       */
+      public Builder setType(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VariableType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.grpc_fmu.VariableType type = 4;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int initial_ = 0;
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
        */
       public int getInitialValue() {
         return initial_;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
        */
       public Builder setInitialValue(int value) {
         initial_ = value;
@@ -3386,14 +2837,14 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
        */
       public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial getInitial() {
         no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.valueOf(initial_);
         return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial.UNRECOGNIZED : result;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
        */
       public Builder setInitial(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Initial value) {
         if (value == null) {
@@ -3405,7 +2856,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 4;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Initial initial = 5;</code>
        */
       public Builder clearInitial() {
         
@@ -3416,13 +2867,13 @@ public final class FmiDefinitions {
 
       private int causality_ = 0;
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
        */
       public int getCausalityValue() {
         return causality_;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
        */
       public Builder setCausalityValue(int value) {
         causality_ = value;
@@ -3430,14 +2881,14 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
        */
       public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality getCausality() {
         no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.valueOf(causality_);
         return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality.UNRECOGNIZED : result;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
        */
       public Builder setCausality(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Causality value) {
         if (value == null) {
@@ -3449,7 +2900,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 5;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Causality causality = 6;</code>
        */
       public Builder clearCausality() {
         
@@ -3460,13 +2911,13 @@ public final class FmiDefinitions {
 
       private int variability_ = 0;
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
        */
       public int getVariabilityValue() {
         return variability_;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
        */
       public Builder setVariabilityValue(int value) {
         variability_ = value;
@@ -3474,14 +2925,14 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
        */
       public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability getVariability() {
         no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability result = no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.valueOf(variability_);
         return result == null ? no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability.UNRECOGNIZED : result;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
        */
       public Builder setVariability(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Variability value) {
         if (value == null) {
@@ -3493,7 +2944,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 6;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Variability variability = 7;</code>
        */
       public Builder clearVariability() {
         
@@ -3506,13 +2957,13 @@ public final class FmiDefinitions {
       private com.google.protobuf.SingleFieldBuilderV3<
           no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StartOrBuilder> startBuilder_;
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public boolean hasStart() {
         return startBuilder_ != null || start_ != null;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start getStart() {
         if (startBuilder_ == null) {
@@ -3522,7 +2973,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public Builder setStart(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start value) {
         if (startBuilder_ == null) {
@@ -3538,7 +2989,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public Builder setStart(
           no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start.Builder builderForValue) {
@@ -3552,7 +3003,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public Builder mergeStart(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start value) {
         if (startBuilder_ == null) {
@@ -3570,7 +3021,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public Builder clearStart() {
         if (startBuilder_ == null) {
@@ -3584,7 +3035,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start.Builder getStartBuilder() {
         
@@ -3592,7 +3043,7 @@ public final class FmiDefinitions {
         return getStartFieldBuilder().getBuilder();
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StartOrBuilder getStartOrBuilder() {
         if (startBuilder_ != null) {
@@ -3603,7 +3054,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 7;</code>
+       * <code>.no.mechatronics.sfi.grpc_fmu.Start start = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Start.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StartOrBuilder> 
@@ -3662,6 +3113,763 @@ public final class FmiDefinitions {
     }
 
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ScalarVariablesOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> 
+        getValuesList();
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getValues(int index);
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    int getValuesCount();
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    java.util.List<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
+        getValuesOrBuilderList();
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder getValuesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code no.mechatronics.sfi.grpc_fmu.ScalarVariables}
+   */
+  public  static final class ScalarVariables extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
+      ScalarVariablesOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ScalarVariables.newBuilder() to construct.
+    private ScalarVariables(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ScalarVariables() {
+      values_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ScalarVariables(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                values_ = new java.util.ArrayList<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              values_.add(
+                  input.readMessage(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.parser(), extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          values_ = java.util.Collections.unmodifiableList(values_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.class, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.Builder.class);
+    }
+
+    public static final int VALUES_FIELD_NUMBER = 1;
+    private java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> values_;
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    public java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getValuesList() {
+      return values_;
+    }
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    public java.util.List<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
+        getValuesOrBuilderList() {
+      return values_;
+    }
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    public int getValuesCount() {
+      return values_.size();
+    }
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getValues(int index) {
+      return values_.get(index);
+    }
+    /**
+     * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder getValuesOrBuilder(
+        int index) {
+      return values_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < values_.size(); i++) {
+        output.writeMessage(1, values_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < values_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, values_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables)) {
+        return super.equals(obj);
+      }
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables other = (no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables) obj;
+
+      boolean result = true;
+      result = result && getValuesList()
+          .equals(other.getValuesList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getValuesCount() > 0) {
+        hash = (37 * hash) + VALUES_FIELD_NUMBER;
+        hash = (53 * hash) + getValuesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code no.mechatronics.sfi.grpc_fmu.ScalarVariables}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariablesOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.class, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.Builder.class);
+      }
+
+      // Construct using no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getValuesFieldBuilder();
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (valuesBuilder_ == null) {
+          values_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          valuesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
+      }
+
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getDefaultInstanceForType() {
+        return no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.getDefaultInstance();
+      }
+
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables build() {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables buildPartial() {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables result = new no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables(this);
+        int from_bitField0_ = bitField0_;
+        if (valuesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            values_ = java.util.Collections.unmodifiableList(values_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.values_ = values_;
+        } else {
+          result.values_ = valuesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables) {
+          return mergeFrom((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables other) {
+        if (other == no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.getDefaultInstance()) return this;
+        if (valuesBuilder_ == null) {
+          if (!other.values_.isEmpty()) {
+            if (values_.isEmpty()) {
+              values_ = other.values_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureValuesIsMutable();
+              values_.addAll(other.values_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.values_.isEmpty()) {
+            if (valuesBuilder_.isEmpty()) {
+              valuesBuilder_.dispose();
+              valuesBuilder_ = null;
+              values_ = other.values_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              valuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getValuesFieldBuilder() : null;
+            } else {
+              valuesBuilder_.addAllMessages(other.values_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> values_ =
+        java.util.Collections.emptyList();
+      private void ensureValuesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          values_ = new java.util.ArrayList<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>(values_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> valuesBuilder_;
+
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getValuesList() {
+        if (valuesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(values_);
+        } else {
+          return valuesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public int getValuesCount() {
+        if (valuesBuilder_ == null) {
+          return values_.size();
+        } else {
+          return valuesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable getValues(int index) {
+        if (valuesBuilder_ == null) {
+          return values_.get(index);
+        } else {
+          return valuesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder setValues(
+          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable value) {
+        if (valuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValuesIsMutable();
+          values_.set(index, value);
+          onChanged();
+        } else {
+          valuesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder setValues(
+          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder builderForValue) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          valuesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder addValues(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable value) {
+        if (valuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValuesIsMutable();
+          values_.add(value);
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder addValues(
+          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable value) {
+        if (valuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValuesIsMutable();
+          values_.add(index, value);
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder addValues(
+          no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder builderForValue) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.add(builderForValue.build());
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder addValues(
+          int index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder builderForValue) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder addAllValues(
+          java.lang.Iterable<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> values) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, values_);
+          onChanged();
+        } else {
+          valuesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder clearValues() {
+        if (valuesBuilder_ == null) {
+          values_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          valuesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public Builder removeValues(int index) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.remove(index);
+          onChanged();
+        } else {
+          valuesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder getValuesBuilder(
+          int index) {
+        return getValuesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder getValuesOrBuilder(
+          int index) {
+        if (valuesBuilder_ == null) {
+          return values_.get(index);  } else {
+          return valuesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public java.util.List<? extends no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
+           getValuesOrBuilderList() {
+        if (valuesBuilder_ != null) {
+          return valuesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(values_);
+        }
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder addValuesBuilder() {
+        return getValuesFieldBuilder().addBuilder(
+            no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder addValuesBuilder(
+          int index) {
+        return getValuesFieldBuilder().addBuilder(
+            index, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .no.mechatronics.sfi.grpc_fmu.ScalarVariable values = 1;</code>
+       */
+      public java.util.List<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder> 
+           getValuesBuilderList() {
+        return getValuesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder> 
+          getValuesFieldBuilder() {
+        if (valuesBuilder_ == null) {
+          valuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.Builder, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariableOrBuilder>(
+                  values_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          values_ = null;
+        }
+        return valuesBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
+    }
+
+    // @@protoc_insertion_point(class_scope:no.mechatronics.sfi.grpc_fmu.ScalarVariables)
+    private static final no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables();
+    }
+
+    public static no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ScalarVariables>
+        PARSER = new com.google.protobuf.AbstractParser<ScalarVariables>() {
+      public ScalarVariables parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ScalarVariables(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ScalarVariables> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ScalarVariables> getParserForType() {
+      return PARSER;
+    }
+
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -15462,11 +15670,6 @@ public final class FmiDefinitions {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_no_mechatronics_sfi_grpc_fmu_ModelReference_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_no_mechatronics_sfi_grpc_fmu_Start_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -15476,6 +15679,11 @@ public final class FmiDefinitions {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariable_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_no_mechatronics_sfi_grpc_fmu_Status_descriptor;
   private static final 
@@ -15592,52 +15800,55 @@ public final class FmiDefinitions {
     java.lang.String[] descriptorData = {
       "\n\021definitions.proto\022\034no.mechatronics.sfi" +
       ".grpc_fmu\" \n\016ModelReference\022\016\n\006fmu_id\030\001 " +
-      "\001(\r\"O\n\017ScalarVariables\022<\n\006values\030\001 \003(\0132," +
-      ".no.mechatronics.sfi.grpc_fmu.ScalarVari" +
-      "able\"b\n\005Start\022\022\n\010intValue\030\001 \001(\005H\000\022\023\n\trea" +
-      "lValue\030\002 \001(\001H\000\022\022\n\010strValue\030\003 \001(\tH\000\022\023\n\tbo" +
-      "olValue\030\004 \001(\010H\000B\007\n\005value\"\266\002\n\016ScalarVaria" +
-      "ble\022\026\n\016valueReference\030\001 \001(\r\022\017\n\007varName\030\002" +
-      " \001(\t\022\023\n\013description\030\003 \001(\t\0226\n\007initial\030\004 \001" +
-      "(\0162%.no.mechatronics.sfi.grpc_fmu.Initia" +
-      "l\022:\n\tcausality\030\005 \001(\0162\'.no.mechatronics.s" +
-      "fi.grpc_fmu.Causality\022>\n\013variability\030\006 \001" +
-      "(\0162).no.mechatronics.sfi.grpc_fmu.Variab" +
-      "ility\0222\n\005start\030\007 \001(\0132#.no.mechatronics.s" +
-      "fi.grpc_fmu.Start\"%\n\006Status\022\014\n\004code\030\001 \001(" +
-      "\005\022\r\n\005value\030\002 \001(\t\",\n\013InitRequest\022\016\n\006fmu_i" +
-      "d\030\001 \001(\r\022\r\n\005start\030\002 \001(\r\")\n\013StepRequest\022\016\n" +
-      "\006fmu_id\030\001 \001(\r\022\n\n\002dt\030\002 \001(\001\"\"\n\020TerminateRe" +
-      "quest\022\016\n\006fmu_id\030\001 \001(\r\"\036\n\014ResetRequest\022\016\n" +
-      "\006fmu_id\030\001 \001(\r\"\024\n\003Int\022\r\n\005value\030\001 \001(\005\"A\n\010I" +
-      "ntWrite\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016valueReferenc" +
-      "e\030\002 \001(\r\022\r\n\005value\030\003 \001(\005\"\031\n\007IntList\022\016\n\006val" +
-      "ues\030\001 \003(\005\"\025\n\004Real\022\r\n\005value\030\001 \001(\001\"B\n\tReal" +
-      "Write\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016valueReference\030" +
-      "\002 \001(\r\022\r\n\005value\030\003 \001(\001\"\032\n\010RealList\022\016\n\006valu" +
-      "es\030\001 \003(\001\"\024\n\003Str\022\r\n\005value\030\001 \001(\t\"A\n\010StrWri" +
-      "te\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016valueReference\030\002 \001" +
-      "(\r\022\r\n\005value\030\003 \001(\t\"\031\n\007StrList\022\016\n\006values\030\001" +
-      " \003(\t\"\025\n\004Bool\022\r\n\005value\030\001 \001(\010\"B\n\tBoolWrite" +
-      "\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016valueReference\030\002 \001(\r" +
-      "\022\r\n\005value\030\003 \001(\010\"\032\n\010BoolList\022\016\n\006values\030\001 " +
-      "\003(\010\"`\n\003Var\022\022\n\010intValue\030\001 \001(\005H\000\022\023\n\trealVa" +
-      "lue\030\002 \001(\001H\000\022\022\n\010strValue\030\003 \001(\tH\000\022\023\n\tboolV" +
-      "alue\030\004 \001(\010H\000B\007\n\005value\"1\n\007VarRead\022\016\n\006fmu_" +
-      "id\030\001 \001(\r\022\026\n\016valueReference\030\002 \001(\r\"\215\001\n\010Var" +
-      "Write\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016valueReference\030" +
-      "\002 \001(\r\022\022\n\010intValue\030\005 \001(\005H\000\022\023\n\trealValue\030\006" +
-      " \001(\001H\000\022\022\n\010strValue\030\007 \001(\tH\000\022\023\n\tboolValue\030" +
-      "\010 \001(\010H\000B\007\n\005value\"\007\n\005Empty*\200\001\n\tCausality\022" +
-      "\027\n\023UNDEFINED_CAUSALITY\020\000\022\t\n\005INPUT\020\001\022\n\n\006O" +
-      "UTPUT\020\002\022\r\n\tPARAMETER\020\003\022\030\n\024CALCULATED_PAR" +
-      "AMETER\020\004\022\t\n\005LOCAL\020\005\022\017\n\013INDEPENDENT\020\006*l\n\013" +
-      "Variability\022\031\n\025UNDEFINED_VARIABILITY\020\000\022\014" +
-      "\n\010CONSTANT\020\001\022\t\n\005FIXED\020\002\022\016\n\nCONTINUOUS\020\003\022" +
-      "\014\n\010DISCRETE\020\004\022\013\n\007TUNABLE\020\005*G\n\007Initial\022\025\n" +
-      "\021UNDEFINED_INITIAL\020\000\022\t\n\005EXACT\020\001\022\n\n\006APPRO" +
-      "X\020\002\022\016\n\nCALCULATED\020\003B\020B\016FmiDefinitionsb\006p" +
-      "roto3"
+      "\001(\r\"b\n\005Start\022\022\n\010intValue\030\001 \001(\005H\000\022\023\n\treal" +
+      "Value\030\002 \001(\001H\000\022\022\n\010strValue\030\003 \001(\tH\000\022\023\n\tboo" +
+      "lValue\030\004 \001(\010H\000B\007\n\005value\"\360\002\n\016ScalarVariab" +
+      "le\022\026\n\016valueReference\030\001 \001(\r\022\017\n\007varName\030\002 " +
+      "\001(\t\022\023\n\013description\030\003 \001(\t\0228\n\004type\030\004 \001(\0162*" +
+      ".no.mechatronics.sfi.grpc_fmu.VariableTy" +
+      "pe\0226\n\007initial\030\005 \001(\0162%.no.mechatronics.sf" +
+      "i.grpc_fmu.Initial\022:\n\tcausality\030\006 \001(\0162\'." +
+      "no.mechatronics.sfi.grpc_fmu.Causality\022>" +
+      "\n\013variability\030\007 \001(\0162).no.mechatronics.sf" +
+      "i.grpc_fmu.Variability\0222\n\005start\030\010 \001(\0132#." +
+      "no.mechatronics.sfi.grpc_fmu.Start\"O\n\017Sc" +
+      "alarVariables\022<\n\006values\030\001 \003(\0132,.no.mecha" +
+      "tronics.sfi.grpc_fmu.ScalarVariable\"%\n\006S" +
+      "tatus\022\014\n\004code\030\001 \001(\005\022\r\n\005value\030\002 \001(\t\",\n\013In" +
+      "itRequest\022\016\n\006fmu_id\030\001 \001(\r\022\r\n\005start\030\002 \001(\r" +
+      "\")\n\013StepRequest\022\016\n\006fmu_id\030\001 \001(\r\022\n\n\002dt\030\002 " +
+      "\001(\001\"\"\n\020TerminateRequest\022\016\n\006fmu_id\030\001 \001(\r\"" +
+      "\036\n\014ResetRequest\022\016\n\006fmu_id\030\001 \001(\r\"\024\n\003Int\022\r" +
+      "\n\005value\030\001 \001(\005\"A\n\010IntWrite\022\016\n\006fmu_id\030\001 \001(" +
+      "\r\022\026\n\016valueReference\030\002 \001(\r\022\r\n\005value\030\003 \001(\005" +
+      "\"\031\n\007IntList\022\016\n\006values\030\001 \003(\005\"\025\n\004Real\022\r\n\005v" +
+      "alue\030\001 \001(\001\"B\n\tRealWrite\022\016\n\006fmu_id\030\001 \001(\r\022" +
+      "\026\n\016valueReference\030\002 \001(\r\022\r\n\005value\030\003 \001(\001\"\032" +
+      "\n\010RealList\022\016\n\006values\030\001 \003(\001\"\024\n\003Str\022\r\n\005val" +
+      "ue\030\001 \001(\t\"A\n\010StrWrite\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016" +
+      "valueReference\030\002 \001(\r\022\r\n\005value\030\003 \001(\t\"\031\n\007S" +
+      "trList\022\016\n\006values\030\001 \003(\t\"\025\n\004Bool\022\r\n\005value\030" +
+      "\001 \001(\010\"B\n\tBoolWrite\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016va" +
+      "lueReference\030\002 \001(\r\022\r\n\005value\030\003 \001(\010\"\032\n\010Boo" +
+      "lList\022\016\n\006values\030\001 \003(\010\"`\n\003Var\022\022\n\010intValue" +
+      "\030\001 \001(\005H\000\022\023\n\trealValue\030\002 \001(\001H\000\022\022\n\010strValu" +
+      "e\030\003 \001(\tH\000\022\023\n\tboolValue\030\004 \001(\010H\000B\007\n\005value\"" +
+      "1\n\007VarRead\022\016\n\006fmu_id\030\001 \001(\r\022\026\n\016valueRefer" +
+      "ence\030\002 \001(\r\"\215\001\n\010VarWrite\022\016\n\006fmu_id\030\001 \001(\r\022" +
+      "\026\n\016valueReference\030\002 \001(\r\022\022\n\010intValue\030\005 \001(" +
+      "\005H\000\022\023\n\trealValue\030\006 \001(\001H\000\022\022\n\010strValue\030\007 \001" +
+      "(\tH\000\022\023\n\tboolValue\030\010 \001(\010H\000B\007\n\005value\"\007\n\005Em" +
+      "pty*\200\001\n\tCausality\022\027\n\023UNDEFINED_CAUSALITY" +
+      "\020\000\022\t\n\005INPUT\020\001\022\n\n\006OUTPUT\020\002\022\r\n\tPARAMETER\020\003" +
+      "\022\030\n\024CALCULATED_PARAMETER\020\004\022\t\n\005LOCAL\020\005\022\017\n" +
+      "\013INDEPENDENT\020\006*l\n\013Variability\022\031\n\025UNDEFIN" +
+      "ED_VARIABILITY\020\000\022\014\n\010CONSTANT\020\001\022\t\n\005FIXED\020" +
+      "\002\022\016\n\nCONTINUOUS\020\003\022\014\n\010DISCRETE\020\004\022\013\n\007TUNAB" +
+      "LE\020\005*G\n\007Initial\022\025\n\021UNDEFINED_INITIAL\020\000\022\t" +
+      "\n\005EXACT\020\001\022\n\n\006APPROX\020\002\022\016\n\nCALCULATED\020\003*>\n" +
+      "\014VariableType\022\013\n\007INTEGER\020\000\022\010\n\004REAL\020\001\022\n\n\006" +
+      "STRING\020\002\022\013\n\007BOOLEAN\020\003B\020B\016FmiDefinitionsb" +
+      "\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -15657,24 +15868,24 @@ public final class FmiDefinitions {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_ModelReference_descriptor,
         new java.lang.String[] { "FmuId", });
-    internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor,
-        new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Start_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_no_mechatronics_sfi_grpc_fmu_Start_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_Start_descriptor,
         new java.lang.String[] { "IntValue", "RealValue", "StrValue", "BoolValue", "Value", });
     internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariable_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariable_descriptor,
-        new java.lang.String[] { "ValueReference", "VarName", "Description", "Initial", "Causality", "Variability", "Start", });
+        new java.lang.String[] { "ValueReference", "VarName", "Description", "Type", "Initial", "Causality", "Variability", "Start", });
+    internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_no_mechatronics_sfi_grpc_fmu_ScalarVariables_descriptor,
+        new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_grpc_fmu_Status_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_no_mechatronics_sfi_grpc_fmu_Status_fieldAccessorTable = new

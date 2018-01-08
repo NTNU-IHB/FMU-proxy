@@ -323,8 +323,26 @@ public class {{fmuName}}Server {
                 builder.setStrValue(((StringVariable) variable).getStart());
             } else if (variable instanceof BooleanVariable) {
                 builder.setBoolValue(((BooleanVariable) variable).getStart());
+            } else {
+                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
             }
             return builder.build();
+        }
+
+        private FmiDefinitions.VariableType getType(ScalarVariable variable) {
+
+            if (variable instanceof IntegerVariable) {
+                return (FmiDefinitions.VariableType.INTEGER);
+            } else if (variable instanceof RealVariable) {
+                return (FmiDefinitions.VariableType.REAL);
+            } else if (variable instanceof StringVariable) {
+                return (FmiDefinitions.VariableType.STRING);
+            } else if (variable instanceof BooleanVariable) {
+                return (FmiDefinitions.VariableType.BOOLEAN);
+            } else {
+                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
+            }
+
         }
 
         @Override
@@ -338,6 +356,7 @@ public class {{fmuName}}Server {
                         .setValueReference(variable.getValueReference())
                         .setVarName(variable.getName())
                         .setDescription(variable.getDescription())
+                        .setType(getType(variable))
                         .setCausality(getCausality(variable))
                         .setVariability(getVariability(variable))
                         .setStart(getStart(variable))
