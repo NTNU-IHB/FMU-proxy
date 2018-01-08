@@ -273,7 +273,7 @@ public class {{fmuName}}Server {
         @Override
         public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {
 
-            ModelVariables variables = modelDescription.getModelVariables();
+            IModelVariables variables = modelDescription.getModelVariables();
 
             FmiDefinitions.ScalarVariables.Builder builder = FmiDefinitions.ScalarVariables.newBuilder();
             for (ScalarVariable variable : variables) {
