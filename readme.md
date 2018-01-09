@@ -26,20 +26,21 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 ### Generating the server from an FMU
 
 ```
-usage: servergen
+usage: java -jar gRPC-FMU
  -fmu <arg>   Path to the fmu
- -help        Display this message
+ -help        Prints this message
  -out <arg>   Specify where to copy the generated .jar (optional, not supported yet)
 ```
 
 This will create a runnable JAR named "myfmu.jar"
 
 ```
-usage: java- jar myfmu.jar
+usage: myfmu.jar
  -help              Prints this message
- -host <arg>        Specify the host name of the remote tracking server. E.g. 127.0.0.1
- -localPort <arg>   Manually specify the local port to use. E.g. 7777 (optional)
- -port <arg>        Specify the port of the remote tracking server. E.g. 7000
+ -localPort <arg>   Manually specify the local port to use. E.g. 7777
+                    (optional)
+ -remote <arg>      Specify the IP address of the remote tracking server.
+                    E.g. 127.0.0.1:7000
 ```
 
 You can now connect to the FMU in your language of choosing using the general purpose .proto files located in the /proto folder that 
