@@ -53,7 +53,7 @@ class ApplicationStarter {
             DefaultParser().parse(options, args).apply {
 
                 if (args.isEmpty() || hasOption(HELP)) {
-                    HelpFormatter().printHelp("servergen", options)
+                    HelpFormatter().printHelp("gRPC-FMU", options)
                 } else {
 
                     getOptionValue(FMU_FILE)?.let { path ->

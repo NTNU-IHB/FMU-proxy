@@ -11,10 +11,13 @@ import java.io.Closeable
 class GenericFmuClient(
         host: String,
         port: Int
-): Closeable {
+): AutoCloseable {
 
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
+    private companion object {
+
+        val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
+        val EMPTY: FmiDefinitions.Empty = FmiDefinitions.Empty.getDefaultInstance()
+
     }
 
     private val channel: ManagedChannel
@@ -31,12 +34,12 @@ class GenericFmuClient(
     }
 
     fun createInstance() : FmuInstance {
-        return FmuInstance(blockingStub.createInstance(FmiDefinitions.Empty.getDefaultInstance())).also {
+        return FmuInstance(blockingStub.createInstance(EMPTY)).also {
             instances.add(it)
         }
     }
 
-    fun getModelName() = blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
+    fun getModelName(): String = blockingStub.getModelName(EMPTY).value
 
     override fun close() {
         LOG.info("Closing..")
@@ -48,14 +51,32 @@ class GenericFmuClient(
     }
 
     inner class FmuInstance internal constructor(
-            val fmuId: Int)
-    {
+            val fmuId: Int
+    ) : AutoCloseable {
+
+        private val modelRef by lazy {
+            FmiDefinitions.ModelReference.newBuilder().setFmuId(fmuId).build()
+        }
+
+        val modelVariables
+            get() = blockingStub.getModelVariables(EMPTY)
+
+        val modelVariableNames
+            get() = blockingStub.getModelVariableNames(EMPTY)
 
         constructor(ref: FmiDefinitions.ModelReference) : this(ref.fmuId)
+
+        val currentTime: Double
+            get() = blockingStub.getCurrentTime(modelRef).value
 
         fun init() = blockingStub.init(FmiDefinitions.InitRequest.newBuilder()
                 .setFmuId(fmuId)
                 .build()).value
+
+        fun step(dt: Double) = blockingStub.step(FmiDefinitions.StepRequest.newBuilder()
+                .setFmuId(fmuId)
+                .setDt(dt)
+                .build())
 
         fun terminate() {
             blockingStub.terminate(FmiDefinitions.TerminateRequest.newBuilder()
@@ -64,25 +85,68 @@ class GenericFmuClient(
             instances.remove(this)
         }
 
-        fun getModelVariables() = blockingStub.getModelVariables(FmiDefinitions.Empty.getDefaultInstance())
+        override fun close() = terminate()
 
-        fun read(varName: String) = blockingStub.read(FmiDefinitions.VarRead.newBuilder()
-                .setFmuId(fmuId)
-                .setVarName(varName)
-                .build())
+        fun getReader(valueReference: Int) = VariableReader(fmuId, valueReference, blockingStub)
 
-        fun write(varName: String, value: Int) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
-                .setFmuId(fmuId)
-                .setVarName(varName)
-                .setIntValue(value)
-                .build())
+        fun getReader(varName: String)
+                = modelVariables.valuesList.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName")
 
-        fun write(varName: String, value: Double) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
-                .setFmuId(fmuId)
-                .setVarName(varName)
-                .setRealValue(value)
-                .build())
+        fun getWriter(valueReference: Int) = VariableReader(fmuId, valueReference, blockingStub)
+
+        fun getWriter(varName: String)
+                = modelVariables.valuesList.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName")
 
     }
 
 }
+
+class VariableReader(
+        private val fmuId: Int,
+        private val valueReference: Int,
+        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+) {
+
+    private val varRead by lazy {
+        FmiDefinitions.VarRead.newBuilder()
+                .setFmuId(fmuId)
+                .setValueReference(valueReference)
+                .build()
+    }
+
+    fun readInt() =  blockingStub.read(varRead).intValue
+    fun readReal() = blockingStub.read(varRead).realValue
+    fun readString() = blockingStub.read(varRead).strValue
+    fun readBoolean() = blockingStub.read(varRead).boolValue
+
+}
+
+class VariableWriter(
+        private val fmuId: Int,
+        private val valueReference: Int,
+        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+) {
+
+    fun write(value: Int) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+            .setFmuId(fmuId)
+            .setIntValue(value)
+            .build())
+
+    fun write(value: Double) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+            .setFmuId(fmuId)
+            .setRealValue(value)
+            .build())
+
+    fun write(value: String) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+            .setFmuId(fmuId)
+            .setStrValue(value)
+            .build())
+
+    fun write(value: Boolean) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+            .setFmuId(fmuId)
+            .setBoolValue(value)
+            .build())
+
+}
+
+

@@ -1,7 +1,8 @@
-package no.mechatronics.sfi.grpc_fmu.heartbeating
+package no.mechatronics.sfi.grpc_fmu.web.heartbeat
 
 import no.mechatronics.sfi.grpc_fmu.RemoteFmu
-import no.mechatronics.sfi.grpc_fmu.RemoteFmus
+import no.mechatronics.sfi.grpc_fmu.web.fmu.FmuBean
+import no.mechatronics.sfi.grpc_fmu.web.fmu.Fmus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zeromq.ZContext
@@ -61,7 +62,7 @@ object CentralHeartbeat {
                                 val data = String(msg.last.data, ZMQ.CHARSET);
                                 val remoteFmu = RemoteFmu.fromJson(data)
 
-                                if (RemoteFmus.add(remoteFmu)) {
+                                if (Fmus.add(FmuBean(remoteFmu))) {
                                     LOG.info("FMU {} connected!", remoteFmu)
                                     workers[uuid] = Worker(address)
                                 }
@@ -125,7 +126,7 @@ object CentralHeartbeat {
             if (System.currentTimeMillis() > worker.expiry) {
                 it.remove()
                 val guid = next.key
-                if (RemoteFmus.remove(guid)) {
+                if (Fmus.remove(guid)) {
                     LOG.info("{}, disconnected!", guid)
                 }
             }

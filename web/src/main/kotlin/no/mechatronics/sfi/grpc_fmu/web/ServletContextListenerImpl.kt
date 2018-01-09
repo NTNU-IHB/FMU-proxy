@@ -1,16 +1,16 @@
 package no.mechatronics.sfi.grpc_fmu.web
 
+import no.mechatronics.sfi.grpc_fmu.web.heartbeat.CentralHeartbeat
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
-import no.mechatronics.sfi.grpc_fmu.heartbeating.CentralHeartbeat
 
 
-class Main: ServletContextListener  {
+class ServletContextListenerImpl : ServletContextListener  {
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(Main::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
     }
 
     override fun contextInitialized(sce: ServletContextEvent?) {

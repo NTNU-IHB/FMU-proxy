@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.common.io.Files
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
 import no.mechatronics.sfi.grpc_fmu.utils.exctractModelDescriptionXml
@@ -56,9 +56,24 @@ object GrpcFmu {
 
     fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
 
+    private fun createBuildFile(baseFile: File) {
+        File(baseFile, "build.gradle").also { file ->
+            FileOutputStream(file).use { fos ->
+                IOUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
+                LOG.info("Copied build.gradle to {}", file)
+            }
+        }
+    }
+
+    private fun createSettingsFile(baseFile: File) {
+        File(baseFile, "settings.gradle").also { file ->
+            file.createNewFile()
+        }
+    }
+
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
-        val modelDescription = ModelDescription.parseModelDescription(modelDescriptionXml)
+        val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
 
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists()) {
@@ -68,13 +83,8 @@ object GrpcFmu {
             }
         }
 
-        File(baseFile, "build.gradle").also { file ->
-            FileOutputStream(file).use { fos ->
-                IOUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
-                LOG.info("Copied build.gradle to {}", file)
-            }
-        }
-
+        createBuildFile(baseFile)
+        createSettingsFile(baseFile)
 
         GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
             ZipInputStream(zipStream).use { zis ->
@@ -129,44 +139,32 @@ object GrpcFmu {
                 .writeToDirectory(File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"
         ))
 
+        val status = ProcessBuilder()
+                .directory(baseFile)
+                .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
+                .redirectError(ProcessBuilder.Redirect.INHERIT)
+                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                .start()
+                .waitFor()
 
-        try {
-            ProcessBuilder()
-                    .directory(baseFile)
-                    .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
-                    .redirectError(ProcessBuilder.Redirect.INHERIT)
-                    .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                    .start()
-                    .waitFor()
-
-            File(baseFile, "build/libs/${modelDescription.modelName}-all.jar").apply {
+        if (status == 0) {
+            File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
                 if (exists()) {
                     val dir = File(".")
                     FileUtils.copyFileToDirectory(this, dir)
                     LOG.info("Executable '{}' is located in directory '{}'", this.name, dir.absolutePath)
                 }
             }
-        } finally {
+        } else {
+            LOG.error("Process returned with status: {}", status)
+        }
 
-            fun deleteBaseFile(): Boolean {
-                if (baseFile.exists()) {
-                    if(baseFile.deleteRecursively()) {
-                        LOG.info("Deleted folder {}", baseFile.absolutePath)
-                        return true
-                    } else {
-                        LOG.info("Failed to delete folder {}", baseFile.absolutePath)
-                    }
-                    return false
-                }
-                return true
+        if (baseFile.exists()) {
+            if(baseFile.deleteRecursively()) {
+                LOG.info("Deleted folder {}", baseFile.absolutePath)
+            } else {
+                LOG.info("Failed to delete folder {}", baseFile.absolutePath)
             }
-
-            if (!deleteBaseFile()) {
-                Runtime.getRuntime().addShutdownHook(Thread({
-                    deleteBaseFile()
-                }))
-            }
-
         }
 
     }

@@ -10,44 +10,60 @@ message ModelReference {
 }
 
 enum Causality {
-    INPUT = 0;
-    OUTPUT = 1;
-    PARAMETER = 2;
-    CALCULATED_PARAMETER = 3;
-    LOCAL = 4;
-    INDEPENDENT = 5;
+    UNDEFINED_CAUSALITY = 0;
+    INPUT = 1;
+    OUTPUT = 2;
+    PARAMETER = 3;
+    CALCULATED_PARAMETER = 4;
+    LOCAL = 5;
+    INDEPENDENT = 6;
 }
 
 enum Variability {
-    CONSTANT =  0;
-    FIXED = 1;
-    CONTINUOUS = 2;
-    DISCRETE = 3;
-    TUNABLE = 4;
+    UNDEFINED_VARIABILITY = 0;
+    CONSTANT =  1;
+    FIXED = 2;
+    CONTINUOUS = 3;
+    DISCRETE = 4;
+    TUNABLE = 5;
 }
 
 enum Initial {
-    EXACT = 0;
-    APPROX = 1;
-    CALCULATED = 2;
+    UNDEFINED_INITIAL = 0;
+    EXACT = 1;
+    APPROX = 2;
+    CALCULATED = 3;
+}
+
+enum VariableType {
+    INTEGER = 0;
+    REAL = 1;
+    STRING = 2;
+    BOOLEAN = 3;
+}
+
+message Start {
+    oneof value {
+        int32 intValue = 1;
+        double realValue = 2;
+        string strValue = 3;
+        bool boolValue = 4;
+    }
+}
+
+message ScalarVariable {
+    uint32 valueReference = 1;
+    string varName = 2;
+    string description = 3;
+    VariableType type = 4;
+    Initial initial = 5;
+    Causality causality = 6;
+    Variability variability = 7;
+    Start start = 8;
 }
 
 message ScalarVariables {
     repeated ScalarVariable values = 1;
-}
-
-message ScalarVariable {
-    string name = 1;
-    string description = 2;
-    Initial initial = 3;
-    Causality causality = 4;
-    Variability variability = 5;
-    oneof start {
-        int32 intValue = 10;
-        double realValue = 11;
-        string strValue = 12;
-        bool boolValue = 13;
-    }
 }
 
 message Status {
@@ -69,13 +85,17 @@ message TerminateRequest {
     uint32 fmu_id = 1;
 }
 
+message ResetRequest {
+    uint32 fmu_id = 1;
+}
+
 message Int {
     int32 value = 1;
 }
 
 message IntWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     int32 value = 3;
 }
 
@@ -89,7 +109,7 @@ message Real {
 
 message RealWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     double value = 3;
 }
 
@@ -103,7 +123,7 @@ message Str {
 
 message StrWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     string value = 3;
 }
 
@@ -117,7 +137,7 @@ message Bool {
 
 message BoolWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     bool value = 3;
 }
 
@@ -136,12 +156,12 @@ message Var {
 
 message VarRead {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
 }
 
 message VarWrite {
     uint32 fmu_id = 1;
-    string varName = 2;
+    uint32 valueReference = 2;
     oneof value {
         int32 intValue = 5;
         double realValue = 6;

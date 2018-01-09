@@ -11,20 +11,22 @@ service GenericFmuService {
 
     rpc CreateInstance (Empty) returns (ModelReference);
 
-    rpc GetModelName (Empty) returns (Str) {};
-    rpc GetModelVariableNames (Empty) returns (StrList) {};
-    rpc GetModelVariables (Empty) returns (ScalarVariables) {};
+    rpc GetModelName (Empty) returns (Str);
+    rpc GetModelVariableNames (Empty) returns (StrList);
+    rpc GetModelVariables (Empty) returns (ScalarVariables);
 
     //instance methods
-    rpc GetCurrentTime (ModelReference) returns (Real) {};
-    rpc IsTerminated (ModelReference) returns (Bool) {};
+    rpc GetCurrentTime (ModelReference) returns (Real);
+    rpc IsTerminated (ModelReference) returns (Bool);
 
-    rpc Init (InitRequest) returns (Bool) {};
-    rpc Step (StepRequest) returns (Status) {};
-    rpc Terminate (TerminateRequest) returns (Empty) {};
+    rpc Init (InitRequest) returns (Bool);
+    rpc Step (StepRequest) returns (Status);
+    rpc Terminate (TerminateRequest) returns (Empty);
 
-    rpc Read (VarRead) returns (Var) {};
-    rpc Write (VarWrite) returns (Status) {};
+    rpc Reset(ResetRequest) returns (Status);
+
+    rpc Read (VarRead) returns (Var);
+    rpc Write (VarWrite) returns (Status);
 
 }
 

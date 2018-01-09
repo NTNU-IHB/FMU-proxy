@@ -26,6 +26,7 @@ package no.mechatronics.sfi.grpc_fmu;
 
 import java.io.IOException;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +40,10 @@ import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
 import no.mechatronics.sfi.fmi4j.FmiSimulation;
-import no.mechatronics.sfi.fmi4j.FmuBuilder;
-import no.mechatronics.sfi.fmi4j.FmuFile;
+import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder;
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelVariables;
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
+import no.mechatronics.sfi.fmi4j.modeldescription.*;
 
 public class {{fmuName}}Server {
 
@@ -53,14 +52,14 @@ public class {{fmuName}}Server {
     private Server server;
     private final FmuFile fmuFile;
     private final FmuBuilder builder;
-    private final ModelDescription modelDescription;
+    private final IModelDescription modelDescription;
     private final Map<Integer, FmiSimulation> fmus;
 
     public {{fmuName}}Server() throws IOException {
 
         this.fmus = new HashMap<>();
         this.fmuFile = new FmuFile(getClass().getClassLoader().getResource("{{fmuName}}.fmu"));
-        this.modelDescription = ModelDescription.parseModelDescription(fmuFile.getModelDescriptionXml());
+        this.modelDescription = ModelDescriptionParser.parse(fmuFile.getModelDescriptionXml());
         this.builder = new FmuBuilder(this.fmuFile);
 
     }
@@ -69,7 +68,7 @@ public class {{fmuName}}Server {
         return modelDescription.getGuid();
     }
 
-    public String getModelDescriptionXml() throws IOException {
+    public String getModelDescriptionXml() {
         return fmuFile.getModelDescriptionXml();
     }
 
@@ -135,24 +134,24 @@ public class {{fmuName}}Server {
         responseObserver.onCompleted();
     }
 
-    private static void Read(FmiSimulation fmu, String varName, FmiDefinitions.Var.Builder builder) {
+    private static void Read(FmiSimulation fmu, int valueReference, FmiDefinitions.Var.Builder builder) {
 
-        String typeName = fmu.getModelVariables().get(varName).getTypeName();
+        String typeName = fmu.getModelVariables().getByValueReference(valueReference).getTypeName();
         switch(typeName) {
             case "Integer": {
-                builder.setIntValue(fmu.read(varName).asInteger());
+                builder.setIntValue(fmu.getReader(valueReference).readInteger());
             }
             break;
             case "Real": {
-                builder.setRealValue(fmu.read(varName).asReal());
+                builder.setRealValue(fmu.getReader(valueReference).readReal());
             }
             break;
             case "String": {
-                builder.setStrValue(fmu.read(varName).asString());
+                builder.setStrValue(fmu.getReader(valueReference).readString());
             }
             break;
             case "Boolean": {
-                builder.setBoolValue(fmu.read(varName).asBoolean());
+                builder.setBoolValue(fmu.getReader(valueReference).readBoolean());
             }
             break;
         }
@@ -161,19 +160,19 @@ public class {{fmuName}}Server {
 
     private static Fmi2Status Write(FmiSimulation fmu, FmiDefinitions.VarWrite var) {
 
-        String varName = var.getVarName();
+        int valueReference = var.getValueReference();
         switch (var.getValueCase()) {
             case INTVALUE: {
-                return fmu.write(varName).with(var.getIntValue());
+                return fmu.getWriter(valueReference).write(var.getIntValue());
             }
             case REALVALUE: {
-                return fmu.write(varName).with(var.getRealValue());
+                return fmu.getWriter(valueReference).write(var.getRealValue());
             }
             case STRVALUE: {
-                return fmu.write(varName).with(var.getStrValue());
+                return fmu.getWriter(valueReference).write(var.getStrValue());
             }
             case BOOLVALUE: {
-                return fmu.write(varName).with(var.getBoolValue());
+                return fmu.getWriter(valueReference).write(var.getBoolValue());
             }
         }
 
@@ -235,11 +234,11 @@ public class {{fmuName}}Server {
         public void read(FmiDefinitions.VarRead req, StreamObserver<FmiDefinitions.Var> responseObserver) {
 
             int ref = req.getFmuId();
-            String varName = req.getVarName();
+            int vr = req.getValueReference();
 
             FmiSimulation fmu = fmus.get(ref);
             FmiDefinitions.Var.Builder builder = FmiDefinitions.Var.newBuilder();
-            Read(fmu, varName, builder);
+            Read(fmu, vr, builder);
             FmiDefinitions.Var reply = builder.build();
 
             responseObserver.onNext(reply);
@@ -274,13 +273,19 @@ public class {{fmuName}}Server {
         @Override
         public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {
 
-            ModelVariables variables = modelDescription.getModelVariables();
+            IModelVariables variables = modelDescription.getModelVariables();
 
             FmiDefinitions.ScalarVariables.Builder builder = FmiDefinitions.ScalarVariables.newBuilder();
             for (ScalarVariable variable : variables) {
                 builder.addValues(FmiDefinitions.ScalarVariable.newBuilder()
-                    .setName(variable.getName())
-                    .build());
+                        .setValueReference(variable.getValueReference())
+                        .setVarName(variable.getName())
+                        .setDescription(variable.getDescription())
+                        .setType(getType(variable))
+                        .setCausality(getCausality(variable))
+                        .setVariability(getVariability(variable))
+                        .setStart(getStart(variable))
+                        .build());
             }
 
             FmiDefinitions.ScalarVariables reply = builder.build();
@@ -336,9 +341,95 @@ public class {{fmuName}}Server {
 
         }
 
+        @Override
+        public void reset(FmiDefinitions.ResetRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+
+            int ref = req.getFmuId();
+            FmiSimulation fmu = fmus.remove(ref);
+            fmu.reset();
+            statusReply(fmu.getLastStatus(), responseObserver);
+
+        }
+
     }
 
-    private class {{fmuName}}ServiceImpl extends {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase {
+        private FmiDefinitions.Causality getCausality(ScalarVariable variable) {
+
+            switch (variable.getCausality()) {
+                case INPUT: return FmiDefinitions.Causality.INPUT;
+                case OUTPUT: return FmiDefinitions.Causality.OUTPUT;
+                case CALCULATED_PARAMETER: return FmiDefinitions.Causality.CALCULATED_PARAMETER;
+                case PARAMETER: return FmiDefinitions.Causality.PARAMETER;
+                case LOCAL: return FmiDefinitions.Causality.LOCAL;
+                case INDEPENDENT: return FmiDefinitions.Causality.INDEPENDENT;
+                default: return FmiDefinitions.Causality.UNDEFINED_CAUSALITY;
+            }
+
+        }
+
+        private FmiDefinitions.Variability getVariability(ScalarVariable variable) {
+
+            switch (variable.getVariability()) {
+                case CONSTANT: return FmiDefinitions.Variability.CONSTANT;
+                case CONTINUOUS: return FmiDefinitions.Variability.CONTINUOUS;
+                case DISCRETE: return FmiDefinitions.Variability.DISCRETE;
+                case FIXED: return FmiDefinitions.Variability.FIXED;
+                case TUNABLE: return FmiDefinitions.Variability.TUNABLE;
+                default: return FmiDefinitions.Variability.UNDEFINED_VARIABILITY;
+            }
+
+        }
+
+        private FmiDefinitions.Initial getInitial(ScalarVariable variable) {
+
+            switch (variable.getInitial()) {
+                case CALCULATED: return FmiDefinitions.Initial.CALCULATED;
+                case EXACT: return FmiDefinitions.Initial.EXACT;
+                case APPROX: return FmiDefinitions.Initial.APPROX;
+                default: return FmiDefinitions.Initial.UNDEFINED_INITIAL;
+            }
+
+        }
+
+        private FmiDefinitions.Start getStart(ScalarVariable variable) {
+
+            if (variable.getStart() == null) {
+                return FmiDefinitions.Start.getDefaultInstance();
+            }
+
+            FmiDefinitions.Start.Builder builder = FmiDefinitions.Start.newBuilder();
+            if (variable instanceof IntegerVariable) {
+                builder.setIntValue(((IntegerVariable) variable).getStart());
+            } else if (variable instanceof RealVariable) {
+                builder.setRealValue(((RealVariable) variable).getStart());
+            } else if (variable instanceof StringVariable) {
+                builder.setStrValue(((StringVariable) variable).getStart());
+            } else if (variable instanceof BooleanVariable) {
+                builder.setBoolValue(((BooleanVariable) variable).getStart());
+            } else {
+                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
+            }
+            return builder.build();
+        }
+
+        private FmiDefinitions.VariableType getType(ScalarVariable variable) {
+
+            if (variable instanceof IntegerVariable) {
+                return (FmiDefinitions.VariableType.INTEGER);
+            } else if (variable instanceof RealVariable) {
+                return (FmiDefinitions.VariableType.REAL);
+            } else if (variable instanceof StringVariable) {
+                return (FmiDefinitions.VariableType.STRING);
+            } else if (variable instanceof BooleanVariable) {
+                return (FmiDefinitions.VariableType.BOOLEAN);
+            } else {
+                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
+            }
+
+        }
+
+
+private class {{fmuName}}ServiceImpl extends {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase {
 
             {{dynamicMethods}}
 

@@ -42,7 +42,6 @@ protobuf {
 
 }
 
-
 sourceSets {
     main {
         proto {

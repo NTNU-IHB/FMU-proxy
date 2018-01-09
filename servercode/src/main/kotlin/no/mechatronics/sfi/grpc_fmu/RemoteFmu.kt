@@ -25,29 +25,28 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.grpc_fmu.misc.ChangeListener
 import no.mechatronics.sfi.grpc_fmu.misc.ProtoDefinitions
 import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
 import java.util.*
 
+interface IRemoteFmu {
+    val guid: String
+    val address: SocketAddress
+    val modelDescriptionXml: String
+
+}
+
 class RemoteFmu(
-        val guid: String,
-        val address: SocketAddress,
-        val modelDescriptionXml: String
-) {
+        override val guid: String,
+        override val address: SocketAddress,
+        override val modelDescriptionXml: String
+) : IRemoteFmu {
 
     companion object {
 
         fun toJson(info: RemoteFmu) = Gson().toJson(info)
         fun fromJson(json: String) = Gson().fromJson(json, RemoteFmu::class.java)
-    }
 
-
-
-    @delegate: Transient
-    val modelDescription: ModelDescription by lazy {
-        ModelDescription.parseModelDescription(modelDescriptionXml)
     }
 
     val protoDefinition: ProtoDefinitions
@@ -69,45 +68,3 @@ class RemoteFmu(
 
 }
 
-
-
-object RemoteFmus {
-
-    private val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
-    private val changeListeners: MutableList<ChangeListener> = ArrayList()
-
-    fun get(): Set<RemoteFmu> = fmus
-
-    fun addListener(changeListener: ChangeListener) {
-        changeListeners.add(changeListener)
-    }
-
-    fun add(fmu: RemoteFmu): Boolean {
-        synchronized(fmus) {
-            val success = fmus.add(fmu)
-            if (success) {
-                changeListeners.forEach({ it.onAdd(fmu) })
-            }
-            return success
-        }
-    }
-
-    fun remove(guid: String): Boolean {
-        synchronized(fmus) {
-            for (fmu in fmus) {
-                if (fmu.guid == guid) {
-
-                    return fmus.remove(fmu).also { success ->
-                        if (success) {
-                            changeListeners.forEach({it.onRemove(fmu)})
-                        }
-                    }
-
-                }
-            }
-        }
-        return false
-
-    }
-
-}

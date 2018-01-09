@@ -2,9 +2,13 @@
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
+
 repositories {
-    //mavenLocal()
+//    maven {
+//        url "https://oss.sonatype.org/content/repositories/snapshots/"
+//    }
 }
+
 
 dependencies {
 
@@ -15,7 +19,6 @@ dependencies {
     compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.15'
     runtime group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.15'
 
-//    runtime group: 'javax.inject', name: 'javax.inject', version: '1'
     runtime group: 'org.glassfish.web', name: 'javax.el', version: '2.2.6'
 
     compile group: 'org.primefaces', name: 'primefaces', version: '6.1'
@@ -23,6 +26,7 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
     compile project(':servercode')
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: '0.2'
 
 }
 
@@ -31,3 +35,26 @@ gretty {
     httpEnabled = true
     httpPort = 8080
 }
+
+
+task copyProto(type: Copy) {
+
+    copyProto.configure {
+        from('../proto')
+        into('src/main/webapp/resources/proto')
+        include('*.proto')
+    }
+
+}
+
+task copyProtoZip(type: Zip) {
+
+    from '../proto'
+    include '*'
+    archiveName 'GRPC-FMU_GenericProto.zip'
+    destinationDir(file('src/main/webapp/resources/proto/'))
+}
+
+compileJava.dependsOn(copyProtoZip)
+
+

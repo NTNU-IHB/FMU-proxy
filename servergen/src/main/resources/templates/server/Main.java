@@ -38,6 +38,8 @@ class Main {
 
         InputParser.parse(args, (SocketAddress remoteAddress, Integer localPort) -> {
 
+            boolean usesRemote = remoteAddress != null;
+
             try {
                 int myPort = localPort == null ? getAvailablePort() : localPort;
                 SocketAddress localAddress = new SocketAddress(getHostAddress(), myPort);
@@ -45,18 +47,24 @@ class Main {
                 final {{fmuName}}Server server = new {{fmuName}}Server();
                 server.start(localAddress.getPort());
 
-                RemoteFmu remoteFmu = new RemoteFmu(server.getGuid(), localAddress, server.getModelDescriptionXml());
-                FmuHeartbeat beat = new FmuHeartbeat(remoteAddress, remoteFmu);
-                beat.start();
-
                 new Thread(() -> {
+
+                    FmuHeartbeat beat = null;
+                    if (usesRemote) {
+                        RemoteFmu remoteFmu = new RemoteFmu(server.getGuid(), localAddress, server.getModelDescriptionXml());
+                        beat = new FmuHeartbeat(remoteAddress, remoteFmu);
+                        beat.start();
+                    }
 
                     System.out.println("Press any key to stop the application..");
                     Scanner sc = new Scanner(System.in);
                     if (sc.hasNext()) {
                         System.out.println("Key pressed, stopping application..");
 
-                        beat.stop();
+                        if (usesRemote) {
+                            beat.stop();
+                        }
+
                         server.stop();
 
                     }
