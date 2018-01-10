@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.utils.*
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
@@ -48,7 +48,7 @@ object ServerGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ServerGen::class.java)
 
-    fun generateServerCode(modelDescription: IModelDescription) : ServerCode {
+    fun generateServerCode(modelDescription: ModelDescription) : ServerCode {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
@@ -59,7 +59,7 @@ object ServerGen {
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
                             .with("varName2", convertName2(it.name))
-                            .with("primitive1", toRPCType2(it.typeName))
+                            //.with("primitive1", toRPCType2(it.typeName))
                             .with("primitive2", it.typeName)
                             .with("returnType", toRPCType1(it.typeName)))!!
                 })

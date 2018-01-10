@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.grpc_fmu.utils.FileFuture
 import no.mechatronics.sfi.grpc_fmu.utils.convertName1
 import no.mechatronics.sfi.grpc_fmu.utils.isArray
@@ -105,7 +105,7 @@ object ProtoGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
 
-    fun generateProtoCode(modelDescription: IModelDescription): ProtoCode {
+    fun generateProtoCode(modelDescription: ModelDescription): ProtoCode {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({

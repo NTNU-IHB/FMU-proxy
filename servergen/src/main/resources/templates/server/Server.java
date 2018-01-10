@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -44,6 +45,7 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder;
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
 import no.mechatronics.sfi.fmi4j.modeldescription.*;
+import no.mechatronics.sfi.fmi4j.misc.*;
 
 public class {{fmuName}}Server {
 
@@ -52,7 +54,7 @@ public class {{fmuName}}Server {
     private Server server;
     private final FmuFile fmuFile;
     private final FmuBuilder builder;
-    private final IModelDescription modelDescription;
+    private final ModelDescription modelDescription;
     private final Map<Integer, FmiSimulation> fmus;
 
     public {{fmuName}}Server() throws IOException {
@@ -137,21 +139,22 @@ public class {{fmuName}}Server {
     private static void Read(FmiSimulation fmu, int valueReference, FmiDefinitions.Var.Builder builder) {
 
         String typeName = fmu.getModelVariables().getByValueReference(valueReference).getTypeName();
+        VariableReader reader = fmu.getReader(valueReference);
         switch(typeName) {
             case "Integer": {
-                builder.setIntValue(fmu.getReader(valueReference).readInteger());
+                builder.setIntValue(reader.asIntReader().read());
             }
             break;
             case "Real": {
-                builder.setRealValue(fmu.getReader(valueReference).readReal());
+                builder.setRealValue(reader.asRealReader().read());
             }
             break;
             case "String": {
-                builder.setStrValue(fmu.getReader(valueReference).readString());
+                builder.setStrValue(reader.asStringReader().read());
             }
             break;
             case "Boolean": {
-                builder.setBoolValue(fmu.getReader(valueReference).readBoolean());
+                builder.setBoolValue(reader.asBooleanReader().read());
             }
             break;
         }
@@ -161,18 +164,23 @@ public class {{fmuName}}Server {
     private static Fmi2Status Write(FmiSimulation fmu, FmiDefinitions.VarWrite var) {
 
         int valueReference = var.getValueReference();
+        VariableWriter writer = fmu.getWriter(valueReference);
         switch (var.getValueCase()) {
             case INTVALUE: {
-                return fmu.getWriter(valueReference).write(var.getIntValue());
+                writer.asIntWriter().write(var.getIntValue());
+                return fmu.getLastStatus();
             }
             case REALVALUE: {
-                return fmu.getWriter(valueReference).write(var.getRealValue());
+                writer.asRealWriter().write(var.getRealValue());
+                return fmu.getLastStatus();
             }
             case STRVALUE: {
-                return fmu.getWriter(valueReference).write(var.getStrValue());
+                writer.asStringWriter().write(var.getStrValue());
+                return fmu.getLastStatus();
             }
             case BOOLVALUE: {
-                return fmu.getWriter(valueReference).write(var.getBoolValue());
+                writer.asBooleanWriter().write(var.getBoolValue());
+                return fmu.getLastStatus();
             }
         }
 
@@ -257,7 +265,8 @@ public class {{fmuName}}Server {
         @Override
         public void getModelVariableNames(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.StrList> responseObserver) {
 
-            List<String> modelVariableNames = modelDescription.getModelVariables().getVariableNames();
+            List<String> modelVariableNames = modelDescription.getModelVariables()
+                    .getVariables().stream().map(v -> v.getName()).collect(Collectors.toList());
 
             FmiDefinitions.StrList.Builder builder = FmiDefinitions.StrList.newBuilder();
             for (String name : modelVariableNames) {
@@ -273,7 +282,7 @@ public class {{fmuName}}Server {
         @Override
         public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {
 
-            IModelVariables variables = modelDescription.getModelVariables();
+            ModelVariables variables = modelDescription.getModelVariables();
 
             FmiDefinitions.ScalarVariables.Builder builder = FmiDefinitions.ScalarVariables.newBuilder();
             for (ScalarVariable variable : variables) {
@@ -414,16 +423,13 @@ public class {{fmuName}}Server {
 
         private FmiDefinitions.VariableType getType(ScalarVariable variable) {
 
-            if (variable instanceof IntegerVariable) {
-                return (FmiDefinitions.VariableType.INTEGER);
-            } else if (variable instanceof RealVariable) {
-                return (FmiDefinitions.VariableType.REAL);
-            } else if (variable instanceof StringVariable) {
-                return (FmiDefinitions.VariableType.STRING);
-            } else if (variable instanceof BooleanVariable) {
-                return (FmiDefinitions.VariableType.BOOLEAN);
-            } else {
-                throw new UnsupportedOperationException("Variable type not supported: " + variable.getClass().getSimpleName());
+            switch (variable.getTypeName()) {
+                case "Integer": return (FmiDefinitions.VariableType.INTEGER);
+                case "Real": return (FmiDefinitions.VariableType.REAL);
+                case "String": return (FmiDefinitions.VariableType.STRING);
+                case "Boolean": return (FmiDefinitions.VariableType.BOOLEAN);
+                default: throw new UnsupportedOperationException("Variable type not supported: " + variable.getTypeName());
+
             }
 
         }
