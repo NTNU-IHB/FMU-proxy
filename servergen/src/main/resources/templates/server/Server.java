@@ -54,16 +54,14 @@ public class {{fmuName}}Server {
     private Server server;
     private final FmuFile fmuFile;
     private final FmuBuilder builder;
-    private final ModelDescription modelDescription;
+    private final SimpleModelDescription modelDescription;
     private final Map<Integer, FmiSimulation> fmus;
 
     public {{fmuName}}Server() throws IOException {
-
         this.fmus = new HashMap<>();
         this.fmuFile = new FmuFile(getClass().getClassLoader().getResource("{{fmuName}}.fmu"));
         this.modelDescription = ModelDescriptionParser.parse(fmuFile.getModelDescriptionXml());
         this.builder = new FmuBuilder(this.fmuFile);
-
     }
 
     public String getGuid() {
@@ -75,7 +73,6 @@ public class {{fmuName}}Server {
     }
 
     public void start(int port) throws IOException {
-
         server = ServerBuilder.forPort(port)
             .addService(new GenericServiceImpl())
             .addService(new {{fmuName}}ServiceImpl())
@@ -83,35 +80,28 @@ public class {{fmuName}}Server {
             .start();
 
         LOG.info("FMU listening for connections on port: {}", port);
-
     }
 
     public void stop() {
-
         if (server != null) {
             server.shutdown();
         }
         disposeFmus();
-
     }
 
     public void disposeFmus() {
-
         for (FmiSimulation fmu : fmus.values()) {
             disposeFmu(fmu);
         }
         fmus.clear();
-
     }
 
     public void disposeFmu(FmiSimulation fmu) {
-
         try {
             fmu.terminate();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     /**
@@ -119,11 +109,9 @@ public class {{fmuName}}Server {
      * threads.
      */
     public void blockUntilShutdown() throws InterruptedException {
-
         if (server != null) {
             server.awaitTermination();
         }
-
     }
 
     private static void statusReply(Fmi2Status status, StreamObserver<FmiDefinitions.Status> responseObserver) {

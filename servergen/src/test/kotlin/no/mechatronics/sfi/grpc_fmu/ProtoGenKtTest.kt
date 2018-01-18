@@ -13,12 +13,12 @@ import java.io.FileOutputStream
 import java.nio.file.Files
 
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 
 class ProtoGenKtTest {
 
-    lateinit var modelDescription: ModelDescription
+    lateinit var modelDescription: SimpleModelDescription
     lateinit var temp: File
 
     @Before

@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.grpc_fmu.utils.FileFuture
 import no.mechatronics.sfi.grpc_fmu.utils.convertName1
 import no.mechatronics.sfi.grpc_fmu.utils.isArray
@@ -35,7 +35,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
-private const val PROTOC_GRPC_EXE = "protoc-gen-java.exe"
 
 class ProtoCode(
          val definitions: FileFuture,
@@ -91,13 +90,11 @@ class ProtoCode(
             false
         }
 
-
     }
 
     override fun toString(): String {
         return "ProtoCode(definitions=$definitions, service=$service)"
     }
-
 
 }
 
@@ -105,7 +102,7 @@ object ProtoGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
 
-    fun generateProtoCode(modelDescription: ModelDescription): ProtoCode {
+    fun generateProtoCode(modelDescription: SimpleModelDescription): ProtoCode {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
