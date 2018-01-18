@@ -3,14 +3,14 @@ apply plugin: 'application'
 
 mainClassName = 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
 
-def debug = true
+def debug = false
 
 if (debug) {
     repositories {
         mavenLocal() //servercode
-//        maven {
-//            url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
-//        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+        }
     }
 }
 
@@ -43,11 +43,14 @@ task fatJar(type: Jar) {
                 'Implementation-Version': "1.0",
                 'Main-Class': 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
     }
+
     baseName = 'gRPC-FMU'
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
     }
+
     with jar
+
 }
 
 if (debug) {

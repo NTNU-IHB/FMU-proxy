@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/main_template.xhtml">
 
@@ -12,24 +13,46 @@
         <h2>Welcome to gRPC-FMU web interface!</h2>
 
 
-        <h:form>
+        <h:form id="form">
             <p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s">
                 <p:fileDownload value="#{protoDownload.file}" />
             </p:commandButton>
-        </h:form>
 
-        <h:form id="form">
-            <p:dataTable id="fmus" var="fmu" value="#{fmuOverview.fmus}">
+            <p:commandButton id="iconOnly" update=":form:fmus" icon="ui-icon-refresh" title="Icon Only" />
+
+            <p:dataTable id="fmus" var="fmu" value="#{fmuView.service.fmus}">
+                <f:facet name="header">
+                    Available FMUs
+                </f:facet>
                 <p:column headerText="Model name">
                     <h:outputText value="#{fmu.modelDescription.modelName}" />
                 </p:column>
                 <p:column headerText="Guid">
                     <h:outputText value="#{fmu.guid}" />
                 </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:fmuDetail" oncomplete="PF('fmuDialog').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{fmu}" target="#{fmuView.selectedFmu}" />
+                    </p:commandButton>
+                </p:column>
             </p:dataTable>
+
+
+            <p:dialog header="FMU Info" widgetVar="fmuDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="fmuDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty fmuView.selectedFmu}" columnClasses="label,value">
+                        <f:facet name="header">
+                            "ModelVariables"
+                        </f:facet>
+
+                        <h:outputText value="Name:" />
+                        <h:outputText value="#{fmuView.selectedFmu.modelNmae}" />
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+
         </h:form>
-
-
 
 
     </ui:define>

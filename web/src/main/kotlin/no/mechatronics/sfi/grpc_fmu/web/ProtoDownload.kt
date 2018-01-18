@@ -5,8 +5,6 @@ import org.primefaces.model.StreamedContent
 import org.primefaces.model.DefaultStreamedContent
 import javax.faces.context.FacesContext
 
-
-
 @ManagedBean
 class ProtoDownload {
 

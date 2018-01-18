@@ -27,13 +27,13 @@ package no.mechatronics.sfi.grpc_fmu
 import com.google.gson.Gson
 import no.mechatronics.sfi.grpc_fmu.misc.ProtoDefinitions
 import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
+import java.io.Serializable
 import java.util.*
 
-interface IRemoteFmu {
+interface IRemoteFmu: Serializable {
     val guid: String
     val address: SocketAddress
     val modelDescriptionXml: String
-
 }
 
 class RemoteFmu(
