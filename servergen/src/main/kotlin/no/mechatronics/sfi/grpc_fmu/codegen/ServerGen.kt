@@ -32,6 +32,10 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class ServerCode(
         val main: FileFuture,
         val server: FileFuture
@@ -44,6 +48,10 @@ class ServerCode(
 
 }
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 object ServerGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ServerGen::class.java)

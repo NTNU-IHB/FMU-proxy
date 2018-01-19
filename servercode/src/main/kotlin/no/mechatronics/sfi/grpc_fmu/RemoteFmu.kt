@@ -25,17 +25,33 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
-import no.mechatronics.sfi.grpc_fmu.misc.ProtoDefinitions
 import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
 import java.io.Serializable
 import java.util.*
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 interface IRemoteFmu: Serializable {
     val guid: String
     val address: SocketAddress
     val modelDescriptionXml: String
 }
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
+class ProtoDefinitions(
+        val definitions: String,
+        val service: String
+)
+
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class RemoteFmu(
         override val guid: String,
         override val address: SocketAddress,
@@ -61,6 +77,7 @@ class RemoteFmu(
 
         protoDefinition = ProtoDefinitions(definitions, service)
     }
+
 
     override fun toString(): String {
         return "RemoteFmu(guid='$guid', address='$address')"

@@ -76,30 +76,30 @@ class FmuService {
 
                     ZContext().use { ctx ->
 
-                        val backend = ctx.createSocket(ZMQ.ROUTER)
+                        val backend = ctx.createSocket(ZMQ.ROUTER).apply {
+                            rcvHWM = 1
+                            bind("tcp://*:$port")
+                        }
                         val poller = ctx.createPoller(1).apply {
                             register(ZMQ.PollItem(backend, ZMQ.Poller.POLLIN))
                         }
 
-                        backend.bind("tcp://*:$port")
-
-                        var heartbeat_at = System.currentTimeMillis() + HEARTBEAT_INTERVAL
+                        var heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
 
                         while (!stop) {
 
-                            if (poller.poll(HEARTBEAT_INTERVAL) == -1) break
+                            if (poller.poll(HEARTBEAT_INTERVAL) == -1) {
+                                break
+                            }
 
-                            //  Handle worker activity on backend
                             if (poller.pollin(0)) {
 
                                 val msg = ZMsg.recvMsg(backend) ?: break          //  Interrupted
 
-                                val address = msg.unwrap()
-                                val uuid = String(address.data, ZMQ.CHARSET)
+                                val address: ZFrame = msg.unwrap()
+                                val uuid: String = String(address.data, ZMQ.CHARSET)
 
-                                //  Forward message to client if it's not a READY
-                                val frame = msg.first
-                                if (String(frame.data, ZMQ.CHARSET) == PPP_READY) {
+                                if (String(msg.first.data, ZMQ.CHARSET) == PPP_READY) {
 
                                     val data = String(msg.last.data, ZMQ.CHARSET);
                                     val remoteFmu = RemoteFmu.fromJson(data)
@@ -111,17 +111,15 @@ class FmuService {
 
                                 }
 
-                                msg.destroy()
-
                                 if (uuid in workers) {
-                                    workers[uuid]?.updateExpiry()
-                                } else {
-                                    LOG.error("No worker with uuid={}", uuid)
+                                    workers[uuid]!!.updateExpiry()
                                 }
+
+                                msg.destroy()
 
                             }
 
-                            if (System.currentTimeMillis() >= heartbeat_at) {
+                            if (System.currentTimeMillis() >= heartbeatAt) {
                                 for (worker in workers.values) {
 
                                     worker.address.send(backend,
@@ -130,7 +128,7 @@ class FmuService {
                                     frame.send(backend, 0)
 
                                 }
-                                heartbeat_at = System.currentTimeMillis() + HEARTBEAT_INTERVAL
+                                heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
                             }
 
                             purge(workers)

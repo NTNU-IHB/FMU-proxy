@@ -29,12 +29,15 @@ import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
 import java.io.File
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class ApplicationStarter {
 
     companion object {
 
         private const val HELP = "help"
-
         private const val FMU_FILE = "fmu"
         private const val OUTPUT_FOLDER = "out"
 

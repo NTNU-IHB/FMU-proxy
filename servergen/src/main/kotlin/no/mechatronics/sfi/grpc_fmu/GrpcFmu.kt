@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,10 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 object GrpcFmu {
 
     private val LOG: Logger = LoggerFactory.getLogger(GrpcFmu::class.java)

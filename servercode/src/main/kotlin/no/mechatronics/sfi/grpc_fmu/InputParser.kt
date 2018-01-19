@@ -7,12 +7,10 @@ import org.apache.commons.cli.Options
 import java.net.Socket
 import javax.swing.JOptionPane
 
-interface StartServer {
-
-    fun run(remoteAddress: SocketAddress?, localPort: Int?)
-
-}
-
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 object InputParser {
 
     private const val HELP = "help"
@@ -21,7 +19,7 @@ object InputParser {
     private const val LOCAL_PORT = "localPort"
 
     @JvmStatic
-    fun parse(args: Array<String>, action: StartServer)  {
+    fun parse(args: Array<String>, action: (SocketAddress?, Int?) -> Unit)  {
 
         val options = Options().apply {
 
@@ -52,7 +50,7 @@ object InputParser {
                     }
                 }
 
-                action.run(remote, localPort)
+                action.invoke(remote, localPort)
 
             }
 

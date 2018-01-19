@@ -33,6 +33,18 @@ import org.zeromq.ZFrame
 import org.zeromq.ZMQ
 import org.zeromq.ZMsg
 
+private const val HEARTBEAT_LIVENESS = 3L      //  3-5 is reasonable
+private const val HEARTBEAT_INTERVAL = 1000L    //  msecs
+private const val INTERVAL_INIT = 1000L   //  Initial reconnect
+private const val INTERVAL_MAX = 32000L   //  After exponential backoff
+
+private const val PPP_READY = "\u0001"//  Signals worker is ready
+private const val PPP_HEARTBEAT = "\u0002"//  Signals worker heartbeat
+
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class FmuHeartbeat(
         private val remoteAddress: SocketAddress,
         private val remoteFmu: RemoteFmu) {
@@ -62,16 +74,7 @@ class FmuHeartbeat(
     }
 
     companion object {
-
         private val LOG: Logger = LoggerFactory.getLogger(FmuHeartbeat::class.java)
-
-        private val HEARTBEAT_LIVENESS = 3L      //  3-5 is reasonable
-        private val HEARTBEAT_INTERVAL = 1000L    //  msecs
-        private val INTERVAL_INIT = 1000L   //  Initial reconnect
-        private val INTERVAL_MAX = 32000L   //  After exponential backoff
-
-        private val PPP_READY = "\u0001"//  Signals worker is ready
-        private val PPP_HEARTBEAT = "\u0002"//  Signals worker heartbeat
     }
 
     private inner class InnerClass : Runnable {
@@ -132,7 +135,7 @@ class FmuHeartbeat(
                         interval = INTERVAL_INIT
                     } else if (--liveness == 0L) {
 
-                        LOG.warn("FmuHeartbeat failure, can't reach remote")
+                        LOG.warn("FmuHeartbeat failure, can't reach remote @ $remoteAddress")
                         LOG.info("Reconnecting in {} msec", interval)
 
                         Thread.sleep(interval)
@@ -149,8 +152,9 @@ class FmuHeartbeat(
                     if (System.currentTimeMillis() > heartbeat_at) {
                         heartbeat_at = System.currentTimeMillis() + HEARTBEAT_INTERVAL
 //                        LOG.debug("Worker heartbeat..");
-                        val frame = ZFrame(PPP_HEARTBEAT)
-                        frame.send(worker, 0)
+                        ZFrame(PPP_HEARTBEAT).apply {
+                            send(worker, 0 )
+                        }
                     }
                 }
             }

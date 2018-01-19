@@ -29,9 +29,15 @@ import java.net.ServerSocket;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import kotlin.Unit;
 import no.mechatronics.sfi.grpc_fmu.heartbeating.FmuHeartbeat;
 import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress;
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class Main {
 
     public static void main(String args[]) {
@@ -74,6 +80,8 @@ class Main {
                 server.blockUntilShutdown();
             } catch (Exception ex) {
                 ex.printStackTrace();
+            } finally {
+                return Unit.INSTANCE;
             }
 
 

@@ -36,6 +36,10 @@ import org.slf4j.LoggerFactory
 
 private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class ProtoCode(
          val definitions: FileFuture,
          val service: FileFuture
