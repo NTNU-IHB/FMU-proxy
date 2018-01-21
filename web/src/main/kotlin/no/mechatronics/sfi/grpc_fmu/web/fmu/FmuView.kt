@@ -18,11 +18,9 @@ class FmuView: Serializable {
 
     var selectedFmu: FmuBean? = null
 
-
     @PostConstruct
     fun init() {
         fmus = service.fmus
     }
-
 
 }

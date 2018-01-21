@@ -59,7 +59,6 @@ class FmuService {
         return false
     }
 
-
     inner class Heartbeat(
             private val port: Int
     ) {
@@ -97,7 +96,7 @@ class FmuService {
                                 val msg = ZMsg.recvMsg(backend) ?: break          //  Interrupted
 
                                 val address: ZFrame = msg.unwrap()
-                                val uuid: String = String(address.data, ZMQ.CHARSET)
+                                val uuid = String(address.data, ZMQ.CHARSET)
 
                                 if (String(msg.first.data, ZMQ.CHARSET) == PPP_READY) {
 
@@ -191,6 +190,5 @@ class FmuService {
         }
 
     }
-
 
 }

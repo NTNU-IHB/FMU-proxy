@@ -15,6 +15,8 @@ service GenericFmuService {
     rpc GetModelVariableNames (Empty) returns (StrList);
     rpc GetModelVariables (Empty) returns (ScalarVariables);
 
+    //rpc GetModelStructure (Empty) returns (ModelStructure);
+
     //instance methods
     rpc GetCurrentTime (ModelReference) returns (Real);
     rpc IsTerminated (ModelReference) returns (Bool);
