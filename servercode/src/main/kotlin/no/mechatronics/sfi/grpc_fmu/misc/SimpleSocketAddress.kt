@@ -5,7 +5,12 @@ package no.mechatronics.sfi.grpc_fmu.misc
  *
  * @author Lars Ivar Hatledal
  */
-data class SocketAddress(
+data class SimpleSocketAddress(
         val hostAddress: String,
         val port: Int
-)
+) {
+
+    override fun toString(): String {
+        return "SimpleSocketAddress(hostAddress='$hostAddress', port=$port)"
+    }
+}

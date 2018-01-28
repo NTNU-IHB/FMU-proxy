@@ -1,16 +1,25 @@
 
 apply plugin: 'application'
+apply plugin: 'distribution'
 
 mainClassName = 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
 
+distributions {
+    main {
+        baseName = 'gRPC-FMU'
+        applicationName = "gRPC-FMU"
+    }
+}
+
 def debug = false
 
-if (debug) {
-    repositories {
+
+repositories {
+    if (debug) {
         mavenLocal() //servercode
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
-        }
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
     }
 }
 
@@ -18,10 +27,8 @@ dependencies {
 
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-
     compile group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
-
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: '0.4.2'
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: '0.4.3-SNAPSHOT'
 
     if (debug) {
         compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
@@ -31,27 +38,12 @@ dependencies {
         compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
         compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
 
-        compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-BETA'
+        compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1.1-BETA'
         compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT'
     }
 
 }
 
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'gRPC-FMU',
-                'Implementation-Version': "1.0",
-                'Main-Class': 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
-    }
-
-    baseName = 'gRPC-FMU'
-    from {
-        configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    with jar
-
-}
 
 if (debug) {
     sourceSets {
@@ -65,12 +57,29 @@ if (debug) {
 
 
 task copyProto(type: Copy) {
-
     copyProto.configure {
         from('../proto/definitions.proto')
         into('src/main/resources/templates/proto/')
     }
-
 }
 
+
 compileJava.dependsOn(copyProto)
+
+
+//task fatJar(type: Jar) {
+//    manifest {
+//        attributes 'Implementation-Title': 'gRPC-FMU',
+//                'Implementation-Version': "1.0",
+//                'Main-Class': 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
+//    }
+//
+//    baseName = 'gRPC-FMU'
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//
+//    with jar
+//
+//}
+

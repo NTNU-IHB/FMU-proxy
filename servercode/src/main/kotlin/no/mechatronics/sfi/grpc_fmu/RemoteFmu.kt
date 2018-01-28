@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
-import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
+import no.mechatronics.sfi.grpc_fmu.misc.SimpleSocketAddress
 import java.io.Serializable
 import java.util.*
 
@@ -35,7 +35,7 @@ import java.util.*
  */
 interface IRemoteFmu: Serializable {
     val guid: String
-    val address: SocketAddress
+    val address: SimpleSocketAddress
     val modelDescriptionXml: String
 }
 
@@ -54,7 +54,7 @@ class ProtoDefinitions(
  */
 class RemoteFmu(
         override val guid: String,
-        override val address: SocketAddress,
+        override val address: SimpleSocketAddress,
         override val modelDescriptionXml: String
 ) : IRemoteFmu {
 

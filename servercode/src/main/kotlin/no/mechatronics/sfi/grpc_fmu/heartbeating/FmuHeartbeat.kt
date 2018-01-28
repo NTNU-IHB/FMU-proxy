@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.grpc_fmu.heartbeating
 
 import no.mechatronics.sfi.grpc_fmu.RemoteFmu
-import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
+import no.mechatronics.sfi.grpc_fmu.misc.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zeromq.ZContext
@@ -46,7 +46,7 @@ private const val PPP_HEARTBEAT = "\u0002"//  Signals worker heartbeat
  * @author Lars Ivar Hatledal
  */
 class FmuHeartbeat(
-        private val remoteAddress: SocketAddress,
+        private val remoteAddress: SimpleSocketAddress,
         private val remoteFmu: RemoteFmu) {
 
     private var thread: Thread? = null
