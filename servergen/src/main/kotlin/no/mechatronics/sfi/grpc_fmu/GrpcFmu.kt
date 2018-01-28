@@ -55,30 +55,36 @@ object GrpcFmu {
     private const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
     private const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
 
-
     fun generate(file: File) = generate(FileInputStream(file), exctractModelDescriptionXml(FileInputStream(file)))
-
     fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
 
-    private fun createBuildFile(baseFile: File) {
-        File(baseFile, "build.gradle").also { file ->
-            FileOutputStream(file).use { fos ->
-                IOUtils.copy(javaClass.classLoader.getResourceAsStream("build.gradle"), fos)
-                LOG.info("Copied build.gradle to {}", file)
-            }
-        }
-    }
 
-    private fun createSettingsFile(baseFile: File) {
-        File(baseFile, "settings.gradle").also { file ->
-            file.createNewFile()
+    private fun copyZippedContent(baseFile: File) {
+        GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
+            ZipInputStream(zipStream).use { zis ->
+                var nextEntry: ZipEntry? = zis.nextEntry
+                while (nextEntry != null) {
+                    if (!nextEntry.isDirectory) {
+                        File(baseFile, nextEntry.name).also { file ->
+                            if (!file.exists()) {
+                                if (!file.parentFile.exists()) {
+                                    Files.createParentDirs(file)
+                                }
+                                FileOutputStream(file).use { fis ->
+                                    IOUtils.copy(zis, fis)
+                                }
+                            }
+                        }
+                    }
+                    nextEntry = zis.nextEntry
+                }
+            }
         }
     }
 
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
-
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists()) {
                 if (mkdir()) {
@@ -87,34 +93,17 @@ object GrpcFmu {
             }
         }
 
-        createBuildFile(baseFile)
-        createSettingsFile(baseFile)
-
-        GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
-            ZipInputStream(zipStream).use { zis ->
-                var nextEntry: ZipEntry? = zis.nextEntry
-                while (nextEntry != null) {
-
-                    if (!nextEntry.isDirectory) {
-                        File(baseFile, nextEntry.name).also { file ->
-
-                            if (!file.exists()) {
-                                if (!file.parentFile.exists()) {
-                                    Files.createParentDirs(file)
-                                }
-
-                                FileOutputStream(file).use { fis ->
-                                    IOUtils.copy(zis, fis)
-                                }
-                            }
-
-                        }
-                    }
-                    nextEntry = zis.nextEntry
-                }
+        File(baseFile,  "build.gradle").also { file ->
+            FileOutputStream(file).use { fos ->
+                IOUtils.copy(javaClass.classLoader.getResourceAsStream( "build.gradle"), fos)
+                LOG.info("Copied build.gradle to {}", file)
             }
         }
+        File(baseFile, "settings.gradle").also { file ->
+            file.createNewFile()
+        }
 
+       copyZippedContent(baseFile)
 
         val resourcesFile = File(baseFile,"src/main/resources/").apply {
             if (!exists()) {
@@ -122,13 +111,20 @@ object GrpcFmu {
             }
         }
 
-        File(resourcesFile, "modelDescription.xml").let { file ->
+        File(resourcesFile, "modelDescription.xml").also { file ->
             FileUtils.writeStringToFile(file, modelDescriptionXml, Charset.forName("UTF-8"))
         }
 
-        File(resourcesFile, "${modelDescription.modelName}.fmu").let { file ->
-            FileOutputStream(file).use { fis ->
-                IOUtils.copy(inputStream, fis)
+        File(resourcesFile, "log4j.properties").also { file ->
+            FileOutputStream(file).use { fos ->
+                IOUtils.copy(javaClass.classLoader.getResourceAsStream("log4j.properties"), fos)
+                LOG.info("Copied log4j.properties to {}", file)
+            }
+        }
+
+        File(resourcesFile, "${modelDescription.modelName}.fmu").also { file ->
+            FileOutputStream(file).use { fos ->
+                IOUtils.copy(inputStream, fos)
             }
         }
 
@@ -137,7 +133,6 @@ object GrpcFmu {
             service.create(resourcesFile)
             compile(baseFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
         }
-
 
         ServerGen.generateServerCode(modelDescription)
                 .writeToDirectory(File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"

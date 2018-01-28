@@ -46,8 +46,7 @@ class ApplicationStarter {
 
             val options = Options().apply {
 
-                addOption(HELP, false, "Display this message")
-
+                addOption(HELP, false, "Prints this message")
                 addOption(FMU_FILE, true, "Path to the fmu")
                 addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar (optional)")
 
@@ -58,7 +57,6 @@ class ApplicationStarter {
                 if (args.isEmpty() || hasOption(HELP)) {
                     HelpFormatter().printHelp("gRPC-FMU", options)
                 } else {
-
                     getOptionValue(FMU_FILE)?.let { path ->
                         val file = File(path.replace("\\", "/"))
                         if (file.exists() && file.name.endsWith(".fmu", true)) {
@@ -67,7 +65,6 @@ class ApplicationStarter {
                             error("Not a valid file: ${file.absolutePath}")
                         }
                     }
-
                 }
             }
 

@@ -61,7 +61,7 @@ class ProtoCode(
 
     fun compile(baseDir: File, protoOut: String, javaOut: String) : Boolean {
 
-        LOG.info("Compiling proto..")
+        LOG.debug("Compiling proto..")
 
         File(javaOut).apply {
             if (!exists()) {
@@ -87,7 +87,7 @@ class ProtoCode(
                 .waitFor()
 
         return if (status == 0) {
-            LOG.info("Compiling done!")
+            LOG.debug("Compiling done!")
             true
         } else {
             LOG.warn("Process exited with status: {}", status)
