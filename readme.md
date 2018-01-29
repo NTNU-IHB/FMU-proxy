@@ -26,7 +26,7 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 ### Generating the server from an FMU
 
 ```
-usage: java -jar gRPC-FMU
+usage: grpc-fmu
  -fmu <arg>   Path to the fmu
  -help        Prints this message
  -out <arg>   Specify where to copy the generated .jar (optional, not supported yet)
