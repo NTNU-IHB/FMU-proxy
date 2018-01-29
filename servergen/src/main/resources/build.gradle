@@ -1,8 +1,8 @@
 
 apply plugin: 'java'
 
-def snapshot = true
-def fmi_import_version = snapshot ? '0.1.1-BETA-SNAPSHOT' : '0.1-BETA'
+def snapshot = false
+def fmi_import_version = snapshot ? '0.1.2-BETA-SNAPSHOT' : '0.1.1-BETA'
 
 repositories {
     mavenCentral()
