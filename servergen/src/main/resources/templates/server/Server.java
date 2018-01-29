@@ -131,7 +131,7 @@ public class {{fmuName}}Server {
 
     private static void Read(FmiSimulation fmu, int valueReference, FmiDefinitions.Var.Builder builder) {
 
-        String typeName = fmu.getModelVariables().getByValueReference(valueReference).getTypeName();
+        String typeName = ScalarVariable.Companion.getTypeName(fmu.getModelVariables().getByValueReference(valueReference));
         VariableReader reader = fmu.getReader(valueReference);
         switch(typeName) {
             case "Integer": {
@@ -415,14 +415,13 @@ public class {{fmuName}}Server {
         }
 
         private FmiDefinitions.VariableType getType(ScalarVariable variable) {
-
-            switch (variable.getTypeName()) {
+            String typeName = ScalarVariable.Companion.getTypeName(variable);
+            switch (typeName) {
                 case "Integer": return (FmiDefinitions.VariableType.INTEGER);
                 case "Real": return (FmiDefinitions.VariableType.REAL);
                 case "String": return (FmiDefinitions.VariableType.STRING);
                 case "Boolean": return (FmiDefinitions.VariableType.BOOLEAN);
-                default: throw new UnsupportedOperationException("Variable type not supported: " + variable.getTypeName());
-
+                default: throw new UnsupportedOperationException("Variable type not supported: " + typeName);
             }
 
         }

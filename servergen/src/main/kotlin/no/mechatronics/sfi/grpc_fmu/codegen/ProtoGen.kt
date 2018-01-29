@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
+import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.grpc_fmu.utils.FileFuture
 import no.mechatronics.sfi.grpc_fmu.utils.convertName1
@@ -117,13 +118,13 @@ object ProtoGen {
                 sb.append(JtwigTemplate.classpathTemplate("templates/proto/read.proto").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("varName", convertName1(it.name))
-                            .with("typeName", it.typeName))!!
+                            .with("typeName", ScalarVariable.getTypeName(it)))!!
                 })
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/proto/write.proto").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("varName", convertName1(it.name))
-                            .with("typeName", it.typeName))!!
+                            .with("typeName", ScalarVariable.getTypeName(it)))!!
                 })
 
             }

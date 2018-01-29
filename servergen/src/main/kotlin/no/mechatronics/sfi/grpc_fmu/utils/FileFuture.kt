@@ -47,4 +47,8 @@ class FileFuture (
         }
     }
 
+    override fun toString(): String {
+        return "FileFuture(name='$name', text='$text')"
+    }
+
 }

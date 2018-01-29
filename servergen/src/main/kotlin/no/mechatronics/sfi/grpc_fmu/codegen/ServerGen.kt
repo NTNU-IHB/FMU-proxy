@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
+import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.grpc_fmu.utils.*
 import org.jtwig.JtwigModel
@@ -46,6 +47,11 @@ class ServerCode(
         server.create(dir)
     }
 
+    override fun toString(): String {
+        return "ServerCode(main=$main, server=$server)"
+    }
+
+
 }
 
 /**
@@ -59,7 +65,7 @@ object ServerGen {
     fun generateServerCode(modelDescription: SimpleModelDescription) : ServerCode {
 
         val sb = StringBuilder()
-        modelDescription.modelVariables.forEach({
+        modelDescription.modelVariables.forEach{
 
             if (!isArray(it.name)) {
 
@@ -68,20 +74,20 @@ object ServerGen {
                             .with("valueReference", it.valueReference)
                             .with("varName2", convertName2(it.name))
                             //.with("primitive1", toRPCType2(it.typeName))
-                            .with("primitive2", it.typeName)
-                            .with("returnType", toRPCType1(it.typeName)))!!
+                            .with("primitive2", ScalarVariable.getTypeName(it))
+                            .with("returnType", toRPCType1(ScalarVariable.getTypeName(it))))!!
                 })
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.java").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
                             .with("varName2", convertName2(it.name))
-                            .with("dataType", toRPCType1(it.typeName)))!!
+                            .with("dataType", toRPCType1(ScalarVariable.getTypeName(it))))!!
                 })
 
             }
 
-        })
+        }
 
         val main = FileFuture(
                 name = "Main.java",
