@@ -42,13 +42,13 @@ fun main(args: Array<String>) {
 
             val dt = 1.0/100
             for (i in 1..10) {
-                println(fmu.step(dt))
+                fmu.step(dt)
                 outputs.forEach({
                     val value: Any? = when (it.type) {
-                        FmiDefinitions.VariableType.INTEGER -> it.start.intValue
-                        FmiDefinitions.VariableType.REAL -> it.start.realValue
-                        FmiDefinitions.VariableType.STRING -> it.start.strValue
-                        FmiDefinitions.VariableType.BOOLEAN -> it.start.boolValue
+                        FmiDefinitions.VariableType.INTEGER -> fmu.getReader(it.valueReference).readInt()
+                        FmiDefinitions.VariableType.REAL -> fmu.getReader(it.valueReference).readReal()
+                        FmiDefinitions.VariableType.STRING -> fmu.getReader(it.valueReference).readString()
+                        FmiDefinitions.VariableType.BOOLEAN -> fmu.getReader(it.valueReference).readBoolean()
                         else -> null
                     }
                     println("t= ${fmu.currentTime}, ${it.varName} = $value")
@@ -58,8 +58,6 @@ fun main(args: Array<String>) {
         }
 
     }
-
-
 
 
 }

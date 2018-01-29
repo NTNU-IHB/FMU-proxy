@@ -9,22 +9,22 @@
         <param-value>true</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>
-            no.mechatronics.sfi.grpc_fmu.web.ServletContextListenerImpl
-        </listener-class>
-    </listener>
+      <listener>
+          <listener-class>
+              no.mechatronics.sfi.grpc_fmu.web.ServletContextListenerImpl
+          </listener-class>
+      </listener>
 
-   
-    <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
-    </welcome-file-list>
-  <!--  
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>server</param-value>
-    </context-param>
-    -->
+
+      <welcome-file-list>
+          <welcome-file>index.xhtml</welcome-file>
+      </welcome-file-list>
+    <!--
+      <context-param>
+          <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+          <param-value>server</param-value>
+      </context-param>
+      -->
     <session-config>
         <session-timeout>
             30

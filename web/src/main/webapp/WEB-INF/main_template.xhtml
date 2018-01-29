@@ -9,7 +9,7 @@
 
 
     <h:head>
-        <title> Grpc-fmu - #{modulename}</title>
+        <title> gRPC-FMU - #{moduleName}</title>
         <base href="#{request.contextPath}" />
     </h:head>
 
@@ -19,9 +19,13 @@
 
             <p:layoutUnit position="north" size="85">
                 <ui:insert name="modulename">
-                    <h3>Grpc-fmu - #{modulename}</h3>
+                    <h3>gRPC-FMU - #{moduleName}</h3>
                 </ui:insert>
             </p:layoutUnit>
+
+           <!-- <p:layoutUnit position="west" header="" collapsible="true" size="225" collapsed="true">
+               <ui:include src="/WEB-INF/links.xhtml"/>
+            </p:layoutUnit>-->
 
             <p:layoutUnit id="centerLayout" position="center">
                 <ui:insert name="contents" />

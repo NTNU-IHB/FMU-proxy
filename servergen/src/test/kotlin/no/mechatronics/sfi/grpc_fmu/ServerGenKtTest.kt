@@ -7,13 +7,13 @@ import org.junit.Test
 import java.io.File
 
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
-import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 
 
 class ServerGenKtTest {
 
-    lateinit var modelDescription: IModelDescription
+    lateinit var modelDescription: SimpleModelDescription
 
     @Before
     fun setUp() {

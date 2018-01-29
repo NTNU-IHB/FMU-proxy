@@ -1,27 +1,32 @@
 
-plugins {
-    id "java-library"
-}
+apply plugin: 'java'
+
+def snapshot = false
+def fmi_import_version = snapshot ? '0.1.2-BETA-SNAPSHOT' : '0.1.1-BETA'
 
 repositories {
     mavenCentral()
     mavenLocal() //servercode
-//    maven {
-//        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
-//    }
+
+    if (snapshot) {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+        }
+    }
+
 }
 
 dependencies {
 
+    compile group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
+    compile group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
+    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
+
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
     compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
 
-    compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
-    compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
-    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
-
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.1-ALPHA-8' //central
     compile group: 'no.mechatronics.sfi.grpc_fmu', name: 'servercode', version: '0.1-SNAPSHOT' //local
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot //central
 
 }
 
@@ -33,7 +38,9 @@ task fatJar(type: Jar) {
     }
     baseName = project.name
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
     with jar
 }

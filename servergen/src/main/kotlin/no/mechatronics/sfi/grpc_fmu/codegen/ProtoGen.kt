@@ -24,7 +24,8 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-import no.mechatronics.sfi.fmi4j.modeldescription.IModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.grpc_fmu.utils.FileFuture
 import no.mechatronics.sfi.grpc_fmu.utils.convertName1
 import no.mechatronics.sfi.grpc_fmu.utils.isArray
@@ -35,8 +36,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
-private const val PROTOC_GRPC_EXE = "protoc-gen-java.exe"
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class ProtoCode(
          val definitions: FileFuture,
          val service: FileFuture
@@ -58,7 +62,7 @@ class ProtoCode(
 
     fun compile(baseDir: File, protoOut: String, javaOut: String) : Boolean {
 
-        LOG.info("Compiling proto..")
+        LOG.debug("Compiling proto..")
 
         File(javaOut).apply {
             if (!exists()) {
@@ -84,13 +88,12 @@ class ProtoCode(
                 .waitFor()
 
         return if (status == 0) {
-            LOG.info("Compiling done!")
+            LOG.debug("Compiling done!")
             true
         } else {
             LOG.warn("Process exited with status: {}", status)
             false
         }
-
 
     }
 
@@ -98,14 +101,13 @@ class ProtoCode(
         return "ProtoCode(definitions=$definitions, service=$service)"
     }
 
-
 }
 
 object ProtoGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
 
-    fun generateProtoCode(modelDescription: IModelDescription): ProtoCode {
+    fun generateProtoCode(modelDescription: SimpleModelDescription): ProtoCode {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
@@ -116,13 +118,13 @@ object ProtoGen {
                 sb.append(JtwigTemplate.classpathTemplate("templates/proto/read.proto").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("varName", convertName1(it.name))
-                            .with("typeName", it.typeName))!!
+                            .with("typeName", ScalarVariable.getTypeName(it)))!!
                 })
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/proto/write.proto").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("varName", convertName1(it.name))
-                            .with("typeName", it.typeName))!!
+                            .with("typeName", ScalarVariable.getTypeName(it)))!!
                 })
 
             }

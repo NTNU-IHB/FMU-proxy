@@ -29,20 +29,26 @@ import java.net.ServerSocket;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import no.mechatronics.sfi.grpc_fmu.heartbeating.FmuHeartbeat;
-import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress;
 
+import kotlin.Unit;
+import no.mechatronics.sfi.grpc_fmu.heartbeating.FmuHeartbeat;
+import no.mechatronics.sfi.grpc_fmu.misc.SimpleSocketAddress;
+
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class Main {
 
     public static void main(String args[]) {
 
-        InputParser.parse(args, (SocketAddress remoteAddress, Integer localPort) -> {
+        InputParser.parse(args, (SimpleSocketAddress remoteAddress, Integer localPort) -> {
 
             boolean usesRemote = remoteAddress != null;
 
             try {
                 int myPort = localPort == null ? getAvailablePort() : localPort;
-                SocketAddress localAddress = new SocketAddress(getHostAddress(), myPort);
+                SimpleSocketAddress localAddress = new SimpleSocketAddress(getHostAddress(), myPort);
 
                 final {{fmuName}}Server server = new {{fmuName}}Server();
                 server.start(localAddress.getPort());
@@ -74,6 +80,8 @@ class Main {
                 server.blockUntilShutdown();
             } catch (Exception ex) {
                 ex.printStackTrace();
+            } finally {
+                return Unit.INSTANCE;
             }
 
 

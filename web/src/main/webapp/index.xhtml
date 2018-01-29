@@ -1,36 +1,141 @@
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/main_template.xhtml">
 
 
-    <ui:param name="modulename" value="Index" />
+    <ui:param name="moduleName" value="Index" />
     <ui:define name="contents">
 
         <h2>Welcome to gRPC-FMU web interface!</h2>
 
-
-        <h:form>
+        <h:form id="form">
             <p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s">
                 <p:fileDownload value="#{protoDownload.file}" />
             </p:commandButton>
-        </h:form>
 
-        <h:form id="form">
-            <p:dataTable id="fmus" var="fmu" value="#{fmuOverview.fmus}">
-                <p:column headerText="Model name">
-                    <h:outputText value="#{fmu.modelDescription.modelName}" />
+            <p:commandButton id="iconOnly" update=":form:fmus" icon="ui-icon-refresh" title="Icon Only" />
+
+            <p:dataTable id="fmus" var="fmu" value="#{fmuView.fmus}">
+                <f:facet name="header">
+                    Available FMUs
+                </f:facet>
+
+                <p:ajax event="sort" skipChildren="false" />
+
+                <p:column headerText="Model name" sortBy="#{fmu.modelName}">
+                    <h:outputText value="#{fmu.modelName}" />
                 </p:column>
+
                 <p:column headerText="Guid">
                     <h:outputText value="#{fmu.guid}" />
                 </p:column>
+
+                <p:column headerText="Description">
+                    <h:outputText value="#{fmu.description}" />
+                </p:column>
+
+                <p:column headerText="IP address">
+                    <h:outputText value="#{fmu.address.hostAddress}:#{fmu.address.port}" />
+                </p:column>
+
+                <p:column headerText="Meta-data" style="width:120px;text-align: center">
+                    <p:commandButton update=":form:fmuDetail" oncomplete="PF('fmuDialog').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{fmu}" target="#{fmuView.selectedFmu}" />
+                    </p:commandButton>
+                </p:column>
+
+                <p:column headerText="Model variables" style="width:150px;text-align: center">
+                    <p:commandButton update=":form:fmuVariablesDetail" oncomplete="PF('fmuVariablesDialog').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{fmu}" target="#{fmuView.selectedFmu}" />
+                    </p:commandButton>
+                </p:column>
+
             </p:dataTable>
+
+
+            <p:dialog header="FMU Info" widgetVar="fmuVariablesDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" appendTo="@(body)">
+                <p:outputPanel id="fmuVariablesDetail" style="text-align:center;">
+                    <p:dataTable id="modelVariables" var="var" value="#{fmuView.selectedFmu.modelVariables}" scrollRows="40" scrollable="true" liveScroll="true" scrollHeight="250">
+                        <f:facet name="header">
+                            Model Variables
+                        </f:facet>
+
+                        <p:ajax event="sort" skipChildren="false" />
+
+                        <p:column headerText="Name" sortBy="#{var.name}">
+                            <h:outputText value="#{var.name}" />
+                        </p:column>
+
+                        <p:column headerText="Causality" sortBy="#{var.causality}">
+                            <h:outputText value="#{var.causality}" />
+                        </p:column>
+
+                        <p:column headerText="Variability" sortBy="#{var.variability}">
+                            <h:outputText value="#{var.variability}" />
+                        </p:column>
+
+                        <p:column headerText="Initial" sortBy="#{var.initial}">
+                            <h:outputText value="#{var.initial}" />
+                        </p:column>
+
+                        <p:column headerText="Start">
+                            <h:outputText value="#{var.start}" />
+                        </p:column>
+                    </p:dataTable>
+
+              </p:outputPanel>
+            </p:dialog>
+
+           <p:dialog header="FMU meta-data" widgetVar="fmuDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" appendTo="@(body)">
+                <p:outputPanel id="fmuDetail" style="text-align:center;">
+                    <p:dataTable id="meta-data" var="md" value="#{fmuView.selectedFmu.modelDescription}">
+                        <f:facet name="header">
+                            Meta data
+                        </f:facet>
+
+                        <p:ajax event="sort" skipChildren="false" />
+
+                        <p:column headerText="FMI version">
+                            <h:outputText value="#{md.fmiVersion}" />
+                        </p:column>
+
+                        <p:column headerText="Model name">
+                            <h:outputText value="#{md.modelName}" />
+                        </p:column>
+
+                        <p:column headerText="License">
+                            <h:outputText value="#{md.license}" />
+                        </p:column>
+
+                        <p:column headerText="Copyright">
+                            <h:outputText value="#{md.copyright}" />
+                        </p:column>
+
+                        <p:column headerText="Author">
+                            <h:outputText value="#{md.author}" />
+                        </p:column>
+
+                        <p:column headerText="Version">
+                            <h:outputText value="#{md.version}" />
+                        </p:column>
+
+                        <p:column headerText="GenerationTool">
+                            <h:outputText value="#{md.generationTool}" />
+                        </p:column>
+
+                        <p:column headerText="Generation date and time">
+                            <h:outputText value="#{md.generationDateAndTime}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:outputPanel>
+            </p:dialog>
+
         </h:form>
-
-
-
 
     </ui:define>
 </ui:composition>

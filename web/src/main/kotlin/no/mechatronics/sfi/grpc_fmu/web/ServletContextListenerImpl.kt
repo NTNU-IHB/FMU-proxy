@@ -1,26 +1,28 @@
 package no.mechatronics.sfi.grpc_fmu.web
 
-import no.mechatronics.sfi.grpc_fmu.web.heartbeat.CentralHeartbeat
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 
-
 class ServletContextListenerImpl : ServletContextListener  {
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
+        private val listeners = ArrayList<() -> Unit>()
+
+        fun onDestroy(action: () -> Unit) = listeners.add(action)
+
     }
 
     override fun contextInitialized(sce: ServletContextEvent?) {
-        CentralHeartbeat.start()
-        LOG.info("FmuHeartbeat started")
+       LOG.info("contextInitialized")
     }
 
     override fun contextDestroyed(sce: ServletContextEvent?) {
-        CentralHeartbeat.stopBlocking()
-        LOG.info("FmuHeartbeat stopped")
+        listeners.forEach({it.invoke()})
+        listeners.clear()
+        LOG.info("contextDestroyed")
     }
 
 }

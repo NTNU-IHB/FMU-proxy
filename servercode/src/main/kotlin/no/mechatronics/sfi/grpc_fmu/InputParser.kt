@@ -1,18 +1,14 @@
 package no.mechatronics.sfi.grpc_fmu
 
-import no.mechatronics.sfi.grpc_fmu.misc.SocketAddress
+import no.mechatronics.sfi.grpc_fmu.misc.SimpleSocketAddress
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
-import java.net.Socket
-import javax.swing.JOptionPane
 
-interface StartServer {
-
-    fun run(remoteAddress: SocketAddress?, localPort: Int?)
-
-}
-
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 object InputParser {
 
     private const val HELP = "help"
@@ -21,7 +17,7 @@ object InputParser {
     private const val LOCAL_PORT = "localPort"
 
     @JvmStatic
-    fun parse(args: Array<String>, action: StartServer)  {
+    fun parse(args: Array<String>, action: (SimpleSocketAddress?, Int?) -> Unit)  {
 
         val options = Options().apply {
 
@@ -44,7 +40,7 @@ object InputParser {
                     localPort = parseInt(cmd.getOptionValue(LOCAL_PORT))
                 }
 
-                val remote: SocketAddress? = cmd.getOptionValue(REMOTE).let {
+                val remote: SimpleSocketAddress? = cmd.getOptionValue(REMOTE).let {
                     if (it != null) {
                         parseAddress(it)
                     } else {
@@ -52,7 +48,7 @@ object InputParser {
                     }
                 }
 
-                action.run(remote, localPort)
+                action.invoke(remote, localPort)
 
             }
 
@@ -60,7 +56,7 @@ object InputParser {
 
     }
 
-    private fun parseAddress(value: String) : SocketAddress {
+    private fun parseAddress(value: String) : SimpleSocketAddress {
 
         val split = value.split(":")
         if (split.size != 2) {
@@ -69,7 +65,7 @@ object InputParser {
 
         val host = split[0]
         val port = parseInt(split[1])
-        return SocketAddress(host, port)
+        return SimpleSocketAddress(host, port)
     }
 
     private fun parseInt(value: String) : Int {
@@ -118,7 +114,7 @@ object ConsoleParser {
 
     private const val HELP = "help"
 
-    fun parse(args: Array<String>) : SocketAddress? {
+    fun parse(args: Array<String>) : SimpleSocketAddress? {
 
         val options = Options().apply {
 
@@ -155,7 +151,7 @@ object ConsoleParser {
             }
         }
 
-        return SocketAddress(address, port!!)
+        return SimpleSocketAddress(address, port!!)
 
 
     }
