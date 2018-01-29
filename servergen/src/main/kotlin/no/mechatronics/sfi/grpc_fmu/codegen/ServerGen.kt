@@ -26,33 +26,16 @@ package no.mechatronics.sfi.grpc_fmu.codegen
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.grpc_fmu.GrpcFmu
 import no.mechatronics.sfi.grpc_fmu.utils.*
+import org.apache.commons.io.IOUtils
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.nio.charset.Charset
 
-/**
- *
- * @author Lars Ivar Hatledal
- */
-class ServerCode(
-        val main: FileFuture,
-        val server: FileFuture
-) {
-
-    fun writeToDirectory(dir: File) {
-        main.create(dir)
-        server.create(dir)
-    }
-
-    override fun toString(): String {
-        return "ServerCode(main=$main, server=$server)"
-    }
-
-
-}
 
 /**
  *
@@ -62,7 +45,7 @@ object ServerGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ServerGen::class.java)
 
-    fun generateServerCode(modelDescription: SimpleModelDescription) : ServerCode {
+    fun generateServerCode(modelDescription: SimpleModelDescription, baseFile: File?) {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach{
@@ -89,16 +72,20 @@ object ServerGen {
 
         }
 
-        val main = FileFuture(
+        val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
+        val javaOut = if (baseFile == null) File("${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName")
+        val ktOut = if (baseFile == null) File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
+
+        FileFuture(
                 name = "Main.java",
                 text = JtwigTemplate.classpathTemplate("templates/server/Main.java").let { template ->
                     template.render(JtwigModel.newModel()
                             //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName))!!
                 }
-        )
+        ).create(javaOut)
 
-        val server = FileFuture(
+        FileFuture(
                 name = "${modelDescription.modelName}Server.java",
                 text = JtwigTemplate.classpathTemplate("templates/server/Server.java").let { template ->
                     template.render(JtwigModel.newModel()
@@ -106,9 +93,23 @@ object ServerGen {
                             .with("fmuName", modelDescription.modelName)
                             .with("dynamicMethods", sb.toString()))!!
                 }
-        )
+        ).create(javaOut)
 
-        return ServerCode(main, server)
+        FileFuture(
+                name = "FmuHeartBeat.kt",
+                text = IOUtils.toString(ServerGen::class.java.classLoader.getResourceAsStream("servercode/FmuHeartBeat.kt"), Charset.forName("UTF-8"))
+        ).create(ktOut)
+
+        FileFuture(
+                name = "InputParser.kt",
+                text = IOUtils.toString(ServerGen::class.java.classLoader.getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
+        ).create(ktOut)
+
+        FileFuture(
+                name = "RemoteFmu.kt",
+                text = IOUtils.toString(ServerGen::class.java.classLoader.getResourceAsStream("servercode/RemoteFmu.kt"), Charset.forName("UTF-8"))
+        ).create(ktOut)
+
 
     }
 

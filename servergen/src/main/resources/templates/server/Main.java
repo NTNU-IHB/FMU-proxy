@@ -31,8 +31,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import kotlin.Unit;
-import no.mechatronics.sfi.grpc_fmu.heartbeating.FmuHeartbeat;
-import no.mechatronics.sfi.grpc_fmu.misc.SimpleSocketAddress;
+
 
 /**
  *

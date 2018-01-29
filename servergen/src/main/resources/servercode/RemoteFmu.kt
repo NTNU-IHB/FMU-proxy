@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,11 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu.web.fmu
+package no.mechatronics.sfi.grpc_fmu
 
 import com.google.gson.Gson
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
-import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import java.io.Serializable
 import java.util.*
-import javax.faces.bean.ManagedBean
-
-@ManagedBean
-class FmuBean(
-        remoteFmu: RemoteFmu
-): IRemoteFmu by remoteFmu, Serializable {
-
-    val modelDescription: SimpleModelDescription
-    val modelName: String
-    val description:String
-    val modelVariables: List<ScalarVariable>
-
-    init {
-        modelDescription =  ModelDescriptionParser.parse(modelDescriptionXml)
-        modelName = modelDescription.modelName
-        description = modelDescription.description ?: "-"
-        modelVariables = modelDescription.modelVariables.variables
-    }
-
-}
-
 
 /**
  *
@@ -71,11 +47,6 @@ class ProtoDefinitions(
         val service: String
 )
 
-class SimpleSocketAddress(
-        val hostAddress: String,
-        val port: Int
-)
-
 /**
  *
  * @author Lars Ivar Hatledal
@@ -84,7 +55,7 @@ class RemoteFmu(
         override val guid: String,
         override val address: SimpleSocketAddress,
         override val modelDescriptionXml: String
-): IRemoteFmu {
+) : IRemoteFmu {
 
     companion object {
 
@@ -106,8 +77,10 @@ class RemoteFmu(
         protoDefinition = ProtoDefinitions(definitions, service)
     }
 
+
     override fun toString(): String {
         return "RemoteFmu(guid='$guid', address='$address')"
     }
 
 }
+

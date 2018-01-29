@@ -1,6 +1,5 @@
 package no.mechatronics.sfi.grpc_fmu.web.fmu
 
-import no.mechatronics.sfi.grpc_fmu.RemoteFmu
 import no.mechatronics.sfi.grpc_fmu.web.ServletContextListenerImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
