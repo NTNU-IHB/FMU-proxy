@@ -61,7 +61,7 @@ class ProtoGenKtTest {
         copyFile("protoc-3.5.1-win32.exe")
         copyFile("protoc-gen-grpc-java.exe")
 
-        Assert.assertTrue(ProtoGen.generateProtoCode(modelDescription).compile(temp,"generated/proto/", "generated/java/"))
+        Assert.assertTrue(ProtoGen.generateProtoCode(modelDescription).compile(temp,"generated/src/main/proto/", "generated/src/main/java/"))
 
 
     }
