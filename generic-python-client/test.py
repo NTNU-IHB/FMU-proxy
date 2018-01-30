@@ -16,9 +16,12 @@ init = fmu.init()
 print(init)
 print(fmu.get_current_time())
 
+print(fmu.read("RodSideChamber.deltaV0"))
+
 for i in range(0,3):
     fmu.step(1.0/100)
     print(fmu.get_current_time())
+
 
 
 fmu.terminate()
