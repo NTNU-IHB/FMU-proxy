@@ -30,6 +30,7 @@ import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
 import no.mechatronics.sfi.grpc_fmu.utils.exctractModelDescriptionXml
 import org.apache.commons.io.FileUtils
+import org.apache.commons.io.FilenameUtils
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
@@ -52,8 +53,9 @@ object GrpcFmu {
     private val LOG: Logger = LoggerFactory.getLogger(GrpcFmu::class.java)
 
     const val PACKAGE_NAME = "no.mechatronics.sfi.grpc_fmu"
-    private const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
-    private const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
+    const val JAVA_SRC_OUTPUT_FOLDER = "src/main/java/"
+    const val KOTLIN_SRC_OUTPUT_FOLDER = "src/main/kotlin/"
+    const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
 
     fun generate(file: File) = generate(FileInputStream(file), exctractModelDescriptionXml(FileInputStream(file)))
     fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
@@ -82,6 +84,8 @@ object GrpcFmu {
         }
     }
 
+
+
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
@@ -93,12 +97,27 @@ object GrpcFmu {
             }
         }
 
+//        fun copyFromResources(from: String) {
+//            val fileName = FilenameUtils.getName(from)
+//            File(baseFile,  fileName).also { file ->
+//                FileOutputStream(file).use { fos ->
+//                    IOUtils.copy(javaClass.classLoader.getResourceAsStream(from), fos)
+//                    LOG.info("Copied $fileName to {}", file)
+//                }
+//            }
+//        }
+
+//        copyFromResourcesTo("build.gradle", "")
+//        copyFromResourcesTo("settings.gradle", "")
+
+
         File(baseFile,  "build.gradle").also { file ->
             FileOutputStream(file).use { fos ->
                 IOUtils.copy(javaClass.classLoader.getResourceAsStream( "build.gradle"), fos)
                 LOG.info("Copied build.gradle to {}", file)
             }
         }
+
         File(baseFile, "settings.gradle").also { file ->
             file.createNewFile()
         }
@@ -134,9 +153,7 @@ object GrpcFmu {
             compile(baseFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
         }
 
-        ServerGen.generateServerCode(modelDescription)
-                .writeToDirectory(File(baseFile, "$JAVA_SRC_OUTPUT_FOLDER/${GrpcFmu.PACKAGE_NAME.replace(".", "//")}"
-        ))
+        ServerGen.generateServerCode(modelDescription,  baseFile)
 
         val status = ProcessBuilder()
                 .directory(baseFile)

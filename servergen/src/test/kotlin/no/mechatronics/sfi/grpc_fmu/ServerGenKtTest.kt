@@ -4,11 +4,11 @@ package no.mechatronics.sfi.grpc_fmu
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.io.File
 
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import java.io.File
 
 
 class ServerGenKtTest {
@@ -25,16 +25,11 @@ class ServerGenKtTest {
 
     }
 
-    @Test
-    fun generateServerCode() {
-        println(ServerGen.generateServerCode(modelDescription))
-    }
 
     @Test
     fun generateServerCodeFile() {
 
-        val out =  File("generated/java/" + GrpcFmu.PACKAGE_NAME.replace(".", "//"))
-        ServerGen.generateServerCode(modelDescription).writeToDirectory(out)
+        ServerGen.generateServerCode(modelDescription, File("generated"))
        // Assert.assertTrue(file.delete())
 
     }
