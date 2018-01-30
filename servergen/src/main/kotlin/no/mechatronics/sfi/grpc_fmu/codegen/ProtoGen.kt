@@ -43,20 +43,22 @@ private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
  */
 class ProtoCode(
          val definitions: FileFuture,
-         val service: FileFuture
+         val service: FileFuture,
+         val uniqueService: FileFuture
 ) {
 
-    companion object {
+    private companion object {
         val LOG: Logger = LoggerFactory.getLogger(ProtoCode::class.java)
     }
 
-    fun writeToDir(dir: File) {
+    private fun writeToDir(dir: File) {
         if (!dir.exists()) {
             dir.mkdirs()
         }
 
         definitions.create(dir)
         service.create(dir)
+        uniqueService.create(dir)
 
     }
 
@@ -78,7 +80,8 @@ class ProtoCode(
                 "--grpc-java_out=\"$javaOut\"",
                 "--proto_path=\"$protoOut\"",
                 "\"$protoOut/${definitions.name}\"",
-                "\"$protoOut/${service.name}\"")
+                "\"$protoOut/${service.name}\"",
+                "\"$protoOut/${uniqueService.name}\"")
 
         val status = ProcessBuilder()
                 .command(*cmd)
@@ -141,17 +144,27 @@ object ProtoGen {
                 }
         )
 
-        val service = FileFuture(
+        val genericService = FileFuture(
                 name = "service.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/service.proto").let { template ->
+                    template.render(JtwigModel.newModel())
+//                         //   .with("packageName", GrpcFmu.PACKAGE_NAME)
+//                            .with("fmuName", modelDescription.modelName)
+//                            .with("instanceServices", sb.toString())!!)
+                }
+        )
+
+        val uniqueService = FileFuture(
+                name = "unique_service.proto",
+                text = JtwigTemplate.classpathTemplate("templates/proto/unique_service.proto").let { template ->
                     template.render(JtwigModel.newModel()
-                         //   .with("packageName", GrpcFmu.PACKAGE_NAME)
+                            //   .with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("instanceServices", sb.toString())!!)
                 }
         )
 
-        return ProtoCode(definitions, service)
+        return ProtoCode(definitions, genericService, uniqueService)
 
 
     }

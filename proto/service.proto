@@ -9,17 +9,14 @@ import "definitions.proto";
 
 service GenericFmuService {
 
-    rpc CreateInstance (Empty) returns (ModelReference);
+    rpc CreateInstance (Empty) returns (Int);
 
     rpc GetModelName (Empty) returns (Str);
-    rpc GetModelVariableNames (Empty) returns (StrList);
     rpc GetModelVariables (Empty) returns (ScalarVariables);
-
-    //rpc GetModelStructure (Empty) returns (ModelStructure);
-
+	
     //instance methods
-    rpc GetCurrentTime (ModelReference) returns (Real);
-    rpc IsTerminated (ModelReference) returns (Bool);
+    rpc GetCurrentTime (Int) returns (Real);
+    rpc IsTerminated (Int) returns (Bool);
 
     rpc Init (InitRequest) returns (Bool);
     rpc Step (StepRequest) returns (Status);

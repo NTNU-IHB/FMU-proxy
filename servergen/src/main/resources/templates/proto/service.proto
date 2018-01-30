@@ -3,21 +3,20 @@ syntax = "proto3";
 
 package no.mechatronics.sfi.grpc_fmu;
 
-option java_outer_classname = "{{fmuName}}Proto";
+option java_outer_classname = "GenericFmuProto";
 
 import "definitions.proto";
 
 service GenericFmuService {
 
-    rpc CreateInstance (Empty) returns (ModelReference);
+    rpc CreateInstance (Empty) returns (Int);
 
     rpc GetModelName (Empty) returns (Str);
-    rpc GetModelVariableNames (Empty) returns (StrList);
     rpc GetModelVariables (Empty) returns (ScalarVariables);
-
+	
     //instance methods
-    rpc GetCurrentTime (ModelReference) returns (Real);
-    rpc IsTerminated (ModelReference) returns (Bool);
+    rpc GetCurrentTime (Int) returns (Real);
+    rpc IsTerminated (Int) returns (Bool);
 
     rpc Init (InitRequest) returns (Bool);
     rpc Step (StepRequest) returns (Status);
@@ -29,10 +28,3 @@ service GenericFmuService {
     rpc Write (VarWrite) returns (Status);
 
 }
-
-service {{fmuName}}Service {
-
-    {{instanceServices}}
-
-}
-

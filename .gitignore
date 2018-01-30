@@ -70,3 +70,4 @@ out/
 
 web/src/main/webapp/resources/proto/
 servergen/src/main/resources/templates/proto/definitions.proto
+servergen/src/main/resources/templates/proto/service.proto

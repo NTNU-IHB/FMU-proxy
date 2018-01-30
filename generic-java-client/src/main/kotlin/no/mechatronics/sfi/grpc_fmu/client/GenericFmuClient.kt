@@ -45,20 +45,17 @@ class GenericFmuClient(
     }
 
     inner class FmuInstance internal constructor(
-            val fmuId: Int
+            private val fmuId: Int
     ) : AutoCloseable {
 
         private val modelRef by lazy {
-            FmiDefinitions.ModelReference.newBuilder().setFmuId(fmuId).build()
+            FmiDefinitions.Int.newBuilder().setValue(fmuId).build()
         }
 
         val modelVariables
-            get() = stub.getModelVariables(EMPTY)
+            get() = stub.getModelVariables(EMPTY) ?: throw AssertionError()
 
-        val modelVariableNames
-            get() = stub.getModelVariableNames(EMPTY)
-
-        internal constructor(ref: FmiDefinitions.ModelReference) : this(ref.fmuId)
+        internal constructor(ref: FmiDefinitions.Int) : this(ref.value)
 
         val currentTime: Double
             get() = stub.getCurrentTime(modelRef).value
