@@ -77,6 +77,21 @@ object ServerGen {
         val ktOut = if (baseFile == null) File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
 
         FileFuture(
+                name = "InputParser.kt",
+                text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
+        ).create(ktOut)
+
+        FileFuture(
+                name = "RemoteFmu.kt",
+                text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/RemoteFmu.kt"), Charset.forName("UTF-8"))
+        ).create(ktOut)
+
+        FileFuture(
+                name = "FmuHeartbeat.kt",
+                text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/FmuHeartbeat.kt"), Charset.forName("UTF-8"))
+        ).create(ktOut)
+
+        FileFuture(
                 name = "Main.java",
                 text = JtwigTemplate.classpathTemplate("templates/server/Main.java").let { template ->
                     template.render(JtwigModel.newModel()
@@ -95,20 +110,7 @@ object ServerGen {
                 }
         ).create(javaOut)
 
-        FileFuture(
-                name = "FmuHeartBeat.kt",
-                text = IOUtils.toString(ServerGen::class.java.classLoader.getResourceAsStream("servercode/FmuHeartBeat.kt"), Charset.forName("UTF-8"))
-        ).create(ktOut)
 
-        FileFuture(
-                name = "InputParser.kt",
-                text = IOUtils.toString(ServerGen::class.java.classLoader.getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
-        ).create(ktOut)
-
-        FileFuture(
-                name = "RemoteFmu.kt",
-                text = IOUtils.toString(ServerGen::class.java.classLoader.getResourceAsStream("servercode/RemoteFmu.kt"), Charset.forName("UTF-8"))
-        ).create(ktOut)
 
 
     }

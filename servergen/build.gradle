@@ -10,10 +10,6 @@ buildscript {
 }
 
 
-
-group 'no.mechatronics.sfi.grpc_fmu'
-version '1.0-SNAPSHOT'
-
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'application'
@@ -34,8 +30,6 @@ def snapshot = false
 
 def fmi_md_version = snapshot ? '0.4.4-SNAPSHOT' : '0.4.3'
 def fmi_import_version = snapshot ? '0.1.2-BETA-SNAPSHOT' : '0.1.1-BETA'
-
-
 
 repositories {
     mavenCentral()
