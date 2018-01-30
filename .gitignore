@@ -57,6 +57,7 @@ local.properties
 # sbteclipse plugin
 .target
 
+.iml
 
 .nb-gradle/
 
