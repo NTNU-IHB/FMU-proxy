@@ -56,7 +56,7 @@ class GenericFmuClient(
     private val instances: MutableList<FmuInstance> = ArrayList()
 
     fun createInstance() : FmuInstance {
-        return FmuInstance(stub.createInstance(EMPTY)).also {
+        return FmuInstance(stub.createInstance(EMPTY).value).also {
             instances.add(it)
         }
     }
@@ -77,13 +77,14 @@ class GenericFmuClient(
     ) : AutoCloseable {
 
         private val modelRef by lazy {
-            FmiDefinitions.Int.newBuilder().setValue(fmuId).build()
+            FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
         }
 
-        val modelVariables
-            get() = stub.getModelVariables(EMPTY)?.valuesList ?: throw AssertionError()
-
-        internal constructor(ref: FmiDefinitions.Int) : this(ref.value)
+        val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
+            val list = mutableListOf<FmiDefinitions.ScalarVariable>()
+            stub.getModelVariables(EMPTY).forEach {list.add(it)}
+                  list
+        }
 
         val currentTime: Double
             get() = stub.getCurrentTime(modelRef).value
@@ -98,8 +99,8 @@ class GenericFmuClient(
                 .build())
 
         fun terminate() {
-            stub.terminate(FmiDefinitions.TerminateRequest.newBuilder()
-                    .setFmuId(fmuId)
+            stub.terminate(FmiDefinitions.UInt.newBuilder()
+                    .setValue(fmuId)
                     .build())
             instances.remove(this)
         }
@@ -111,7 +112,6 @@ class GenericFmuClient(
 
         fun getReader(varName: String): VariableReader
             = getReader(modelVariables.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName"))
-
 
         fun getWriter(valueReference: Int)
                 = VariableWriter(fmuId, valueReference, stub)

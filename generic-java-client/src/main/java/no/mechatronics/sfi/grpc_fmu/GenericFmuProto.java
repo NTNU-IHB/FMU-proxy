@@ -24,33 +24,33 @@ public final class GenericFmuProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\rservice.proto\022\034no.mechatronics.sfi.grp" +
-      "c_fmu\032\021definitions.proto2\364\007\n\021GenericFmuS" +
-      "ervice\022X\n\016CreateInstance\022#.no.mechatroni" +
-      "cs.sfi.grpc_fmu.Empty\032!.no.mechatronics." +
-      "sfi.grpc_fmu.Int\022V\n\014GetModelName\022#.no.me" +
-      "chatronics.sfi.grpc_fmu.Empty\032!.no.mecha" +
-      "tronics.sfi.grpc_fmu.Str\022g\n\021GetModelVari" +
-      "ables\022#.no.mechatronics.sfi.grpc_fmu.Emp" +
-      "ty\032-.no.mechatronics.sfi.grpc_fmu.Scalar" +
-      "Variables\022W\n\016GetCurrentTime\022!.no.mechatr" +
-      "onics.sfi.grpc_fmu.Int\032\".no.mechatronics" +
-      ".sfi.grpc_fmu.Real\022U\n\014IsTerminated\022!.no." +
-      "mechatronics.sfi.grpc_fmu.Int\032\".no.mecha" +
-      "tronics.sfi.grpc_fmu.Bool\022U\n\004Init\022).no.m" +
-      "echatronics.sfi.grpc_fmu.InitRequest\032\".n" +
-      "o.mechatronics.sfi.grpc_fmu.Bool\022W\n\004Step" +
-      "\022).no.mechatronics.sfi.grpc_fmu.StepRequ" +
-      "est\032$.no.mechatronics.sfi.grpc_fmu.Statu" +
-      "s\022`\n\tTerminate\022..no.mechatronics.sfi.grp" +
-      "c_fmu.TerminateRequest\032#.no.mechatronics" +
-      ".sfi.grpc_fmu.Empty\022Y\n\005Reset\022*.no.mechat" +
-      "ronics.sfi.grpc_fmu.ResetRequest\032$.no.me" +
-      "chatronics.sfi.grpc_fmu.Status\022P\n\004Read\022%" +
-      ".no.mechatronics.sfi.grpc_fmu.VarRead\032!." +
-      "no.mechatronics.sfi.grpc_fmu.Var\022U\n\005Writ" +
-      "e\022&.no.mechatronics.sfi.grpc_fmu.VarWrit" +
-      "e\032$.no.mechatronics.sfi.grpc_fmu.StatusB" +
-      "\021B\017GenericFmuProtob\006proto3"
+      "c_fmu\032\021definitions.proto2\343\007\n\021GenericFmuS" +
+      "ervice\022Y\n\016CreateInstance\022#.no.mechatroni" +
+      "cs.sfi.grpc_fmu.Empty\032\".no.mechatronics." +
+      "sfi.grpc_fmu.UInt\022V\n\014GetModelName\022#.no.m" +
+      "echatronics.sfi.grpc_fmu.Empty\032!.no.mech" +
+      "atronics.sfi.grpc_fmu.Str\022h\n\021GetModelVar" +
+      "iables\022#.no.mechatronics.sfi.grpc_fmu.Em" +
+      "pty\032,.no.mechatronics.sfi.grpc_fmu.Scala" +
+      "rVariable0\001\022X\n\016GetCurrentTime\022\".no.mecha" +
+      "tronics.sfi.grpc_fmu.UInt\032\".no.mechatron" +
+      "ics.sfi.grpc_fmu.Real\022V\n\014IsTerminated\022\"." +
+      "no.mechatronics.sfi.grpc_fmu.UInt\032\".no.m" +
+      "echatronics.sfi.grpc_fmu.Bool\022U\n\004Init\022)." +
+      "no.mechatronics.sfi.grpc_fmu.InitRequest" +
+      "\032\".no.mechatronics.sfi.grpc_fmu.Bool\022W\n\004" +
+      "Step\022).no.mechatronics.sfi.grpc_fmu.Step" +
+      "Request\032$.no.mechatronics.sfi.grpc_fmu.S" +
+      "tatus\022S\n\tTerminate\022\".no.mechatronics.sfi" +
+      ".grpc_fmu.UInt\032\".no.mechatronics.sfi.grp" +
+      "c_fmu.Bool\022Q\n\005Reset\022\".no.mechatronics.sf" +
+      "i.grpc_fmu.UInt\032$.no.mechatronics.sfi.gr" +
+      "pc_fmu.Status\022P\n\004Read\022%.no.mechatronics." +
+      "sfi.grpc_fmu.VarRead\032!.no.mechatronics.s" +
+      "fi.grpc_fmu.Var\022U\n\005Write\022&.no.mechatroni" +
+      "cs.sfi.grpc_fmu.VarWrite\032$.no.mechatroni" +
+      "cs.sfi.grpc_fmu.StatusB\021B\017GenericFmuProt" +
+      "ob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

@@ -25,7 +25,7 @@ distributions {
     }
 }
 
-def debug = false
+def debug = true
 def snapshot = false
 
 def fmi_md_version = snapshot ? '0.4.4-SNAPSHOT' : '0.4.3'

@@ -5,47 +5,6 @@ package no.mechatronics.sfi.grpc_fmu;
 
 option java_outer_classname = "FmiDefinitions";
 
-enum Causality {
-    UNDEFINED_CAUSALITY = 0;
-    INPUT = 1;
-    OUTPUT = 2;
-    PARAMETER = 3;
-    CALCULATED_PARAMETER = 4;
-    LOCAL = 5;
-    INDEPENDENT = 6;
-}
-
-enum Variability {
-    UNDEFINED_VARIABILITY = 0;
-    CONSTANT =  1;
-    FIXED = 2;
-    CONTINUOUS = 3;
-    DISCRETE = 4;
-    TUNABLE = 5;
-}
-
-enum Initial {
-    UNDEFINED_INITIAL = 0;
-    EXACT = 1;
-    APPROX = 2;
-    CALCULATED = 3;
-}
-
-enum VariableType {
-    INTEGER = 0;
-    REAL = 1;
-    STRING = 2;
-    BOOLEAN = 3;
-}
-
-message Start {
-    oneof value {
-        int32 intValue = 1;
-        double realValue = 2;
-        string strValue = 3;
-        bool boolValue = 4;
-    }
-}
 
 message ScalarVariable {
     uint32 valueReference = 1;
@@ -58,18 +17,24 @@ message ScalarVariable {
     Start start = 8;
 }
 
-message ScalarVariables {
-    repeated ScalarVariable values = 1;
-}
-
 message Status {
     int32 code = 1;
     string value = 2;
 }
 
+message Start {
+    oneof value {
+        int32 intValue = 1;
+        double realValue = 2;
+        string strValue = 3;
+        bool boolValue = 4;
+    }
+}
+
 message InitRequest {
     uint32 fmu_id = 1;
-    uint32 start = 2;
+    double start = 2;
+	double stop = 3;
 }
 
 message StepRequest {
@@ -77,12 +42,8 @@ message StepRequest {
     double dt = 2;
 }
 
-message TerminateRequest {
-    uint32 fmu_id = 1;
-}
-
-message ResetRequest {
-    uint32 fmu_id = 1;
+message UInt {
+	uint32 value = 1;
 }
 
 message Int {
@@ -95,9 +56,6 @@ message IntWrite {
     int32 value = 3;
 }
 
-message IntList {
-    repeated int32 values = 1;
-}
 
 message Real {
     double value = 1;
@@ -109,9 +67,6 @@ message RealWrite {
     double value = 3;
 }
 
-message RealList {
-    repeated double values = 1;
-}
 
 message Str {
     string value = 1;
@@ -123,9 +78,6 @@ message StrWrite {
     string value = 3;
 }
 
-message StrList {
-    repeated string values = 1;
-}
 
 message Bool {
     bool value = 1;
@@ -135,10 +87,6 @@ message BoolWrite {
     uint32 fmu_id = 1;
     uint32 valueReference = 2;
     bool value = 3;
-}
-
-message BoolList {
-    repeated bool values = 1;
 }
 
 message Var {
@@ -174,6 +122,39 @@ message ModelStructure {
     repeated uint32 outputs = 1;
     repeated Unknown derivatives = 2;
     repeated Unknown initialUnknowns = 3;
+}
+
+enum Causality {
+    UNDEFINED_CAUSALITY = 0;
+    INPUT = 1;
+    OUTPUT = 2;
+    PARAMETER = 3;
+    CALCULATED_PARAMETER = 4;
+    LOCAL = 5;
+    INDEPENDENT = 6;
+}
+
+enum Variability {
+    UNDEFINED_VARIABILITY = 0;
+    CONSTANT =  1;
+    FIXED = 2;
+    CONTINUOUS = 3;
+    DISCRETE = 4;
+    TUNABLE = 5;
+}
+
+enum Initial {
+    UNDEFINED_INITIAL = 0;
+    EXACT = 1;
+    APPROX = 2;
+    CALCULATED = 3;
+}
+
+enum VariableType {
+    INTEGER = 0;
+    REAL = 1;
+    STRING = 2;
+    BOOLEAN = 3;
 }
 
 

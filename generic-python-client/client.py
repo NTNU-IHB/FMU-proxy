@@ -1,10 +1,8 @@
 import grpc
 from definitions_pb2 import Empty
-from definitions_pb2 import Int
+from definitions_pb2 import UInt
 from definitions_pb2 import InitRequest
 from definitions_pb2 import StepRequest
-from definitions_pb2 import TerminateRequest
-from definitions_pb2 import ResetRequest
 from definitions_pb2 import VarRead
 from definitions_pb2 import VarWrite
 import service_pb2_grpc
@@ -14,20 +12,22 @@ class FmuInstance:
 
     def __init__(self, stub):
         self.stub = stub
-        self.fmu_id = self.stub.CreateInstance(Empty()).fmu_id
+        self.fmu_id = self.stub.CreateInstance(Empty()).value
 
         self.model_variables = dict()
-        for v in self.stub.GetModelVariables(Empty()).values:
+        for v in self.stub.GetModelVariables(Empty()):
             self.model_variables[v.valueReference] = v
 
     def get_current_time(self):
-        ref = Int()
+        ref = UInt()
         ref.value = self.fmu_id
         return self.stub.GetCurrentTime(ref).value
 
-    def init(self):
+    def init(self, start = 0.0, stop = 0.0):
         request = InitRequest()
         request.fmu_id = self.fmu_id
+        request.start = start
+        request.stop = stop
         return self.stub.Init(request).value
 
     def step(self, dt):
@@ -37,13 +37,13 @@ class FmuInstance:
         return self.stub.Step(request)
 
     def terminate(self):
-        request = TerminateRequest()
-        request.fmu_id = self.fmu_id
+        request = UInt()
+        request.value = self.fmu_id
         self.stub.Terminate(request)
 
     def reset(self):
-        request = ResetRequest()
-        request.fmu_id = self.fmu_id
+        request = UInt()
+        request.value = self.fmu_id
         self.stub.Terminate(request)
     
     def read(self, identifier):

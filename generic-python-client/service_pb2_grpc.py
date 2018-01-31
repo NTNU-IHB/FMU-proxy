@@ -17,31 +17,26 @@ class GenericFmuServiceStub(object):
     self.CreateInstance = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/CreateInstance',
         request_serializer=definitions__pb2.Empty.SerializeToString,
-        response_deserializer=definitions__pb2.ModelReference.FromString,
+        response_deserializer=definitions__pb2.UInt.FromString,
         )
     self.GetModelName = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetModelName',
         request_serializer=definitions__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.Str.FromString,
         )
-    self.GetModelVariableNames = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetModelVariableNames',
-        request_serializer=definitions__pb2.Empty.SerializeToString,
-        response_deserializer=definitions__pb2.StrList.FromString,
-        )
-    self.GetModelVariables = channel.unary_unary(
+    self.GetModelVariables = channel.unary_stream(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetModelVariables',
         request_serializer=definitions__pb2.Empty.SerializeToString,
-        response_deserializer=definitions__pb2.ScalarVariables.FromString,
+        response_deserializer=definitions__pb2.ScalarVariable.FromString,
         )
     self.GetCurrentTime = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetCurrentTime',
-        request_serializer=definitions__pb2.ModelReference.SerializeToString,
+        request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Real.FromString,
         )
     self.IsTerminated = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/IsTerminated',
-        request_serializer=definitions__pb2.ModelReference.SerializeToString,
+        request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.Init = channel.unary_unary(
@@ -56,12 +51,12 @@ class GenericFmuServiceStub(object):
         )
     self.Terminate = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/Terminate',
-        request_serializer=definitions__pb2.TerminateRequest.SerializeToString,
-        response_deserializer=definitions__pb2.Empty.FromString,
+        request_serializer=definitions__pb2.UInt.SerializeToString,
+        response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.Reset = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/Reset',
-        request_serializer=definitions__pb2.ResetRequest.SerializeToString,
+        request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Read = channel.unary_unary(
@@ -94,13 +89,6 @@ class GenericFmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def GetModelVariableNames(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
   def GetModelVariables(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -109,9 +97,7 @@ class GenericFmuServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetCurrentTime(self, request, context):
-    """rpc GetModelStructure (Empty) returns (ModelStructure);
-
-    instance methods
+    """instance methods
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -172,31 +158,26 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
       'CreateInstance': grpc.unary_unary_rpc_method_handler(
           servicer.CreateInstance,
           request_deserializer=definitions__pb2.Empty.FromString,
-          response_serializer=definitions__pb2.ModelReference.SerializeToString,
+          response_serializer=definitions__pb2.UInt.SerializeToString,
       ),
       'GetModelName': grpc.unary_unary_rpc_method_handler(
           servicer.GetModelName,
           request_deserializer=definitions__pb2.Empty.FromString,
           response_serializer=definitions__pb2.Str.SerializeToString,
       ),
-      'GetModelVariableNames': grpc.unary_unary_rpc_method_handler(
-          servicer.GetModelVariableNames,
-          request_deserializer=definitions__pb2.Empty.FromString,
-          response_serializer=definitions__pb2.StrList.SerializeToString,
-      ),
-      'GetModelVariables': grpc.unary_unary_rpc_method_handler(
+      'GetModelVariables': grpc.unary_stream_rpc_method_handler(
           servicer.GetModelVariables,
           request_deserializer=definitions__pb2.Empty.FromString,
-          response_serializer=definitions__pb2.ScalarVariables.SerializeToString,
+          response_serializer=definitions__pb2.ScalarVariable.SerializeToString,
       ),
       'GetCurrentTime': grpc.unary_unary_rpc_method_handler(
           servicer.GetCurrentTime,
-          request_deserializer=definitions__pb2.ModelReference.FromString,
+          request_deserializer=definitions__pb2.UInt.FromString,
           response_serializer=definitions__pb2.Real.SerializeToString,
       ),
       'IsTerminated': grpc.unary_unary_rpc_method_handler(
           servicer.IsTerminated,
-          request_deserializer=definitions__pb2.ModelReference.FromString,
+          request_deserializer=definitions__pb2.UInt.FromString,
           response_serializer=definitions__pb2.Bool.SerializeToString,
       ),
       'Init': grpc.unary_unary_rpc_method_handler(
@@ -211,12 +192,12 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
       ),
       'Terminate': grpc.unary_unary_rpc_method_handler(
           servicer.Terminate,
-          request_deserializer=definitions__pb2.TerminateRequest.FromString,
-          response_serializer=definitions__pb2.Empty.SerializeToString,
+          request_deserializer=definitions__pb2.UInt.FromString,
+          response_serializer=definitions__pb2.Bool.SerializeToString,
       ),
       'Reset': grpc.unary_unary_rpc_method_handler(
           servicer.Reset,
-          request_deserializer=definitions__pb2.ResetRequest.FromString,
+          request_deserializer=definitions__pb2.UInt.FromString,
           response_serializer=definitions__pb2.Status.SerializeToString,
       ),
       'Read': grpc.unary_unary_rpc_method_handler(
