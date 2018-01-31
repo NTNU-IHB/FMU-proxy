@@ -85,7 +85,6 @@ object GrpcFmu {
     }
 
 
-
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
@@ -97,24 +96,10 @@ object GrpcFmu {
             }
         }
 
-//        fun copyFromResources(from: String) {
-//            val fileName = FilenameUtils.getName(from)
-//            File(baseFile,  fileName).also { file ->
-//                FileOutputStream(file).use { fos ->
-//                    IOUtils.copy(javaClass.classLoader.getResourceAsStream(from), fos)
-//                    LOG.info("Copied $fileName to {}", file)
-//                }
-//            }
-//        }
-
-//        copyFromResourcesTo("build.gradle", "")
-//        copyFromResourcesTo("settings.gradle", "")
-
-
         File(baseFile,  "build.gradle").also { file ->
             FileOutputStream(file).use { fos ->
                 IOUtils.copy(javaClass.classLoader.getResourceAsStream( "build.gradle"), fos)
-                LOG.info("Copied build.gradle to {}", file)
+                LOG.debug("Copied build.gradle to {}", file)
             }
         }
 
@@ -137,7 +122,7 @@ object GrpcFmu {
         File(resourcesFile, "log4j.properties").also { file ->
             FileOutputStream(file).use { fos ->
                 IOUtils.copy(javaClass.classLoader.getResourceAsStream("log4j.properties"), fos)
-                LOG.info("Copied log4j.properties to {}", file)
+                LOG.debug("Copied log4j.properties to {}", file)
             }
         }
 
@@ -150,36 +135,41 @@ object GrpcFmu {
         ProtoGen.generateProtoCode(modelDescription).apply {
             definitions.create(resourcesFile)
             service.create(resourcesFile)
-            compile(baseFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")
-        }
 
-        ServerGen.generateServerCode(modelDescription,  baseFile)
+            if (compile(baseFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")) {
 
-        val status = ProcessBuilder()
-                .directory(baseFile)
-                .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                .start()
-                .waitFor()
+                ServerGen.generateServerCode(modelDescription,  baseFile)
+                val status = ProcessBuilder()
+                        .directory(baseFile)
+                        .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
+                        .redirectError(ProcessBuilder.Redirect.INHERIT)
+                        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                        .start()
+                        .waitFor()
 
-        if (status == 0) {
-            File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
-                if (exists()) {
-                    val dir = File(".")
-                    FileUtils.copyFileToDirectory(this, dir)
-                    LOG.info("Executable '{}' is located in directory '{}'", this.name, dir.absolutePath)
+                if (status == 0) {
+                    File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
+                        if (exists()) {
+                            val dir = File(".")
+                            FileUtils.copyFileToDirectory(this, dir)
+                            LOG.info("Executable '{}' is located in directory '{}'", this.name, dir.absolutePath)
+                        }
+                    }
+                } else {
+                    LOG.error("Process returned with status: {}", status)
                 }
+
             }
-        } else {
-            LOG.error("Process returned with status: {}", status)
+
         }
+
 
         if (baseFile.exists()) {
             if(baseFile.deleteRecursively()) {
                 LOG.info("Deleted folder {}", baseFile.absolutePath)
             } else {
                 LOG.info("Failed to delete folder {}", baseFile.absolutePath)
+                baseFile.deleteOnExit()
             }
         }
 

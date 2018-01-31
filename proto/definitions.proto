@@ -5,10 +5,6 @@ package no.mechatronics.sfi.grpc_fmu;
 
 option java_outer_classname = "FmiDefinitions";
 
-message ModelReference {
-    uint32 fmu_id = 1;
-}
-
 enum Causality {
     UNDEFINED_CAUSALITY = 0;
     INPUT = 1;

@@ -17,21 +17,15 @@ class ServerGenKtTest {
 
     @Before
     fun setUp() {
-
         val url = javaClass.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
         modelDescription = ModelDescriptionParser.parse(url)
-
     }
-
 
     @Test
     fun generateServerCodeFile() {
-
         ServerGen.generateServerCode(modelDescription, File("generated"))
-       // Assert.assertTrue(file.delete())
-
     }
 
 }
