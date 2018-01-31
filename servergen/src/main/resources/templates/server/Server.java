@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -254,23 +254,6 @@ public class {{fmuName}}Server {
             statusReply(Write(fmu, req), responseObserver);
 
         }
-
-//        @Override
-//        public void getModelVariableNames(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.StrList> responseObserver) {
-//
-//            List<String> modelVariableNames = modelDescription.getModelVariables()
-//                    .getVariables().stream().map(v -> v.getName()).collect(Collectors.toList());
-//
-//            FmiDefinitions.StrList.Builder builder = FmiDefinitions.StrList.newBuilder();
-//            for (String name : modelVariableNames) {
-//                 builder.addValues(name);
-//            }
-//
-//            FmiDefinitions.StrList reply = builder.build();
-//            responseObserver.onNext(reply);
-//            responseObserver.onCompleted();
-//
-//        }
 
         @Override
         public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {

@@ -1,5 +1,30 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING  FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package no.mechatronics.sfi.grpc_fmu.client
 
+import com.sun.org.apache.xpath.internal.operations.Variable
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.grpc_fmu.FmiDefinitions
@@ -7,6 +32,9 @@ import no.mechatronics.sfi.grpc_fmu.GenericFmuServiceGrpc
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class GenericFmuClient(
         host: String,
         port: Int
@@ -53,7 +81,7 @@ class GenericFmuClient(
         }
 
         val modelVariables
-            get() = stub.getModelVariables(EMPTY) ?: throw AssertionError()
+            get() = stub.getModelVariables(EMPTY)?.valuesList ?: throw AssertionError()
 
         internal constructor(ref: FmiDefinitions.Int) : this(ref.value)
 
@@ -78,15 +106,18 @@ class GenericFmuClient(
 
         override fun close() = terminate()
 
-        fun getReader(valueReference: Int) = VariableReader(fmuId, valueReference, stub)
+        fun getReader(valueReference: Int): VariableReader
+                = VariableReader(fmuId, valueReference, stub)
 
-        fun getReader(varName: String)
-                = modelVariables.valuesList.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName")
+        fun getReader(varName: String): VariableReader
+            = getReader(modelVariables.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName"))
 
-        fun getWriter(valueReference: Int) = VariableReader(fmuId, valueReference, stub)
 
-        fun getWriter(varName: String)
-                = modelVariables.valuesList.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName")
+        fun getWriter(valueReference: Int)
+                = VariableWriter(fmuId, valueReference, stub)
+
+        fun getWriter(varName: String): VariableWriter
+                = getWriter(modelVariables.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName"))
 
     }
 
@@ -95,7 +126,7 @@ class GenericFmuClient(
 class VariableReader(
         private val fmuId: Int,
         private val valueReference: Int,
-        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+        private val stub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
 ) {
 
     private val varRead by lazy {
@@ -105,36 +136,43 @@ class VariableReader(
                 .build()
     }
 
-    fun readInt() =  blockingStub.read(varRead).intValue
-    fun readReal() = blockingStub.read(varRead).realValue
-    fun readString() = blockingStub.read(varRead).strValue
-    fun readBoolean() = blockingStub.read(varRead).boolValue
+    fun readInt() =  stub.read(varRead).intValue
+    fun readReal() = stub.read(varRead).realValue
+    fun readString() = stub.read(varRead).strValue
+    fun readBoolean() = stub.read(varRead).boolValue
 
 }
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class VariableWriter(
         private val fmuId: Int,
         private val valueReference: Int,
-        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+        private val stub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
 ) {
 
-    fun write(value: Int) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+    fun write(value: Int): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
             .setFmuId(fmuId)
+            .setValueReference(valueReference)
             .setIntValue(value)
             .build())
 
-    fun write(value: Double) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+    fun write(value: Double): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
             .setFmuId(fmuId)
+            .setValueReference(valueReference)
             .setRealValue(value)
             .build())
 
-    fun write(value: String) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+    fun write(value: String): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
             .setFmuId(fmuId)
+            .setValueReference(valueReference)
             .setStrValue(value)
             .build())
 
-    fun write(value: Boolean) = blockingStub.write(FmiDefinitions.VarWrite.newBuilder()
+    fun write(value: Boolean): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
             .setFmuId(fmuId)
+            .setValueReference(valueReference)
             .setBoolValue(value)
             .build())
 

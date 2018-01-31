@@ -169,6 +169,7 @@ object GrpcFmu {
                 LOG.info("Deleted folder {}", baseFile.absolutePath)
             } else {
                 LOG.info("Failed to delete folder {}", baseFile.absolutePath)
+                baseFile.deleteOnExit()
             }
         }
 

@@ -8,21 +8,17 @@ print(modelName)
 
 fmu = client.create_instance()
 
-variables = fmu.get_model_variables()
-for v in variables:
-    print(v)
+variables = fmu.model_variables
+for key in variables:
+    v = variables[key]
+    if v.causality == 1:
+        print(v)
 
-init = fmu.init()
-print(init)
-print(fmu.get_current_time())
+if fmu.init():
 
-print(fmu.read("RodSideChamber.deltaV0"))
-
-for i in range(0,3):
-    fmu.step(1.0/100)
-    print(fmu.get_current_time())
-
-
+    for i in range(0,3):
+        fmu.step(1.0/100)
+        print(fmu.get_current_time())
 
 fmu.terminate()
 
