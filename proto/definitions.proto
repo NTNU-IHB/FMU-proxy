@@ -7,14 +7,14 @@ option java_outer_classname = "FmiDefinitions";
 
 
 message ScalarVariable {
-    uint32 valueReference = 1;
-    string varName = 2;
+    uint32 value_reference = 1;
+    string name = 2;
     string description = 3;
-    VariableType type = 4;
+    VariableType variable_type = 4;
     Initial initial = 5;
     Causality causality = 6;
     Variability variability = 7;
-    Start start = 8;
+    AnyPrimitive start = 8;
 }
 
 message Status {
@@ -22,7 +22,7 @@ message Status {
     string value = 2;
 }
 
-message Start {
+message AnyPrimitive {
     oneof value {
         int32 intValue = 1;
         double realValue = 2;
@@ -52,10 +52,9 @@ message Int {
 
 message IntWrite {
     uint32 fmu_id = 1;
-    uint32 valueReference = 2;
+    uint32 value_reference = 2;
     int32 value = 3;
 }
-
 
 message Real {
     double value = 1;
@@ -63,10 +62,9 @@ message Real {
 
 message RealWrite {
     uint32 fmu_id = 1;
-    uint32 valueReference = 2;
+    uint32 value_reference = 2;
     double value = 3;
 }
-
 
 message Str {
     string value = 1;
@@ -74,7 +72,7 @@ message Str {
 
 message StrWrite {
     uint32 fmu_id = 1;
-    uint32 valueReference = 2;
+    uint32 value_reference = 2;
     string value = 3;
 }
 
@@ -85,43 +83,37 @@ message Bool {
 
 message BoolWrite {
     uint32 fmu_id = 1;
-    uint32 valueReference = 2;
+    uint32 value_reference = 2;
     bool value = 3;
 }
 
-message Var {
-    oneof value {
-        int32 intValue = 1;
-        double realValue = 2;
-        string strValue = 3;
-        bool boolValue = 4;
-    }
-}
-
-message VarRead {
+message ReadRequest {
     uint32 fmu_id = 1;
-    uint32 valueReference = 2;
+    uint32 value_reference = 2;
 }
 
-message VarWrite {
+message WriteIntRequest {
     uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-    oneof value {
-        int32 intValue = 5;
-        double realValue = 6;
-        string strValue = 7;
-        bool boolValue = 8;
-    }
+    uint32 value_reference = 2;
+    int32 value = 3;
 }
 
-message Unknown {
-    uint32 index = 1;
+message WriteRealRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    double value = 3;
 }
 
-message ModelStructure {
-    repeated uint32 outputs = 1;
-    repeated Unknown derivatives = 2;
-    repeated Unknown initialUnknowns = 3;
+message WriteStringRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    string value = 3;
+}
+
+message WriteBooleanRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    bool value = 3;
 }
 
 enum Causality {

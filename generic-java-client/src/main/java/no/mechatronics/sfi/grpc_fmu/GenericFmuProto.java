@@ -24,7 +24,7 @@ public final class GenericFmuProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\rservice.proto\022\034no.mechatronics.sfi.grp" +
-      "c_fmu\032\021definitions.proto2\343\007\n\021GenericFmuS" +
+      "c_fmu\032\021definitions.proto2\274\014\n\021GenericFmuS" +
       "ervice\022Y\n\016CreateInstance\022#.no.mechatroni" +
       "cs.sfi.grpc_fmu.Empty\032\".no.mechatronics." +
       "sfi.grpc_fmu.UInt\022V\n\014GetModelName\022#.no.m" +
@@ -45,12 +45,27 @@ public final class GenericFmuProto {
       ".grpc_fmu.UInt\032\".no.mechatronics.sfi.grp" +
       "c_fmu.Bool\022Q\n\005Reset\022\".no.mechatronics.sf" +
       "i.grpc_fmu.UInt\032$.no.mechatronics.sfi.gr" +
-      "pc_fmu.Status\022P\n\004Read\022%.no.mechatronics." +
-      "sfi.grpc_fmu.VarRead\032!.no.mechatronics.s" +
-      "fi.grpc_fmu.Var\022U\n\005Write\022&.no.mechatroni" +
-      "cs.sfi.grpc_fmu.VarWrite\032$.no.mechatroni" +
-      "cs.sfi.grpc_fmu.StatusB\021B\017GenericFmuProt" +
-      "ob\006proto3"
+      "pc_fmu.Status\022W\n\007ReadInt\022).no.mechatroni" +
+      "cs.sfi.grpc_fmu.ReadRequest\032!.no.mechatr" +
+      "onics.sfi.grpc_fmu.Int\022Y\n\010ReadReal\022).no." +
+      "mechatronics.sfi.grpc_fmu.ReadRequest\032\"." +
+      "no.mechatronics.sfi.grpc_fmu.Real\022Z\n\nRea" +
+      "dString\022).no.mechatronics.sfi.grpc_fmu.R" +
+      "eadRequest\032!.no.mechatronics.sfi.grpc_fm" +
+      "u.Str\022\\\n\013ReadBoolean\022).no.mechatronics.s" +
+      "fi.grpc_fmu.ReadRequest\032\".no.mechatronic" +
+      "s.sfi.grpc_fmu.Bool\022_\n\010WriteInt\022-.no.mec" +
+      "hatronics.sfi.grpc_fmu.WriteIntRequest\032$" +
+      ".no.mechatronics.sfi.grpc_fmu.Status\022a\n\t" +
+      "WriteReal\022..no.mechatronics.sfi.grpc_fmu" +
+      ".WriteRealRequest\032$.no.mechatronics.sfi." +
+      "grpc_fmu.Status\022e\n\013WriteString\0220.no.mech" +
+      "atronics.sfi.grpc_fmu.WriteStringRequest" +
+      "\032$.no.mechatronics.sfi.grpc_fmu.Status\022g" +
+      "\n\014WriteBoolean\0221.no.mechatronics.sfi.grp" +
+      "c_fmu.WriteBooleanRequest\032$.no.mechatron" +
+      "ics.sfi.grpc_fmu.StatusB\021B\017GenericFmuPro" +
+      "tob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

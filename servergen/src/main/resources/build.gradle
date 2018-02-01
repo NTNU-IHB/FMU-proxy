@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 
-def snapshot = false
+def snapshot = true
 def fmi_import_version = snapshot ? '0.1.2-BETA-SNAPSHOT' : '0.1.1-BETA'
 
 repositories {

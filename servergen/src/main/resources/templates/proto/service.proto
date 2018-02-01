@@ -21,10 +21,16 @@ service GenericFmuService {
     rpc Init (InitRequest) returns (Bool);
     rpc Step (StepRequest) returns (Status);
     rpc Terminate (UInt) returns (Bool);
-
     rpc Reset(UInt) returns (Status);
 
-    rpc Read (VarRead) returns (Var);
-    rpc Write (VarWrite) returns (Status);
+    rpc ReadInt (ReadRequest) returns (Int);
+	rpc ReadReal (ReadRequest) returns (Real);
+	rpc ReadString (ReadRequest) returns (Str);
+	rpc ReadBoolean (ReadRequest) returns (Bool);
+	
+    rpc WriteInt (WriteIntRequest) returns (Status);
+	rpc WriteReal (WriteRealRequest) returns (Status);
+	rpc WriteString (WriteStringRequest) returns (Status);
+	rpc WriteBoolean (WriteBooleanRequest) returns (Status);
 
 }
