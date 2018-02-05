@@ -50,41 +50,32 @@ message Int {
     int32 value = 1;
 }
 
-message IntWrite {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    int32 value = 3;
+message IntList {
+	repeated int32 values = 1;
 }
 
 message Real {
     double value = 1;
 }
 
-message RealWrite {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    double value = 3;
+message RealList {
+	repeated double values = 1;
 }
 
 message Str {
     string value = 1;
 }
 
-message StrWrite {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    string value = 3;
+message StrList {
+	repeated string values = 1;
 }
-
 
 message Bool {
     bool value = 1;
 }
 
-message BoolWrite {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    bool value = 3;
+message BoolList {
+	repeated bool values = 1;
 }
 
 message ReadRequest {
@@ -92,10 +83,21 @@ message ReadRequest {
     uint32 value_reference = 2;
 }
 
-message WriteIntRequest {
+message BulkReadRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+}
+
+message WriteIntegerRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     int32 value = 3;
+}
+
+message BulkWriteIntegerRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated int32 values = 3;
 }
 
 message WriteRealRequest {
@@ -104,16 +106,34 @@ message WriteRealRequest {
     double value = 3;
 }
 
+message BulkWriteRealRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated double values = 3;
+}
+
 message WriteStringRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     string value = 3;
 }
 
+message BulkWriteStringRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated string values = 3;
+}
+
 message WriteBooleanRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     bool value = 3;
+}
+
+message BulkWriteBooleanRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated bool values = 3;
 }
 
 enum Causality {

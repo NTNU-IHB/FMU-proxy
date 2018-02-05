@@ -11,6 +11,7 @@ service GenericFmuService {
 
     rpc CreateInstance (Empty) returns (UInt);
 
+	rpc GetGuid (Empty)  returns (Str);
     rpc GetModelName (Empty) returns (Str);
     rpc GetModelVariables (Empty) returns (stream ScalarVariable);
 	
@@ -23,14 +24,24 @@ service GenericFmuService {
     rpc Terminate (UInt) returns (Bool);
     rpc Reset(UInt) returns (Status);
 
-    rpc ReadInt (ReadRequest) returns (Int);
+    rpc ReadInteger (ReadRequest) returns (Int);
 	rpc ReadReal (ReadRequest) returns (Real);
 	rpc ReadString (ReadRequest) returns (Str);
 	rpc ReadBoolean (ReadRequest) returns (Bool);
 	
-    rpc WriteInt (WriteIntRequest) returns (Status);
+	rpc BulkReadInteger (BulkReadRequest) returns (IntList);
+	rpc BulkReadReal (BulkReadRequest) returns (RealList);
+	rpc BulkReadString (BulkReadRequest) returns (StrList);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BoolList);
+	
+    rpc WriteInteger (WriteIntegerRequest) returns (Status);
 	rpc WriteReal (WriteRealRequest) returns (Status);
 	rpc WriteString (WriteStringRequest) returns (Status);
 	rpc WriteBoolean (WriteBooleanRequest) returns (Status);
+	
+	rpc BulkWriteInteger (BulkWriteIntegerRequest) returns (Status);
+	rpc BulkWriteReal (BulkWriteRealRequest) returns (Status);
+	rpc BulkWriteString (BulkWriteStringRequest) returns (Status);
+	rpc BulkWriteBoolean (BulkWriteBooleanRequest) returns (Status);
 
 }

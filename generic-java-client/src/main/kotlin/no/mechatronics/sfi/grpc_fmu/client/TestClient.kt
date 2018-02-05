@@ -33,7 +33,7 @@ fun main(args: Array<String>) {
 
     GenericFmuClient("127.0.0.1", 8000).use {
 
-        println("Connected to remote FMU ${it.getModelName()}")
+        println("Connected to remote FMU ${it.modelName}")
 
         it.createInstance().use { fmu ->
             if (fmu.init()) {
@@ -72,10 +72,10 @@ fun main(args: Array<String>) {
                     fmu.step(dt)
                     outputs.forEach({
                         val value: Any? = when (it.variableType) {
-                            FmiDefinitions.VariableType.INTEGER -> fmu.getReader(it.valueReference).readInt()
-                            FmiDefinitions.VariableType.REAL -> fmu.getReader(it.valueReference).readReal()
-                            FmiDefinitions.VariableType.STRING -> fmu.getReader(it.valueReference).readString()
-                            FmiDefinitions.VariableType.BOOLEAN -> fmu.getReader(it.valueReference).readBoolean()
+                            FmiDefinitions.VariableType.INTEGER -> fmu.read(it.valueReference).asInt()
+                            FmiDefinitions.VariableType.REAL -> fmu.read(it.valueReference).asReal()
+                            FmiDefinitions.VariableType.STRING -> fmu.read(it.valueReference).asString()
+                            FmiDefinitions.VariableType.BOOLEAN -> fmu.read(it.valueReference).asBoolean()
                             else -> null
                         }
                         println("t= ${fmu.currentTime}, ${it.name} = $value")

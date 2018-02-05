@@ -28,9 +28,8 @@ import com.google.common.io.Files
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.grpc_fmu.codegen.ProtoGen
 import no.mechatronics.sfi.grpc_fmu.codegen.ServerGen
-import no.mechatronics.sfi.grpc_fmu.utils.exctractModelDescriptionXml
+import no.mechatronics.sfi.grpc_fmu.utils.extractModelDescriptionXml
 import org.apache.commons.io.FileUtils
-import org.apache.commons.io.FilenameUtils
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
@@ -57,8 +56,8 @@ object GrpcFmu {
     const val KOTLIN_SRC_OUTPUT_FOLDER = "src/main/kotlin/"
     const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
 
-    fun generate(file: File) = generate(FileInputStream(file), exctractModelDescriptionXml(FileInputStream(file)))
-    fun generate(url: URL)= generate(url.openStream(), exctractModelDescriptionXml(url.openStream()))
+    fun generate(file: File) = generate(FileInputStream(file), extractModelDescriptionXml(FileInputStream(file)))
+    fun generate(url: URL)= generate(url.openStream(), extractModelDescriptionXml(url.openStream()))
 
 
     private fun copyZippedContent(baseFile: File) {
@@ -91,7 +90,7 @@ object GrpcFmu {
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists()) {
                 if (mkdir()) {
-                    LOG.info("Created folder {}", absolutePath)
+                    LOG.debug("Created folder {}", absolutePath)
                 }
             }
         }
@@ -166,10 +165,9 @@ object GrpcFmu {
 
         if (baseFile.exists()) {
             if(baseFile.deleteRecursively()) {
-                LOG.info("Deleted folder {}", baseFile.absolutePath)
+                LOG.debug("Deleted folder {}", baseFile.absolutePath)
             } else {
                 LOG.info("Failed to delete folder {}", baseFile.absolutePath)
-                baseFile.deleteOnExit()
             }
         }
 

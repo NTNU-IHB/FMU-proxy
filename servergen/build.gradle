@@ -10,7 +10,7 @@ buildscript {
 }
 
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
@@ -25,11 +25,11 @@ distributions {
     }
 }
 
-def debug = true
+def debug = false
 def snapshot = true
 
-def fmi_md_version = snapshot ? '0.4.4-SNAPSHOT' : '0.4.3'
-def fmi_import_version = snapshot ? '0.1.2-BETA-SNAPSHOT' : '0.1.1-BETA'
+def fmi_md_version = snapshot ? '0.5.1-SNAPSHOT' : '0.5'
+def fmi_import_version = snapshot ? '0.2.1-SNAPSHOT' : '0.2'
 
 repositories {
     mavenCentral()
@@ -41,34 +41,34 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-	
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-    compile group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
-	
-	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 	
 	if (debug) {
 
-        compile group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
-        compile group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
-        compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+        implementation group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
+        implementation group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
+        implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
 
-        compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
-        compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
+        implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+        implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
 
-        compile group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
-        compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-        compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+        implementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
+        implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+        implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
-        compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
+        implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
     }
 	
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 compileKotlin {
