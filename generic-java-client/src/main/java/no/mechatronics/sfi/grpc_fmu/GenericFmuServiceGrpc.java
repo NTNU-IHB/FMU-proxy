@@ -30,20 +30,20 @@ public final class GenericFmuServiceGrpc {
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getCreateInstanceMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> METHOD_CREATE_INSTANCE = getCreateInstanceMethod();
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> METHOD_CREATE_INSTANCE = getCreateInstanceMethod();
 
   private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> getCreateInstanceMethod;
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> getCreateInstanceMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> getCreateInstanceMethod;
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceMethod;
     if ((getCreateInstanceMethod = GenericFmuServiceGrpc.getCreateInstanceMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
         if ((getCreateInstanceMethod = GenericFmuServiceGrpc.getCreateInstanceMethod) == null) {
           GenericFmuServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "CreateInstance"))
@@ -51,13 +51,45 @@ public final class GenericFmuServiceGrpc {
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
                   .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("CreateInstance"))
                   .build();
           }
         }
      }
      return getCreateInstanceMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getGetGuidMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> METHOD_GET_GUID = getGetGuidMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetGuidMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetGuidMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetGuidMethod;
+    if ((getGetGuidMethod = GenericFmuServiceGrpc.getGetGuidMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetGuidMethod = GenericFmuServiceGrpc.getGetGuidMethod) == null) {
+          GenericFmuServiceGrpc.getGetGuidMethod = getGetGuidMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetGuid"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetGuid"))
+                  .build();
+          }
+        }
+     }
+     return getGetGuidMethod;
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetModelNameMethod()} instead. 
@@ -94,28 +126,28 @@ public final class GenericFmuServiceGrpc {
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetModelVariablesMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> METHOD_GET_MODEL_VARIABLES = getGetModelVariablesMethod();
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> METHOD_GET_MODEL_VARIABLES = getGetModelVariablesMethod();
 
   private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> getGetModelVariablesMethod;
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getGetModelVariablesMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> getGetModelVariablesMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> getGetModelVariablesMethod;
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getGetModelVariablesMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getGetModelVariablesMethod;
     if ((getGetModelVariablesMethod = GenericFmuServiceGrpc.getGetModelVariablesMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
         if ((getGetModelVariablesMethod = GenericFmuServiceGrpc.getGetModelVariablesMethod) == null) {
           GenericFmuServiceGrpc.getGetModelVariablesMethod = getGetModelVariablesMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetModelVariables"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable.getDefaultInstance()))
                   .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetModelVariables"))
                   .build();
           }
@@ -125,27 +157,27 @@ public final class GenericFmuServiceGrpc {
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetCurrentTimeMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> METHOD_GET_CURRENT_TIME = getGetCurrentTimeMethod();
 
-  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getGetCurrentTimeMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getGetCurrentTimeMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getGetCurrentTimeMethod;
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getGetCurrentTimeMethod;
     if ((getGetCurrentTimeMethod = GenericFmuServiceGrpc.getGetCurrentTimeMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
         if ((getGetCurrentTimeMethod = GenericFmuServiceGrpc.getGetCurrentTimeMethod) == null) {
           GenericFmuServiceGrpc.getGetCurrentTimeMethod = getGetCurrentTimeMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetCurrentTime"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real.getDefaultInstance()))
                   .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetCurrentTime"))
@@ -157,27 +189,27 @@ public final class GenericFmuServiceGrpc {
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getIsTerminatedMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> METHOD_IS_TERMINATED = getIsTerminatedMethod();
 
-  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getIsTerminatedMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getIsTerminatedMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getIsTerminatedMethod;
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getIsTerminatedMethod;
     if ((getIsTerminatedMethod = GenericFmuServiceGrpc.getIsTerminatedMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
         if ((getIsTerminatedMethod = GenericFmuServiceGrpc.getIsTerminatedMethod) == null) {
           GenericFmuServiceGrpc.getIsTerminatedMethod = getIsTerminatedMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "IsTerminated"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool.getDefaultInstance()))
                   .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("IsTerminated"))
@@ -253,29 +285,29 @@ public final class GenericFmuServiceGrpc {
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getTerminateMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> METHOD_TERMINATE = getTerminateMethod();
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> METHOD_TERMINATE = getTerminateMethod();
 
-  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> getTerminateMethod;
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getTerminateMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> getTerminateMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> getTerminateMethod;
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getTerminateMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getTerminateMethod;
     if ((getTerminateMethod = GenericFmuServiceGrpc.getTerminateMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
         if ((getTerminateMethod = GenericFmuServiceGrpc.getTerminateMethod) == null) {
           GenericFmuServiceGrpc.getTerminateMethod = getTerminateMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Terminate"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool.getDefaultInstance()))
                   .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Terminate"))
                   .build();
           }
@@ -285,27 +317,27 @@ public final class GenericFmuServiceGrpc {
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getResetMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest,
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_RESET = getResetMethod();
 
-  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest,
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getResetMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest,
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getResetMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getResetMethod;
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getResetMethod;
     if ((getResetMethod = GenericFmuServiceGrpc.getResetMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
         if ((getResetMethod = GenericFmuServiceGrpc.getResetMethod) == null) {
           GenericFmuServiceGrpc.getResetMethod = getResetMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Reset"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
                   .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Reset"))
@@ -316,68 +348,516 @@ public final class GenericFmuServiceGrpc {
      return getResetMethod;
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  @java.lang.Deprecated // Use {@link #getReadMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> METHOD_READ = getReadMethod();
+  @java.lang.Deprecated // Use {@link #getReadIntegerMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> METHOD_READ_INTEGER = getReadIntegerMethod();
 
-  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> getReadMethod;
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> getReadIntegerMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> getReadMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> getReadMethod;
-    if ((getReadMethod = GenericFmuServiceGrpc.getReadMethod) == null) {
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> getReadIntegerMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> getReadIntegerMethod;
+    if ((getReadIntegerMethod = GenericFmuServiceGrpc.getReadIntegerMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
-        if ((getReadMethod = GenericFmuServiceGrpc.getReadMethod) == null) {
-          GenericFmuServiceGrpc.getReadMethod = getReadMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var>newBuilder()
+        if ((getReadIntegerMethod = GenericFmuServiceGrpc.getReadIntegerMethod) == null) {
+          GenericFmuServiceGrpc.getReadIntegerMethod = getReadIntegerMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Read"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "ReadInteger"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var.getDefaultInstance()))
-                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Read"))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("ReadInteger"))
                   .build();
           }
         }
      }
-     return getReadMethod;
+     return getReadIntegerMethod;
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  @java.lang.Deprecated // Use {@link #getWriteMethod()} instead. 
-  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_WRITE = getWriteMethod();
+  @java.lang.Deprecated // Use {@link #getReadRealMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> METHOD_READ_REAL = getReadRealMethod();
 
-  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteMethod;
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getReadRealMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteMethod;
-    if ((getWriteMethod = GenericFmuServiceGrpc.getWriteMethod) == null) {
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getReadRealMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getReadRealMethod;
+    if ((getReadRealMethod = GenericFmuServiceGrpc.getReadRealMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
-        if ((getWriteMethod = GenericFmuServiceGrpc.getWriteMethod) == null) {
-          GenericFmuServiceGrpc.getWriteMethod = getWriteMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+        if ((getReadRealMethod = GenericFmuServiceGrpc.getReadRealMethod) == null) {
+          GenericFmuServiceGrpc.getReadRealMethod = getReadRealMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "Write"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "ReadReal"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite.getDefaultInstance()))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
-                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("Write"))
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("ReadReal"))
                   .build();
           }
         }
      }
-     return getWriteMethod;
+     return getReadRealMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getReadStringMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> METHOD_READ_STRING = getReadStringMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getReadStringMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getReadStringMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getReadStringMethod;
+    if ((getReadStringMethod = GenericFmuServiceGrpc.getReadStringMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getReadStringMethod = GenericFmuServiceGrpc.getReadStringMethod) == null) {
+          GenericFmuServiceGrpc.getReadStringMethod = getReadStringMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "ReadString"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("ReadString"))
+                  .build();
+          }
+        }
+     }
+     return getReadStringMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getReadBooleanMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> METHOD_READ_BOOLEAN = getReadBooleanMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getReadBooleanMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getReadBooleanMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> getReadBooleanMethod;
+    if ((getReadBooleanMethod = GenericFmuServiceGrpc.getReadBooleanMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getReadBooleanMethod = GenericFmuServiceGrpc.getReadBooleanMethod) == null) {
+          GenericFmuServiceGrpc.getReadBooleanMethod = getReadBooleanMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "ReadBoolean"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("ReadBoolean"))
+                  .build();
+          }
+        }
+     }
+     return getReadBooleanMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkReadIntegerMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> METHOD_BULK_READ_INTEGER = getBulkReadIntegerMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> getBulkReadIntegerMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> getBulkReadIntegerMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> getBulkReadIntegerMethod;
+    if ((getBulkReadIntegerMethod = GenericFmuServiceGrpc.getBulkReadIntegerMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkReadIntegerMethod = GenericFmuServiceGrpc.getBulkReadIntegerMethod) == null) {
+          GenericFmuServiceGrpc.getBulkReadIntegerMethod = getBulkReadIntegerMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkReadInteger"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkReadInteger"))
+                  .build();
+          }
+        }
+     }
+     return getBulkReadIntegerMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkReadRealMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> METHOD_BULK_READ_REAL = getBulkReadRealMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> getBulkReadRealMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> getBulkReadRealMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> getBulkReadRealMethod;
+    if ((getBulkReadRealMethod = GenericFmuServiceGrpc.getBulkReadRealMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkReadRealMethod = GenericFmuServiceGrpc.getBulkReadRealMethod) == null) {
+          GenericFmuServiceGrpc.getBulkReadRealMethod = getBulkReadRealMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkReadReal"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkReadReal"))
+                  .build();
+          }
+        }
+     }
+     return getBulkReadRealMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkReadStringMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> METHOD_BULK_READ_STRING = getBulkReadStringMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> getBulkReadStringMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> getBulkReadStringMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> getBulkReadStringMethod;
+    if ((getBulkReadStringMethod = GenericFmuServiceGrpc.getBulkReadStringMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkReadStringMethod = GenericFmuServiceGrpc.getBulkReadStringMethod) == null) {
+          GenericFmuServiceGrpc.getBulkReadStringMethod = getBulkReadStringMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkReadString"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkReadString"))
+                  .build();
+          }
+        }
+     }
+     return getBulkReadStringMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkReadBooleanMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> METHOD_BULK_READ_BOOLEAN = getBulkReadBooleanMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> getBulkReadBooleanMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> getBulkReadBooleanMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> getBulkReadBooleanMethod;
+    if ((getBulkReadBooleanMethod = GenericFmuServiceGrpc.getBulkReadBooleanMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkReadBooleanMethod = GenericFmuServiceGrpc.getBulkReadBooleanMethod) == null) {
+          GenericFmuServiceGrpc.getBulkReadBooleanMethod = getBulkReadBooleanMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkReadBoolean"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkReadBoolean"))
+                  .build();
+          }
+        }
+     }
+     return getBulkReadBooleanMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getWriteIntegerMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_WRITE_INTEGER = getWriteIntegerMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteIntegerMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteIntegerMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteIntegerMethod;
+    if ((getWriteIntegerMethod = GenericFmuServiceGrpc.getWriteIntegerMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getWriteIntegerMethod = GenericFmuServiceGrpc.getWriteIntegerMethod) == null) {
+          GenericFmuServiceGrpc.getWriteIntegerMethod = getWriteIntegerMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "WriteInteger"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("WriteInteger"))
+                  .build();
+          }
+        }
+     }
+     return getWriteIntegerMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getWriteRealMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_WRITE_REAL = getWriteRealMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteRealMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteRealMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteRealMethod;
+    if ((getWriteRealMethod = GenericFmuServiceGrpc.getWriteRealMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getWriteRealMethod = GenericFmuServiceGrpc.getWriteRealMethod) == null) {
+          GenericFmuServiceGrpc.getWriteRealMethod = getWriteRealMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "WriteReal"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("WriteReal"))
+                  .build();
+          }
+        }
+     }
+     return getWriteRealMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getWriteStringMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_WRITE_STRING = getWriteStringMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteStringMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteStringMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteStringMethod;
+    if ((getWriteStringMethod = GenericFmuServiceGrpc.getWriteStringMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getWriteStringMethod = GenericFmuServiceGrpc.getWriteStringMethod) == null) {
+          GenericFmuServiceGrpc.getWriteStringMethod = getWriteStringMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "WriteString"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("WriteString"))
+                  .build();
+          }
+        }
+     }
+     return getWriteStringMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getWriteBooleanMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_WRITE_BOOLEAN = getWriteBooleanMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteBooleanMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteBooleanMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getWriteBooleanMethod;
+    if ((getWriteBooleanMethod = GenericFmuServiceGrpc.getWriteBooleanMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getWriteBooleanMethod = GenericFmuServiceGrpc.getWriteBooleanMethod) == null) {
+          GenericFmuServiceGrpc.getWriteBooleanMethod = getWriteBooleanMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "WriteBoolean"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("WriteBoolean"))
+                  .build();
+          }
+        }
+     }
+     return getWriteBooleanMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkWriteIntegerMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_BULK_WRITE_INTEGER = getBulkWriteIntegerMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteIntegerMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteIntegerMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteIntegerMethod;
+    if ((getBulkWriteIntegerMethod = GenericFmuServiceGrpc.getBulkWriteIntegerMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkWriteIntegerMethod = GenericFmuServiceGrpc.getBulkWriteIntegerMethod) == null) {
+          GenericFmuServiceGrpc.getBulkWriteIntegerMethod = getBulkWriteIntegerMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkWriteInteger"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkWriteInteger"))
+                  .build();
+          }
+        }
+     }
+     return getBulkWriteIntegerMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkWriteRealMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_BULK_WRITE_REAL = getBulkWriteRealMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteRealMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteRealMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteRealMethod;
+    if ((getBulkWriteRealMethod = GenericFmuServiceGrpc.getBulkWriteRealMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkWriteRealMethod = GenericFmuServiceGrpc.getBulkWriteRealMethod) == null) {
+          GenericFmuServiceGrpc.getBulkWriteRealMethod = getBulkWriteRealMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkWriteReal"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkWriteReal"))
+                  .build();
+          }
+        }
+     }
+     return getBulkWriteRealMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkWriteStringMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_BULK_WRITE_STRING = getBulkWriteStringMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteStringMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteStringMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteStringMethod;
+    if ((getBulkWriteStringMethod = GenericFmuServiceGrpc.getBulkWriteStringMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkWriteStringMethod = GenericFmuServiceGrpc.getBulkWriteStringMethod) == null) {
+          GenericFmuServiceGrpc.getBulkWriteStringMethod = getBulkWriteStringMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkWriteString"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkWriteString"))
+                  .build();
+          }
+        }
+     }
+     return getBulkWriteStringMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getBulkWriteBooleanMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> METHOD_BULK_WRITE_BOOLEAN = getBulkWriteBooleanMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteBooleanMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteBooleanMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> getBulkWriteBooleanMethod;
+    if ((getBulkWriteBooleanMethod = GenericFmuServiceGrpc.getBulkWriteBooleanMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getBulkWriteBooleanMethod = GenericFmuServiceGrpc.getBulkWriteBooleanMethod) == null) {
+          GenericFmuServiceGrpc.getBulkWriteBooleanMethod = getBulkWriteBooleanMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "BulkWriteBoolean"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("BulkWriteBoolean"))
+                  .build();
+          }
+        }
+     }
+     return getBulkWriteBooleanMethod;
   }
 
   /**
@@ -410,8 +890,15 @@ public final class GenericFmuServiceGrpc {
     /**
      */
     public void createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
       asyncUnimplementedUnaryCall(getCreateInstanceMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getGuid(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetGuidMethod(), responseObserver);
     }
 
     /**
@@ -424,7 +911,7 @@ public final class GenericFmuServiceGrpc {
     /**
      */
     public void getModelVariables(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> responseObserver) {
       asyncUnimplementedUnaryCall(getGetModelVariablesMethod(), responseObserver);
     }
 
@@ -433,14 +920,14 @@ public final class GenericFmuServiceGrpc {
      *instance methods
      * </pre>
      */
-    public void getCurrentTime(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request,
+    public void getCurrentTime(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> responseObserver) {
       asyncUnimplementedUnaryCall(getGetCurrentTimeMethod(), responseObserver);
     }
 
     /**
      */
-    public void isTerminated(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request,
+    public void isTerminated(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> responseObserver) {
       asyncUnimplementedUnaryCall(getIsTerminatedMethod(), responseObserver);
     }
@@ -461,30 +948,128 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public void terminate(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> responseObserver) {
+    public void terminate(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> responseObserver) {
       asyncUnimplementedUnaryCall(getTerminateMethod(), responseObserver);
     }
 
     /**
      */
-    public void reset(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest request,
+    public void reset(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
       asyncUnimplementedUnaryCall(getResetMethod(), responseObserver);
     }
 
     /**
      */
-    public void read(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> responseObserver) {
-      asyncUnimplementedUnaryCall(getReadMethod(), responseObserver);
+    public void readInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> responseObserver) {
+      asyncUnimplementedUnaryCall(getReadIntegerMethod(), responseObserver);
     }
 
     /**
      */
-    public void write(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite request,
+    public void readReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> responseObserver) {
+      asyncUnimplementedUnaryCall(getReadRealMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void readString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> responseObserver) {
+      asyncUnimplementedUnaryCall(getReadStringMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void readBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> responseObserver) {
+      asyncUnimplementedUnaryCall(getReadBooleanMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkReadIntegerMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkReadRealMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkReadStringMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkReadBooleanMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void writeInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
-      asyncUnimplementedUnaryCall(getWriteMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getWriteIntegerMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void writeReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getWriteRealMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void writeString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getWriteStringMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void writeBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getWriteBooleanMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkWriteIntegerMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkWriteRealMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkWriteStringMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnimplementedUnaryCall(getBulkWriteBooleanMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -494,8 +1079,15 @@ public final class GenericFmuServiceGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int>(
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>(
                   this, METHODID_CREATE_INSTANCE)))
+          .addMethod(
+            getGetGuidMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>(
+                  this, METHODID_GET_GUID)))
           .addMethod(
             getGetModelNameMethod(),
             asyncUnaryCall(
@@ -505,23 +1097,23 @@ public final class GenericFmuServiceGrpc {
                   this, METHODID_GET_MODEL_NAME)))
           .addMethod(
             getGetModelVariablesMethod(),
-            asyncUnaryCall(
+            asyncServerStreamingCall(
               new MethodHandlers<
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables>(
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>(
                   this, METHODID_GET_MODEL_VARIABLES)))
           .addMethod(
             getGetCurrentTimeMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>(
                   this, METHODID_GET_CURRENT_TIME)))
           .addMethod(
             getIsTerminatedMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>(
                   this, METHODID_IS_TERMINATED)))
           .addMethod(
@@ -542,30 +1134,128 @@ public final class GenericFmuServiceGrpc {
             getTerminateMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest,
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty>(
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>(
                   this, METHODID_TERMINATE)))
           .addMethod(
             getResetMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
                   this, METHODID_RESET)))
           .addMethod(
-            getReadMethod(),
+            getReadIntegerMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead,
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var>(
-                  this, METHODID_READ)))
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int>(
+                  this, METHODID_READ_INTEGER)))
           .addMethod(
-            getWriteMethod(),
+            getReadRealMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>(
+                  this, METHODID_READ_REAL)))
+          .addMethod(
+            getReadStringMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>(
+                  this, METHODID_READ_STRING)))
+          .addMethod(
+            getReadBooleanMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>(
+                  this, METHODID_READ_BOOLEAN)))
+          .addMethod(
+            getBulkReadIntegerMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList>(
+                  this, METHODID_BULK_READ_INTEGER)))
+          .addMethod(
+            getBulkReadRealMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList>(
+                  this, METHODID_BULK_READ_REAL)))
+          .addMethod(
+            getBulkReadStringMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList>(
+                  this, METHODID_BULK_READ_STRING)))
+          .addMethod(
+            getBulkReadBooleanMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList>(
+                  this, METHODID_BULK_READ_BOOLEAN)))
+          .addMethod(
+            getWriteIntegerMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest,
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
-                  this, METHODID_WRITE)))
+                  this, METHODID_WRITE_INTEGER)))
+          .addMethod(
+            getWriteRealMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_WRITE_REAL)))
+          .addMethod(
+            getWriteStringMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_WRITE_STRING)))
+          .addMethod(
+            getWriteBooleanMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_WRITE_BOOLEAN)))
+          .addMethod(
+            getBulkWriteIntegerMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_BULK_WRITE_INTEGER)))
+          .addMethod(
+            getBulkWriteRealMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_BULK_WRITE_REAL)))
+          .addMethod(
+            getBulkWriteStringMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_BULK_WRITE_STRING)))
+          .addMethod(
+            getBulkWriteBooleanMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>(
+                  this, METHODID_BULK_WRITE_BOOLEAN)))
           .build();
     }
   }
@@ -591,9 +1281,17 @@ public final class GenericFmuServiceGrpc {
     /**
      */
     public void createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getCreateInstanceMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getGuid(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetGuidMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -607,8 +1305,8 @@ public final class GenericFmuServiceGrpc {
     /**
      */
     public void getModelVariables(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> responseObserver) {
-      asyncUnaryCall(
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> responseObserver) {
+      asyncServerStreamingCall(
           getChannel().newCall(getGetModelVariablesMethod(), getCallOptions()), request, responseObserver);
     }
 
@@ -617,7 +1315,7 @@ public final class GenericFmuServiceGrpc {
      *instance methods
      * </pre>
      */
-    public void getCurrentTime(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request,
+    public void getCurrentTime(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetCurrentTimeMethod(), getCallOptions()), request, responseObserver);
@@ -625,7 +1323,7 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public void isTerminated(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request,
+    public void isTerminated(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getIsTerminatedMethod(), getCallOptions()), request, responseObserver);
@@ -649,15 +1347,15 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public void terminate(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> responseObserver) {
+    public void terminate(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getTerminateMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void reset(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest request,
+    public void reset(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getResetMethod(), getCallOptions()), request, responseObserver);
@@ -665,18 +1363,130 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public void read(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> responseObserver) {
+    public void readInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getReadMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getReadIntegerMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void write(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite request,
+    public void readReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getReadRealMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void readString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getReadStringMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void readBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getReadBooleanMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkReadIntegerMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkReadRealMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkReadStringMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkReadBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkReadBooleanMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void writeInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getWriteMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getWriteIntegerMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void writeReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getWriteRealMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void writeString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getWriteStringMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void writeBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getWriteBooleanMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkWriteIntegerMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkWriteRealMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkWriteStringMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void bulkWriteBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getBulkWriteBooleanMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -700,9 +1510,16 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
       return blockingUnaryCall(
           getChannel(), getCreateInstanceMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str getGuid(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return blockingUnaryCall(
+          getChannel(), getGetGuidMethod(), getCallOptions(), request);
     }
 
     /**
@@ -714,8 +1531,9 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables getModelVariables(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
-      return blockingUnaryCall(
+    public java.util.Iterator<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> getModelVariables(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return blockingServerStreamingCall(
           getChannel(), getGetModelVariablesMethod(), getCallOptions(), request);
     }
 
@@ -724,14 +1542,14 @@ public final class GenericFmuServiceGrpc {
      *instance methods
      * </pre>
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real getCurrentTime(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real getCurrentTime(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return blockingUnaryCall(
           getChannel(), getGetCurrentTimeMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool isTerminated(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool isTerminated(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return blockingUnaryCall(
           getChannel(), getIsTerminatedMethod(), getCallOptions(), request);
     }
@@ -752,30 +1570,128 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty terminate(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool terminate(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return blockingUnaryCall(
           getChannel(), getTerminateMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status reset(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status reset(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return blockingUnaryCall(
           getChannel(), getResetMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var read(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int readInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
       return blockingUnaryCall(
-          getChannel(), getReadMethod(), getCallOptions(), request);
+          getChannel(), getReadIntegerMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status write(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real readReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
       return blockingUnaryCall(
-          getChannel(), getWriteMethod(), getCallOptions(), request);
+          getChannel(), getReadRealMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str readString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getReadStringMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool readBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getReadBooleanMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList bulkReadInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkReadIntegerMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList bulkReadReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkReadRealMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList bulkReadString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkReadStringMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList bulkReadBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkReadBooleanMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status writeInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getWriteIntegerMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status writeReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getWriteRealMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status writeString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getWriteStringMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status writeBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getWriteBooleanMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status bulkWriteInteger(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkWriteIntegerMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status bulkWriteReal(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkWriteRealMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status bulkWriteString(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkWriteStringMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status bulkWriteBoolean(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getBulkWriteBooleanMethod(), getCallOptions(), request);
     }
   }
 
@@ -799,10 +1715,18 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> createInstance(
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> createInstance(
         no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
       return futureUnaryCall(
           getChannel().newCall(getCreateInstanceMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGuid(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetGuidMethod(), getCallOptions()), request);
     }
 
     /**
@@ -814,20 +1738,12 @@ public final class GenericFmuServiceGrpc {
     }
 
     /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables> getModelVariables(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetModelVariablesMethod(), getCallOptions()), request);
-    }
-
-    /**
      * <pre>
      *instance methods
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> getCurrentTime(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request) {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return futureUnaryCall(
           getChannel().newCall(getGetCurrentTimeMethod(), getCallOptions()), request);
     }
@@ -835,7 +1751,7 @@ public final class GenericFmuServiceGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> isTerminated(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int request) {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return futureUnaryCall(
           getChannel().newCall(getIsTerminatedMethod(), getCallOptions()), request);
     }
@@ -858,8 +1774,8 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty> terminate(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> terminate(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return futureUnaryCall(
           getChannel().newCall(getTerminateMethod(), getCallOptions()), request);
     }
@@ -867,39 +1783,166 @@ public final class GenericFmuServiceGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> reset(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest request) {
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt request) {
       return futureUnaryCall(
           getChannel().newCall(getResetMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var> read(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead request) {
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int> readInteger(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getReadMethod(), getCallOptions()), request);
+          getChannel().newCall(getReadIntegerMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> write(
-        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite request) {
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> readReal(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getWriteMethod(), getCallOptions()), request);
+          getChannel().newCall(getReadRealMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> readString(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getReadStringMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool> readBoolean(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getReadBooleanMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList> bulkReadInteger(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkReadIntegerMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList> bulkReadReal(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkReadRealMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList> bulkReadString(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkReadStringMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList> bulkReadBoolean(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkReadBooleanMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> writeInteger(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getWriteIntegerMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> writeReal(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getWriteRealMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> writeString(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getWriteStringMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> writeBoolean(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getWriteBooleanMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> bulkWriteInteger(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkWriteIntegerMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> bulkWriteReal(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkWriteRealMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> bulkWriteString(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkWriteStringMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status> bulkWriteBoolean(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getBulkWriteBooleanMethod(), getCallOptions()), request);
     }
   }
 
   private static final int METHODID_CREATE_INSTANCE = 0;
-  private static final int METHODID_GET_MODEL_NAME = 1;
-  private static final int METHODID_GET_MODEL_VARIABLES = 2;
-  private static final int METHODID_GET_CURRENT_TIME = 3;
-  private static final int METHODID_IS_TERMINATED = 4;
-  private static final int METHODID_INIT = 5;
-  private static final int METHODID_STEP = 6;
-  private static final int METHODID_TERMINATE = 7;
-  private static final int METHODID_RESET = 8;
-  private static final int METHODID_READ = 9;
-  private static final int METHODID_WRITE = 10;
+  private static final int METHODID_GET_GUID = 1;
+  private static final int METHODID_GET_MODEL_NAME = 2;
+  private static final int METHODID_GET_MODEL_VARIABLES = 3;
+  private static final int METHODID_GET_CURRENT_TIME = 4;
+  private static final int METHODID_IS_TERMINATED = 5;
+  private static final int METHODID_INIT = 6;
+  private static final int METHODID_STEP = 7;
+  private static final int METHODID_TERMINATE = 8;
+  private static final int METHODID_RESET = 9;
+  private static final int METHODID_READ_INTEGER = 10;
+  private static final int METHODID_READ_REAL = 11;
+  private static final int METHODID_READ_STRING = 12;
+  private static final int METHODID_READ_BOOLEAN = 13;
+  private static final int METHODID_BULK_READ_INTEGER = 14;
+  private static final int METHODID_BULK_READ_REAL = 15;
+  private static final int METHODID_BULK_READ_STRING = 16;
+  private static final int METHODID_BULK_READ_BOOLEAN = 17;
+  private static final int METHODID_WRITE_INTEGER = 18;
+  private static final int METHODID_WRITE_REAL = 19;
+  private static final int METHODID_WRITE_STRING = 20;
+  private static final int METHODID_WRITE_BOOLEAN = 21;
+  private static final int METHODID_BULK_WRITE_INTEGER = 22;
+  private static final int METHODID_BULK_WRITE_REAL = 23;
+  private static final int METHODID_BULK_WRITE_STRING = 24;
+  private static final int METHODID_BULK_WRITE_BOOLEAN = 25;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -920,7 +1963,11 @@ public final class GenericFmuServiceGrpc {
       switch (methodId) {
         case METHODID_CREATE_INSTANCE:
           serviceImpl.createInstance((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
-              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int>) responseObserver);
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>) responseObserver);
+          break;
+        case METHODID_GET_GUID:
+          serviceImpl.getGuid((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>) responseObserver);
           break;
         case METHODID_GET_MODEL_NAME:
           serviceImpl.getModelName((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
@@ -928,14 +1975,14 @@ public final class GenericFmuServiceGrpc {
           break;
         case METHODID_GET_MODEL_VARIABLES:
           serviceImpl.getModelVariables((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
-              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariables>) responseObserver);
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>) responseObserver);
           break;
         case METHODID_GET_CURRENT_TIME:
-          serviceImpl.getCurrentTime((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int) request,
+          serviceImpl.getCurrentTime((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>) responseObserver);
           break;
         case METHODID_IS_TERMINATED:
-          serviceImpl.isTerminated((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int) request,
+          serviceImpl.isTerminated((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>) responseObserver);
           break;
         case METHODID_INIT:
@@ -947,19 +1994,75 @@ public final class GenericFmuServiceGrpc {
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
           break;
         case METHODID_TERMINATE:
-          serviceImpl.terminate((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.TerminateRequest) request,
-              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty>) responseObserver);
+          serviceImpl.terminate((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>) responseObserver);
           break;
         case METHODID_RESET:
-          serviceImpl.reset((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ResetRequest) request,
+          serviceImpl.reset((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
           break;
-        case METHODID_READ:
-          serviceImpl.read((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarRead) request,
-              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Var>) responseObserver);
+        case METHODID_READ_INTEGER:
+          serviceImpl.readInteger((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Int>) responseObserver);
           break;
-        case METHODID_WRITE:
-          serviceImpl.write((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.VarWrite) request,
+        case METHODID_READ_REAL:
+          serviceImpl.readReal((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real>) responseObserver);
+          break;
+        case METHODID_READ_STRING:
+          serviceImpl.readString((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>) responseObserver);
+          break;
+        case METHODID_READ_BOOLEAN:
+          serviceImpl.readBoolean((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Bool>) responseObserver);
+          break;
+        case METHODID_BULK_READ_INTEGER:
+          serviceImpl.bulkReadInteger((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.IntList>) responseObserver);
+          break;
+        case METHODID_BULK_READ_REAL:
+          serviceImpl.bulkReadReal((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.RealList>) responseObserver);
+          break;
+        case METHODID_BULK_READ_STRING:
+          serviceImpl.bulkReadString((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.StrList>) responseObserver);
+          break;
+        case METHODID_BULK_READ_BOOLEAN:
+          serviceImpl.bulkReadBoolean((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkReadRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BoolList>) responseObserver);
+          break;
+        case METHODID_WRITE_INTEGER:
+          serviceImpl.writeInteger((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteIntegerRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_WRITE_REAL:
+          serviceImpl.writeReal((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteRealRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_WRITE_STRING:
+          serviceImpl.writeString((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteStringRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_WRITE_BOOLEAN:
+          serviceImpl.writeBoolean((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.WriteBooleanRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_BULK_WRITE_INTEGER:
+          serviceImpl.bulkWriteInteger((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteIntegerRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_BULK_WRITE_REAL:
+          serviceImpl.bulkWriteReal((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteRealRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_BULK_WRITE_STRING:
+          serviceImpl.bulkWriteString((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteStringRequest) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
+          break;
+        case METHODID_BULK_WRITE_BOOLEAN:
+          serviceImpl.bulkWriteBoolean((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.BulkWriteBooleanRequest) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Status>) responseObserver);
           break;
         default:
@@ -1024,6 +2127,7 @@ public final class GenericFmuServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new GenericFmuServiceFileDescriptorSupplier())
               .addMethod(getCreateInstanceMethod())
+              .addMethod(getGetGuidMethod())
               .addMethod(getGetModelNameMethod())
               .addMethod(getGetModelVariablesMethod())
               .addMethod(getGetCurrentTimeMethod())
@@ -1032,8 +2136,22 @@ public final class GenericFmuServiceGrpc {
               .addMethod(getStepMethod())
               .addMethod(getTerminateMethod())
               .addMethod(getResetMethod())
-              .addMethod(getReadMethod())
-              .addMethod(getWriteMethod())
+              .addMethod(getReadIntegerMethod())
+              .addMethod(getReadRealMethod())
+              .addMethod(getReadStringMethod())
+              .addMethod(getReadBooleanMethod())
+              .addMethod(getBulkReadIntegerMethod())
+              .addMethod(getBulkReadRealMethod())
+              .addMethod(getBulkReadStringMethod())
+              .addMethod(getBulkReadBooleanMethod())
+              .addMethod(getWriteIntegerMethod())
+              .addMethod(getWriteRealMethod())
+              .addMethod(getWriteStringMethod())
+              .addMethod(getWriteBooleanMethod())
+              .addMethod(getBulkWriteIntegerMethod())
+              .addMethod(getBulkWriteRealMethod())
+              .addMethod(getBulkWriteStringMethod())
+              .addMethod(getBulkWriteBooleanMethod())
               .build();
         }
       }

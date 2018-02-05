@@ -24,17 +24,16 @@
 
 package no.mechatronics.sfi.grpc_fmu;
 
-import java.io.IOException;
 
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -45,7 +44,8 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder;
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
 import no.mechatronics.sfi.fmi4j.modeldescription.*;
-import no.mechatronics.sfi.fmi4j.misc.*;
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.*;
+
 
 /**
  * Auto-generated class
@@ -120,79 +120,38 @@ public class {{fmuName}}Server {
     }
 
     private static void statusReply(Fmi2Status status, StreamObserver<FmiDefinitions.Status> responseObserver) {
-        FmiDefinitions.Status reply = FmiDefinitions.Status.newBuilder()
+        statusReply(FmiDefinitions.Status.newBuilder()
             .setCode(status.getCode())
             .setValue(status.name())
-            .build();
+            .build(), responseObserver);
+    }
 
-        responseObserver.onNext(reply);
+    private static void statusReply(FmiDefinitions.Status status, StreamObserver<FmiDefinitions.Status> responseObserver) {
+        responseObserver.onNext(status);
         responseObserver.onCompleted();
-    }
-
-    private static void Read(FmiSimulation fmu, int valueReference, FmiDefinitions.Var.Builder builder) {
-
-        String typeName = ScalarVariable.Companion.getTypeName(fmu.getModelVariables().getByValueReference(valueReference));
-        VariableReader reader = fmu.getReader(valueReference);
-        switch(typeName) {
-            case "Integer": {
-                builder.setIntValue(reader.asIntReader().read());
-            }
-            break;
-            case "Real": {
-                builder.setRealValue(reader.asRealReader().read());
-            }
-            break;
-            case "String": {
-                builder.setStrValue(reader.asStringReader().read());
-            }
-            break;
-            case "Boolean": {
-                builder.setBoolValue(reader.asBooleanReader().read());
-            }
-            break;
-        }
-
-    }
-
-    private static Fmi2Status Write(FmiSimulation fmu, FmiDefinitions.VarWrite var) {
-
-        int valueReference = var.getValueReference();
-        VariableWriter writer = fmu.getWriter(valueReference);
-        switch (var.getValueCase()) {
-            case INTVALUE: {
-                writer.asIntWriter().write(var.getIntValue());
-                return fmu.getLastStatus();
-            }
-            case REALVALUE: {
-                writer.asRealWriter().write(var.getRealValue());
-                return fmu.getLastStatus();
-            }
-            case STRVALUE: {
-                writer.asStringWriter().write(var.getStrValue());
-                return fmu.getLastStatus();
-            }
-            case BOOLVALUE: {
-                writer.asBooleanWriter().write(var.getBoolValue());
-                return fmu.getLastStatus();
-            }
-        }
-
-        return null;
-
     }
 
     private class GenericServiceImpl extends GenericFmuServiceGrpc.GenericFmuServiceImplBase {
 
-        private final AtomicInteger refGenerator = new AtomicInteger(0);
-
+        private final AtomicInteger idGenerator = new AtomicInteger(0);
 
         @Override
-        public void createInstance(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.Int> responseObserver) {
+        public void createInstance(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.UInt> responseObserver) {
 
-            int ref = refGenerator.incrementAndGet();
-            fmus.put(ref, builder.asCoSimulationFmu().newInstance());
+            int id = idGenerator.incrementAndGet();
+            fmus.put(id, builder.asCoSimulationFmu().newInstance());
 
-            FmiDefinitions.Int reply = FmiDefinitions.Int.newBuilder().setValue(ref).build();
+            FmiDefinitions.UInt reply = FmiDefinitions.UInt.newBuilder().setValue(id).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void getGuid(FmiDefinitions.Empty request, StreamObserver<FmiDefinitions.Str> responseObserver) {
+
+            String guid = modelDescription.getGuid();
+            FmiDefinitions.Str reply = FmiDefinitions.Str.newBuilder().setValue(guid).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
 
@@ -202,7 +161,6 @@ public class {{fmuName}}Server {
         public void getModelName(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.Str> responseObserver) {
 
             String modelName = modelDescription.getModelName();
-
             FmiDefinitions.Str reply = FmiDefinitions.Str.newBuilder().setValue(modelName).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
@@ -210,107 +168,299 @@ public class {{fmuName}}Server {
         }
 
         @Override
-        public void getCurrentTime(FmiDefinitions.Int req, StreamObserver<FmiDefinitions.Real> responseObserver) {
+        public void getCurrentTime(FmiDefinitions.UInt req, StreamObserver<FmiDefinitions.Real> responseObserver) {
 
-            FmiSimulation fmu = fmus.get(req.getValue());
+            int id = req.getValue();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                responseObserver.onNext(FmiDefinitions.Real.newBuilder().setValue(fmu.getCurrentTime()).build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
 
-            FmiDefinitions.Real reply = FmiDefinitions.Real.newBuilder().setValue(fmu.getCurrentTime()).build();
-            responseObserver.onNext(reply);
             responseObserver.onCompleted();
 
         }
 
         @Override
-        public void isTerminated(FmiDefinitions.Int req, StreamObserver<FmiDefinitions.Bool> responseObserver) {
+        public void isTerminated(FmiDefinitions.UInt req, StreamObserver<FmiDefinitions.Bool> responseObserver) {
 
-            FmiSimulation fmu = fmus.get(req.getValue());
+            int id = req.getValue();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                responseObserver.onNext(FmiDefinitions.Bool.newBuilder().setValue(fmu.isTerminated()).build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
 
-            FmiDefinitions.Bool reply = FmiDefinitions.Bool.newBuilder().setValue(fmu.isTerminated()).build();
-            responseObserver.onNext(reply);
             responseObserver.onCompleted();
 
         }
 
         @Override
-        public void read(FmiDefinitions.VarRead req, StreamObserver<FmiDefinitions.Var> responseObserver) {
+        public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariable> responseObserver) {
 
-            int ref = req.getFmuId();
-            int vr = req.getValueReference();
-
-            FmiSimulation fmu = fmus.get(ref);
-            FmiDefinitions.Var.Builder builder = FmiDefinitions.Var.newBuilder();
-            Read(fmu, vr, builder);
-            FmiDefinitions.Var reply = builder.build();
-
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-
-        }
-
-        @Override
-        public void write(FmiDefinitions.VarWrite req, StreamObserver<FmiDefinitions.Status> responseObserver) {
-
-            FmiSimulation fmu = fmus.get(req.getFmuId());
-            statusReply(Write(fmu, req), responseObserver);
-
-        }
-
-        @Override
-        public void getModelVariables(FmiDefinitions.Empty req, StreamObserver<FmiDefinitions.ScalarVariables> responseObserver) {
-
-            ModelVariables variables = modelDescription.getModelVariables();
-
-            FmiDefinitions.ScalarVariables.Builder builder = FmiDefinitions.ScalarVariables.newBuilder();
-            for (ScalarVariable variable : variables) {
-                builder.addValues(FmiDefinitions.ScalarVariable.newBuilder()
+            for (TypedScalarVariable variable : modelDescription.getModelVariables()) {
+                FmiDefinitions.ScalarVariable var = FmiDefinitions.ScalarVariable.newBuilder()
                         .setValueReference(variable.getValueReference())
-                        .setVarName(variable.getName())
+                        .setName(variable.getName())
                         .setDescription(variable.getDescription())
-                        .setType(getType(variable))
+                        .setVariableType(getType(variable))
                         .setCausality(getCausality(variable))
                         .setVariability(getVariability(variable))
                         .setStart(getStart(variable))
-                        .build());
+                        .build();
+                responseObserver.onNext(var);
             }
 
-            FmiDefinitions.ScalarVariables reply = builder.build();
-            responseObserver.onNext(reply);
             responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void readInteger(FmiDefinitions.ReadRequest req, StreamObserver<FmiDefinitions.Int> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                int valueReference = req.getValueReference();
+                responseObserver.onNext(FmiDefinitions.Int.newBuilder().setValue(fmu.getVariableAccessor().getInteger(valueReference)).build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void bulkReadInteger(FmiDefinitions.BulkReadRequest request, StreamObserver<FmiDefinitions.IntList> responseObserver) {
+
+            int id = request.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                FmiDefinitions.IntList.Builder listBuilder = FmiDefinitions.IntList.newBuilder();
+                for (int value : fmu.getVariableAccessor().getInteger(toIntArray(request.getValueReferencesList()))) {
+                    listBuilder.addValues(value);
+                }
+                responseObserver.onNext(listBuilder.build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void readReal(FmiDefinitions.ReadRequest req, StreamObserver<FmiDefinitions.Real> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                int valueReference = req.getValueReference();
+                responseObserver.onNext(FmiDefinitions.Real.newBuilder().setValue(fmu.getVariableAccessor().getReal(valueReference)).build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void bulkReadReal(FmiDefinitions.BulkReadRequest request, StreamObserver<FmiDefinitions.RealList> responseObserver) {
+
+            int id = request.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                FmiDefinitions.RealList.Builder listBuilder = FmiDefinitions.RealList.newBuilder();
+                for (double value : fmu.getVariableAccessor().getReal(toIntArray(request.getValueReferencesList()))) {
+                    listBuilder.addValues(value);
+                }
+                responseObserver.onNext(listBuilder.build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void readString(FmiDefinitions.ReadRequest req, StreamObserver<FmiDefinitions.Str> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                int valueReference = req.getValueReference();
+                responseObserver.onNext(FmiDefinitions.Str.newBuilder().setValue(fmu.getVariableAccessor().getString(valueReference)).build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void bulkReadString(FmiDefinitions.BulkReadRequest request, StreamObserver<FmiDefinitions.StrList> responseObserver) {
+
+            int id = request.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                FmiDefinitions.StrList.Builder listBuilder = FmiDefinitions.StrList.newBuilder();
+                for (String value : fmu.getVariableAccessor().getString(toIntArray(request.getValueReferencesList()))) {
+                    listBuilder.addValues(value);
+                }
+                responseObserver.onNext(listBuilder.build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void readBoolean(FmiDefinitions.ReadRequest req, StreamObserver<FmiDefinitions.Bool> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                int valueReference = req.getValueReference();
+                responseObserver.onNext(FmiDefinitions.Bool.newBuilder().setValue(fmu.getVariableAccessor().getBoolean(valueReference)).build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void bulkReadBoolean(FmiDefinitions.BulkReadRequest request, StreamObserver<FmiDefinitions.BoolList> responseObserver) {
+
+            int id = request.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                FmiDefinitions.BoolList.Builder listBuilder = FmiDefinitions.BoolList.newBuilder();
+                for (boolean value : fmu.getVariableAccessor().getBoolean(toIntArray(request.getValueReferencesList()))) {
+                    listBuilder.addValues(value);
+                }
+                responseObserver.onNext(listBuilder.build());
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
+            responseObserver.onCompleted();
+
+        }
+
+        @Override
+        public void writeInteger(FmiDefinitions.WriteIntegerRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                fmu.getVariableAccessor().setInteger(req.getValueReference(), req.getValue());
+                statusReply(fmu.getLastStatus(), responseObserver);
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+                statusReply(Fmi2Status.Error, responseObserver);
+            }
+
+        }
+
+        @Override
+        public void writeReal(FmiDefinitions.WriteRealRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                fmu.getVariableAccessor().setReal(req.getValueReference(), req.getValue());
+                statusReply(fmu.getLastStatus(), responseObserver);
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+                statusReply(Fmi2Status.Error, responseObserver);
+            }
+
+        }
+
+        @Override
+        public void writeString(FmiDefinitions.WriteStringRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                fmu.getVariableAccessor().setString(req.getValueReference(), req.getValue());
+                statusReply(fmu.getLastStatus(), responseObserver);
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+                statusReply(Fmi2Status.Error, responseObserver);
+            }
+
+        }
+
+        @Override
+        public void writeBoolean(FmiDefinitions.WriteBooleanRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                fmu.getVariableAccessor().setBoolean(req.getValueReference(), req.getValue());
+                statusReply(fmu.getLastStatus(), responseObserver);
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+                statusReply(Fmi2Status.Error, responseObserver);
+            }
 
         }
 
         @Override
         public void init(FmiDefinitions.InitRequest req, StreamObserver<FmiDefinitions.Bool> responseObserver) {
 
-            int ref = req.getFmuId();
-            double start = req.getStart();
-            boolean init = fmus.get(ref).init();
+            boolean init = false;
+            int id = req.getFmuId();
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                double start = req.getStart();
+                double stop = req.getStop();
+                boolean hasStart = start > 0;
+                boolean hasStop = stop > 0 && stop > start;
+                if (hasStart && hasStop) {
+                    init = fmus.get(id).init(start, stop);
+                } else if (hasStart && hasStop) {
+                    init = fmus.get(id).init(start);
+                } else {
+                    init = fmus.get(id).init();
+                }
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+            }
             FmiDefinitions.Bool reply = FmiDefinitions.Bool.newBuilder().setValue(init).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
-
         }
 
         @Override
         public void step(FmiDefinitions.StepRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
 
-            int ref = req.getFmuId();
+            int id = req.getFmuId();
             double dt = req.getDt();
-            FmiSimulation fmu = fmus.get(ref);
-            fmu.doStep(dt);
-            statusReply(fmu.getLastStatus(), responseObserver);
+            FmiSimulation fmu = fmus.get(id);
+            if (fmu != null) {
+                fmu.doStep(dt);
+                statusReply(fmu.getLastStatus(), responseObserver);
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+                statusReply(Fmi2Status.Error, responseObserver);
+            }
 
         }
 
         @Override
-        public void terminate(FmiDefinitions.TerminateRequest req, StreamObserver<FmiDefinitions.Empty> responseObserver) {
+        public void terminate(FmiDefinitions.UInt req, StreamObserver<FmiDefinitions.Bool> responseObserver) {
 
-            int ref = req.getFmuId();
-            FmiSimulation fmu = fmus.remove(ref);
+            boolean flag = false;
+            int id = req.getValue();
+            FmiSimulation fmu = fmus.remove(id);
             if (fmu != null) {
                 LOG.info("Removed fmu instance from list");
                 try {
-                    boolean flag = fmu.terminate();
+                    flag = fmu.terminate();
                     LOG.info("Terminated fmu with success: {}", flag);
                 } catch (java.lang.Exception ex) {
                     ex.printStackTrace();
@@ -318,27 +468,33 @@ public class {{fmuName}}Server {
                     ex.printStackTrace();
                 }
             } else {
-                LOG.warn("No fmu with ref: {}", ref);
+                LOG.warn("No fmu with id: {}", id);
             }
 
-            responseObserver.onNext(FmiDefinitions.Empty.getDefaultInstance());
+            FmiDefinitions.Bool reply = FmiDefinitions.Bool.newBuilder().setValue(flag).build();
+            responseObserver.onNext(reply);
             responseObserver.onCompleted();
 
         }
 
         @Override
-        public void reset(FmiDefinitions.ResetRequest req, StreamObserver<FmiDefinitions.Status> responseObserver) {
+        public void reset(FmiDefinitions.UInt req, StreamObserver<FmiDefinitions.Status> responseObserver) {
 
-            int ref = req.getFmuId();
-            FmiSimulation fmu = fmus.remove(ref);
-            fmu.reset();
-            statusReply(fmu.getLastStatus(), responseObserver);
+            int id = req.getValue();
+            FmiSimulation fmu = fmus.remove(id);
+            if (fmu != null) {
+                fmu.reset();
+                statusReply(fmu.getLastStatus(), responseObserver);
+            } else {
+                LOG.warn("No fmu with id: {}", id);
+                statusReply(Fmi2Status.Error, responseObserver);
+            }
 
         }
 
     }
 
-        private FmiDefinitions.Causality getCausality(ScalarVariable variable) {
+        private static FmiDefinitions.Causality getCausality(TypedScalarVariable variable) {
 
             switch (variable.getCausality()) {
                 case INPUT: return FmiDefinitions.Causality.INPUT;
@@ -352,7 +508,7 @@ public class {{fmuName}}Server {
 
         }
 
-        private FmiDefinitions.Variability getVariability(ScalarVariable variable) {
+        private static FmiDefinitions.Variability getVariability(TypedScalarVariable variable) {
 
             switch (variable.getVariability()) {
                 case CONSTANT: return FmiDefinitions.Variability.CONSTANT;
@@ -365,7 +521,7 @@ public class {{fmuName}}Server {
 
         }
 
-        private FmiDefinitions.Initial getInitial(ScalarVariable variable) {
+        private static FmiDefinitions.Initial getInitial(TypedScalarVariable variable) {
 
             switch (variable.getInitial()) {
                 case CALCULATED: return FmiDefinitions.Initial.CALCULATED;
@@ -376,13 +532,13 @@ public class {{fmuName}}Server {
 
         }
 
-        private FmiDefinitions.Start getStart(ScalarVariable variable) {
+        private static FmiDefinitions.AnyPrimitive getStart(TypedScalarVariable variable) {
 
             if (variable.getStart() == null) {
-                return FmiDefinitions.Start.getDefaultInstance();
+                return FmiDefinitions.AnyPrimitive.getDefaultInstance();
             }
 
-            FmiDefinitions.Start.Builder builder = FmiDefinitions.Start.newBuilder();
+            FmiDefinitions.AnyPrimitive.Builder builder = FmiDefinitions.AnyPrimitive.newBuilder();
             if (variable instanceof IntegerVariable) {
                 builder.setIntValue(((IntegerVariable) variable).getStart());
             } else if (variable instanceof RealVariable) {
@@ -397,8 +553,8 @@ public class {{fmuName}}Server {
             return builder.build();
         }
 
-        private FmiDefinitions.VariableType getType(ScalarVariable variable) {
-            String typeName = ScalarVariable.Companion.getTypeName(variable);
+        private static FmiDefinitions.VariableType getType(TypedScalarVariable variable) {
+            String typeName = variable.getTypeName();
             switch (typeName) {
                 case "Integer": return (FmiDefinitions.VariableType.INTEGER);
                 case "Real": return (FmiDefinitions.VariableType.REAL);
@@ -407,6 +563,14 @@ public class {{fmuName}}Server {
                 default: throw new UnsupportedOperationException("Variable type not supported: " + typeName);
             }
 
+        }
+
+        private static int[] toIntArray(List<Integer> list) {
+             int[] result = new int[list.size()];
+             for (int i = 0; i < list.size(); i++) {
+                 result[i] = list.get(i);
+             }
+             return result;
         }
 
 

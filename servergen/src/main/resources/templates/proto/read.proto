@@ -1,2 +1,2 @@
 
-    rpc Read{{varName}} (Int) returns ({{typeName}});
+    rpc Read{{varName}} (UInt) returns ({{returnType}});

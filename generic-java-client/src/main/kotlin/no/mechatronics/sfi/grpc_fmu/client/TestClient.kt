@@ -33,19 +33,19 @@ fun main(args: Array<String>) {
 
     GenericFmuClient("127.0.0.1", 8000).use {
 
-        println("Connected to remote FMU ${it.getModelName()}")
+        println("Connected to remote FMU ${it.modelName}")
 
         it.createInstance().use { fmu ->
             if (fmu.init()) {
 
                 fmu.modelVariables.forEach {
 
-                    println("name: ${it.varName}")
+                    println("name: ${it.name}")
                     println("Causality: ${it.causality}")
                     println("Variability: ${it.variability}")
                     println("Initial: ${it.initial}")
 
-                    val startValue: Any? = when (it.type) {
+                    val startValue: Any? = when (it.variableType) {
                         FmiDefinitions.VariableType.INTEGER -> it.start.intValue
                         FmiDefinitions.VariableType.REAL -> it.start.realValue
                         FmiDefinitions.VariableType.STRING -> it.start.strValue
@@ -54,7 +54,7 @@ fun main(args: Array<String>) {
                     }
                     println("Start: ${startValue}")
 
-                    val value: Any? = when (it.type) {
+                    val value: Any? = when (it.variableType) {
                         FmiDefinitions.VariableType.INTEGER -> it.start.intValue
                         FmiDefinitions.VariableType.REAL -> it.start.realValue
                         FmiDefinitions.VariableType.STRING -> it.start.strValue
@@ -71,14 +71,14 @@ fun main(args: Array<String>) {
                 for (i in 1..10) {
                     fmu.step(dt)
                     outputs.forEach({
-                        val value: Any? = when (it.type) {
-                            FmiDefinitions.VariableType.INTEGER -> fmu.getReader(it.valueReference).readInt()
-                            FmiDefinitions.VariableType.REAL -> fmu.getReader(it.valueReference).readReal()
-                            FmiDefinitions.VariableType.STRING -> fmu.getReader(it.valueReference).readString()
-                            FmiDefinitions.VariableType.BOOLEAN -> fmu.getReader(it.valueReference).readBoolean()
+                        val value: Any? = when (it.variableType) {
+                            FmiDefinitions.VariableType.INTEGER -> fmu.read(it.valueReference).asInt()
+                            FmiDefinitions.VariableType.REAL -> fmu.read(it.valueReference).asReal()
+                            FmiDefinitions.VariableType.STRING -> fmu.read(it.valueReference).asString()
+                            FmiDefinitions.VariableType.BOOLEAN -> fmu.read(it.valueReference).asBoolean()
                             else -> null
                         }
-                        println("t= ${fmu.currentTime}, ${it.varName} = $value")
+                        println("t= ${fmu.currentTime}, ${it.name} = $value")
                     })
                 }
 

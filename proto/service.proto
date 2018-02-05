@@ -9,22 +9,39 @@ import "definitions.proto";
 
 service GenericFmuService {
 
-    rpc CreateInstance (Empty) returns (Int);
+    rpc CreateInstance (Empty) returns (UInt);
 
+	rpc GetGuid (Empty)  returns (Str);
     rpc GetModelName (Empty) returns (Str);
-    rpc GetModelVariables (Empty) returns (ScalarVariables);
+    rpc GetModelVariables (Empty) returns (stream ScalarVariable);
 	
     //instance methods
-    rpc GetCurrentTime (Int) returns (Real);
-    rpc IsTerminated (Int) returns (Bool);
+    rpc GetCurrentTime (UInt) returns (Real);
+    rpc IsTerminated (UInt) returns (Bool);
 
     rpc Init (InitRequest) returns (Bool);
     rpc Step (StepRequest) returns (Status);
-    rpc Terminate (TerminateRequest) returns (Empty);
+    rpc Terminate (UInt) returns (Bool);
+    rpc Reset(UInt) returns (Status);
 
-    rpc Reset(ResetRequest) returns (Status);
-
-    rpc Read (VarRead) returns (Var);
-    rpc Write (VarWrite) returns (Status);
+    rpc ReadInteger (ReadRequest) returns (Int);
+	rpc ReadReal (ReadRequest) returns (Real);
+	rpc ReadString (ReadRequest) returns (Str);
+	rpc ReadBoolean (ReadRequest) returns (Bool);
+	
+	rpc BulkReadInteger (BulkReadRequest) returns (IntList);
+	rpc BulkReadReal (BulkReadRequest) returns (RealList);
+	rpc BulkReadString (BulkReadRequest) returns (StrList);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BoolList);
+	
+    rpc WriteInteger (WriteIntegerRequest) returns (Status);
+	rpc WriteReal (WriteRealRequest) returns (Status);
+	rpc WriteString (WriteStringRequest) returns (Status);
+	rpc WriteBoolean (WriteBooleanRequest) returns (Status);
+	
+	rpc BulkWriteInteger (BulkWriteIntegerRequest) returns (Status);
+	rpc BulkWriteReal (BulkWriteRealRequest) returns (Status);
+	rpc BulkWriteString (BulkWriteStringRequest) returns (Status);
+	rpc BulkWriteBoolean (BulkWriteBooleanRequest) returns (Status);
 
 }

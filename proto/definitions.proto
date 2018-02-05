@@ -5,6 +5,137 @@ package no.mechatronics.sfi.grpc_fmu;
 
 option java_outer_classname = "FmiDefinitions";
 
+
+message ScalarVariable {
+    uint32 value_reference = 1;
+    string name = 2;
+    string description = 3;
+    VariableType variable_type = 4;
+    Initial initial = 5;
+    Causality causality = 6;
+    Variability variability = 7;
+    AnyPrimitive start = 8;
+}
+
+message Status {
+    int32 code = 1;
+    string value = 2;
+}
+
+message AnyPrimitive {
+    oneof value {
+        int32 intValue = 1;
+        double realValue = 2;
+        string strValue = 3;
+        bool boolValue = 4;
+    }
+}
+
+message InitRequest {
+    uint32 fmu_id = 1;
+    double start = 2;
+	double stop = 3;
+}
+
+message StepRequest {
+    uint32 fmu_id = 1;
+    double dt = 2;
+}
+
+message UInt {
+	uint32 value = 1;
+}
+
+message Int {
+    int32 value = 1;
+}
+
+message IntList {
+	repeated int32 values = 1;
+}
+
+message Real {
+    double value = 1;
+}
+
+message RealList {
+	repeated double values = 1;
+}
+
+message Str {
+    string value = 1;
+}
+
+message StrList {
+	repeated string values = 1;
+}
+
+message Bool {
+    bool value = 1;
+}
+
+message BoolList {
+	repeated bool values = 1;
+}
+
+message ReadRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+}
+
+message BulkReadRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+}
+
+message WriteIntegerRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    int32 value = 3;
+}
+
+message BulkWriteIntegerRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated int32 values = 3;
+}
+
+message WriteRealRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    double value = 3;
+}
+
+message BulkWriteRealRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated double values = 3;
+}
+
+message WriteStringRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    string value = 3;
+}
+
+message BulkWriteStringRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated string values = 3;
+}
+
+message WriteBooleanRequest {
+    uint32 fmu_id = 1;
+    uint32 value_reference = 2;
+    bool value = 3;
+}
+
+message BulkWriteBooleanRequest {
+	uint32 fmu_id = 1;
+    repeated uint32 value_references = 2;
+	repeated bool values = 3;
+}
+
 enum Causality {
     UNDEFINED_CAUSALITY = 0;
     INPUT = 1;
@@ -36,144 +167,6 @@ enum VariableType {
     REAL = 1;
     STRING = 2;
     BOOLEAN = 3;
-}
-
-message Start {
-    oneof value {
-        int32 intValue = 1;
-        double realValue = 2;
-        string strValue = 3;
-        bool boolValue = 4;
-    }
-}
-
-message ScalarVariable {
-    uint32 valueReference = 1;
-    string varName = 2;
-    string description = 3;
-    VariableType type = 4;
-    Initial initial = 5;
-    Causality causality = 6;
-    Variability variability = 7;
-    Start start = 8;
-}
-
-message ScalarVariables {
-    repeated ScalarVariable values = 1;
-}
-
-message Status {
-    int32 code = 1;
-    string value = 2;
-}
-
-message InitRequest {
-    uint32 fmu_id = 1;
-    uint32 start = 2;
-}
-
-message StepRequest {
-    uint32 fmu_id = 1;
-    double dt = 2;
-}
-
-message TerminateRequest {
-    uint32 fmu_id = 1;
-}
-
-message ResetRequest {
-    uint32 fmu_id = 1;
-}
-
-message Int {
-    int32 value = 1;
-}
-
-message IntWrite {
-    uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-    int32 value = 3;
-}
-
-message IntList {
-    repeated int32 values = 1;
-}
-
-message Real {
-    double value = 1;
-}
-
-message RealWrite {
-    uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-    double value = 3;
-}
-
-message RealList {
-    repeated double values = 1;
-}
-
-message Str {
-    string value = 1;
-}
-
-message StrWrite {
-    uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-    string value = 3;
-}
-
-message StrList {
-    repeated string values = 1;
-}
-
-message Bool {
-    bool value = 1;
-}
-
-message BoolWrite {
-    uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-    bool value = 3;
-}
-
-message BoolList {
-    repeated bool values = 1;
-}
-
-message Var {
-    oneof value {
-        int32 intValue = 1;
-        double realValue = 2;
-        string strValue = 3;
-        bool boolValue = 4;
-    }
-}
-
-message VarRead {
-    uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-}
-
-message VarWrite {
-    uint32 fmu_id = 1;
-    uint32 valueReference = 2;
-    oneof value {
-        int32 intValue = 5;
-        double realValue = 6;
-        string strValue = 7;
-        bool boolValue = 8;
-    }
-}
-
-message Unknown {
-    uint32 index = 1;
-}
-
-message ModelStructure {
-    repeated uint32 outputs = 1;
-    repeated Unknown derivatives = 2;
-    repeated Unknown initialUnknowns = 3;
 }
 
 

@@ -24,10 +24,10 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
 import no.mechatronics.sfi.grpc_fmu.utils.FileFuture
-import no.mechatronics.sfi.grpc_fmu.utils.convertName1
+import no.mechatronics.sfi.grpc_fmu.utils.getProtoType
 import no.mechatronics.sfi.grpc_fmu.utils.isArray
 import java.io.File
 import org.jtwig.JtwigModel
@@ -114,26 +114,24 @@ object ProtoGen {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
-
             val isArray = isArray(it.name)
             if (!isArray) {
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/proto/read.proto").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("varName", convertName1(it.name))
-                            .with("typeName", ScalarVariable.getTypeName(it)))!!
+                            .with("varName", convertName(it.name))
+                            .with("returnType", getProtoType(it.typeName)))!!
                 })
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/proto/write.proto").let { template ->
                     template.render(JtwigModel.newModel()
-                            .with("varName", convertName1(it.name))
-                            .with("typeName", ScalarVariable.getTypeName(it)))!!
+                            .with("varName", convertName(it.name))
+                            .with("dataType", getProtoType(it.typeName)))!!
                 })
 
             }
 
         })
-
 
         val definitions = FileFuture(
                 name = "definitions.proto",
@@ -148,9 +146,6 @@ object ProtoGen {
                 name = "service.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/service.proto").let { template ->
                     template.render(JtwigModel.newModel())
-//                         //   .with("packageName", GrpcFmu.PACKAGE_NAME)
-//                            .with("fmuName", modelDescription.modelName)
-//                            .with("instanceServices", sb.toString())!!)
                 }
         )
 
@@ -167,6 +162,10 @@ object ProtoGen {
         return ProtoCode(definitions, genericService, uniqueService)
 
 
+    }
+
+    private fun convertName(str: String): String {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).replace(".", "_")
     }
 
 

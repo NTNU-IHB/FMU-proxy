@@ -24,13 +24,22 @@
 
 package no.mechatronics.sfi.grpc_fmu.client
 
-import com.sun.org.apache.xpath.internal.operations.Variable
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.grpc_fmu.FmiDefinitions
 import no.mechatronics.sfi.grpc_fmu.GenericFmuServiceGrpc
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+
+object FmuInstances: ArrayList<FmuInstance>() {
+    internal fun terminateAll() {
+        forEach({
+            it.terminate()
+        })
+    }
+}
+
 
 /**
  * @author Lars Ivar Hatledal
@@ -40,141 +49,232 @@ class GenericFmuClient(
         port: Int
 ): AutoCloseable {
 
-    private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
-        val EMPTY: FmiDefinitions.Empty = FmiDefinitions.Empty.getDefaultInstance()
-    }
-
-    private val channel: ManagedChannel
-            = ManagedChannelBuilder.forAddress(host, port)
+    private val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port)
             .usePlaintext(true)
             .build()
 
-    private val stub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+    private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
             = GenericFmuServiceGrpc.newBlockingStub(channel)
 
-    private val instances: MutableList<FmuInstance> = ArrayList()
-
-    fun createInstance() : FmuInstance {
-        return FmuInstance(stub.createInstance(EMPTY)).also {
-            instances.add(it)
-        }
+    val guid: String by lazy {
+        blockingStub.getGuid(FmiDefinitions.Empty.getDefaultInstance()).value
     }
 
-    fun getModelName(): String = stub.getModelName(EMPTY).value
+    val modelName: String by lazy {
+        blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
+    }
+
+    fun createInstance(): FmuInstance {
+        return FmuInstance(blockingStub)
+    }
 
     override fun close() {
         LOG.info("Closing..")
-
-        instances.toList().forEach({
-            it.terminate()
-        })
+        FmuInstances.terminateAll()
         channel.shutdownNow()
     }
 
-    inner class FmuInstance internal constructor(
-            private val fmuId: Int
-    ) : AutoCloseable {
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
+    }
 
-        private val modelRef by lazy {
-            FmiDefinitions.Int.newBuilder().setValue(fmuId).build()
-        }
 
-        val modelVariables
-            get() = stub.getModelVariables(EMPTY)?.valuesList ?: throw AssertionError()
+}
 
-        internal constructor(ref: FmiDefinitions.Int) : this(ref.value)
+class FmuInstance internal constructor(
+        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+) : AutoCloseable {
 
-        val currentTime: Double
-            get() = stub.getCurrentTime(modelRef).value
+    private val fmuId: Int
+            = blockingStub.createInstance(FmiDefinitions.Empty.getDefaultInstance()).value
 
-        fun init(): Boolean = stub.init(FmiDefinitions.InitRequest.newBuilder()
-                .setFmuId(fmuId)
-                .build()).value
+    init {
+        FmuInstances.add(this)
+    }
 
-        fun step(dt: Double): FmiDefinitions.Status = stub.step(FmiDefinitions.StepRequest.newBuilder()
-                .setFmuId(fmuId)
-                .setDt(dt)
+    private val modelRef by lazy {
+        FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
+    }
+
+    val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
+        val list = mutableListOf<FmiDefinitions.ScalarVariable>()
+        blockingStub.getModelVariables(FmiDefinitions.Empty.getDefaultInstance()).forEach {list.add(it)}
+              list
+    }
+
+    val currentTime: Double
+        get() = blockingStub.getCurrentTime(modelRef).value
+
+    fun init(): Boolean = blockingStub.init(FmiDefinitions.InitRequest.newBuilder()
+            .setFmuId(fmuId)
+            .build()).value
+
+    fun step(dt: Double): FmiDefinitions.Status = blockingStub.step(FmiDefinitions.StepRequest.newBuilder()
+            .setFmuId(fmuId)
+            .setDt(dt)
+            .build())
+
+    fun terminate() {
+        blockingStub.terminate(FmiDefinitions.UInt.newBuilder()
+                .setValue(fmuId)
                 .build())
+        FmuInstances.remove(this)
+    }
 
-        fun terminate() {
-            stub.terminate(FmiDefinitions.TerminateRequest.newBuilder()
+    override fun close() = terminate()
+
+    fun getValueReference(variableName: String)
+            = modelVariables.firstOrNull { it.name == variableName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $variableName")
+
+    fun read(valueReference: Int) = SingleRead(valueReference)
+    fun read(valueReferences: IntArray) = BulkRead(valueReferences)
+
+    fun read(variableName: String) = SingleRead(variableName)
+    fun read(variableNames: Array<String>) = BulkRead(variableNames)
+
+    fun write(valueReference: Int) = SingleWrite(valueReference)
+    fun write(valueReferences: IntArray) = BulkRead(valueReferences)
+
+    inner class SingleRead(
+            private val valueReference: Int
+    ) {
+
+        constructor(variableName: String): this(getValueReference(variableName))
+
+        fun asInt(): Int {
+            return blockingStub.readInteger(FmiDefinitions.ReadRequest.newBuilder()
                     .setFmuId(fmuId)
-                    .build())
-            instances.remove(this)
+                    .setValueReference(valueReference)
+                    .build()).value
         }
 
-        override fun close() = terminate()
+        fun asReal(): Double {
+            return blockingStub.readReal(FmiDefinitions.ReadRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .build()).value
+        }
 
-        fun getReader(valueReference: Int): VariableReader
-                = VariableReader(fmuId, valueReference, stub)
+        fun asString(): String {
+            return blockingStub.readString(FmiDefinitions.ReadRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .build()).value
+        }
 
-        fun getReader(varName: String): VariableReader
-            = getReader(modelVariables.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName"))
-
-
-        fun getWriter(valueReference: Int)
-                = VariableWriter(fmuId, valueReference, stub)
-
-        fun getWriter(varName: String): VariableWriter
-                = getWriter(modelVariables.firstOrNull { it.varName == varName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $varName"))
+        fun asBoolean(): Boolean {
+            return blockingStub.readBoolean(FmiDefinitions.ReadRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .build()).value
+        }
 
     }
 
-}
+    inner class BulkRead(
+            private val valueReferences: IntArray
+    ) {
 
-class VariableReader(
-        private val fmuId: Int,
-        private val valueReference: Int,
-        private val stub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
-) {
+        constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
 
-    private val varRead by lazy {
-        FmiDefinitions.VarRead.newBuilder()
-                .setFmuId(fmuId)
-                .setValueReference(valueReference)
-                .build()
+
+        fun readInt(): List<Int> {
+            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+            return blockingStub.bulkReadInteger(builder.build()).valuesList
+        }
+
+        fun readReal(): List<Double> {
+            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+            return blockingStub.bulkReadReal(builder.build()).valuesList
+        }
+        fun readString(): List<String> {
+            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+            return blockingStub.bulkReadString(builder.build()).valuesList
+        }
+
+        fun readBoolean(): List<Boolean> {
+            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+            return blockingStub.bulkReadBoolean(builder.build()).valuesList
+        }
+
     }
 
-    fun readInt() =  stub.read(varRead).intValue
-    fun readReal() = stub.read(varRead).realValue
-    fun readString() = stub.read(varRead).strValue
-    fun readBoolean() = stub.read(varRead).boolValue
+    inner class SingleWrite(
+            private val valueReference: Int
+    ) {
 
-}
+        fun with(value: Int): FmiDefinitions.Status {
+            return blockingStub.writeInteger(FmiDefinitions.WriteIntegerRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .setValue(value)
+                    .build())
+        }
 
-/**
- * @author Lars Ivar Hatledal
- */
-class VariableWriter(
-        private val fmuId: Int,
-        private val valueReference: Int,
-        private val stub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
-) {
+        fun with(value: Double): FmiDefinitions.Status {
+            return blockingStub.writeReal(FmiDefinitions.WriteRealRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .setValue(value)
+                    .build())
+        }
 
-    fun write(value: Int): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
-            .setFmuId(fmuId)
-            .setValueReference(valueReference)
-            .setIntValue(value)
-            .build())
+        fun with(value: String): FmiDefinitions.Status {
+            return blockingStub.writeString(FmiDefinitions.WriteStringRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .setValue(value)
+                    .build())
+        }
 
-    fun write(value: Double): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
-            .setFmuId(fmuId)
-            .setValueReference(valueReference)
-            .setRealValue(value)
-            .build())
+        fun with(value: Boolean): FmiDefinitions.Status {
+            return blockingStub.writeBoolean(FmiDefinitions.WriteBooleanRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setValueReference(valueReference)
+                    .setValue(value)
+                    .build())
+        }
 
-    fun write(value: String): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
-            .setFmuId(fmuId)
-            .setValueReference(valueReference)
-            .setStrValue(value)
-            .build())
+    }
 
-    fun write(value: Boolean): FmiDefinitions.Status = stub.write(FmiDefinitions.VarWrite.newBuilder()
-            .setFmuId(fmuId)
-            .setValueReference(valueReference)
-            .setBoolValue(value)
-            .build())
+    inner class BulkWrite(
+            private val valueReferences: IntArray
+    ) {
+        constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
+
+        fun with(values: IntArray):FmiDefinitions.Status {
+            val builder = FmiDefinitions.BulkWriteIntegerRequest.newBuilder().setFmuId(fmuId)
+            values.forEachIndexed{i,v -> builder.setValues(i, v)}
+            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+            return blockingStub.bulkWriteInteger(builder.build())
+        }
+
+        fun with(values: DoubleArray):FmiDefinitions.Status {
+            val builder = FmiDefinitions.BulkWriteRealRequest.newBuilder().setFmuId(fmuId)
+            values.forEachIndexed{i,v -> builder.setValues(i, v)}
+            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+            return blockingStub.bulkWriteReal(builder.build())
+        }
+
+        fun with(values: Array<String>):FmiDefinitions.Status {
+            val builder = FmiDefinitions.BulkWriteStringRequest.newBuilder().setFmuId(fmuId)
+            values.forEachIndexed{i,v -> builder.setValues(i, v)}
+            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+            return blockingStub.bulkWriteString(builder.build())
+        }
+
+        fun with(values: BooleanArray):FmiDefinitions.Status {
+            val builder = FmiDefinitions.BulkWriteBooleanRequest.newBuilder().setFmuId(fmuId)
+            values.forEachIndexed{i,v -> builder.setValues(i, v)}
+            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+            return blockingStub.bulkWriteBoolean(builder.build())
+        }
+
+    }
 
 }
 

@@ -24,8 +24,9 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
+
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
 import no.mechatronics.sfi.grpc_fmu.GrpcFmu
 import no.mechatronics.sfi.grpc_fmu.utils.*
 import org.apache.commons.io.IOUtils
@@ -35,6 +36,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
+
 
 
 /**
@@ -55,17 +57,18 @@ object ServerGen {
                 sb.append(JtwigTemplate.classpathTemplate("templates/server/Read.java").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
-                            .with("varName2", convertName2(it.name))
-                            //.with("primitive1", toRPCType2(it.typeName))
-                            .with("primitive2", ScalarVariable.getTypeName(it))
-                            .with("returnType", toRPCType1(ScalarVariable.getTypeName(it))))!!
+                            .with("varName", convertName2(it.name))
+                            .with("typeName", it.typeName)
+                            .with("returnType", getProtoType(it.typeName)))!!
                 })
 
                 sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.java").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
-                            .with("varName2", convertName2(it.name))
-                            .with("dataType", toRPCType1(ScalarVariable.getTypeName(it))))!!
+                            .with("varName", convertName2(it.name))
+                            .with("typeName", it.typeName)
+                            .with("protoFile", modelDescription.modelName + "Proto")
+                            .with("dataType", getProtoType(it.typeName)))!!
                 })
 
             }
@@ -111,8 +114,18 @@ object ServerGen {
         ).create(javaOut)
 
 
+    }
 
 
+
+
+    fun convertName2(str: String): String {
+        val split = str.replace("_".toRegex(), ".").split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        return StringBuilder().apply {
+            for (s in split) {
+                append(s.substring(0, 1).toUpperCase()).append(s.substring(1))
+            }
+        }.toString()
     }
 
 
