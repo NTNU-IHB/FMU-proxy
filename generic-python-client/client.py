@@ -4,7 +4,7 @@ from definitions_pb2 import UInt
 from definitions_pb2 import InitRequest
 from definitions_pb2 import StepRequest
 from definitions_pb2 import ReadRequest
-from definitions_pb2 import WriteIntRequest
+from definitions_pb2 import WriteIntegerRequest
 from definitions_pb2 import WriteRealRequest
 from definitions_pb2 import WriteStringRequest
 from definitions_pb2 import WriteBooleanRequest
@@ -96,7 +96,7 @@ class VariableReader:
         self.request.value_reference = value_reference
 
     def readInt(self):
-        return self.stub.ReadInt(self.request).value
+        return self.stub.ReadInteger(self.request).value
 
     def readReal(self):
         return self.stub.ReadReal(self.request).value
@@ -116,7 +116,7 @@ class VariableWriter:
         self.value_reference = value_reference
 
     def writeInt(self, value):
-        request = WriteIntRequest()
+        request = WriteIntegerRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value

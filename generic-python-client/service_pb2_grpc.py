@@ -19,6 +19,11 @@ class GenericFmuServiceStub(object):
         request_serializer=definitions__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.UInt.FromString,
         )
+    self.GetGuid = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetGuid',
+        request_serializer=definitions__pb2.Empty.SerializeToString,
+        response_deserializer=definitions__pb2.Str.FromString,
+        )
     self.GetModelName = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetModelName',
         request_serializer=definitions__pb2.Empty.SerializeToString,
@@ -59,8 +64,8 @@ class GenericFmuServiceStub(object):
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
-    self.ReadInt = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadInt',
+    self.ReadInteger = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadInteger',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.Int.FromString,
         )
@@ -79,9 +84,29 @@ class GenericFmuServiceStub(object):
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
-    self.WriteInt = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteInt',
-        request_serializer=definitions__pb2.WriteIntRequest.SerializeToString,
+    self.BulkReadInteger = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadInteger',
+        request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
+        response_deserializer=definitions__pb2.IntList.FromString,
+        )
+    self.BulkReadReal = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadReal',
+        request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
+        response_deserializer=definitions__pb2.RealList.FromString,
+        )
+    self.BulkReadString = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadString',
+        request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
+        response_deserializer=definitions__pb2.StrList.FromString,
+        )
+    self.BulkReadBoolean = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadBoolean',
+        request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
+        response_deserializer=definitions__pb2.BoolList.FromString,
+        )
+    self.WriteInteger = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteInteger',
+        request_serializer=definitions__pb2.WriteIntegerRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteReal = channel.unary_unary(
@@ -99,6 +124,26 @@ class GenericFmuServiceStub(object):
         request_serializer=definitions__pb2.WriteBooleanRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
+    self.BulkWriteInteger = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteInteger',
+        request_serializer=definitions__pb2.BulkWriteIntegerRequest.SerializeToString,
+        response_deserializer=definitions__pb2.Status.FromString,
+        )
+    self.BulkWriteReal = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteReal',
+        request_serializer=definitions__pb2.BulkWriteRealRequest.SerializeToString,
+        response_deserializer=definitions__pb2.Status.FromString,
+        )
+    self.BulkWriteString = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteString',
+        request_serializer=definitions__pb2.BulkWriteStringRequest.SerializeToString,
+        response_deserializer=definitions__pb2.Status.FromString,
+        )
+    self.BulkWriteBoolean = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteBoolean',
+        request_serializer=definitions__pb2.BulkWriteBooleanRequest.SerializeToString,
+        response_deserializer=definitions__pb2.Status.FromString,
+        )
 
 
 class GenericFmuServiceServicer(object):
@@ -106,6 +151,13 @@ class GenericFmuServiceServicer(object):
   pass
 
   def CreateInstance(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetGuid(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -168,7 +220,7 @@ class GenericFmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def ReadInt(self, request, context):
+  def ReadInteger(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -196,7 +248,35 @@ class GenericFmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def WriteInt(self, request, context):
+  def BulkReadInteger(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def BulkReadReal(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def BulkReadString(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def BulkReadBoolean(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def WriteInteger(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -224,6 +304,34 @@ class GenericFmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def BulkWriteInteger(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def BulkWriteReal(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def BulkWriteString(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def BulkWriteBoolean(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_GenericFmuServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -231,6 +339,11 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
           servicer.CreateInstance,
           request_deserializer=definitions__pb2.Empty.FromString,
           response_serializer=definitions__pb2.UInt.SerializeToString,
+      ),
+      'GetGuid': grpc.unary_unary_rpc_method_handler(
+          servicer.GetGuid,
+          request_deserializer=definitions__pb2.Empty.FromString,
+          response_serializer=definitions__pb2.Str.SerializeToString,
       ),
       'GetModelName': grpc.unary_unary_rpc_method_handler(
           servicer.GetModelName,
@@ -272,8 +385,8 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
           request_deserializer=definitions__pb2.UInt.FromString,
           response_serializer=definitions__pb2.Status.SerializeToString,
       ),
-      'ReadInt': grpc.unary_unary_rpc_method_handler(
-          servicer.ReadInt,
+      'ReadInteger': grpc.unary_unary_rpc_method_handler(
+          servicer.ReadInteger,
           request_deserializer=definitions__pb2.ReadRequest.FromString,
           response_serializer=definitions__pb2.Int.SerializeToString,
       ),
@@ -292,9 +405,29 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
           request_deserializer=definitions__pb2.ReadRequest.FromString,
           response_serializer=definitions__pb2.Bool.SerializeToString,
       ),
-      'WriteInt': grpc.unary_unary_rpc_method_handler(
-          servicer.WriteInt,
-          request_deserializer=definitions__pb2.WriteIntRequest.FromString,
+      'BulkReadInteger': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkReadInteger,
+          request_deserializer=definitions__pb2.BulkReadRequest.FromString,
+          response_serializer=definitions__pb2.IntList.SerializeToString,
+      ),
+      'BulkReadReal': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkReadReal,
+          request_deserializer=definitions__pb2.BulkReadRequest.FromString,
+          response_serializer=definitions__pb2.RealList.SerializeToString,
+      ),
+      'BulkReadString': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkReadString,
+          request_deserializer=definitions__pb2.BulkReadRequest.FromString,
+          response_serializer=definitions__pb2.StrList.SerializeToString,
+      ),
+      'BulkReadBoolean': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkReadBoolean,
+          request_deserializer=definitions__pb2.BulkReadRequest.FromString,
+          response_serializer=definitions__pb2.BoolList.SerializeToString,
+      ),
+      'WriteInteger': grpc.unary_unary_rpc_method_handler(
+          servicer.WriteInteger,
+          request_deserializer=definitions__pb2.WriteIntegerRequest.FromString,
           response_serializer=definitions__pb2.Status.SerializeToString,
       ),
       'WriteReal': grpc.unary_unary_rpc_method_handler(
@@ -310,6 +443,26 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
       'WriteBoolean': grpc.unary_unary_rpc_method_handler(
           servicer.WriteBoolean,
           request_deserializer=definitions__pb2.WriteBooleanRequest.FromString,
+          response_serializer=definitions__pb2.Status.SerializeToString,
+      ),
+      'BulkWriteInteger': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkWriteInteger,
+          request_deserializer=definitions__pb2.BulkWriteIntegerRequest.FromString,
+          response_serializer=definitions__pb2.Status.SerializeToString,
+      ),
+      'BulkWriteReal': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkWriteReal,
+          request_deserializer=definitions__pb2.BulkWriteRealRequest.FromString,
+          response_serializer=definitions__pb2.Status.SerializeToString,
+      ),
+      'BulkWriteString': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkWriteString,
+          request_deserializer=definitions__pb2.BulkWriteStringRequest.FromString,
+          response_serializer=definitions__pb2.Status.SerializeToString,
+      ),
+      'BulkWriteBoolean': grpc.unary_unary_rpc_method_handler(
+          servicer.BulkWriteBoolean,
+          request_deserializer=definitions__pb2.BulkWriteBooleanRequest.FromString,
           response_serializer=definitions__pb2.Status.SerializeToString,
       ),
   }
