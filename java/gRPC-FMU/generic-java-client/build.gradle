@@ -1,0 +1,50 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.4'
+    }
+}
+
+apply plugin: 'com.google.protobuf'
+
+dependencies {
+
+    implementation group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
+    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
+    implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
+}
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/src"
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.5.1'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.8.0'
+        }
+    }
+    generateProtoTasks {
+
+        ofSourceSet('main')*.plugins {
+            grpc {
+                outputSubDir = 'java'
+            }
+        }
+    }
+
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir '../proto'
+        }
+    }
+}

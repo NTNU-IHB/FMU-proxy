@@ -1,4 +1,5 @@
-cd../servergen/
-start gradlew installDist 
-cd ../test 
-start grpc-fmu -fmu HydraulicCylinderSimple.fmu
+cd ../java/gRPC-FMU/
+call gradlew :servergen:installDist 
+cd ../../test 
+call grpc-fmu -fmu HydraulicCylinderSimple.fmu
+PAUSE
