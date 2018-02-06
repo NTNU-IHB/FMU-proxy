@@ -26,8 +26,8 @@ package no.mechatronics.sfi.grpc_fmu.web.fmu
 
 import com.google.gson.Gson
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmi4j.modeldescription.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
 import java.io.Serializable
 import java.util.*
 import javax.faces.bean.ManagedBean
@@ -40,7 +40,7 @@ class FmuBean(
     val modelDescription: SimpleModelDescription
     val modelName: String
     val description:String
-    val modelVariables: List<ScalarVariable>
+    val modelVariables: List<TypedScalarVariable<*>>
 
     init {
         modelDescription =  ModelDescriptionParser.parse(modelDescriptionXml)

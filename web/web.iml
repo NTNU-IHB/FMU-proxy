@@ -46,7 +46,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.primefaces:primefaces:6.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.google.code.gson:gson:2.8.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.zeromq:jeromq:0.4.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: no.mechatronics.sfi.fmi4j:fmi-md:0.4.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: no.mechatronics.sfi.fmi4j:fmi-md:0.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: javax.websocket:javax.websocket-api:1.0" level="project" />
@@ -68,7 +68,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.primefaces:primefaces:6.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.google.code.gson:gson:2.8.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.zeromq:jeromq:0.4.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: no.mechatronics.sfi.fmi4j:fmi-md:0.4.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: no.mechatronics.sfi.fmi4j:fmi-md:0.5" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.slf4j:slf4j-log4j12:1.7.25" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.sun.faces:jsf-impl:2.2.15" level="project" />
@@ -85,7 +85,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.primefaces:primefaces:6.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.google.code.gson:gson:2.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.zeromq:jeromq:0.4.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: no.mechatronics.sfi.fmi4j:fmi-md:0.4.3-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: no.mechatronics.sfi.fmi4j:fmi-md:0.5" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.21" level="project" />
