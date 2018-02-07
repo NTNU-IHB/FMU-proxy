@@ -65,7 +65,7 @@ public class {{fmuName}}Server {
     public {{fmuName}}Server() throws IOException {
         this.fmus = new HashMap<>();
         this.fmuFile = new FmuFile(getClass().getClassLoader().getResource("{{fmuName}}.fmu"));
-        this.modelDescription = ModelDescriptionParser.parse(fmuFile.getModelDescriptionXml());
+        this.modelDescription = this.fmuFile.getModelDescription();
         this.builder = new FmuBuilder(this.fmuFile);
     }
 

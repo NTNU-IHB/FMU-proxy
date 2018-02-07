@@ -13,19 +13,20 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import org.apache.commons.io.IOUtils
+import java.nio.charset.Charset
 
 class GrpcFmuTest {
 
-    lateinit var url: URL
+
     lateinit var generatedJar: File
 
     @Before
     fun setUp() {
-
-        url = GrpcFmuTest::class.java.classLoader
-                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+        val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
         Assert.assertNotNull(url)
-        val modelDescription = ModelDescriptionParser.parse(url)
+        val xml = IOUtils.toString(url, Charset.forName("UTF-8"))
+        val modelDescription = ModelDescriptionParser.parse(xml)
         generatedJar = File("${modelDescription.modelName}.jar")
 
     }
@@ -39,7 +40,13 @@ class GrpcFmuTest {
 
     @Test
     fun generate() {
-        GrpcFmu.generate(url)
+
+        val file = File(javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu").file)
+        Assert.assertTrue(file.exists())
+        val args = arrayOf(
+                "-fmu",  file.absolutePath
+        )
+        ApplicationStarter.main(args)
 
         Assert.assertTrue(generatedJar.exists())
 

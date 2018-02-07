@@ -10,11 +10,11 @@ distributions {
     }
 }
 
-def debug = false
+def debug = true
 def snapshot = true
 
-def fmi_md_version = snapshot ? '0.5.1-SNAPSHOT' : '0.5'
-def fmi_import_version = snapshot ? '0.2.1-SNAPSHOT' : '0.2'
+def fmi_md_version = snapshot ? '0.5.3-SNAPSHOT' : '0.5.2'
+def fmi_import_version = snapshot ? '0.2.2-SNAPSHOT' : '0.2.1'
 
 repositories {
 	if (snapshot) {
@@ -33,9 +33,9 @@ dependencies {
 
 	if (debug) {
 
-        implementation group: 'io.grpc', name: 'grpc-stub', version: '1.8.0'
-        implementation group: 'io.grpc', name: 'grpc-netty', version: '1.8.0'
-        implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
+        implementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
+        implementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
+        implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
 
         implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
         implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
