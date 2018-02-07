@@ -1,0 +1,78 @@
+
+apply plugin: 'application'
+
+mainClassName = 'no.mechatronics.sfi.grpc_fmu.ApplicationStarter'
+
+distributions {
+    main {
+        baseName = 'gRPC-FMU'
+        applicationName = "grpc-fmu"
+    }
+}
+
+def debug = true
+def snapshot = false
+
+def fmi_md_version = snapshot ? '0.5.3-SNAPSHOT' : '0.5.2'
+def fmi_import_version = snapshot ? '0.2.3-SNAPSHOT' : '0.2.2'
+
+repositories {
+	if (snapshot) {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+        }
+    }
+}
+
+dependencies {
+   
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
+
+	if (debug) {
+
+        implementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
+        implementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
+        implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
+
+        implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+        implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
+
+        implementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
+        implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+        implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+
+        implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
+
+    }
+	
+}
+
+if (debug) {
+    sourceSets {
+        main {
+            java {
+                srcDirs 'generated/src/main/java' //include during debug
+            }
+            kotlin {
+                srcDirs 'generated/src/main/kotlin' //include during debug
+            }
+        }
+    }
+}
+
+
+task copyProto(type: Copy) {
+    copyProto.configure {
+        from('../../proto/definitions.proto',  )
+        into('src/main/resources/templates/proto/')
+
+        from('../proto/service.proto',  )
+        into('src/main/resources/templates/proto/')
+    }
+}
+
+
+compileJava.dependsOn(copyProto)
