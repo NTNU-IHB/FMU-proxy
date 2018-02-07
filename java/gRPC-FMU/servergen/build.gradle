@@ -11,10 +11,10 @@ distributions {
 }
 
 def debug = true
-def snapshot = true
+def snapshot = false
 
 def fmi_md_version = snapshot ? '0.5.3-SNAPSHOT' : '0.5.2'
-def fmi_import_version = snapshot ? '0.2.2-SNAPSHOT' : '0.2.1'
+def fmi_import_version = snapshot ? '0.2.3-SNAPSHOT' : '0.2.2'
 
 repositories {
 	if (snapshot) {
