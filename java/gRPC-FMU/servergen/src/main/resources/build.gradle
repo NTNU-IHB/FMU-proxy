@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 def snapshot = false
-def fmi_import_version = snapshot ? '0.2.3-SNAPSHOT' : '0.2.2'
+def fmi_import_version = snapshot ? '0.2.4-SNAPSHOT' : '0.2.3'
 
 repositories {
     mavenCentral()

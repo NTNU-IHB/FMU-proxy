@@ -24,7 +24,6 @@
 
 package no.mechatronics.sfi.grpc_fmu;
 
-
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -45,7 +44,6 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
 import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status;
 import no.mechatronics.sfi.fmi4j.modeldescription.*;
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*;
-
 
 /**
  * Auto-generated class

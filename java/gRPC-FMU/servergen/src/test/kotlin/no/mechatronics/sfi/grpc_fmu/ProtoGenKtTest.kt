@@ -1,7 +1,5 @@
 package no.mechatronics.sfi.grpc_fmu
 
-
-
 import org.apache.commons.io.IOUtils
 import org.junit.After
 import org.junit.Assert

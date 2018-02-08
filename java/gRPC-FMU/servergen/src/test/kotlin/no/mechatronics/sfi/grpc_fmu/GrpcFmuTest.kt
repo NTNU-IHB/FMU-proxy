@@ -1,6 +1,5 @@
 package no.mechatronics.sfi.grpc_fmu
 
-
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -13,11 +12,11 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionProvider
 import org.apache.commons.io.IOUtils
 import java.nio.charset.Charset
 
 class GrpcFmuTest {
-
 
     lateinit var generatedJar: File
 
