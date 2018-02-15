@@ -37,6 +37,7 @@ gretty {
     httpEnabled = true
     httpPort = 8080
     contextPath = "/grpc-fmu"
+    logDir = projectDir
 }
 
 

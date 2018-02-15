@@ -50,18 +50,23 @@ dependencies {
 	
 }
 
-if (debug) {
-    sourceSets {
-        main {
-            java {
+sourceSets {
+    main {
+        java {
+            exclude '**/resources/**'
+            if (debug) {
                 srcDirs 'generated/src/main/java' //include during debug
             }
-            kotlin {
+        }
+        kotlin {
+            exclude '**/resources/**'
+            if (debug) {
                 srcDirs 'generated/src/main/kotlin' //include during debug
             }
         }
     }
 }
+
 
 
 task copyProto(type: Copy) {

@@ -7,12 +7,10 @@ import org.junit.Test
 
 import java.io.File
 import java.io.FileInputStream
-import java.net.URL
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionProvider
 import org.apache.commons.io.IOUtils
 import java.nio.charset.Charset
 

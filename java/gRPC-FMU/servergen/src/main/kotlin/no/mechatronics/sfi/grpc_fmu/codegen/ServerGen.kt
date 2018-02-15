@@ -26,7 +26,6 @@ package no.mechatronics.sfi.grpc_fmu.codegen
 
 
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
 import no.mechatronics.sfi.grpc_fmu.GrpcFmu
 import no.mechatronics.sfi.grpc_fmu.utils.*
 import org.apache.commons.io.IOUtils
@@ -54,7 +53,7 @@ object ServerGen {
 
             if (!isArray(it.name)) {
 
-                sb.append(JtwigTemplate.classpathTemplate("templates/server/Read.java").let { template ->
+                sb.append(JtwigTemplate.classpathTemplate("templates/server/kotlin/Read.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
                             .with("varName", convertName2(it.name))
@@ -62,7 +61,7 @@ object ServerGen {
                             .with("returnType", getProtoType(it.typeName)))!!
                 })
 
-                sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.java").let { template ->
+                sb.append(JtwigTemplate.classpathTemplate("templates/server/kotlin/Write.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
                             .with("varName", convertName2(it.name))
@@ -76,7 +75,7 @@ object ServerGen {
         }
 
         val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
-        val javaOut = if (baseFile == null) File("${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName")
+        //val javaOut = if (baseFile == null) File("${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName")
         val ktOut = if (baseFile == null) File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
 
         FileFuture(
@@ -95,31 +94,28 @@ object ServerGen {
         ).create(ktOut)
 
         FileFuture(
-                name = "Main.java",
-                text = JtwigTemplate.classpathTemplate("templates/server/Main.java").let { template ->
+                name = "Main.kt",
+                text = JtwigTemplate.classpathTemplate("templates/server/kotlin/Main.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName))!!
                 }
-        ).create(javaOut)
+        ).create(ktOut)
 
         FileFuture(
-                name = "${modelDescription.modelName}Server.java",
-                text = JtwigTemplate.classpathTemplate("templates/server/Server.java").let { template ->
+                name = "${modelDescription.modelName}Server.kt",
+                text = JtwigTemplate.classpathTemplate("templates/server/kotlin/Server.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("dynamicMethods", sb.toString()))!!
                 }
-        ).create(javaOut)
+        ).create(ktOut)
 
 
     }
 
-
-
-
-    fun convertName2(str: String): String {
+    private fun convertName2(str: String): String {
         val split = str.replace("_".toRegex(), ".").split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         return StringBuilder().apply {
             for (s in split) {
