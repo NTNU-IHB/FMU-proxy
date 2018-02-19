@@ -71,10 +71,10 @@ sourceSets {
 
 task copyProto(type: Copy) {
     copyProto.configure {
-        from('../../proto/definitions.proto',  )
+        from('../../../proto/definitions.proto',  )
         into('src/main/resources/templates/proto/')
 
-        from('../proto/service.proto',  )
+        from('../../../proto/service.proto',  )
         into('src/main/resources/templates/proto/')
     }
 }

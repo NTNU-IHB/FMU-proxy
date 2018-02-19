@@ -39,12 +39,16 @@ import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status
 import no.mechatronics.sfi.fmi4j.modeldescription.*
 import no.mechatronics.sfi.fmi4j.modeldescription.enums.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
+import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator
+import org.apache.commons.math3.ode.nonstiff.EulerIntegrator
+import org.apache.commons.math3.ode.nonstiff.GillIntegrator
+import org.apache.commons.math3.ode.nonstiff.MidpointIntegrator
 
 class {{fmuName}}Server {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger({{fmuName}}Server::class.java)
+        val LOG: Logger = LoggerFactory.getLogger({{fmuName}}Server::class.java)
 
         fun statusReply (status: Fmi2Status, responseObserver: StreamObserver<FmiDefinitions.Status> ) {
             statusReply(FmiDefinitions.Status.newBuilder()
@@ -127,10 +131,32 @@ class {{fmuName}}Server {
 
         private val idGenerator = AtomicInteger(0)
 
-        override fun createInstance(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
+        override fun createInstanceFromCS(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
             val id = idGenerator.incrementAndGet()
             fmus[id] = builder.asCoSimulationFmu().newInstance()
+
+            val reply = FmiDefinitions.UInt.newBuilder().setValue(id).build()
+            responseObserver.onNext(reply)
+            responseObserver.onCompleted()
+
+        }
+
+        override fun createInstanceFromME(req: FmiDefinitions.Integrator, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
+
+            val integrator = when (req.integratorsCase) {
+                FmiDefinitions.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
+                FmiDefinitions.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
+                FmiDefinitions.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
+                FmiDefinitions.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
+                FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET -> {
+                    LOG.warn("No integrator specified.. Defaulting to Euler with 1E-3 stepsize")
+                    EulerIntegrator(1E-3)
+                }
+            }
+
+            val id = idGenerator.incrementAndGet()
+            fmus[id] = builder.asModelExchangeFmu().newInstance(integrator)
 
             val reply = FmiDefinitions.UInt.newBuilder().setValue(id).build()
             responseObserver.onNext(reply)

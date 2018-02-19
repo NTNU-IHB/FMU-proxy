@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+wrapper {
+    gradleVersion = '4.5'
+}
+
 apply plugin: 'java'
 apply plugin: 'kotlin'
 

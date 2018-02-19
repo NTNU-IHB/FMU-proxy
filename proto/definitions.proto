@@ -2,9 +2,16 @@
 syntax = "proto3";
 
 package no.mechatronics.sfi.grpc_fmu;
-
 option java_outer_classname = "FmiDefinitions";
 
+message Integrator {
+	oneof integrators {
+		EulerIntegrator euler = 2;
+		ClassicalRungeKuttaIntegrator runge_kutta = 3;
+		MidpointIntegrator mid_point = 4;
+		GillIntegrator gill = 5;
+	}
+}
 
 message ScalarVariable {
     uint32 value_reference = 1;
@@ -169,6 +176,26 @@ enum VariableType {
     BOOLEAN = 3;
 }
 
+enum FMUType {
+	CS = 0;
+	ME = 1;
+}
+
+message EulerIntegrator {
+	double step_size = 1;
+}
+
+message ClassicalRungeKuttaIntegrator {
+	double step_size = 1;
+}
+
+message MidpointIntegrator {
+	double step_size = 1;
+}
+
+message GillIntegrator {
+	double step_size = 1;
+}
 
 message Empty {
 
