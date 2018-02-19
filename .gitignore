@@ -21,7 +21,6 @@ gradle-app.setting
 
 bin/
 tmp/
-.recommendes
 
 .metadata
 .gradle
@@ -36,6 +35,7 @@ local.properties
 *.iml
 
 .nb-gradle/
+gradle.properties
 
 target/
 build/

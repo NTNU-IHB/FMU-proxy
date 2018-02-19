@@ -149,7 +149,7 @@ class {{fmuName}}Server {
                 FmiDefinitions.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
                 FmiDefinitions.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
                 FmiDefinitions.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
-                FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET -> {
+                FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET  -> {
                     LOG.warn("No integrator specified.. Defaulting to Euler with 1E-3 stepsize")
                     EulerIntegrator(1E-3)
                 }

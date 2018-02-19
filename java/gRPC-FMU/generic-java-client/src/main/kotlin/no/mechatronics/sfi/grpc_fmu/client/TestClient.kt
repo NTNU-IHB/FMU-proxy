@@ -63,12 +63,12 @@ fun main(args: Array<String>) {
                     }?.also {  println("Value: $it") }
 
                 }
-                
+
                 val dt = 1.0 / 100
                 val outputs = fmu.modelVariables.filter {
                     it.causality == FmiDefinitions.Causality.OUTPUT
                 }
-                for (i in 1..10) {
+                while (fmu.currentTime < 1) {
                     fmu.step(dt)
                     outputs.forEach({
                         val value: Any? = when (it.variableType) {
@@ -86,6 +86,5 @@ fun main(args: Array<String>) {
         }
 
     }
-
 
 }
