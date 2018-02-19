@@ -59,7 +59,6 @@ object GrpcFmu {
     fun generate(file: File) = generate(FileInputStream(file), extractModelDescriptionXml(FileInputStream(file)))
     fun generate(url: URL)= generate(url.openStream(), extractModelDescriptionXml(url.openStream()))
 
-
     private fun copyZippedContent(baseFile: File) {
         GrpcFmu.javaClass.classLoader.getResourceAsStream("myzip.zip").also { zipStream ->
             ZipInputStream(zipStream).use { zis ->
@@ -82,7 +81,6 @@ object GrpcFmu {
             }
         }
     }
-
 
     private fun generate(inputStream: InputStream, modelDescriptionXml: String) {
 

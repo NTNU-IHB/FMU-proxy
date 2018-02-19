@@ -18,6 +18,9 @@ dependencies {
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
     implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
+
+    testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.3'
+
 }
 
 protobuf {

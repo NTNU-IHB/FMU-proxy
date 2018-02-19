@@ -161,7 +161,6 @@ object ProtoGen {
 
         return ProtoCode(definitions, genericService, uniqueService)
 
-
     }
 
     private fun convertName(str: String): String {

@@ -10,7 +10,7 @@ distributions {
     }
 }
 
-def debug = false
+def debug = true
 def snapshot = false
 
 def fmi_md_version = snapshot ? '0.5.4-SNAPSHOT' : '0.5.3'
@@ -31,43 +31,42 @@ dependencies {
     implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
 
-	if (debug) {
+    testImplementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
+    testImplementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
+    testImplementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
 
-        implementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
-        implementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
-        implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
+    testImplementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+    testImplementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
 
-        implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
-        implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
+    testImplementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
+    testImplementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    testImplementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
-        implementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
-        implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
-        implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
-        implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
-
-    }
-	
 }
 
 sourceSets {
     main {
         java {
             exclude '**/resources/**'
-            if (debug) {
-                srcDirs 'generated/src/main/java' //include during debug
-            }
         }
         kotlin {
             exclude '**/resources/**'
-            if (debug) {
-                srcDirs 'generated/src/main/kotlin' //include during debug
-            }
         }
     }
 }
 
-
+sourceSets {
+    test {
+        java {
+            srcDirs 'generated/src/main/java' //include during debug
+        }
+        kotlin {
+            srcDirs 'generated/src/main/kotlin' //include during debug
+        }
+    }
+}
 
 task copyProto(type: Copy) {
     copyProto.configure {

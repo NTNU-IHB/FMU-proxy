@@ -30,7 +30,6 @@ import java.io.IOException
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-
 /**
  *
  * @author Lars Ivar Hatledal
@@ -44,7 +43,6 @@ internal object Main {
             } catch (ex: UnknownHostException) {
                 "127.0.0.1"
             }
-
         }
 
     private val availablePort: Int

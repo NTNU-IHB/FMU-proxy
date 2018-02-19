@@ -24,7 +24,6 @@
 
 package no.mechatronics.sfi.grpc_fmu.codegen
 
-
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.grpc_fmu.GrpcFmu
 import no.mechatronics.sfi.grpc_fmu.utils.*
@@ -35,8 +34,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.charset.Charset
-
-
 
 /**
  *
@@ -53,7 +50,7 @@ object ServerGen {
 
             if (!isArray(it.name)) {
 
-                sb.append(JtwigTemplate.classpathTemplate("templates/server/kotlin/Read.kt").let { template ->
+                sb.append(JtwigTemplate.classpathTemplate("templates/server/Read.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
                             .with("varName", convertName2(it.name))
@@ -61,7 +58,7 @@ object ServerGen {
                             .with("returnType", getProtoType(it.typeName)))!!
                 })
 
-                sb.append(JtwigTemplate.classpathTemplate("templates/server/kotlin/Write.kt").let { template ->
+                sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("valueReference", it.valueReference)
                             .with("varName", convertName2(it.name))
@@ -75,7 +72,6 @@ object ServerGen {
         }
 
         val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
-        //val javaOut = if (baseFile == null) File("${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.JAVA_SRC_OUTPUT_FOLDER}/$packageName")
         val ktOut = if (baseFile == null) File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
 
         FileFuture(
@@ -95,7 +91,7 @@ object ServerGen {
 
         FileFuture(
                 name = "Main.kt",
-                text = JtwigTemplate.classpathTemplate("templates/server/kotlin/Main.kt").let { template ->
+                text = JtwigTemplate.classpathTemplate("templates/server/Main.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName))!!
@@ -104,14 +100,13 @@ object ServerGen {
 
         FileFuture(
                 name = "${modelDescription.modelName}Server.kt",
-                text = JtwigTemplate.classpathTemplate("templates/server/kotlin/Server.kt").let { template ->
+                text = JtwigTemplate.classpathTemplate("templates/server/Server.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("dynamicMethods", sb.toString()))!!
                 }
         ).create(ktOut)
-
 
     }
 
@@ -123,6 +118,5 @@ object ServerGen {
             }
         }.toString()
     }
-
 
 }
