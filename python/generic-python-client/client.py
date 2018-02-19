@@ -13,9 +13,13 @@ import service_pb2_grpc
 
 class FmuInstance:
 
-    def __init__(self, stub):
+    def __init__(self, stub, integrator=None):
         self.stub = stub
-        self.fmu_id = self.stub.CreateInstance(Empty()).value
+
+        if (integrator is None):
+            self.fmu_id = self.stub.CreateInstanceFromCS(Empty()).value
+        else:
+            self.fmu_id = self.stub.CreateInstanceFromME(integrator).value
 
         self.model_variables = dict()
         for v in self.stub.GetModelVariables(Empty()):
@@ -83,8 +87,8 @@ class GenericFmuClient:
     def get_model_name(self):
         return self._stub.GetModelName(Empty())
 
-    def create_instance(self):
-        return FmuInstance(self._stub)
+    def create_instance(self, integrator=None):
+        return FmuInstance(self._stub, integrator)
 
 
 class VariableReader:

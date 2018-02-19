@@ -14,9 +14,14 @@ class GenericFmuServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.CreateInstance = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/CreateInstance',
+    self.CreateInstanceFromCS = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/CreateInstanceFromCS',
         request_serializer=definitions__pb2.Empty.SerializeToString,
+        response_deserializer=definitions__pb2.UInt.FromString,
+        )
+    self.CreateInstanceFromME = channel.unary_unary(
+        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/CreateInstanceFromME',
+        request_serializer=definitions__pb2.Integrator.SerializeToString,
         response_deserializer=definitions__pb2.UInt.FromString,
         )
     self.GetGuid = channel.unary_unary(
@@ -150,7 +155,14 @@ class GenericFmuServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
-  def CreateInstance(self, request, context):
+  def CreateInstanceFromCS(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CreateInstanceFromME(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -335,9 +347,14 @@ class GenericFmuServiceServicer(object):
 
 def add_GenericFmuServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'CreateInstance': grpc.unary_unary_rpc_method_handler(
-          servicer.CreateInstance,
+      'CreateInstanceFromCS': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateInstanceFromCS,
           request_deserializer=definitions__pb2.Empty.FromString,
+          response_serializer=definitions__pb2.UInt.SerializeToString,
+      ),
+      'CreateInstanceFromME': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateInstanceFromME,
+          request_deserializer=definitions__pb2.Integrator.FromString,
           response_serializer=definitions__pb2.UInt.SerializeToString,
       ),
       'GetGuid': grpc.unary_unary_rpc_method_handler(

@@ -33,7 +33,7 @@ fun main(args: Array<String>) {
 
     GenericFmuClient("127.0.0.1", 8000).use {
 
-        println("Connected to remote FMU ${it.modelName}")
+        println("Connected to remote FMU '${it.modelName}'")
 
         it.createInstance().use { fmu ->
             if (fmu.init()) {
@@ -45,29 +45,29 @@ fun main(args: Array<String>) {
                     println("Variability: ${it.variability}")
                     println("Initial: ${it.initial}")
 
-                    val startValue: Any? = when (it.variableType) {
+                    when (it.variableType) {
                         FmiDefinitions.VariableType.INTEGER -> it.start.intValue
                         FmiDefinitions.VariableType.REAL -> it.start.realValue
                         FmiDefinitions.VariableType.STRING -> it.start.strValue
                         FmiDefinitions.VariableType.BOOLEAN -> it.start.boolValue
                         else -> null
-                    }
-                    println("Start: ${startValue}")
+                    }?.also {  println("Start: $it") }
 
-                    val value: Any? = when (it.variableType) {
+
+                    when (it.variableType) {
                         FmiDefinitions.VariableType.INTEGER -> it.start.intValue
                         FmiDefinitions.VariableType.REAL -> it.start.realValue
                         FmiDefinitions.VariableType.STRING -> it.start.strValue
                         FmiDefinitions.VariableType.BOOLEAN -> it.start.boolValue
                         else -> null
-                    }
-                    println("Value: ${value}")
+                    }?.also {  println("Value: $it") }
 
                 }
-
-                val outputs = fmu.modelVariables.filter { it.causality == FmiDefinitions.Causality.OUTPUT }
-
+                
                 val dt = 1.0 / 100
+                val outputs = fmu.modelVariables.filter {
+                    it.causality == FmiDefinitions.Causality.OUTPUT
+                }
                 for (i in 1..10) {
                     fmu.step(dt)
                     outputs.forEach({

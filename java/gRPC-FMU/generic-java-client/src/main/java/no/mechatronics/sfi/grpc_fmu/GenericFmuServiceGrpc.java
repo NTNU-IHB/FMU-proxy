@@ -18,7 +18,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.8.0)",
+    value = "by gRPC proto compiler (version 1.9.0)",
     comments = "Source: service.proto")
 public final class GenericFmuServiceGrpc {
 
@@ -28,36 +28,68 @@ public final class GenericFmuServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
-  @java.lang.Deprecated // Use {@link #getCreateInstanceMethod()} instead. 
+  @java.lang.Deprecated // Use {@link #getCreateInstanceFromCSMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> METHOD_CREATE_INSTANCE = getCreateInstanceMethod();
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> METHOD_CREATE_INSTANCE_FROM_CS = getCreateInstanceFromCSMethod();
 
   private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceMethod;
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceFromCSMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
-      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceMethod;
-    if ((getCreateInstanceMethod = GenericFmuServiceGrpc.getCreateInstanceMethod) == null) {
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceFromCSMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceFromCSMethod;
+    if ((getCreateInstanceFromCSMethod = GenericFmuServiceGrpc.getCreateInstanceFromCSMethod) == null) {
       synchronized (GenericFmuServiceGrpc.class) {
-        if ((getCreateInstanceMethod = GenericFmuServiceGrpc.getCreateInstanceMethod) == null) {
-          GenericFmuServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod = 
+        if ((getCreateInstanceFromCSMethod = GenericFmuServiceGrpc.getCreateInstanceFromCSMethod) == null) {
+          GenericFmuServiceGrpc.getCreateInstanceFromCSMethod = getCreateInstanceFromCSMethod = 
               io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "CreateInstance"))
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "CreateInstanceFromCS"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
-                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("CreateInstance"))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("CreateInstanceFromCS"))
                   .build();
           }
         }
      }
-     return getCreateInstanceMethod;
+     return getCreateInstanceFromCSMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getCreateInstanceFromMEMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> METHOD_CREATE_INSTANCE_FROM_ME = getCreateInstanceFromMEMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceFromMEMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceFromMEMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> getCreateInstanceFromMEMethod;
+    if ((getCreateInstanceFromMEMethod = GenericFmuServiceGrpc.getCreateInstanceFromMEMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getCreateInstanceFromMEMethod = GenericFmuServiceGrpc.getCreateInstanceFromMEMethod) == null) {
+          GenericFmuServiceGrpc.getCreateInstanceFromMEMethod = getCreateInstanceFromMEMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "CreateInstanceFromME"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("CreateInstanceFromME"))
+                  .build();
+          }
+        }
+     }
+     return getCreateInstanceFromMEMethod;
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetGuidMethod()} instead. 
@@ -889,9 +921,16 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public void createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+    public void createInstanceFromCS(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
-      asyncUnimplementedUnaryCall(getCreateInstanceMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getCreateInstanceFromCSMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void createInstanceFromME(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
+      asyncUnimplementedUnaryCall(getCreateInstanceFromMEMethod(), responseObserver);
     }
 
     /**
@@ -1075,12 +1114,19 @@ public final class GenericFmuServiceGrpc {
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getCreateInstanceMethod(),
+            getCreateInstanceFromCSMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>(
-                  this, METHODID_CREATE_INSTANCE)))
+                  this, METHODID_CREATE_INSTANCE_FROM_CS)))
+          .addMethod(
+            getCreateInstanceFromMEMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>(
+                  this, METHODID_CREATE_INSTANCE_FROM_ME)))
           .addMethod(
             getGetGuidMethod(),
             asyncUnaryCall(
@@ -1280,10 +1326,18 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public void createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+    public void createInstanceFromCS(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getCreateInstanceMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateInstanceFromCSMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void createInstanceFromME(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCreateInstanceFromMEMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1510,9 +1564,16 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt createInstance(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt createInstanceFromCS(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
       return blockingUnaryCall(
-          getChannel(), getCreateInstanceMethod(), getCallOptions(), request);
+          getChannel(), getCreateInstanceFromCSMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt createInstanceFromME(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator request) {
+      return blockingUnaryCall(
+          getChannel(), getCreateInstanceFromMEMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1715,10 +1776,18 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> createInstance(
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> createInstanceFromCS(
         no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
       return futureUnaryCall(
-          getChannel().newCall(getCreateInstanceMethod(), getCallOptions()), request);
+          getChannel().newCall(getCreateInstanceFromCSMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> createInstanceFromME(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCreateInstanceFromMEMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1917,32 +1986,33 @@ public final class GenericFmuServiceGrpc {
     }
   }
 
-  private static final int METHODID_CREATE_INSTANCE = 0;
-  private static final int METHODID_GET_GUID = 1;
-  private static final int METHODID_GET_MODEL_NAME = 2;
-  private static final int METHODID_GET_MODEL_VARIABLES = 3;
-  private static final int METHODID_GET_CURRENT_TIME = 4;
-  private static final int METHODID_IS_TERMINATED = 5;
-  private static final int METHODID_INIT = 6;
-  private static final int METHODID_STEP = 7;
-  private static final int METHODID_TERMINATE = 8;
-  private static final int METHODID_RESET = 9;
-  private static final int METHODID_READ_INTEGER = 10;
-  private static final int METHODID_READ_REAL = 11;
-  private static final int METHODID_READ_STRING = 12;
-  private static final int METHODID_READ_BOOLEAN = 13;
-  private static final int METHODID_BULK_READ_INTEGER = 14;
-  private static final int METHODID_BULK_READ_REAL = 15;
-  private static final int METHODID_BULK_READ_STRING = 16;
-  private static final int METHODID_BULK_READ_BOOLEAN = 17;
-  private static final int METHODID_WRITE_INTEGER = 18;
-  private static final int METHODID_WRITE_REAL = 19;
-  private static final int METHODID_WRITE_STRING = 20;
-  private static final int METHODID_WRITE_BOOLEAN = 21;
-  private static final int METHODID_BULK_WRITE_INTEGER = 22;
-  private static final int METHODID_BULK_WRITE_REAL = 23;
-  private static final int METHODID_BULK_WRITE_STRING = 24;
-  private static final int METHODID_BULK_WRITE_BOOLEAN = 25;
+  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 0;
+  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 1;
+  private static final int METHODID_GET_GUID = 2;
+  private static final int METHODID_GET_MODEL_NAME = 3;
+  private static final int METHODID_GET_MODEL_VARIABLES = 4;
+  private static final int METHODID_GET_CURRENT_TIME = 5;
+  private static final int METHODID_IS_TERMINATED = 6;
+  private static final int METHODID_INIT = 7;
+  private static final int METHODID_STEP = 8;
+  private static final int METHODID_TERMINATE = 9;
+  private static final int METHODID_RESET = 10;
+  private static final int METHODID_READ_INTEGER = 11;
+  private static final int METHODID_READ_REAL = 12;
+  private static final int METHODID_READ_STRING = 13;
+  private static final int METHODID_READ_BOOLEAN = 14;
+  private static final int METHODID_BULK_READ_INTEGER = 15;
+  private static final int METHODID_BULK_READ_REAL = 16;
+  private static final int METHODID_BULK_READ_STRING = 17;
+  private static final int METHODID_BULK_READ_BOOLEAN = 18;
+  private static final int METHODID_WRITE_INTEGER = 19;
+  private static final int METHODID_WRITE_REAL = 20;
+  private static final int METHODID_WRITE_STRING = 21;
+  private static final int METHODID_WRITE_BOOLEAN = 22;
+  private static final int METHODID_BULK_WRITE_INTEGER = 23;
+  private static final int METHODID_BULK_WRITE_REAL = 24;
+  private static final int METHODID_BULK_WRITE_STRING = 25;
+  private static final int METHODID_BULK_WRITE_BOOLEAN = 26;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1961,8 +2031,12 @@ public final class GenericFmuServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_CREATE_INSTANCE:
-          serviceImpl.createInstance((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
+        case METHODID_CREATE_INSTANCE_FROM_CS:
+          serviceImpl.createInstanceFromCS((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>) responseObserver);
+          break;
+        case METHODID_CREATE_INSTANCE_FROM_ME:
+          serviceImpl.createInstanceFromME((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Integrator) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>) responseObserver);
           break;
         case METHODID_GET_GUID:
@@ -2126,7 +2200,8 @@ public final class GenericFmuServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new GenericFmuServiceFileDescriptorSupplier())
-              .addMethod(getCreateInstanceMethod())
+              .addMethod(getCreateInstanceFromCSMethod())
+              .addMethod(getCreateInstanceFromMEMethod())
               .addMethod(getGetGuidMethod())
               .addMethod(getGetModelNameMethod())
               .addMethod(getGetModelVariablesMethod())

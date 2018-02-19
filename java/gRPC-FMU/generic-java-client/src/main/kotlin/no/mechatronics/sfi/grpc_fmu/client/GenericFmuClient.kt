@@ -32,6 +32,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 object FmuInstances: ArrayList<FmuInstance>() {
     internal fun terminateAll() {
         forEach({
@@ -64,8 +67,8 @@ class GenericFmuClient(
         blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
     }
 
-    fun createInstance(): FmuInstance {
-        return FmuInstance(blockingStub)
+    fun createInstance(integrator: FmiDefinitions.Integrator? = null): FmuInstance {
+        return FmuInstance(blockingStub, integrator)
     }
 
     override fun close() {
@@ -78,17 +81,21 @@ class GenericFmuClient(
         val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
     }
 
-
 }
 
 class FmuInstance internal constructor(
-        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
+        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub,
+        integrator: FmiDefinitions.Integrator? = null
 ) : AutoCloseable {
 
     private val fmuId: Int
-            = blockingStub.createInstance(FmiDefinitions.Empty.getDefaultInstance()).value
 
     init {
+        fmuId = if (integrator == null) {
+            blockingStub.createInstanceFromCS(FmiDefinitions.Empty.getDefaultInstance()).value
+        } else {
+            blockingStub.createInstanceFromME(integrator).value
+        }
         FmuInstances.add(this)
     }
 
