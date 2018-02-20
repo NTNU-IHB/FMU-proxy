@@ -26,6 +26,8 @@ package no.mechatronics.sfi.grpc_fmu.codegen
 
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.grpc_fmu.GrpcFmu
+import no.mechatronics.sfi.grpc_fmu.KOTLIN_SRC_OUTPUT_FOLDER
+import no.mechatronics.sfi.grpc_fmu.PACKAGE_NAME
 import no.mechatronics.sfi.grpc_fmu.utils.*
 import org.apache.commons.io.IOUtils
 import org.jtwig.JtwigModel
@@ -43,14 +45,10 @@ object ServerGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ServerGen::class.java)
 
-    fun generateServerCode(modelDescription: SimpleModelDescription, baseFile: File?) {
+    fun generateServerCode(modelDescription: SimpleModelDescription, baseFile: File) {
 
-        val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
-        val ktOut = if (baseFile == null) {
-            File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
-        } else {
-            File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
-        }
+        val packageName = PACKAGE_NAME.replace(".", "/")
+        val ktOut = File(baseFile, "$KOTLIN_SRC_OUTPUT_FOLDER/$packageName")
 
         val dynamicMethods = StringBuilder().apply {
             modelDescription.modelVariables.forEach {
@@ -81,7 +79,8 @@ object ServerGen {
 
         FileFuture(
                 name = "InputParser.kt",
-                text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
+                text = IOUtils.toString(javaClass.classLoader
+                        .getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
         ).create(ktOut)
 
         FileFuture(

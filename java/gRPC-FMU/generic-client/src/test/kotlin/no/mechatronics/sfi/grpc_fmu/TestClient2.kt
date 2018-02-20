@@ -18,7 +18,7 @@ class TestClient2 {
     @Before
     fun setup() {
 
-        val fmuFile = FmuFile(javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu"))
+        val fmuFile = FmuFile(javaClass.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu"))
         modelDescription = fmuFile.modelDescription
 
         server = GenericFmuServer(fmuFile)

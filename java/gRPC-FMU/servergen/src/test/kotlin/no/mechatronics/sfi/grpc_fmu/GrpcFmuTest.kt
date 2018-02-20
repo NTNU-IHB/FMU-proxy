@@ -12,11 +12,17 @@ import java.util.zip.ZipInputStream
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import org.apache.commons.io.IOUtils
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.nio.charset.Charset
 
 class GrpcFmuTest {
 
     lateinit var generatedJar: File
+
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(GrpcFmu::class.java)
+    }
 
     @Before
     fun setUp() {
@@ -25,13 +31,14 @@ class GrpcFmuTest {
         val xml = IOUtils.toString(url, Charset.forName("UTF-8"))
         val modelDescription = ModelDescriptionParser.parse(xml)
         generatedJar = File("${modelDescription.modelName}.jar")
-
     }
 
     @After
     fun tearDown() {
         if (generatedJar.exists()) {
-            generatedJar.delete()
+            if (generatedJar.delete()) {
+                LOG.debug("Deleted generated jar '$generatedJar'")
+            }
         }
     }
 
@@ -41,7 +48,8 @@ class GrpcFmuTest {
         val file = File(javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu").file)
         Assert.assertTrue(file.exists())
         val args = arrayOf(
-                "-fmu",  file.absolutePath
+                "-fmu", file.absolutePath,
+                "-out", File(".").absolutePath
         )
         ApplicationStarter.main(args)
 

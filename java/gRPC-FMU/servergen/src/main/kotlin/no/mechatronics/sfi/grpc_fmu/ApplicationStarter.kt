@@ -57,10 +57,21 @@ class ApplicationStarter {
                 if (args.isEmpty() || hasOption(HELP)) {
                     HelpFormatter().printHelp("gRPC-FMU", options)
                 } else {
-                    getOptionValue(FMU_FILE)?.let { path ->
-                        val file = File(path.replace("\\", "/"))
+                    getOptionValue(FMU_FILE)?.also {
+
+                        val file = File(it.replace("\\", "/"))
                         if (file.exists() && file.name.endsWith(".fmu", true)) {
-                            GrpcFmu.generate(file)
+
+                            var out: File = File(".")
+                            if (hasOption(OUTPUT_FOLDER)) {
+                                val outCandidate = File(getOptionValue(OUTPUT_FOLDER))
+                                if (outCandidate.isDirectory) {
+                                    out = outCandidate
+                                }
+                            }
+
+                            GrpcFmu(file).generate(out)
+
                         } else {
                             error("Not a valid file: ${file.absolutePath}")
                         }
