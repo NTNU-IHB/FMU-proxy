@@ -6,10 +6,10 @@ option java_outer_classname = "FmiDefinitions";
 
 message Integrator {
 	oneof integrators {
-		EulerIntegrator euler = 2;
-		ClassicalRungeKuttaIntegrator runge_kutta = 3;
-		MidpointIntegrator mid_point = 4;
-		GillIntegrator gill = 5;
+		EulerIntegrator euler = 1;
+		ClassicalRungeKuttaIntegrator runge_kutta = 2;
+		MidpointIntegrator mid_point = 3;
+		GillIntegrator gill = 4;
 	}
 }
 
@@ -25,8 +25,8 @@ message ScalarVariable {
 }
 
 message Status {
-    int32 code = 1;
-    string value = 2;
+    StatusCode code = 1;
+    string message = 2;
 }
 
 message AnyPrimitive {
@@ -179,6 +179,15 @@ enum VariableType {
 enum FMUType {
 	CS = 0;
 	ME = 1;
+}
+
+enum StatusCode {
+	OK = 0;
+	WARNING = 1;
+	DISCARD = 2;
+	ERROR = 3;
+	FATAL = 4;
+	PENDING = 5;
 }
 
 message EulerIntegrator {

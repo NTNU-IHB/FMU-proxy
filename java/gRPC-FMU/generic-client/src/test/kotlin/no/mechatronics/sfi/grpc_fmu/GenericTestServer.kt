@@ -1,27 +1,3 @@
-/*
- * The MIT License
- *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING  FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 package no.mechatronics.sfi.grpc_fmu
 
 import org.slf4j.Logger
@@ -43,14 +19,17 @@ import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator
 import org.apache.commons.math3.ode.nonstiff.EulerIntegrator
 import org.apache.commons.math3.ode.nonstiff.GillIntegrator
 import org.apache.commons.math3.ode.nonstiff.MidpointIntegrator
+import java.net.ServerSocket
 
-class {{fmuName}}Server {
+class GenericTestServer(
+        private val fmuFile: FmuFile
+) {
 
     companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger({{fmuName}}Server::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(GenericTestServer::class.java)
 
-        fun statusReply (status: Fmi2Status, responseObserver: StreamObserver<FmiDefinitions.Status> ) {
+        fun statusReply (status: Fmi2Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
             statusReply(FmiDefinitions.Status.newBuilder()
                     .setCode(when(status) {
                         Fmi2Status.OK -> FmiDefinitions.StatusCode.OK
@@ -63,38 +42,46 @@ class {{fmuName}}Server {
                     }).build(), responseObserver)
         }
 
-        fun statusReply (status: FmiDefinitions.Status, responseObserver: StreamObserver<FmiDefinitions.Status> ) {
+        fun statusReply (status: FmiDefinitions.Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
             responseObserver.onNext(status)
             responseObserver.onCompleted()
         }
 
     }
 
-    private val fmuFile: FmuFile
     private val builder: FmuBuilder
     private val modelDescription: SimpleModelDescription
 
     private var server: Server? = null
     private val fmus = mutableMapOf<Int, FmiSimulation>()
 
-    init {
-        this.fmuFile = FmuFile(javaClass.classLoader.getResource("{{fmuName}}.fmu")!!)
-        this.modelDescription = this.fmuFile.modelDescription;
-        this.builder = FmuBuilder(this.fmuFile)
-    }
+    var port: Int? = null
+        private set
 
     val guid: String
         get() = modelDescription.guid
 
-
     val modelDescriptionXml: String
         get() = fmuFile.modelDescriptionXml
 
+    init {
+        this.modelDescription = this.fmuFile.modelDescription;
+        this.builder = FmuBuilder(this.fmuFile)
+    }
+
+    private val availablePort: Int
+        get() = ServerSocket(0).use { ss -> return ss.localPort }
+
+    fun start() {
+        port = availablePort.also {
+            start(it)
+        }
+    }
 
     fun start(port: Int) {
+        this.port = port
         server = ServerBuilder.forPort(port)
-                .addService(GenericServiceImpl())
-                .addService({{fmuName}}ServiceImpl())
+                .addService(GenericServiceImpl ())
                 .build()
                 .start()
 
@@ -106,7 +93,7 @@ class {{fmuName}}Server {
         disposeFmus()
     }
 
-    fun disposeFmus() {
+    private fun disposeFmus() {
         with (fmus) {
             values.forEach{
                 disposeFmu(it)
@@ -115,7 +102,7 @@ class {{fmuName}}Server {
         }
     }
 
-    fun disposeFmu(fmu: FmiSimulation) {
+    private fun disposeFmu(fmu: FmiSimulation) {
         try {
             fmu.terminate()
         } catch (ex: java.lang.Exception) {
@@ -129,7 +116,7 @@ class {{fmuName}}Server {
      * Await termination on the main thread since the grpc library uses daemon
      * threads.
      */
-    fun blockUntilShutdown() {
+    private fun blockUntilShutdown() {
         server?.awaitTermination()
     }
 
@@ -576,11 +563,5 @@ class {{fmuName}}Server {
 
     }
 
-
-    inner class {{fmuName}}ServiceImpl: {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase() {
-
-        {{dynamicMethods}}
-
-    }
 }
 

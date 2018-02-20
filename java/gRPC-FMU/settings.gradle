@@ -1,6 +1,6 @@
 rootProject.name = 'gRPC-FMU'
 
 include 'servergen'
-include 'generic-java-client'
+include 'generic-client'
 include 'web'
 

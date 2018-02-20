@@ -46,7 +46,7 @@ object ServerGen {
     fun generateServerCode(modelDescription: SimpleModelDescription, baseFile: File?) {
 
         val sb = StringBuilder()
-        modelDescription.modelVariables.forEach{
+        modelDescription.modelVariables.forEach {
 
             if (!isArray(it.name)) {
 
@@ -72,7 +72,11 @@ object ServerGen {
         }
 
         val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
-        val ktOut = if (baseFile == null) File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName") else File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
+        val ktOut = if (baseFile == null) {
+            File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
+        } else {
+            File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
+        }
 
         FileFuture(
                 name = "InputParser.kt",
@@ -93,7 +97,6 @@ object ServerGen {
                 name = "Main.kt",
                 text = JtwigTemplate.classpathTemplate("templates/server/Main.kt").let { template ->
                     template.render(JtwigModel.newModel()
-                            //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName))!!
                 }
         ).create(ktOut)
@@ -102,7 +105,6 @@ object ServerGen {
                 name = "${modelDescription.modelName}Server.kt",
                 text = JtwigTemplate.classpathTemplate("templates/server/Server.kt").let { template ->
                     template.render(JtwigModel.newModel()
-                            //.with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("dynamicMethods", sb.toString()))!!
                 }
