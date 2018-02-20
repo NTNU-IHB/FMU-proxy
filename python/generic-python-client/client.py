@@ -16,7 +16,7 @@ class FmuInstance:
     def __init__(self, stub, integrator=None):
         self.stub = stub
 
-        if (integrator is None):
+        if integrator is None:
             self.fmu_id = self.stub.CreateInstanceFromCS(Empty()).value
         else:
             self.fmu_id = self.stub.CreateInstanceFromME(integrator).value

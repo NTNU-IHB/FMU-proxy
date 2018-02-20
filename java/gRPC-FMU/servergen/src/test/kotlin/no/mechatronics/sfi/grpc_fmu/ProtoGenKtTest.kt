@@ -44,7 +44,7 @@ class ProtoGenKtTest {
     @Test
     fun compileProto() {
 
-        fun copyFile(name: String) {
+        fun copyFileToTemp(name: String) {
 
             ProtoGenKtTest::class.java.classLoader.getResourceAsStream(name).use { src ->
                 Assert.assertNotNull(src)
@@ -56,11 +56,10 @@ class ProtoGenKtTest {
         }
 
 
-        copyFile("protoc-3.5.1-win32.exe")
-        copyFile("protoc-gen-grpc-java.exe")
+        copyFileToTemp("protoc-3.5.1-win32.exe")
+        copyFileToTemp("protoc-gen-grpc-java.exe")
 
         Assert.assertTrue(ProtoGen.generateProtoCode(modelDescription).compile(temp,"generated/src/main/proto/", "generated/src/main/java/"))
-
 
     }
 
