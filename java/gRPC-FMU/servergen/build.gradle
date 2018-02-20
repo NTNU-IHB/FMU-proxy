@@ -17,10 +17,8 @@ def fmi_md_version = snapshot ? '0.5.4-SNAPSHOT' : '0.5.3'
 def fmi_import_version = snapshot ? '0.2.4-SNAPSHOT' : '0.2.3'
 
 repositories {
-	if (snapshot) {
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
-        }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
     }
 }
 
@@ -29,7 +27,9 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
     implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
+
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
+
 
     testImplementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
     testImplementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
@@ -39,8 +39,9 @@ dependencies {
     testImplementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
 
     testImplementation group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
-    testImplementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
     testImplementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+
+    testImplementation group: 'no.mechatronics.sfi.grpc_fmu', name: 'generic-server', version: '0.1-SNAPSHOT', changing: true
 
     testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
@@ -68,15 +69,15 @@ sourceSets {
     }
 }
 
-task copyProto(type: Copy) {
-    copyProto.configure {
-        from('../../../proto/definitions.proto',  )
-        into('src/main/resources/templates/proto/')
+//task copyProto(type: Copy) {
+//    copyProto.configure {
+//        from('../../../proto/definitions.proto',  )
+//        into('src/main/resources/templates/proto/')
+//
+//        from('../../../proto/service.proto',  )
+//        into('src/main/resources/templates/proto/')
+//    }
+//}
 
-        from('../../../proto/service.proto',  )
-        into('src/main/resources/templates/proto/')
-    }
-}
 
-
-compileJava.dependsOn(copyProto)
+//compileJava.dependsOn(copyProto)

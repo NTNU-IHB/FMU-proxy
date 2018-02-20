@@ -35,121 +35,98 @@ import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
+//private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
 
-/**
- *
- * @author Lars Ivar Hatledal
- */
-class ProtoCode(
-         val definitions: FileFuture,
-         val service: FileFuture,
-         val uniqueService: FileFuture
-) {
-
-    private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(ProtoCode::class.java)
-    }
-
-    private fun writeToDir(dir: File) {
-        if (!dir.exists()) {
-            dir.mkdirs()
-        }
-
-        definitions.create(dir)
-        service.create(dir)
-        uniqueService.create(dir)
-
-    }
-
-    fun compile(baseDir: File, protoOut: String, javaOut: String) : Boolean {
-
-        LOG.debug("Compiling proto..")
-
-        File(javaOut).apply {
-            if (!exists()) {
-                mkdirs()
-            }
-        }
-
-        writeToDir(File(protoOut))
-
-        val cmd = arrayOf(
-                "${baseDir.absolutePath}/$PROTOC_EXE/",
-                "--java_out=\"$javaOut\"",
-                "--grpc-java_out=\"$javaOut\"",
-                "--proto_path=\"$protoOut\"",
-                "\"$protoOut/${definitions.name}\"",
-                "\"$protoOut/${service.name}\"",
-                "\"$protoOut/${uniqueService.name}\"")
-
-        val status = ProcessBuilder()
-                .command(*cmd)
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                .start()
-                .waitFor()
-
-        return if (status == 0) {
-            LOG.debug("Compiling done!")
-            true
-        } else {
-            LOG.warn("Process exited with status: {}", status)
-            false
-        }
-
-    }
-
-    override fun toString(): String {
-        return "ProtoCode(definitions=$definitions, service=$service)"
-    }
-
-}
+///**
+// *
+// * @author Lars Ivar Hatledal
+// */
+//class ProtoCode(
+//         val uniqueService: FileFuture
+//) {
+//
+//    private companion object {
+//        val LOG: Logger = LoggerFactory.getLogger(ProtoCode::class.java)
+//    }
+//
+//    private fun writeToDir(dir: File) {
+//        if (!dir.exists()) {
+//            dir.mkdirs()
+//        }
+//
+//        uniqueService.create(dir)
+//
+//    }
+//
+//    fun compile(baseDir: File, protoOut: String, javaOut: String) : Boolean {
+//
+//        LOG.debug("Compiling proto..")
+//
+//        File(javaOut).apply {
+//            if (!exists()) {
+//                mkdirs()
+//            }
+//        }
+//
+//        writeToDir(File(protoOut))
+//
+//        val cmd = arrayOf(
+//                "${baseDir.absolutePath}/$PROTOC_EXE/",
+//                "--java_out=\"$javaOut\"",
+//                "--grpc-java_out=\"$javaOut\"",
+//                "--proto_path=\"$protoOut\"",
+//                "\"$protoOut/${definitions.name}\"",
+//                "\"$protoOut/${service.name}\"",
+//                "\"$protoOut/${uniqueService.name}\"")
+//
+//        return ProcessBuilder()
+//                .command(*cmd)
+//                .redirectError(ProcessBuilder.Redirect.INHERIT)
+//                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+//                .start()
+//                .waitFor().let { status ->
+//
+//            if (status == 0) {
+//                LOG.debug("Compiling done!")
+//                return true
+//            } else {
+//                LOG.warn("Process exited with status: {}", status)
+//                return false
+//            }
+//
+//        }
+//
+//    }
+//
+//    override fun toString(): String {
+//        return "ProtoCode(definitions=$definitions, service=$service)"
+//    }
+//
+//}
 
 object ProtoGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
 
-    fun generateProtoCode(modelDescription: SimpleModelDescription): ProtoCode {
+    fun generateProtoCode(modelDescription: SimpleModelDescription): FileFuture {
 
         val sb = StringBuilder()
         modelDescription.modelVariables.forEach({
             val isArray = isArray(it.name)
             if (!isArray) {
 
-                sb.append(JtwigTemplate.classpathTemplate("templates/proto/read.proto").let { template ->
-                    template.render(JtwigModel.newModel()
-                            .with("varName", convertName(it.name))
-                            .with("returnType", getProtoType(it.typeName)))!!
-                })
+                sb.append("""
+                    rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it.typeName)});
 
-                sb.append(JtwigTemplate.classpathTemplate("templates/proto/write.proto").let { template ->
-                    template.render(JtwigModel.newModel()
-                            .with("varName", convertName(it.name))
-                            .with("dataType", getProtoType(it.typeName)))!!
-                })
+                    rpc Write_${convertName(it.name)} (${getProtoType(it.typeName)}Write) returns (Status);
+
+                    """)
 
             }
 
         })
 
-        val definitions = FileFuture(
-                name = "definitions.proto",
-                text = JtwigTemplate.classpathTemplate("templates/proto/definitions.proto").let { template ->
-                    template.render(JtwigModel.newModel()
-                            //.with("packageName", GrpcFmu.PACKAGE_NAME)
-                    )!!
-                }
-        )
-
-        val genericService = FileFuture(
-                name = "service.proto",
-                text = JtwigTemplate.classpathTemplate("templates/proto/service.proto").let { template ->
-                    template.render(JtwigModel.newModel())
-                }
-        )
-
-        val uniqueService = FileFuture(
+        return FileFuture(
                 name = "unique_service.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/unique_service.proto").let { template ->
                     template.render(JtwigModel.newModel()
@@ -158,8 +135,6 @@ object ProtoGen {
                             .with("instanceServices", sb.toString())!!)
                 }
         )
-
-        return ProtoCode(definitions, genericService, uniqueService)
 
     }
 

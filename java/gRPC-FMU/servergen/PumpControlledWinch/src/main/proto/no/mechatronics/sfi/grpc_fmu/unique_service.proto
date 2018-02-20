@@ -1,0 +1,433 @@
+syntax = "proto3";
+
+package no.mechatronics.sfi.grpc_fmu;
+
+option java_outer_classname = "PumpControlledWinchProto";
+
+import "definitions.proto";
+
+message IntegerWrite {
+    uint32 fmu_id = 1;
+    int32 value = 2;
+}
+
+message RealWrite {
+    uint32 fmu_id = 1;
+    double value = 2;
+}
+
+message StringWrite {
+    uint32 fmu_id = 1;
+    string value = 2;
+}
+
+message BooleanWrite {
+    uint32 fmu_id = 1;
+    bool value = 2;
+}
+
+service PumpControlledWinchService {
+
+    
+                    rpc Read_Controller_SP (UInt) returns (Real);
+
+                    rpc Write_Controller_SP (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_MV (UInt) returns (Real);
+
+                    rpc Write_Controller_MV (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_output (UInt) returns (Real);
+
+                    rpc Write_Controller_output (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_K (UInt) returns (Real);
+
+                    rpc Write_Controller_K (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_Ti (UInt) returns (Real);
+
+                    rpc Write_Controller_Ti (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_b (UInt) returns (Real);
+
+                    rpc Write_Controller_b (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_Ta (UInt) returns (Real);
+
+                    rpc Write_Controller_Ta (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_minimum (UInt) returns (Real);
+
+                    rpc Write_Controller_minimum (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_maximum (UInt) returns (Real);
+
+                    rpc Write_Controller_maximum (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_output_initial (UInt) returns (Real);
+
+                    rpc Write_Controller_output_initial (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_error (UInt) returns (Real);
+
+                    rpc Write_Controller_error (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_PB_low (UInt) returns (Real);
+
+                    rpc Write_Controller_PB_low (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_PB_high (UInt) returns (Real);
+
+                    rpc Write_Controller_PB_high (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Drum_p1_e (UInt) returns (Real);
+
+                    rpc Write_Drum_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Drum_p1_f (UInt) returns (Real);
+
+                    rpc Write_Drum_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Drum_p2_e (UInt) returns (Real);
+
+                    rpc Write_Drum_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Drum_p2_f (UInt) returns (Real);
+
+                    rpc Write_Drum_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Drum_DrumDiameter (UInt) returns (Real);
+
+                    rpc Write_Drum_DrumDiameter (RealWrite) returns (Status);
+
+                    
+                    rpc Read_FlowSensor_p1_e (UInt) returns (Real);
+
+                    rpc Write_FlowSensor_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_FlowSensor_p1_f (UInt) returns (Real);
+
+                    rpc Write_FlowSensor_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_FlowSensor_p2_F (UInt) returns (Real);
+
+                    rpc Write_FlowSensor_p2_F (RealWrite) returns (Status);
+
+                    
+                    rpc Read_FlowSensor_p2_v (UInt) returns (Real);
+
+                    rpc Write_FlowSensor_p2_v (RealWrite) returns (Status);
+
+                    
+                    rpc Read_FlowSensor_flow (UInt) returns (Real);
+
+                    rpc Write_FlowSensor_flow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Friction_p_e (UInt) returns (Real);
+
+                    rpc Write_Friction_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Friction_p_f (UInt) returns (Real);
+
+                    rpc Write_Friction_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Friction_f (UInt) returns (Real);
+
+                    rpc Write_Friction_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Friction_LoadMass (UInt) returns (Real);
+
+                    rpc Write_Friction_LoadMass (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Gear_p1_e (UInt) returns (Real);
+
+                    rpc Write_Gear_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Gear_p1_f (UInt) returns (Real);
+
+                    rpc Write_Gear_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Gear_p2_e (UInt) returns (Real);
+
+                    rpc Write_Gear_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Gear_p2_f (UInt) returns (Real);
+
+                    rpc Write_Gear_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Gear_GearRatio (UInt) returns (Real);
+
+                    rpc Write_Gear_GearRatio (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_Inertia (UInt) returns (Real);
+
+                    rpc Write_Inertia_Inertia (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_DrumSpeed (UInt) returns (Real);
+
+                    rpc Write_Inertia_DrumSpeed (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_DrumAngleDeg (UInt) returns (Real);
+
+                    rpc Write_Inertia_DrumAngleDeg (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_p1_e (UInt) returns (Real);
+
+                    rpc Write_Motor_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_p1_f (UInt) returns (Real);
+
+                    rpc Write_Motor_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_p2_e (UInt) returns (Real);
+
+                    rpc Write_Motor_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_p2_f (UInt) returns (Real);
+
+                    rpc Write_Motor_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_MotorDisplacement (UInt) returns (Real);
+
+                    rpc Write_Motor_MotorDisplacement (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_MotorSpeed (UInt) returns (Real);
+
+                    rpc Write_Motor_MotorSpeed (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Motor_MotorFlow (UInt) returns (Real);
+
+                    rpc Write_Motor_MotorFlow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_flow (UInt) returns (Real);
+
+                    rpc Write_OneJunction_flow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p1_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p2_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p3_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction_p3_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p1_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p2_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p3_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction_p3_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_flow (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_flow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p1_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p2_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p3_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p3_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p4_e (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p4_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p1_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p2_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p3_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p3_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction7_p4_f (UInt) returns (Real);
+
+                    rpc Write_OneJunction7_p4_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OpenTank_p_e (UInt) returns (Real);
+
+                    rpc Write_OpenTank_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OpenTank_p_f (UInt) returns (Real);
+
+                    rpc Write_OpenTank_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OpenTank_AtomPressure (UInt) returns (Real);
+
+                    rpc Write_OpenTank_AtomPressure (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OpenTank_Flow2Tank (UInt) returns (Real);
+
+                    rpc Write_OpenTank_Flow2Tank (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_p_e (UInt) returns (Real);
+
+                    rpc Write_Pump_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_p_f (UInt) returns (Real);
+
+                    rpc Write_Pump_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_gain (UInt) returns (Real);
+
+                    rpc Write_Pump_gain (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_PumpPressureMax (UInt) returns (Real);
+
+                    rpc Write_Pump_PumpPressureMax (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_PumpFlow (UInt) returns (Real);
+
+                    rpc Write_Pump_PumpFlow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_PumpPressure (UInt) returns (Real);
+
+                    rpc Write_Pump_PumpPressure (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Wire_F (UInt) returns (Real);
+
+                    rpc Write_Wire_F (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Wire_v (UInt) returns (Real);
+
+                    rpc Write_Wire_v (RealWrite) returns (Status);
+
+                    
+                    rpc Read_SetPoint (UInt) returns (Real);
+
+                    rpc Write_SetPoint (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_uI_state_dot (UInt) returns (Real);
+
+                    rpc Write_Controller_uI_state_dot (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_uI_state (UInt) returns (Real);
+
+                    rpc Write_Controller_uI_state (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Controller_uI_state_initial (UInt) returns (Real);
+
+                    rpc Write_Controller_uI_state_initial (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_p_e (UInt) returns (Real);
+
+                    rpc Write_Inertia_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_momentum (UInt) returns (Real);
+
+                    rpc Write_Inertia_momentum (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_momentum_initial (UInt) returns (Real);
+
+                    rpc Write_Inertia_momentum_initial (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_p_f (UInt) returns (Real);
+
+                    rpc Write_Inertia_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_DrumAngle (UInt) returns (Real);
+
+                    rpc Write_Inertia_DrumAngle (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Inertia_DrumAngle_initial (UInt) returns (Real);
+
+                    rpc Write_Inertia_DrumAngle_initial (RealWrite) returns (Status);
+
+                    
+
+}

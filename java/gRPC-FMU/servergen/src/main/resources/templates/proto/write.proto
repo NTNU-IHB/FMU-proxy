@@ -1,2 +1,0 @@
-
-    rpc Write_{{varName}} ({{dataType}}Write) returns (Status);

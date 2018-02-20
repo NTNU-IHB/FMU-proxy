@@ -11,17 +11,18 @@ import org.junit.Test
 
 class TestClient2 {
 
-    lateinit var server: GenericTestServer
-    lateinit var modelDescription: SimpleModelDescription
+    private var port: Int = -1
+    private lateinit var server: GenericFmuServer
+    private lateinit var modelDescription: SimpleModelDescription
 
     @Before
     fun setup() {
 
-        val fmuFile = FmuFile(javaClass.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu"))
+        val fmuFile = FmuFile(javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu"))
         modelDescription = fmuFile.modelDescription
 
-        server = GenericTestServer(fmuFile)
-        server.start()
+        server = GenericFmuServer(fmuFile)
+        port = server.start()
     }
 
     @After
@@ -31,7 +32,7 @@ class TestClient2 {
 
     @Test
     fun testClient() {
-        GenericFmuClient("127.0.0.1", server.port!!).use {
+        GenericFmuClient("127.0.0.1", port).use {
 
             Assert.assertEquals(modelDescription.modelName, it.modelName)
 

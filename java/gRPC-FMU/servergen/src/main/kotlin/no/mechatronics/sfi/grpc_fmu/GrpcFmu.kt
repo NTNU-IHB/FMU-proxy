@@ -130,44 +130,47 @@ object GrpcFmu {
         }
 
         ProtoGen.generateProtoCode(modelDescription).apply {
-            definitions.create(resourcesFile)
-            service.create(resourcesFile)
 
-            if (compile(baseFile, "${baseFile.name}/$PROTO_SRC_OUTPUT_FOLDER", "${baseFile.name}/$JAVA_SRC_OUTPUT_FOLDER")) {
-
-                ServerGen.generateServerCode(modelDescription,  baseFile)
-                val status = ProcessBuilder()
-                        .directory(baseFile)
-                        .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
-                        .redirectError(ProcessBuilder.Redirect.INHERIT)
-                        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                        .start()
-                        .waitFor()
-
-                if (status == 0) {
-                    File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
-                        if (exists()) {
-                            val dir = File(".")
-                            FileUtils.copyFileToDirectory(this, dir)
-                            LOG.info("Executable '{}' is located in directory '{}'", this.name, dir.absolutePath)
-                        }
-                    }
-                } else {
-                    LOG.error("Process returned with status: {}", status)
-                }
-
-            }
-
-        }
-
-
-        if (baseFile.exists()) {
-            if(baseFile.deleteRecursively()) {
-                LOG.debug("Deleted folder {}", baseFile.absolutePath)
+            val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
+            val protoOut = if (baseFile == null) {
+                File("${GrpcFmu.PROTO_SRC_OUTPUT_FOLDER}/$packageName")
             } else {
-                LOG.info("Failed to delete folder {}", baseFile.absolutePath)
+                File(baseFile, "${GrpcFmu.PROTO_SRC_OUTPUT_FOLDER}/$packageName")
+            }
+
+            create(protoOut)
+
+        }
+
+        ServerGen.generateServerCode(modelDescription,  baseFile)
+        ProcessBuilder()
+                .directory(baseFile)
+                .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
+                .redirectError(ProcessBuilder.Redirect.INHERIT)
+                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                .start()
+                .waitFor().also {status ->
+
+            if (status == 0) {
+                File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
+                    if (exists()) {
+                        val dir = File(".")
+                        FileUtils.copyFileToDirectory(this, dir)
+                        LOG.info("Executable '{}' is located in directory '{}'", this.name, dir.absolutePath)
+                    }
+                }
+            } else {
+                LOG.error("Process returned with status: {}", status)
             }
         }
+
+//        if (baseFile.exists()) {
+//            if(baseFile.deleteRecursively()) {
+//                LOG.debug("Deleted folder {}", baseFile.absolutePath)
+//            } else {
+//                LOG.info("Failed to delete folder {}", baseFile.absolutePath)
+//            }
+//        }
 
     }
 

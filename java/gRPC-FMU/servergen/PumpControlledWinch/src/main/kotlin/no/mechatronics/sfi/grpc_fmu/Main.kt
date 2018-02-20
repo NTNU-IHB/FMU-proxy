@@ -54,7 +54,7 @@ internal object Main {
                 val myPort = localPort ?: ServerSocket(0).use { it.localPort }
                 val localAddress = SimpleSocketAddress(hostAddress, myPort)
 
-                val server = {{fmuName}}Server()
+                val server = PumpControlledWinchServer()
                 server.start(localAddress.port)
 
                 Thread {

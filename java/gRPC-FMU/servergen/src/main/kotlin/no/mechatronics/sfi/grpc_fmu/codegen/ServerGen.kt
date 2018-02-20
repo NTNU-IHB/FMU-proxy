@@ -45,32 +45,6 @@ object ServerGen {
 
     fun generateServerCode(modelDescription: SimpleModelDescription, baseFile: File?) {
 
-        val sb = StringBuilder()
-        modelDescription.modelVariables.forEach {
-
-            if (!isArray(it.name)) {
-
-                sb.append(JtwigTemplate.classpathTemplate("templates/server/Read.kt").let { template ->
-                    template.render(JtwigModel.newModel()
-                            .with("valueReference", it.valueReference)
-                            .with("varName", convertName2(it.name))
-                            .with("typeName", it.typeName)
-                            .with("returnType", getProtoType(it.typeName)))!!
-                })
-
-                sb.append(JtwigTemplate.classpathTemplate("templates/server/Write.kt").let { template ->
-                    template.render(JtwigModel.newModel()
-                            .with("valueReference", it.valueReference)
-                            .with("varName", convertName2(it.name))
-                            .with("typeName", it.typeName)
-                            .with("protoFile", modelDescription.modelName + "Proto")
-                            .with("dataType", getProtoType(it.typeName)))!!
-                })
-
-            }
-
-        }
-
         val packageName = GrpcFmu.PACKAGE_NAME.replace(".", "/")
         val ktOut = if (baseFile == null) {
             File("${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
@@ -78,19 +52,36 @@ object ServerGen {
             File(baseFile, "${GrpcFmu.KOTLIN_SRC_OUTPUT_FOLDER}/$packageName")
         }
 
+        val dynamicMethods = StringBuilder().apply {
+            modelDescription.modelVariables.forEach {
+
+                if (!isArray(it.name)) {
+
+                    append(JtwigTemplate.classpathTemplate("templates/server/Read.kt").let { template ->
+                        template.render(JtwigModel.newModel()
+                                .with("valueReference", it.valueReference)
+                                .with("varName", convertName2(it.name))
+                                .with("typeName", it.typeName)
+                                .with("returnType", getProtoType(it.typeName)))!!
+                    })
+
+                    append(JtwigTemplate.classpathTemplate("templates/server/Write.kt").let { template ->
+                        template.render(JtwigModel.newModel()
+                                .with("valueReference", it.valueReference)
+                                .with("varName", convertName2(it.name))
+                                .with("typeName", it.typeName)
+                                .with("protoFile", modelDescription.modelName + "Proto")
+                                .with("dataType", getProtoType(it.typeName)))!!
+                    })
+
+                }
+
+            }
+        }
+
         FileFuture(
                 name = "InputParser.kt",
                 text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
-        ).create(ktOut)
-
-        FileFuture(
-                name = "RemoteFmu.kt",
-                text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/RemoteFmu.kt"), Charset.forName("UTF-8"))
-        ).create(ktOut)
-
-        FileFuture(
-                name = "FmuHeartbeat.kt",
-                text = IOUtils.toString(javaClass.classLoader.getResourceAsStream("servercode/FmuHeartbeat.kt"), Charset.forName("UTF-8"))
         ).create(ktOut)
 
         FileFuture(
@@ -106,7 +97,7 @@ object ServerGen {
                 text = JtwigTemplate.classpathTemplate("templates/server/Server.kt").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("fmuName", modelDescription.modelName)
-                            .with("dynamicMethods", sb.toString()))!!
+                            .with("dynamicMethods", dynamicMethods))!!
                 }
         ).create(ktOut)
 

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2018. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,22 +24,15 @@
 
 package no.mechatronics.sfi.grpc_fmu
 
-import io.grpc.BindableService
-import io.grpc.stub.StreamObserver
+/**
+ * @author Lars Ivar Hatledal
+ */
+data class SimpleSocketAddress(
+        val hostAddress: String,
+        val port: Int
+) {
 
-import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status
-
-class {{fmuName}}Server: GenericFmuServer(FmuFile({{fmuName}}Server::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)) {
-
-    override fun getServices(): List<BindableService> {
-        return super.getServices() + listOf({{fmuName}}ServiceImpl())
-    }
-
-    private inner class {{fmuName}}ServiceImpl: {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase() {
-
-        {{dynamicMethods}}
-
+    override fun toString(): String {
+        return "SimpleSocketAddress(hostAddress='$hostAddress', port=$port)"
     }
 }
-
