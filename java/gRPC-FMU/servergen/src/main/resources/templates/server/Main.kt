@@ -24,6 +24,8 @@
 
 package no.mechatronics.sfi.grpc_fmu
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.Scanner
 import java.net.ServerSocket
 import java.io.IOException
@@ -35,6 +37,8 @@ import java.net.UnknownHostException
  * @author Lars Ivar Hatledal
  */
 internal object Main {
+
+    private val LOG: Logger = LoggerFactory.getLogger(Main::class.java)
 
     private val hostAddress: String
         get() {
@@ -54,30 +58,23 @@ internal object Main {
                 val myPort = localPort ?: ServerSocket(0).use { it.localPort }
                 val localAddress = SimpleSocketAddress(hostAddress, myPort)
 
-                val server = {{fmuName}}Server()
-                server.start(localAddress.port)
+                val server = {{fmuName}}Server().apply { start(localAddress.port) }
 
-                Thread {
+                var beat: FmuHeartbeat? = remoteAddress?.let {
+                    val remoteFmu = RemoteFmu(server.guid, localAddress, server.modelDescriptionXml)
+                    FmuHeartbeat(remoteAddress, remoteFmu).apply { start() }
+                }
 
-                    var beat: FmuHeartbeat? = null
-                    if (remoteAddress != null) {
-                        val remoteFmu = RemoteFmu(server.guid, localAddress, server.modelDescriptionXml)
-                        beat = FmuHeartbeat(remoteAddress, remoteFmu).apply { start() }
-                    }
+                println("Press any key to stop the application..")
+                val sc = Scanner(System.`in`)
+                if (sc.hasNext()) {
 
-                    println("Press any key to stop the application..")
-                    val sc = Scanner(System.`in`)
-                    if (sc.hasNext()) {
-                        println("Key pressed, stopping application..")
+                    println("Key pressed, stopping application..")
+                    beat?.stop()
+                    server.stop()
 
-                        beat?.stop()
-                        server.stop()
+                }
 
-                    }
-
-                }.start()
-
-                server.blockUntilShutdown()
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }

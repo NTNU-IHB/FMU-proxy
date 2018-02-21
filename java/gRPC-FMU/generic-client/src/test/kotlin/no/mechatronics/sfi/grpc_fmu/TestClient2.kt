@@ -35,6 +35,7 @@ class TestClient2 {
         GenericFmuClient("127.0.0.1", port).use {
 
             Assert.assertEquals(modelDescription.modelName, it.modelName)
+            Assert.assertEquals(modelDescription.guid, it.guid)
 
             val integrator = FmiDefinitions.Integrator.newBuilder()
                     .setEuler(FmiDefinitions.EulerIntegrator.newBuilder().setStepSize(1E-3)).build()

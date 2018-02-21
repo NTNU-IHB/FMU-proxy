@@ -47,6 +47,7 @@ class TestClient1 {
 
         server = GenericFmuServer(fmuFile)
         port = server.start()
+        
     }
 
     @After
@@ -59,6 +60,7 @@ class TestClient1 {
         GenericFmuClient("127.0.0.1", port).use {
 
             Assert.assertEquals(modelDescription.modelName, it.modelName)
+            Assert.assertEquals(modelDescription.guid, it.guid)
 
             it.createInstance().use { fmu ->
 
@@ -75,66 +77,3 @@ class TestClient1 {
     }
 
 }
-//
-///**
-// * @author Lars Ivar Hatledal
-// */
-//fun main(args: Array<String>) {
-//
-//    GenericFmuClient("127.0.0.1", 8000).use {
-//
-//        println("Connected to remote FMU '${it.modelName}'")
-//
-//        it.createInstance().use { fmu ->
-//            if (fmu.init()) {
-//
-//                fmu.modelVariables.forEach {
-//
-//                    println("name: ${it.name}")
-//                    println("Causality: ${it.causality}")
-//                    println("Variability: ${it.variability}")
-//                    println("Initial: ${it.initial}")
-//
-//                    when (it.variableType) {
-//                        FmiDefinitions.VariableType.INTEGER -> it.start.intValue
-//                        FmiDefinitions.VariableType.REAL -> it.start.realValue
-//                        FmiDefinitions.VariableType.STRING -> it.start.strValue
-//                        FmiDefinitions.VariableType.BOOLEAN -> it.start.boolValue
-//                        else -> null
-//                    }?.also {  println("Start: $it") }
-//
-//
-//                    when (it.variableType) {
-//                        FmiDefinitions.VariableType.INTEGER -> it.start.intValue
-//                        FmiDefinitions.VariableType.REAL -> it.start.realValue
-//                        FmiDefinitions.VariableType.STRING -> it.start.strValue
-//                        FmiDefinitions.VariableType.BOOLEAN -> it.start.boolValue
-//                        else -> null
-//                    }?.also {  println("Value: $it") }
-//
-//                }
-//
-//                val dt = 1.0 / 100
-//                val outputs = fmu.modelVariables.filter {
-//                    it.causality == FmiDefinitions.Causality.OUTPUT
-//                }
-//                while (fmu.currentTime < 1) {
-//                    fmu.step(dt)
-//                    outputs.forEach({
-//                        val value: Any? = when (it.variableType) {
-//                            FmiDefinitions.VariableType.INTEGER -> fmu.read(it.valueReference).asInt()
-//                            FmiDefinitions.VariableType.REAL -> fmu.read(it.valueReference).asReal()
-//                            FmiDefinitions.VariableType.STRING -> fmu.read(it.valueReference).asString()
-//                            FmiDefinitions.VariableType.BOOLEAN -> fmu.read(it.valueReference).asBoolean()
-//                            else -> null
-//                        }
-//                        println("t= ${fmu.currentTime}, ${it.name} = $value")
-//                    })
-//                }
-//
-//            }
-//        }
-//
-//    }
-//
-//}
