@@ -28,7 +28,7 @@ import io.grpc.BindableService
 import io.grpc.stub.StreamObserver
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status
+import no.mechatronics.sfi.fmi4j.common.Fmi2Status
 
 class {{fmuName}}Server: GenericFmuServer(FmuFile({{fmuName}}Server::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)) {
 

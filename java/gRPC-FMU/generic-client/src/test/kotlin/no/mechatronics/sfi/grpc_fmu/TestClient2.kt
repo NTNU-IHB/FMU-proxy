@@ -45,7 +45,7 @@ class TestClient2 {
 
                 fmu.read("h").asReal().also {
                     println(it)
-                    Assert.assertEquals(1.0, it,0.0)
+                    Assert.assertEquals(1.0, it.value, 0.0)
                 }
 
                 val dt = 1.0/100

@@ -60,8 +60,8 @@ object ServerGen {
                                 .with("valueReference", it.valueReference)
                                 .with("varName", convertName2(it.name))
                                 .with("typeName", it.typeName)
-                                .with("returnType", getProtoType(it.typeName)))!!
-                    })
+                                .with("returnType", "${getProtoType(it.typeName)}Read"))!!
+                    }).append("\n")
 
                     append(JtwigTemplate.classpathTemplate("templates/server/Write.kt").let { template ->
                         template.render(JtwigModel.newModel()

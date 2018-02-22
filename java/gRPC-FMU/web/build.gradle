@@ -1,6 +1,6 @@
 
 def snapshot = false
-def fmi_md_version = snapshot ? '0.5.4-SNAPSHOT' : '0.5.3'
+def fmi_md_version = snapshot ? '0.5.5-SNAPSHOT' : '0.5.4'
 
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'

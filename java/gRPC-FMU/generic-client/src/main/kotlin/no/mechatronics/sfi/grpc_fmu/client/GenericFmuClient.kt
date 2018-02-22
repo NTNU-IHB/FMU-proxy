@@ -148,32 +148,32 @@ class FmuInstance internal constructor(
 
         constructor(variableName: String): this(getValueReference(variableName))
 
-        fun asInt(): Int {
+        fun asInt(): FmiDefinitions.IntRead {
             return blockingStub.readInteger(FmiDefinitions.ReadRequest.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
-                    .build()).value
+                    .build())
         }
 
-        fun asReal(): Double {
+        fun asReal(): FmiDefinitions.RealRead {
             return blockingStub.readReal(FmiDefinitions.ReadRequest.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
-                    .build()).value
+                    .build())
         }
 
-        fun asString(): String {
+        fun asString(): FmiDefinitions.StrRead {
             return blockingStub.readString(FmiDefinitions.ReadRequest.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
-                    .build()).value
+                    .build())
         }
 
-        fun asBoolean(): Boolean {
+        fun asBoolean(): FmiDefinitions.BoolRead {
             return blockingStub.readBoolean(FmiDefinitions.ReadRequest.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
-                    .build()).value
+                    .build())
         }
 
     }
@@ -284,5 +284,6 @@ class FmuInstance internal constructor(
     }
 
 }
+
 
 

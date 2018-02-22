@@ -10,11 +10,11 @@ distributions {
     }
 }
 
-def debug = true
+
 def snapshot = false
 
-def fmi_md_version = snapshot ? '0.5.4-SNAPSHOT' : '0.5.3'
-def fmi_import_version = snapshot ? '0.2.4-SNAPSHOT' : '0.2.3'
+def fmi_md_version = snapshot ? '0.5.5-SNAPSHOT' : '0.5.4'
+def fmi_import_version = snapshot ? '0.2.5-SNAPSHOT' : '0.2.4'
 
 repositories {
     maven {
@@ -42,21 +42,20 @@ dependencies {
     testImplementation group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
     testImplementation group: 'no.mechatronics.sfi.grpc_fmu', name: 'generic-server', version: '0.1-SNAPSHOT', changing: true
-
     testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
 }
 
-sourceSets {
-    main {
-        java {
-            exclude '**/resources/**'
-        }
-        kotlin {
-            exclude '**/resources/**'
-        }
-    }
-}
+//sourceSets {
+//    main {
+//        java {
+//            exclude '**/resources/**'
+//        }
+//        kotlin {
+//            exclude '**/resources/**'
+//        }
+//    }
+//}
 
 sourceSets {
     test {
@@ -68,16 +67,3 @@ sourceSets {
         }
     }
 }
-
-//task copyProto(type: Copy) {
-//    copyProto.configure {
-//        from('../../../proto/definitions.proto',  )
-//        into('src/main/resources/templates/proto/')
-//
-//        from('../../../proto/service.proto',  )
-//        into('src/main/resources/templates/proto/')
-//    }
-//}
-
-
-//compileJava.dependsOn(copyProto)

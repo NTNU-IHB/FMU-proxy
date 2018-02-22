@@ -24,12 +24,15 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 def snapshot = false
-def fmi_import_version = snapshot ? '0.2.4-SNAPSHOT' : '0.2.3'
+def fmi_import_version = snapshot ? '0.2.5-SNAPSHOT' : '0.2.4'
 
 wrapper {
     gradleVersion = '4.5'
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 repositories {
     mavenCentral()

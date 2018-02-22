@@ -57,32 +57,72 @@ message Int {
     int32 value = 1;
 }
 
+message IntRead {
+	int32 value = 1;
+	StatusCode status = 2;
+}
+
 message IntList {
 	repeated int32 values = 1;
+}
+
+message IntListRead {
+	repeated int32 values = 1;
+	StatusCode status = 2;
 }
 
 message Real {
     double value = 1;
 }
 
+message RealRead {
+	double value = 1;
+	StatusCode status = 2;
+}
+
 message RealList {
 	repeated double values = 1;
+}
+
+message RealListRead {
+	repeated double values = 1;
+	StatusCode status = 2;
 }
 
 message Str {
     string value = 1;
 }
 
+message StrRead {
+	string value = 1;
+	StatusCode status = 2;
+}
+
 message StrList {
 	repeated string values = 1;
+}
+
+message StrListRead {
+	repeated string values = 1;
+	StatusCode status = 2;
 }
 
 message Bool {
     bool value = 1;
 }
 
+message BoolRead {
+	bool value = 1;
+	StatusCode status = 2;
+}
+
 message BoolList {
 	repeated bool values = 1;
+}
+
+message BoolListRead {
+	repeated bool values = 1;
+	StatusCode status = 2;
 }
 
 message ReadRequest {

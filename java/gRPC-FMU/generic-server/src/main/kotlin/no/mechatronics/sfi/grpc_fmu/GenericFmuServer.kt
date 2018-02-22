@@ -39,7 +39,7 @@ import io.grpc.stub.StreamObserver
 import no.mechatronics.sfi.fmi4j.FmiSimulation
 import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmi4j.proxy.enums.Fmi2Status
+import no.mechatronics.sfi.fmi4j.common.Fmi2Status
 import no.mechatronics.sfi.fmi4j.modeldescription.*
 import no.mechatronics.sfi.fmi4j.modeldescription.enums.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -129,17 +129,22 @@ open class GenericFmuServer(
 
         val LOG: Logger = LoggerFactory.getLogger(GenericFmuServer::class.java)
 
+        fun convert(status: Fmi2Status): FmiDefinitions.StatusCode {
+            return when (status) {
+                Fmi2Status.OK -> FmiDefinitions.StatusCode.OK
+                Fmi2Status.Warning -> FmiDefinitions.StatusCode.WARNING
+                Fmi2Status.Discard -> FmiDefinitions.StatusCode.DISCARD
+                Fmi2Status.Error -> FmiDefinitions.StatusCode.ERROR
+                Fmi2Status.Fatal -> FmiDefinitions.StatusCode.FATAL
+                Fmi2Status.Pending -> FmiDefinitions.StatusCode.PENDING
+                Fmi2Status.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
+            }
+        }
+
         fun statusReply(status: Fmi2Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
             statusReply(FmiDefinitions.Status.newBuilder()
-                    .setCode(when (status) {
-                        Fmi2Status.OK -> FmiDefinitions.StatusCode.OK
-                        Fmi2Status.Warning -> FmiDefinitions.StatusCode.WARNING
-                        Fmi2Status.Discard -> FmiDefinitions.StatusCode.DISCARD
-                        Fmi2Status.Error -> FmiDefinitions.StatusCode.ERROR
-                        Fmi2Status.Fatal -> FmiDefinitions.StatusCode.FATAL
-                        Fmi2Status.Pending -> FmiDefinitions.StatusCode.PENDING
-                        Fmi2Status.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
-                    }).build(), responseObserver)
+                    .setCode(convert(status))
+                    .build(), responseObserver)
         }
 
         fun statusReply(status: FmiDefinitions.Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
@@ -249,14 +254,17 @@ open class GenericFmuServer(
 
         }
 
-        override fun readInteger(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.Int>) {
+        override fun readInteger(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
                 val valueReference = req.valueReference
-                val value = fmu.variableAccessor.getInteger(valueReference)
-                responseObserver.onNext(FmiDefinitions.Int.newBuilder().setValue(value).build())
+                val read = fmu.variableAccessor.getInteger(valueReference)
+                responseObserver.onNext(FmiDefinitions.IntRead.newBuilder()
+                        .setValue(read.value)
+                        .setStatus(convert(read.status))
+                        .build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -264,16 +272,18 @@ open class GenericFmuServer(
 
         }
 
-        override fun bulkReadInteger(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntList>) {
+        override fun bulkReadInteger(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntListRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val listBuilder = FmiDefinitions.IntList.newBuilder()
-                for (value in fmu.variableAccessor.getInteger(toIntArray(req.valueReferencesList))) {
-                    listBuilder.addValues(value)
+                val builder = FmiDefinitions.IntListRead.newBuilder()
+                val read = fmu.variableAccessor.getInteger(toIntArray(req.valueReferencesList))
+                builder.status = convert(read.status)
+                for (value in read.value) {
+                    builder.addValues(value)
                 }
-                responseObserver.onNext(listBuilder.build())
+                responseObserver.onNext(builder.build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -281,14 +291,17 @@ open class GenericFmuServer(
 
         }
 
-        override fun readReal(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.Real>) {
+        override fun readReal(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
                 val valueReference = req.valueReference
-                val value = fmu.variableAccessor.getReal(valueReference)
-                responseObserver.onNext(FmiDefinitions.Real.newBuilder().setValue(value).build())
+                val read = fmu.variableAccessor.getReal(valueReference)
+                responseObserver.onNext(FmiDefinitions.RealRead.newBuilder()
+                        .setValue(read.value)
+                        .setStatus(convert(read.status))
+                        .build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -296,16 +309,18 @@ open class GenericFmuServer(
 
         }
 
-        override fun bulkReadReal(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealList>) {
+        override fun bulkReadReal(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealListRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val listBuilder = FmiDefinitions.RealList.newBuilder()
-                for (value in fmu.variableAccessor.getReal(toIntArray(req.valueReferencesList))) {
-                    listBuilder.addValues(value)
+                val builder = FmiDefinitions.RealListRead.newBuilder()
+                val read = fmu.variableAccessor.getReal(toIntArray(req.valueReferencesList))
+                builder.status = convert(read.status)
+                for (value in read.value) {
+                    builder.addValues(value)
                 }
-                responseObserver.onNext(listBuilder.build())
+                responseObserver.onNext(builder.build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -313,13 +328,16 @@ open class GenericFmuServer(
 
         }
 
-        override fun readString(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.Str>) {
+        override fun readString(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val value = fmu.variableAccessor.getString(req.valueReference)
-                responseObserver.onNext(FmiDefinitions.Str.newBuilder().setValue(value).build())
+                val read = fmu.variableAccessor.getString(req.valueReference)
+                responseObserver.onNext(FmiDefinitions.StrRead.newBuilder()
+                        .setValue(read.value)
+                        .setStatus(convert(read.status))
+                        .build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -327,16 +345,18 @@ open class GenericFmuServer(
 
         }
 
-        override fun bulkReadString(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrList>) {
+        override fun bulkReadString(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrListRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val listBuilder = FmiDefinitions.StrList.newBuilder()
-                for (value in fmu.variableAccessor.getString(toIntArray(req.valueReferencesList))) {
-                    listBuilder.addValues(value)
+                val builder = FmiDefinitions.StrListRead.newBuilder()
+                val read = fmu.variableAccessor.getString(toIntArray(req.valueReferencesList))
+                builder.status = convert(read.status)
+                for (value in read.value) {
+                    builder.addValues(value)
                 }
-                responseObserver.onNext(listBuilder.build())
+                responseObserver.onNext(builder.build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -344,13 +364,16 @@ open class GenericFmuServer(
 
         }
 
-        override fun readBoolean(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
+        override fun readBoolean(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val value = fmu.variableAccessor.getBoolean(req.valueReference)
-                responseObserver.onNext(FmiDefinitions.Bool.newBuilder().setValue(value).build())
+                val read = fmu.variableAccessor.getBoolean(req.valueReference)
+                responseObserver.onNext(FmiDefinitions.BoolRead.newBuilder()
+                        .setValue(read.value)
+                        .setStatus(convert(read.status))
+                        .build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }
@@ -358,16 +381,18 @@ open class GenericFmuServer(
 
         }
 
-        override fun bulkReadBoolean(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolList>) {
+        override fun bulkReadBoolean(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolListRead>) {
 
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val listBuilder = FmiDefinitions.BoolList.newBuilder()
-                for (value in fmu.variableAccessor.getBoolean(toIntArray(req.valueReferencesList))) {
-                    listBuilder.addValues(value)
+                val builder = FmiDefinitions.BoolListRead.newBuilder()
+                val read = fmu.variableAccessor.getBoolean(toIntArray(req.valueReferencesList))
+                builder.status = convert(read.status)
+                for (value in read.value) {
+                    builder.addValues(value)
                 }
-                responseObserver.onNext(listBuilder.build())
+                responseObserver.onNext(builder.build())
             } else {
                 LOG.warn("No fmu with id: {}", id)
             }

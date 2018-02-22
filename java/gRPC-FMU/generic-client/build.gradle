@@ -15,6 +15,12 @@ apply plugin: 'signing'
 group = 'no.mechatronics.sfi.grpc_fmu'
 version = '0.1-SNAPSHOT'
 
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+    }
+}
+
 dependencies {
 
     implementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
@@ -24,7 +30,6 @@ dependencies {
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
     implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
 
-    testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.3'
     testImplementation project(':generic-server')
 
 }

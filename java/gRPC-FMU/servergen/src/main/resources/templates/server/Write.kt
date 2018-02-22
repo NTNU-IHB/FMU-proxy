@@ -7,11 +7,11 @@
             val fmuId = req.fmuId
             val fmu = fmus[fmuId]
             if (fmu != null) {
-                fmu.variableAccessor.set{{typeName}}({{valueReference}}, req.value);
-                statusReply(fmu.lastStatus, responseObserver);
+                val status = fmu.variableAccessor.set{{typeName}}({{valueReference}}, req.value)
+                statusReply(status, responseObserver)
             } else {
                 LOG.warn("No FMU with id: {}", fmuId);
-                statusReply(Fmi2Status.Error, responseObserver);
+                statusReply(Fmi2Status.Fatal, responseObserver)
             }
 
         }

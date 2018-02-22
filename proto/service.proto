@@ -23,15 +23,15 @@ service GenericFmuService {
     rpc Terminate (UInt) returns (Bool);
     rpc Reset(UInt) returns (Status);
 
-    rpc ReadInteger (ReadRequest) returns (Int);
-	rpc ReadReal (ReadRequest) returns (Real);
-	rpc ReadString (ReadRequest) returns (Str);
-	rpc ReadBoolean (ReadRequest) returns (Bool);
+    rpc ReadInteger (ReadRequest) returns (IntRead);
+	rpc ReadReal (ReadRequest) returns (RealRead);
+	rpc ReadString (ReadRequest) returns (StrRead);
+	rpc ReadBoolean (ReadRequest) returns (BoolRead);
 	
-	rpc BulkReadInteger (BulkReadRequest) returns (IntList);
-	rpc BulkReadReal (BulkReadRequest) returns (RealList);
-	rpc BulkReadString (BulkReadRequest) returns (StrList);
-	rpc BulkReadBoolean (BulkReadRequest) returns (BoolList);
+	rpc BulkReadInteger (BulkReadRequest) returns (IntListRead);
+	rpc BulkReadReal (BulkReadRequest) returns (RealListRead);
+	rpc BulkReadString (BulkReadRequest) returns (StrListRead);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BoolListRead);
 	
     rpc WriteInteger (WriteIntegerRequest) returns (Status);
 	rpc WriteReal (WriteRealRequest) returns (Status);

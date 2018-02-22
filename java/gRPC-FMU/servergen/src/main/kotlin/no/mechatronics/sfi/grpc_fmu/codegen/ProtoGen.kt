@@ -116,7 +116,7 @@ object ProtoGen {
             if (!isArray) {
 
                 sb.append("""
-                    rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it.typeName)});
+                    rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it.typeName)}Read);
 
                     rpc Write_${convertName(it.name)} (${getProtoType(it.typeName)}Write) returns (Status);
 
@@ -130,7 +130,6 @@ object ProtoGen {
                 name = "unique_service.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/unique_service.proto").let { template ->
                     template.render(JtwigModel.newModel()
-                            //   .with("packageName", GrpcFmu.PACKAGE_NAME)
                             .with("fmuName", modelDescription.modelName)
                             .with("instanceServices", sb.toString())!!)
                 }
