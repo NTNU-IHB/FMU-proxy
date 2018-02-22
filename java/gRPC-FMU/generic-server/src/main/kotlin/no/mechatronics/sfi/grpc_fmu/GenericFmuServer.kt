@@ -39,7 +39,7 @@ import io.grpc.stub.StreamObserver
 import no.mechatronics.sfi.fmi4j.FmiSimulation
 import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmi4j.common.Fmi2Status
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.modeldescription.*
 import no.mechatronics.sfi.fmi4j.modeldescription.enums.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -129,19 +129,19 @@ open class GenericFmuServer(
 
         val LOG: Logger = LoggerFactory.getLogger(GenericFmuServer::class.java)
 
-        fun convert(status: Fmi2Status): FmiDefinitions.StatusCode {
+        fun convert(status: FmiStatus): FmiDefinitions.StatusCode {
             return when (status) {
-                Fmi2Status.OK -> FmiDefinitions.StatusCode.OK
-                Fmi2Status.Warning -> FmiDefinitions.StatusCode.WARNING
-                Fmi2Status.Discard -> FmiDefinitions.StatusCode.DISCARD
-                Fmi2Status.Error -> FmiDefinitions.StatusCode.ERROR
-                Fmi2Status.Fatal -> FmiDefinitions.StatusCode.FATAL
-                Fmi2Status.Pending -> FmiDefinitions.StatusCode.PENDING
-                Fmi2Status.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
+                FmiStatus.OK -> FmiDefinitions.StatusCode.OK
+                FmiStatus.Warning -> FmiDefinitions.StatusCode.WARNING
+                FmiStatus.Discard -> FmiDefinitions.StatusCode.DISCARD
+                FmiStatus.Error -> FmiDefinitions.StatusCode.ERROR
+                FmiStatus.Fatal -> FmiDefinitions.StatusCode.FATAL
+                FmiStatus.Pending -> FmiDefinitions.StatusCode.PENDING
+                FmiStatus.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
             }
         }
 
-        fun statusReply(status: Fmi2Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+        fun statusReply(status: FmiStatus, responseObserver: StreamObserver<FmiDefinitions.Status>) {
             statusReply(FmiDefinitions.Status.newBuilder()
                     .setCode(convert(status))
                     .build(), responseObserver)
@@ -260,7 +260,7 @@ open class GenericFmuServer(
             val fmu = fmus[id]
             if (fmu != null) {
                 val valueReference = req.valueReference
-                val read = fmu.variableAccessor.getInteger(valueReference)
+                val read = fmu.variableAccessor.readInteger(valueReference)
                 responseObserver.onNext(FmiDefinitions.IntRead.newBuilder()
                         .setValue(read.value)
                         .setStatus(convert(read.status))
@@ -278,7 +278,7 @@ open class GenericFmuServer(
             val fmu = fmus[id]
             if (fmu != null) {
                 val builder = FmiDefinitions.IntListRead.newBuilder()
-                val read = fmu.variableAccessor.getInteger(toIntArray(req.valueReferencesList))
+                val read = fmu.variableAccessor.readInteger(toIntArray(req.valueReferencesList))
                 builder.status = convert(read.status)
                 for (value in read.value) {
                     builder.addValues(value)
@@ -297,7 +297,7 @@ open class GenericFmuServer(
             val fmu = fmus[id]
             if (fmu != null) {
                 val valueReference = req.valueReference
-                val read = fmu.variableAccessor.getReal(valueReference)
+                val read = fmu.variableAccessor.readReal(valueReference)
                 responseObserver.onNext(FmiDefinitions.RealRead.newBuilder()
                         .setValue(read.value)
                         .setStatus(convert(read.status))
@@ -315,7 +315,7 @@ open class GenericFmuServer(
             val fmu = fmus[id]
             if (fmu != null) {
                 val builder = FmiDefinitions.RealListRead.newBuilder()
-                val read = fmu.variableAccessor.getReal(toIntArray(req.valueReferencesList))
+                val read = fmu.variableAccessor.readReal(toIntArray(req.valueReferencesList))
                 builder.status = convert(read.status)
                 for (value in read.value) {
                     builder.addValues(value)
@@ -333,7 +333,7 @@ open class GenericFmuServer(
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val read = fmu.variableAccessor.getString(req.valueReference)
+                val read = fmu.variableAccessor.readString(req.valueReference)
                 responseObserver.onNext(FmiDefinitions.StrRead.newBuilder()
                         .setValue(read.value)
                         .setStatus(convert(read.status))
@@ -351,7 +351,7 @@ open class GenericFmuServer(
             val fmu = fmus[id]
             if (fmu != null) {
                 val builder = FmiDefinitions.StrListRead.newBuilder()
-                val read = fmu.variableAccessor.getString(toIntArray(req.valueReferencesList))
+                val read = fmu.variableAccessor.readString(toIntArray(req.valueReferencesList))
                 builder.status = convert(read.status)
                 for (value in read.value) {
                     builder.addValues(value)
@@ -369,7 +369,7 @@ open class GenericFmuServer(
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                val read = fmu.variableAccessor.getBoolean(req.valueReference)
+                val read = fmu.variableAccessor.readBoolean(req.valueReference)
                 responseObserver.onNext(FmiDefinitions.BoolRead.newBuilder()
                         .setValue(read.value)
                         .setStatus(convert(read.status))
@@ -387,7 +387,7 @@ open class GenericFmuServer(
             val fmu = fmus[id]
             if (fmu != null) {
                 val builder = FmiDefinitions.BoolListRead.newBuilder()
-                val read = fmu.variableAccessor.getBoolean(toIntArray(req.valueReferencesList))
+                val read = fmu.variableAccessor.readBoolean(toIntArray(req.valueReferencesList))
                 builder.status = convert(read.status)
                 for (value in read.value) {
                     builder.addValues(value)
@@ -405,11 +405,11 @@ open class GenericFmuServer(
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                fmu.variableAccessor.setInteger(req.valueReference, req.value)
-                statusReply(fmu.lastStatus, responseObserver)
+                val status = fmu.variableAccessor.writeInteger(req.valueReference, req.value)
+                statusReply(status, responseObserver)
             } else {
                 LOG.warn("No fmu with id: {}", id)
-                statusReply(Fmi2Status.Error, responseObserver)
+                statusReply(FmiStatus.Error, responseObserver)
             }
 
         }
@@ -419,11 +419,11 @@ open class GenericFmuServer(
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                fmu.variableAccessor.setReal(req.valueReference, req.value)
-                statusReply(fmu.lastStatus, responseObserver)
+                val status = fmu.variableAccessor.writeReal(req.valueReference, req.value)
+                statusReply(status, responseObserver)
             } else {
                 LOG.warn("No fmu with id: {}", id)
-                statusReply(Fmi2Status.Error, responseObserver)
+                statusReply(FmiStatus.Error, responseObserver)
             }
 
         }
@@ -433,11 +433,11 @@ open class GenericFmuServer(
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                fmu.variableAccessor.setString(req.valueReference, req.value)
-                statusReply(fmu.lastStatus, responseObserver)
+                val status = fmu.variableAccessor.writeString(req.valueReference, req.value)
+                statusReply(status, responseObserver)
             } else {
                 LOG.warn("No fmu with id: {}", id)
-                statusReply(Fmi2Status.Error, responseObserver)
+                statusReply(FmiStatus.Error, responseObserver)
             }
 
         }
@@ -447,11 +447,11 @@ open class GenericFmuServer(
             val id = req.fmuId
             val fmu = fmus[id]
             if (fmu != null) {
-                fmu.variableAccessor.setBoolean(req.valueReference, req.value)
-                statusReply(fmu.lastStatus, responseObserver)
+                val status = fmu.variableAccessor.writeBoolean(req.valueReference, req.value)
+                statusReply(status, responseObserver)
             } else {
                 LOG.warn("No fmu with id: {}", id)
-                statusReply(Fmi2Status.Error, responseObserver)
+                statusReply(FmiStatus.Error, responseObserver)
             }
 
         }
@@ -491,7 +491,7 @@ open class GenericFmuServer(
                 statusReply(fmu.lastStatus, responseObserver)
             } else {
                 LOG.warn("No fmu with id: {}", id)
-                statusReply(Fmi2Status.Error, responseObserver)
+                statusReply(FmiStatus.Error, responseObserver)
             }
 
         }
@@ -531,7 +531,7 @@ open class GenericFmuServer(
                 statusReply(fmu.lastStatus, responseObserver)
             } else {
                 LOG.warn("No fmu with id: {}", id)
-                statusReply(Fmi2Status.Error, responseObserver)
+                statusReply(FmiStatus.Error, responseObserver)
             }
 
         }

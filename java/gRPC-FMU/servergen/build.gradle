@@ -13,8 +13,8 @@ distributions {
 
 def snapshot = false
 
-def fmi_md_version = snapshot ? '0.5.5-SNAPSHOT' : '0.5.4'
-def fmi_import_version = snapshot ? '0.2.5-SNAPSHOT' : '0.2.4'
+def fmi_md_version = snapshot ? '0.5.6-SNAPSHOT' : '0.5.5'
+def fmi_import_version = snapshot ? '0.2.6-SNAPSHOT' : '0.2.5'
 
 repositories {
     maven {
@@ -45,17 +45,6 @@ dependencies {
     testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
 }
-
-//sourceSets {
-//    main {
-//        java {
-//            exclude '**/resources/**'
-//        }
-//        kotlin {
-//            exclude '**/resources/**'
-//        }
-//    }
-//}
 
 sourceSets {
     test {

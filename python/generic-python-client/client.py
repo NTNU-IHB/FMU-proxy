@@ -53,7 +53,7 @@ class FmuInstance:
         request.value = self.fmu_id
         self.stub.Terminate(request)
     
-    def getReader(self, identifier):
+    def get_reader(self, identifier):
         if isinstance(identifier, int):
             return VariableReader(self.fmu_id, identifier, self.stub)
         elif isinstance(identifier, str):
@@ -62,7 +62,7 @@ class FmuInstance:
         else:
             raise ValueError('not a valid identifier: ' + identifier)
 
-    def getWriter(self, identifier):
+    def get_writer(self, identifier):
         if isinstance(identifier, int):
             return VariableWriter(self.fmu_id, identifier)
         elif isinstance(identifier, str):
@@ -99,17 +99,17 @@ class VariableReader:
         self.request.fmu_id = fmu_id
         self.request.value_reference = value_reference
 
-    def readInt(self):
-        return self.stub.ReadInteger(self.request).value
+    def read_int(self):
+        return self.stub.ReadInteger(self.request)
 
-    def readReal(self):
-        return self.stub.ReadReal(self.request).value
+    def read_real(self):
+        return self.stub.ReadReal(self.request)
 
-    def readString(self):
-        return self.stub.ReadString(self.request).value
+    def read_string(self):
+        return self.stub.ReadString(self.request)
 
-    def readBoolean(self):
-        return self.stub.ReadBoolean(self.request).value
+    def read_boolean(self):
+        return self.stub.ReadBoolean(self.request)
 
 
 class VariableWriter:
@@ -119,28 +119,28 @@ class VariableWriter:
         self.fmu_id = fmu_id
         self.value_reference = value_reference
 
-    def writeInt(self, value):
+    def write_int(self, value):
         request = WriteIntegerRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteInt(request)
 
-    def writeReal(self, value):
+    def write_real(self, value):
         request = WriteRealRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteReal(request)
 
-    def writeStr(self, value):
+    def write_string(self, value):
         request = WriteStringRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteString(request)
 
-    def writeBool(self, value):
+    def write_boolean(self, value):
         request = WriteBooleanRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference

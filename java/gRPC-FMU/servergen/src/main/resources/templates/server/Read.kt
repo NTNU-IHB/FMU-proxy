@@ -8,7 +8,7 @@
             val fmu = fmus[fmuId]
             if (fmu != null) {
                 val valueReference = req.value
-                val read = fmu.variableAccessor.get{{typeName}}(valueReference)
+                val read = fmu.variableAccessor.read{{typeName}}(valueReference)
                 responseObserver.onNext(FmiDefinitions.{{returnType}}.newBuilder()
                         .setValue(read.value)
                         .setStatus(convert(read.status))

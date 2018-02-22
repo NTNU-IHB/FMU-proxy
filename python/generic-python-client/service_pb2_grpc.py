@@ -72,42 +72,42 @@ class GenericFmuServiceStub(object):
     self.ReadInteger = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadInteger',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.Int.FromString,
+        response_deserializer=definitions__pb2.IntRead.FromString,
         )
     self.ReadReal = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadReal',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.Real.FromString,
+        response_deserializer=definitions__pb2.RealRead.FromString,
         )
     self.ReadString = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadString',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.Str.FromString,
+        response_deserializer=definitions__pb2.StrRead.FromString,
         )
     self.ReadBoolean = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadBoolean',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.Bool.FromString,
+        response_deserializer=definitions__pb2.BoolRead.FromString,
         )
     self.BulkReadInteger = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadInteger',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.IntList.FromString,
+        response_deserializer=definitions__pb2.IntListRead.FromString,
         )
     self.BulkReadReal = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadReal',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.RealList.FromString,
+        response_deserializer=definitions__pb2.RealListRead.FromString,
         )
     self.BulkReadString = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadString',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.StrList.FromString,
+        response_deserializer=definitions__pb2.StrListRead.FromString,
         )
     self.BulkReadBoolean = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadBoolean',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
-        response_deserializer=definitions__pb2.BoolList.FromString,
+        response_deserializer=definitions__pb2.BoolListRead.FromString,
         )
     self.WriteInteger = channel.unary_unary(
         '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteInteger',
@@ -405,42 +405,42 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
       'ReadInteger': grpc.unary_unary_rpc_method_handler(
           servicer.ReadInteger,
           request_deserializer=definitions__pb2.ReadRequest.FromString,
-          response_serializer=definitions__pb2.Int.SerializeToString,
+          response_serializer=definitions__pb2.IntRead.SerializeToString,
       ),
       'ReadReal': grpc.unary_unary_rpc_method_handler(
           servicer.ReadReal,
           request_deserializer=definitions__pb2.ReadRequest.FromString,
-          response_serializer=definitions__pb2.Real.SerializeToString,
+          response_serializer=definitions__pb2.RealRead.SerializeToString,
       ),
       'ReadString': grpc.unary_unary_rpc_method_handler(
           servicer.ReadString,
           request_deserializer=definitions__pb2.ReadRequest.FromString,
-          response_serializer=definitions__pb2.Str.SerializeToString,
+          response_serializer=definitions__pb2.StrRead.SerializeToString,
       ),
       'ReadBoolean': grpc.unary_unary_rpc_method_handler(
           servicer.ReadBoolean,
           request_deserializer=definitions__pb2.ReadRequest.FromString,
-          response_serializer=definitions__pb2.Bool.SerializeToString,
+          response_serializer=definitions__pb2.BoolRead.SerializeToString,
       ),
       'BulkReadInteger': grpc.unary_unary_rpc_method_handler(
           servicer.BulkReadInteger,
           request_deserializer=definitions__pb2.BulkReadRequest.FromString,
-          response_serializer=definitions__pb2.IntList.SerializeToString,
+          response_serializer=definitions__pb2.IntListRead.SerializeToString,
       ),
       'BulkReadReal': grpc.unary_unary_rpc_method_handler(
           servicer.BulkReadReal,
           request_deserializer=definitions__pb2.BulkReadRequest.FromString,
-          response_serializer=definitions__pb2.RealList.SerializeToString,
+          response_serializer=definitions__pb2.RealListRead.SerializeToString,
       ),
       'BulkReadString': grpc.unary_unary_rpc_method_handler(
           servicer.BulkReadString,
           request_deserializer=definitions__pb2.BulkReadRequest.FromString,
-          response_serializer=definitions__pb2.StrList.SerializeToString,
+          response_serializer=definitions__pb2.StrListRead.SerializeToString,
       ),
       'BulkReadBoolean': grpc.unary_unary_rpc_method_handler(
           servicer.BulkReadBoolean,
           request_deserializer=definitions__pb2.BulkReadRequest.FromString,
-          response_serializer=definitions__pb2.BoolList.SerializeToString,
+          response_serializer=definitions__pb2.BoolListRead.SerializeToString,
       ),
       'WriteInteger': grpc.unary_unary_rpc_method_handler(
           servicer.WriteInteger,

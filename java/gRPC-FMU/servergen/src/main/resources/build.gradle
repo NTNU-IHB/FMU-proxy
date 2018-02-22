@@ -24,7 +24,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 def snapshot = false
-def fmi_import_version = snapshot ? '0.2.5-SNAPSHOT' : '0.2.4'
+def fmi_import_version = snapshot ? '0.2.6-SNAPSHOT' : '0.2.5'
 
 wrapper {
     gradleVersion = '4.5'

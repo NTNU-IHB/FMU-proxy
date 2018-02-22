@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='service.proto',
   package='no.mechatronics.sfi.grpc_fmu',
   syntax='proto3',
-  serialized_pb=_b('\n\rservice.proto\x12\x1cno.mechatronics.sfi.grpc_fmu\x1a\x11\x64\x65\x66initions.proto2\xe5\x14\n\x11GenericFmuService\x12_\n\x14\x43reateInstanceFromCS\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a\".no.mechatronics.sfi.grpc_fmu.UInt\x12\x64\n\x14\x43reateInstanceFromME\x12(.no.mechatronics.sfi.grpc_fmu.Integrator\x1a\".no.mechatronics.sfi.grpc_fmu.UInt\x12Q\n\x07GetGuid\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a!.no.mechatronics.sfi.grpc_fmu.Str\x12V\n\x0cGetModelName\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a!.no.mechatronics.sfi.grpc_fmu.Str\x12h\n\x11GetModelVariables\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a,.no.mechatronics.sfi.grpc_fmu.ScalarVariable0\x01\x12X\n\x0eGetCurrentTime\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a\".no.mechatronics.sfi.grpc_fmu.Real\x12V\n\x0cIsTerminated\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12U\n\x04Init\x12).no.mechatronics.sfi.grpc_fmu.InitRequest\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12W\n\x04Step\x12).no.mechatronics.sfi.grpc_fmu.StepRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12S\n\tTerminate\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12Q\n\x05Reset\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12[\n\x0bReadInteger\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a!.no.mechatronics.sfi.grpc_fmu.Int\x12Y\n\x08ReadReal\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a\".no.mechatronics.sfi.grpc_fmu.Real\x12Z\n\nReadString\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a!.no.mechatronics.sfi.grpc_fmu.Str\x12\\\n\x0bReadBoolean\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12g\n\x0f\x42ulkReadInteger\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a%.no.mechatronics.sfi.grpc_fmu.IntList\x12\x65\n\x0c\x42ulkReadReal\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a&.no.mechatronics.sfi.grpc_fmu.RealList\x12\x66\n\x0e\x42ulkReadString\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a%.no.mechatronics.sfi.grpc_fmu.StrList\x12h\n\x0f\x42ulkReadBoolean\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a&.no.mechatronics.sfi.grpc_fmu.BoolList\x12g\n\x0cWriteInteger\x12\x31.no.mechatronics.sfi.grpc_fmu.WriteIntegerRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12\x61\n\tWriteReal\x12..no.mechatronics.sfi.grpc_fmu.WriteRealRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12\x65\n\x0bWriteString\x12\x30.no.mechatronics.sfi.grpc_fmu.WriteStringRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12g\n\x0cWriteBoolean\x12\x31.no.mechatronics.sfi.grpc_fmu.WriteBooleanRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12o\n\x10\x42ulkWriteInteger\x12\x35.no.mechatronics.sfi.grpc_fmu.BulkWriteIntegerRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12i\n\rBulkWriteReal\x12\x32.no.mechatronics.sfi.grpc_fmu.BulkWriteRealRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12m\n\x0f\x42ulkWriteString\x12\x34.no.mechatronics.sfi.grpc_fmu.BulkWriteStringRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12o\n\x10\x42ulkWriteBoolean\x12\x35.no.mechatronics.sfi.grpc_fmu.BulkWriteBooleanRequest\x1a$.no.mechatronics.sfi.grpc_fmu.StatusB\x11\x42\x0fGenericFmuProtob\x06proto3')
+  serialized_pb=_b('\n\rservice.proto\x12\x1cno.mechatronics.sfi.grpc_fmu\x1a\x11\x64\x65\x66initions.proto2\x85\x15\n\x11GenericFmuService\x12_\n\x14\x43reateInstanceFromCS\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a\".no.mechatronics.sfi.grpc_fmu.UInt\x12\x64\n\x14\x43reateInstanceFromME\x12(.no.mechatronics.sfi.grpc_fmu.Integrator\x1a\".no.mechatronics.sfi.grpc_fmu.UInt\x12Q\n\x07GetGuid\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a!.no.mechatronics.sfi.grpc_fmu.Str\x12V\n\x0cGetModelName\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a!.no.mechatronics.sfi.grpc_fmu.Str\x12h\n\x11GetModelVariables\x12#.no.mechatronics.sfi.grpc_fmu.Empty\x1a,.no.mechatronics.sfi.grpc_fmu.ScalarVariable0\x01\x12X\n\x0eGetCurrentTime\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a\".no.mechatronics.sfi.grpc_fmu.Real\x12V\n\x0cIsTerminated\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12U\n\x04Init\x12).no.mechatronics.sfi.grpc_fmu.InitRequest\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12W\n\x04Step\x12).no.mechatronics.sfi.grpc_fmu.StepRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12S\n\tTerminate\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a\".no.mechatronics.sfi.grpc_fmu.Bool\x12Q\n\x05Reset\x12\".no.mechatronics.sfi.grpc_fmu.UInt\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12_\n\x0bReadInteger\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a%.no.mechatronics.sfi.grpc_fmu.IntRead\x12]\n\x08ReadReal\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a&.no.mechatronics.sfi.grpc_fmu.RealRead\x12^\n\nReadString\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a%.no.mechatronics.sfi.grpc_fmu.StrRead\x12`\n\x0bReadBoolean\x12).no.mechatronics.sfi.grpc_fmu.ReadRequest\x1a&.no.mechatronics.sfi.grpc_fmu.BoolRead\x12k\n\x0f\x42ulkReadInteger\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a).no.mechatronics.sfi.grpc_fmu.IntListRead\x12i\n\x0c\x42ulkReadReal\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a*.no.mechatronics.sfi.grpc_fmu.RealListRead\x12j\n\x0e\x42ulkReadString\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a).no.mechatronics.sfi.grpc_fmu.StrListRead\x12l\n\x0f\x42ulkReadBoolean\x12-.no.mechatronics.sfi.grpc_fmu.BulkReadRequest\x1a*.no.mechatronics.sfi.grpc_fmu.BoolListRead\x12g\n\x0cWriteInteger\x12\x31.no.mechatronics.sfi.grpc_fmu.WriteIntegerRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12\x61\n\tWriteReal\x12..no.mechatronics.sfi.grpc_fmu.WriteRealRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12\x65\n\x0bWriteString\x12\x30.no.mechatronics.sfi.grpc_fmu.WriteStringRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12g\n\x0cWriteBoolean\x12\x31.no.mechatronics.sfi.grpc_fmu.WriteBooleanRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12o\n\x10\x42ulkWriteInteger\x12\x35.no.mechatronics.sfi.grpc_fmu.BulkWriteIntegerRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12i\n\rBulkWriteReal\x12\x32.no.mechatronics.sfi.grpc_fmu.BulkWriteRealRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12m\n\x0f\x42ulkWriteString\x12\x34.no.mechatronics.sfi.grpc_fmu.BulkWriteStringRequest\x1a$.no.mechatronics.sfi.grpc_fmu.Status\x12o\n\x10\x42ulkWriteBoolean\x12\x35.no.mechatronics.sfi.grpc_fmu.BulkWriteBooleanRequest\x1a$.no.mechatronics.sfi.grpc_fmu.StatusB\x11\x42\x0fGenericFmuProtob\x06proto3')
   ,
   dependencies=[definitions__pb2.DESCRIPTOR,])
 
@@ -39,7 +39,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   options=None,
   serialized_start=67,
-  serialized_end=2728,
+  serialized_end=2760,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateInstanceFromCS',
@@ -146,7 +146,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=11,
     containing_service=None,
     input_type=definitions__pb2._READREQUEST,
-    output_type=definitions__pb2._INT,
+    output_type=definitions__pb2._INTREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -155,7 +155,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=12,
     containing_service=None,
     input_type=definitions__pb2._READREQUEST,
-    output_type=definitions__pb2._REAL,
+    output_type=definitions__pb2._REALREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -164,7 +164,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=13,
     containing_service=None,
     input_type=definitions__pb2._READREQUEST,
-    output_type=definitions__pb2._STR,
+    output_type=definitions__pb2._STRREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -173,7 +173,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=14,
     containing_service=None,
     input_type=definitions__pb2._READREQUEST,
-    output_type=definitions__pb2._BOOL,
+    output_type=definitions__pb2._BOOLREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -182,7 +182,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=15,
     containing_service=None,
     input_type=definitions__pb2._BULKREADREQUEST,
-    output_type=definitions__pb2._INTLIST,
+    output_type=definitions__pb2._INTLISTREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -191,7 +191,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=16,
     containing_service=None,
     input_type=definitions__pb2._BULKREADREQUEST,
-    output_type=definitions__pb2._REALLIST,
+    output_type=definitions__pb2._REALLISTREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -200,7 +200,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=17,
     containing_service=None,
     input_type=definitions__pb2._BULKREADREQUEST,
-    output_type=definitions__pb2._STRLIST,
+    output_type=definitions__pb2._STRLISTREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
@@ -209,7 +209,7 @@ _GENERICFMUSERVICE = _descriptor.ServiceDescriptor(
     index=18,
     containing_service=None,
     input_type=definitions__pb2._BULKREADREQUEST,
-    output_type=definitions__pb2._BOOLLIST,
+    output_type=definitions__pb2._BOOLLISTREAD,
     options=None,
   ),
   _descriptor.MethodDescriptor(
