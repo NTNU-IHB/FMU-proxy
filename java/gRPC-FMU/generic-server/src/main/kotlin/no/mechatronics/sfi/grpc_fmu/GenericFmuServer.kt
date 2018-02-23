@@ -172,8 +172,9 @@ open class GenericFmuServer(
         override fun createInstanceFromME(req: FmiDefinitions.Integrator, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
             fun selectDefaultIntegrator(): EulerIntegrator {
-                LOG.warn("No integrator specified.. Defaulting to Euler with 1E-3 stepsize")
-                return EulerIntegrator(1E-3)
+                val stepSize = fmuFile.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+                LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepsize")
+                return EulerIntegrator(stepSize)
             }
 
             val integrator = when (req.integratorsCase) {
