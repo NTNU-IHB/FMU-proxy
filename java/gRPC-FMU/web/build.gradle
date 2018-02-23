@@ -1,6 +1,6 @@
 
 def snapshot = false
-def fmi_md_version = snapshot ? '0.5.6-SNAPSHOT' : '0.5.5'
+def fmi_md_version = snapshot ? '0.5.7-SNAPSHOT' : '0.5.6'
 
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
@@ -44,7 +44,7 @@ gretty {
 task copyProto(type: Copy) {
 
     copyProto.configure {
-        from('../proto')
+        from('../../../proto')
         into('src/main/webapp/resources/proto')
         include('*.proto')
     }
@@ -53,10 +53,11 @@ task copyProto(type: Copy) {
 
 task copyProtoZip(type: Zip) {
 
-    from '../../proto'
+    from '../../../proto'
     include '*'
     archiveName 'gRPC-FMU_GenericProto.zip'
     destinationDir(file('src/main/webapp/resources/proto/'))
 }
 
-compileJava.dependsOn(copyProtoZip)
+compileKotlin.dependsOn(copyProto)
+compileKotlin.dependsOn(copyProtoZip)

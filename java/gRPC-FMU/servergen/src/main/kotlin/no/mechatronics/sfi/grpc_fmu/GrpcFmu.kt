@@ -45,6 +45,7 @@ import java.util.zip.ZipInputStream
 const val PACKAGE_NAME = "no.mechatronics.sfi.grpc_fmu"
 const val KOTLIN_SRC_OUTPUT_FOLDER = "src/main/kotlin/"
 const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
+
 /**
  *
  * @author Lars Ivar Hatledal

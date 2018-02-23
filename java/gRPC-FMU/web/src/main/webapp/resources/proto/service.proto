@@ -2,32 +2,45 @@
 syntax = "proto3";
 
 package no.mechatronics.sfi.grpc_fmu;
-
 option java_outer_classname = "GenericFmuProto";
-
 import "definitions.proto";
 
 service GenericFmuService {
 
-    rpc CreateInstance (Empty) returns (ModelReference);
+    rpc CreateInstanceFromCS (Empty) returns (UInt);
+	rpc CreateInstanceFromME (Integrator) returns (UInt);
 
+	rpc GetGuid (Empty)  returns (Str);
     rpc GetModelName (Empty) returns (Str);
-    rpc GetModelVariableNames (Empty) returns (StrList);
-    rpc GetModelVariables (Empty) returns (ScalarVariables);
-
-    //rpc GetModelStructure (Empty) returns (ModelStructure);
-
+    rpc GetModelVariables (Empty) returns (stream ScalarVariable);
+	
     //instance methods
-    rpc GetCurrentTime (ModelReference) returns (Real);
-    rpc IsTerminated (ModelReference) returns (Bool);
+    rpc GetCurrentTime (UInt) returns (Real);
+    rpc IsTerminated (UInt) returns (Bool);
 
     rpc Init (InitRequest) returns (Bool);
     rpc Step (StepRequest) returns (Status);
-    rpc Terminate (TerminateRequest) returns (Empty);
+    rpc Terminate (UInt) returns (Bool);
+    rpc Reset(UInt) returns (Status);
 
-    rpc Reset(ResetRequest) returns (Status);
-
-    rpc Read (VarRead) returns (Var);
-    rpc Write (VarWrite) returns (Status);
+    rpc ReadInteger (ReadRequest) returns (IntRead);
+	rpc ReadReal (ReadRequest) returns (RealRead);
+	rpc ReadString (ReadRequest) returns (StrRead);
+	rpc ReadBoolean (ReadRequest) returns (BoolRead);
+	
+	rpc BulkReadInteger (BulkReadRequest) returns (IntListRead);
+	rpc BulkReadReal (BulkReadRequest) returns (RealListRead);
+	rpc BulkReadString (BulkReadRequest) returns (StrListRead);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BoolListRead);
+	
+    rpc WriteInteger (WriteIntegerRequest) returns (Status);
+	rpc WriteReal (WriteRealRequest) returns (Status);
+	rpc WriteString (WriteStringRequest) returns (Status);
+	rpc WriteBoolean (WriteBooleanRequest) returns (Status);
+	
+	rpc BulkWriteInteger (BulkWriteIntegerRequest) returns (Status);
+	rpc BulkWriteReal (BulkWriteRealRequest) returns (Status);
+	rpc BulkWriteString (BulkWriteStringRequest) returns (Status);
+	rpc BulkWriteBoolean (BulkWriteBooleanRequest) returns (Status);
 
 }
