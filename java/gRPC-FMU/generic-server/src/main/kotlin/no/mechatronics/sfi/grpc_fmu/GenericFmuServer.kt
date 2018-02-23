@@ -171,15 +171,18 @@ open class GenericFmuServer(
 
         override fun createInstanceFromME(req: FmiDefinitions.Integrator, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
+            fun selectDefaultIntegrator(): EulerIntegrator {
+                LOG.warn("No integrator specified.. Defaulting to Euler with 1E-3 stepsize")
+                return EulerIntegrator(1E-3)
+            }
+
             val integrator = when (req.integratorsCase) {
                 FmiDefinitions.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
                 FmiDefinitions.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
                 FmiDefinitions.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
                 FmiDefinitions.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
-                FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET  -> {
-                    LOG.warn("No integrator specified.. Defaulting to Euler with 1E-3 stepsize")
-                    EulerIntegrator(1E-3)
-                }
+                FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET  -> selectDefaultIntegrator()
+                null -> selectDefaultIntegrator()
             }
 
             val id = idGenerator.incrementAndGet()
