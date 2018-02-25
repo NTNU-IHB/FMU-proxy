@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package no.mechatronics.sfi.grpc_fmu;
+package no.mechatronics.sfi.rmu;
 option java_outer_classname = "{{fmuName}}Proto";
 import "definitions.proto";
 

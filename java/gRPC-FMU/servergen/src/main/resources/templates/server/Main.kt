@@ -22,15 +22,20 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu
+package no.mechatronics.sfi.rmu
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
 import java.util.Scanner
-import java.net.ServerSocket
 import java.io.IOException
+
+import java.net.ServerSocket
 import java.net.InetAddress
 import java.net.UnknownHostException
+
+import no.mechatronics.sfi.rmu.grpc.FmuServer
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 
 /**
  *
@@ -58,7 +63,11 @@ internal object Main {
                 val myPort = localPort ?: ServerSocket(0).use { it.localPort }
                 val localAddress = SimpleSocketAddress(hostAddress, myPort)
 
-                val server = {{fmuName}}Server().apply { start(localAddress.port) }
+                val fmuFile = FmuFile(Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)
+                val server = FmuServer(fmuFile).apply {
+                    addService({{fmuName}}Service())
+                    start(localAddress.port)
+                }
 
                 var beat: FmuHeartbeat? = remoteAddress?.let {
                     val remoteFmu = RemoteFmu(server.guid, localAddress, server.modelDescriptionXml)

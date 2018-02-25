@@ -95,7 +95,7 @@ task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': project.name,
         'Implementation-Version': "1.0",
-        'Main-Class': 'no.mechatronics.sfi.grpc_fmu.Main'
+        'Main-Class': 'no.mechatronics.sfi.rmu.Main'
     }
     baseName = project.name
     from {

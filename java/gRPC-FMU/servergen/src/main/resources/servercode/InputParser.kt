@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu
+package no.mechatronics.sfi.rmu
 
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
