@@ -24,7 +24,7 @@ public final class GenericFmuProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\rservice.proto\022\034no.mechatronics.sfi.grp" +
-      "c_fmu\032\021definitions.proto2\205\025\n\021GenericFmuS" +
+      "c_fmu\032\021definitions.proto2\355\025\n\021GenericFmuS" +
       "ervice\022_\n\024CreateInstanceFromCS\022#.no.mech" +
       "atronics.sfi.grpc_fmu.Empty\032\".no.mechatr" +
       "onics.sfi.grpc_fmu.UInt\022d\n\024CreateInstanc" +
@@ -37,62 +37,65 @@ public final class GenericFmuProto {
       "sfi.grpc_fmu.Str\022h\n\021GetModelVariables\022#." +
       "no.mechatronics.sfi.grpc_fmu.Empty\032,.no." +
       "mechatronics.sfi.grpc_fmu.ScalarVariable" +
-      "0\001\022X\n\016GetCurrentTime\022\".no.mechatronics.s" +
-      "fi.grpc_fmu.UInt\032\".no.mechatronics.sfi.g" +
-      "rpc_fmu.Real\022V\n\014IsTerminated\022\".no.mechat" +
-      "ronics.sfi.grpc_fmu.UInt\032\".no.mechatroni" +
-      "cs.sfi.grpc_fmu.Bool\022U\n\004Init\022).no.mechat" +
-      "ronics.sfi.grpc_fmu.InitRequest\032\".no.mec" +
-      "hatronics.sfi.grpc_fmu.Bool\022W\n\004Step\022).no" +
-      ".mechatronics.sfi.grpc_fmu.StepRequest\032$" +
-      ".no.mechatronics.sfi.grpc_fmu.Status\022S\n\t" +
-      "Terminate\022\".no.mechatronics.sfi.grpc_fmu" +
-      ".UInt\032\".no.mechatronics.sfi.grpc_fmu.Boo" +
-      "l\022Q\n\005Reset\022\".no.mechatronics.sfi.grpc_fm" +
-      "u.UInt\032$.no.mechatronics.sfi.grpc_fmu.St" +
-      "atus\022_\n\013ReadInteger\022).no.mechatronics.sf" +
-      "i.grpc_fmu.ReadRequest\032%.no.mechatronics" +
-      ".sfi.grpc_fmu.IntRead\022]\n\010ReadReal\022).no.m" +
-      "echatronics.sfi.grpc_fmu.ReadRequest\032&.n" +
-      "o.mechatronics.sfi.grpc_fmu.RealRead\022^\n\n" +
-      "ReadString\022).no.mechatronics.sfi.grpc_fm" +
-      "u.ReadRequest\032%.no.mechatronics.sfi.grpc" +
-      "_fmu.StrRead\022`\n\013ReadBoolean\022).no.mechatr" +
-      "onics.sfi.grpc_fmu.ReadRequest\032&.no.mech" +
-      "atronics.sfi.grpc_fmu.BoolRead\022k\n\017BulkRe" +
-      "adInteger\022-.no.mechatronics.sfi.grpc_fmu" +
-      ".BulkReadRequest\032).no.mechatronics.sfi.g" +
-      "rpc_fmu.IntListRead\022i\n\014BulkReadReal\022-.no" +
-      ".mechatronics.sfi.grpc_fmu.BulkReadReque" +
-      "st\032*.no.mechatronics.sfi.grpc_fmu.RealLi" +
-      "stRead\022j\n\016BulkReadString\022-.no.mechatroni" +
-      "cs.sfi.grpc_fmu.BulkReadRequest\032).no.mec" +
-      "hatronics.sfi.grpc_fmu.StrListRead\022l\n\017Bu" +
-      "lkReadBoolean\022-.no.mechatronics.sfi.grpc" +
-      "_fmu.BulkReadRequest\032*.no.mechatronics.s" +
-      "fi.grpc_fmu.BoolListRead\022g\n\014WriteInteger" +
-      "\0221.no.mechatronics.sfi.grpc_fmu.WriteInt" +
-      "egerRequest\032$.no.mechatronics.sfi.grpc_f" +
-      "mu.Status\022a\n\tWriteReal\022..no.mechatronics" +
-      ".sfi.grpc_fmu.WriteRealRequest\032$.no.mech" +
-      "atronics.sfi.grpc_fmu.Status\022e\n\013WriteStr" +
-      "ing\0220.no.mechatronics.sfi.grpc_fmu.Write" +
-      "StringRequest\032$.no.mechatronics.sfi.grpc" +
-      "_fmu.Status\022g\n\014WriteBoolean\0221.no.mechatr" +
-      "onics.sfi.grpc_fmu.WriteBooleanRequest\032$" +
-      ".no.mechatronics.sfi.grpc_fmu.Status\022o\n\020" +
-      "BulkWriteInteger\0225.no.mechatronics.sfi.g" +
-      "rpc_fmu.BulkWriteIntegerRequest\032$.no.mec" +
-      "hatronics.sfi.grpc_fmu.Status\022i\n\rBulkWri" +
-      "teReal\0222.no.mechatronics.sfi.grpc_fmu.Bu" +
-      "lkWriteRealRequest\032$.no.mechatronics.sfi" +
-      ".grpc_fmu.Status\022m\n\017BulkWriteString\0224.no" +
-      ".mechatronics.sfi.grpc_fmu.BulkWriteStri" +
-      "ngRequest\032$.no.mechatronics.sfi.grpc_fmu" +
-      ".Status\022o\n\020BulkWriteBoolean\0225.no.mechatr" +
-      "onics.sfi.grpc_fmu.BulkWriteBooleanReque" +
+      "0\001\022f\n\021GetModelStructure\022#.no.mechatronic" +
+      "s.sfi.grpc_fmu.Empty\032,.no.mechatronics.s" +
+      "fi.grpc_fmu.ModelStructure\022X\n\016GetCurrent" +
+      "Time\022\".no.mechatronics.sfi.grpc_fmu.UInt" +
+      "\032\".no.mechatronics.sfi.grpc_fmu.Real\022V\n\014" +
+      "IsTerminated\022\".no.mechatronics.sfi.grpc_" +
+      "fmu.UInt\032\".no.mechatronics.sfi.grpc_fmu." +
+      "Bool\022U\n\004Init\022).no.mechatronics.sfi.grpc_" +
+      "fmu.InitRequest\032\".no.mechatronics.sfi.gr" +
+      "pc_fmu.Bool\022W\n\004Step\022).no.mechatronics.sf" +
+      "i.grpc_fmu.StepRequest\032$.no.mechatronics" +
+      ".sfi.grpc_fmu.Status\022S\n\tTerminate\022\".no.m" +
+      "echatronics.sfi.grpc_fmu.UInt\032\".no.mecha" +
+      "tronics.sfi.grpc_fmu.Bool\022Q\n\005Reset\022\".no." +
+      "mechatronics.sfi.grpc_fmu.UInt\032$.no.mech" +
+      "atronics.sfi.grpc_fmu.Status\022_\n\013ReadInte" +
+      "ger\022).no.mechatronics.sfi.grpc_fmu.ReadR" +
+      "equest\032%.no.mechatronics.sfi.grpc_fmu.In" +
+      "tRead\022]\n\010ReadReal\022).no.mechatronics.sfi." +
+      "grpc_fmu.ReadRequest\032&.no.mechatronics.s" +
+      "fi.grpc_fmu.RealRead\022^\n\nReadString\022).no." +
+      "mechatronics.sfi.grpc_fmu.ReadRequest\032%." +
+      "no.mechatronics.sfi.grpc_fmu.StrRead\022`\n\013" +
+      "ReadBoolean\022).no.mechatronics.sfi.grpc_f" +
+      "mu.ReadRequest\032&.no.mechatronics.sfi.grp" +
+      "c_fmu.BoolRead\022k\n\017BulkReadInteger\022-.no.m" +
+      "echatronics.sfi.grpc_fmu.BulkReadRequest" +
+      "\032).no.mechatronics.sfi.grpc_fmu.IntListR" +
+      "ead\022i\n\014BulkReadReal\022-.no.mechatronics.sf" +
+      "i.grpc_fmu.BulkReadRequest\032*.no.mechatro" +
+      "nics.sfi.grpc_fmu.RealListRead\022j\n\016BulkRe" +
+      "adString\022-.no.mechatronics.sfi.grpc_fmu." +
+      "BulkReadRequest\032).no.mechatronics.sfi.gr" +
+      "pc_fmu.StrListRead\022l\n\017BulkReadBoolean\022-." +
+      "no.mechatronics.sfi.grpc_fmu.BulkReadReq" +
+      "uest\032*.no.mechatronics.sfi.grpc_fmu.Bool" +
+      "ListRead\022g\n\014WriteInteger\0221.no.mechatroni" +
+      "cs.sfi.grpc_fmu.WriteIntegerRequest\032$.no" +
+      ".mechatronics.sfi.grpc_fmu.Status\022a\n\tWri" +
+      "teReal\022..no.mechatronics.sfi.grpc_fmu.Wr" +
+      "iteRealRequest\032$.no.mechatronics.sfi.grp" +
+      "c_fmu.Status\022e\n\013WriteString\0220.no.mechatr" +
+      "onics.sfi.grpc_fmu.WriteStringRequest\032$." +
+      "no.mechatronics.sfi.grpc_fmu.Status\022g\n\014W" +
+      "riteBoolean\0221.no.mechatronics.sfi.grpc_f" +
+      "mu.WriteBooleanRequest\032$.no.mechatronics" +
+      ".sfi.grpc_fmu.Status\022o\n\020BulkWriteInteger" +
+      "\0225.no.mechatronics.sfi.grpc_fmu.BulkWrit" +
+      "eIntegerRequest\032$.no.mechatronics.sfi.gr" +
+      "pc_fmu.Status\022i\n\rBulkWriteReal\0222.no.mech" +
+      "atronics.sfi.grpc_fmu.BulkWriteRealReque" +
       "st\032$.no.mechatronics.sfi.grpc_fmu.Status" +
-      "B\021B\017GenericFmuProtob\006proto3"
+      "\022m\n\017BulkWriteString\0224.no.mechatronics.sf" +
+      "i.grpc_fmu.BulkWriteStringRequest\032$.no.m" +
+      "echatronics.sfi.grpc_fmu.Status\022o\n\020BulkW" +
+      "riteBoolean\0225.no.mechatronics.sfi.grpc_f" +
+      "mu.BulkWriteBooleanRequest\032$.no.mechatro" +
+      "nics.sfi.grpc_fmu.StatusB\021B\017GenericFmuPr" +
+      "otob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

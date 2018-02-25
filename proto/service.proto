@@ -13,6 +13,7 @@ service GenericFmuService {
 	rpc GetGuid (Empty)  returns (Str);
     rpc GetModelName (Empty) returns (Str);
     rpc GetModelVariables (Empty) returns (stream ScalarVariable);
+    rpc GetModelStructure (Empty) returns (ModelStructure);
 	
     //instance methods
     rpc GetCurrentTime (UInt) returns (Real);

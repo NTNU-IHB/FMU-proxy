@@ -31,14 +31,15 @@ import no.mechatronics.sfi.grpc_fmu.GenericFmuServiceGrpc
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+private val EMPTY = FmiDefinitions.Empty.getDefaultInstance()
 
 /**
  * @author Lars Ivar Hatledal
  */
-object FmuInstances: ArrayList<FmuInstance>() {
+internal object FmuInstances: ArrayList<FmuInstance>() {
     internal fun terminateAll() {
-        forEach({
-            it.terminate()
+        forEach({ instance ->
+            instance.terminate()
         })
     }
 }
@@ -67,6 +68,13 @@ class GenericFmuClient(
         blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
     }
 
+
+
+    val modelStructure: FmiDefinitions.ModelStructure by lazy {
+        blockingStub.getModelStructure(EMPTY)
+    }
+
+
     fun createInstance(integrator: FmiDefinitions.Integrator? = null): FmuInstance {
         return FmuInstance(blockingStub, integrator)
     }
@@ -92,7 +100,7 @@ class FmuInstance internal constructor(
 
     init {
         fmuId = if (integrator == null) {
-            blockingStub.createInstanceFromCS(FmiDefinitions.Empty.getDefaultInstance()).value
+            blockingStub.createInstanceFromCS(EMPTY).value
         } else {
             blockingStub.createInstanceFromME(integrator).value
         }
@@ -103,10 +111,11 @@ class FmuInstance internal constructor(
         FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
     }
 
+
     val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
-         mutableListOf<FmiDefinitions.ScalarVariable>().apply {
-             blockingStub.getModelVariables(FmiDefinitions.Empty.getDefaultInstance()).forEach {add(it)}
-         }
+        mutableListOf<FmiDefinitions.ScalarVariable>().apply {
+            blockingStub.getModelVariables(EMPTY).forEach {add(it)}
+        }
     }
 
     val currentTime: Double

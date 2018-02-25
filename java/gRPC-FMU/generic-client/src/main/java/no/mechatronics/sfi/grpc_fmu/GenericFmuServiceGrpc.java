@@ -188,6 +188,38 @@ public final class GenericFmuServiceGrpc {
      return getGetModelVariablesMethod;
   }
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getGetModelStructureMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> METHOD_GET_MODEL_STRUCTURE = getGetModelStructureMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> getGetModelStructureMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> getGetModelStructureMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> getGetModelStructureMethod;
+    if ((getGetModelStructureMethod = GenericFmuServiceGrpc.getGetModelStructureMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetModelStructureMethod = GenericFmuServiceGrpc.getGetModelStructureMethod) == null) {
+          GenericFmuServiceGrpc.getGetModelStructureMethod = getGetModelStructureMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetModelStructure"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetModelStructure"))
+                  .build();
+          }
+        }
+     }
+     return getGetModelStructureMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getGetCurrentTimeMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Real> METHOD_GET_CURRENT_TIME = getGetCurrentTimeMethod();
@@ -955,6 +987,13 @@ public final class GenericFmuServiceGrpc {
     }
 
     /**
+     */
+    public void getModelStructure(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetModelStructureMethod(), responseObserver);
+    }
+
+    /**
      * <pre>
      *instance methods
      * </pre>
@@ -1148,6 +1187,13 @@ public final class GenericFmuServiceGrpc {
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
                 no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>(
                   this, METHODID_GET_MODEL_VARIABLES)))
+          .addMethod(
+            getGetModelStructureMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure>(
+                  this, METHODID_GET_MODEL_STRUCTURE)))
           .addMethod(
             getGetCurrentTimeMethod(),
             asyncUnaryCall(
@@ -1362,6 +1408,14 @@ public final class GenericFmuServiceGrpc {
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable> responseObserver) {
       asyncServerStreamingCall(
           getChannel().newCall(getGetModelVariablesMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getModelStructure(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetModelStructureMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1599,6 +1653,13 @@ public final class GenericFmuServiceGrpc {
     }
 
     /**
+     */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure getModelStructure(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return blockingUnaryCall(
+          getChannel(), getGetModelStructureMethod(), getCallOptions(), request);
+    }
+
+    /**
      * <pre>
      *instance methods
      * </pre>
@@ -1807,6 +1868,14 @@ public final class GenericFmuServiceGrpc {
     }
 
     /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure> getModelStructure(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetModelStructureMethod(), getCallOptions()), request);
+    }
+
+    /**
      * <pre>
      *instance methods
      * </pre>
@@ -1991,28 +2060,29 @@ public final class GenericFmuServiceGrpc {
   private static final int METHODID_GET_GUID = 2;
   private static final int METHODID_GET_MODEL_NAME = 3;
   private static final int METHODID_GET_MODEL_VARIABLES = 4;
-  private static final int METHODID_GET_CURRENT_TIME = 5;
-  private static final int METHODID_IS_TERMINATED = 6;
-  private static final int METHODID_INIT = 7;
-  private static final int METHODID_STEP = 8;
-  private static final int METHODID_TERMINATE = 9;
-  private static final int METHODID_RESET = 10;
-  private static final int METHODID_READ_INTEGER = 11;
-  private static final int METHODID_READ_REAL = 12;
-  private static final int METHODID_READ_STRING = 13;
-  private static final int METHODID_READ_BOOLEAN = 14;
-  private static final int METHODID_BULK_READ_INTEGER = 15;
-  private static final int METHODID_BULK_READ_REAL = 16;
-  private static final int METHODID_BULK_READ_STRING = 17;
-  private static final int METHODID_BULK_READ_BOOLEAN = 18;
-  private static final int METHODID_WRITE_INTEGER = 19;
-  private static final int METHODID_WRITE_REAL = 20;
-  private static final int METHODID_WRITE_STRING = 21;
-  private static final int METHODID_WRITE_BOOLEAN = 22;
-  private static final int METHODID_BULK_WRITE_INTEGER = 23;
-  private static final int METHODID_BULK_WRITE_REAL = 24;
-  private static final int METHODID_BULK_WRITE_STRING = 25;
-  private static final int METHODID_BULK_WRITE_BOOLEAN = 26;
+  private static final int METHODID_GET_MODEL_STRUCTURE = 5;
+  private static final int METHODID_GET_CURRENT_TIME = 6;
+  private static final int METHODID_IS_TERMINATED = 7;
+  private static final int METHODID_INIT = 8;
+  private static final int METHODID_STEP = 9;
+  private static final int METHODID_TERMINATE = 10;
+  private static final int METHODID_RESET = 11;
+  private static final int METHODID_READ_INTEGER = 12;
+  private static final int METHODID_READ_REAL = 13;
+  private static final int METHODID_READ_STRING = 14;
+  private static final int METHODID_READ_BOOLEAN = 15;
+  private static final int METHODID_BULK_READ_INTEGER = 16;
+  private static final int METHODID_BULK_READ_REAL = 17;
+  private static final int METHODID_BULK_READ_STRING = 18;
+  private static final int METHODID_BULK_READ_BOOLEAN = 19;
+  private static final int METHODID_WRITE_INTEGER = 20;
+  private static final int METHODID_WRITE_REAL = 21;
+  private static final int METHODID_WRITE_STRING = 22;
+  private static final int METHODID_WRITE_BOOLEAN = 23;
+  private static final int METHODID_BULK_WRITE_INTEGER = 24;
+  private static final int METHODID_BULK_WRITE_REAL = 25;
+  private static final int METHODID_BULK_WRITE_STRING = 26;
+  private static final int METHODID_BULK_WRITE_BOOLEAN = 27;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -2050,6 +2120,10 @@ public final class GenericFmuServiceGrpc {
         case METHODID_GET_MODEL_VARIABLES:
           serviceImpl.getModelVariables((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ScalarVariable>) responseObserver);
+          break;
+        case METHODID_GET_MODEL_STRUCTURE:
+          serviceImpl.getModelStructure((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.ModelStructure>) responseObserver);
           break;
         case METHODID_GET_CURRENT_TIME:
           serviceImpl.getCurrentTime((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt) request,
@@ -2205,6 +2279,7 @@ public final class GenericFmuServiceGrpc {
               .addMethod(getGetGuidMethod())
               .addMethod(getGetModelNameMethod())
               .addMethod(getGetModelVariablesMethod())
+              .addMethod(getGetModelStructureMethod())
               .addMethod(getGetCurrentTimeMethod())
               .addMethod(getIsTerminatedMethod())
               .addMethod(getInitMethod())

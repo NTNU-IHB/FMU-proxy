@@ -62,6 +62,8 @@ class TestClient1 {
             Assert.assertEquals(modelDescription.modelName, it.modelName)
             Assert.assertEquals(modelDescription.guid, it.guid)
 
+            println(it.modelStructure)
+
             it.createInstance().use { fmu ->
 
                 Assert.assertTrue(fmu.init())
