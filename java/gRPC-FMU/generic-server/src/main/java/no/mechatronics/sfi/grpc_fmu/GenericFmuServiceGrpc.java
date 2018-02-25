@@ -28,6 +28,38 @@ public final class GenericFmuServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getGetModelDescriptionXmlMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> METHOD_GET_MODEL_DESCRIPTION_XML = getGetModelDescriptionXmlMethod();
+
+  private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetModelDescriptionXmlMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+      no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetModelDescriptionXmlMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getGetModelDescriptionXmlMethod;
+    if ((getGetModelDescriptionXmlMethod = GenericFmuServiceGrpc.getGetModelDescriptionXmlMethod) == null) {
+      synchronized (GenericFmuServiceGrpc.class) {
+        if ((getGetModelDescriptionXmlMethod = GenericFmuServiceGrpc.getGetModelDescriptionXmlMethod) == null) {
+          GenericFmuServiceGrpc.getGetModelDescriptionXmlMethod = getGetModelDescriptionXmlMethod = 
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty, no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "no.mechatronics.sfi.grpc_fmu.GenericFmuService", "GetModelDescriptionXml"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str.getDefaultInstance()))
+                  .setSchemaDescriptor(new GenericFmuServiceMethodDescriptorSupplier("GetModelDescriptionXml"))
+                  .build();
+          }
+        }
+     }
+     return getGetModelDescriptionXmlMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getCreateInstanceFromCSMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
       no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> METHOD_CREATE_INSTANCE_FROM_CS = getCreateInstanceFromCSMethod();
@@ -953,6 +985,13 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
+    public void getModelDescriptionXml(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetModelDescriptionXmlMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void createInstanceFromCS(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
         io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt> responseObserver) {
       asyncUnimplementedUnaryCall(getCreateInstanceFromCSMethod(), responseObserver);
@@ -1152,6 +1191,13 @@ public final class GenericFmuServiceGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+          .addMethod(
+            getGetModelDescriptionXmlMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty,
+                no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>(
+                  this, METHODID_GET_MODEL_DESCRIPTION_XML)))
           .addMethod(
             getCreateInstanceFromCSMethod(),
             asyncUnaryCall(
@@ -1368,6 +1414,14 @@ public final class GenericFmuServiceGrpc {
     protected GenericFmuServiceStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new GenericFmuServiceStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public void getModelDescriptionXml(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request,
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetModelDescriptionXmlMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1618,6 +1672,13 @@ public final class GenericFmuServiceGrpc {
 
     /**
      */
+    public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str getModelDescriptionXml(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return blockingUnaryCall(
+          getChannel(), getGetModelDescriptionXmlMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt createInstanceFromCS(no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
       return blockingUnaryCall(
           getChannel(), getCreateInstanceFromCSMethod(), getCallOptions(), request);
@@ -1833,6 +1894,14 @@ public final class GenericFmuServiceGrpc {
     protected GenericFmuServiceFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new GenericFmuServiceFutureStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str> getModelDescriptionXml(
+        no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetModelDescriptionXmlMethod(), getCallOptions()), request);
     }
 
     /**
@@ -2055,34 +2124,35 @@ public final class GenericFmuServiceGrpc {
     }
   }
 
-  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 0;
-  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 1;
-  private static final int METHODID_GET_GUID = 2;
-  private static final int METHODID_GET_MODEL_NAME = 3;
-  private static final int METHODID_GET_MODEL_VARIABLES = 4;
-  private static final int METHODID_GET_MODEL_STRUCTURE = 5;
-  private static final int METHODID_GET_CURRENT_TIME = 6;
-  private static final int METHODID_IS_TERMINATED = 7;
-  private static final int METHODID_INIT = 8;
-  private static final int METHODID_STEP = 9;
-  private static final int METHODID_TERMINATE = 10;
-  private static final int METHODID_RESET = 11;
-  private static final int METHODID_READ_INTEGER = 12;
-  private static final int METHODID_READ_REAL = 13;
-  private static final int METHODID_READ_STRING = 14;
-  private static final int METHODID_READ_BOOLEAN = 15;
-  private static final int METHODID_BULK_READ_INTEGER = 16;
-  private static final int METHODID_BULK_READ_REAL = 17;
-  private static final int METHODID_BULK_READ_STRING = 18;
-  private static final int METHODID_BULK_READ_BOOLEAN = 19;
-  private static final int METHODID_WRITE_INTEGER = 20;
-  private static final int METHODID_WRITE_REAL = 21;
-  private static final int METHODID_WRITE_STRING = 22;
-  private static final int METHODID_WRITE_BOOLEAN = 23;
-  private static final int METHODID_BULK_WRITE_INTEGER = 24;
-  private static final int METHODID_BULK_WRITE_REAL = 25;
-  private static final int METHODID_BULK_WRITE_STRING = 26;
-  private static final int METHODID_BULK_WRITE_BOOLEAN = 27;
+  private static final int METHODID_GET_MODEL_DESCRIPTION_XML = 0;
+  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 1;
+  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 2;
+  private static final int METHODID_GET_GUID = 3;
+  private static final int METHODID_GET_MODEL_NAME = 4;
+  private static final int METHODID_GET_MODEL_VARIABLES = 5;
+  private static final int METHODID_GET_MODEL_STRUCTURE = 6;
+  private static final int METHODID_GET_CURRENT_TIME = 7;
+  private static final int METHODID_IS_TERMINATED = 8;
+  private static final int METHODID_INIT = 9;
+  private static final int METHODID_STEP = 10;
+  private static final int METHODID_TERMINATE = 11;
+  private static final int METHODID_RESET = 12;
+  private static final int METHODID_READ_INTEGER = 13;
+  private static final int METHODID_READ_REAL = 14;
+  private static final int METHODID_READ_STRING = 15;
+  private static final int METHODID_READ_BOOLEAN = 16;
+  private static final int METHODID_BULK_READ_INTEGER = 17;
+  private static final int METHODID_BULK_READ_REAL = 18;
+  private static final int METHODID_BULK_READ_STRING = 19;
+  private static final int METHODID_BULK_READ_BOOLEAN = 20;
+  private static final int METHODID_WRITE_INTEGER = 21;
+  private static final int METHODID_WRITE_REAL = 22;
+  private static final int METHODID_WRITE_STRING = 23;
+  private static final int METHODID_WRITE_BOOLEAN = 24;
+  private static final int METHODID_BULK_WRITE_INTEGER = 25;
+  private static final int METHODID_BULK_WRITE_REAL = 26;
+  private static final int METHODID_BULK_WRITE_STRING = 27;
+  private static final int METHODID_BULK_WRITE_BOOLEAN = 28;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -2101,6 +2171,10 @@ public final class GenericFmuServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_GET_MODEL_DESCRIPTION_XML:
+          serviceImpl.getModelDescriptionXml((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Str>) responseObserver);
+          break;
         case METHODID_CREATE_INSTANCE_FROM_CS:
           serviceImpl.createInstanceFromCS((no.mechatronics.sfi.grpc_fmu.FmiDefinitions.Empty) request,
               (io.grpc.stub.StreamObserver<no.mechatronics.sfi.grpc_fmu.FmiDefinitions.UInt>) responseObserver);
@@ -2274,6 +2348,7 @@ public final class GenericFmuServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new GenericFmuServiceFileDescriptorSupplier())
+              .addMethod(getGetModelDescriptionXmlMethod())
               .addMethod(getCreateInstanceFromCSMethod())
               .addMethod(getCreateInstanceFromMEMethod())
               .addMethod(getGetGuidMethod())

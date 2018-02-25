@@ -1,0 +1,34 @@
+buildscript {
+    ext.kotlin_version = '1.2.21'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+
+apply plugin: 'kotlin'
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    implementation group: "info.laht", name: "yaj-rpc", version: '0.1'
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.7-SNAPSHOT'
+
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

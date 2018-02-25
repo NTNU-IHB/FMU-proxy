@@ -59,15 +59,13 @@ open class GenericFmuServer(
 ) {
 
     private val builder: FmuBuilder
+            = FmuBuilder(this.fmuFile)
+
     protected val modelDescription: SimpleModelDescription
+            = fmuFile.modelDescription
 
     private var server: Server? = null
     protected val fmus = mutableMapOf<Int, FmiSimulation>()
-
-    init {
-        this.modelDescription = this.fmuFile.modelDescription;
-        this.builder = FmuBuilder(this.fmuFile)
-    }
 
     val guid: String
         get() = modelDescription.guid
@@ -164,9 +162,10 @@ open class GenericFmuServer(
             val id = idGenerator.incrementAndGet()
             fmus[id] = builder.asCoSimulationFmu().newInstance()
 
-            val reply = FmiDefinitions.UInt.newBuilder().setValue(id).build()
-            responseObserver.onNext(reply)
-            responseObserver.onCompleted()
+            FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
 
         }
 
@@ -190,26 +189,39 @@ open class GenericFmuServer(
             val id = idGenerator.incrementAndGet()
             fmus[id] = builder.asModelExchangeFmu().newInstance(integrator)
 
-            val reply = FmiDefinitions.UInt.newBuilder().setValue(id).build()
-            responseObserver.onNext(reply)
-            responseObserver.onCompleted()
+            FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
 
         }
 
         override fun getGuid(request: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.Str>) {
 
-            val reply = FmiDefinitions.Str.newBuilder().setValue(guid).build()
-            responseObserver.onNext(reply)
-            responseObserver.onCompleted()
+            FmiDefinitions.Str.newBuilder().setValue(guid).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
 
         }
 
         override fun getModelName(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.Str>) {
 
             val modelName = modelDescription.modelName
-            val reply = FmiDefinitions.Str.newBuilder().setValue(modelName).build()
-            responseObserver.onNext(reply)
-            responseObserver.onCompleted()
+            FmiDefinitions.Str.newBuilder().setValue(modelName).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
+
+        }
+
+        override fun getModelDescriptionXml(request: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.Str>) {
+
+            val xml = fmuFile.modelDescriptionXml
+            FmiDefinitions.Str.newBuilder().setValue(xml).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
 
         }
 
@@ -246,7 +258,6 @@ open class GenericFmuServer(
             for (variable in modelDescription.modelVariables) {
                 responseObserver.onNext(variable.protoType())
             }
-
             responseObserver.onCompleted()
 
         }
