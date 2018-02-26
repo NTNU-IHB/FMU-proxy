@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2018. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,18 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.rmu
+package no.mechatronics.sfi.rmu.misc
 
-import io.grpc.BindableService
-import io.grpc.stub.StreamObserver
+/**
+ * @author Lars Ivar Hatledal
+ */
+data class SimpleSocketAddress(
+        val hostAddress: String,
+        val port: Int
+) {
 
-import no.mechatronics.sfi.rmu.fmu.Fmus
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.rmu.grpc.services.GrpcFmuService
-
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
-class {{fmuName}}Service: {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase(), GrpcFmuService {
-
-    {{dynamicMethods}}
-
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger({{fmuName}}Service::class.java.simpleName)
+    override fun toString(): String {
+        return "SimpleSocketAddress(hostAddress='$hostAddress', port=$port)"
     }
 
 }
-

@@ -34,7 +34,6 @@ import java.net.ServerSocket
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-import no.mechatronics.sfi.rmu.grpc.FmuServer
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 
 /**
@@ -43,52 +42,11 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuFile
  */
 internal object Main {
 
-    private val LOG: Logger = LoggerFactory.getLogger(Main::class.java)
-
-    private val hostAddress: String
-        get() {
-            return try {
-                InetAddress.getLocalHost().hostAddress
-            } catch (ex: UnknownHostException) {
-                "127.0.0.1"
-            }
-        }
-
     @JvmStatic
     fun main(args: Array<String>) {
 
-        InputParser.parse(args) { remoteAddress: SimpleSocketAddress?, localPort: Int? ->
-
-            try {
-                val myPort = localPort ?: ServerSocket(0).use { it.localPort }
-                val localAddress = SimpleSocketAddress(hostAddress, myPort)
-
-                val fmuFile = FmuFile(Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)
-                val server = FmuServer(fmuFile).apply {
-                    addService({{fmuName}}Service())
-                    start(localAddress.port)
-                }
-
-                var beat: FmuHeartbeat? = remoteAddress?.let {
-                    val remoteFmu = RemoteFmu(server.guid, localAddress, server.modelDescriptionXml)
-                    FmuHeartbeat(remoteAddress, remoteFmu).apply { start() }
-                }
-
-                println("Press any key to stop the application..")
-                Scanner(System.`in`).also {
-                    if (it.hasNext()) {
-                        println("Key pressed, stopping application..")
-                        beat?.stop()
-                        server.stop()
-                    }
-                }
-
-
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-
-        }
+        val fmuFile = FmuFile(Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)
+        InputParser.parse(args, fmuFile, {{fmuName}}Service())
 
     }
 

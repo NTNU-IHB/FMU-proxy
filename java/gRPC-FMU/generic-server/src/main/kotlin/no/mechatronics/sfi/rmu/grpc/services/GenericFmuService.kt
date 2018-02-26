@@ -27,7 +27,6 @@ package no.mechatronics.sfi.rmu.grpc.services
 import io.grpc.stub.StreamObserver
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.fmu.FmuBuilder
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
@@ -35,8 +34,8 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.rmu.FmiDefinitions
 import no.mechatronics.sfi.rmu.GenericFmuServiceGrpc
-import no.mechatronics.sfi.rmu.Fmus
-import no.mechatronics.sfi.rmu.grpc.FmuServer
+import no.mechatronics.sfi.rmu.fmu.Fmus
+import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 
 import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator
 import org.apache.commons.math3.ode.nonstiff.EulerIntegrator
@@ -49,12 +48,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class GenericFmuService(
         private val fmuFile: FmuFile
-): GenericFmuServiceGrpc.GenericFmuServiceImplBase(), FmuService {
+): GenericFmuServiceGrpc.GenericFmuServiceImplBase(), GrpcFmuService {
 
     private val idGenerator = AtomicInteger(0)
-
-    private val builder: FmuBuilder
-            = FmuBuilder(this.fmuFile)
 
     private val modelDescription: SimpleModelDescription
             = fmuFile.modelDescription
@@ -62,7 +58,7 @@ class GenericFmuService(
     override fun createInstanceFromCS(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
         val id = idGenerator.incrementAndGet()
-        Fmus[id] = builder.asCoSimulationFmu().newInstance()
+        Fmus[id] = fmuFile.asCoSimulationFmu().newInstance()
 
         FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
@@ -89,7 +85,7 @@ class GenericFmuService(
         }
 
         val id = idGenerator.incrementAndGet()
-        Fmus[id] = builder.asModelExchangeFmu().newInstance(integrator)
+        Fmus[id] = fmuFile.asModelExchangeFmu().newInstance(integrator)
 
         FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
@@ -508,7 +504,7 @@ class GenericFmuService(
 
     private companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(FmuServer::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
     }
 
 }

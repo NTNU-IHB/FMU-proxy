@@ -2,9 +2,8 @@ package no.mechatronics.sfi.rmu
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.rmu.FmiDefinitions
 import no.mechatronics.sfi.rmu.client.GenericFmuClient
-import no.mechatronics.sfi.rmu.grpc.FmuServer
+import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -14,7 +13,7 @@ import org.junit.Test
 class TestClient2 {
 
     private var port: Int = -1
-    private lateinit var server: FmuServer
+    private lateinit var server: GrpcFmuServer
     private lateinit var modelDescription: SimpleModelDescription
 
     @Before
@@ -23,7 +22,7 @@ class TestClient2 {
         val fmuFile = FmuFile(javaClass.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu"))
         modelDescription = fmuFile.modelDescription
 
-        server = FmuServer(fmuFile)
+        server = GrpcFmuServer(fmuFile)
         port = server.start()
     }
 

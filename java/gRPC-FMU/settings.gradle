@@ -1,7 +1,6 @@
 rootProject.name = 'gRPC-FMU'
 
 include 'web'
-include 'json-rpc'
 include 'servergen'
 include 'generic-client'
 include 'generic-server'

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2018. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,25 +22,36 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.rmu
+package no.mechatronics.sfi.rmu.grpc.services
 
 import io.grpc.BindableService
 import io.grpc.stub.StreamObserver
-
-import no.mechatronics.sfi.rmu.fmu.Fmus
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.rmu.grpc.services.GrpcFmuService
+import no.mechatronics.sfi.rmu.FmiDefinitions
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+interface GrpcFmuService : BindableService {
 
-class {{fmuName}}Service: {{fmuName}}ServiceGrpc.{{fmuName}}ServiceImplBase(), GrpcFmuService {
+    fun convert(status: FmiStatus): FmiDefinitions.StatusCode {
+        return when (status) {
+            FmiStatus.OK -> FmiDefinitions.StatusCode.OK
+            FmiStatus.Warning -> FmiDefinitions.StatusCode.WARNING
+            FmiStatus.Discard -> FmiDefinitions.StatusCode.DISCARD
+            FmiStatus.Error -> FmiDefinitions.StatusCode.ERROR
+            FmiStatus.Fatal -> FmiDefinitions.StatusCode.FATAL
+            FmiStatus.Pending -> FmiDefinitions.StatusCode.PENDING
+            FmiStatus.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
+        }
+    }
 
-    {{dynamicMethods}}
+    fun statusReply(status: FmiStatus, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+        statusReply(FmiDefinitions.Status.newBuilder()
+                .setCode(convert(status))
+                .build(), responseObserver)
+    }
 
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger({{fmuName}}Service::class.java.simpleName)
+    fun statusReply(status: FmiDefinitions.Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+        responseObserver.onNext(status)
+        responseObserver.onCompleted()
     }
 
 }
-
