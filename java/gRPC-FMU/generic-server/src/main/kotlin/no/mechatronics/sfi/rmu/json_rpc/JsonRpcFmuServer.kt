@@ -12,22 +12,10 @@ class JsonRpcFmuServer(
 ): RmuServer {
 
     private val handler = RpcHandler(FmuService(fmuFile))
-    private var server: RpcWebSocketServer? = null
+    private var server = RpcWebSocketServer(handler)
 
-    override fun start(port: Int) {
-        if (server == null) {
-
-            server = RpcWebSocketServer(handler).also { it.start(port) }
-            LOG.info("JsonRpcFmuServer listening for connections on port: $port")
-
-        } else {
-            LOG.warn("JsonRpcFmuServer has already been started!")
-        }
-    }
-
-    override fun stop() {
-        server?.stop()
-    }
+    override fun start(port: Int) = server.start(port)
+    override fun stop() = server.stop()
 
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(JsonRpcFmuServer::class.java)
