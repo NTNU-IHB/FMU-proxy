@@ -36,7 +36,6 @@ import org.apache.commons.cli.Options
 object InputParser {
 
     private const val HELP = "help"
-
     private const val REMOTE = "remote"
     private const val LOCAL_PORT = "localPort"
 

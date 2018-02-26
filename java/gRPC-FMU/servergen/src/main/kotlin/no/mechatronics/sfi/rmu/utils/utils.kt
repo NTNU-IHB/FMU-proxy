@@ -25,37 +25,39 @@
 package no.mechatronics.sfi.rmu.utils
 
 import org.apache.commons.io.IOUtils
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-fun extractModelDescriptionXml(stream: InputStream): String {
+//fun extractModelDescriptionXml(stream: InputStream): String {
+//
+//    ZipInputStream(stream).use {
+//
+//        var nextEntry: ZipEntry? = it.nextEntry
+//        while (nextEntry != null) {
+//
+//            val name = nextEntry.name
+//            if (name == "modelDescription.xml") {
+//                return IOUtils.toString(it, Charset.forName("UTF-8"))
+//            }
+//
+//            nextEntry = it.nextEntry
+//        }
+//
+//    }
+//
+//    throw IllegalArgumentException("Input is not an valid FMU! No modelDescription.xml present!")
+//
+//}
 
-    ZipInputStream(stream).use {
-
-        var nextEntry: ZipEntry? = it.nextEntry
-        while (nextEntry != null) {
-
-            val name = nextEntry.name
-            if (name == "modelDescription.xml") {
-                return IOUtils.toString(it, Charset.forName("UTF-8"))
-            }
-
-            nextEntry = it.nextEntry
-        }
-
-    }
-
-    throw IllegalArgumentException("Input is not an valid FMU! No modelDescription.xml present!")
-
-}
-
-fun isArray(name: String) : Boolean {
+internal fun isArray(name: String) : Boolean {
     return "[" in name && "]" in name
 }
 
-fun getProtoType(typeName: String): String {
+internal fun getProtoType(typeName: String): String {
 
     when (typeName) {
         "Integer" -> return "Int"
@@ -65,6 +67,29 @@ fun getProtoType(typeName: String): String {
     }
 
     throw RuntimeException()
+
+}
+
+internal fun copyZippedContent(baseFile: File, content: InputStream) {
+
+    ZipInputStream(content).use { zis ->
+        var nextEntry: ZipEntry? = zis.nextEntry
+        while (nextEntry != null) {
+            if (!nextEntry.isDirectory) {
+                File(baseFile, nextEntry.name).also { file ->
+                    if (!file.exists()) {
+                        if (!file.parentFile.exists()) {
+                            file.parentFile.mkdirs()
+                        }
+                        FileOutputStream(file).use { fis ->
+                            IOUtils.copy(zis, fis)
+                        }
+                    }
+                }
+            }
+            nextEntry = zis.nextEntry
+        }
+    }
 
 }
 

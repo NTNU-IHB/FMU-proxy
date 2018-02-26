@@ -11,19 +11,17 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.rmu.ApplicationStarter
-import no.mechatronics.sfi.rmu.GrpcFmu
 import org.apache.commons.io.IOUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.charset.Charset
 
-class GrpcFmuTest {
+class RmuTest {
 
     lateinit var generatedJar: File
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(GrpcFmu::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(Rmu::class.java)
     }
 
     @Before

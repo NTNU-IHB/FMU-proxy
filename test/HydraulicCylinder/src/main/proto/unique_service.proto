@@ -1,0 +1,287 @@
+
+syntax = "proto3";
+
+package no.mechatronics.sfi.rmu;
+option java_outer_classname = "HydraulicCylinderProto";
+import "definitions.proto";
+
+message IntegerWrite {
+    uint32 fmu_id = 1;
+    int32 value = 2;
+}
+
+message RealWrite {
+    uint32 fmu_id = 1;
+    double value = 2;
+}
+
+message StringWrite {
+    uint32 fmu_id = 1;
+    string value = 2;
+}
+
+message BooleanWrite {
+    uint32 fmu_id = 1;
+    bool value = 2;
+}
+
+service HydraulicCylinderService {
+
+    
+                    rpc Read_DrainTank_p_e (UInt) returns (RealRead);
+
+                    rpc Write_DrainTank_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_DrainTank_p_f (UInt) returns (RealRead);
+
+                    rpc Write_DrainTank_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_DrainTank_pressureTank (UInt) returns (RealRead);
+
+                    rpc Write_DrainTank_pressureTank (RealWrite) returns (Status);
+
+                    
+                    rpc Read_DrainTank_flowTank (UInt) returns (RealRead);
+
+                    rpc Write_DrainTank_flowTank (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_flow (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_flow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p1_e (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p2_e (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p3_e (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_p3_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p1_f (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p2_f (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_OneJunction_p3_f (UInt) returns (RealRead);
+
+                    rpc Write_OneJunction_p3_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonForce_p_e (UInt) returns (RealRead);
+
+                    rpc Write_PistonForce_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonForce_p_f (UInt) returns (RealRead);
+
+                    rpc Write_PistonForce_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonForce_effort (UInt) returns (RealRead);
+
+                    rpc Write_PistonForce_effort (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonForce_flow (UInt) returns (RealRead);
+
+                    rpc Write_PistonForce_flow (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSide_p1_e (UInt) returns (RealRead);
+
+                    rpc Write_PistonSide_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSide_p1_f (UInt) returns (RealRead);
+
+                    rpc Write_PistonSide_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSide_p2_e (UInt) returns (RealRead);
+
+                    rpc Write_PistonSide_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSide_p2_f (UInt) returns (RealRead);
+
+                    rpc Write_PistonSide_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSide_diameterPiston (UInt) returns (RealRead);
+
+                    rpc Write_PistonSide_diameterPiston (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSide_areaPistonSide (UInt) returns (RealRead);
+
+                    rpc Write_PistonSide_areaPistonSide (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_p_e (UInt) returns (RealRead);
+
+                    rpc Write_Pump_p_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_p_f (UInt) returns (RealRead);
+
+                    rpc Write_Pump_p_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_gain (UInt) returns (RealRead);
+
+                    rpc Write_Pump_gain (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_displacementPump (UInt) returns (RealRead);
+
+                    rpc Write_Pump_displacementPump (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_rpmPump (UInt) returns (RealRead);
+
+                    rpc Write_Pump_rpmPump (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_flowMaxPump (UInt) returns (RealRead);
+
+                    rpc Write_Pump_flowMaxPump (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_pressurePump (UInt) returns (RealRead);
+
+                    rpc Write_Pump_pressurePump (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Pump_flowPump (UInt) returns (RealRead);
+
+                    rpc Write_Pump_flowPump (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_p1_e (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_p1_f (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_p2_e (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_p2_f (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_diameterPiston (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_diameterPiston (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_diameterRod (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_diameterRod (RealWrite) returns (Status);
+
+                    
+                    rpc Read_RodSide_areaRodSide (UInt) returns (RealRead);
+
+                    rpc Write_RodSide_areaRodSide (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Splitter1_input (UInt) returns (RealRead);
+
+                    rpc Write_Splitter1_input (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Splitter1_output1 (UInt) returns (RealRead);
+
+                    rpc Write_Splitter1_output1 (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Splitter1_output2 (UInt) returns (RealRead);
+
+                    rpc Write_Splitter1_output2 (RealWrite) returns (Status);
+
+                    
+                    rpc Read_ZeroJunction_effort (UInt) returns (RealRead);
+
+                    rpc Write_ZeroJunction_effort (RealWrite) returns (Status);
+
+                    
+                    rpc Read_ZeroJunction_p1_e (UInt) returns (RealRead);
+
+                    rpc Write_ZeroJunction_p1_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_ZeroJunction_p2_e (UInt) returns (RealRead);
+
+                    rpc Write_ZeroJunction_p2_e (RealWrite) returns (Status);
+
+                    
+                    rpc Read_ZeroJunction_p1_f (UInt) returns (RealRead);
+
+                    rpc Write_ZeroJunction_p1_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_ZeroJunction_p2_f (UInt) returns (RealRead);
+
+                    rpc Write_ZeroJunction_p2_f (RealWrite) returns (Status);
+
+                    
+                    rpc Read_ConstraintForce (UInt) returns (RealRead);
+
+                    rpc Write_ConstraintForce (RealWrite) returns (Status);
+
+                    
+                    rpc Read_FlowGain (UInt) returns (RealRead);
+
+                    rpc Write_FlowGain (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonDisplacement (UInt) returns (RealRead);
+
+                    rpc Write_PistonDisplacement (RealWrite) returns (Status);
+
+                    
+                    rpc Read_PistonSpeed (UInt) returns (RealRead);
+
+                    rpc Write_PistonSpeed (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Integrate_input (UInt) returns (RealRead);
+
+                    rpc Write_Integrate_input (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Integrate_output (UInt) returns (RealRead);
+
+                    rpc Write_Integrate_output (RealWrite) returns (Status);
+
+                    
+                    rpc Read_Integrate_initial (UInt) returns (RealRead);
+
+                    rpc Write_Integrate_initial (RealWrite) returns (Status);
+
+                    
+
+}

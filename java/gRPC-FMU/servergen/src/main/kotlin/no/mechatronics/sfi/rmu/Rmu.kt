@@ -27,20 +27,19 @@ package no.mechatronics.sfi.rmu
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.rmu.codegen.ProtoGen
 import no.mechatronics.sfi.rmu.codegen.ServerGen
-import no.mechatronics.sfi.rmu.utils.extractModelDescriptionXml
+import no.mechatronics.sfi.rmu.utils.copyZippedContent
 import org.apache.commons.io.FileUtils
-import org.slf4j.LoggerFactory
-import java.nio.charset.Charset
 import org.apache.commons.io.IOUtils
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.net.URL
 import java.nio.file.Files
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
+import java.nio.charset.Charset
+
 
 const val PACKAGE_NAME = "no.mechatronics.sfi.rmu"
 const val KOTLIN_SRC_OUTPUT_FOLDER = "src/main/kotlin/"
@@ -50,17 +49,17 @@ const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
  *
  * @author Lars Ivar Hatledal
  */
-class GrpcFmu(
+class Rmu(
         private val inputStream: InputStream,
         private val modelDescriptionXml: String
 ) {
 
    companion object {
-       private val LOG: Logger = LoggerFactory.getLogger(GrpcFmu::class.java)
+       private val LOG: Logger = LoggerFactory.getLogger(Rmu::class.java)
    }
 
-    constructor(file: File): this(FileInputStream(file), extractModelDescriptionXml(FileInputStream(file)))
-    constructor(url: URL): this(url.openStream(), extractModelDescriptionXml(url.openStream()))
+    constructor(file: File): this(FileInputStream(file), ModelDescriptionParser.extractModelDescriptionXml(FileInputStream(file)))
+    constructor(url: URL): this(url.openStream(), ModelDescriptionParser.extractModelDescriptionXml(url.openStream()))
 
     fun generate(outDir: File = File(".")) {
 
@@ -87,7 +86,7 @@ class GrpcFmu(
                 file.createNewFile()
             }
 
-            copyZippedContent(baseFile)
+            copyZippedContent(baseFile, javaClass.classLoader.getResourceAsStream("gradlew.zip"))
 
             val resourcesFile = File(baseFile,"src/main/resources/").apply {
                 if (!exists()) {
@@ -114,15 +113,9 @@ class GrpcFmu(
                 }
             }
 
-            ProtoGen.generateProtoCode(modelDescription).apply {
-
-                val packageName = PACKAGE_NAME.replace(".", "/")
-                val protoOut = File(baseFile, "${PROTO_SRC_OUTPUT_FOLDER}/$packageName")
-                create(protoOut)
-
-            }
-
+            ProtoGen.generateProtoCode(modelDescription, baseFile)
             ServerGen.generateServerCode(modelDescription, baseFile)
+
             ProcessBuilder()
                     .directory(baseFile)
                     .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
@@ -135,7 +128,7 @@ class GrpcFmu(
                     File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
                         if (exists()) {
                             FileUtils.copyFileToDirectory(this, outDir)
-                            LOG.info("Executable '{}' is located in directory '{}'", this.name, outDir.absolutePath)
+                            LOG.info("Executable '$name' is located in directory '${outDir.absolutePath}'")
                         }
                     }
                 } else {
@@ -150,29 +143,6 @@ class GrpcFmu(
             }
         }
 
-    }
-
-    private fun copyZippedContent(baseFile: File) {
-        javaClass.classLoader.getResourceAsStream("gradlew.zip").also { zipStream ->
-            ZipInputStream(zipStream).use { zis ->
-                var nextEntry: ZipEntry? = zis.nextEntry
-                while (nextEntry != null) {
-                    if (!nextEntry.isDirectory) {
-                        File(baseFile, nextEntry.name).also { file ->
-                            if (!file.exists()) {
-                                if (!file.parentFile.exists()) {
-                                    file.parentFile.mkdirs()
-                                }
-                                FileOutputStream(file).use { fis ->
-                                    IOUtils.copy(zis, fis)
-                                }
-                            }
-                        }
-                    }
-                    nextEntry = zis.nextEntry
-                }
-            }
-        }
     }
 
 

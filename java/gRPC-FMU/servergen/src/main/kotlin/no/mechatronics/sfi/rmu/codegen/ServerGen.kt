@@ -79,12 +79,6 @@ object ServerGen {
         }
 
         FileFuture(
-                name = "InputParser.kt",
-                text = IOUtils.toString(javaClass.classLoader
-                        .getResourceAsStream("servercode/InputParser.kt"), Charset.forName("UTF-8"))
-        ).create(ktOut)
-
-        FileFuture(
                 name = "Main.kt",
                 text = JtwigTemplate.classpathTemplate("templates/server/Main.kt").let { template ->
                     template.render(JtwigModel.newModel()

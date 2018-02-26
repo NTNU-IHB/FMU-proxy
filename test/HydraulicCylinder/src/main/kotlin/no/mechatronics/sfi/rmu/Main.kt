@@ -63,9 +63,9 @@ internal object Main {
                 val myPort = localPort ?: ServerSocket(0).use { it.localPort }
                 val localAddress = SimpleSocketAddress(hostAddress, myPort)
 
-                val fmuFile = FmuFile(Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)
+                val fmuFile = FmuFile(Main::class.java.classLoader.getResource("HydraulicCylinder.fmu")!!)
                 val server = FmuServer(fmuFile).apply {
-                    addService({{fmuName}}Service())
+                    addService(HydraulicCylinderService())
                     start(localAddress.port)
                 }
 

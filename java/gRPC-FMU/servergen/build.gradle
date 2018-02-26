@@ -30,7 +30,6 @@ dependencies {
 
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
 
-
     testImplementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
     testImplementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
     testImplementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
@@ -56,3 +55,15 @@ sourceSets {
         }
     }
 }
+
+//task copyProto(type: Copy) {
+//
+//    copyProto.configure {
+//        from('../../../proto/')
+//        into('src/main/resources/templates/proto')
+//        include('definitions.proto')
+//    }
+//
+//}
+//
+//compileKotlin.dependsOn(copyProto)

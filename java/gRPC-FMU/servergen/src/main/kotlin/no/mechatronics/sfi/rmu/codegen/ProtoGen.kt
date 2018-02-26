@@ -26,14 +26,18 @@ package no.mechatronics.sfi.rmu.codegen
 
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
+import no.mechatronics.sfi.rmu.PACKAGE_NAME
+import no.mechatronics.sfi.rmu.PROTO_SRC_OUTPUT_FOLDER
 import no.mechatronics.sfi.rmu.utils.FileFuture
 import no.mechatronics.sfi.rmu.utils.getProtoType
 import no.mechatronics.sfi.rmu.utils.isArray
+import org.apache.commons.io.IOUtils
 import java.io.File
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.nio.charset.Charset
 
 //private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
 
@@ -108,38 +112,52 @@ object ProtoGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
 
-    fun generateProtoCode(modelDescription: SimpleModelDescription): FileFuture {
+    fun generateProtoCode(modelDescription: SimpleModelDescription, baseFile: File) {
 
-        val sb = StringBuilder()
-        modelDescription.modelVariables.forEach({
-            val isArray = isArray(it.name)
-            if (!isArray) {
+        val instanceServices = StringBuilder().apply {
 
-                sb.append("""
+            modelDescription.modelVariables.forEach({
+                val isArray = isArray(it.name)
+                if (!isArray) {
+
+                    append("""
                     rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it.typeName)}Read);
 
                     rpc Write_${convertName(it.name)} (${getProtoType(it.typeName)}Write) returns (Status);
 
                     """)
 
-            }
+                }
 
-        })
+            })
+        }.toString()
 
-        return FileFuture(
+
+        val protoOut = File(baseFile, "$PROTO_SRC_OUTPUT_FOLDER")
+
+         FileFuture(
                 name = "unique_service.proto",
                 text = JtwigTemplate.classpathTemplate("templates/proto/unique_service.proto").let { template ->
                     template.render(JtwigModel.newModel()
                             .with("fmuName", modelDescription.modelName)
-                            .with("instanceServices", sb.toString())!!)
+                            .with("instanceServices", instanceServices))
                 }
-        )
+        ).create(protoOut)
+
+//        FileFuture(
+//                name = "definitions.proto",
+//                text = IOUtils.toString(javaClass.classLoader
+//                        .getResourceAsStream("templates/proto/definitions.proto"), Charset.forName("UTF-8"))
+//        ).create(protoOut)
+
 
     }
 
-    private fun convertName(str: String): String {
-        return str.substring(0, 1).toUpperCase() + str.substring(1).replace(".", "_")
-    }
+
+    private fun convertName(str: String) =
+            str.substring(0, 1)
+                    .toUpperCase() + str.substring(1)
+                    .replace(".", "_")
 
 
 }

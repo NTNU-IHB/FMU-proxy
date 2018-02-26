@@ -440,19 +440,22 @@ class GenericFmuService(
             val stop = req.stop
             val hasStart = start > 0
             val hasStop = stop > 0 && stop > start
-            if (hasStart && hasStop) {
-                init = fmu.init(start, stop)
+            init = if (hasStart && hasStop) {
+                fmu.init(start, stop)
             } else if (hasStart && hasStop) {
-                init = fmu.init(start)
+                fmu.init(start)
             } else {
-                init = fmu.init()
+                fmu.init()
             }
         } else {
             LOG.warn("No fmu with id: {}", id)
         }
-        val reply = FmiDefinitions.Bool.newBuilder().setValue(init).build()
-        responseObserver.onNext(reply)
-        responseObserver.onCompleted()
+
+        FmiDefinitions.Bool.newBuilder().setValue(init).build().also {
+            responseObserver.onNext(it)
+            responseObserver.onCompleted()
+        }
+
     }
 
     override fun step(req: FmiDefinitions.StepRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
@@ -476,23 +479,16 @@ class GenericFmuService(
         val id = req.value
         val fmu = Fmus.remove(id)
         if (fmu != null) {
-            LOG.info("Removed fmu instance from list")
-            try {
-                flag = fmu.terminate()
-                LOG.info("Terminated fmu with success: {}", flag)
-            } catch (ex: java.lang.Exception) {
-                ex.printStackTrace()
-            } catch (ex: java.lang.Error) {
-                ex.printStackTrace()
-            }
-
+            flag = fmu.terminate()
+            LOG.debug("Terminated fmu with success: {}", flag)
         } else {
             LOG.warn("No fmu with id: {}", id)
         }
 
-        val reply = FmiDefinitions.Bool.newBuilder().setValue(flag).build()
-        responseObserver.onNext(reply)
-        responseObserver.onCompleted()
+        FmiDefinitions.Bool.newBuilder().setValue(flag).build().also {
+            responseObserver.onNext(it)
+            responseObserver.onCompleted()
+        }
 
     }
 

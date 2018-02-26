@@ -1,11 +1,13 @@
 
 syntax = "proto3";
 
-package no.mechatronics.sfi.grpc_fmu;
+package no.mechatronics.sfi.rmu;
 option java_outer_classname = "GenericFmuProto";
 import "definitions.proto";
 
 service GenericFmuService {
+
+    rpc GetModelDescriptionXml(Empty) returns (Str);
 
     rpc CreateInstanceFromCS (Empty) returns (UInt);
 	rpc CreateInstanceFromME (Integrator) returns (UInt);
@@ -13,6 +15,7 @@ service GenericFmuService {
 	rpc GetGuid (Empty)  returns (Str);
     rpc GetModelName (Empty) returns (Str);
     rpc GetModelVariables (Empty) returns (stream ScalarVariable);
+    rpc GetModelStructure (Empty) returns (ModelStructure);
 	
     //instance methods
     rpc GetCurrentTime (UInt) returns (Real);

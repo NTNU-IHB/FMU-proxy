@@ -14,138 +14,148 @@ class GenericFmuServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.GetModelDescriptionXml = channel.unary_unary(
+        '/no.mechatronics.sfi.rmu.GenericFmuService/GetModelDescriptionXml',
+        request_serializer=definitions__pb2.Empty.SerializeToString,
+        response_deserializer=definitions__pb2.Str.FromString,
+        )
     self.CreateInstanceFromCS = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/CreateInstanceFromCS',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/CreateInstanceFromCS',
         request_serializer=definitions__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.UInt.FromString,
         )
     self.CreateInstanceFromME = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/CreateInstanceFromME',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/CreateInstanceFromME',
         request_serializer=definitions__pb2.Integrator.SerializeToString,
         response_deserializer=definitions__pb2.UInt.FromString,
         )
     self.GetGuid = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetGuid',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/GetGuid',
         request_serializer=definitions__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.Str.FromString,
         )
     self.GetModelName = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetModelName',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/GetModelName',
         request_serializer=definitions__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.Str.FromString,
         )
     self.GetModelVariables = channel.unary_stream(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetModelVariables',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/GetModelVariables',
         request_serializer=definitions__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.ScalarVariable.FromString,
         )
+    self.GetModelStructure = channel.unary_unary(
+        '/no.mechatronics.sfi.rmu.GenericFmuService/GetModelStructure',
+        request_serializer=definitions__pb2.Empty.SerializeToString,
+        response_deserializer=definitions__pb2.ModelStructure.FromString,
+        )
     self.GetCurrentTime = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/GetCurrentTime',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/GetCurrentTime',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Real.FromString,
         )
     self.IsTerminated = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/IsTerminated',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/IsTerminated',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.Init = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/Init',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/Init',
         request_serializer=definitions__pb2.InitRequest.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.Step = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/Step',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/Step',
         request_serializer=definitions__pb2.StepRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Terminate = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/Terminate',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/Terminate',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.Reset = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/Reset',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/Reset',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.ReadInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadInteger',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/ReadInteger',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.IntRead.FromString,
         )
     self.ReadReal = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadReal',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/ReadReal',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.RealRead.FromString,
         )
     self.ReadString = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadString',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/ReadString',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.StrRead.FromString,
         )
     self.ReadBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/ReadBoolean',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/ReadBoolean',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.BoolRead.FromString,
         )
     self.BulkReadInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadInteger',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkReadInteger',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.IntListRead.FromString,
         )
     self.BulkReadReal = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadReal',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkReadReal',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.RealListRead.FromString,
         )
     self.BulkReadString = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadString',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkReadString',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.StrListRead.FromString,
         )
     self.BulkReadBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkReadBoolean',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkReadBoolean',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.BoolListRead.FromString,
         )
     self.WriteInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteInteger',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/WriteInteger',
         request_serializer=definitions__pb2.WriteIntegerRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteReal = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteReal',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/WriteReal',
         request_serializer=definitions__pb2.WriteRealRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteString = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteString',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/WriteString',
         request_serializer=definitions__pb2.WriteStringRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/WriteBoolean',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/WriteBoolean',
         request_serializer=definitions__pb2.WriteBooleanRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteInteger',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkWriteInteger',
         request_serializer=definitions__pb2.BulkWriteIntegerRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteReal = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteReal',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkWriteReal',
         request_serializer=definitions__pb2.BulkWriteRealRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteString = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteString',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkWriteString',
         request_serializer=definitions__pb2.BulkWriteStringRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.grpc_fmu.GenericFmuService/BulkWriteBoolean',
+        '/no.mechatronics.sfi.rmu.GenericFmuService/BulkWriteBoolean',
         request_serializer=definitions__pb2.BulkWriteBooleanRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
@@ -154,6 +164,13 @@ class GenericFmuServiceStub(object):
 class GenericFmuServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
+
+  def GetModelDescriptionXml(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
   def CreateInstanceFromCS(self, request, context):
     # missing associated documentation comment in .proto file
@@ -184,6 +201,13 @@ class GenericFmuServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def GetModelVariables(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetModelStructure(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -347,6 +371,11 @@ class GenericFmuServiceServicer(object):
 
 def add_GenericFmuServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'GetModelDescriptionXml': grpc.unary_unary_rpc_method_handler(
+          servicer.GetModelDescriptionXml,
+          request_deserializer=definitions__pb2.Empty.FromString,
+          response_serializer=definitions__pb2.Str.SerializeToString,
+      ),
       'CreateInstanceFromCS': grpc.unary_unary_rpc_method_handler(
           servicer.CreateInstanceFromCS,
           request_deserializer=definitions__pb2.Empty.FromString,
@@ -371,6 +400,11 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
           servicer.GetModelVariables,
           request_deserializer=definitions__pb2.Empty.FromString,
           response_serializer=definitions__pb2.ScalarVariable.SerializeToString,
+      ),
+      'GetModelStructure': grpc.unary_unary_rpc_method_handler(
+          servicer.GetModelStructure,
+          request_deserializer=definitions__pb2.Empty.FromString,
+          response_serializer=definitions__pb2.ModelStructure.SerializeToString,
       ),
       'GetCurrentTime': grpc.unary_unary_rpc_method_handler(
           servicer.GetCurrentTime,
@@ -484,5 +518,5 @@ def add_GenericFmuServiceServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'no.mechatronics.sfi.grpc_fmu.GenericFmuService', rpc_method_handlers)
+      'no.mechatronics.sfi.rmu.GenericFmuService', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

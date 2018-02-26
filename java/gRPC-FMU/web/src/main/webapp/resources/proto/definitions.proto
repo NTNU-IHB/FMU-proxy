@@ -1,7 +1,7 @@
 
 syntax = "proto3";
 
-package no.mechatronics.sfi.grpc_fmu;
+package no.mechatronics.sfi.rmu;
 option java_outer_classname = "FmiDefinitions";
 
 message Integrator {
@@ -183,6 +183,19 @@ message BulkWriteBooleanRequest {
 	repeated bool values = 3;
 }
 
+message Unknown {
+    uint32 index = 1;
+    repeated uint32 dependencies = 2;
+    DependenciesKind dependenciesKind = 3;
+    
+}
+
+message ModelStructure {
+    repeated uint32 outputs = 1;
+    repeated Unknown derivatives = 2;
+    repeated Unknown initialUnknowns = 3;
+}
+
 enum Causality {
     UNDEFINED_CAUSALITY = 0;
     INPUT = 1;
@@ -228,6 +241,13 @@ enum StatusCode {
 	ERROR = 3;
 	FATAL = 4;
 	PENDING = 5;
+}
+
+enum DependenciesKind {
+    DEPENDENT_KIND = 0;
+    CONSTANT_KIND = 1;
+    TUNABLE_KIND = 2;
+    DISCRETE_KIND = 4;
 }
 
 message EulerIntegrator {

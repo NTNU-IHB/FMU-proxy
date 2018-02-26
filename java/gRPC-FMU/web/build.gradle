@@ -36,7 +36,7 @@ gretty {
     servletContainer = "jetty9.3"
     httpEnabled = true
     httpPort = 8080
-    contextPath = "/grpc-fmu"
+    contextPath = "/rmu"
     logDir = projectDir
 }
 
@@ -55,7 +55,7 @@ task copyProtoZip(type: Zip) {
 
     from '../../../proto'
     include '*'
-    archiveName 'gRPC-FMU_GenericProto.zip'
+    archiveName 'RMU_GenericProto.zip'
     destinationDir(file('src/main/webapp/resources/proto/'))
 }
 
