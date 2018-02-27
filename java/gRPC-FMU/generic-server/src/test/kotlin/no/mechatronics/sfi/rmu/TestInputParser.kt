@@ -18,7 +18,7 @@ class TestInputParser {
                 "-grpcPort", "8000",
                 "-wsPort", "8001"
         )
-        InputParser.parse(args, fmuFile)
+        Rmu.create(args, fmuFile)
 
     }
 

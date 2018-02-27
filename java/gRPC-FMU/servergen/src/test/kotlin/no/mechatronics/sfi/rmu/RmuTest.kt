@@ -21,7 +21,7 @@ class RmuTest {
     lateinit var generatedJar: File
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(Rmu::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(ExecutableGenerator::class.java)
     }
 
     @Before

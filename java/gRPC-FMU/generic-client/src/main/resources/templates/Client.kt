@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu
+package no.mechatronics.sfi.rmu
 
 class {{fmuName}}Client(
         host: String,

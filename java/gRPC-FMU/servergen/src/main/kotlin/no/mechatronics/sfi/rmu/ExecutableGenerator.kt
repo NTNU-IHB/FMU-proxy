@@ -36,7 +36,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.net.URL
 import java.nio.file.Files
 import java.nio.charset.Charset
 
@@ -49,22 +48,18 @@ const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
  *
  * @author Lars Ivar Hatledal
  */
-class Rmu(
+class ExecutableGenerator(
         private val inputStream: InputStream,
         private val modelDescriptionXml: String
 ) {
 
-   companion object {
-       private val LOG: Logger = LoggerFactory.getLogger(Rmu::class.java)
-   }
 
     constructor(file: File): this(FileInputStream(file), ModelDescriptionParser.extractModelDescriptionXml(FileInputStream(file)))
-    constructor(url: URL): this(url.openStream(), ModelDescriptionParser.extractModelDescriptionXml(url.openStream()))
 
     fun generate(outDir: File = File(".")) {
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
-        //val tempDir = Files.createTempDirectory("grpc_fmu").toFile()
+        //val tempDir = Files.createTempDirectory("rmu").toFile()
 
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists() && mkdir()) {
@@ -145,5 +140,8 @@ class Rmu(
 
     }
 
+    companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(ExecutableGenerator::class.java)
+    }
 
 }

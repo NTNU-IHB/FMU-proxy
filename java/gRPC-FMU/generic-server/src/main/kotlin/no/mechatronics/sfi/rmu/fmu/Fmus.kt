@@ -35,7 +35,11 @@ object Fmus: MutableMap<Int, FmiSimulation> by mutableMapOf() {
     }
 
     fun terminateAll() {
-        values.forEach { if (!it.isTerminated) it.terminate() }
+        values.forEach {
+            if (!it.isTerminated) {
+                it.terminate()
+            }
+        }
     }
 
 }

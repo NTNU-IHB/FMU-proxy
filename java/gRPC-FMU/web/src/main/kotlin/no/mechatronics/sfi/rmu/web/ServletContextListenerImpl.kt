@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,33 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.rmu.misc
+package no.mechatronics.sfi.rmu.web
 
-/**
- * @author Lars Ivar Hatledal
- */
-data class SimpleSocketAddress(
-        val hostAddress: String,
-        val port: Int
-) {
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import javax.servlet.ServletContextEvent
+import javax.servlet.ServletContextListener
 
-    override fun toString(): String {
-        return "SimpleSocketAddress(hostAddress='$hostAddress', port=$port)"
+class ServletContextListenerImpl : ServletContextListener  {
+
+    companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
+        private val listeners = ArrayList<() -> Unit>()
+
+        fun onDestroy(action: () -> Unit) = listeners.add(action)
+
+    }
+
+    override fun contextInitialized(sce: ServletContextEvent?) {
+       LOG.info("contextInitialized")
+    }
+
+    override fun contextDestroyed(sce: ServletContextEvent?) {
+        with(listeners) {
+            forEach({it.invoke()})
+            clear()
+        }
+        LOG.info("contextDestroyed")
     }
 
 }

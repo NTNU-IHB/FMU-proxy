@@ -24,14 +24,15 @@
 
 package no.mechatronics.sfi.rmu
 
+import info.laht.yaj_rpc.RpcHandler
+import info.laht.yaj_rpc.net.tcp.RpcTcpServer
+import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.rmu.fmu.RemoteFmu
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 import no.mechatronics.sfi.rmu.grpc.services.GenericFmuService
 import no.mechatronics.sfi.rmu.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.rmu.heartbeat.Heartbeat
-import no.mechatronics.sfi.rmu.json_rpc.JsonRpcFmuServer
-import no.mechatronics.sfi.rmu.misc.SimpleSocketAddress
+import no.mechatronics.sfi.rmu.json_rpc.FmuService
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
@@ -41,25 +42,40 @@ import java.net.UnknownHostException
 import java.util.*
 
 
+internal data class RemoteFmu(
+        val guid: String,
+        val networkInfo: NetworkInfo,
+        val modelDescriptionXml: String
+)
+
+internal data class NetworkInfo(
+        val host: String,
+        val grpcPort: Int,
+        val wsPort: Int,
+        val tcpPort: Int
+)
+
 /**
  *
  * @author Lars Ivar Hatledal
  */
-object InputParser {
+object Rmu {
 
     private const val HELP = "help"
     private const val REMOTE = "remote"
     private const val GRPC_PORT = "grpcPort"
     private const val JSON_RPC_WS_PORT = "wsPort"
+    private const val JSON_RPC_TCP_PORT = "tcpPort"
 
-    fun parse(args: Array<String>, fmuFile: FmuFile, instanceService: GrpcFmuService? = null)  {
+    fun create(args: Array<String>, fmuFile: FmuFile, instanceService: GrpcFmuService? = null)  {
 
         val options = Options().apply {
 
             addOption(HELP, false, "Prints this message")
             addOption(REMOTE, true, "Specify the IP address of the remote tracking server. E.g. ${"127.0.0.1:7000"}")
             addOption(GRPC_PORT, true, "Manually specify the port to use for the gRPC server (optional)")
-            addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the json-RPC (WebSocket) server (optional)")
+            addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (WebSocket) server (optional)")
+            addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (TCP/IP) server (optional)")
 
         }
 
@@ -68,27 +84,38 @@ object InputParser {
                 HelpFormatter().printHelp(jarName, options)
             } else {
 
-                val remoteAddress: SimpleSocketAddress? = cmd.getOptionValue(REMOTE).let {
-                    it?.let { parseAddress(it) }
+                val remoteAddress: Pair<String, Int>? = cmd.getOptionValue(REMOTE)?.let {
+                    parseAddress(it)
                 }
 
                 try {
                     val grpcPort = cmd.getOptionValue(GRPC_PORT)?.toIntOrNull() ?: availablePort
-                    val grpcAddress = SimpleSocketAddress(hostAddress, grpcPort)
                     val grpcServer = GrpcFmuServer(listOfNotNull(GenericFmuService(fmuFile), instanceService)).apply {
                         start(grpcPort)
                     }
 
-                    val jsonPort = cmd.getOptionValue(JSON_RPC_WS_PORT)?.toIntOrNull() ?: availablePort
-                    val jsonAddress = SimpleSocketAddress(hostAddress, jsonPort)
-                    val jsonServer = JsonRpcFmuServer(fmuFile).apply {
-                        start(jsonPort)
+                    val jsonWsPort = cmd.getOptionValue(JSON_RPC_WS_PORT)?.toIntOrNull() ?: availablePort
+                    val jsonWsServer = object: RpcWebSocketServer(RpcHandler(FmuService(fmuFile))), RmuServer{}.apply {
+                        start(jsonWsPort)
                     }
 
+                    val jsonTcpPort = cmd.getOptionValue(JSON_RPC_TCP_PORT)?.toIntOrNull() ?: availablePort
+                    val jsonTcpServer = object: RpcTcpServer(RpcHandler(FmuService(fmuFile))), RmuServer{}.apply {
+                        start(jsonTcpPort)
+                    }
+
+                    val networkInfo = NetworkInfo(
+                            host = hostAddress,
+                            grpcPort = grpcPort,
+                            wsPort = jsonWsPort,
+                            tcpPort = jsonTcpPort
+                    )
+                    val remoteFmu = RemoteFmu(
+                            guid = fmuFile.modelDescription.guid,
+                            networkInfo = networkInfo,
+                            modelDescriptionXml = fmuFile.modelDescriptionXml)
+
                     var beat: Heartbeat? = remoteAddress?.let {
-                        val guid = fmuFile.modelDescription.guid
-                        val xml = fmuFile.modelDescriptionXml
-                        val remoteFmu = RemoteFmu(guid, grpcAddress, xml)
                         Heartbeat(remoteAddress, remoteFmu).apply {
                             start()
                         }
@@ -100,10 +127,10 @@ object InputParser {
                             println("Key pressed, stopping application..")
                             beat?.stop()
                             grpcServer.stop()
-                            jsonServer.stop()
+                            jsonWsServer.stop()
+                            jsonTcpServer.stop()
                         }
                     }
-
 
                 } catch (ex: Exception) {
                     ex.printStackTrace()
@@ -115,7 +142,7 @@ object InputParser {
 
     }
 
-    private val jarName = java.io.File(InputParser::class.java
+    private val jarName = java.io.File(Rmu::class.java
             .protectionDomain.codeSource.location.path).name
 
 
@@ -133,7 +160,7 @@ object InputParser {
             return ServerSocket(0).use { it.localPort }
         }
 
-    private fun parseAddress(value: String) : SimpleSocketAddress {
+    private fun parseAddress(value: String) : Pair<String, Int> {
 
         val split = value.split(":")
         if (split.size != 2) {
@@ -141,8 +168,8 @@ object InputParser {
         }
 
         val host = split[0]
-        val port = split[1].toIntOrNull() ?: error("Wrong input format! Unable to parse port number from input: $value")
-        return SimpleSocketAddress(host, port)
+        val port = split[1].toIntOrNull() ?: error("Wrong input format! Unable to create port number from input: $value")
+        return host to port
     }
 
 

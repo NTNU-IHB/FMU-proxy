@@ -22,19 +22,25 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu.web.fmu
+package no.mechatronics.sfi.rmu.web.fmu
 
-import no.mechatronics.sfi.grpc_fmu.web.ServletContextListenerImpl
+import com.google.gson.GsonBuilder
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
+import no.mechatronics.sfi.rmu.web.ServletContextListenerImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zeromq.ZContext
 import org.zeromq.ZFrame
 import org.zeromq.ZMQ
 import org.zeromq.ZMsg
+import java.io.Serializable
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.faces.bean.ApplicationScoped
 import javax.faces.bean.ManagedBean
+import kotlin.collections.HashSet
 
 private const val HEARTBEAT_LIVENESS = 3L       //  3-5 is reasonable
 private const val HEARTBEAT_INTERVAL = 1000L    //  msecs
@@ -44,12 +50,49 @@ private const val PPP_HEARTBEAT = "\u0002"      //  Signals worker heartbeat
 
 private const val PORT = 7000
 
+
+data class NetworkInfo(
+        val host: String,
+        val grpcPort: Int,
+        val wsPort: Int,
+        val tcpPort: Int
+)
+
+@ManagedBean
+data class RemoteFmu(
+        val guid: String,
+        val networkInfo: NetworkInfo,
+        val modelDescriptionXml: String
+): Serializable {
+
+    companion object {
+        val LOG = LoggerFactory.getLogger(RemoteFmu::class.java)
+    }
+
+    val modelName: String
+        get() = modelDescription.modelName
+
+    val description: String
+        get() = modelDescription.description ?: "-"
+
+    val modelDescription: SimpleModelDescription
+        get() =  ModelDescriptionParser.parse(modelDescriptionXml)
+
+    val modelVariables: List<TypedScalarVariable<*>>
+        get() = modelDescription.modelVariables.variables
+
+    override fun toString(): String {
+        return "RemoteFmu(guid='$guid', networkInfo=$networkInfo)"
+    }
+
+}
+
 @ManagedBean(eager = true)
 @ApplicationScoped()
 class FmuService {
 
     private val beat: Heartbeat = Heartbeat(PORT)
-    val fmus: MutableSet<FmuBean> = Collections.synchronizedSet(HashSet())
+    val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
 
     companion object {
         private val LOG: Logger = LoggerFactory.getLogger(FmuService::class.java)
@@ -67,7 +110,7 @@ class FmuService {
 
     }
 
-    fun add(fmu: FmuBean): Boolean {
+    fun add(fmu: RemoteFmu): Boolean {
         synchronized(fmus) {
             return fmus.add(fmu)
         }
@@ -90,6 +133,7 @@ class FmuService {
 
         private var stop: Boolean = false
         private var thread: Thread? = null
+        private val gson = GsonBuilder().create()
         private val workers: MutableMap<String, Worker> = HashMap()
 
         fun start() {
@@ -126,10 +170,12 @@ class FmuService {
                                 if (String(msg.first.data, ZMQ.CHARSET) == PPP_READY) {
 
                                     val data = String(msg.last.data, ZMQ.CHARSET);
-                                    val remoteFmu = RemoteFmu.fromJson(data)
+                                    val remoteFmu = gson.fromJson(data, RemoteFmu::class.java).apply {
+                                        init()
+                                    }
 
-                                    if (add(FmuBean(remoteFmu))) {
-                                        LOG.info("FMU {} connected!", remoteFmu)
+                                    if (add(remoteFmu)) {
+                                        LOG.info("FMU $remoteFmu connected!")
                                         workers[uuid] = Worker(address)
                                     }
 

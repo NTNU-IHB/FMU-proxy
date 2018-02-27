@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu.web
+package no.mechatronics.sfi.rmu.web
 
 import javax.faces.bean.ManagedBean
 import org.primefaces.model.StreamedContent

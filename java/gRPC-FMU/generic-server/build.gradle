@@ -23,7 +23,7 @@ apply plugin: 'kotlin'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = 'no.mechatronics.sfi.grpc_fmu'
+group = 'no.mechatronics.sfi.rmu'
 version = '0.1-SNAPSHOT'
 
 repositories {

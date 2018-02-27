@@ -70,7 +70,7 @@ class ApplicationStarter {
                                     }
                                 }
 
-                                Rmu(this).generate(out)
+                                ExecutableGenerator(this).generate(out)
 
                             } else {
                                 error("Not a valid file: $absolutePath")

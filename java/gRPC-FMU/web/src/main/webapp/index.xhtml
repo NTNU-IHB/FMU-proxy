@@ -18,7 +18,7 @@
 
             <p:commandButton id="iconOnly" update=":form:fmus" icon="ui-icon-refresh" title="Icon Only" />
 
-            <p:dataTable id="fmus" var="fmu" value="#{fmuView.fmus}">
+            <p:dataTable id="fmus" var="fmu" value="#{fmuView.service.fmus}">
                 <f:facet name="header">
                     Available FMUs
                 </f:facet>
@@ -26,7 +26,7 @@
                 <p:ajax event="sort" skipChildren="false" />
 
                 <p:column headerText="Model name" sortBy="#{fmu.modelName}">
-                    <h:outputText value="#{fmu.modelName}" />
+                    <h:outputText value="#{fmu.modelDescription.modelName}" />
                 </p:column>
 
                 <p:column headerText="Guid">
@@ -38,7 +38,7 @@
                 </p:column>
 
                 <p:column headerText="IP address">
-                    <h:outputText value="#{fmu.address.hostAddress}:#{fmu.address.port}" />
+                    <h:outputText value="#{fmu.networkInfo.host}" />
                 </p:column>
 
                 <p:column headerText="Meta-data" style="width:120px;text-align: center">

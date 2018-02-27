@@ -46,7 +46,7 @@ internal object Main {
     fun main(args: Array<String>) {
 
         val fmuFile = FmuFile(Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)
-        InputParser.parse(args, fmuFile, {{fmuName}}Service())
+        Rmu.create(args, fmuFile, {{fmuName}}Service())
 
     }
 
