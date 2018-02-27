@@ -6,6 +6,8 @@ import info.laht.yaj_rpc.RpcService;
 import no.mechatronics.sfi.fmi4j.FmiSimulation;
 import no.mechatronics.sfi.fmi4j.common.*;
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl;
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription;
 import no.mechatronics.sfi.rmu.fmu.Fmus;
 
@@ -68,11 +70,6 @@ public class FmuService implements RpcService {
     @RpcMethod
     public @NotNull String getModelDescriptionXml() {
         return fmuFile.getModelDescriptionXml();
-    }
-
-    @RpcMethod
-    public boolean getModelDescription(int fmuId) {
-        return getFmu(fmuId).isTerminated();
     }
 
     @RpcMethod
