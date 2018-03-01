@@ -4,10 +4,12 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.rmu.client.GenericFmuClient
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
+import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.net.ServerSocket
 
 
 class TestClient2 {
@@ -19,11 +21,13 @@ class TestClient2 {
     @Before
     fun setup() {
 
+        port = ServerSocket(0).use { it.localPort }
+
         val fmuFile = FmuFile(javaClass.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu"))
         modelDescription = fmuFile.modelDescription
 
-        server = GrpcFmuServer(fmuFile)
-        port = server.start()
+        server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
+        server.start(port)
     }
 
     @After
@@ -45,14 +49,14 @@ class TestClient2 {
                 Assert.assertTrue(fmu.init())
 
                 fmu.read("h").asReal().also {
-                    println(it)
+                    println("h=${it.value}")
                     Assert.assertEquals(1.0, it.value, 0.0)
                 }
 
                 val dt = 1.0/100
                 for (i in 0 .. 10) {
                     val step: FmiDefinitions.Status = fmu.step(dt)
-                    Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK)
+                    Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
                 }
 
             }

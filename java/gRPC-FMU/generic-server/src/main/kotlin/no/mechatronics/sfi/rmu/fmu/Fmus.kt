@@ -25,8 +25,14 @@
 package no.mechatronics.sfi.rmu.fmu
 
 import no.mechatronics.sfi.fmi4j.FmiSimulation
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-object Fmus: MutableMap<Int, FmiSimulation> by mutableMapOf() {
+object Fmus {
+
+    private val LOG: Logger = LoggerFactory.getLogger(Fmus::class.java)
+
+    private val fmus = mutableMapOf<Int, FmiSimulation>()
 
     init {
         Runtime.getRuntime().addShutdownHook(Thread {
@@ -34,12 +40,35 @@ object Fmus: MutableMap<Int, FmiSimulation> by mutableMapOf() {
         })
     }
 
+    fun put(id: Int, fmu: FmiSimulation) {
+        fmus[id] = fmu
+    }
+
+    fun remove(id: Int): FmiSimulation? {
+        return fmus.remove(id).also {
+            if (it == null) {
+                LOG.warn("No fmu with id: $id")
+            }
+        }
+    }
+
+    fun get(id: Int): FmiSimulation? {
+        return fmus[id].also {
+            if (it == null) {
+                LOG.warn("No fmu with id: $id")
+            }
+        }
+    }
+
+
     fun terminateAll() {
-        values.forEach {
+        fmus.values.forEach {
             if (!it.isTerminated) {
                 it.terminate()
             }
         }
     }
+
+
 
 }

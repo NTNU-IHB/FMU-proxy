@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2018. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,12 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.rmu.web
+package no.mechatronics.sfi.rmu.server
 
-import javax.faces.bean.ManagedBean
-import org.primefaces.model.StreamedContent
-import org.primefaces.model.DefaultStreamedContent
-import javax.faces.context.FacesContext
+interface RmuServer {
 
-@ManagedBean
-class ProtoDownload {
+    fun start(port: Int)
 
-    val file: StreamedContent
-
-    init{
-        val name = "RMU_GenericProto.zip"
-        val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/proto/$name")
-        file = DefaultStreamedContent(stream, "application/octet-stream", name)
-    }
+    fun stop()
 
 }

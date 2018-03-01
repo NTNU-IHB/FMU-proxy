@@ -25,14 +25,16 @@
 package no.mechatronics.sfi.rmu
 
 import info.laht.yaj_rpc.RpcHandler
+import info.laht.yaj_rpc.net.http.RpcHttpServer
 import info.laht.yaj_rpc.net.tcp.RpcTcpServer
 import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
-import no.mechatronics.sfi.rmu.grpc.services.GenericFmuService
+import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
 import no.mechatronics.sfi.rmu.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.rmu.heartbeat.Heartbeat
-import no.mechatronics.sfi.rmu.json_rpc.FmuService
+import no.mechatronics.sfi.rmu.json_rpc.RpcFmuService
+import no.mechatronics.sfi.rmu.server.RmuServer
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
@@ -52,7 +54,8 @@ internal data class NetworkInfo(
         val host: String,
         val grpcPort: Int,
         val wsPort: Int,
-        val tcpPort: Int
+        val tcpPort: Int,
+        val httpPort: Int
 )
 
 /**
@@ -66,6 +69,7 @@ object Rmu {
     private const val GRPC_PORT = "grpcPort"
     private const val JSON_RPC_WS_PORT = "wsPort"
     private const val JSON_RPC_TCP_PORT = "tcpPort"
+    private const val JSON_RPC_HTTP_PORT = "httpPort"
 
     fun create(args: Array<String>, fmuFile: FmuFile, instanceService: GrpcFmuService? = null)  {
 
@@ -75,7 +79,8 @@ object Rmu {
             addOption(REMOTE, true, "Specify the IP address of the remote tracking server. E.g. ${"127.0.0.1:7000"}")
             addOption(GRPC_PORT, true, "Manually specify the port to use for the gRPC server (optional)")
             addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (WebSocket) server (optional)")
-            addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (TCP/IP) server (optional)")
+            addOption(JSON_RPC_TCP_PORT, true, "Manually specify the port to use for the JSON-RPC (TCP/IP) server (optional)")
+            addOption(JSON_RPC_HTTP_PORT, true, "Manually specify the port to use for the JSON-RPC (HTTP) server (optional)")
 
         }
 
@@ -88,27 +93,37 @@ object Rmu {
                     parseAddress(it)
                 }
 
+                val servers = mutableListOf<RmuServer>()
+
                 try {
                     val grpcPort = cmd.getOptionValue(GRPC_PORT)?.toIntOrNull() ?: availablePort
-                    val grpcServer = GrpcFmuServer(listOfNotNull(GenericFmuService(fmuFile), instanceService)).apply {
+                    GrpcFmuServer(listOfNotNull(GenericFmuServiceImpl(fmuFile), instanceService)).apply {
                         start(grpcPort)
-                    }
+                    }.also { servers.add(it) }
+
+                    val rpcHandler = RpcHandler(RpcFmuService(fmuFile))
 
                     val jsonWsPort = cmd.getOptionValue(JSON_RPC_WS_PORT)?.toIntOrNull() ?: availablePort
-                    val jsonWsServer = object: RpcWebSocketServer(RpcHandler(FmuService(fmuFile))), RmuServer{}.apply {
+                    object: RpcWebSocketServer(rpcHandler), RmuServer {}.apply {
                         start(jsonWsPort)
-                    }
+                    }.also { servers.add(it) }
 
                     val jsonTcpPort = cmd.getOptionValue(JSON_RPC_TCP_PORT)?.toIntOrNull() ?: availablePort
-                    val jsonTcpServer = object: RpcTcpServer(RpcHandler(FmuService(fmuFile))), RmuServer{}.apply {
+                    object: RpcTcpServer(rpcHandler), RmuServer {}.apply {
                         start(jsonTcpPort)
-                    }
+                    }.also { servers.add(it) }
+
+                    val jsonHttpPort = cmd.getOptionValue(JSON_RPC_HTTP_PORT)?.toIntOrNull() ?: availablePort
+                    object: RpcHttpServer(rpcHandler), RmuServer {}.apply {
+                        start(jsonHttpPort)
+                    }.also { servers.add(it) }
 
                     val networkInfo = NetworkInfo(
                             host = hostAddress,
                             grpcPort = grpcPort,
                             wsPort = jsonWsPort,
-                            tcpPort = jsonTcpPort
+                            tcpPort = jsonTcpPort,
+                            httpPort = jsonHttpPort
                     )
                     val remoteFmu = RemoteFmu(
                             guid = fmuFile.modelDescription.guid,
@@ -124,11 +139,12 @@ object Rmu {
                     println("Press any key to stop the application..")
                     Scanner(System.`in`).also {
                         if (it.hasNext()) {
+
                             println("Key pressed, stopping application..")
+
                             beat?.stop()
-                            grpcServer.stop()
-                            jsonWsServer.stop()
-                            jsonTcpServer.stop()
+                            servers.forEach { it.stop() }
+
                         }
                     }
 

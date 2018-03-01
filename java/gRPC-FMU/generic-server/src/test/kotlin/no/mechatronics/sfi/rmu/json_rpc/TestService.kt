@@ -4,9 +4,7 @@ import com.google.gson.GsonBuilder
 import info.laht.yaj_rpc.*
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -14,7 +12,7 @@ import org.junit.Test
 class TestService {
 
     lateinit var handler: RpcHandler
-    lateinit var service: FmuService
+    lateinit var service: RpcFmuService
 
     private val gson = GsonBuilder()
             .setPrettyPrinting()
@@ -26,7 +24,7 @@ class TestService {
         val url = javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
 
-        service = FmuService(FmuFile(url))
+        service = RpcFmuService(FmuFile(url))
         handler = RpcHandler(service)
 
     }
@@ -86,17 +84,6 @@ class TestService {
         ModelDescriptionParser.parse(xml).asCoSimulationModelDescription()
         
     }
-//
-//    @Test
-//    fun testModelDescription() {
-//
-//        val md: SimpleModelDescription = RpcRequestOut(
-//                methodName = "FmuService.getModelDescription",
-//                params = RpcParams.listParams()
-//        ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
-//                .getResult(ModelDescriptionImpl::class.java)!!
-//
-//    }
 
     @Test
     fun testInstance() {

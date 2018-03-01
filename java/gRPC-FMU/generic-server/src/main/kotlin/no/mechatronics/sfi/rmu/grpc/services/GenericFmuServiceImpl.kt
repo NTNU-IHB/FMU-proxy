@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.rmu.grpc.services
 
 import io.grpc.stub.StreamObserver
+import no.mechatronics.sfi.fmi4j.FmiSimulation
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
@@ -36,17 +37,13 @@ import no.mechatronics.sfi.rmu.FmiDefinitions
 import no.mechatronics.sfi.rmu.GenericFmuServiceGrpc
 import no.mechatronics.sfi.rmu.fmu.Fmus
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
-
-import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator
-import org.apache.commons.math3.ode.nonstiff.EulerIntegrator
-import org.apache.commons.math3.ode.nonstiff.GillIntegrator
-import org.apache.commons.math3.ode.nonstiff.MidpointIntegrator
+import org.apache.commons.math3.ode.nonstiff.*
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
 
-class GenericFmuService(
+class GenericFmuServiceImpl(
         private val fmuFile: FmuFile
 ): GenericFmuServiceGrpc.GenericFmuServiceImplBase(), GrpcFmuService {
 
@@ -58,7 +55,7 @@ class GenericFmuService(
     override fun createInstanceFromCS(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
         val id = idGenerator.incrementAndGet()
-        Fmus[id] = fmuFile.asCoSimulationFmu().newInstance()
+        Fmus.put(id, fmuFile.asCoSimulationFmu().newInstance())
 
         FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
@@ -71,21 +68,24 @@ class GenericFmuService(
 
         fun selectDefaultIntegrator(): EulerIntegrator {
             val stepSize = fmuFile.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepsize")
+            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
             return EulerIntegrator(stepSize)
         }
 
         val integrator = when (req.integratorsCase) {
-            FmiDefinitions.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
-            FmiDefinitions.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
+
             FmiDefinitions.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
+            FmiDefinitions.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
             FmiDefinitions.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
+            FmiDefinitions.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
+            FmiDefinitions.Integrator.IntegratorsCase.ADAMS_BASHFORTH -> req.adamsBashforth.let { AdamsBashforthIntegrator(it.nSteps, it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
+            FmiDefinitions.Integrator.IntegratorsCase.DORMAND_PRINCE54 -> req.dormandPrince54.let { DormandPrince54Integrator(it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
             FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET -> selectDefaultIntegrator()
             null -> selectDefaultIntegrator()
         }
 
         val id = idGenerator.incrementAndGet()
-        Fmus[id] = fmuFile.asModelExchangeFmu().newInstance(integrator)
+        Fmus.put(id, fmuFile.asModelExchangeFmu().newInstance(integrator))
 
         FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
@@ -122,15 +122,11 @@ class GenericFmuService(
         }
 
     }
-
+    
     override fun getCurrentTime(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Real>) {
 
-        val id = req.value
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            responseObserver.onNext(FmiDefinitions.Real.newBuilder().setValue(fmu.currentTime).build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
+        Fmus.get(req.value)?.apply {
+            responseObserver.onNext(FmiDefinitions.Real.newBuilder().setValue(currentTime).build())
         }
 
         responseObserver.onCompleted()
@@ -139,12 +135,8 @@ class GenericFmuService(
 
     override fun isTerminated(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
 
-        val id = req.value
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            responseObserver.onNext(FmiDefinitions.Bool.newBuilder().setValue(fmu.isTerminated).build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
+        Fmus.get(req.value)?.apply {
+            responseObserver.onNext(FmiDefinitions.Bool.newBuilder().setValue(isTerminated).build())
         }
 
         responseObserver.onCompleted()
@@ -177,17 +169,13 @@ class GenericFmuService(
 
     override fun readInteger(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val valueReference = req.valueReference
-            val read = fmu.variableAccessor.readInteger(valueReference)
+        Fmus.get(req.fmuId)?.apply {
+        val valueReference = req.valueReference
+            val read = variableAccessor.readInteger(valueReference)
             responseObserver.onNext(FmiDefinitions.IntRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
         responseObserver.onCompleted()
 
@@ -196,18 +184,14 @@ class GenericFmuService(
 
     override fun bulkReadInteger(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntListRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val builder = FmiDefinitions.IntListRead.newBuilder()
-            val read = fmu.variableAccessor.readInteger(req.valueReferencesList.toIntArray())
+        Fmus.get(req.fmuId)?.apply {
+        val builder = FmiDefinitions.IntListRead.newBuilder()
+            val read = variableAccessor.readInteger(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
                 builder.addValues(value)
             }
             responseObserver.onNext(builder.build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
         responseObserver.onCompleted()
 
@@ -215,236 +199,185 @@ class GenericFmuService(
 
     override fun readReal(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val valueReference = req.valueReference
-            val read = fmu.variableAccessor.readReal(valueReference)
+        Fmus.get(req.fmuId)?.apply {
+        val valueReference = req.valueReference
+            val read = variableAccessor.readReal(valueReference)
             responseObserver.onNext(FmiDefinitions.RealRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
+
         responseObserver.onCompleted()
 
     }
 
     override fun bulkReadReal(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealListRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val builder = FmiDefinitions.RealListRead.newBuilder()
-            val read = fmu.variableAccessor.readReal(req.valueReferencesList.toIntArray())
+        Fmus.get(req.fmuId)?.apply {
+        val builder = FmiDefinitions.RealListRead.newBuilder()
+            val read = variableAccessor.readReal(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
                 builder.addValues(value)
             }
             responseObserver.onNext(builder.build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
+
         responseObserver.onCompleted()
 
     }
 
     override fun readString(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val read = fmu.variableAccessor.readString(req.valueReference)
+        Fmus.get(req.fmuId)?.apply {
+            val read = variableAccessor.readString(req.valueReference)
             responseObserver.onNext(FmiDefinitions.StrRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
+
         responseObserver.onCompleted()
 
     }
 
     override fun bulkReadString(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrListRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
+        Fmus.get(req.fmuId)?.apply {
             val builder = FmiDefinitions.StrListRead.newBuilder()
-            val read = fmu.variableAccessor.readString(req.valueReferencesList.toIntArray())
+            val read = variableAccessor.readString(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
                 builder.addValues(value)
             }
             responseObserver.onNext(builder.build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
+
         responseObserver.onCompleted()
 
     }
 
     override fun readBoolean(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val read = fmu.variableAccessor.readBoolean(req.valueReference)
+        Fmus.get(req.fmuId)?.apply {
+            val read = variableAccessor.readBoolean(req.valueReference)
             responseObserver.onNext(FmiDefinitions.BoolRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
+
         responseObserver.onCompleted()
 
     }
 
     override fun bulkReadBoolean(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolListRead>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
+        Fmus.get(req.fmuId)?.apply {
             val builder = FmiDefinitions.BoolListRead.newBuilder()
-            val read = fmu.variableAccessor.readBoolean(req.valueReferencesList.toIntArray())
+            val read = variableAccessor.readBoolean(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
                 builder.addValues(value)
             }
             responseObserver.onNext(builder.build())
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
+
         responseObserver.onCompleted()
 
     }
 
     override fun writeInteger(req: FmiDefinitions.WriteIntegerRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeInteger(req.valueReference, req.value)
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeInteger(req.valueReference, req.value)
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
 
     }
 
     override fun bulkWriteInteger(req: FmiDefinitions.BulkWriteIntegerRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeInteger(req.valueReferencesList.toIntArray(), req.valuesList.toIntArray())
+
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeInteger(req.valueReferencesList.toIntArray(), req.valuesList.toIntArray())
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
     }
 
     override fun writeReal(req: FmiDefinitions.WriteRealRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeReal(req.valueReference, req.value)
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeReal(req.valueReference, req.value)
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
 
     }
 
     override fun bulkWriteReal(req: FmiDefinitions.BulkWriteRealRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeReal(req.valueReferencesList.toIntArray(), req.valuesList.toDoubleArray())
+
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeReal(req.valueReferencesList.toIntArray(), req.valuesList.toDoubleArray())
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
     }
 
     override fun writeString(req: FmiDefinitions.WriteStringRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeString(req.valueReference, req.value)
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeString(req.valueReference, req.value)
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
 
     }
 
     override fun bulkWriteString(req: FmiDefinitions.BulkWriteStringRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeString(req.valueReferencesList.toIntArray(), req.valuesList.toTypedArray())
+
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeString(req.valueReferencesList.toIntArray(), req.valuesList.toTypedArray())
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
     }
 
     override fun writeBoolean(req: FmiDefinitions.WriteBooleanRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
 
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeBoolean(req.valueReference, req.value)
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeBoolean(req.valueReference, req.value)
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
 
     }
 
     override fun bulkWriteBoolean(req: FmiDefinitions.BulkWriteBooleanRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.writeBoolean(req.valueReferencesList.toIntArray(), req.valuesList.toBooleanArray())
+
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.writeBoolean(req.valueReferencesList.toIntArray(), req.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Error, responseObserver)
+
     }
 
     override fun init(req: FmiDefinitions.InitRequest, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
 
         var init = false
-        val id = req.fmuId
-        val fmu = Fmus[id]
-        if (fmu != null) {
+        Fmus.get(req.fmuId)?.apply {
             val start = req.start
             val stop = req.stop
             val hasStart = start > 0
             val hasStop = stop > 0 && stop > start
             init = if (hasStart && hasStop) {
-                fmu.init(start, stop)
+                init(start, stop)
             } else if (hasStart && hasStop) {
-                fmu.init(start)
+                init(start)
             } else {
-                fmu.init()
+                init()
             }
-        } else {
-            LOG.warn("No fmu with id: {}", id)
         }
 
         FmiDefinitions.Bool.newBuilder().setValue(init).build().also {
@@ -456,32 +389,22 @@ class GenericFmuService(
 
     override fun step(req: FmiDefinitions.StepRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
 
-        val id = req.fmuId
-        val dt = req.dt
-        val fmu = Fmus[id]
-        if (fmu != null) {
-            fmu.doStep(dt)
-            statusReply(fmu.lastStatus, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        Fmus.get(req.fmuId)?.apply {
+            doStep(req.stepSize)
+            statusReply(lastStatus, responseObserver)
+        } ?: statusReply(FmiStatus.Error, responseObserver)
 
     }
 
     override fun terminate(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
 
-        var flag = false
-        val id = req.value
-        val fmu = Fmus.remove(id)
-        if (fmu != null) {
-            flag = fmu.terminate()
-            LOG.debug("Terminated fmu with success: {}", flag)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
+        var success = false
+        val fmuId = req.value
+        Fmus.remove(fmuId)?.apply {
+            success = terminate()
+            LOG.debug("Terminated fmu with success: $success")
         }
-
-        FmiDefinitions.Bool.newBuilder().setValue(flag).build().also {
+        FmiDefinitions.Bool.newBuilder().setValue(success).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
@@ -490,15 +413,10 @@ class GenericFmuService(
 
     override fun reset(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Status>) {
 
-        val id = req.value
-        val fmu = Fmus.remove(id)
-        if (fmu != null) {
-            fmu.reset()
-            statusReply(fmu.lastStatus, responseObserver)
-        } else {
-            LOG.warn("No fmu with id: {}", id)
-            statusReply(FmiStatus.Error, responseObserver)
-        }
+        Fmus.get(req.value)?.apply {
+            reset()
+            statusReply(lastStatus, responseObserver)
+        } ?: statusReply(FmiStatus.Error, responseObserver)
 
     }
 
@@ -512,12 +430,12 @@ class GenericFmuService(
 private fun getCausality(variable: TypedScalarVariable<*>): FmiDefinitions.Causality {
 
     return when (variable.causality) {
-        Causality.INPUT -> FmiDefinitions.Causality.INPUT
-        Causality.OUTPUT -> FmiDefinitions.Causality.OUTPUT
-        Causality.CALCULATED_PARAMETER -> FmiDefinitions.Causality.CALCULATED_PARAMETER
-        Causality.PARAMETER -> FmiDefinitions.Causality.PARAMETER
-        Causality.LOCAL -> FmiDefinitions.Causality.LOCAL
-        Causality.INDEPENDENT -> FmiDefinitions.Causality.INDEPENDENT
+        Causality.INPUT -> FmiDefinitions.Causality.INPUT_CAUSALITY
+        Causality.OUTPUT -> FmiDefinitions.Causality.OUTPUT_CAUSALITY
+        Causality.CALCULATED_PARAMETER -> FmiDefinitions.Causality.CALCULATED_PARAMETER_CAUSALITY
+        Causality.PARAMETER -> FmiDefinitions.Causality.PARAMETER_CAUSALITY
+        Causality.LOCAL -> FmiDefinitions.Causality.LOCAL_CAUSALITY
+        Causality.INDEPENDENT -> FmiDefinitions.Causality.INDEPENDENT_CAUSALITY
         else -> FmiDefinitions.Causality.UNDEFINED_CAUSALITY
     }
 
@@ -526,11 +444,11 @@ private fun getCausality(variable: TypedScalarVariable<*>): FmiDefinitions.Causa
 private fun getVariability(variable: TypedScalarVariable<*>): FmiDefinitions.Variability {
 
     return when (variable.variability) {
-        Variability.CONSTANT -> FmiDefinitions.Variability.CONSTANT
-        Variability.CONTINUOUS -> FmiDefinitions.Variability.CONTINUOUS
-        Variability.DISCRETE -> FmiDefinitions.Variability.DISCRETE
-        Variability.FIXED -> FmiDefinitions.Variability.FIXED
-        Variability.TUNABLE -> FmiDefinitions.Variability.TUNABLE
+        Variability.CONSTANT -> FmiDefinitions.Variability.CONSTANT_VARIABILITY
+        Variability.CONTINUOUS -> FmiDefinitions.Variability.CONTINUOUS_VARIABILITY
+        Variability.DISCRETE -> FmiDefinitions.Variability.DISCRETE_VARIABILITY
+        Variability.FIXED -> FmiDefinitions.Variability.FIXED_VARIABILITY
+        Variability.TUNABLE -> FmiDefinitions.Variability.TUNABLE_VARIABILITY
         else -> FmiDefinitions.Variability.UNDEFINED_VARIABILITY
     }
 
@@ -539,9 +457,9 @@ private fun getVariability(variable: TypedScalarVariable<*>): FmiDefinitions.Var
 private fun getInitial(variable: TypedScalarVariable<*>): FmiDefinitions.Initial {
 
     return when (variable.initial) {
-        Initial.CALCULATED -> FmiDefinitions.Initial.CALCULATED
-        Initial.EXACT -> FmiDefinitions.Initial.EXACT
-        Initial.APPROX -> FmiDefinitions.Initial.APPROX
+        Initial.CALCULATED -> FmiDefinitions.Initial.CALCULATED_INITIAL
+        Initial.EXACT -> FmiDefinitions.Initial.EXACT_INITIAL
+        Initial.APPROX -> FmiDefinitions.Initial.APPROX_INITIAL
         else -> FmiDefinitions.Initial.UNDEFINED_INITIAL
     }
 
@@ -549,32 +467,31 @@ private fun getInitial(variable: TypedScalarVariable<*>): FmiDefinitions.Initial
 
 private fun getStart(variable: TypedScalarVariable<*>): FmiDefinitions.AnyPrimitive {
 
-    if (variable.start == null) {
-        return FmiDefinitions.AnyPrimitive.getDefaultInstance()
+    return if (variable.start != null) {
+         FmiDefinitions.AnyPrimitive.newBuilder().apply {
+            when (variable) {
+                is IntegerVariable -> intValue = variable.start!!
+                is RealVariable -> realValue = variable.start!!
+                is StringVariable -> strValue = variable.start
+                is BooleanVariable -> boolValue = variable.start!!
+                is EnumerationVariable -> enumerationValue = variable.start!!
+                else -> throw UnsupportedOperationException("Variable type not supported: " + variable.javaClass.simpleName)
+            }
+        }.build()
+        
+    } else {
+         FmiDefinitions.AnyPrimitive.getDefaultInstance()
     }
-
-    return FmiDefinitions.AnyPrimitive.newBuilder().apply {
-        if (variable is IntegerVariable) {
-            intValue = (variable.start!!)
-        } else if (variable is RealVariable) {
-            realValue = (variable.start!!)
-        } else if (variable is StringVariable) {
-            strValue = (variable.start)
-        } else if (variable is BooleanVariable) {
-            boolValue = (variable.start!!)
-        } else {
-            throw UnsupportedOperationException("Variable type not supported: " + variable.javaClass.simpleName)
-        }
-    }.build()
-
+    
 }
 
 private fun TypedScalarVariable<*>.getType(): FmiDefinitions.VariableType {
-    return when (typeName) {
-        "Integer" -> FmiDefinitions.VariableType.INTEGER
-        "Real" -> FmiDefinitions.VariableType.REAL
-        "String" -> FmiDefinitions.VariableType.STRING
-        "Boolean" -> FmiDefinitions.VariableType.BOOLEAN
+    return when(this) {
+        is IntegerVariable -> FmiDefinitions.VariableType.INTEGER_VARIABLE
+        is RealVariable -> FmiDefinitions.VariableType.REAL_VARIABLE
+        is StringVariable -> FmiDefinitions.VariableType.STRING_VARIABLE
+        is BooleanVariable -> FmiDefinitions.VariableType.BOOLEAN_VARIABLE
+        is EnumerationVariable -> FmiDefinitions.VariableType.ENUMERATION_VARIABLE
         else -> throw UnsupportedOperationException("Variable type not supported: " + typeName)
     }
 
@@ -595,9 +512,8 @@ private fun TypedScalarVariable<*>.protoType() : FmiDefinitions.ScalarVariable {
 private fun Unknown.protoType() : FmiDefinitions.Unknown {
     return FmiDefinitions.Unknown.newBuilder().also { builder ->
         builder.index = index
-        dependencies?.also { dependencies ->
-            builder.addAllDependencies(dependencies.toList())
-        }
+        builder.addAllDependencies(dependencies)
+
         dependenciesKind?.also {
             builder.dependenciesKind = when(dependenciesKind) {
                 DependenciesKind.CONSTANT -> FmiDefinitions.DependenciesKind.CONSTANT_KIND

@@ -4,7 +4,7 @@ from client import GenericFmuClient
 client = GenericFmuClient("localhost", 8000)
 
 modelName = client.get_model_name()
-print(modelName)
+print("ModelName={}".format(modelName))
 
 fmu = client.create_instance()
 
@@ -17,12 +17,14 @@ for key in variables:
 if fmu.init():
 
     for i in range(0,3):
-        fmu.step(1.0/100)
-        print(fmu.get_current_time())
+        status = fmu.step(1.0/100)
+        print("Step status={}".format(status))
+        print("CurrentTime={}".format(fmu.get_current_time()))
 
-print("PistonDisplacement=" + str(fmu.get_reader("PistonDisplacement").read_real()))
+reader = fmu.get_reader("PistonDisplacement")
+print("PistonDisplacement={}".format(reader.read_real()))
 
-fmu.terminate()
+print("Terminated with success: {}".format(fmu.terminate()))
 
 
 

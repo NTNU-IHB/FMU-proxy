@@ -6,8 +6,6 @@ import info.laht.yaj_rpc.RpcService;
 import no.mechatronics.sfi.fmi4j.FmiSimulation;
 import no.mechatronics.sfi.fmi4j.common.*;
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription;
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl;
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription;
 import no.mechatronics.sfi.rmu.fmu.Fmus;
 
@@ -20,15 +18,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Lars Ivar Hatledal
  */
-public class FmuService implements RpcService {
+public class RpcFmuService implements RpcService {
 
-    private static Logger LOG = LoggerFactory.getLogger(FmuService.class);
+    private static Logger LOG = LoggerFactory.getLogger(RpcFmuService.class);
 
     private final FmuFile fmuFile;
     private final SimpleModelDescription modelDescription;
     private final AtomicInteger idGenerator = new AtomicInteger(0);
 
-    public FmuService(@NotNull FmuFile fmuFile) {
+    public RpcFmuService(@NotNull FmuFile fmuFile) {
         this.fmuFile = fmuFile;
         this.modelDescription = fmuFile.getModelDescription();
     }

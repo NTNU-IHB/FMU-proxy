@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.rmu.heartbeat
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import no.mechatronics.sfi.rmu.RemoteFmu
 import org.slf4j.Logger
@@ -80,7 +81,7 @@ internal class Heartbeat(
 
     private inner class InnerClass : Runnable {
 
-        val gson = GsonBuilder().create()
+       private val gson: Gson = GsonBuilder().create()
 
         private fun workerSocket(ctx: ZContext): ZMQ.Socket {
             return ctx.createSocket(ZMQ.DEALER).also { worker ->

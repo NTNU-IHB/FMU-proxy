@@ -55,8 +55,9 @@ data class NetworkInfo(
         val host: String,
         val grpcPort: Int,
         val wsPort: Int,
-        val tcpPort: Int
-)
+        val tcpPort: Int,
+        val httpPort: Int
+): Serializable
 
 @ManagedBean
 data class RemoteFmu(
@@ -65,9 +66,7 @@ data class RemoteFmu(
         val modelDescriptionXml: String
 ): Serializable {
 
-    companion object {
-        val LOG = LoggerFactory.getLogger(RemoteFmu::class.java)
-    }
+    private var _modelDescription: SimpleModelDescription? = null
 
     val modelName: String
         get() = modelDescription.modelName
@@ -76,7 +75,7 @@ data class RemoteFmu(
         get() = modelDescription.description ?: "-"
 
     val modelDescription: SimpleModelDescription
-        get() =  ModelDescriptionParser.parse(modelDescriptionXml)
+        get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
 
     val modelVariables: List<TypedScalarVariable<*>>
         get() = modelDescription.modelVariables.variables
@@ -85,13 +84,14 @@ data class RemoteFmu(
         return "RemoteFmu(guid='$guid', networkInfo=$networkInfo)"
     }
 
+
 }
 
 @ManagedBean(eager = true)
 @ApplicationScoped()
 class FmuService {
 
-    private val beat: Heartbeat = Heartbeat(PORT)
+    private lateinit var beat: Heartbeat
     val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
 
     companion object {
@@ -100,8 +100,11 @@ class FmuService {
 
     @PostConstruct
     fun init() {
-        beat.start()
-        LOG.info("FmuHeartbeat started")
+        beat = Heartbeat(PORT).apply {
+            start()
+        }
+
+        LOG.info("Heartbeat started")
 
         ServletContextListenerImpl.onDestroy {
             beat.stopBlocking()

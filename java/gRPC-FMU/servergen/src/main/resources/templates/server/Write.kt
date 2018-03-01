@@ -4,14 +4,9 @@
      */
     override fun write{{varName}} (req: {{protoFile}}.{{dataType}}Write, responseObserver: StreamObserver<FmiDefinitions.Status> ) {
 
-        val fmuId = req.fmuId
-        val fmu = Fmus[fmuId]
-        if (fmu != null) {
-            val status = fmu.variableAccessor.write{{typeName}}({{valueReference}}, req.value)
+        Fmus.get(req.fmuId)?.apply {
+            val status = variableAccessor.write{{typeName}}({{valueReference}}, req.value)
             statusReply(status, responseObserver)
-        } else {
-            LOG.warn("No FMU with id: {}", fmuId);
-            statusReply(FmiStatus.Fatal, responseObserver)
-        }
+        } ?: statusReply(FmiStatus.Fatal, responseObserver)
 
     }

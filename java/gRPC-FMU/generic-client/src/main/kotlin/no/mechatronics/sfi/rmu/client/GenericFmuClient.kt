@@ -70,19 +70,16 @@ class GenericFmuClient(
         blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
     }
 
-
-
     val modelStructure: FmiDefinitions.ModelStructure by lazy {
         blockingStub.getModelStructure(EMPTY)
     }
-
 
     fun createInstance(integrator: FmiDefinitions.Integrator? = null): FmuInstance {
         return FmuInstance(blockingStub, integrator)
     }
 
     override fun close() {
-        LOG.info("Closing..")
+        LOG.debug("Closing..")
         FmuInstances.terminateAll()
         channel.shutdownNow()
     }
@@ -113,7 +110,6 @@ class FmuInstance internal constructor(
         FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
     }
 
-
     val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
         mutableListOf<FmiDefinitions.ScalarVariable>().apply {
             blockingStub.getModelVariables(EMPTY).forEach {add(it)}
@@ -127,16 +123,19 @@ class FmuInstance internal constructor(
             .setFmuId(fmuId)
             .build()).value
 
-    fun step(dt: Double): FmiDefinitions.Status = blockingStub.step(FmiDefinitions.StepRequest.newBuilder()
+    fun step(stepSize: Double): FmiDefinitions.Status = blockingStub.step(FmiDefinitions.StepRequest.newBuilder()
             .setFmuId(fmuId)
-            .setDt(dt)
+            .setStepSize(stepSize)
             .build())
 
     fun terminate() {
-        blockingStub.terminate(FmiDefinitions.UInt.newBuilder()
-                .setValue(fmuId)
-                .build())
-        FmuInstances.remove(this)
+        try {
+            blockingStub.terminate(FmiDefinitions.UInt.newBuilder()
+                    .setValue(fmuId)
+                    .build())
+        } finally {
+            FmuInstances.remove(this)
+        }
     }
 
     override fun close() = terminate()

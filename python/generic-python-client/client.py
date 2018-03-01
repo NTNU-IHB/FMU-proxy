@@ -8,12 +8,12 @@ from definitions_pb2 import WriteIntegerRequest
 from definitions_pb2 import WriteRealRequest
 from definitions_pb2 import WriteStringRequest
 from definitions_pb2 import WriteBooleanRequest
-import service_pb2_grpc
+from service_pb2_grpc import GenericFmuServiceStub
 
 
 class FmuInstance:
 
-    def __init__(self, stub, integrator=None):
+    def __init__(self, stub: GenericFmuServiceStub, integrator=None):
         self.stub = stub
 
         if integrator is None:
@@ -37,22 +37,22 @@ class FmuInstance:
         request.stop = stop
         return self.stub.Init(request).value
 
-    def step(self, dt):
+    def step(self, step_size):
         request = StepRequest()
         request.fmu_id = self.fmu_id
-        request.dt = dt
+        request.step_size = step_size
         return self.stub.Step(request)
 
     def terminate(self):
         request = UInt()
         request.value = self.fmu_id
-        self.stub.Terminate(request)
+        return self.stub.Terminate(request)
 
     def reset(self):
         request = UInt()
         request.value = self.fmu_id
-        self.stub.Terminate(request)
-    
+        self.stub.Reset(request)
+
     def get_reader(self, identifier):
         if isinstance(identifier, int):
             return VariableReader(self.fmu_id, identifier, self.stub)
@@ -71,7 +71,7 @@ class FmuInstance:
         else:
             raise ValueError('not a valid identifier: ' + identifier)
 
-    def get_value_reference(self, var_name):
+    def get_value_reference(self, var_name) -> int:
         for key in self.model_variables:
             if self.model_variables[key].name == var_name:
                 return key
@@ -82,7 +82,7 @@ class GenericFmuClient:
 
     def __init__(self, host_address, port):
         self._channel = grpc.insecure_channel(host_address + ':' + str(port))
-        self._stub = service_pb2_grpc.GenericFmuServiceStub(self._channel)
+        self._stub = GenericFmuServiceStub(self._channel)
 
     def get_model_name(self):
         return self._stub.GetModelName(Empty())

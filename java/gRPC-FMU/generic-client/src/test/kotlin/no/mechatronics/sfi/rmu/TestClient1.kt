@@ -28,10 +28,13 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.rmu.client.GenericFmuClient
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
+import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.net.ServerSocket
+
 
 class TestClient1 {
 
@@ -39,15 +42,18 @@ class TestClient1 {
     private lateinit var server: GrpcFmuServer
     private lateinit var modelDescription: SimpleModelDescription
 
+
     @Before
     fun setup() {
+
+        port = ServerSocket(0).use { it.localPort }
 
         val fmuFile = FmuFile(javaClass.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu"))
         modelDescription = fmuFile.modelDescription
 
-        server = GrpcFmuServer(fmuFile)
-        port = server.start()
+        server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
+        server.start(port)
         
     }
 
@@ -63,7 +69,7 @@ class TestClient1 {
             Assert.assertEquals(modelDescription.modelName, it.modelName)
             Assert.assertEquals(modelDescription.guid, it.guid)
 
-            println(it.modelStructure)
+            println("ModelStructure=${it.modelStructure}")
 
             it.createInstance().use { fmu ->
 
@@ -72,7 +78,8 @@ class TestClient1 {
                 val dt = 1.0/100
                 while (fmu.currentTime < 1) {
                     val step: FmiDefinitions.Status = fmu.step(dt)
-                    Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK)
+                    println(step)
+                    Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
                 }
 
             }

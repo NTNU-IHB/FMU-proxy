@@ -33,7 +33,7 @@ import io.grpc.ServerBuilder
 
 
 import no.mechatronics.sfi.rmu.fmu.Fmus
-import no.mechatronics.sfi.rmu.RmuServer
+import no.mechatronics.sfi.rmu.server.RmuServer
 import no.mechatronics.sfi.rmu.grpc.services.GrpcFmuService
 
 
@@ -42,7 +42,7 @@ import no.mechatronics.sfi.rmu.grpc.services.GrpcFmuService
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        private val services: List<GrpcFmuService>
+         val services: List<GrpcFmuService>
 ): RmuServer {
 
     private var server: Server? = null
@@ -56,9 +56,9 @@ class GrpcFmuServer(
                         services.forEach { addService(it) }
                     }.build().start()
 
-            LOG.info("GrpcFmuServer listening for connections on port: $port");
+            LOG.info("${javaClass.simpleName} listening for connections on port: $port");
         } else {
-            LOG.warn("GrpcFmuServer has already been started!")
+            LOG.warn("${javaClass.simpleName} has already been started!")
         }
     }
 

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='definitions.proto',
   package='no.mechatronics.sfi.rmu',
   syntax='proto3',
-  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\x17no.mechatronics.sfi.rmu\"\xa0\x02\n\nIntegrator\x12\x39\n\x05\x65uler\x18\x01 \x01(\x0b\x32(.no.mechatronics.sfi.rmu.EulerIntegratorH\x00\x12M\n\x0brunge_kutta\x18\x02 \x01(\x0b\x32\x36.no.mechatronics.sfi.rmu.ClassicalRungeKuttaIntegratorH\x00\x12@\n\tmid_point\x18\x03 \x01(\x0b\x32+.no.mechatronics.sfi.rmu.MidpointIntegratorH\x00\x12\x37\n\x04gill\x18\x04 \x01(\x0b\x32\'.no.mechatronics.sfi.rmu.GillIntegratorH\x00\x42\r\n\x0bintegrators\"\xe5\x02\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12<\n\rvariable_type\x18\x04 \x01(\x0e\x32%.no.mechatronics.sfi.rmu.VariableType\x12\x31\n\x07initial\x18\x05 \x01(\x0e\x32 .no.mechatronics.sfi.rmu.Initial\x12\x35\n\tcausality\x18\x06 \x01(\x0e\x32\".no.mechatronics.sfi.rmu.Causality\x12\x39\n\x0bvariability\x18\x07 \x01(\x0e\x32$.no.mechatronics.sfi.rmu.Variability\x12\x34\n\x05start\x18\x08 \x01(\x0b\x32%.no.mechatronics.sfi.rmu.AnyPrimitive\"L\n\x06Status\x12\x31\n\x04\x63ode\x18\x01 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\x12\x0f\n\x07message\x18\x02 \x01(\t\"i\n\x0c\x41nyPrimitive\x12\x12\n\x08intValue\x18\x01 \x01(\x05H\x00\x12\x13\n\trealValue\x18\x02 \x01(\x01H\x00\x12\x12\n\x08strValue\x18\x03 \x01(\tH\x00\x12\x13\n\tboolValue\x18\x04 \x01(\x08H\x00\x42\x07\n\x05value\":\n\x0bInitRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\")\n\x0bStepRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\n\n\x02\x64t\x18\x02 \x01(\x01\"\x15\n\x04UInt\x12\r\n\x05value\x18\x01 \x01(\r\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"M\n\x07IntRead\x12\r\n\x05value\x18\x01 \x01(\x05\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x19\n\x07IntList\x12\x0e\n\x06values\x18\x01 \x03(\x05\"R\n\x0bIntListRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x15\n\x04Real\x12\r\n\x05value\x18\x01 \x01(\x01\"N\n\x08RealRead\x12\r\n\x05value\x18\x01 \x01(\x01\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x1a\n\x08RealList\x12\x0e\n\x06values\x18\x01 \x03(\x01\"S\n\x0cRealListRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x14\n\x03Str\x12\r\n\x05value\x18\x01 \x01(\t\"M\n\x07StrRead\x12\r\n\x05value\x18\x01 \x01(\t\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x19\n\x07StrList\x12\x0e\n\x06values\x18\x01 \x03(\t\"R\n\x0bStrListRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\"N\n\x08\x42oolRead\x12\r\n\x05value\x18\x01 \x01(\x08\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x1a\n\x08\x42oolList\x12\x0e\n\x06values\x18\x01 \x03(\x08\"S\n\x0c\x42oolListRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"6\n\x0bReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\";\n\x0f\x42ulkReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\"M\n\x13WriteIntegerRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x05\"S\n\x17\x42ulkWriteIntegerRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x05\"J\n\x10WriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x01\"P\n\x14\x42ulkWriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x01\"L\n\x12WriteStringRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\t\"R\n\x16\x42ulkWriteStringRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\t\"M\n\x13WriteBooleanRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x08\"S\n\x17\x42ulkWriteBooleanRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x08\"s\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12\x43\n\x10\x64\x65pendenciesKind\x18\x03 \x01(\x0e\x32).no.mechatronics.sfi.rmu.DependenciesKind\"\x93\x01\n\x0eModelStructure\x12\x0f\n\x07outputs\x18\x01 \x03(\r\x12\x35\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32 .no.mechatronics.sfi.rmu.Unknown\x12\x39\n\x0finitialUnknowns\x18\x03 \x03(\x0b\x32 .no.mechatronics.sfi.rmu.Unknown\"$\n\x0f\x45ulerIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"2\n\x1d\x43lassicalRungeKuttaIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"\'\n\x12MidpointIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"#\n\x0eGillIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"\x07\n\x05\x45mpty*\x80\x01\n\tCausality\x12\x17\n\x13UNDEFINED_CAUSALITY\x10\x00\x12\t\n\x05INPUT\x10\x01\x12\n\n\x06OUTPUT\x10\x02\x12\r\n\tPARAMETER\x10\x03\x12\x18\n\x14\x43\x41LCULATED_PARAMETER\x10\x04\x12\t\n\x05LOCAL\x10\x05\x12\x0f\n\x0bINDEPENDENT\x10\x06*l\n\x0bVariability\x12\x19\n\x15UNDEFINED_VARIABILITY\x10\x00\x12\x0c\n\x08\x43ONSTANT\x10\x01\x12\t\n\x05\x46IXED\x10\x02\x12\x0e\n\nCONTINUOUS\x10\x03\x12\x0c\n\x08\x44ISCRETE\x10\x04\x12\x0b\n\x07TUNABLE\x10\x05*G\n\x07Initial\x12\x15\n\x11UNDEFINED_INITIAL\x10\x00\x12\t\n\x05\x45XACT\x10\x01\x12\n\n\x06\x41PPROX\x10\x02\x12\x0e\n\nCALCULATED\x10\x03*>\n\x0cVariableType\x12\x0b\n\x07INTEGER\x10\x00\x12\x08\n\x04REAL\x10\x01\x12\n\n\x06STRING\x10\x02\x12\x0b\n\x07\x42OOLEAN\x10\x03*\x19\n\x07\x46MUType\x12\x06\n\x02\x43S\x10\x00\x12\x06\n\x02ME\x10\x01*Q\n\nStatusCode\x12\x06\n\x02OK\x10\x00\x12\x0b\n\x07WARNING\x10\x01\x12\x0b\n\x07\x44ISCARD\x10\x02\x12\t\n\x05\x45RROR\x10\x03\x12\t\n\x05\x46\x41TAL\x10\x04\x12\x0b\n\x07PENDING\x10\x05*^\n\x10\x44\x65pendenciesKind\x12\x12\n\x0e\x44\x45PENDENT_KIND\x10\x00\x12\x11\n\rCONSTANT_KIND\x10\x01\x12\x10\n\x0cTUNABLE_KIND\x10\x02\x12\x11\n\rDISCRETE_KIND\x10\x04\x42\x10\x42\x0e\x46miDefinitionsb\x06proto3')
+  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\x17no.mechatronics.sfi.rmu\"\x07\n\x05\x45mpty\"\xbe\x03\n\nIntegrator\x12\x39\n\x05\x65uler\x18\x01 \x01(\x0b\x32(.no.mechatronics.sfi.rmu.EulerIntegratorH\x00\x12M\n\x0brunge_kutta\x18\x02 \x01(\x0b\x32\x36.no.mechatronics.sfi.rmu.ClassicalRungeKuttaIntegratorH\x00\x12@\n\tmid_point\x18\x03 \x01(\x0b\x32+.no.mechatronics.sfi.rmu.MidpointIntegratorH\x00\x12\x37\n\x04gill\x18\x04 \x01(\x0b\x32\'.no.mechatronics.sfi.rmu.GillIntegratorH\x00\x12L\n\x0f\x61\x64\x61ms_bashforth\x18\x05 \x01(\x0b\x32\x31.no.mechatronics.sfi.rmu.AdamsBashforthIntegratorH\x00\x12N\n\x10\x64ormand_prince54\x18\x06 \x01(\x0b\x32\x32.no.mechatronics.sfi.rmu.DormandPrince54IntegratorH\x00\x42\r\n\x0bintegrators\"\xe5\x02\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12<\n\rvariable_type\x18\x04 \x01(\x0e\x32%.no.mechatronics.sfi.rmu.VariableType\x12\x31\n\x07initial\x18\x05 \x01(\x0e\x32 .no.mechatronics.sfi.rmu.Initial\x12\x35\n\tcausality\x18\x06 \x01(\x0e\x32\".no.mechatronics.sfi.rmu.Causality\x12\x39\n\x0bvariability\x18\x07 \x01(\x0e\x32$.no.mechatronics.sfi.rmu.Variability\x12\x34\n\x05start\x18\x08 \x01(\x0b\x32%.no.mechatronics.sfi.rmu.AnyPrimitive\"L\n\x06Status\x12\x31\n\x04\x63ode\x18\x01 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x85\x01\n\x0c\x41nyPrimitive\x12\x12\n\x08intValue\x18\x01 \x01(\x05H\x00\x12\x13\n\trealValue\x18\x02 \x01(\x01H\x00\x12\x12\n\x08strValue\x18\x03 \x01(\tH\x00\x12\x13\n\tboolValue\x18\x04 \x01(\x08H\x00\x12\x1a\n\x10\x65numerationValue\x18\x05 \x01(\rH\x00\x42\x07\n\x05value\":\n\x0bInitRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\"0\n\x0bStepRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"\x15\n\x04UInt\x12\r\n\x05value\x18\x01 \x01(\r\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"M\n\x07IntRead\x12\r\n\x05value\x18\x01 \x01(\x05\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x19\n\x07IntList\x12\x0e\n\x06values\x18\x01 \x03(\x05\"R\n\x0bIntListRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x15\n\x04Real\x12\r\n\x05value\x18\x01 \x01(\x01\"N\n\x08RealRead\x12\r\n\x05value\x18\x01 \x01(\x01\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x1a\n\x08RealList\x12\x0e\n\x06values\x18\x01 \x03(\x01\"S\n\x0cRealListRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x14\n\x03Str\x12\r\n\x05value\x18\x01 \x01(\t\"M\n\x07StrRead\x12\r\n\x05value\x18\x01 \x01(\t\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x19\n\x07StrList\x12\x0e\n\x06values\x18\x01 \x03(\t\"R\n\x0bStrListRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\"N\n\x08\x42oolRead\x12\r\n\x05value\x18\x01 \x01(\x08\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"\x1a\n\x08\x42oolList\x12\x0e\n\x06values\x18\x01 \x03(\x08\"S\n\x0c\x42oolListRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12\x33\n\x06status\x18\x02 \x01(\x0e\x32#.no.mechatronics.sfi.rmu.StatusCode\"6\n\x0bReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\";\n\x0f\x42ulkReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\"M\n\x13WriteIntegerRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x05\"S\n\x17\x42ulkWriteIntegerRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x05\"J\n\x10WriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x01\"P\n\x14\x42ulkWriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x01\"L\n\x12WriteStringRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\t\"R\n\x16\x42ulkWriteStringRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\t\"M\n\x13WriteBooleanRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x08\"S\n\x17\x42ulkWriteBooleanRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x08\"s\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12\x43\n\x10\x64\x65pendenciesKind\x18\x03 \x01(\x0e\x32).no.mechatronics.sfi.rmu.DependenciesKind\"\x93\x01\n\x0eModelStructure\x12\x0f\n\x07outputs\x18\x01 \x03(\r\x12\x35\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32 .no.mechatronics.sfi.rmu.Unknown\x12\x39\n\x0finitialUnknowns\x18\x03 \x03(\x0b\x32 .no.mechatronics.sfi.rmu.Unknown\"$\n\x0f\x45ulerIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"2\n\x1d\x43lassicalRungeKuttaIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"\'\n\x12MidpointIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"#\n\x0eGillIntegrator\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"\x8a\x01\n\x18\x41\x64\x61msBashforthIntegrator\x12\x0e\n\x06nSteps\x18\x01 \x01(\r\x12\x0f\n\x07minStep\x18\x02 \x01(\x01\x12\x0f\n\x07maxStep\x18\x03 \x01(\x01\x12\x1d\n\x15scalAbsoluteTolerance\x18\x04 \x01(\x01\x12\x1d\n\x15scalRelativeTolerance\x18\x05 \x01(\x01\"{\n\x19\x44ormandPrince54Integrator\x12\x0f\n\x07minStep\x18\x01 \x01(\x01\x12\x0f\n\x07maxStep\x18\x02 \x01(\x01\x12\x1d\n\x15scalAbsoluteTolerance\x18\x03 \x01(\x01\x12\x1d\n\x15scalRelativeTolerance\x18\x04 \x01(\x01*\xbc\x01\n\tCausality\x12\x17\n\x13UNDEFINED_CAUSALITY\x10\x00\x12\x13\n\x0fINPUT_CAUSALITY\x10\x01\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x02\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x03\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x04\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x05\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x06*\xa8\x01\n\x0bVariability\x12\x19\n\x15UNDEFINED_VARIABILITY\x10\x00\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x01\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x02\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x03\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x04\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x05*_\n\x07Initial\x12\x15\n\x11UNDEFINED_INITIAL\x10\x00\x12\x11\n\rEXACT_INITIAL\x10\x01\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x02\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x03*|\n\x0cVariableType\x12\x14\n\x10INTEGER_VARIABLE\x10\x00\x12\x11\n\rREAL_VARIABLE\x10\x01\x12\x13\n\x0fSTRING_VARIABLE\x10\x02\x12\x14\n\x10\x42OOLEAN_VARIABLE\x10\x03\x12\x18\n\x14\x45NUMERATION_VARIABLE\x10\x04*!\n\x07\x46MUType\x12\n\n\x06\x43S_FMU\x10\x00\x12\n\n\x06ME_FMU\x10\x01*{\n\nStatusCode\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05*^\n\x10\x44\x65pendenciesKind\x12\x12\n\x0e\x44\x45PENDENT_KIND\x10\x00\x12\x11\n\rCONSTANT_KIND\x10\x01\x12\x10\n\x0cTUNABLE_KIND\x10\x02\x12\x11\n\rDISCRETE_KIND\x10\x04\x42\x10\x42\x0e\x46miDefinitionsb\x06proto3')
 )
 
 _CAUSALITY = _descriptor.EnumDescriptor(
@@ -34,34 +34,34 @@ _CAUSALITY = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='INPUT', index=1, number=1,
+      name='INPUT_CAUSALITY', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='OUTPUT', index=2, number=2,
+      name='OUTPUT_CAUSALITY', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='PARAMETER', index=3, number=3,
+      name='PARAMETER_CAUSALITY', index=3, number=3,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='CALCULATED_PARAMETER', index=4, number=4,
+      name='CALCULATED_PARAMETER_CAUSALITY', index=4, number=4,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='LOCAL', index=5, number=5,
+      name='LOCAL_CAUSALITY', index=5, number=5,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='INDEPENDENT', index=6, number=6,
+      name='INDEPENDENT_CAUSALITY', index=6, number=6,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=3074,
-  serialized_end=3202,
+  serialized_start=3534,
+  serialized_end=3722,
 )
 _sym_db.RegisterEnumDescriptor(_CAUSALITY)
 
@@ -77,30 +77,30 @@ _VARIABILITY = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='CONSTANT', index=1, number=1,
+      name='CONSTANT_VARIABILITY', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='FIXED', index=2, number=2,
+      name='FIXED_VARIABILITY', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='CONTINUOUS', index=3, number=3,
+      name='CONTINUOUS_VARIABILITY', index=3, number=3,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='DISCRETE', index=4, number=4,
+      name='DISCRETE_VARIABILITY', index=4, number=4,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='TUNABLE', index=5, number=5,
+      name='TUNABLE_VARIABILITY', index=5, number=5,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=3204,
-  serialized_end=3312,
+  serialized_start=3725,
+  serialized_end=3893,
 )
 _sym_db.RegisterEnumDescriptor(_VARIABILITY)
 
@@ -116,22 +116,22 @@ _INITIAL = _descriptor.EnumDescriptor(
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='EXACT', index=1, number=1,
+      name='EXACT_INITIAL', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='APPROX', index=2, number=2,
+      name='APPROX_INITIAL', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='CALCULATED', index=3, number=3,
+      name='CALCULATED_INITIAL', index=3, number=3,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=3314,
-  serialized_end=3385,
+  serialized_start=3895,
+  serialized_end=3990,
 )
 _sym_db.RegisterEnumDescriptor(_INITIAL)
 
@@ -143,26 +143,30 @@ _VARIABLETYPE = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='INTEGER', index=0, number=0,
+      name='INTEGER_VARIABLE', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='REAL', index=1, number=1,
+      name='REAL_VARIABLE', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='STRING', index=2, number=2,
+      name='STRING_VARIABLE', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='BOOLEAN', index=3, number=3,
+      name='BOOLEAN_VARIABLE', index=3, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ENUMERATION_VARIABLE', index=4, number=4,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=3387,
-  serialized_end=3449,
+  serialized_start=3992,
+  serialized_end=4116,
 )
 _sym_db.RegisterEnumDescriptor(_VARIABLETYPE)
 
@@ -174,18 +178,18 @@ _FMUTYPE = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='CS', index=0, number=0,
+      name='CS_FMU', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='ME', index=1, number=1,
+      name='ME_FMU', index=1, number=1,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=3451,
-  serialized_end=3476,
+  serialized_start=4118,
+  serialized_end=4151,
 )
 _sym_db.RegisterEnumDescriptor(_FMUTYPE)
 
@@ -197,34 +201,34 @@ _STATUSCODE = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='OK', index=0, number=0,
+      name='OK_STATUS', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='WARNING', index=1, number=1,
+      name='WARNING_STATUS', index=1, number=1,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='DISCARD', index=2, number=2,
+      name='DISCARD_STATUS', index=2, number=2,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='ERROR', index=3, number=3,
+      name='ERROR_STATUS', index=3, number=3,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='FATAL', index=4, number=4,
+      name='FATAL_STATUS', index=4, number=4,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='PENDING', index=5, number=5,
+      name='PENDING_STATUS', index=5, number=5,
       options=None,
       type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=3478,
-  serialized_end=3559,
+  serialized_start=4153,
+  serialized_end=4276,
 )
 _sym_db.RegisterEnumDescriptor(_STATUSCODE)
 
@@ -254,46 +258,71 @@ _DEPENDENCIESKIND = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3561,
-  serialized_end=3655,
+  serialized_start=4278,
+  serialized_end=4372,
 )
 _sym_db.RegisterEnumDescriptor(_DEPENDENCIESKIND)
 
 DependenciesKind = enum_type_wrapper.EnumTypeWrapper(_DEPENDENCIESKIND)
 UNDEFINED_CAUSALITY = 0
-INPUT = 1
-OUTPUT = 2
-PARAMETER = 3
-CALCULATED_PARAMETER = 4
-LOCAL = 5
-INDEPENDENT = 6
+INPUT_CAUSALITY = 1
+OUTPUT_CAUSALITY = 2
+PARAMETER_CAUSALITY = 3
+CALCULATED_PARAMETER_CAUSALITY = 4
+LOCAL_CAUSALITY = 5
+INDEPENDENT_CAUSALITY = 6
 UNDEFINED_VARIABILITY = 0
-CONSTANT = 1
-FIXED = 2
-CONTINUOUS = 3
-DISCRETE = 4
-TUNABLE = 5
+CONSTANT_VARIABILITY = 1
+FIXED_VARIABILITY = 2
+CONTINUOUS_VARIABILITY = 3
+DISCRETE_VARIABILITY = 4
+TUNABLE_VARIABILITY = 5
 UNDEFINED_INITIAL = 0
-EXACT = 1
-APPROX = 2
-CALCULATED = 3
-INTEGER = 0
-REAL = 1
-STRING = 2
-BOOLEAN = 3
-CS = 0
-ME = 1
-OK = 0
-WARNING = 1
-DISCARD = 2
-ERROR = 3
-FATAL = 4
-PENDING = 5
+EXACT_INITIAL = 1
+APPROX_INITIAL = 2
+CALCULATED_INITIAL = 3
+INTEGER_VARIABLE = 0
+REAL_VARIABLE = 1
+STRING_VARIABLE = 2
+BOOLEAN_VARIABLE = 3
+ENUMERATION_VARIABLE = 4
+CS_FMU = 0
+ME_FMU = 1
+OK_STATUS = 0
+WARNING_STATUS = 1
+DISCARD_STATUS = 2
+ERROR_STATUS = 3
+FATAL_STATUS = 4
+PENDING_STATUS = 5
 DEPENDENT_KIND = 0
 CONSTANT_KIND = 1
 TUNABLE_KIND = 2
 DISCRETE_KIND = 4
 
+
+
+_EMPTY = _descriptor.Descriptor(
+  name='Empty',
+  full_name='no.mechatronics.sfi.rmu.Empty',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=46,
+  serialized_end=53,
+)
 
 
 _INTEGRATOR = _descriptor.Descriptor(
@@ -331,6 +360,20 @@ _INTEGRATOR = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='adams_bashforth', full_name='no.mechatronics.sfi.rmu.Integrator.adams_bashforth', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='dormand_prince54', full_name='no.mechatronics.sfi.rmu.Integrator.dormand_prince54', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -346,8 +389,8 @@ _INTEGRATOR = _descriptor.Descriptor(
       name='integrators', full_name='no.mechatronics.sfi.rmu.Integrator.integrators',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=47,
-  serialized_end=335,
+  serialized_start=56,
+  serialized_end=502,
 )
 
 
@@ -426,8 +469,8 @@ _SCALARVARIABLE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=338,
-  serialized_end=695,
+  serialized_start=505,
+  serialized_end=862,
 )
 
 
@@ -464,8 +507,8 @@ _STATUS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=697,
-  serialized_end=773,
+  serialized_start=864,
+  serialized_end=940,
 )
 
 
@@ -504,6 +547,13 @@ _ANYPRIMITIVE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='enumerationValue', full_name='no.mechatronics.sfi.rmu.AnyPrimitive.enumerationValue', index=4,
+      number=5, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -519,8 +569,8 @@ _ANYPRIMITIVE = _descriptor.Descriptor(
       name='value', full_name='no.mechatronics.sfi.rmu.AnyPrimitive.value',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=775,
-  serialized_end=880,
+  serialized_start=943,
+  serialized_end=1076,
 )
 
 
@@ -564,8 +614,8 @@ _INITREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=882,
-  serialized_end=940,
+  serialized_start=1078,
+  serialized_end=1136,
 )
 
 
@@ -584,7 +634,7 @@ _STEPREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='dt', full_name='no.mechatronics.sfi.rmu.StepRequest.dt', index=1,
+      name='step_size', full_name='no.mechatronics.sfi.rmu.StepRequest.step_size', index=1,
       number=2, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -602,8 +652,8 @@ _STEPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=942,
-  serialized_end=983,
+  serialized_start=1138,
+  serialized_end=1186,
 )
 
 
@@ -633,8 +683,8 @@ _UINT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=985,
-  serialized_end=1006,
+  serialized_start=1188,
+  serialized_end=1209,
 )
 
 
@@ -664,8 +714,8 @@ _INT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1008,
-  serialized_end=1028,
+  serialized_start=1211,
+  serialized_end=1231,
 )
 
 
@@ -702,8 +752,8 @@ _INTREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1030,
-  serialized_end=1107,
+  serialized_start=1233,
+  serialized_end=1310,
 )
 
 
@@ -733,8 +783,8 @@ _INTLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1109,
-  serialized_end=1134,
+  serialized_start=1312,
+  serialized_end=1337,
 )
 
 
@@ -771,8 +821,8 @@ _INTLISTREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1136,
-  serialized_end=1218,
+  serialized_start=1339,
+  serialized_end=1421,
 )
 
 
@@ -802,8 +852,8 @@ _REAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1220,
-  serialized_end=1241,
+  serialized_start=1423,
+  serialized_end=1444,
 )
 
 
@@ -840,8 +890,8 @@ _REALREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1243,
-  serialized_end=1321,
+  serialized_start=1446,
+  serialized_end=1524,
 )
 
 
@@ -871,8 +921,8 @@ _REALLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1323,
-  serialized_end=1349,
+  serialized_start=1526,
+  serialized_end=1552,
 )
 
 
@@ -909,8 +959,8 @@ _REALLISTREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1351,
-  serialized_end=1434,
+  serialized_start=1554,
+  serialized_end=1637,
 )
 
 
@@ -940,8 +990,8 @@ _STR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1436,
-  serialized_end=1456,
+  serialized_start=1639,
+  serialized_end=1659,
 )
 
 
@@ -978,8 +1028,8 @@ _STRREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1458,
-  serialized_end=1535,
+  serialized_start=1661,
+  serialized_end=1738,
 )
 
 
@@ -1009,8 +1059,8 @@ _STRLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1537,
-  serialized_end=1562,
+  serialized_start=1740,
+  serialized_end=1765,
 )
 
 
@@ -1047,8 +1097,8 @@ _STRLISTREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1564,
-  serialized_end=1646,
+  serialized_start=1767,
+  serialized_end=1849,
 )
 
 
@@ -1078,8 +1128,8 @@ _BOOL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1648,
-  serialized_end=1669,
+  serialized_start=1851,
+  serialized_end=1872,
 )
 
 
@@ -1116,8 +1166,8 @@ _BOOLREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1671,
-  serialized_end=1749,
+  serialized_start=1874,
+  serialized_end=1952,
 )
 
 
@@ -1147,8 +1197,8 @@ _BOOLLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1751,
-  serialized_end=1777,
+  serialized_start=1954,
+  serialized_end=1980,
 )
 
 
@@ -1185,8 +1235,8 @@ _BOOLLISTREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1779,
-  serialized_end=1862,
+  serialized_start=1982,
+  serialized_end=2065,
 )
 
 
@@ -1223,8 +1273,8 @@ _READREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1864,
-  serialized_end=1918,
+  serialized_start=2067,
+  serialized_end=2121,
 )
 
 
@@ -1261,8 +1311,8 @@ _BULKREADREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1920,
-  serialized_end=1979,
+  serialized_start=2123,
+  serialized_end=2182,
 )
 
 
@@ -1306,8 +1356,8 @@ _WRITEINTEGERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1981,
-  serialized_end=2058,
+  serialized_start=2184,
+  serialized_end=2261,
 )
 
 
@@ -1351,8 +1401,8 @@ _BULKWRITEINTEGERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2060,
-  serialized_end=2143,
+  serialized_start=2263,
+  serialized_end=2346,
 )
 
 
@@ -1396,8 +1446,8 @@ _WRITEREALREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2145,
-  serialized_end=2219,
+  serialized_start=2348,
+  serialized_end=2422,
 )
 
 
@@ -1441,8 +1491,8 @@ _BULKWRITEREALREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2221,
-  serialized_end=2301,
+  serialized_start=2424,
+  serialized_end=2504,
 )
 
 
@@ -1486,8 +1536,8 @@ _WRITESTRINGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2303,
-  serialized_end=2379,
+  serialized_start=2506,
+  serialized_end=2582,
 )
 
 
@@ -1531,8 +1581,8 @@ _BULKWRITESTRINGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2381,
-  serialized_end=2463,
+  serialized_start=2584,
+  serialized_end=2666,
 )
 
 
@@ -1576,8 +1626,8 @@ _WRITEBOOLEANREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2465,
-  serialized_end=2542,
+  serialized_start=2668,
+  serialized_end=2745,
 )
 
 
@@ -1621,8 +1671,8 @@ _BULKWRITEBOOLEANREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2544,
-  serialized_end=2627,
+  serialized_start=2747,
+  serialized_end=2830,
 )
 
 
@@ -1666,8 +1716,8 @@ _UNKNOWN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2629,
-  serialized_end=2744,
+  serialized_start=2832,
+  serialized_end=2947,
 )
 
 
@@ -1711,8 +1761,8 @@ _MODELSTRUCTURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2747,
-  serialized_end=2894,
+  serialized_start=2950,
+  serialized_end=3097,
 )
 
 
@@ -1742,8 +1792,8 @@ _EULERINTEGRATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2896,
-  serialized_end=2932,
+  serialized_start=3099,
+  serialized_end=3135,
 )
 
 
@@ -1773,8 +1823,8 @@ _CLASSICALRUNGEKUTTAINTEGRATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2934,
-  serialized_end=2984,
+  serialized_start=3137,
+  serialized_end=3187,
 )
 
 
@@ -1804,8 +1854,8 @@ _MIDPOINTINTEGRATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2986,
-  serialized_end=3025,
+  serialized_start=3189,
+  serialized_end=3228,
 )
 
 
@@ -1835,18 +1885,53 @@ _GILLINTEGRATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3027,
-  serialized_end=3062,
+  serialized_start=3230,
+  serialized_end=3265,
 )
 
 
-_EMPTY = _descriptor.Descriptor(
-  name='Empty',
-  full_name='no.mechatronics.sfi.rmu.Empty',
+_ADAMSBASHFORTHINTEGRATOR = _descriptor.Descriptor(
+  name='AdamsBashforthIntegrator',
+  full_name='no.mechatronics.sfi.rmu.AdamsBashforthIntegrator',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
+    _descriptor.FieldDescriptor(
+      name='nSteps', full_name='no.mechatronics.sfi.rmu.AdamsBashforthIntegrator.nSteps', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='minStep', full_name='no.mechatronics.sfi.rmu.AdamsBashforthIntegrator.minStep', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='maxStep', full_name='no.mechatronics.sfi.rmu.AdamsBashforthIntegrator.maxStep', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scalAbsoluteTolerance', full_name='no.mechatronics.sfi.rmu.AdamsBashforthIntegrator.scalAbsoluteTolerance', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scalRelativeTolerance', full_name='no.mechatronics.sfi.rmu.AdamsBashforthIntegrator.scalRelativeTolerance', index=4,
+      number=5, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -1859,14 +1944,68 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3064,
-  serialized_end=3071,
+  serialized_start=3268,
+  serialized_end=3406,
+)
+
+
+_DORMANDPRINCE54INTEGRATOR = _descriptor.Descriptor(
+  name='DormandPrince54Integrator',
+  full_name='no.mechatronics.sfi.rmu.DormandPrince54Integrator',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='minStep', full_name='no.mechatronics.sfi.rmu.DormandPrince54Integrator.minStep', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='maxStep', full_name='no.mechatronics.sfi.rmu.DormandPrince54Integrator.maxStep', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scalAbsoluteTolerance', full_name='no.mechatronics.sfi.rmu.DormandPrince54Integrator.scalAbsoluteTolerance', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scalRelativeTolerance', full_name='no.mechatronics.sfi.rmu.DormandPrince54Integrator.scalRelativeTolerance', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3408,
+  serialized_end=3531,
 )
 
 _INTEGRATOR.fields_by_name['euler'].message_type = _EULERINTEGRATOR
 _INTEGRATOR.fields_by_name['runge_kutta'].message_type = _CLASSICALRUNGEKUTTAINTEGRATOR
 _INTEGRATOR.fields_by_name['mid_point'].message_type = _MIDPOINTINTEGRATOR
 _INTEGRATOR.fields_by_name['gill'].message_type = _GILLINTEGRATOR
+_INTEGRATOR.fields_by_name['adams_bashforth'].message_type = _ADAMSBASHFORTHINTEGRATOR
+_INTEGRATOR.fields_by_name['dormand_prince54'].message_type = _DORMANDPRINCE54INTEGRATOR
 _INTEGRATOR.oneofs_by_name['integrators'].fields.append(
   _INTEGRATOR.fields_by_name['euler'])
 _INTEGRATOR.fields_by_name['euler'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
@@ -1879,6 +2018,12 @@ _INTEGRATOR.fields_by_name['mid_point'].containing_oneof = _INTEGRATOR.oneofs_by
 _INTEGRATOR.oneofs_by_name['integrators'].fields.append(
   _INTEGRATOR.fields_by_name['gill'])
 _INTEGRATOR.fields_by_name['gill'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['adams_bashforth'])
+_INTEGRATOR.fields_by_name['adams_bashforth'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['dormand_prince54'])
+_INTEGRATOR.fields_by_name['dormand_prince54'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
 _SCALARVARIABLE.fields_by_name['variable_type'].enum_type = _VARIABLETYPE
 _SCALARVARIABLE.fields_by_name['initial'].enum_type = _INITIAL
 _SCALARVARIABLE.fields_by_name['causality'].enum_type = _CAUSALITY
@@ -1897,6 +2042,9 @@ _ANYPRIMITIVE.fields_by_name['strValue'].containing_oneof = _ANYPRIMITIVE.oneofs
 _ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
   _ANYPRIMITIVE.fields_by_name['boolValue'])
 _ANYPRIMITIVE.fields_by_name['boolValue'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
+_ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
+  _ANYPRIMITIVE.fields_by_name['enumerationValue'])
+_ANYPRIMITIVE.fields_by_name['enumerationValue'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
 _INTREAD.fields_by_name['status'].enum_type = _STATUSCODE
 _INTLISTREAD.fields_by_name['status'].enum_type = _STATUSCODE
 _REALREAD.fields_by_name['status'].enum_type = _STATUSCODE
@@ -1908,6 +2056,7 @@ _BOOLLISTREAD.fields_by_name['status'].enum_type = _STATUSCODE
 _UNKNOWN.fields_by_name['dependenciesKind'].enum_type = _DEPENDENCIESKIND
 _MODELSTRUCTURE.fields_by_name['derivatives'].message_type = _UNKNOWN
 _MODELSTRUCTURE.fields_by_name['initialUnknowns'].message_type = _UNKNOWN
+DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['Integrator'] = _INTEGRATOR
 DESCRIPTOR.message_types_by_name['ScalarVariable'] = _SCALARVARIABLE
 DESCRIPTOR.message_types_by_name['Status'] = _STATUS
@@ -1947,7 +2096,8 @@ DESCRIPTOR.message_types_by_name['EulerIntegrator'] = _EULERINTEGRATOR
 DESCRIPTOR.message_types_by_name['ClassicalRungeKuttaIntegrator'] = _CLASSICALRUNGEKUTTAINTEGRATOR
 DESCRIPTOR.message_types_by_name['MidpointIntegrator'] = _MIDPOINTINTEGRATOR
 DESCRIPTOR.message_types_by_name['GillIntegrator'] = _GILLINTEGRATOR
-DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
+DESCRIPTOR.message_types_by_name['AdamsBashforthIntegrator'] = _ADAMSBASHFORTHINTEGRATOR
+DESCRIPTOR.message_types_by_name['DormandPrince54Integrator'] = _DORMANDPRINCE54INTEGRATOR
 DESCRIPTOR.enum_types_by_name['Causality'] = _CAUSALITY
 DESCRIPTOR.enum_types_by_name['Variability'] = _VARIABILITY
 DESCRIPTOR.enum_types_by_name['Initial'] = _INITIAL
@@ -1956,6 +2106,13 @@ DESCRIPTOR.enum_types_by_name['FMUType'] = _FMUTYPE
 DESCRIPTOR.enum_types_by_name['StatusCode'] = _STATUSCODE
 DESCRIPTOR.enum_types_by_name['DependenciesKind'] = _DEPENDENCIESKIND
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), dict(
+  DESCRIPTOR = _EMPTY,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.rmu.Empty)
+  ))
+_sym_db.RegisterMessage(Empty)
 
 Integrator = _reflection.GeneratedProtocolMessageType('Integrator', (_message.Message,), dict(
   DESCRIPTOR = _INTEGRATOR,
@@ -2230,12 +2387,19 @@ GillIntegrator = _reflection.GeneratedProtocolMessageType('GillIntegrator', (_me
   ))
 _sym_db.RegisterMessage(GillIntegrator)
 
-Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), dict(
-  DESCRIPTOR = _EMPTY,
+AdamsBashforthIntegrator = _reflection.GeneratedProtocolMessageType('AdamsBashforthIntegrator', (_message.Message,), dict(
+  DESCRIPTOR = _ADAMSBASHFORTHINTEGRATOR,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.rmu.Empty)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.rmu.AdamsBashforthIntegrator)
   ))
-_sym_db.RegisterMessage(Empty)
+_sym_db.RegisterMessage(AdamsBashforthIntegrator)
+
+DormandPrince54Integrator = _reflection.GeneratedProtocolMessageType('DormandPrince54Integrator', (_message.Message,), dict(
+  DESCRIPTOR = _DORMANDPRINCE54INTEGRATOR,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.rmu.DormandPrince54Integrator)
+  ))
+_sym_db.RegisterMessage(DormandPrince54Integrator)
 
 
 DESCRIPTOR.has_options = True

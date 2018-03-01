@@ -4,12 +4,16 @@ syntax = "proto3";
 package no.mechatronics.sfi.rmu;
 option java_outer_classname = "FmiDefinitions";
 
+message Empty {}
+
 message Integrator {
 	oneof integrators {
 		EulerIntegrator euler = 1;
 		ClassicalRungeKuttaIntegrator runge_kutta = 2;
 		MidpointIntegrator mid_point = 3;
 		GillIntegrator gill = 4;
+		AdamsBashforthIntegrator adams_bashforth = 5;
+		DormandPrince54Integrator dormand_prince54 = 6;
 	}
 }
 
@@ -35,6 +39,7 @@ message AnyPrimitive {
         double realValue = 2;
         string strValue = 3;
         bool boolValue = 4;
+		uint32 enumerationValue = 5;
     }
 }
 
@@ -46,7 +51,7 @@ message InitRequest {
 
 message StepRequest {
     uint32 fmu_id = 1;
-    double dt = 2;
+    double step_size = 2;
 }
 
 message UInt {
@@ -198,49 +203,50 @@ message ModelStructure {
 
 enum Causality {
     UNDEFINED_CAUSALITY = 0;
-    INPUT = 1;
-    OUTPUT = 2;
-    PARAMETER = 3;
-    CALCULATED_PARAMETER = 4;
-    LOCAL = 5;
-    INDEPENDENT = 6;
+    INPUT_CAUSALITY = 1;
+    OUTPUT_CAUSALITY = 2;
+    PARAMETER_CAUSALITY = 3;
+    CALCULATED_PARAMETER_CAUSALITY = 4;
+    LOCAL_CAUSALITY = 5;
+    INDEPENDENT_CAUSALITY = 6;
 }
 
 enum Variability {
     UNDEFINED_VARIABILITY = 0;
-    CONSTANT =  1;
-    FIXED = 2;
-    CONTINUOUS = 3;
-    DISCRETE = 4;
-    TUNABLE = 5;
+    CONSTANT_VARIABILITY =  1;
+    FIXED_VARIABILITY = 2;
+    CONTINUOUS_VARIABILITY = 3;
+    DISCRETE_VARIABILITY = 4;
+    TUNABLE_VARIABILITY = 5;
 }
 
 enum Initial {
     UNDEFINED_INITIAL = 0;
-    EXACT = 1;
-    APPROX = 2;
-    CALCULATED = 3;
+    EXACT_INITIAL = 1;
+    APPROX_INITIAL = 2;
+    CALCULATED_INITIAL = 3;
 }
 
 enum VariableType {
-    INTEGER = 0;
-    REAL = 1;
-    STRING = 2;
-    BOOLEAN = 3;
+    INTEGER_VARIABLE = 0;
+    REAL_VARIABLE = 1;
+    STRING_VARIABLE = 2;
+    BOOLEAN_VARIABLE = 3;
+	ENUMERATION_VARIABLE = 4;
 }
 
 enum FMUType {
-	CS = 0;
-	ME = 1;
+	CS_FMU = 0;
+	ME_FMU = 1;
 }
 
 enum StatusCode {
-	OK = 0;
-	WARNING = 1;
-	DISCARD = 2;
-	ERROR = 3;
-	FATAL = 4;
-	PENDING = 5;
+	OK_STATUS = 0;
+	WARNING_STATUS = 1;
+	DISCARD_STATUS = 2;
+	ERROR_STATUS = 3;
+	FATAL_STATUS = 4;
+	PENDING_STATUS = 5;
 }
 
 enum DependenciesKind {
@@ -266,6 +272,19 @@ message GillIntegrator {
 	double step_size = 1;
 }
 
-message Empty {
-
+message AdamsBashforthIntegrator {
+	uint32 nSteps = 1;
+	double minStep = 2;
+	double maxStep = 3;
+	double scalAbsoluteTolerance = 4;
+	double scalRelativeTolerance = 5;
 }
+
+message DormandPrince54Integrator {
+	double minStep = 1;
+	double maxStep = 2;
+	double scalAbsoluteTolerance = 3;
+	double scalRelativeTolerance = 4;
+}
+
+

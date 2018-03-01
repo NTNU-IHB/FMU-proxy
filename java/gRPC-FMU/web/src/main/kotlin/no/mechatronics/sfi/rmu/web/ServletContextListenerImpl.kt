@@ -29,26 +29,29 @@ import org.slf4j.LoggerFactory
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 
+typealias ContextListener = () -> Unit
+
 class ServletContextListenerImpl : ServletContextListener  {
 
     companion object {
+        
         private val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
-        private val listeners = ArrayList<() -> Unit>()
+        private val listeners = mutableListOf<ContextListener>()
 
         fun onDestroy(action: () -> Unit) = listeners.add(action)
 
     }
 
     override fun contextInitialized(sce: ServletContextEvent?) {
-       LOG.info("contextInitialized")
+       LOG.debug("contextInitialized")
     }
 
     override fun contextDestroyed(sce: ServletContextEvent?) {
-        with(listeners) {
-            forEach({it.invoke()})
+        listeners.apply {
+            forEach{it.invoke()}
             clear()
         }
-        LOG.info("contextDestroyed")
+        LOG.debug("contextDestroyed")
     }
 
 }

@@ -33,25 +33,23 @@ interface GrpcFmuService : BindableService {
 
     fun convert(status: FmiStatus): FmiDefinitions.StatusCode {
         return when (status) {
-            FmiStatus.OK -> FmiDefinitions.StatusCode.OK
-            FmiStatus.Warning -> FmiDefinitions.StatusCode.WARNING
-            FmiStatus.Discard -> FmiDefinitions.StatusCode.DISCARD
-            FmiStatus.Error -> FmiDefinitions.StatusCode.ERROR
-            FmiStatus.Fatal -> FmiDefinitions.StatusCode.FATAL
-            FmiStatus.Pending -> FmiDefinitions.StatusCode.PENDING
+            FmiStatus.OK -> FmiDefinitions.StatusCode.OK_STATUS
+            FmiStatus.Warning -> FmiDefinitions.StatusCode.WARNING_STATUS
+            FmiStatus.Discard -> FmiDefinitions.StatusCode.DISCARD_STATUS
+            FmiStatus.Error -> FmiDefinitions.StatusCode.ERROR_STATUS
+            FmiStatus.Fatal -> FmiDefinitions.StatusCode.FATAL_STATUS
+            FmiStatus.Pending -> FmiDefinitions.StatusCode.PENDING_STATUS
             FmiStatus.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
         }
     }
 
     fun statusReply(status: FmiStatus, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        statusReply(FmiDefinitions.Status.newBuilder()
+        FmiDefinitions.Status.newBuilder()
                 .setCode(convert(status))
-                .build(), responseObserver)
-    }
-
-    fun statusReply(status: FmiDefinitions.Status, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        responseObserver.onNext(status)
-        responseObserver.onCompleted()
+                .build().also {
+            responseObserver.onNext(it)
+            responseObserver.onCompleted()
+        }
     }
 
 }

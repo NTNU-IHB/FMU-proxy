@@ -4,17 +4,12 @@
      */
     override fun read{{varName}}(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.{{returnType}}> ) {
 
-        val fmuId = req.value
-        val fmu = Fmus[fmuId]
-        if (fmu != null) {
-            val valueReference = req.value
-            val read = fmu.variableAccessor.read{{typeName}}(valueReference)
+        Fmus.get(req.value)?.apply {
+            val read = variableAccessor.read{{typeName}}({{valueReference}})
             responseObserver.onNext(FmiDefinitions.{{returnType}}.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
-        } else {
-            LOG.warn("No FMU with id: {}", fmuId)
         }
 
         responseObserver.onCompleted()
