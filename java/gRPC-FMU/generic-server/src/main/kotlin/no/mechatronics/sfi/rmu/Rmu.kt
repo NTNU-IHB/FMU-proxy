@@ -28,6 +28,7 @@ import info.laht.yaj_rpc.RpcHandler
 import info.laht.yaj_rpc.net.http.RpcHttpServer
 import info.laht.yaj_rpc.net.tcp.RpcTcpServer
 import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
+import info.laht.yaj_rpc.net.zmq.RpcZmqServer
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
@@ -54,6 +55,7 @@ internal data class NetworkInfo(
         val host: String,
         val grpcPort: Int,
         val wsPort: Int,
+        val zmqPort: Int,
         val tcpPort: Int,
         val httpPort: Int
 )
@@ -68,6 +70,7 @@ object Rmu {
     private const val REMOTE = "remote"
     private const val GRPC_PORT = "grpcPort"
     private const val JSON_RPC_WS_PORT = "wsPort"
+    private const val JSON_RPC_ZMQ_PORT = "zmqPort"
     private const val JSON_RPC_TCP_PORT = "tcpPort"
     private const val JSON_RPC_HTTP_PORT = "httpPort"
 
@@ -81,6 +84,7 @@ object Rmu {
             addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (WebSocket) server (optional)")
             addOption(JSON_RPC_TCP_PORT, true, "Manually specify the port to use for the JSON-RPC (TCP/IP) server (optional)")
             addOption(JSON_RPC_HTTP_PORT, true, "Manually specify the port to use for the JSON-RPC (HTTP) server (optional)")
+            addOption(JSON_RPC_ZMQ_PORT, true, "Manually specify the port to use for the JSON-RPC (ZMQ) server (optional)")
 
         }
 
@@ -108,6 +112,11 @@ object Rmu {
                         start(jsonWsPort)
                     }.also { servers.add(it) }
 
+                    val jsonZmqPort = cmd.getOptionValue(JSON_RPC_ZMQ_PORT)?.toIntOrNull() ?: availablePort
+                    object: RpcZmqServer(rpcHandler), RmuServer {}.apply {
+                        start(jsonZmqPort)
+                    }.also { servers.add(it) }
+
                     val jsonTcpPort = cmd.getOptionValue(JSON_RPC_TCP_PORT)?.toIntOrNull() ?: availablePort
                     object: RpcTcpServer(rpcHandler), RmuServer {}.apply {
                         start(jsonTcpPort)
@@ -122,6 +131,7 @@ object Rmu {
                             host = hostAddress,
                             grpcPort = grpcPort,
                             wsPort = jsonWsPort,
+                            zmqPort = jsonZmqPort,
                             tcpPort = jsonTcpPort,
                             httpPort = jsonHttpPort
                     )

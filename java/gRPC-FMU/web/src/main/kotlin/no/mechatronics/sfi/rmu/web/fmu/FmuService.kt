@@ -56,7 +56,8 @@ data class NetworkInfo(
         val grpcPort: Int,
         val wsPort: Int,
         val tcpPort: Int,
-        val httpPort: Int
+        val httpPort: Int,
+        val zmqPort: Int
 ): Serializable
 
 @ManagedBean
@@ -83,7 +84,6 @@ data class RemoteFmu(
     override fun toString(): String {
         return "RemoteFmu(guid='$guid', networkInfo=$networkInfo)"
     }
-
 
 }
 
