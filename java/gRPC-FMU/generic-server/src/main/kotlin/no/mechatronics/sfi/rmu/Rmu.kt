@@ -74,6 +74,9 @@ object Rmu {
     private const val JSON_RPC_TCP_PORT = "tcpPort"
     private const val JSON_RPC_HTTP_PORT = "httpPort"
 
+    private var beat: Heartbeat? = null
+    private val servers = mutableListOf<RmuServer>()
+
     fun create(args: Array<String>, fmuFile: FmuFile, instanceService: GrpcFmuService? = null)  {
 
         val options = Options().apply {
@@ -97,7 +100,7 @@ object Rmu {
                     parseAddress(it)
                 }
 
-                val servers = mutableListOf<RmuServer>()
+
 
                 try {
                     val grpcPort = cmd.getOptionValue(GRPC_PORT)?.toIntOrNull() ?: availablePort
@@ -140,21 +143,17 @@ object Rmu {
                             networkInfo = networkInfo,
                             modelDescriptionXml = fmuFile.modelDescriptionXml)
 
-                    var beat: Heartbeat? = remoteAddress?.let {
+                    beat = remoteAddress?.let {
                         Heartbeat(remoteAddress, remoteFmu).apply {
                             start()
                         }
                     }
 
                     println("Press any key to stop the application..")
-                    Scanner(System.`in`).also {
+                    Scanner(System.`in`).use {
                         if (it.hasNext()) {
-
                             println("Key pressed, stopping application..")
-
-                            beat?.stop()
-                            servers.forEach { it.stop() }
-
+                            stopServers()
                         }
                     }
 
@@ -166,6 +165,13 @@ object Rmu {
 
         }
 
+    }
+
+    internal fun stopServers() {
+        beat?.stop()
+        servers.forEach {
+            it.stop()
+        }
     }
 
     private val jarName = java.io.File(Rmu::class.java

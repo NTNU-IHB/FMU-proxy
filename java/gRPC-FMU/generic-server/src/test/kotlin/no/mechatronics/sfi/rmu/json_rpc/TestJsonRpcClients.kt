@@ -7,7 +7,9 @@ import info.laht.yaj_rpc.net.tcp.RpcTcpClient
 import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
 import info.laht.yaj_rpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.rmu.Rmu
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -22,12 +24,15 @@ class TestJsonRpcClients {
     private val zmqPort = 8003
     private val httpPort = 8004
 
+    private lateinit var modelDescription: SimpleModelDescription
+
     @Before
     fun setup() {
 
         val url = javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
         val fmuFile = FmuFile(File(url.file))
+        modelDescription = fmuFile.modelDescription
 
         val args = arrayOf(
                 "-wsPort", "$wsPort",
@@ -40,8 +45,9 @@ class TestJsonRpcClients {
 
     }
 
-    private fun invokeGetModelName(client: RpcClient): String {
-        return client.write("FmuService.getModelName").getResult(String::class.java)!!
+    @After
+    fun tearDown() {
+        Rmu.stopServers()
     }
 
     @Test
@@ -57,12 +63,21 @@ class TestJsonRpcClients {
         clients.forEach {
             it.use {
                 LOG.info("Testing client of type ${it.javaClass.simpleName}")
-                Assert.assertEquals("PumpControlledWinch", invokeGetModelName(it))
+                Assert.assertEquals(modelDescription.modelName, invokeGetModelName(it))
+                Assert.assertEquals(modelDescription.guid, invokeGetGuid(it))
             }
         }
 
-
     }
+
+    private fun invokeGetModelName(client: RpcClient): String {
+        return client.write("FmuService.getModelName").getResult(String::class.java)!!
+    }
+
+    private fun invokeGetGuid(client: RpcClient): String {
+        return client.write("FmuService.getGuid").getResult(String::class.java)!!
+    }
+
 
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)

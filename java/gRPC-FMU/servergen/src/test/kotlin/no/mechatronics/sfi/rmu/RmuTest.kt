@@ -58,6 +58,7 @@ class RmuTest {
         Assert.assertTrue(isPresentInJar("modelDescription.xml"))
         Assert.assertTrue(isPresentInJar("definitions.proto"))
         Assert.assertTrue(isPresentInJar("service.proto"))
+        Assert.assertTrue(isPresentInJar("unique_service.proto"))
 
     }
 

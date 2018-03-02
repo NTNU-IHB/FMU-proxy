@@ -14,11 +14,6 @@ class TestService {
     lateinit var handler: RpcHandler
     lateinit var service: RpcFmuService
 
-    private val gson = GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create()
-
     @Before
     fun setup() {
         val url = javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu")
@@ -40,7 +35,7 @@ class TestService {
             "params": []
         }
         """.let {
-            gson.fromJson(handler.handle(it), RpcResponseImpl::class.java).getResult(String::class.java)
+            RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)
         }
 
         println("modelName=$modelName")
@@ -56,10 +51,10 @@ class TestService {
             "jsonrpc": "2.0",
             "id": 1,
             "method": "FmuService.getGuid",
-            "params": []
+            "params": null
         }
         """.let {
-            gson.fromJson(handler.handle(it), RpcResponseImpl::class.java).getResult(String::class.java)
+            RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)
         }
 
         println("guid=$guid")
@@ -78,11 +73,11 @@ class TestService {
             "params": []
         }
         """.let {
-            gson.fromJson(handler.handle(it), RpcResponseImpl::class.java).getResult(String::class.java)!!
+            RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)!!
         }
 
         ModelDescriptionParser.parse(xml).asCoSimulationModelDescription()
-        
+
     }
 
     @Test
