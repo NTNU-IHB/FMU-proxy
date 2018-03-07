@@ -29,61 +29,79 @@ import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.rmu.client.GenericFmuClient
 import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
-import org.junit.After
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.net.ServerSocket
+import java.time.Duration
+import java.time.Instant
 
 
 class TestClient1 {
 
-    private var port: Int = -1
-    private lateinit var server: GrpcFmuServer
-    private lateinit var modelDescription: SimpleModelDescription
+    companion object {
+
+        private val LOG: Logger = LoggerFactory.getLogger(TestClient1::class.java)
+
+        private lateinit var server: GrpcFmuServer
+        private lateinit var client: GenericFmuClient
+        private lateinit var modelDescription: SimpleModelDescription
 
 
-    @Before
-    fun setup() {
+        @JvmStatic
+        @BeforeClass
+        fun setup() {
 
-        port = ServerSocket(0).use { it.localPort }
+            val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+            Assert.assertNotNull(url)
+            val fmuFile = FmuFile(url)
+            modelDescription = fmuFile.modelDescription
 
-        val fmuFile = FmuFile(javaClass.classLoader
-                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu"))
-        modelDescription = fmuFile.modelDescription
+            val port = ServerSocket(0).use { it.localPort }
 
-        server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
-        server.start(port)
-        
-    }
+            server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
+            server.start(port)
 
-    @After
-    fun tearDown() {
-        server.stop()
+            client = GenericFmuClient("localhost", port)
+
+        }
+
+        @JvmStatic
+        @AfterClass
+        fun tearDown() {
+            client.close()
+            server.stop()
+        }
+
     }
 
     @Test
-    fun testClient() {
-        GenericFmuClient("127.0.0.1", port).use {
+    fun testModelName() {
+        Assert.assertEquals(modelDescription.modelName, client.modelName)
+    }
 
-            Assert.assertEquals(modelDescription.modelName, it.modelName)
-            Assert.assertEquals(modelDescription.guid, it.guid)
+    @Test
+    fun testGuid() {
+        Assert.assertEquals(modelDescription.guid, client.guid)
+    }
 
-            println("ModelStructure=${it.modelStructure}")
+    @Test
+    fun testInstance() {
 
-            it.createInstance().use { fmu ->
+        client.createInstance().use { fmu ->
 
-                Assert.assertTrue(fmu.init())
-
-                val dt = 1.0/100
-                while (fmu.currentTime < 1) {
-                    val step: FmiDefinitions.Status = fmu.step(dt)
-                    println(step)
-                    Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
-                }
-
+            Assert.assertTrue(fmu.init())
+            val start = Instant.now()
+            val dt = 1.0/100
+            while (fmu.currentTime < 20) {
+                val step: FmiDefinitions.Status = fmu.step(dt)
+                Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
             }
+            val end = Instant.now()
+            LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")
+
         }
+
     }
 
 }

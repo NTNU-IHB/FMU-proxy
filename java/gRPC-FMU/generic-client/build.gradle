@@ -23,9 +23,9 @@ repositories {
 
 dependencies {
 
-    implementation group: 'io.grpc', name: 'grpc-stub', version: '1.9.0'
-    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.9.0'
-    implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.9.0'
+    implementation group: 'io.grpc', name: 'grpc-stub', version: '1.10.0'
+    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
+    implementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.10.0'
 
     implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
     implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'

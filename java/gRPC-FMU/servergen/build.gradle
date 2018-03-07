@@ -5,8 +5,8 @@ mainClassName = 'no.mechatronics.sfi.rmu.ApplicationStarter'
 
 distributions {
     main {
-        baseName = 'gRPC-FMU'
-        applicationName = "grpc-fmu"
+        baseName = 'RMU'
+        applicationName = "rmu"
     }
 }
 
@@ -56,14 +56,3 @@ sourceSets {
     }
 }
 
-//task copyProto(type: Copy) {
-//
-//    copyProto.configure {
-//        from('../../../proto/')
-//        into('src/main/resources/templates/proto')
-//        include('definitions.proto')
-//    }
-//
-//}
-//
-//compileKotlin.dependsOn(copyProto)

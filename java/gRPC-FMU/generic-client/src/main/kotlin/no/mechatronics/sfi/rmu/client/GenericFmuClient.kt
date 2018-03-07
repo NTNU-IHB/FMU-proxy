@@ -74,9 +74,12 @@ class GenericFmuClient(
         blockingStub.getModelStructure(EMPTY)
     }
 
+    @JvmOverloads
     fun createInstance(integrator: FmiDefinitions.Integrator? = null): FmuInstance {
         return FmuInstance(blockingStub, integrator)
     }
+
+    fun stop() = close()
 
     override fun close() {
         LOG.debug("Closing..")
