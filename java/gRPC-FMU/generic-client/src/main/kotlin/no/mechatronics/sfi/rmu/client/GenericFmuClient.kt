@@ -58,8 +58,10 @@ class GenericFmuClient(
         port: Int
 ): Closeable {
 
-    private val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port)
+    private val channel: ManagedChannel = ManagedChannelBuilder
+            .forAddress(host, port)
             .usePlaintext(true)
+            .directExecutor()
             .build()
 
     private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub

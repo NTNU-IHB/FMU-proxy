@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory
 import java.net.ServerSocket
 
 
-class TestClient2 {
+class TestGrpcClient_ME {
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(TestClient2::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(TestGrpcClient_ME::class.java)
 
 
         private lateinit var server: GrpcFmuServer
@@ -25,7 +25,8 @@ class TestClient2 {
         @BeforeClass
         fun setup() {
 
-            val url = TestClient2::class.java.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu")
+            val url = TestGrpcClient_ME::class.java.classLoader
+                    .getResource("fmus/me/BouncingBall/bouncingBall.fmu")
             Assert.assertNotNull(url)
 
             val fmuFile = FmuFile(url)

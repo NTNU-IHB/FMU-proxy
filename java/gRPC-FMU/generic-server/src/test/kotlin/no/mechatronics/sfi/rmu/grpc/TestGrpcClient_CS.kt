@@ -37,11 +37,11 @@ import java.time.Duration
 import java.time.Instant
 
 
-class TestClient1 {
+class TestGrpcClient_CS {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestClient1::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcClient_CS::class.java)
 
         private lateinit var server: GrpcFmuServer
         private lateinit var client: GenericFmuClient
@@ -52,8 +52,10 @@ class TestClient1 {
         @BeforeClass
         fun setup() {
 
-            val url = TestClient1::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+            val url = TestGrpcClient_CS::class.java.classLoader
+                    .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
+
             val fmuFile = FmuFile(url)
             modelDescription = fmuFile.modelDescription
 
@@ -64,16 +66,16 @@ class TestClient1 {
 
             client = GenericFmuClient("localhost", port)
 
-            fmuFile.asCoSimulationFmu().newInstance().use { fmu ->
-                fmu.init()
-                val dt = 1.0/100
-                val start = Instant.now()
-                while (fmu.currentTime < 10) {
-                    fmu.doStep(dt)
-                }
-                val end = Instant.now()
-                LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")
-            }
+//            fmuFile.asCoSimulationFmu().newInstance().use { fmu ->
+//                fmu.init()
+//                val dt = 1.0/100
+//                val start = Instant.now()
+//                while (fmu.currentTime < 10) {
+//                    fmu.doStep(dt)
+//                }
+//                val end = Instant.now()
+//                LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")
+//            }
 
         }
 
@@ -102,7 +104,7 @@ class TestClient1 {
         client.createInstance().use { fmu ->
 
             Assert.assertTrue(fmu.init())
-            val start = Instant.now()
+            var start = Instant.now()
             val dt = 1.0/100
             while (fmu.currentTime < 10) {
                 val step: FmiDefinitions.Status = fmu.step(dt)

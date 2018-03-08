@@ -52,6 +52,7 @@ class GrpcFmuServer(
     override fun start(port: Int) {
         if (server == null) {
             server = ServerBuilder.forPort(port)
+                    .directExecutor()
                     .apply {
                         services.forEach { addService(it) }
                     }.build().start()
