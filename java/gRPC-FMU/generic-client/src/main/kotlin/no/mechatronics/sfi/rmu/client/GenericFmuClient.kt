@@ -32,6 +32,9 @@ import no.mechatronics.sfi.rmu.GenericFmuServiceGrpc
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
+import java.time.Duration
+import java.time.Instant
 
 private val EMPTY = FmiDefinitions.Empty.getDefaultInstance()
 
@@ -53,7 +56,7 @@ internal object FmuInstances: ArrayList<FmuInstance>() {
 class GenericFmuClient(
         host: String,
         port: Int
-): AutoCloseable {
+): Closeable {
 
     private val channel: ManagedChannel = ManagedChannelBuilder.forAddress(host, port)
             .usePlaintext(true)
@@ -96,7 +99,7 @@ class GenericFmuClient(
 class FmuInstance internal constructor(
         private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub,
         integrator: FmiDefinitions.Integrator? = null
-) : AutoCloseable {
+) : Closeable {
 
     private val fmuId: Int
 
@@ -109,9 +112,8 @@ class FmuInstance internal constructor(
         FmuInstances.add(this)
     }
 
-    private val modelRef by lazy {
-        FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
-    }
+    private val modelRef = FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
+
 
     val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
         mutableListOf<FmiDefinitions.ScalarVariable>().apply {
@@ -297,6 +299,26 @@ class FmuInstance internal constructor(
     }
 
 }
+
+
+//fun main(args: Array<String>) {
+//
+//    GenericFmuClient("localhost", 8000).use {
+//
+//        it.createInstance().use { fmu ->
+//            fmu.init()
+//            val dt = 1.0/1000
+//            val start = Instant.now()
+//            while (fmu.currentTime < 10) {
+//                fmu.step(dt)
+//            }
+//            val end = Instant.now()
+//            println("${Duration.between(start, end).toMillis()}ms")
+//        }
+//
+//    }
+//
+//}
 
 
 

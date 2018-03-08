@@ -64,6 +64,17 @@ class TestClient1 {
 
             client = GenericFmuClient("localhost", port)
 
+            fmuFile.asCoSimulationFmu().newInstance().use { fmu ->
+                fmu.init()
+                val dt = 1.0/100
+                val start = Instant.now()
+                while (fmu.currentTime < 10) {
+                    fmu.doStep(dt)
+                }
+                val end = Instant.now()
+                LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")
+            }
+
         }
 
         @JvmStatic
@@ -93,7 +104,7 @@ class TestClient1 {
             Assert.assertTrue(fmu.init())
             val start = Instant.now()
             val dt = 1.0/100
-            while (fmu.currentTime < 100) {
+            while (fmu.currentTime < 10) {
                 val step: FmiDefinitions.Status = fmu.step(dt)
                 Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
             }

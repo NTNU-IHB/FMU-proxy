@@ -44,9 +44,6 @@ dependencies {
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
     compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.10.0'
 
-//    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
-//    compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.5.1'
-
     compile group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT'
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT'
 

@@ -6,6 +6,7 @@ import info.laht.yaj_rpc.net.http.RpcHttpClient
 import info.laht.yaj_rpc.net.tcp.RpcTcpClient
 import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
 import info.laht.yaj_rpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.rmu.Rmu
@@ -74,13 +75,17 @@ class TestJsonRpcClients {
             Assert.assertEquals(modelDescription.modelName, fmu.modelName)
             Assert.assertEquals(modelDescription.guid, fmu.guid)
 
-           Assert.assertTrue(fmu.init())
+            Assert.assertTrue(fmu.init())
 
             val dt = 1.0/100
             val start = Instant.now()
-            while (fmu.currentTime < 100) {
-                val flag = fmu.step(dt)
-                Assert.assertTrue(flag)
+            while (fmu.currentTime < 10) {
+                val status = fmu.step(dt)
+                Assert.assertTrue(status)
+
+               // val read = fmu.readReal("wire.v").value
+                //LOG.info("wire.v=${read}")
+
             }
             val end = Instant.now()
             val duration = Duration.between(start, end)
@@ -123,6 +128,10 @@ class TestJsonRpcClients {
 
         fun terminate() {
             client.write("FmuService.terminate", RpcParams.listParams(fmuId))
+        }
+
+        fun readReal(name: String): FmuRealRead {
+            return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name)).getResult(FmuRealRead::class.java)!!
         }
 
         override fun close() {
