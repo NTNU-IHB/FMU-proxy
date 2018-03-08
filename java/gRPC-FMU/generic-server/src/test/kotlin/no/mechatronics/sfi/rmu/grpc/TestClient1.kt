@@ -22,12 +22,12 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.rmu
+package no.mechatronics.sfi.rmu.grpc
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.rmu.FmiDefinitions
 import no.mechatronics.sfi.rmu.client.GenericFmuClient
-import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
 import org.junit.*
 import org.slf4j.Logger
@@ -52,7 +52,7 @@ class TestClient1 {
         @BeforeClass
         fun setup() {
 
-            val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+            val url = TestClient1::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
             val fmuFile = FmuFile(url)
             modelDescription = fmuFile.modelDescription
@@ -93,7 +93,7 @@ class TestClient1 {
             Assert.assertTrue(fmu.init())
             val start = Instant.now()
             val dt = 1.0/100
-            while (fmu.currentTime < 20) {
+            while (fmu.currentTime < 100) {
                 val step: FmiDefinitions.Status = fmu.step(dt)
                 Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
             }

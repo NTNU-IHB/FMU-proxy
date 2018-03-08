@@ -1,6 +1,5 @@
 package no.mechatronics.sfi.rmu.json_rpc
 
-import info.laht.yaj_rpc.RpcHandler
 import info.laht.yaj_rpc.RpcParams
 import info.laht.yaj_rpc.net.RpcClient
 import info.laht.yaj_rpc.net.http.RpcHttpClient
@@ -20,8 +19,6 @@ import java.time.Instant
 
 class TestJsonRpcClients {
 
-
-
     companion object {
 
         val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
@@ -37,7 +34,7 @@ class TestJsonRpcClients {
         @BeforeClass
         fun setup() {
 
-            val url = javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu")
+            val url = TestJsonRpcClients::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
             val fmuFile = FmuFile(File(url.file))
             modelDescription = fmuFile.modelDescription
@@ -69,7 +66,7 @@ class TestJsonRpcClients {
                 RpcTcpClient("localhost", tcpPort),
                 RpcHttpClient("localhost", httpPort),
                 RpcZmqClient("localhost", zmqPort)
-        ).map { FmuClient(it) }
+        ).map { FmuRpcClient(it) }
 
         clients.forEach { fmu ->
 
@@ -77,12 +74,13 @@ class TestJsonRpcClients {
             Assert.assertEquals(modelDescription.modelName, fmu.modelName)
             Assert.assertEquals(modelDescription.guid, fmu.guid)
 
-            fmu.init()
+           Assert.assertTrue(fmu.init())
 
             val dt = 1.0/100
             val start = Instant.now()
-            while (fmu.currentTime < 20) {
-                fmu.step(dt)
+            while (fmu.currentTime < 100) {
+                val flag = fmu.step(dt)
+                Assert.assertTrue(flag)
             }
             val end = Instant.now()
             val duration = Duration.between(start, end)
@@ -93,7 +91,7 @@ class TestJsonRpcClients {
 
     }
 
-    class FmuClient(
+    class FmuRpcClient(
             val client: RpcClient
     ): Closeable {
 
@@ -119,8 +117,8 @@ class TestJsonRpcClients {
             return client.write("FmuService.init", RpcParams.listParams(fmuId)).getResult(Boolean::class.java)!!
         }
 
-        fun step(dt: Double) {
-            client.write("FmuService.step", RpcParams.listParams(fmuId, dt))
+        fun step(dt: Double): Boolean {
+            return client.write("FmuService.step", RpcParams.listParams(fmuId, dt)).getResult(Boolean::class.java)!!
         }
 
         fun terminate() {
@@ -133,7 +131,5 @@ class TestJsonRpcClients {
         }
 
     }
-
-
 
 }

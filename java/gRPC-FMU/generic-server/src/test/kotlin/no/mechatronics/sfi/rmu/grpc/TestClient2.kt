@@ -1,9 +1,9 @@
-package no.mechatronics.sfi.rmu
+package no.mechatronics.sfi.rmu.grpc
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.rmu.FmiDefinitions
 import no.mechatronics.sfi.rmu.client.GenericFmuClient
-import no.mechatronics.sfi.rmu.grpc.GrpcFmuServer
 import no.mechatronics.sfi.rmu.grpc.services.GenericFmuServiceImpl
 import org.junit.*
 import org.slf4j.Logger
@@ -25,7 +25,7 @@ class TestClient2 {
         @BeforeClass
         fun setup() {
 
-            val url = javaClass.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu")
+            val url = TestClient2::class.java.classLoader.getResource("fmus/me/BouncingBall/bouncingBall.fmu")
             Assert.assertNotNull(url)
 
             val fmuFile = FmuFile(url)
@@ -75,7 +75,7 @@ class TestClient2 {
             }
 
             val dt = 1.0/100
-            for (i in 0 .. 10) {
+            for (i in 0 until  10) {
                 val step: FmiDefinitions.Status = fmu.step(dt)
                 Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
             }
