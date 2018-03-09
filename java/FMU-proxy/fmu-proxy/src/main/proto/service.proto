@@ -1,0 +1,49 @@
+
+syntax = "proto3";
+
+package no.mechatronics.sfi.fmu_proxy.grpc;
+option java_outer_classname = "GenericFmuProto";
+import "definitions.proto";
+
+service GenericFmuService {
+
+    rpc GetModelDescriptionXml(Empty) returns (Str);
+
+    rpc CreateInstanceFromCS (Empty) returns (UInt);
+	rpc CreateInstanceFromME (Integrator) returns (UInt);
+
+	rpc GetGuid (Empty)  returns (Str);
+    rpc GetModelName (Empty) returns (Str);
+    rpc GetModelVariables (Empty) returns (stream ScalarVariable);
+    rpc GetModelStructure (Empty) returns (ModelStructure);
+	
+    //instance methods
+    rpc GetCurrentTime (UInt) returns (Real);
+    rpc IsTerminated (UInt) returns (Bool);
+
+    rpc Init (InitRequest) returns (Bool);
+    rpc Step (StepRequest) returns (Status);
+    rpc Terminate (UInt) returns (Bool);
+    rpc Reset(UInt) returns (Status);
+
+    rpc ReadInteger (ReadRequest) returns (IntRead);
+	rpc ReadReal (ReadRequest) returns (RealRead);
+	rpc ReadString (ReadRequest) returns (StrRead);
+	rpc ReadBoolean (ReadRequest) returns (BoolRead);
+	
+	rpc BulkReadInteger (BulkReadRequest) returns (IntListRead);
+	rpc BulkReadReal (BulkReadRequest) returns (RealListRead);
+	rpc BulkReadString (BulkReadRequest) returns (StrListRead);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BoolListRead);
+	
+    rpc WriteInteger (WriteIntegerRequest) returns (Status);
+	rpc WriteReal (WriteRealRequest) returns (Status);
+	rpc WriteString (WriteStringRequest) returns (Status);
+	rpc WriteBoolean (WriteBooleanRequest) returns (Status);
+	
+	rpc BulkWriteInteger (BulkWriteIntegerRequest) returns (Status);
+	rpc BulkWriteReal (BulkWriteRealRequest) returns (Status);
+	rpc BulkWriteString (BulkWriteStringRequest) returns (Status);
+	rpc BulkWriteBoolean (BulkWriteBooleanRequest) returns (Status);
+
+}

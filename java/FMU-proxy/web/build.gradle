@@ -1,0 +1,63 @@
+
+def snapshot = true
+def fmi_md_version = snapshot ? '0.5.8-SNAPSHOT' : '0.5.7'
+
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+repositories {
+    if (snapshot) {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+}
+
+dependencies {
+
+    providedCompile 'javax.servlet:servlet-api:2.2'
+    providedCompile 'javax.servlet.jsp:jsp-api:2.2'
+    providedCompile 'javax.enterprise:cdi-api:2.0'
+
+    compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.15'
+    runtime group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.15'
+
+    compile group: 'org.primefaces', name: 'primefaces', version: '6.1'
+
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
+    compile group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
+
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
+
+}
+
+
+gretty {
+    servletContainer = "jetty9.3"
+    httpEnabled = true
+    httpPort = 8080
+    contextPath = "/rmu"
+    logDir = projectDir
+}
+
+
+task copyProto(type: Copy) {
+
+    copyProto.configure {
+        from('../fmu-proxy/src/main/proto')
+        into('src/main/webapp/resources/proto')
+        include('*.proto')
+    }
+
+}
+
+task copyProtoZip(type: Zip) {
+
+    from '../fmu-proxy/src/main/proto'
+    include '*'
+    archiveName 'fmu-proxy-generic-proto.zip'
+    destinationDir(file('src/main/webapp/resources/proto/'))
+}
+
+compileKotlin.dependsOn(copyProto)
+compileKotlin.dependsOn(copyProtoZip)

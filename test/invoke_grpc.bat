@@ -1,5 +1,5 @@
-cd ../java/gRPC-FMU/
+cd ../java/FMU-proxy/
 call gradlew :servergen:installDist 
 cd ../../test 
-call rmu -fmu HydraulicCylinderSimple.fmu
+call fmu-proxy -fmu HydraulicCylinderSimple.fmu
 PAUSE

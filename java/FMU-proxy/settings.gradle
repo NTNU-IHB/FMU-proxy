@@ -1,0 +1,8 @@
+rootProject.name = 'FMU-proxy'
+
+include 'web'
+include 'servergen'
+include 'grpc-client'
+include 'fmu-proxy'
+
+

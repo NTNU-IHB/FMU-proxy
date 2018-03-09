@@ -1,8 +1,0 @@
-rootProject.name = 'gRPC-FMU'
-
-include 'web'
-include 'servergen'
-include 'generic-client'
-include 'generic-server'
-
-
