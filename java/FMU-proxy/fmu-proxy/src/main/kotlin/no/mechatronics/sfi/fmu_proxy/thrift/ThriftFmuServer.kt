@@ -46,19 +46,24 @@ class ThriftFmuServer(
 
     override fun start(port: Int) {
         if (server == null) {
-            serverTransport= TServerSocket(9090)
+            serverTransport= TServerSocket(port)
             server = TSimpleServer(TServer.Args(serverTransport).processor(processor)).apply {
-                serve()
+                Thread { serve() }.start()
             }
-            LOG.info("${javaClass.simpleName} listening for connections on port: $port");
+            LOG.info("${ThriftFmuServer::class.java.simpleName} listening for connections on port: $port");
         } else {
-            LOG.warn("${javaClass.simpleName} has already been started!")
+            LOG.warn("${ThriftFmuServer::class.java.simpleName} has already been started!")
         }
     }
 
     override fun stop() {
-        server?.stop()
+        server?.apply {
+            stop()
+            LOG.info("${ThriftFmuServer::class.java.simpleName} stopped!")
+        }
     }
+
+    override fun close() = stop()
 
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)

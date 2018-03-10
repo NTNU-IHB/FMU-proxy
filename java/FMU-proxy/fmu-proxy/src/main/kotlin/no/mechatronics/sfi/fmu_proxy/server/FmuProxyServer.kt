@@ -24,7 +24,9 @@
 
 package no.mechatronics.sfi.fmu_proxy.server
 
-interface FmuProxyServer {
+import java.io.Closeable
+
+interface FmuProxyServer: Closeable {
 
     fun start(port: Int)
 

@@ -63,8 +63,13 @@ class GrpcFmuServer(
     }
 
     override fun stop() {
-        server?.shutdown()
+        server?.apply {
+            shutdown()
+            LOG.info("${javaClass.simpleName} stopped!")
+        }
     }
+
+    override fun close() = stop()
 
     /**
      * Await termination on the main thread since the grpc library uses daemon

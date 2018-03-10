@@ -36,6 +36,7 @@ import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.fmu_proxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmu_proxy.json_rpc.RpcFmuService
 import no.mechatronics.sfi.fmu_proxy.server.FmuProxyServer
+import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
@@ -57,7 +58,8 @@ internal data class NetworkInfo(
         val wsPort: Int,
         val zmqPort: Int,
         val tcpPort: Int,
-        val httpPort: Int
+        val httpPort: Int,
+        val thriftPort: Int
 )
 
 /**
@@ -69,6 +71,7 @@ object FmuProxy {
     private const val HELP = "help"
     private const val REMOTE = "remote"
     private const val GRPC_PORT = "grpcPort"
+    private const val THRIFT_PORT = "thriftPort"
     private const val JSON_RPC_WS_PORT = "wsPort"
     private const val JSON_RPC_ZMQ_PORT = "zmqPort"
     private const val JSON_RPC_TCP_PORT = "tcpPort"
@@ -84,6 +87,7 @@ object FmuProxy {
             addOption(HELP, false, "Prints this message")
             addOption(REMOTE, true, "Specify the IP address of the remote tracking server. E.g. ${"127.0.0.1:7000"}")
             addOption(GRPC_PORT, true, "Manually specify the port to use for the gRPC server (optional)")
+            addOption(THRIFT_PORT, true, "Manually specify the port to use for the Thrift server (optional)")
             addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (WebSocket) server (optional)")
             addOption(JSON_RPC_TCP_PORT, true, "Manually specify the port to use for the JSON-RPC (TCP/IP) server (optional)")
             addOption(JSON_RPC_HTTP_PORT, true, "Manually specify the port to use for the JSON-RPC (HTTP) server (optional)")
@@ -100,12 +104,15 @@ object FmuProxy {
                     parseAddress(it)
                 }
 
-
-
                 try {
                     val grpcPort = cmd.getOptionValue(GRPC_PORT)?.toIntOrNull() ?: availablePort
                     GrpcFmuServer(listOfNotNull(GenericFmuServiceImpl(fmuFile), instanceService)).apply {
                         start(grpcPort)
+                    }.also { servers.add(it) }
+
+                    val thriftPort = cmd.getOptionValue(THRIFT_PORT)?.toIntOrNull() ?: availablePort
+                    ThriftFmuServer(fmuFile).apply {
+                        start(thriftPort)
                     }.also { servers.add(it) }
 
                     val rpcHandler = RpcHandler(RpcFmuService(fmuFile))
@@ -136,7 +143,8 @@ object FmuProxy {
                             wsPort = jsonWsPort,
                             zmqPort = jsonZmqPort,
                             tcpPort = jsonTcpPort,
-                            httpPort = jsonHttpPort
+                            httpPort = jsonHttpPort,
+                            thriftPort = thriftPort
                     )
                     val remoteFmu = RemoteFmu(
                             guid = fmuFile.modelDescription.guid,

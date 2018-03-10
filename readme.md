@@ -1,4 +1,4 @@
-## gRPC-FMU
+## FMU-proxy
 
 The main goal of the Functional Mock-up Interface (FMI) is to allow simulation models to be shared across tools. 
 To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. 
@@ -26,7 +26,7 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 ### Generating the server from an FMU
 
 ```
-usage: grpc-fmu
+usage: fmu-proxy
  -fmu <arg>   Path to the fmu
  -help        Prints this message
  -out <arg>   Specify where to copy the generated .jar (optional, not supported yet)

@@ -3,8 +3,6 @@ package no.mechatronics.sfi.fmu_proxy.grpc
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 
-import no.mechatronics.sfi.fmu_proxy.client.GenericFmuClient
-import no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GenericFmuServiceImpl
 
 import org.junit.*

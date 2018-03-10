@@ -1,8 +1,19 @@
 
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+apply plugin: 'maven'
+apply plugin: 'signing'
 
-    compile group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
+group = 'no.mechatronics.sfi.fmu_proxy'
+version = '0.1-SNAPSHOT'
+
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+    }
+}
+
+dependencies {
+
+    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT'
 
 }
 

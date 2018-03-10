@@ -22,15 +22,12 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.client
+package no.mechatronics.sfi.fmu_proxy.grpc
 
 import java.io.Closeable
 
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-
-import no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions
-import no.mechatronics.sfi.fmu_proxy.grpc.GenericFmuServiceGrpc
 
 
 import org.slf4j.Logger

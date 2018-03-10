@@ -46,6 +46,7 @@ dependencies {
 
 
     testImplementation project(':grpc-client')
+    testImplementation project(':thrift-client')
 
 }
 

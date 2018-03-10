@@ -15,7 +15,8 @@ class TestService {
 
     @Before
     fun setup() {
-        val url = javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu")
+        val url = javaClass.classLoader
+                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
 
         service = RpcFmuService(FmuFile(url))
