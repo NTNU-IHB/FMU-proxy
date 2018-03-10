@@ -22,40 +22,34 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.grpc
+package no.mechatronics.sfi.fmu_proxy.thrift
 
-
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile
+import no.mechatronics.sfi.fmu_proxy.server.FmuProxyServer
+import org.apache.thrift.server.TSimpleServer
+import org.apache.thrift.server.TServer
+import org.apache.thrift.transport.TServerSocket
+import org.apache.thrift.transport.TServerTransport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import io.grpc.Server
-import io.grpc.ServerBuilder
 
-import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
-import no.mechatronics.sfi.fmu_proxy.server.FmuProxyServer
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
-
-
-/**
- *
- * @author Lars Ivar Hatledal
- */
-class GrpcFmuServer(
-         private val services: List<GrpcFmuService>
+class ThriftFmuServer(
+        fmuFile: FmuFile
 ): FmuProxyServer {
 
-    private var server: Server? = null
+    private var serverTransport: TServerTransport? = null
+    private var server: TServer? = null
 
-    constructor(vararg services: GrpcFmuService): this(services.toList())
+    private val handler = ThriftFmuServiceHandler(fmuFile)
+    private val processor = ThriftFmuService.Processor(handler)
 
     override fun start(port: Int) {
         if (server == null) {
-            server = ServerBuilder.forPort(port)
-                    .directExecutor()
-                    .apply {
-                        services.forEach { addService(it) }
-                    }.build().start()
-
+            serverTransport= TServerSocket(9090)
+            server = TSimpleServer(TServer.Args(serverTransport).processor(processor)).apply {
+                serve()
+            }
             LOG.info("${javaClass.simpleName} listening for connections on port: $port");
         } else {
             LOG.warn("${javaClass.simpleName} has already been started!")
@@ -63,23 +57,11 @@ class GrpcFmuServer(
     }
 
     override fun stop() {
-        server?.shutdown()
-    }
-
-    /**
-     * Await termination on the main thread since the grpc library uses daemon
-     * threads.
-     */
-    fun blockUntilShutdown() {
-        server?.awaitTermination()
+        server?.stop()
     }
 
     private companion object {
-
-        val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
-
+        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
     }
 
 }
-
-
