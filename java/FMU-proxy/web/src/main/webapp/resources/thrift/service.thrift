@@ -28,7 +28,7 @@ namespace java no.mechatronics.sfi.fmu_proxy.thrift
 
 typedef i32 FmuId
 
-service ThriftFmuService {
+service FmuService {
 
     string getGuid()
     string getModelName()

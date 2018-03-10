@@ -31,12 +31,11 @@ dependencies {
 
 }
 
-
 gretty {
     servletContainer = "jetty9.3"
     httpEnabled = true
     httpPort = 8080
-    contextPath = "/rmu"
+    contextPath = "/fmu-proxy"
     logDir = projectDir
 }
 

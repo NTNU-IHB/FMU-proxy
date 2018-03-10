@@ -35,7 +35,7 @@ class ProtoDownload {
     val file: StreamedContent
 
     init{
-        val name = "RMU_GenericProto.zip"
+        val name = "fmu-proxy-generic-proto.zip"
         val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/proto/$name")
         file = DefaultStreamedContent(stream, "application/octet-stream", name)
     }

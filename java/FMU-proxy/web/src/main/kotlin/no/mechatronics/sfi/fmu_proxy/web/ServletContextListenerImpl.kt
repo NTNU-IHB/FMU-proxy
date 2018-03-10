@@ -48,7 +48,7 @@ class ServletContextListenerImpl : ServletContextListener  {
 
     override fun contextDestroyed(sce: ServletContextEvent?) {
         listeners.apply {
-            forEach{it.invoke()}
+            forEach{ it.invoke() }
             clear()
         }
         LOG.debug("contextDestroyed")

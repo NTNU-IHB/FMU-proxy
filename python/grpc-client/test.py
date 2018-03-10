@@ -1,8 +1,8 @@
 
 import time
-from client import GenericFmuClient
+import client
 
-client = GenericFmuClient("localhost", 8000)
+client = client.FmuClient("localhost", 8000)
 
 modelName = client.get_model_name()
 print("ModelName={}".format(modelName))
@@ -21,14 +21,15 @@ if fmu.init():
     start = time.time()
     while fmu.get_current_time() < 10:
         status = fmu.step(dt)
-        print("Step status={}".format(status))
-        print("CurrentTime={}".format(fmu.get_current_time()))
+        if status.code != 0:
+            print(status.message)
+            break
     end = time.time()
 
-    print("Elapsed={}".format(end-start))
+    print("Elapsed={}s".format(end-start))
 
-reader = fmu.get_reader("PistonDisplacement")
-print("PistonDisplacement={}".format(reader.read_real()))
+    reader = fmu.get_reader("PistonDisplacement")
+    print("PistonDisplacement={}".format(reader.read_real().value))
 
 print("Terminated with success: {}".format(fmu.terminate()))
 

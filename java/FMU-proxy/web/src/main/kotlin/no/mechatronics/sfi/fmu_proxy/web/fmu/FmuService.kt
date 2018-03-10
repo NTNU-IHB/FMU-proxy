@@ -57,7 +57,8 @@ data class NetworkInfo(
         val wsPort: Int,
         val tcpPort: Int,
         val httpPort: Int,
-        val zmqPort: Int
+        val zmqPort: Int,
+        val thriftPort: Int
 ): Serializable
 
 @ManagedBean
@@ -91,24 +92,21 @@ data class RemoteFmu(
 @ApplicationScoped()
 class FmuService {
 
-    private lateinit var beat: Heartbeat
+    private var beat: Heartbeat? = null
     val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
-
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(FmuService::class.java)
-    }
 
     @PostConstruct
     fun init() {
-        beat = Heartbeat(PORT).apply {
-            start()
-        }
+        if (beat == null) {
+            beat = Heartbeat(PORT).apply {
+                start()
+                LOG.info("FmuService heartbeat started")
+            }
 
-        LOG.info("Heartbeat started")
-
-        ServletContextListenerImpl.onDestroy {
-            beat.stopBlocking()
-            LOG.info("FmuHeartbeat stopped")
+            ServletContextListenerImpl.onDestroy {
+                beat?.stopBlocking()
+                LOG.info("FmuService heartbeat stopped")
+            }
         }
 
     }
@@ -130,6 +128,12 @@ class FmuService {
         return false
     }
 
+
+    companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(FmuService::class.java)
+    }
+
+
     inner class Heartbeat(
             private val port: Int
     ) {
@@ -143,7 +147,7 @@ class FmuService {
 
             if (thread == null) {
 
-                thread = Thread({
+                thread = Thread{
 
                     ZContext().use { ctx ->
 
@@ -212,7 +216,7 @@ class FmuService {
 
                     }
 
-                }).apply { start() }
+                }.apply { start() }
             }
 
         }
