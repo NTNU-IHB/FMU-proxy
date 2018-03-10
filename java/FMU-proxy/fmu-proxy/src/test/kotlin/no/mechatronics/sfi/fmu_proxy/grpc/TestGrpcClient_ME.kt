@@ -18,7 +18,7 @@ class TestGrpcClient_ME {
 
 
         private lateinit var server: GrpcFmuServer
-        private lateinit var client: GenericFmuClient
+        private lateinit var client: GrpcFmuClient
         private lateinit var modelDescription: SimpleModelDescription
 
         @JvmStatic
@@ -37,7 +37,7 @@ class TestGrpcClient_ME {
             server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
             server.start(port)
 
-            client =  GenericFmuClient("127.0.0.1", port)
+            client =  GrpcFmuClient("127.0.0.1", port)
 
         }
 

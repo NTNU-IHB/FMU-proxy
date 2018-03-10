@@ -27,11 +27,13 @@ package no.mechatronics.sfi.fmu_proxy.fmu
 import no.mechatronics.sfi.fmi4j.FmiSimulation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.concurrent.atomic.AtomicInteger
 
 object Fmus {
 
     private val LOG: Logger = LoggerFactory.getLogger(Fmus::class.java)
 
+    private val idGen = AtomicInteger(0)
     private val fmus = mutableMapOf<Int, FmiSimulation>()
 
     init {
@@ -40,8 +42,10 @@ object Fmus {
         })
     }
 
-    fun put(id: Int, fmu: FmiSimulation) {
-        fmus[id] = fmu
+    fun put(fmu: FmiSimulation): Int {
+        return idGen.incrementAndGet().also {
+            fmus[it] = fmu
+        }
     }
 
     fun remove(id: Int): FmiSimulation? {

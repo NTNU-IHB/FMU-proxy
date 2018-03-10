@@ -42,7 +42,7 @@ class TestGrpcClient_CS {
         private val LOG: Logger = LoggerFactory.getLogger(TestGrpcClient_CS::class.java)
 
         private lateinit var server: GrpcFmuServer
-        private lateinit var client: GenericFmuClient
+        private lateinit var client: GrpcFmuClient
         private lateinit var modelDescription: SimpleModelDescription
 
 
@@ -62,7 +62,7 @@ class TestGrpcClient_CS {
             server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
             server.start(port)
 
-            client = GenericFmuClient("localhost", port)
+            client = GrpcFmuClient("localhost", port)
 
 //            fmuFile.asCoSimulationFmu().newInstance().use { fmu ->
 //                fmu.init()

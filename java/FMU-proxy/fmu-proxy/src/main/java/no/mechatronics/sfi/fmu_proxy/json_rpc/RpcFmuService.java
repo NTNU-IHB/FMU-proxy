@@ -24,7 +24,6 @@ public class RpcFmuService implements RpcService {
 
     private final FmuFile fmuFile;
     private final SimpleModelDescription modelDescription;
-    private final AtomicInteger idGenerator = new AtomicInteger(0);
 
     public RpcFmuService(@NotNull FmuFile fmuFile) {
         this.fmuFile = fmuFile;
@@ -50,9 +49,7 @@ public class RpcFmuService implements RpcService {
 
     @RpcMethod
     public int createInstanceFromCS() {
-        int id = idGenerator.incrementAndGet();
-        Fmus.INSTANCE.put(id, fmuFile.asCoSimulationFmu().newInstance());
-        return id;
+        return Fmus.INSTANCE.put(fmuFile.asCoSimulationFmu().newInstance());
     }
 
     @RpcMethod

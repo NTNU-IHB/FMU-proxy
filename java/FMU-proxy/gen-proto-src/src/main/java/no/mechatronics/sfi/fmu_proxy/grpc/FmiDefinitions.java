@@ -533,104 +533,6 @@ public final class FmiDefinitions {
   }
 
   /**
-   * Protobuf enum {@code no.mechatronics.sfi.fmu_proxy.grpc.FMUType}
-   */
-  public enum FMUType
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>CS_FMU = 0;</code>
-     */
-    CS_FMU(0),
-    /**
-     * <code>ME_FMU = 1;</code>
-     */
-    ME_FMU(1),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>CS_FMU = 0;</code>
-     */
-    public static final int CS_FMU_VALUE = 0;
-    /**
-     * <code>ME_FMU = 1;</code>
-     */
-    public static final int ME_FMU_VALUE = 1;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static FMUType valueOf(int value) {
-      return forNumber(value);
-    }
-
-    public static FMUType forNumber(int value) {
-      switch (value) {
-        case 0: return CS_FMU;
-        case 1: return ME_FMU;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<FMUType>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        FMUType> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<FMUType>() {
-            public FMUType findValueByNumber(int number) {
-              return FMUType.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.getDescriptor().getEnumTypes().get(4);
-    }
-
-    private static final FMUType[] VALUES = values();
-
-    public static FMUType valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private FMUType(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:no.mechatronics.sfi.fmu_proxy.grpc.FMUType)
-  }
-
-  /**
    * Protobuf enum {@code no.mechatronics.sfi.fmu_proxy.grpc.StatusCode}
    */
   public enum StatusCode
@@ -738,7 +640,7 @@ public final class FmiDefinitions {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.getDescriptor().getEnumTypes().get(5);
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.getDescriptor().getEnumTypes().get(4);
     }
 
     private static final StatusCode[] VALUES = values();
@@ -854,7 +756,7 @@ public final class FmiDefinitions {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.getDescriptor().getEnumTypes().get(6);
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.getDescriptor().getEnumTypes().get(5);
     }
 
     private static final DependenciesKind[] VALUES = values();
@@ -1262,1766 +1164,6 @@ public final class FmiDefinitions {
     }
 
     public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Empty getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface IntegratorOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-     */
-    boolean hasEuler();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator getEuler();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder getEulerOrBuilder();
-
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-     */
-    boolean hasRungeKutta();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator getRungeKutta();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder getRungeKuttaOrBuilder();
-
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-     */
-    boolean hasMidPoint();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator getMidPoint();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder getMidPointOrBuilder();
-
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-     */
-    boolean hasGill();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator getGill();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder getGillOrBuilder();
-
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-     */
-    boolean hasAdamsBashforth();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator getAdamsBashforth();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder getAdamsBashforthOrBuilder();
-
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-     */
-    boolean hasDormandPrince54();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator getDormandPrince54();
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-     */
-    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder getDormandPrince54OrBuilder();
-
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.IntegratorsCase getIntegratorsCase();
-  }
-  /**
-   * Protobuf type {@code no.mechatronics.sfi.fmu_proxy.grpc.Integrator}
-   */
-  public  static final class Integrator extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
-      IntegratorOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use Integrator.newBuilder() to construct.
-    private Integrator(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Integrator() {
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Integrator(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder subBuilder = null;
-              if (integratorsCase_ == 1) {
-                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_).toBuilder();
-              }
-              integrators_ =
-                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_);
-                integrators_ = subBuilder.buildPartial();
-              }
-              integratorsCase_ = 1;
-              break;
-            }
-            case 18: {
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder subBuilder = null;
-              if (integratorsCase_ == 2) {
-                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_).toBuilder();
-              }
-              integrators_ =
-                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_);
-                integrators_ = subBuilder.buildPartial();
-              }
-              integratorsCase_ = 2;
-              break;
-            }
-            case 26: {
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder subBuilder = null;
-              if (integratorsCase_ == 3) {
-                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_).toBuilder();
-              }
-              integrators_ =
-                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_);
-                integrators_ = subBuilder.buildPartial();
-              }
-              integratorsCase_ = 3;
-              break;
-            }
-            case 34: {
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder subBuilder = null;
-              if (integratorsCase_ == 4) {
-                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_).toBuilder();
-              }
-              integrators_ =
-                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_);
-                integrators_ = subBuilder.buildPartial();
-              }
-              integratorsCase_ = 4;
-              break;
-            }
-            case 42: {
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder subBuilder = null;
-              if (integratorsCase_ == 5) {
-                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_).toBuilder();
-              }
-              integrators_ =
-                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_);
-                integrators_ = subBuilder.buildPartial();
-              }
-              integratorsCase_ = 5;
-              break;
-            }
-            case 50: {
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder subBuilder = null;
-              if (integratorsCase_ == 6) {
-                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_).toBuilder();
-              }
-              integrators_ =
-                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_);
-                integrators_ = subBuilder.buildPartial();
-              }
-              integratorsCase_ = 6;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.class, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.Builder.class);
-    }
-
-    private int integratorsCase_ = 0;
-    private java.lang.Object integrators_;
-    public enum IntegratorsCase
-        implements com.google.protobuf.Internal.EnumLite {
-      EULER(1),
-      RUNGE_KUTTA(2),
-      MID_POINT(3),
-      GILL(4),
-      ADAMS_BASHFORTH(5),
-      DORMAND_PRINCE54(6),
-      INTEGRATORS_NOT_SET(0);
-      private final int value;
-      private IntegratorsCase(int value) {
-        this.value = value;
-      }
-      /**
-       * @deprecated Use {@link #forNumber(int)} instead.
-       */
-      @java.lang.Deprecated
-      public static IntegratorsCase valueOf(int value) {
-        return forNumber(value);
-      }
-
-      public static IntegratorsCase forNumber(int value) {
-        switch (value) {
-          case 1: return EULER;
-          case 2: return RUNGE_KUTTA;
-          case 3: return MID_POINT;
-          case 4: return GILL;
-          case 5: return ADAMS_BASHFORTH;
-          case 6: return DORMAND_PRINCE54;
-          case 0: return INTEGRATORS_NOT_SET;
-          default: return null;
-        }
-      }
-      public int getNumber() {
-        return this.value;
-      }
-    };
-
-    public IntegratorsCase
-    getIntegratorsCase() {
-      return IntegratorsCase.forNumber(
-          integratorsCase_);
-    }
-
-    public static final int EULER_FIELD_NUMBER = 1;
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-     */
-    public boolean hasEuler() {
-      return integratorsCase_ == 1;
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator getEuler() {
-      if (integratorsCase_ == 1) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder getEulerOrBuilder() {
-      if (integratorsCase_ == 1) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
-    }
-
-    public static final int RUNGE_KUTTA_FIELD_NUMBER = 2;
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-     */
-    public boolean hasRungeKutta() {
-      return integratorsCase_ == 2;
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator getRungeKutta() {
-      if (integratorsCase_ == 2) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder getRungeKuttaOrBuilder() {
-      if (integratorsCase_ == 2) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
-    }
-
-    public static final int MID_POINT_FIELD_NUMBER = 3;
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-     */
-    public boolean hasMidPoint() {
-      return integratorsCase_ == 3;
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator getMidPoint() {
-      if (integratorsCase_ == 3) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder getMidPointOrBuilder() {
-      if (integratorsCase_ == 3) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
-    }
-
-    public static final int GILL_FIELD_NUMBER = 4;
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-     */
-    public boolean hasGill() {
-      return integratorsCase_ == 4;
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator getGill() {
-      if (integratorsCase_ == 4) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder getGillOrBuilder() {
-      if (integratorsCase_ == 4) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
-    }
-
-    public static final int ADAMS_BASHFORTH_FIELD_NUMBER = 5;
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-     */
-    public boolean hasAdamsBashforth() {
-      return integratorsCase_ == 5;
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator getAdamsBashforth() {
-      if (integratorsCase_ == 5) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder getAdamsBashforthOrBuilder() {
-      if (integratorsCase_ == 5) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
-    }
-
-    public static final int DORMAND_PRINCE54_FIELD_NUMBER = 6;
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-     */
-    public boolean hasDormandPrince54() {
-      return integratorsCase_ == 6;
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator getDormandPrince54() {
-      if (integratorsCase_ == 6) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
-    }
-    /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-     */
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder getDormandPrince54OrBuilder() {
-      if (integratorsCase_ == 6) {
-         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
-      }
-      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (integratorsCase_ == 1) {
-        output.writeMessage(1, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 2) {
-        output.writeMessage(2, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 3) {
-        output.writeMessage(3, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 4) {
-        output.writeMessage(4, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 5) {
-        output.writeMessage(5, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 6) {
-        output.writeMessage(6, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (integratorsCase_ == 1) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 2) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 3) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 4) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 5) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_);
-      }
-      if (integratorsCase_ == 6) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator)) {
-        return super.equals(obj);
-      }
-      no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator other = (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator) obj;
-
-      boolean result = true;
-      result = result && getIntegratorsCase().equals(
-          other.getIntegratorsCase());
-      if (!result) return false;
-      switch (integratorsCase_) {
-        case 1:
-          result = result && getEuler()
-              .equals(other.getEuler());
-          break;
-        case 2:
-          result = result && getRungeKutta()
-              .equals(other.getRungeKutta());
-          break;
-        case 3:
-          result = result && getMidPoint()
-              .equals(other.getMidPoint());
-          break;
-        case 4:
-          result = result && getGill()
-              .equals(other.getGill());
-          break;
-        case 5:
-          result = result && getAdamsBashforth()
-              .equals(other.getAdamsBashforth());
-          break;
-        case 6:
-          result = result && getDormandPrince54()
-              .equals(other.getDormandPrince54());
-          break;
-        case 0:
-        default:
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      switch (integratorsCase_) {
-        case 1:
-          hash = (37 * hash) + EULER_FIELD_NUMBER;
-          hash = (53 * hash) + getEuler().hashCode();
-          break;
-        case 2:
-          hash = (37 * hash) + RUNGE_KUTTA_FIELD_NUMBER;
-          hash = (53 * hash) + getRungeKutta().hashCode();
-          break;
-        case 3:
-          hash = (37 * hash) + MID_POINT_FIELD_NUMBER;
-          hash = (53 * hash) + getMidPoint().hashCode();
-          break;
-        case 4:
-          hash = (37 * hash) + GILL_FIELD_NUMBER;
-          hash = (53 * hash) + getGill().hashCode();
-          break;
-        case 5:
-          hash = (37 * hash) + ADAMS_BASHFORTH_FIELD_NUMBER;
-          hash = (53 * hash) + getAdamsBashforth().hashCode();
-          break;
-        case 6:
-          hash = (37 * hash) + DORMAND_PRINCE54_FIELD_NUMBER;
-          hash = (53 * hash) + getDormandPrince54().hashCode();
-          break;
-        case 0:
-        default:
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code no.mechatronics.sfi.fmu_proxy.grpc.Integrator}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
-        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.IntegratorOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.class, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.Builder.class);
-      }
-
-      // Construct using no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        integratorsCase_ = 0;
-        integrators_ = null;
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
-      }
-
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator getDefaultInstanceForType() {
-        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.getDefaultInstance();
-      }
-
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator build() {
-        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator buildPartial() {
-        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator result = new no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator(this);
-        if (integratorsCase_ == 1) {
-          if (eulerBuilder_ == null) {
-            result.integrators_ = integrators_;
-          } else {
-            result.integrators_ = eulerBuilder_.build();
-          }
-        }
-        if (integratorsCase_ == 2) {
-          if (rungeKuttaBuilder_ == null) {
-            result.integrators_ = integrators_;
-          } else {
-            result.integrators_ = rungeKuttaBuilder_.build();
-          }
-        }
-        if (integratorsCase_ == 3) {
-          if (midPointBuilder_ == null) {
-            result.integrators_ = integrators_;
-          } else {
-            result.integrators_ = midPointBuilder_.build();
-          }
-        }
-        if (integratorsCase_ == 4) {
-          if (gillBuilder_ == null) {
-            result.integrators_ = integrators_;
-          } else {
-            result.integrators_ = gillBuilder_.build();
-          }
-        }
-        if (integratorsCase_ == 5) {
-          if (adamsBashforthBuilder_ == null) {
-            result.integrators_ = integrators_;
-          } else {
-            result.integrators_ = adamsBashforthBuilder_.build();
-          }
-        }
-        if (integratorsCase_ == 6) {
-          if (dormandPrince54Builder_ == null) {
-            result.integrators_ = integrators_;
-          } else {
-            result.integrators_ = dormandPrince54Builder_.build();
-          }
-        }
-        result.integratorsCase_ = integratorsCase_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator) {
-          return mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator other) {
-        if (other == no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.getDefaultInstance()) return this;
-        switch (other.getIntegratorsCase()) {
-          case EULER: {
-            mergeEuler(other.getEuler());
-            break;
-          }
-          case RUNGE_KUTTA: {
-            mergeRungeKutta(other.getRungeKutta());
-            break;
-          }
-          case MID_POINT: {
-            mergeMidPoint(other.getMidPoint());
-            break;
-          }
-          case GILL: {
-            mergeGill(other.getGill());
-            break;
-          }
-          case ADAMS_BASHFORTH: {
-            mergeAdamsBashforth(other.getAdamsBashforth());
-            break;
-          }
-          case DORMAND_PRINCE54: {
-            mergeDormandPrince54(other.getDormandPrince54());
-            break;
-          }
-          case INTEGRATORS_NOT_SET: {
-            break;
-          }
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int integratorsCase_ = 0;
-      private java.lang.Object integrators_;
-      public IntegratorsCase
-          getIntegratorsCase() {
-        return IntegratorsCase.forNumber(
-            integratorsCase_);
-      }
-
-      public Builder clearIntegrators() {
-        integratorsCase_ = 0;
-        integrators_ = null;
-        onChanged();
-        return this;
-      }
-
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder> eulerBuilder_;
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public boolean hasEuler() {
-        return integratorsCase_ == 1;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator getEuler() {
-        if (eulerBuilder_ == null) {
-          if (integratorsCase_ == 1) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
-        } else {
-          if (integratorsCase_ == 1) {
-            return eulerBuilder_.getMessage();
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public Builder setEuler(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator value) {
-        if (eulerBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          integrators_ = value;
-          onChanged();
-        } else {
-          eulerBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 1;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public Builder setEuler(
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder builderForValue) {
-        if (eulerBuilder_ == null) {
-          integrators_ = builderForValue.build();
-          onChanged();
-        } else {
-          eulerBuilder_.setMessage(builderForValue.build());
-        }
-        integratorsCase_ = 1;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public Builder mergeEuler(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator value) {
-        if (eulerBuilder_ == null) {
-          if (integratorsCase_ == 1 &&
-              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance()) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            integrators_ = value;
-          }
-          onChanged();
-        } else {
-          if (integratorsCase_ == 1) {
-            eulerBuilder_.mergeFrom(value);
-          }
-          eulerBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 1;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public Builder clearEuler() {
-        if (eulerBuilder_ == null) {
-          if (integratorsCase_ == 1) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-            onChanged();
-          }
-        } else {
-          if (integratorsCase_ == 1) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-          }
-          eulerBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder getEulerBuilder() {
-        return getEulerFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder getEulerOrBuilder() {
-        if ((integratorsCase_ == 1) && (eulerBuilder_ != null)) {
-          return eulerBuilder_.getMessageOrBuilder();
-        } else {
-          if (integratorsCase_ == 1) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder> 
-          getEulerFieldBuilder() {
-        if (eulerBuilder_ == null) {
-          if (!(integratorsCase_ == 1)) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
-          }
-          eulerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder>(
-                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_,
-                  getParentForChildren(),
-                  isClean());
-          integrators_ = null;
-        }
-        integratorsCase_ = 1;
-        onChanged();;
-        return eulerBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder> rungeKuttaBuilder_;
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public boolean hasRungeKutta() {
-        return integratorsCase_ == 2;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator getRungeKutta() {
-        if (rungeKuttaBuilder_ == null) {
-          if (integratorsCase_ == 2) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
-        } else {
-          if (integratorsCase_ == 2) {
-            return rungeKuttaBuilder_.getMessage();
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public Builder setRungeKutta(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator value) {
-        if (rungeKuttaBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          integrators_ = value;
-          onChanged();
-        } else {
-          rungeKuttaBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 2;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public Builder setRungeKutta(
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder builderForValue) {
-        if (rungeKuttaBuilder_ == null) {
-          integrators_ = builderForValue.build();
-          onChanged();
-        } else {
-          rungeKuttaBuilder_.setMessage(builderForValue.build());
-        }
-        integratorsCase_ = 2;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public Builder mergeRungeKutta(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator value) {
-        if (rungeKuttaBuilder_ == null) {
-          if (integratorsCase_ == 2 &&
-              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance()) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            integrators_ = value;
-          }
-          onChanged();
-        } else {
-          if (integratorsCase_ == 2) {
-            rungeKuttaBuilder_.mergeFrom(value);
-          }
-          rungeKuttaBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 2;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public Builder clearRungeKutta() {
-        if (rungeKuttaBuilder_ == null) {
-          if (integratorsCase_ == 2) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-            onChanged();
-          }
-        } else {
-          if (integratorsCase_ == 2) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-          }
-          rungeKuttaBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder getRungeKuttaBuilder() {
-        return getRungeKuttaFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder getRungeKuttaOrBuilder() {
-        if ((integratorsCase_ == 2) && (rungeKuttaBuilder_ != null)) {
-          return rungeKuttaBuilder_.getMessageOrBuilder();
-        } else {
-          if (integratorsCase_ == 2) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder> 
-          getRungeKuttaFieldBuilder() {
-        if (rungeKuttaBuilder_ == null) {
-          if (!(integratorsCase_ == 2)) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
-          }
-          rungeKuttaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder>(
-                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_,
-                  getParentForChildren(),
-                  isClean());
-          integrators_ = null;
-        }
-        integratorsCase_ = 2;
-        onChanged();;
-        return rungeKuttaBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder> midPointBuilder_;
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public boolean hasMidPoint() {
-        return integratorsCase_ == 3;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator getMidPoint() {
-        if (midPointBuilder_ == null) {
-          if (integratorsCase_ == 3) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
-        } else {
-          if (integratorsCase_ == 3) {
-            return midPointBuilder_.getMessage();
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public Builder setMidPoint(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator value) {
-        if (midPointBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          integrators_ = value;
-          onChanged();
-        } else {
-          midPointBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public Builder setMidPoint(
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder builderForValue) {
-        if (midPointBuilder_ == null) {
-          integrators_ = builderForValue.build();
-          onChanged();
-        } else {
-          midPointBuilder_.setMessage(builderForValue.build());
-        }
-        integratorsCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public Builder mergeMidPoint(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator value) {
-        if (midPointBuilder_ == null) {
-          if (integratorsCase_ == 3 &&
-              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance()) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            integrators_ = value;
-          }
-          onChanged();
-        } else {
-          if (integratorsCase_ == 3) {
-            midPointBuilder_.mergeFrom(value);
-          }
-          midPointBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public Builder clearMidPoint() {
-        if (midPointBuilder_ == null) {
-          if (integratorsCase_ == 3) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-            onChanged();
-          }
-        } else {
-          if (integratorsCase_ == 3) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-          }
-          midPointBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder getMidPointBuilder() {
-        return getMidPointFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder getMidPointOrBuilder() {
-        if ((integratorsCase_ == 3) && (midPointBuilder_ != null)) {
-          return midPointBuilder_.getMessageOrBuilder();
-        } else {
-          if (integratorsCase_ == 3) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder> 
-          getMidPointFieldBuilder() {
-        if (midPointBuilder_ == null) {
-          if (!(integratorsCase_ == 3)) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
-          }
-          midPointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder>(
-                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_,
-                  getParentForChildren(),
-                  isClean());
-          integrators_ = null;
-        }
-        integratorsCase_ = 3;
-        onChanged();;
-        return midPointBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder> gillBuilder_;
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public boolean hasGill() {
-        return integratorsCase_ == 4;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator getGill() {
-        if (gillBuilder_ == null) {
-          if (integratorsCase_ == 4) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
-        } else {
-          if (integratorsCase_ == 4) {
-            return gillBuilder_.getMessage();
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public Builder setGill(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator value) {
-        if (gillBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          integrators_ = value;
-          onChanged();
-        } else {
-          gillBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 4;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public Builder setGill(
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder builderForValue) {
-        if (gillBuilder_ == null) {
-          integrators_ = builderForValue.build();
-          onChanged();
-        } else {
-          gillBuilder_.setMessage(builderForValue.build());
-        }
-        integratorsCase_ = 4;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public Builder mergeGill(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator value) {
-        if (gillBuilder_ == null) {
-          if (integratorsCase_ == 4 &&
-              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance()) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            integrators_ = value;
-          }
-          onChanged();
-        } else {
-          if (integratorsCase_ == 4) {
-            gillBuilder_.mergeFrom(value);
-          }
-          gillBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 4;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public Builder clearGill() {
-        if (gillBuilder_ == null) {
-          if (integratorsCase_ == 4) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-            onChanged();
-          }
-        } else {
-          if (integratorsCase_ == 4) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-          }
-          gillBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder getGillBuilder() {
-        return getGillFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder getGillOrBuilder() {
-        if ((integratorsCase_ == 4) && (gillBuilder_ != null)) {
-          return gillBuilder_.getMessageOrBuilder();
-        } else {
-          if (integratorsCase_ == 4) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder> 
-          getGillFieldBuilder() {
-        if (gillBuilder_ == null) {
-          if (!(integratorsCase_ == 4)) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
-          }
-          gillBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder>(
-                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_,
-                  getParentForChildren(),
-                  isClean());
-          integrators_ = null;
-        }
-        integratorsCase_ = 4;
-        onChanged();;
-        return gillBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder> adamsBashforthBuilder_;
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public boolean hasAdamsBashforth() {
-        return integratorsCase_ == 5;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator getAdamsBashforth() {
-        if (adamsBashforthBuilder_ == null) {
-          if (integratorsCase_ == 5) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
-        } else {
-          if (integratorsCase_ == 5) {
-            return adamsBashforthBuilder_.getMessage();
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public Builder setAdamsBashforth(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator value) {
-        if (adamsBashforthBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          integrators_ = value;
-          onChanged();
-        } else {
-          adamsBashforthBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 5;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public Builder setAdamsBashforth(
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder builderForValue) {
-        if (adamsBashforthBuilder_ == null) {
-          integrators_ = builderForValue.build();
-          onChanged();
-        } else {
-          adamsBashforthBuilder_.setMessage(builderForValue.build());
-        }
-        integratorsCase_ = 5;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public Builder mergeAdamsBashforth(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator value) {
-        if (adamsBashforthBuilder_ == null) {
-          if (integratorsCase_ == 5 &&
-              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance()) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            integrators_ = value;
-          }
-          onChanged();
-        } else {
-          if (integratorsCase_ == 5) {
-            adamsBashforthBuilder_.mergeFrom(value);
-          }
-          adamsBashforthBuilder_.setMessage(value);
-        }
-        integratorsCase_ = 5;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public Builder clearAdamsBashforth() {
-        if (adamsBashforthBuilder_ == null) {
-          if (integratorsCase_ == 5) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-            onChanged();
-          }
-        } else {
-          if (integratorsCase_ == 5) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-          }
-          adamsBashforthBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder getAdamsBashforthBuilder() {
-        return getAdamsBashforthFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder getAdamsBashforthOrBuilder() {
-        if ((integratorsCase_ == 5) && (adamsBashforthBuilder_ != null)) {
-          return adamsBashforthBuilder_.getMessageOrBuilder();
-        } else {
-          if (integratorsCase_ == 5) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder> 
-          getAdamsBashforthFieldBuilder() {
-        if (adamsBashforthBuilder_ == null) {
-          if (!(integratorsCase_ == 5)) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
-          }
-          adamsBashforthBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder>(
-                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_,
-                  getParentForChildren(),
-                  isClean());
-          integrators_ = null;
-        }
-        integratorsCase_ = 5;
-        onChanged();;
-        return adamsBashforthBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder> dormandPrince54Builder_;
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public boolean hasDormandPrince54() {
-        return integratorsCase_ == 6;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator getDormandPrince54() {
-        if (dormandPrince54Builder_ == null) {
-          if (integratorsCase_ == 6) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
-        } else {
-          if (integratorsCase_ == 6) {
-            return dormandPrince54Builder_.getMessage();
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public Builder setDormandPrince54(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator value) {
-        if (dormandPrince54Builder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          integrators_ = value;
-          onChanged();
-        } else {
-          dormandPrince54Builder_.setMessage(value);
-        }
-        integratorsCase_ = 6;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public Builder setDormandPrince54(
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder builderForValue) {
-        if (dormandPrince54Builder_ == null) {
-          integrators_ = builderForValue.build();
-          onChanged();
-        } else {
-          dormandPrince54Builder_.setMessage(builderForValue.build());
-        }
-        integratorsCase_ = 6;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public Builder mergeDormandPrince54(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator value) {
-        if (dormandPrince54Builder_ == null) {
-          if (integratorsCase_ == 6 &&
-              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance()) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            integrators_ = value;
-          }
-          onChanged();
-        } else {
-          if (integratorsCase_ == 6) {
-            dormandPrince54Builder_.mergeFrom(value);
-          }
-          dormandPrince54Builder_.setMessage(value);
-        }
-        integratorsCase_ = 6;
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public Builder clearDormandPrince54() {
-        if (dormandPrince54Builder_ == null) {
-          if (integratorsCase_ == 6) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-            onChanged();
-          }
-        } else {
-          if (integratorsCase_ == 6) {
-            integratorsCase_ = 0;
-            integrators_ = null;
-          }
-          dormandPrince54Builder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder getDormandPrince54Builder() {
-        return getDormandPrince54FieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder getDormandPrince54OrBuilder() {
-        if ((integratorsCase_ == 6) && (dormandPrince54Builder_ != null)) {
-          return dormandPrince54Builder_.getMessageOrBuilder();
-        } else {
-          if (integratorsCase_ == 6) {
-            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
-          }
-          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder> 
-          getDormandPrince54FieldBuilder() {
-        if (dormandPrince54Builder_ == null) {
-          if (!(integratorsCase_ == 6)) {
-            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
-          }
-          dormandPrince54Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder>(
-                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_,
-                  getParentForChildren(),
-                  isClean());
-          integrators_ = null;
-        }
-        integratorsCase_ = 6;
-        onChanged();;
-        return dormandPrince54Builder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
-    }
-
-    // @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
-    private static final no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator();
-    }
-
-    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<Integrator>
-        PARSER = new com.google.protobuf.AbstractParser<Integrator>() {
-      public Integrator parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Integrator(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Integrator> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Integrator> getParserForType() {
-      return PARSER;
-    }
-
-    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -4936,34 +3078,34 @@ public final class FmiDefinitions {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>int32 intValue = 1;</code>
+     * <code>int32 int_value = 1;</code>
      */
     int getIntValue();
 
     /**
-     * <code>double realValue = 2;</code>
+     * <code>double real_value = 2;</code>
      */
     double getRealValue();
 
     /**
-     * <code>string strValue = 3;</code>
+     * <code>string str_value = 3;</code>
      */
     java.lang.String getStrValue();
     /**
-     * <code>string strValue = 3;</code>
+     * <code>string str_value = 3;</code>
      */
     com.google.protobuf.ByteString
         getStrValueBytes();
 
     /**
-     * <code>bool boolValue = 4;</code>
+     * <code>bool bool_value = 4;</code>
      */
     boolean getBoolValue();
 
     /**
-     * <code>uint32 enumerationValue = 5;</code>
+     * <code>uint32 enum_value = 5;</code>
      */
-    int getEnumerationValue();
+    int getEnumValue();
 
     public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AnyPrimitive.ValueCase getValueCase();
   }
@@ -5067,11 +3209,11 @@ public final class FmiDefinitions {
     private java.lang.Object value_;
     public enum ValueCase
         implements com.google.protobuf.Internal.EnumLite {
-      INTVALUE(1),
-      REALVALUE(2),
-      STRVALUE(3),
-      BOOLVALUE(4),
-      ENUMERATIONVALUE(5),
+      INT_VALUE(1),
+      REAL_VALUE(2),
+      STR_VALUE(3),
+      BOOL_VALUE(4),
+      ENUM_VALUE(5),
       VALUE_NOT_SET(0);
       private final int value;
       private ValueCase(int value) {
@@ -5087,11 +3229,11 @@ public final class FmiDefinitions {
 
       public static ValueCase forNumber(int value) {
         switch (value) {
-          case 1: return INTVALUE;
-          case 2: return REALVALUE;
-          case 3: return STRVALUE;
-          case 4: return BOOLVALUE;
-          case 5: return ENUMERATIONVALUE;
+          case 1: return INT_VALUE;
+          case 2: return REAL_VALUE;
+          case 3: return STR_VALUE;
+          case 4: return BOOL_VALUE;
+          case 5: return ENUM_VALUE;
           case 0: return VALUE_NOT_SET;
           default: return null;
         }
@@ -5107,9 +3249,9 @@ public final class FmiDefinitions {
           valueCase_);
     }
 
-    public static final int INTVALUE_FIELD_NUMBER = 1;
+    public static final int INT_VALUE_FIELD_NUMBER = 1;
     /**
-     * <code>int32 intValue = 1;</code>
+     * <code>int32 int_value = 1;</code>
      */
     public int getIntValue() {
       if (valueCase_ == 1) {
@@ -5118,9 +3260,9 @@ public final class FmiDefinitions {
       return 0;
     }
 
-    public static final int REALVALUE_FIELD_NUMBER = 2;
+    public static final int REAL_VALUE_FIELD_NUMBER = 2;
     /**
-     * <code>double realValue = 2;</code>
+     * <code>double real_value = 2;</code>
      */
     public double getRealValue() {
       if (valueCase_ == 2) {
@@ -5129,9 +3271,9 @@ public final class FmiDefinitions {
       return 0D;
     }
 
-    public static final int STRVALUE_FIELD_NUMBER = 3;
+    public static final int STR_VALUE_FIELD_NUMBER = 3;
     /**
-     * <code>string strValue = 3;</code>
+     * <code>string str_value = 3;</code>
      */
     public java.lang.String getStrValue() {
       java.lang.Object ref = "";
@@ -5151,7 +3293,7 @@ public final class FmiDefinitions {
       }
     }
     /**
-     * <code>string strValue = 3;</code>
+     * <code>string str_value = 3;</code>
      */
     public com.google.protobuf.ByteString
         getStrValueBytes() {
@@ -5172,9 +3314,9 @@ public final class FmiDefinitions {
       }
     }
 
-    public static final int BOOLVALUE_FIELD_NUMBER = 4;
+    public static final int BOOL_VALUE_FIELD_NUMBER = 4;
     /**
-     * <code>bool boolValue = 4;</code>
+     * <code>bool bool_value = 4;</code>
      */
     public boolean getBoolValue() {
       if (valueCase_ == 4) {
@@ -5183,11 +3325,11 @@ public final class FmiDefinitions {
       return false;
     }
 
-    public static final int ENUMERATIONVALUE_FIELD_NUMBER = 5;
+    public static final int ENUM_VALUE_FIELD_NUMBER = 5;
     /**
-     * <code>uint32 enumerationValue = 5;</code>
+     * <code>uint32 enum_value = 5;</code>
      */
-    public int getEnumerationValue() {
+    public int getEnumValue() {
       if (valueCase_ == 5) {
         return (java.lang.Integer) value_;
       }
@@ -5295,8 +3437,8 @@ public final class FmiDefinitions {
               == other.getBoolValue());
           break;
         case 5:
-          result = result && (getEnumerationValue()
-              == other.getEnumerationValue());
+          result = result && (getEnumValue()
+              == other.getEnumValue());
           break;
         case 0:
         default:
@@ -5314,26 +3456,26 @@ public final class FmiDefinitions {
       hash = (19 * hash) + getDescriptor().hashCode();
       switch (valueCase_) {
         case 1:
-          hash = (37 * hash) + INTVALUE_FIELD_NUMBER;
+          hash = (37 * hash) + INT_VALUE_FIELD_NUMBER;
           hash = (53 * hash) + getIntValue();
           break;
         case 2:
-          hash = (37 * hash) + REALVALUE_FIELD_NUMBER;
+          hash = (37 * hash) + REAL_VALUE_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               java.lang.Double.doubleToLongBits(getRealValue()));
           break;
         case 3:
-          hash = (37 * hash) + STRVALUE_FIELD_NUMBER;
+          hash = (37 * hash) + STR_VALUE_FIELD_NUMBER;
           hash = (53 * hash) + getStrValue().hashCode();
           break;
         case 4:
-          hash = (37 * hash) + BOOLVALUE_FIELD_NUMBER;
+          hash = (37 * hash) + BOOL_VALUE_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
               getBoolValue());
           break;
         case 5:
-          hash = (37 * hash) + ENUMERATIONVALUE_FIELD_NUMBER;
-          hash = (53 * hash) + getEnumerationValue();
+          hash = (37 * hash) + ENUM_VALUE_FIELD_NUMBER;
+          hash = (53 * hash) + getEnumValue();
           break;
         case 0:
         default:
@@ -5549,26 +3691,26 @@ public final class FmiDefinitions {
       public Builder mergeFrom(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AnyPrimitive other) {
         if (other == no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AnyPrimitive.getDefaultInstance()) return this;
         switch (other.getValueCase()) {
-          case INTVALUE: {
+          case INT_VALUE: {
             setIntValue(other.getIntValue());
             break;
           }
-          case REALVALUE: {
+          case REAL_VALUE: {
             setRealValue(other.getRealValue());
             break;
           }
-          case STRVALUE: {
+          case STR_VALUE: {
             valueCase_ = 3;
             value_ = other.value_;
             onChanged();
             break;
           }
-          case BOOLVALUE: {
+          case BOOL_VALUE: {
             setBoolValue(other.getBoolValue());
             break;
           }
-          case ENUMERATIONVALUE: {
-            setEnumerationValue(other.getEnumerationValue());
+          case ENUM_VALUE: {
+            setEnumValue(other.getEnumValue());
             break;
           }
           case VALUE_NOT_SET: {
@@ -5618,7 +3760,7 @@ public final class FmiDefinitions {
 
 
       /**
-       * <code>int32 intValue = 1;</code>
+       * <code>int32 int_value = 1;</code>
        */
       public int getIntValue() {
         if (valueCase_ == 1) {
@@ -5627,7 +3769,7 @@ public final class FmiDefinitions {
         return 0;
       }
       /**
-       * <code>int32 intValue = 1;</code>
+       * <code>int32 int_value = 1;</code>
        */
       public Builder setIntValue(int value) {
         valueCase_ = 1;
@@ -5636,7 +3778,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>int32 intValue = 1;</code>
+       * <code>int32 int_value = 1;</code>
        */
       public Builder clearIntValue() {
         if (valueCase_ == 1) {
@@ -5648,7 +3790,7 @@ public final class FmiDefinitions {
       }
 
       /**
-       * <code>double realValue = 2;</code>
+       * <code>double real_value = 2;</code>
        */
       public double getRealValue() {
         if (valueCase_ == 2) {
@@ -5657,7 +3799,7 @@ public final class FmiDefinitions {
         return 0D;
       }
       /**
-       * <code>double realValue = 2;</code>
+       * <code>double real_value = 2;</code>
        */
       public Builder setRealValue(double value) {
         valueCase_ = 2;
@@ -5666,7 +3808,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double realValue = 2;</code>
+       * <code>double real_value = 2;</code>
        */
       public Builder clearRealValue() {
         if (valueCase_ == 2) {
@@ -5678,7 +3820,7 @@ public final class FmiDefinitions {
       }
 
       /**
-       * <code>string strValue = 3;</code>
+       * <code>string str_value = 3;</code>
        */
       public java.lang.String getStrValue() {
         java.lang.Object ref = "";
@@ -5698,7 +3840,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>string strValue = 3;</code>
+       * <code>string str_value = 3;</code>
        */
       public com.google.protobuf.ByteString
           getStrValueBytes() {
@@ -5719,7 +3861,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>string strValue = 3;</code>
+       * <code>string str_value = 3;</code>
        */
       public Builder setStrValue(
           java.lang.String value) {
@@ -5732,7 +3874,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>string strValue = 3;</code>
+       * <code>string str_value = 3;</code>
        */
       public Builder clearStrValue() {
         if (valueCase_ == 3) {
@@ -5743,7 +3885,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>string strValue = 3;</code>
+       * <code>string str_value = 3;</code>
        */
       public Builder setStrValueBytes(
           com.google.protobuf.ByteString value) {
@@ -5758,7 +3900,7 @@ public final class FmiDefinitions {
       }
 
       /**
-       * <code>bool boolValue = 4;</code>
+       * <code>bool bool_value = 4;</code>
        */
       public boolean getBoolValue() {
         if (valueCase_ == 4) {
@@ -5767,7 +3909,7 @@ public final class FmiDefinitions {
         return false;
       }
       /**
-       * <code>bool boolValue = 4;</code>
+       * <code>bool bool_value = 4;</code>
        */
       public Builder setBoolValue(boolean value) {
         valueCase_ = 4;
@@ -5776,7 +3918,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>bool boolValue = 4;</code>
+       * <code>bool bool_value = 4;</code>
        */
       public Builder clearBoolValue() {
         if (valueCase_ == 4) {
@@ -5788,27 +3930,27 @@ public final class FmiDefinitions {
       }
 
       /**
-       * <code>uint32 enumerationValue = 5;</code>
+       * <code>uint32 enum_value = 5;</code>
        */
-      public int getEnumerationValue() {
+      public int getEnumValue() {
         if (valueCase_ == 5) {
           return (java.lang.Integer) value_;
         }
         return 0;
       }
       /**
-       * <code>uint32 enumerationValue = 5;</code>
+       * <code>uint32 enum_value = 5;</code>
        */
-      public Builder setEnumerationValue(int value) {
+      public Builder setEnumValue(int value) {
         valueCase_ = 5;
         value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint32 enumerationValue = 5;</code>
+       * <code>uint32 enum_value = 5;</code>
        */
-      public Builder clearEnumerationValue() {
+      public Builder clearEnumValue() {
         if (valueCase_ == 5) {
           valueCase_ = 0;
           value_ = null;
@@ -23205,11 +21347,11 @@ public final class FmiDefinitions {
     int getDependencies(int index);
 
     /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
      */
     int getDependenciesKindValue();
     /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
      */
     no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind getDependenciesKind();
   }
@@ -23354,16 +21496,16 @@ public final class FmiDefinitions {
     }
     private int dependenciesMemoizedSerializedSize = -1;
 
-    public static final int DEPENDENCIESKIND_FIELD_NUMBER = 3;
+    public static final int DEPENDENCIES_KIND_FIELD_NUMBER = 3;
     private int dependenciesKind_;
     /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
      */
     public int getDependenciesKindValue() {
       return dependenciesKind_;
     }
     /**
-     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
      */
     public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind getDependenciesKind() {
       no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind result = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind.valueOf(dependenciesKind_);
@@ -23464,7 +21606,7 @@ public final class FmiDefinitions {
         hash = (37 * hash) + DEPENDENCIES_FIELD_NUMBER;
         hash = (53 * hash) + getDependenciesList().hashCode();
       }
-      hash = (37 * hash) + DEPENDENCIESKIND_FIELD_NUMBER;
+      hash = (37 * hash) + DEPENDENCIES_KIND_FIELD_NUMBER;
       hash = (53 * hash) + dependenciesKind_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -23812,13 +21954,13 @@ public final class FmiDefinitions {
 
       private int dependenciesKind_ = 0;
       /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
        */
       public int getDependenciesKindValue() {
         return dependenciesKind_;
       }
       /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
        */
       public Builder setDependenciesKindValue(int value) {
         dependenciesKind_ = value;
@@ -23826,14 +21968,14 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
        */
       public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind getDependenciesKind() {
         no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind result = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind.valueOf(dependenciesKind_);
         return result == null ? no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind.UNRECOGNIZED : result;
       }
       /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
        */
       public Builder setDependenciesKind(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DependenciesKind value) {
         if (value == null) {
@@ -23845,7 +21987,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependenciesKind = 3;</code>
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind dependencies_kind = 3;</code>
        */
       public Builder clearDependenciesKind() {
         
@@ -23944,25 +22086,25 @@ public final class FmiDefinitions {
         int index);
 
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     java.util.List<no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown> 
         getInitialUnknownsList();
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown getInitialUnknowns(int index);
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     int getInitialUnknownsCount();
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     java.util.List<? extends no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder> 
         getInitialUnknownsOrBuilderList();
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder getInitialUnknownsOrBuilder(
         int index);
@@ -24146,35 +22288,35 @@ public final class FmiDefinitions {
       return derivatives_.get(index);
     }
 
-    public static final int INITIALUNKNOWNS_FIELD_NUMBER = 3;
+    public static final int INITIAL_UNKNOWNS_FIELD_NUMBER = 3;
     private java.util.List<no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown> initialUnknowns_;
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     public java.util.List<no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown> getInitialUnknownsList() {
       return initialUnknowns_;
     }
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     public java.util.List<? extends no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder> 
         getInitialUnknownsOrBuilderList() {
       return initialUnknowns_;
     }
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     public int getInitialUnknownsCount() {
       return initialUnknowns_.size();
     }
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown getInitialUnknowns(int index) {
       return initialUnknowns_.get(index);
     }
     /**
-     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+     * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
      */
     public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder getInitialUnknownsOrBuilder(
         int index) {
@@ -24279,7 +22421,7 @@ public final class FmiDefinitions {
         hash = (53 * hash) + getDerivativesList().hashCode();
       }
       if (getInitialUnknownsCount() > 0) {
-        hash = (37 * hash) + INITIALUNKNOWNS_FIELD_NUMBER;
+        hash = (37 * hash) + INITIAL_UNKNOWNS_FIELD_NUMBER;
         hash = (53 * hash) + getInitialUnknownsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
@@ -24923,7 +23065,7 @@ public final class FmiDefinitions {
           no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder> initialUnknownsBuilder_;
 
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public java.util.List<no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown> getInitialUnknownsList() {
         if (initialUnknownsBuilder_ == null) {
@@ -24933,7 +23075,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public int getInitialUnknownsCount() {
         if (initialUnknownsBuilder_ == null) {
@@ -24943,7 +23085,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown getInitialUnknowns(int index) {
         if (initialUnknownsBuilder_ == null) {
@@ -24953,7 +23095,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder setInitialUnknowns(
           int index, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown value) {
@@ -24970,7 +23112,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder setInitialUnknowns(
           int index, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder builderForValue) {
@@ -24984,7 +23126,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder addInitialUnknowns(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown value) {
         if (initialUnknownsBuilder_ == null) {
@@ -25000,7 +23142,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder addInitialUnknowns(
           int index, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown value) {
@@ -25017,7 +23159,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder addInitialUnknowns(
           no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder builderForValue) {
@@ -25031,7 +23173,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder addInitialUnknowns(
           int index, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder builderForValue) {
@@ -25045,7 +23187,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder addAllInitialUnknowns(
           java.lang.Iterable<? extends no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown> values) {
@@ -25060,7 +23202,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder clearInitialUnknowns() {
         if (initialUnknownsBuilder_ == null) {
@@ -25073,7 +23215,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public Builder removeInitialUnknowns(int index) {
         if (initialUnknownsBuilder_ == null) {
@@ -25086,14 +23228,14 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder getInitialUnknownsBuilder(
           int index) {
         return getInitialUnknownsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder getInitialUnknownsOrBuilder(
           int index) {
@@ -25103,7 +23245,7 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public java.util.List<? extends no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.UnknownOrBuilder> 
            getInitialUnknownsOrBuilderList() {
@@ -25114,14 +23256,14 @@ public final class FmiDefinitions {
         }
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder addInitialUnknownsBuilder() {
         return getInitialUnknownsFieldBuilder().addBuilder(
             no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.getDefaultInstance());
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder addInitialUnknownsBuilder(
           int index) {
@@ -25129,7 +23271,7 @@ public final class FmiDefinitions {
             index, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.getDefaultInstance());
       }
       /**
-       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initialUnknowns = 3;</code>
+       * <code>repeated .no.mechatronics.sfi.fmu_proxy.grpc.Unknown initial_unknowns = 3;</code>
        */
       public java.util.List<no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Unknown.Builder> 
            getInitialUnknownsBuilderList() {
@@ -25193,6 +23335,1766 @@ public final class FmiDefinitions {
     }
 
     public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ModelStructure getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface IntegratorOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+     */
+    boolean hasEuler();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator getEuler();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder getEulerOrBuilder();
+
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+     */
+    boolean hasRungeKutta();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator getRungeKutta();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder getRungeKuttaOrBuilder();
+
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+     */
+    boolean hasMidPoint();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator getMidPoint();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder getMidPointOrBuilder();
+
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+     */
+    boolean hasGill();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator getGill();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder getGillOrBuilder();
+
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+     */
+    boolean hasAdamsBashforth();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator getAdamsBashforth();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder getAdamsBashforthOrBuilder();
+
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+     */
+    boolean hasDormandPrince54();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator getDormandPrince54();
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+     */
+    no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder getDormandPrince54OrBuilder();
+
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.IntegratorsCase getIntegratorsCase();
+  }
+  /**
+   * Protobuf type {@code no.mechatronics.sfi.fmu_proxy.grpc.Integrator}
+   */
+  public  static final class Integrator extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
+      IntegratorOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Integrator.newBuilder() to construct.
+    private Integrator(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Integrator() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Integrator(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder subBuilder = null;
+              if (integratorsCase_ == 1) {
+                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_).toBuilder();
+              }
+              integrators_ =
+                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_);
+                integrators_ = subBuilder.buildPartial();
+              }
+              integratorsCase_ = 1;
+              break;
+            }
+            case 18: {
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder subBuilder = null;
+              if (integratorsCase_ == 2) {
+                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_).toBuilder();
+              }
+              integrators_ =
+                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_);
+                integrators_ = subBuilder.buildPartial();
+              }
+              integratorsCase_ = 2;
+              break;
+            }
+            case 26: {
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder subBuilder = null;
+              if (integratorsCase_ == 3) {
+                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_).toBuilder();
+              }
+              integrators_ =
+                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_);
+                integrators_ = subBuilder.buildPartial();
+              }
+              integratorsCase_ = 3;
+              break;
+            }
+            case 34: {
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder subBuilder = null;
+              if (integratorsCase_ == 4) {
+                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_).toBuilder();
+              }
+              integrators_ =
+                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_);
+                integrators_ = subBuilder.buildPartial();
+              }
+              integratorsCase_ = 4;
+              break;
+            }
+            case 42: {
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder subBuilder = null;
+              if (integratorsCase_ == 5) {
+                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_).toBuilder();
+              }
+              integrators_ =
+                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_);
+                integrators_ = subBuilder.buildPartial();
+              }
+              integratorsCase_ = 5;
+              break;
+            }
+            case 50: {
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder subBuilder = null;
+              if (integratorsCase_ == 6) {
+                subBuilder = ((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_).toBuilder();
+              }
+              integrators_ =
+                  input.readMessage(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_);
+                integrators_ = subBuilder.buildPartial();
+              }
+              integratorsCase_ = 6;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.class, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.Builder.class);
+    }
+
+    private int integratorsCase_ = 0;
+    private java.lang.Object integrators_;
+    public enum IntegratorsCase
+        implements com.google.protobuf.Internal.EnumLite {
+      EULER(1),
+      RUNGE_KUTTA(2),
+      MID_POINT(3),
+      GILL(4),
+      ADAMS_BASHFORTH(5),
+      DORMAND_PRINCE54(6),
+      INTEGRATORS_NOT_SET(0);
+      private final int value;
+      private IntegratorsCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static IntegratorsCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static IntegratorsCase forNumber(int value) {
+        switch (value) {
+          case 1: return EULER;
+          case 2: return RUNGE_KUTTA;
+          case 3: return MID_POINT;
+          case 4: return GILL;
+          case 5: return ADAMS_BASHFORTH;
+          case 6: return DORMAND_PRINCE54;
+          case 0: return INTEGRATORS_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public IntegratorsCase
+    getIntegratorsCase() {
+      return IntegratorsCase.forNumber(
+          integratorsCase_);
+    }
+
+    public static final int EULER_FIELD_NUMBER = 1;
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+     */
+    public boolean hasEuler() {
+      return integratorsCase_ == 1;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator getEuler() {
+      if (integratorsCase_ == 1) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder getEulerOrBuilder() {
+      if (integratorsCase_ == 1) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
+    }
+
+    public static final int RUNGE_KUTTA_FIELD_NUMBER = 2;
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+     */
+    public boolean hasRungeKutta() {
+      return integratorsCase_ == 2;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator getRungeKutta() {
+      if (integratorsCase_ == 2) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder getRungeKuttaOrBuilder() {
+      if (integratorsCase_ == 2) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
+    }
+
+    public static final int MID_POINT_FIELD_NUMBER = 3;
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+     */
+    public boolean hasMidPoint() {
+      return integratorsCase_ == 3;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator getMidPoint() {
+      if (integratorsCase_ == 3) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder getMidPointOrBuilder() {
+      if (integratorsCase_ == 3) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
+    }
+
+    public static final int GILL_FIELD_NUMBER = 4;
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+     */
+    public boolean hasGill() {
+      return integratorsCase_ == 4;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator getGill() {
+      if (integratorsCase_ == 4) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder getGillOrBuilder() {
+      if (integratorsCase_ == 4) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
+    }
+
+    public static final int ADAMS_BASHFORTH_FIELD_NUMBER = 5;
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+     */
+    public boolean hasAdamsBashforth() {
+      return integratorsCase_ == 5;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator getAdamsBashforth() {
+      if (integratorsCase_ == 5) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder getAdamsBashforthOrBuilder() {
+      if (integratorsCase_ == 5) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
+    }
+
+    public static final int DORMAND_PRINCE54_FIELD_NUMBER = 6;
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+     */
+    public boolean hasDormandPrince54() {
+      return integratorsCase_ == 6;
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator getDormandPrince54() {
+      if (integratorsCase_ == 6) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
+    }
+    /**
+     * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+     */
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder getDormandPrince54OrBuilder() {
+      if (integratorsCase_ == 6) {
+         return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
+      }
+      return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (integratorsCase_ == 1) {
+        output.writeMessage(1, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 2) {
+        output.writeMessage(2, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 3) {
+        output.writeMessage(3, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 4) {
+        output.writeMessage(4, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 5) {
+        output.writeMessage(5, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 6) {
+        output.writeMessage(6, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (integratorsCase_ == 1) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 2) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_);
+      }
+      if (integratorsCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator)) {
+        return super.equals(obj);
+      }
+      no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator other = (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator) obj;
+
+      boolean result = true;
+      result = result && getIntegratorsCase().equals(
+          other.getIntegratorsCase());
+      if (!result) return false;
+      switch (integratorsCase_) {
+        case 1:
+          result = result && getEuler()
+              .equals(other.getEuler());
+          break;
+        case 2:
+          result = result && getRungeKutta()
+              .equals(other.getRungeKutta());
+          break;
+        case 3:
+          result = result && getMidPoint()
+              .equals(other.getMidPoint());
+          break;
+        case 4:
+          result = result && getGill()
+              .equals(other.getGill());
+          break;
+        case 5:
+          result = result && getAdamsBashforth()
+              .equals(other.getAdamsBashforth());
+          break;
+        case 6:
+          result = result && getDormandPrince54()
+              .equals(other.getDormandPrince54());
+          break;
+        case 0:
+        default:
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      switch (integratorsCase_) {
+        case 1:
+          hash = (37 * hash) + EULER_FIELD_NUMBER;
+          hash = (53 * hash) + getEuler().hashCode();
+          break;
+        case 2:
+          hash = (37 * hash) + RUNGE_KUTTA_FIELD_NUMBER;
+          hash = (53 * hash) + getRungeKutta().hashCode();
+          break;
+        case 3:
+          hash = (37 * hash) + MID_POINT_FIELD_NUMBER;
+          hash = (53 * hash) + getMidPoint().hashCode();
+          break;
+        case 4:
+          hash = (37 * hash) + GILL_FIELD_NUMBER;
+          hash = (53 * hash) + getGill().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + ADAMS_BASHFORTH_FIELD_NUMBER;
+          hash = (53 * hash) + getAdamsBashforth().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + DORMAND_PRINCE54_FIELD_NUMBER;
+          hash = (53 * hash) + getDormandPrince54().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code no.mechatronics.sfi.fmu_proxy.grpc.Integrator}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
+        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.IntegratorOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.class, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.Builder.class);
+      }
+
+      // Construct using no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        integratorsCase_ = 0;
+        integrators_ = null;
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
+      }
+
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator getDefaultInstanceForType() {
+        return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.getDefaultInstance();
+      }
+
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator build() {
+        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator buildPartial() {
+        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator result = new no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator(this);
+        if (integratorsCase_ == 1) {
+          if (eulerBuilder_ == null) {
+            result.integrators_ = integrators_;
+          } else {
+            result.integrators_ = eulerBuilder_.build();
+          }
+        }
+        if (integratorsCase_ == 2) {
+          if (rungeKuttaBuilder_ == null) {
+            result.integrators_ = integrators_;
+          } else {
+            result.integrators_ = rungeKuttaBuilder_.build();
+          }
+        }
+        if (integratorsCase_ == 3) {
+          if (midPointBuilder_ == null) {
+            result.integrators_ = integrators_;
+          } else {
+            result.integrators_ = midPointBuilder_.build();
+          }
+        }
+        if (integratorsCase_ == 4) {
+          if (gillBuilder_ == null) {
+            result.integrators_ = integrators_;
+          } else {
+            result.integrators_ = gillBuilder_.build();
+          }
+        }
+        if (integratorsCase_ == 5) {
+          if (adamsBashforthBuilder_ == null) {
+            result.integrators_ = integrators_;
+          } else {
+            result.integrators_ = adamsBashforthBuilder_.build();
+          }
+        }
+        if (integratorsCase_ == 6) {
+          if (dormandPrince54Builder_ == null) {
+            result.integrators_ = integrators_;
+          } else {
+            result.integrators_ = dormandPrince54Builder_.build();
+          }
+        }
+        result.integratorsCase_ = integratorsCase_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator) {
+          return mergeFrom((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator other) {
+        if (other == no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator.getDefaultInstance()) return this;
+        switch (other.getIntegratorsCase()) {
+          case EULER: {
+            mergeEuler(other.getEuler());
+            break;
+          }
+          case RUNGE_KUTTA: {
+            mergeRungeKutta(other.getRungeKutta());
+            break;
+          }
+          case MID_POINT: {
+            mergeMidPoint(other.getMidPoint());
+            break;
+          }
+          case GILL: {
+            mergeGill(other.getGill());
+            break;
+          }
+          case ADAMS_BASHFORTH: {
+            mergeAdamsBashforth(other.getAdamsBashforth());
+            break;
+          }
+          case DORMAND_PRINCE54: {
+            mergeDormandPrince54(other.getDormandPrince54());
+            break;
+          }
+          case INTEGRATORS_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int integratorsCase_ = 0;
+      private java.lang.Object integrators_;
+      public IntegratorsCase
+          getIntegratorsCase() {
+        return IntegratorsCase.forNumber(
+            integratorsCase_);
+      }
+
+      public Builder clearIntegrators() {
+        integratorsCase_ = 0;
+        integrators_ = null;
+        onChanged();
+        return this;
+      }
+
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder> eulerBuilder_;
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public boolean hasEuler() {
+        return integratorsCase_ == 1;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator getEuler() {
+        if (eulerBuilder_ == null) {
+          if (integratorsCase_ == 1) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
+        } else {
+          if (integratorsCase_ == 1) {
+            return eulerBuilder_.getMessage();
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public Builder setEuler(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator value) {
+        if (eulerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          integrators_ = value;
+          onChanged();
+        } else {
+          eulerBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public Builder setEuler(
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder builderForValue) {
+        if (eulerBuilder_ == null) {
+          integrators_ = builderForValue.build();
+          onChanged();
+        } else {
+          eulerBuilder_.setMessage(builderForValue.build());
+        }
+        integratorsCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public Builder mergeEuler(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator value) {
+        if (eulerBuilder_ == null) {
+          if (integratorsCase_ == 1 &&
+              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance()) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            integrators_ = value;
+          }
+          onChanged();
+        } else {
+          if (integratorsCase_ == 1) {
+            eulerBuilder_.mergeFrom(value);
+          }
+          eulerBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public Builder clearEuler() {
+        if (eulerBuilder_ == null) {
+          if (integratorsCase_ == 1) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+            onChanged();
+          }
+        } else {
+          if (integratorsCase_ == 1) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+          }
+          eulerBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder getEulerBuilder() {
+        return getEulerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder getEulerOrBuilder() {
+        if ((integratorsCase_ == 1) && (eulerBuilder_ != null)) {
+          return eulerBuilder_.getMessageOrBuilder();
+        } else {
+          if (integratorsCase_ == 1) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegrator euler = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder> 
+          getEulerFieldBuilder() {
+        if (eulerBuilder_ == null) {
+          if (!(integratorsCase_ == 1)) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.getDefaultInstance();
+          }
+          eulerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegratorOrBuilder>(
+                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.EulerIntegrator) integrators_,
+                  getParentForChildren(),
+                  isClean());
+          integrators_ = null;
+        }
+        integratorsCase_ = 1;
+        onChanged();;
+        return eulerBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder> rungeKuttaBuilder_;
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public boolean hasRungeKutta() {
+        return integratorsCase_ == 2;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator getRungeKutta() {
+        if (rungeKuttaBuilder_ == null) {
+          if (integratorsCase_ == 2) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
+        } else {
+          if (integratorsCase_ == 2) {
+            return rungeKuttaBuilder_.getMessage();
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public Builder setRungeKutta(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator value) {
+        if (rungeKuttaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          integrators_ = value;
+          onChanged();
+        } else {
+          rungeKuttaBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public Builder setRungeKutta(
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder builderForValue) {
+        if (rungeKuttaBuilder_ == null) {
+          integrators_ = builderForValue.build();
+          onChanged();
+        } else {
+          rungeKuttaBuilder_.setMessage(builderForValue.build());
+        }
+        integratorsCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public Builder mergeRungeKutta(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator value) {
+        if (rungeKuttaBuilder_ == null) {
+          if (integratorsCase_ == 2 &&
+              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance()) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            integrators_ = value;
+          }
+          onChanged();
+        } else {
+          if (integratorsCase_ == 2) {
+            rungeKuttaBuilder_.mergeFrom(value);
+          }
+          rungeKuttaBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public Builder clearRungeKutta() {
+        if (rungeKuttaBuilder_ == null) {
+          if (integratorsCase_ == 2) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+            onChanged();
+          }
+        } else {
+          if (integratorsCase_ == 2) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+          }
+          rungeKuttaBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder getRungeKuttaBuilder() {
+        return getRungeKuttaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder getRungeKuttaOrBuilder() {
+        if ((integratorsCase_ == 2) && (rungeKuttaBuilder_ != null)) {
+          return rungeKuttaBuilder_.getMessageOrBuilder();
+        } else {
+          if (integratorsCase_ == 2) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegrator runge_kutta = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder> 
+          getRungeKuttaFieldBuilder() {
+        if (rungeKuttaBuilder_ == null) {
+          if (!(integratorsCase_ == 2)) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.getDefaultInstance();
+          }
+          rungeKuttaBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegratorOrBuilder>(
+                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.ClassicalRungeKuttaIntegrator) integrators_,
+                  getParentForChildren(),
+                  isClean());
+          integrators_ = null;
+        }
+        integratorsCase_ = 2;
+        onChanged();;
+        return rungeKuttaBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder> midPointBuilder_;
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public boolean hasMidPoint() {
+        return integratorsCase_ == 3;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator getMidPoint() {
+        if (midPointBuilder_ == null) {
+          if (integratorsCase_ == 3) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
+        } else {
+          if (integratorsCase_ == 3) {
+            return midPointBuilder_.getMessage();
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public Builder setMidPoint(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator value) {
+        if (midPointBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          integrators_ = value;
+          onChanged();
+        } else {
+          midPointBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public Builder setMidPoint(
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder builderForValue) {
+        if (midPointBuilder_ == null) {
+          integrators_ = builderForValue.build();
+          onChanged();
+        } else {
+          midPointBuilder_.setMessage(builderForValue.build());
+        }
+        integratorsCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public Builder mergeMidPoint(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator value) {
+        if (midPointBuilder_ == null) {
+          if (integratorsCase_ == 3 &&
+              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance()) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            integrators_ = value;
+          }
+          onChanged();
+        } else {
+          if (integratorsCase_ == 3) {
+            midPointBuilder_.mergeFrom(value);
+          }
+          midPointBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public Builder clearMidPoint() {
+        if (midPointBuilder_ == null) {
+          if (integratorsCase_ == 3) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+            onChanged();
+          }
+        } else {
+          if (integratorsCase_ == 3) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+          }
+          midPointBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder getMidPointBuilder() {
+        return getMidPointFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder getMidPointOrBuilder() {
+        if ((integratorsCase_ == 3) && (midPointBuilder_ != null)) {
+          return midPointBuilder_.getMessageOrBuilder();
+        } else {
+          if (integratorsCase_ == 3) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegrator mid_point = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder> 
+          getMidPointFieldBuilder() {
+        if (midPointBuilder_ == null) {
+          if (!(integratorsCase_ == 3)) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.getDefaultInstance();
+          }
+          midPointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegratorOrBuilder>(
+                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.MidpointIntegrator) integrators_,
+                  getParentForChildren(),
+                  isClean());
+          integrators_ = null;
+        }
+        integratorsCase_ = 3;
+        onChanged();;
+        return midPointBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder> gillBuilder_;
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public boolean hasGill() {
+        return integratorsCase_ == 4;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator getGill() {
+        if (gillBuilder_ == null) {
+          if (integratorsCase_ == 4) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
+        } else {
+          if (integratorsCase_ == 4) {
+            return gillBuilder_.getMessage();
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public Builder setGill(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator value) {
+        if (gillBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          integrators_ = value;
+          onChanged();
+        } else {
+          gillBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public Builder setGill(
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder builderForValue) {
+        if (gillBuilder_ == null) {
+          integrators_ = builderForValue.build();
+          onChanged();
+        } else {
+          gillBuilder_.setMessage(builderForValue.build());
+        }
+        integratorsCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public Builder mergeGill(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator value) {
+        if (gillBuilder_ == null) {
+          if (integratorsCase_ == 4 &&
+              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance()) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            integrators_ = value;
+          }
+          onChanged();
+        } else {
+          if (integratorsCase_ == 4) {
+            gillBuilder_.mergeFrom(value);
+          }
+          gillBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public Builder clearGill() {
+        if (gillBuilder_ == null) {
+          if (integratorsCase_ == 4) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+            onChanged();
+          }
+        } else {
+          if (integratorsCase_ == 4) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+          }
+          gillBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder getGillBuilder() {
+        return getGillFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder getGillOrBuilder() {
+        if ((integratorsCase_ == 4) && (gillBuilder_ != null)) {
+          return gillBuilder_.getMessageOrBuilder();
+        } else {
+          if (integratorsCase_ == 4) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegrator gill = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder> 
+          getGillFieldBuilder() {
+        if (gillBuilder_ == null) {
+          if (!(integratorsCase_ == 4)) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.getDefaultInstance();
+          }
+          gillBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegratorOrBuilder>(
+                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.GillIntegrator) integrators_,
+                  getParentForChildren(),
+                  isClean());
+          integrators_ = null;
+        }
+        integratorsCase_ = 4;
+        onChanged();;
+        return gillBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder> adamsBashforthBuilder_;
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public boolean hasAdamsBashforth() {
+        return integratorsCase_ == 5;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator getAdamsBashforth() {
+        if (adamsBashforthBuilder_ == null) {
+          if (integratorsCase_ == 5) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
+        } else {
+          if (integratorsCase_ == 5) {
+            return adamsBashforthBuilder_.getMessage();
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public Builder setAdamsBashforth(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator value) {
+        if (adamsBashforthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          integrators_ = value;
+          onChanged();
+        } else {
+          adamsBashforthBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public Builder setAdamsBashforth(
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder builderForValue) {
+        if (adamsBashforthBuilder_ == null) {
+          integrators_ = builderForValue.build();
+          onChanged();
+        } else {
+          adamsBashforthBuilder_.setMessage(builderForValue.build());
+        }
+        integratorsCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public Builder mergeAdamsBashforth(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator value) {
+        if (adamsBashforthBuilder_ == null) {
+          if (integratorsCase_ == 5 &&
+              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance()) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            integrators_ = value;
+          }
+          onChanged();
+        } else {
+          if (integratorsCase_ == 5) {
+            adamsBashforthBuilder_.mergeFrom(value);
+          }
+          adamsBashforthBuilder_.setMessage(value);
+        }
+        integratorsCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public Builder clearAdamsBashforth() {
+        if (adamsBashforthBuilder_ == null) {
+          if (integratorsCase_ == 5) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+            onChanged();
+          }
+        } else {
+          if (integratorsCase_ == 5) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+          }
+          adamsBashforthBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder getAdamsBashforthBuilder() {
+        return getAdamsBashforthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder getAdamsBashforthOrBuilder() {
+        if ((integratorsCase_ == 5) && (adamsBashforthBuilder_ != null)) {
+          return adamsBashforthBuilder_.getMessageOrBuilder();
+        } else {
+          if (integratorsCase_ == 5) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegrator adams_bashforth = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder> 
+          getAdamsBashforthFieldBuilder() {
+        if (adamsBashforthBuilder_ == null) {
+          if (!(integratorsCase_ == 5)) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.getDefaultInstance();
+          }
+          adamsBashforthBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegratorOrBuilder>(
+                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator) integrators_,
+                  getParentForChildren(),
+                  isClean());
+          integrators_ = null;
+        }
+        integratorsCase_ = 5;
+        onChanged();;
+        return adamsBashforthBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder> dormandPrince54Builder_;
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public boolean hasDormandPrince54() {
+        return integratorsCase_ == 6;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator getDormandPrince54() {
+        if (dormandPrince54Builder_ == null) {
+          if (integratorsCase_ == 6) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
+        } else {
+          if (integratorsCase_ == 6) {
+            return dormandPrince54Builder_.getMessage();
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public Builder setDormandPrince54(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator value) {
+        if (dormandPrince54Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          integrators_ = value;
+          onChanged();
+        } else {
+          dormandPrince54Builder_.setMessage(value);
+        }
+        integratorsCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public Builder setDormandPrince54(
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder builderForValue) {
+        if (dormandPrince54Builder_ == null) {
+          integrators_ = builderForValue.build();
+          onChanged();
+        } else {
+          dormandPrince54Builder_.setMessage(builderForValue.build());
+        }
+        integratorsCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public Builder mergeDormandPrince54(no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator value) {
+        if (dormandPrince54Builder_ == null) {
+          if (integratorsCase_ == 6 &&
+              integrators_ != no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance()) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.newBuilder((no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            integrators_ = value;
+          }
+          onChanged();
+        } else {
+          if (integratorsCase_ == 6) {
+            dormandPrince54Builder_.mergeFrom(value);
+          }
+          dormandPrince54Builder_.setMessage(value);
+        }
+        integratorsCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public Builder clearDormandPrince54() {
+        if (dormandPrince54Builder_ == null) {
+          if (integratorsCase_ == 6) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+            onChanged();
+          }
+        } else {
+          if (integratorsCase_ == 6) {
+            integratorsCase_ = 0;
+            integrators_ = null;
+          }
+          dormandPrince54Builder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder getDormandPrince54Builder() {
+        return getDormandPrince54FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder getDormandPrince54OrBuilder() {
+        if ((integratorsCase_ == 6) && (dormandPrince54Builder_ != null)) {
+          return dormandPrince54Builder_.getMessageOrBuilder();
+        } else {
+          if (integratorsCase_ == 6) {
+            return (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_;
+          }
+          return no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator dormand_prince54 = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder> 
+          getDormandPrince54FieldBuilder() {
+        if (dormandPrince54Builder_ == null) {
+          if (!(integratorsCase_ == 6)) {
+            integrators_ = no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.getDefaultInstance();
+          }
+          dormandPrince54Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54IntegratorOrBuilder>(
+                  (no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator) integrators_,
+                  getParentForChildren(),
+                  isClean());
+          integrators_ = null;
+        }
+        integratorsCase_ = 6;
+        onChanged();;
+        return dormandPrince54Builder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
+    }
+
+    // @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
+    private static final no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator();
+    }
+
+    public static no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Integrator>
+        PARSER = new com.google.protobuf.AbstractParser<Integrator>() {
+      public Integrator parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Integrator(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Integrator> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Integrator> getParserForType() {
+      return PARSER;
+    }
+
+    public no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.Integrator getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -27019,27 +26921,27 @@ public final class FmiDefinitions {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>uint32 nSteps = 1;</code>
+     * <code>uint32 n_steps = 1;</code>
      */
     int getNSteps();
 
     /**
-     * <code>double minStep = 2;</code>
+     * <code>double min_Step = 2;</code>
      */
     double getMinStep();
 
     /**
-     * <code>double maxStep = 3;</code>
+     * <code>double max_step = 3;</code>
      */
     double getMaxStep();
 
     /**
-     * <code>double scalAbsoluteTolerance = 4;</code>
+     * <code>double scal_absolute_tolerance = 4;</code>
      */
     double getScalAbsoluteTolerance();
 
     /**
-     * <code>double scalRelativeTolerance = 5;</code>
+     * <code>double scal_relative_tolerance = 5;</code>
      */
     double getScalRelativeTolerance();
   }
@@ -27143,46 +27045,46 @@ public final class FmiDefinitions {
               no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.class, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.AdamsBashforthIntegrator.Builder.class);
     }
 
-    public static final int NSTEPS_FIELD_NUMBER = 1;
+    public static final int N_STEPS_FIELD_NUMBER = 1;
     private int nSteps_;
     /**
-     * <code>uint32 nSteps = 1;</code>
+     * <code>uint32 n_steps = 1;</code>
      */
     public int getNSteps() {
       return nSteps_;
     }
 
-    public static final int MINSTEP_FIELD_NUMBER = 2;
+    public static final int MIN_STEP_FIELD_NUMBER = 2;
     private double minStep_;
     /**
-     * <code>double minStep = 2;</code>
+     * <code>double min_Step = 2;</code>
      */
     public double getMinStep() {
       return minStep_;
     }
 
-    public static final int MAXSTEP_FIELD_NUMBER = 3;
+    public static final int MAX_STEP_FIELD_NUMBER = 3;
     private double maxStep_;
     /**
-     * <code>double maxStep = 3;</code>
+     * <code>double max_step = 3;</code>
      */
     public double getMaxStep() {
       return maxStep_;
     }
 
-    public static final int SCALABSOLUTETOLERANCE_FIELD_NUMBER = 4;
+    public static final int SCAL_ABSOLUTE_TOLERANCE_FIELD_NUMBER = 4;
     private double scalAbsoluteTolerance_;
     /**
-     * <code>double scalAbsoluteTolerance = 4;</code>
+     * <code>double scal_absolute_tolerance = 4;</code>
      */
     public double getScalAbsoluteTolerance() {
       return scalAbsoluteTolerance_;
     }
 
-    public static final int SCALRELATIVETOLERANCE_FIELD_NUMBER = 5;
+    public static final int SCAL_RELATIVE_TOLERANCE_FIELD_NUMBER = 5;
     private double scalRelativeTolerance_;
     /**
-     * <code>double scalRelativeTolerance = 5;</code>
+     * <code>double scal_relative_tolerance = 5;</code>
      */
     public double getScalRelativeTolerance() {
       return scalRelativeTolerance_;
@@ -27288,18 +27190,18 @@ public final class FmiDefinitions {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + NSTEPS_FIELD_NUMBER;
+      hash = (37 * hash) + N_STEPS_FIELD_NUMBER;
       hash = (53 * hash) + getNSteps();
-      hash = (37 * hash) + MINSTEP_FIELD_NUMBER;
+      hash = (37 * hash) + MIN_STEP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getMinStep()));
-      hash = (37 * hash) + MAXSTEP_FIELD_NUMBER;
+      hash = (37 * hash) + MAX_STEP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getMaxStep()));
-      hash = (37 * hash) + SCALABSOLUTETOLERANCE_FIELD_NUMBER;
+      hash = (37 * hash) + SCAL_ABSOLUTE_TOLERANCE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getScalAbsoluteTolerance()));
-      hash = (37 * hash) + SCALRELATIVETOLERANCE_FIELD_NUMBER;
+      hash = (37 * hash) + SCAL_RELATIVE_TOLERANCE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getScalRelativeTolerance()));
       hash = (29 * hash) + unknownFields.hashCode();
@@ -27553,13 +27455,13 @@ public final class FmiDefinitions {
 
       private int nSteps_ ;
       /**
-       * <code>uint32 nSteps = 1;</code>
+       * <code>uint32 n_steps = 1;</code>
        */
       public int getNSteps() {
         return nSteps_;
       }
       /**
-       * <code>uint32 nSteps = 1;</code>
+       * <code>uint32 n_steps = 1;</code>
        */
       public Builder setNSteps(int value) {
         
@@ -27568,7 +27470,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>uint32 nSteps = 1;</code>
+       * <code>uint32 n_steps = 1;</code>
        */
       public Builder clearNSteps() {
         
@@ -27579,13 +27481,13 @@ public final class FmiDefinitions {
 
       private double minStep_ ;
       /**
-       * <code>double minStep = 2;</code>
+       * <code>double min_Step = 2;</code>
        */
       public double getMinStep() {
         return minStep_;
       }
       /**
-       * <code>double minStep = 2;</code>
+       * <code>double min_Step = 2;</code>
        */
       public Builder setMinStep(double value) {
         
@@ -27594,7 +27496,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double minStep = 2;</code>
+       * <code>double min_Step = 2;</code>
        */
       public Builder clearMinStep() {
         
@@ -27605,13 +27507,13 @@ public final class FmiDefinitions {
 
       private double maxStep_ ;
       /**
-       * <code>double maxStep = 3;</code>
+       * <code>double max_step = 3;</code>
        */
       public double getMaxStep() {
         return maxStep_;
       }
       /**
-       * <code>double maxStep = 3;</code>
+       * <code>double max_step = 3;</code>
        */
       public Builder setMaxStep(double value) {
         
@@ -27620,7 +27522,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double maxStep = 3;</code>
+       * <code>double max_step = 3;</code>
        */
       public Builder clearMaxStep() {
         
@@ -27631,13 +27533,13 @@ public final class FmiDefinitions {
 
       private double scalAbsoluteTolerance_ ;
       /**
-       * <code>double scalAbsoluteTolerance = 4;</code>
+       * <code>double scal_absolute_tolerance = 4;</code>
        */
       public double getScalAbsoluteTolerance() {
         return scalAbsoluteTolerance_;
       }
       /**
-       * <code>double scalAbsoluteTolerance = 4;</code>
+       * <code>double scal_absolute_tolerance = 4;</code>
        */
       public Builder setScalAbsoluteTolerance(double value) {
         
@@ -27646,7 +27548,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double scalAbsoluteTolerance = 4;</code>
+       * <code>double scal_absolute_tolerance = 4;</code>
        */
       public Builder clearScalAbsoluteTolerance() {
         
@@ -27657,13 +27559,13 @@ public final class FmiDefinitions {
 
       private double scalRelativeTolerance_ ;
       /**
-       * <code>double scalRelativeTolerance = 5;</code>
+       * <code>double scal_relative_tolerance = 5;</code>
        */
       public double getScalRelativeTolerance() {
         return scalRelativeTolerance_;
       }
       /**
-       * <code>double scalRelativeTolerance = 5;</code>
+       * <code>double scal_relative_tolerance = 5;</code>
        */
       public Builder setScalRelativeTolerance(double value) {
         
@@ -27672,7 +27574,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double scalRelativeTolerance = 5;</code>
+       * <code>double scal_relative_tolerance = 5;</code>
        */
       public Builder clearScalRelativeTolerance() {
         
@@ -27734,22 +27636,22 @@ public final class FmiDefinitions {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>double minStep = 1;</code>
+     * <code>double min_Step = 1;</code>
      */
     double getMinStep();
 
     /**
-     * <code>double maxStep = 2;</code>
+     * <code>double max_step = 2;</code>
      */
     double getMaxStep();
 
     /**
-     * <code>double scalAbsoluteTolerance = 3;</code>
+     * <code>double scal_absolute_tolerance = 3;</code>
      */
     double getScalAbsoluteTolerance();
 
     /**
-     * <code>double scalRelativeTolerance = 4;</code>
+     * <code>double scal_relative_tolerance = 4;</code>
      */
     double getScalRelativeTolerance();
   }
@@ -27847,37 +27749,37 @@ public final class FmiDefinitions {
               no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.class, no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions.DormandPrince54Integrator.Builder.class);
     }
 
-    public static final int MINSTEP_FIELD_NUMBER = 1;
+    public static final int MIN_STEP_FIELD_NUMBER = 1;
     private double minStep_;
     /**
-     * <code>double minStep = 1;</code>
+     * <code>double min_Step = 1;</code>
      */
     public double getMinStep() {
       return minStep_;
     }
 
-    public static final int MAXSTEP_FIELD_NUMBER = 2;
+    public static final int MAX_STEP_FIELD_NUMBER = 2;
     private double maxStep_;
     /**
-     * <code>double maxStep = 2;</code>
+     * <code>double max_step = 2;</code>
      */
     public double getMaxStep() {
       return maxStep_;
     }
 
-    public static final int SCALABSOLUTETOLERANCE_FIELD_NUMBER = 3;
+    public static final int SCAL_ABSOLUTE_TOLERANCE_FIELD_NUMBER = 3;
     private double scalAbsoluteTolerance_;
     /**
-     * <code>double scalAbsoluteTolerance = 3;</code>
+     * <code>double scal_absolute_tolerance = 3;</code>
      */
     public double getScalAbsoluteTolerance() {
       return scalAbsoluteTolerance_;
     }
 
-    public static final int SCALRELATIVETOLERANCE_FIELD_NUMBER = 4;
+    public static final int SCAL_RELATIVE_TOLERANCE_FIELD_NUMBER = 4;
     private double scalRelativeTolerance_;
     /**
-     * <code>double scalRelativeTolerance = 4;</code>
+     * <code>double scal_relative_tolerance = 4;</code>
      */
     public double getScalRelativeTolerance() {
       return scalRelativeTolerance_;
@@ -27974,16 +27876,16 @@ public final class FmiDefinitions {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + MINSTEP_FIELD_NUMBER;
+      hash = (37 * hash) + MIN_STEP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getMinStep()));
-      hash = (37 * hash) + MAXSTEP_FIELD_NUMBER;
+      hash = (37 * hash) + MAX_STEP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getMaxStep()));
-      hash = (37 * hash) + SCALABSOLUTETOLERANCE_FIELD_NUMBER;
+      hash = (37 * hash) + SCAL_ABSOLUTE_TOLERANCE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getScalAbsoluteTolerance()));
-      hash = (37 * hash) + SCALRELATIVETOLERANCE_FIELD_NUMBER;
+      hash = (37 * hash) + SCAL_RELATIVE_TOLERANCE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getScalRelativeTolerance()));
       hash = (29 * hash) + unknownFields.hashCode();
@@ -28231,13 +28133,13 @@ public final class FmiDefinitions {
 
       private double minStep_ ;
       /**
-       * <code>double minStep = 1;</code>
+       * <code>double min_Step = 1;</code>
        */
       public double getMinStep() {
         return minStep_;
       }
       /**
-       * <code>double minStep = 1;</code>
+       * <code>double min_Step = 1;</code>
        */
       public Builder setMinStep(double value) {
         
@@ -28246,7 +28148,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double minStep = 1;</code>
+       * <code>double min_Step = 1;</code>
        */
       public Builder clearMinStep() {
         
@@ -28257,13 +28159,13 @@ public final class FmiDefinitions {
 
       private double maxStep_ ;
       /**
-       * <code>double maxStep = 2;</code>
+       * <code>double max_step = 2;</code>
        */
       public double getMaxStep() {
         return maxStep_;
       }
       /**
-       * <code>double maxStep = 2;</code>
+       * <code>double max_step = 2;</code>
        */
       public Builder setMaxStep(double value) {
         
@@ -28272,7 +28174,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double maxStep = 2;</code>
+       * <code>double max_step = 2;</code>
        */
       public Builder clearMaxStep() {
         
@@ -28283,13 +28185,13 @@ public final class FmiDefinitions {
 
       private double scalAbsoluteTolerance_ ;
       /**
-       * <code>double scalAbsoluteTolerance = 3;</code>
+       * <code>double scal_absolute_tolerance = 3;</code>
        */
       public double getScalAbsoluteTolerance() {
         return scalAbsoluteTolerance_;
       }
       /**
-       * <code>double scalAbsoluteTolerance = 3;</code>
+       * <code>double scal_absolute_tolerance = 3;</code>
        */
       public Builder setScalAbsoluteTolerance(double value) {
         
@@ -28298,7 +28200,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double scalAbsoluteTolerance = 3;</code>
+       * <code>double scal_absolute_tolerance = 3;</code>
        */
       public Builder clearScalAbsoluteTolerance() {
         
@@ -28309,13 +28211,13 @@ public final class FmiDefinitions {
 
       private double scalRelativeTolerance_ ;
       /**
-       * <code>double scalRelativeTolerance = 4;</code>
+       * <code>double scal_relative_tolerance = 4;</code>
        */
       public double getScalRelativeTolerance() {
         return scalRelativeTolerance_;
       }
       /**
-       * <code>double scalRelativeTolerance = 4;</code>
+       * <code>double scal_relative_tolerance = 4;</code>
        */
       public Builder setScalRelativeTolerance(double value) {
         
@@ -28324,7 +28226,7 @@ public final class FmiDefinitions {
         return this;
       }
       /**
-       * <code>double scalRelativeTolerance = 4;</code>
+       * <code>double scal_relative_tolerance = 4;</code>
        */
       public Builder clearScalRelativeTolerance() {
         
@@ -28386,11 +28288,6 @@ public final class FmiDefinitions {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Empty_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ScalarVariable_descriptor;
   private static final 
@@ -28562,6 +28459,11 @@ public final class FmiDefinitions {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ModelStructure_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_EulerIntegrator_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -28601,122 +28503,122 @@ public final class FmiDefinitions {
   static {
     java.lang.String[] descriptorData = {
       "\n\021definitions.proto\022\"no.mechatronics.sfi" +
-      ".fmu_proxy.grpc\"\007\n\005Empty\"\200\004\n\nIntegrator\022" +
-      "D\n\005euler\030\001 \001(\01323.no.mechatronics.sfi.fmu" +
-      "_proxy.grpc.EulerIntegratorH\000\022X\n\013runge_k" +
-      "utta\030\002 \001(\0132A.no.mechatronics.sfi.fmu_pro" +
-      "xy.grpc.ClassicalRungeKuttaIntegratorH\000\022" +
-      "K\n\tmid_point\030\003 \001(\01326.no.mechatronics.sfi" +
-      ".fmu_proxy.grpc.MidpointIntegratorH\000\022B\n\004" +
-      "gill\030\004 \001(\01322.no.mechatronics.sfi.fmu_pro" +
-      "xy.grpc.GillIntegratorH\000\022W\n\017adams_bashfo" +
-      "rth\030\005 \001(\0132<.no.mechatronics.sfi.fmu_prox" +
-      "y.grpc.AdamsBashforthIntegratorH\000\022Y\n\020dor" +
-      "mand_prince54\030\006 \001(\0132=.no.mechatronics.sf" +
-      "i.fmu_proxy.grpc.DormandPrince54Integrat" +
-      "orH\000B\r\n\013integrators\"\234\003\n\016ScalarVariable\022\027" +
-      "\n\017value_reference\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\022\023\n" +
-      "\013description\030\003 \001(\t\022G\n\rvariable_type\030\004 \001(" +
-      "\01620.no.mechatronics.sfi.fmu_proxy.grpc.V" +
-      "ariableType\022<\n\007initial\030\005 \001(\0162+.no.mechat" +
-      "ronics.sfi.fmu_proxy.grpc.Initial\022@\n\tcau" +
-      "sality\030\006 \001(\0162-.no.mechatronics.sfi.fmu_p" +
-      "roxy.grpc.Causality\022D\n\013variability\030\007 \001(\016" +
-      "2/.no.mechatronics.sfi.fmu_proxy.grpc.Va" +
-      "riability\022?\n\005start\030\010 \001(\01320.no.mechatroni" +
-      "cs.sfi.fmu_proxy.grpc.AnyPrimitive\"W\n\006St" +
-      "atus\022<\n\004code\030\001 \001(\0162..no.mechatronics.sfi" +
-      ".fmu_proxy.grpc.StatusCode\022\017\n\007message\030\002 " +
-      "\001(\t\"\205\001\n\014AnyPrimitive\022\022\n\010intValue\030\001 \001(\005H\000" +
-      "\022\023\n\trealValue\030\002 \001(\001H\000\022\022\n\010strValue\030\003 \001(\tH" +
-      "\000\022\023\n\tboolValue\030\004 \001(\010H\000\022\032\n\020enumerationVal" +
-      "ue\030\005 \001(\rH\000B\007\n\005value\":\n\013InitRequest\022\016\n\006fm" +
-      "u_id\030\001 \001(\r\022\r\n\005start\030\002 \001(\001\022\014\n\004stop\030\003 \001(\001\"" +
-      "0\n\013StepRequest\022\016\n\006fmu_id\030\001 \001(\r\022\021\n\tstep_s" +
-      "ize\030\002 \001(\001\"\025\n\004UInt\022\r\n\005value\030\001 \001(\r\"\024\n\003Int\022" +
-      "\r\n\005value\030\001 \001(\005\"X\n\007IntRead\022\r\n\005value\030\001 \001(\005" +
-      "\022>\n\006status\030\002 \001(\0162..no.mechatronics.sfi.f" +
-      "mu_proxy.grpc.StatusCode\"\031\n\007IntList\022\016\n\006v" +
-      "alues\030\001 \003(\005\"]\n\013IntListRead\022\016\n\006values\030\001 \003" +
-      "(\005\022>\n\006status\030\002 \001(\0162..no.mechatronics.sfi" +
-      ".fmu_proxy.grpc.StatusCode\"\025\n\004Real\022\r\n\005va" +
-      "lue\030\001 \001(\001\"Y\n\010RealRead\022\r\n\005value\030\001 \001(\001\022>\n\006" +
-      "status\030\002 \001(\0162..no.mechatronics.sfi.fmu_p" +
-      "roxy.grpc.StatusCode\"\032\n\010RealList\022\016\n\006valu" +
-      "es\030\001 \003(\001\"^\n\014RealListRead\022\016\n\006values\030\001 \003(\001" +
-      "\022>\n\006status\030\002 \001(\0162..no.mechatronics.sfi.f" +
-      "mu_proxy.grpc.StatusCode\"\024\n\003Str\022\r\n\005value" +
-      "\030\001 \001(\t\"X\n\007StrRead\022\r\n\005value\030\001 \001(\t\022>\n\006stat" +
-      "us\030\002 \001(\0162..no.mechatronics.sfi.fmu_proxy" +
-      ".grpc.StatusCode\"\031\n\007StrList\022\016\n\006values\030\001 " +
-      "\003(\t\"]\n\013StrListRead\022\016\n\006values\030\001 \003(\t\022>\n\006st" +
-      "atus\030\002 \001(\0162..no.mechatronics.sfi.fmu_pro" +
-      "xy.grpc.StatusCode\"\025\n\004Bool\022\r\n\005value\030\001 \001(" +
-      "\010\"Y\n\010BoolRead\022\r\n\005value\030\001 \001(\010\022>\n\006status\030\002" +
-      " \001(\0162..no.mechatronics.sfi.fmu_proxy.grp" +
-      "c.StatusCode\"\032\n\010BoolList\022\016\n\006values\030\001 \003(\010" +
-      "\"^\n\014BoolListRead\022\016\n\006values\030\001 \003(\010\022>\n\006stat" +
-      "us\030\002 \001(\0162..no.mechatronics.sfi.fmu_proxy" +
-      ".grpc.StatusCode\"6\n\013ReadRequest\022\016\n\006fmu_i" +
-      "d\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(\r\";\n\017Bulk" +
-      "ReadRequest\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_ref" +
-      "erences\030\002 \003(\r\"M\n\023WriteIntegerRequest\022\016\n\006" +
-      "fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(\r\022\r\n" +
-      "\005value\030\003 \001(\005\"S\n\027BulkWriteIntegerRequest\022" +
-      "\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030\002 \003(" +
-      "\r\022\016\n\006values\030\003 \003(\005\"J\n\020WriteRealRequest\022\016\n" +
-      "\006fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(\r\022\r" +
-      "\n\005value\030\003 \001(\001\"P\n\024BulkWriteRealRequest\022\016\n" +
-      "\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030\002 \003(\r\022" +
-      "\016\n\006values\030\003 \003(\001\"L\n\022WriteStringRequest\022\016\n" +
-      "\006fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(\r\022\r" +
-      "\n\005value\030\003 \001(\t\"R\n\026BulkWriteStringRequest\022" +
-      "\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030\002 \003(" +
-      "\r\022\016\n\006values\030\003 \003(\t\"M\n\023WriteBooleanRequest" +
+      ".fmu_proxy.grpc\"\007\n\005Empty\"\234\003\n\016ScalarVaria" +
+      "ble\022\027\n\017value_reference\030\001 \001(\r\022\014\n\004name\030\002 \001" +
+      "(\t\022\023\n\013description\030\003 \001(\t\022G\n\rvariable_type" +
+      "\030\004 \001(\01620.no.mechatronics.sfi.fmu_proxy.g" +
+      "rpc.VariableType\022<\n\007initial\030\005 \001(\0162+.no.m" +
+      "echatronics.sfi.fmu_proxy.grpc.Initial\022@" +
+      "\n\tcausality\030\006 \001(\0162-.no.mechatronics.sfi." +
+      "fmu_proxy.grpc.Causality\022D\n\013variability\030" +
+      "\007 \001(\0162/.no.mechatronics.sfi.fmu_proxy.gr" +
+      "pc.Variability\022?\n\005start\030\010 \001(\01320.no.mecha" +
+      "tronics.sfi.fmu_proxy.grpc.AnyPrimitive\"" +
+      "W\n\006Status\022<\n\004code\030\001 \001(\0162..no.mechatronic" +
+      "s.sfi.fmu_proxy.grpc.StatusCode\022\017\n\007messa" +
+      "ge\030\002 \001(\t\"\203\001\n\014AnyPrimitive\022\023\n\tint_value\030\001" +
+      " \001(\005H\000\022\024\n\nreal_value\030\002 \001(\001H\000\022\023\n\tstr_valu" +
+      "e\030\003 \001(\tH\000\022\024\n\nbool_value\030\004 \001(\010H\000\022\024\n\nenum_" +
+      "value\030\005 \001(\rH\000B\007\n\005value\":\n\013InitRequest\022\016\n" +
+      "\006fmu_id\030\001 \001(\r\022\r\n\005start\030\002 \001(\001\022\014\n\004stop\030\003 \001" +
+      "(\001\"0\n\013StepRequest\022\016\n\006fmu_id\030\001 \001(\r\022\021\n\tste" +
+      "p_size\030\002 \001(\001\"\025\n\004UInt\022\r\n\005value\030\001 \001(\r\"\024\n\003I" +
+      "nt\022\r\n\005value\030\001 \001(\005\"X\n\007IntRead\022\r\n\005value\030\001 " +
+      "\001(\005\022>\n\006status\030\002 \001(\0162..no.mechatronics.sf" +
+      "i.fmu_proxy.grpc.StatusCode\"\031\n\007IntList\022\016" +
+      "\n\006values\030\001 \003(\005\"]\n\013IntListRead\022\016\n\006values\030" +
+      "\001 \003(\005\022>\n\006status\030\002 \001(\0162..no.mechatronics." +
+      "sfi.fmu_proxy.grpc.StatusCode\"\025\n\004Real\022\r\n" +
+      "\005value\030\001 \001(\001\"Y\n\010RealRead\022\r\n\005value\030\001 \001(\001\022" +
+      ">\n\006status\030\002 \001(\0162..no.mechatronics.sfi.fm" +
+      "u_proxy.grpc.StatusCode\"\032\n\010RealList\022\016\n\006v" +
+      "alues\030\001 \003(\001\"^\n\014RealListRead\022\016\n\006values\030\001 " +
+      "\003(\001\022>\n\006status\030\002 \001(\0162..no.mechatronics.sf" +
+      "i.fmu_proxy.grpc.StatusCode\"\024\n\003Str\022\r\n\005va" +
+      "lue\030\001 \001(\t\"X\n\007StrRead\022\r\n\005value\030\001 \001(\t\022>\n\006s" +
+      "tatus\030\002 \001(\0162..no.mechatronics.sfi.fmu_pr" +
+      "oxy.grpc.StatusCode\"\031\n\007StrList\022\016\n\006values" +
+      "\030\001 \003(\t\"]\n\013StrListRead\022\016\n\006values\030\001 \003(\t\022>\n" +
+      "\006status\030\002 \001(\0162..no.mechatronics.sfi.fmu_" +
+      "proxy.grpc.StatusCode\"\025\n\004Bool\022\r\n\005value\030\001" +
+      " \001(\010\"Y\n\010BoolRead\022\r\n\005value\030\001 \001(\010\022>\n\006statu" +
+      "s\030\002 \001(\0162..no.mechatronics.sfi.fmu_proxy." +
+      "grpc.StatusCode\"\032\n\010BoolList\022\016\n\006values\030\001 " +
+      "\003(\010\"^\n\014BoolListRead\022\016\n\006values\030\001 \003(\010\022>\n\006s" +
+      "tatus\030\002 \001(\0162..no.mechatronics.sfi.fmu_pr" +
+      "oxy.grpc.StatusCode\"6\n\013ReadRequest\022\016\n\006fm" +
+      "u_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(\r\";\n\017B" +
+      "ulkReadRequest\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_" +
+      "references\030\002 \003(\r\"M\n\023WriteIntegerRequest\022" +
+      "\016\n\006fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(\r" +
+      "\022\r\n\005value\030\003 \001(\005\"S\n\027BulkWriteIntegerReque" +
+      "st\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030\002" +
+      " \003(\r\022\016\n\006values\030\003 \003(\005\"J\n\020WriteRealRequest" +
       "\022\016\n\006fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(" +
-      "\r\022\r\n\005value\030\003 \001(\010\"S\n\027BulkWriteBooleanRequ" +
-      "est\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030" +
-      "\002 \003(\r\022\016\n\006values\030\003 \003(\010\"~\n\007Unknown\022\r\n\005inde" +
-      "x\030\001 \001(\r\022\024\n\014dependencies\030\002 \003(\r\022N\n\020depende" +
-      "nciesKind\030\003 \001(\01624.no.mechatronics.sfi.fm" +
-      "u_proxy.grpc.DependenciesKind\"\251\001\n\016ModelS" +
-      "tructure\022\017\n\007outputs\030\001 \003(\r\022@\n\013derivatives" +
-      "\030\002 \003(\0132+.no.mechatronics.sfi.fmu_proxy.g" +
-      "rpc.Unknown\022D\n\017initialUnknowns\030\003 \003(\0132+.n" +
-      "o.mechatronics.sfi.fmu_proxy.grpc.Unknow" +
-      "n\"$\n\017EulerIntegrator\022\021\n\tstep_size\030\001 \001(\001\"" +
+      "\r\022\r\n\005value\030\003 \001(\001\"P\n\024BulkWriteRealRequest" +
+      "\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030\002 \003" +
+      "(\r\022\016\n\006values\030\003 \003(\001\"L\n\022WriteStringRequest" +
+      "\022\016\n\006fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002 \001(" +
+      "\r\022\r\n\005value\030\003 \001(\t\"R\n\026BulkWriteStringReque" +
+      "st\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_references\030\002" +
+      " \003(\r\022\016\n\006values\030\003 \003(\t\"M\n\023WriteBooleanRequ" +
+      "est\022\016\n\006fmu_id\030\001 \001(\r\022\027\n\017value_reference\030\002" +
+      " \001(\r\022\r\n\005value\030\003 \001(\010\"S\n\027BulkWriteBooleanR" +
+      "equest\022\016\n\006fmu_id\030\001 \001(\r\022\030\n\020value_referenc" +
+      "es\030\002 \003(\r\022\016\n\006values\030\003 \003(\010\"\177\n\007Unknown\022\r\n\005i" +
+      "ndex\030\001 \001(\r\022\024\n\014dependencies\030\002 \003(\r\022O\n\021depe" +
+      "ndencies_kind\030\003 \001(\01624.no.mechatronics.sf" +
+      "i.fmu_proxy.grpc.DependenciesKind\"\252\001\n\016Mo" +
+      "delStructure\022\017\n\007outputs\030\001 \003(\r\022@\n\013derivat" +
+      "ives\030\002 \003(\0132+.no.mechatronics.sfi.fmu_pro" +
+      "xy.grpc.Unknown\022E\n\020initial_unknowns\030\003 \003(" +
+      "\0132+.no.mechatronics.sfi.fmu_proxy.grpc.U" +
+      "nknown\"\200\004\n\nIntegrator\022D\n\005euler\030\001 \001(\01323.n" +
+      "o.mechatronics.sfi.fmu_proxy.grpc.EulerI" +
+      "ntegratorH\000\022X\n\013runge_kutta\030\002 \001(\0132A.no.me" +
+      "chatronics.sfi.fmu_proxy.grpc.ClassicalR" +
+      "ungeKuttaIntegratorH\000\022K\n\tmid_point\030\003 \001(\013" +
+      "26.no.mechatronics.sfi.fmu_proxy.grpc.Mi" +
+      "dpointIntegratorH\000\022B\n\004gill\030\004 \001(\01322.no.me" +
+      "chatronics.sfi.fmu_proxy.grpc.GillIntegr" +
+      "atorH\000\022W\n\017adams_bashforth\030\005 \001(\0132<.no.mec" +
+      "hatronics.sfi.fmu_proxy.grpc.AdamsBashfo" +
+      "rthIntegratorH\000\022Y\n\020dormand_prince54\030\006 \001(" +
+      "\0132=.no.mechatronics.sfi.fmu_proxy.grpc.D" +
+      "ormandPrince54IntegratorH\000B\r\n\013integrator" +
+      "s\"$\n\017EulerIntegrator\022\021\n\tstep_size\030\001 \001(\001\"" +
       "2\n\035ClassicalRungeKuttaIntegrator\022\021\n\tstep" +
       "_size\030\001 \001(\001\"\'\n\022MidpointIntegrator\022\021\n\tste" +
       "p_size\030\001 \001(\001\"#\n\016GillIntegrator\022\021\n\tstep_s" +
-      "ize\030\001 \001(\001\"\212\001\n\030AdamsBashforthIntegrator\022\016" +
-      "\n\006nSteps\030\001 \001(\r\022\017\n\007minStep\030\002 \001(\001\022\017\n\007maxSt" +
-      "ep\030\003 \001(\001\022\035\n\025scalAbsoluteTolerance\030\004 \001(\001\022" +
-      "\035\n\025scalRelativeTolerance\030\005 \001(\001\"{\n\031Dorman" +
-      "dPrince54Integrator\022\017\n\007minStep\030\001 \001(\001\022\017\n\007" +
-      "maxStep\030\002 \001(\001\022\035\n\025scalAbsoluteTolerance\030\003" +
-      " \001(\001\022\035\n\025scalRelativeTolerance\030\004 \001(\001*\274\001\n\t" +
-      "Causality\022\027\n\023UNDEFINED_CAUSALITY\020\000\022\023\n\017IN" +
-      "PUT_CAUSALITY\020\001\022\024\n\020OUTPUT_CAUSALITY\020\002\022\027\n" +
-      "\023PARAMETER_CAUSALITY\020\003\022\"\n\036CALCULATED_PAR" +
-      "AMETER_CAUSALITY\020\004\022\023\n\017LOCAL_CAUSALITY\020\005\022" +
-      "\031\n\025INDEPENDENT_CAUSALITY\020\006*\250\001\n\013Variabili" +
-      "ty\022\031\n\025UNDEFINED_VARIABILITY\020\000\022\030\n\024CONSTAN" +
-      "T_VARIABILITY\020\001\022\025\n\021FIXED_VARIABILITY\020\002\022\032" +
-      "\n\026CONTINUOUS_VARIABILITY\020\003\022\030\n\024DISCRETE_V" +
-      "ARIABILITY\020\004\022\027\n\023TUNABLE_VARIABILITY\020\005*_\n" +
-      "\007Initial\022\025\n\021UNDEFINED_INITIAL\020\000\022\021\n\rEXACT" +
-      "_INITIAL\020\001\022\022\n\016APPROX_INITIAL\020\002\022\026\n\022CALCUL" +
-      "ATED_INITIAL\020\003*|\n\014VariableType\022\024\n\020INTEGE" +
-      "R_VARIABLE\020\000\022\021\n\rREAL_VARIABLE\020\001\022\023\n\017STRIN" +
-      "G_VARIABLE\020\002\022\024\n\020BOOLEAN_VARIABLE\020\003\022\030\n\024EN" +
-      "UMERATION_VARIABLE\020\004*!\n\007FMUType\022\n\n\006CS_FM" +
-      "U\020\000\022\n\n\006ME_FMU\020\001*{\n\nStatusCode\022\r\n\tOK_STAT" +
-      "US\020\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISCARD_STAT" +
-      "US\020\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_STATUS\020\004" +
-      "\022\022\n\016PENDING_STATUS\020\005*^\n\020DependenciesKind" +
-      "\022\022\n\016DEPENDENT_KIND\020\000\022\021\n\rCONSTANT_KIND\020\001\022" +
-      "\020\n\014TUNABLE_KIND\020\002\022\021\n\rDISCRETE_KIND\020\004B\020B\016" +
-      "FmiDefinitionsb\006proto3"
+      "ize\030\001 \001(\001\"\221\001\n\030AdamsBashforthIntegrator\022\017" +
+      "\n\007n_steps\030\001 \001(\r\022\020\n\010min_Step\030\002 \001(\001\022\020\n\010max" +
+      "_step\030\003 \001(\001\022\037\n\027scal_absolute_tolerance\030\004" +
+      " \001(\001\022\037\n\027scal_relative_tolerance\030\005 \001(\001\"\201\001" +
+      "\n\031DormandPrince54Integrator\022\020\n\010min_Step\030" +
+      "\001 \001(\001\022\020\n\010max_step\030\002 \001(\001\022\037\n\027scal_absolute" +
+      "_tolerance\030\003 \001(\001\022\037\n\027scal_relative_tolera" +
+      "nce\030\004 \001(\001*\274\001\n\tCausality\022\027\n\023UNDEFINED_CAU" +
+      "SALITY\020\000\022\023\n\017INPUT_CAUSALITY\020\001\022\024\n\020OUTPUT_" +
+      "CAUSALITY\020\002\022\027\n\023PARAMETER_CAUSALITY\020\003\022\"\n\036" +
+      "CALCULATED_PARAMETER_CAUSALITY\020\004\022\023\n\017LOCA" +
+      "L_CAUSALITY\020\005\022\031\n\025INDEPENDENT_CAUSALITY\020\006" +
+      "*\250\001\n\013Variability\022\031\n\025UNDEFINED_VARIABILIT" +
+      "Y\020\000\022\030\n\024CONSTANT_VARIABILITY\020\001\022\025\n\021FIXED_V" +
+      "ARIABILITY\020\002\022\032\n\026CONTINUOUS_VARIABILITY\020\003" +
+      "\022\030\n\024DISCRETE_VARIABILITY\020\004\022\027\n\023TUNABLE_VA" +
+      "RIABILITY\020\005*_\n\007Initial\022\025\n\021UNDEFINED_INIT" +
+      "IAL\020\000\022\021\n\rEXACT_INITIAL\020\001\022\022\n\016APPROX_INITI" +
+      "AL\020\002\022\026\n\022CALCULATED_INITIAL\020\003*|\n\014Variable" +
+      "Type\022\024\n\020INTEGER_VARIABLE\020\000\022\021\n\rREAL_VARIA" +
+      "BLE\020\001\022\023\n\017STRING_VARIABLE\020\002\022\024\n\020BOOLEAN_VA" +
+      "RIABLE\020\003\022\030\n\024ENUMERATION_VARIABLE\020\004*{\n\nSt" +
+      "atusCode\022\r\n\tOK_STATUS\020\000\022\022\n\016WARNING_STATU" +
+      "S\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERROR_STATUS\020" +
+      "\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING_STATUS\020\005*" +
+      "^\n\020DependenciesKind\022\022\n\016DEPENDENT_KIND\020\000\022" +
+      "\021\n\rCONSTANT_KIND\020\001\022\020\n\014TUNABLE_KIND\020\002\022\021\n\r" +
+      "DISCRETE_KIND\020\004B\020B\016FmiDefinitionsb\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -28736,216 +28638,216 @@ public final class FmiDefinitions {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Empty_descriptor,
         new java.lang.String[] { });
-    internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor,
-        new java.lang.String[] { "Euler", "RungeKutta", "MidPoint", "Gill", "AdamsBashforth", "DormandPrince54", "Integrators", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ScalarVariable_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ScalarVariable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ScalarVariable_descriptor,
         new java.lang.String[] { "ValueReference", "Name", "Description", "VariableType", "Initial", "Causality", "Variability", "Start", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Status_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Status_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Status_descriptor,
         new java.lang.String[] { "Code", "Message", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_AnyPrimitive_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_AnyPrimitive_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_AnyPrimitive_descriptor,
-        new java.lang.String[] { "IntValue", "RealValue", "StrValue", "BoolValue", "EnumerationValue", "Value", });
+        new java.lang.String[] { "IntValue", "RealValue", "StrValue", "BoolValue", "EnumValue", "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_InitRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_InitRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_InitRequest_descriptor,
         new java.lang.String[] { "FmuId", "Start", "Stop", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StepRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StepRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StepRequest_descriptor,
         new java.lang.String[] { "FmuId", "StepSize", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_UInt_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_UInt_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_UInt_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Int_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Int_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Int_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntRead_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntRead_descriptor,
         new java.lang.String[] { "Value", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntList_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntListRead_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntListRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_IntListRead_descriptor,
         new java.lang.String[] { "Values", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Real_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Real_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Real_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealRead_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealRead_descriptor,
         new java.lang.String[] { "Value", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealList_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealListRead_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealListRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_RealListRead_descriptor,
         new java.lang.String[] { "Values", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Str_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Str_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Str_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrRead_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrRead_descriptor,
         new java.lang.String[] { "Value", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrList_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrListRead_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrListRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_StrListRead_descriptor,
         new java.lang.String[] { "Values", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Bool_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Bool_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Bool_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolRead_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolRead_descriptor,
         new java.lang.String[] { "Value", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolList_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolList_descriptor,
         new java.lang.String[] { "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolListRead_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolListRead_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BoolListRead_descriptor,
         new java.lang.String[] { "Values", "Status", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ReadRequest_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ReadRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReference", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkReadRequest_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkReadRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkReadRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReferences", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteIntegerRequest_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteIntegerRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteIntegerRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReference", "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteIntegerRequest_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteIntegerRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteIntegerRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReferences", "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteRealRequest_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteRealRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteRealRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReference", "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteRealRequest_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteRealRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteRealRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReferences", "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteStringRequest_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteStringRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteStringRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReference", "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteStringRequest_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteStringRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteStringRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReferences", "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteBooleanRequest_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteBooleanRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_WriteBooleanRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReference", "Value", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteBooleanRequest_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteBooleanRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_BulkWriteBooleanRequest_descriptor,
         new java.lang.String[] { "FmuId", "ValueReferences", "Values", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Unknown_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Unknown_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Unknown_descriptor,
         new java.lang.String[] { "Index", "Dependencies", "DependenciesKind", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ModelStructure_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ModelStructure_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_no_mechatronics_sfi_fmu_proxy_grpc_ModelStructure_descriptor,
         new java.lang.String[] { "Outputs", "Derivatives", "InitialUnknowns", });
+    internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor =
+      getDescriptor().getMessageTypes().get(35);
+    internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_no_mechatronics_sfi_fmu_proxy_grpc_Integrator_descriptor,
+        new java.lang.String[] { "Euler", "RungeKutta", "MidPoint", "Gill", "AdamsBashforth", "DormandPrince54", "Integrators", });
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_EulerIntegrator_descriptor =
       getDescriptor().getMessageTypes().get(36);
     internal_static_no_mechatronics_sfi_fmu_proxy_grpc_EulerIntegrator_fieldAccessorTable = new

@@ -37,6 +37,7 @@ import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 
 import io.grpc.stub.StreamObserver
+import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.apache.commons.math3.ode.nonstiff.*
 
 import org.slf4j.Logger
@@ -48,15 +49,12 @@ class GenericFmuServiceImpl(
         private val fmuFile: FmuFile
 ): GenericFmuServiceGrpc.GenericFmuServiceImplBase(), GrpcFmuService {
 
-    private val idGenerator = AtomicInteger(0)
-
     private val modelDescription: SimpleModelDescription
             = fmuFile.modelDescription
 
     override fun createInstanceFromCS(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
-        val id = idGenerator.incrementAndGet()
-        Fmus.put(id, fmuFile.asCoSimulationFmu().newInstance())
+        val id = Fmus.put(fmuFile.asCoSimulationFmu().newInstance())
 
         FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
@@ -67,7 +65,7 @@ class GenericFmuServiceImpl(
 
     override fun createInstanceFromME(req: FmiDefinitions.Integrator, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
 
-        fun selectDefaultIntegrator(): EulerIntegrator {
+        fun selectDefaultIntegrator(): FirstOrderIntegrator {
             val stepSize = fmuFile.modelDescription.defaultExperiment?.stepSize ?: 1E-3
             LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
             return EulerIntegrator(stepSize)
@@ -85,8 +83,7 @@ class GenericFmuServiceImpl(
             null -> selectDefaultIntegrator()
         }
 
-        val id = idGenerator.incrementAndGet()
-        Fmus.put(id, fmuFile.asModelExchangeFmu().newInstance(integrator))
+        val id = Fmus.put(fmuFile.asModelExchangeFmu().newInstance(integrator))
 
         FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
@@ -475,7 +472,7 @@ private fun getStart(variable: TypedScalarVariable<*>): FmiDefinitions.AnyPrimit
                 is RealVariable -> realValue = variable.start!!
                 is StringVariable -> strValue = variable.start
                 is BooleanVariable -> boolValue = variable.start!!
-                is EnumerationVariable -> enumerationValue = variable.start!!
+                is EnumerationVariable -> enumValue = variable.start!!
                 else -> throw UnsupportedOperationException("Variable type not supported: " + variable.javaClass.simpleName)
             }
         }.build()

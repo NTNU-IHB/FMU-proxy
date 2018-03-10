@@ -25,26 +25,26 @@ public final class GenericFmuProto {
     java.lang.String[] descriptorData = {
       "\n\rservice.proto\022\"no.mechatronics.sfi.fmu" +
       "_proxy.grpc\032\021definitions.proto2\253\031\n\021Gener" +
-      "icFmuService\022l\n\026GetModelDescriptionXml\022)" +
-      ".no.mechatronics.sfi.fmu_proxy.grpc.Empt" +
-      "y\032\'.no.mechatronics.sfi.fmu_proxy.grpc.S" +
-      "tr\022k\n\024CreateInstanceFromCS\022).no.mechatro" +
-      "nics.sfi.fmu_proxy.grpc.Empty\032(.no.mecha" +
-      "tronics.sfi.fmu_proxy.grpc.UInt\022p\n\024Creat" +
-      "eInstanceFromME\022..no.mechatronics.sfi.fm" +
-      "u_proxy.grpc.Integrator\032(.no.mechatronic" +
-      "s.sfi.fmu_proxy.grpc.UInt\022]\n\007GetGuid\022).n" +
+      "icFmuService\022k\n\024CreateInstanceFromCS\022).n" +
       "o.mechatronics.sfi.fmu_proxy.grpc.Empty\032" +
-      "\'.no.mechatronics.sfi.fmu_proxy.grpc.Str" +
-      "\022b\n\014GetModelName\022).no.mechatronics.sfi.f" +
+      "(.no.mechatronics.sfi.fmu_proxy.grpc.UIn" +
+      "t\022p\n\024CreateInstanceFromME\022..no.mechatron" +
+      "ics.sfi.fmu_proxy.grpc.Integrator\032(.no.m" +
+      "echatronics.sfi.fmu_proxy.grpc.UInt\022]\n\007G" +
+      "etGuid\022).no.mechatronics.sfi.fmu_proxy.g" +
+      "rpc.Empty\032\'.no.mechatronics.sfi.fmu_prox" +
+      "y.grpc.Str\022b\n\014GetModelName\022).no.mechatro" +
+      "nics.sfi.fmu_proxy.grpc.Empty\032\'.no.mecha" +
+      "tronics.sfi.fmu_proxy.grpc.Str\022l\n\026GetMod" +
+      "elDescriptionXml\022).no.mechatronics.sfi.f" +
       "mu_proxy.grpc.Empty\032\'.no.mechatronics.sf" +
-      "i.fmu_proxy.grpc.Str\022t\n\021GetModelVariable" +
-      "s\022).no.mechatronics.sfi.fmu_proxy.grpc.E" +
+      "i.fmu_proxy.grpc.Str\022r\n\021GetModelStructur" +
+      "e\022).no.mechatronics.sfi.fmu_proxy.grpc.E" +
       "mpty\0322.no.mechatronics.sfi.fmu_proxy.grp" +
-      "c.ScalarVariable0\001\022r\n\021GetModelStructure\022" +
-      ").no.mechatronics.sfi.fmu_proxy.grpc.Emp" +
-      "ty\0322.no.mechatronics.sfi.fmu_proxy.grpc." +
-      "ModelStructure\022d\n\016GetCurrentTime\022(.no.me" +
+      "c.ModelStructure\022t\n\021GetModelVariables\022)." +
+      "no.mechatronics.sfi.fmu_proxy.grpc.Empty" +
+      "\0322.no.mechatronics.sfi.fmu_proxy.grpc.Sc" +
+      "alarVariable0\001\022d\n\016GetCurrentTime\022(.no.me" +
       "chatronics.sfi.fmu_proxy.grpc.UInt\032(.no." +
       "mechatronics.sfi.fmu_proxy.grpc.Real\022b\n\014" +
       "IsTerminated\022(.no.mechatronics.sfi.fmu_p" +

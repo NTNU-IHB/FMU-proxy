@@ -6,11 +6,17 @@ import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.net.ServerSocket
+import java.time.Duration
+import java.time.Instant
 
 class TestThriftClient {
 
     companion object {
+
+        private val LOG: Logger = LoggerFactory.getLogger(TestThriftClient::class.java)
 
         private lateinit var server: ThriftFmuServer
         private lateinit var client: ThriftFmuClient
@@ -53,6 +59,26 @@ class TestThriftClient {
     fun testModelName() {
         val modelName = client.modelName.also { println("modelName=$it") }
         Assert.assertEquals(modelDescription.modelName, modelName)
+    }
+
+    @Test
+    fun testInstance() {
+
+        client.createInstance().use { fmu ->
+
+           Assert.assertTrue( fmu.init() )
+
+            val dt = 1.0/100
+            val start = Instant.now()
+            while (fmu.currentTime < 10) {
+                val status = fmu.step(dt)
+                Assert.assertTrue(status == StatusCode.OK_STATUS)
+            }
+            val end = Instant.now()
+            LOG.info("Duration=${Duration.between(start, end).toMillis()}ms")
+
+        }
+
     }
 
 }

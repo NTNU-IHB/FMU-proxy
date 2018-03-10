@@ -17,3 +17,66 @@ dependencies {
 
 }
 
+task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name archivesBaseName
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'A client for talking to FMU-proxy Thrift servers'
+                url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
+
+                scm {
+                    connection 'scm:git:git://github.com/SFI-Mechatronics/gRPC-FMU.git'
+                    developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/gRPC-FMU.git'
+                    url 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'The MIT License'
+                        url 'https://opensource.org/licenses/mit-license.php'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'laht'
+                        name 'Lars Ivar Hatledal'
+                        email 'laht@ntnu.no'
+                    }
+                }
+            }
+        }
+    }
+}
+

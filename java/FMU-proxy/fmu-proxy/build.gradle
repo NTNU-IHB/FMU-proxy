@@ -25,6 +25,10 @@ repositories {
     }
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -35,11 +39,11 @@ dependencies {
 
     compile group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
 
-    compile group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT'
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT'
+    compile group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
 
-    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT'
-    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-proto-src', version: '0.1-SNAPSHOT'
+    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT', changing: true
+    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-proto-src', version: '0.1-SNAPSHOT', changing: true
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'

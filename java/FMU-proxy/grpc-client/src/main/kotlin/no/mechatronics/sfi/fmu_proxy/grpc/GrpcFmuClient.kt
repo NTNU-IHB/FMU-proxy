@@ -40,9 +40,7 @@ private val EMPTY = FmiDefinitions.Empty.getDefaultInstance()
  */
 internal object FmuInstances: ArrayList<FmuInstance>() {
     internal fun terminateAll() {
-        forEach({ instance ->
-            instance.terminate()
-        })
+        forEach{ it.terminate() }
     }
 }
 
@@ -50,7 +48,7 @@ internal object FmuInstances: ArrayList<FmuInstance>() {
 /**
  * @author Lars Ivar Hatledal
  */
-class GenericFmuClient(
+class GrpcFmuClient(
         host: String,
         port: Int
 ): Closeable {
@@ -78,7 +76,16 @@ class GenericFmuClient(
 
     @JvmOverloads
     fun createInstance(integrator: FmiDefinitions.Integrator? = null): FmuInstance {
-        return FmuInstance(blockingStub, integrator)
+
+        val fmuId = if (integrator == null) {
+            blockingStub.createInstanceFromCS(EMPTY).value
+        } else {
+            blockingStub.createInstanceFromME(integrator).value
+        }
+        return FmuInstance(blockingStub, fmuId).also {
+            FmuInstances.add(it)
+        }
+
     }
 
     fun stop() = close()
@@ -90,29 +97,17 @@ class GenericFmuClient(
     }
 
     private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(GenericFmuClient::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
     }
 
 }
 
 class FmuInstance internal constructor(
         private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub,
-        integrator: FmiDefinitions.Integrator? = null
+        private val fmuId: Int
 ) : Closeable {
 
-    private val fmuId: Int
-
-    init {
-        fmuId = if (integrator == null) {
-            blockingStub.createInstanceFromCS(EMPTY).value
-        } else {
-            blockingStub.createInstanceFromME(integrator).value
-        }
-        FmuInstances.add(this)
-    }
-
     private val modelRef = FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
-
 
     val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
         mutableListOf<FmiDefinitions.ScalarVariable>().apply {
@@ -302,7 +297,7 @@ class FmuInstance internal constructor(
 
 //fun main(args: Array<String>) {
 //
-//    GenericFmuClient("localhost", 8000).use {
+//    GrpcFmuClient("localhost", 8000).use {
 //
 //        it.createInstance().use { fmu ->
 //            fmu.init()
