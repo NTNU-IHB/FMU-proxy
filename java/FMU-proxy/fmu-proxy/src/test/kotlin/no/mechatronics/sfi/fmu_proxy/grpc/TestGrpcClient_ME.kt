@@ -3,7 +3,7 @@ package no.mechatronics.sfi.fmu_proxy.grpc
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GenericFmuServiceImpl
+import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 
 import org.junit.*
 import org.slf4j.Logger
@@ -34,7 +34,7 @@ class TestGrpcClient_ME {
 
             val port = ServerSocket(0).use { it.localPort }
 
-            server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
+            server = GrpcFmuServer(GrpcFmuServiceImpl(fmuFile))
             server.start(port)
 
             client =  GrpcFmuClient("127.0.0.1", port)
@@ -63,8 +63,8 @@ class TestGrpcClient_ME {
     @Test
     fun testInstance() {
 
-        val integrator = FmiDefinitions.Integrator.newBuilder()
-                .setEuler(FmiDefinitions.EulerIntegrator.newBuilder().setStepSize(1E-3)).build()
+        val integrator = IntegratorProto.newBuilder()
+                .setEuler(EulerIntegratorProto.newBuilder().setStepSize(1E-3)).build()
 
         client.createInstance(integrator).use { fmu ->
 
@@ -77,8 +77,8 @@ class TestGrpcClient_ME {
 
             val dt = 1.0/100
             for (i in 0 until  10) {
-                val step: FmiDefinitions.Status = fmu.step(dt)
-                Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
+                val step = fmu.step(dt)
+                Assert.assertTrue(step.code == StatusCodeProto.OK_STATUS)
             }
 
         }

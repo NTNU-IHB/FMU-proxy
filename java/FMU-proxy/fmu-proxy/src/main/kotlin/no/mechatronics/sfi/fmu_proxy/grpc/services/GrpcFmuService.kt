@@ -27,24 +27,25 @@ package no.mechatronics.sfi.fmu_proxy.grpc.services
 import io.grpc.BindableService
 import io.grpc.stub.StreamObserver
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions
+import no.mechatronics.sfi.fmu_proxy.grpc.StatusProto
+import no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto
 
 interface GrpcFmuService : BindableService {
 
-    fun convert(status: FmiStatus): FmiDefinitions.StatusCode {
+    fun convert(status: FmiStatus): StatusCodeProto {
         return when (status) {
-            FmiStatus.OK -> FmiDefinitions.StatusCode.OK_STATUS
-            FmiStatus.Warning -> FmiDefinitions.StatusCode.WARNING_STATUS
-            FmiStatus.Discard -> FmiDefinitions.StatusCode.DISCARD_STATUS
-            FmiStatus.Error -> FmiDefinitions.StatusCode.ERROR_STATUS
-            FmiStatus.Fatal -> FmiDefinitions.StatusCode.FATAL_STATUS
-            FmiStatus.Pending -> FmiDefinitions.StatusCode.PENDING_STATUS
-            FmiStatus.NONE -> FmiDefinitions.StatusCode.UNRECOGNIZED
+            FmiStatus.OK -> StatusCodeProto.OK_STATUS
+            FmiStatus.Warning -> StatusCodeProto.WARNING_STATUS
+            FmiStatus.Discard -> StatusCodeProto.DISCARD_STATUS
+            FmiStatus.Error -> StatusCodeProto.ERROR_STATUS
+            FmiStatus.Fatal -> StatusCodeProto.FATAL_STATUS
+            FmiStatus.Pending -> StatusCodeProto.PENDING_STATUS
+            FmiStatus.NONE -> StatusCodeProto.UNRECOGNIZED
         }
     }
 
-    fun statusReply(status: FmiStatus, responseObserver: StreamObserver<FmiDefinitions.Status>) {
-        FmiDefinitions.Status.newBuilder()
+    fun statusReply(status: FmiStatus, responseObserver: StreamObserver<StatusProto>) {
+        StatusProto.newBuilder()
                 .setCode(convert(status))
                 .build().also {
             responseObserver.onNext(it)

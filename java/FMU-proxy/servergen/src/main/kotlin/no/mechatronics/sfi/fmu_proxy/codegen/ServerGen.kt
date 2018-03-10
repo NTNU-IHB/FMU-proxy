@@ -67,7 +67,6 @@ object ServerGen {
                                 .with("valueReference", it.valueReference)
                                 .with("varName", convertName2(it.name))
                                 .with("typeName", it.typeName)
-                                .with("protoFile", modelDescription.modelName + "Proto")
                                 .with("dataType", getProtoType(it.typeName)))!!
                     })
 

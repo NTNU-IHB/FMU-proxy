@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmu_proxy.grpc
 
+import com.google.protobuf.Empty
 import java.io.Closeable
 
 import io.grpc.ManagedChannel
@@ -33,7 +34,7 @@ import io.grpc.ManagedChannelBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-private val EMPTY = FmiDefinitions.Empty.getDefaultInstance()
+private val EMPTY = Empty.getDefaultInstance()
 
 /**
  * @author Lars Ivar Hatledal
@@ -59,23 +60,23 @@ class GrpcFmuClient(
             .directExecutor()
             .build()
 
-    private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub
-            = GenericFmuServiceGrpc.newBlockingStub(channel)
+    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
+            = FmuServiceGrpc.newBlockingStub(channel)
 
     val guid: String by lazy {
-        blockingStub.getGuid(FmiDefinitions.Empty.getDefaultInstance()).value
+        blockingStub.getGuid(EMPTY).value
     }
 
     val modelName: String by lazy {
-        blockingStub.getModelName(FmiDefinitions.Empty.getDefaultInstance()).value
+        blockingStub.getModelName(EMPTY).value
     }
 
-    val modelStructure: FmiDefinitions.ModelStructure by lazy {
+    val modelStructure: ModelStructureProto by lazy {
         blockingStub.getModelStructure(EMPTY)
     }
 
     @JvmOverloads
-    fun createInstance(integrator: FmiDefinitions.Integrator? = null): FmuInstance {
+    fun createInstance(integrator: IntegratorProto? = null): FmuInstance {
 
         val fmuId = if (integrator == null) {
             blockingStub.createInstanceFromCS(EMPTY).value
@@ -103,14 +104,14 @@ class GrpcFmuClient(
 }
 
 class FmuInstance internal constructor(
-        private val blockingStub: GenericFmuServiceGrpc.GenericFmuServiceBlockingStub,
+        private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub,
         private val fmuId: Int
 ) : Closeable {
 
-    private val modelRef = FmiDefinitions.UInt.newBuilder().setValue(fmuId).build()
+    private val modelRef = UIntProto.newBuilder().setValue(fmuId).build()
 
-    val modelVariables: List<FmiDefinitions.ScalarVariable> by lazy {
-        mutableListOf<FmiDefinitions.ScalarVariable>().apply {
+    val modelVariables: List<ScalarVariableProto> by lazy {
+        mutableListOf<ScalarVariableProto>().apply {
             blockingStub.getModelVariables(EMPTY).forEach {add(it)}
         }
     }
@@ -118,18 +119,18 @@ class FmuInstance internal constructor(
     val currentTime: Double
         get() = blockingStub.getCurrentTime(modelRef).value
 
-    fun init(): Boolean = blockingStub.init(FmiDefinitions.InitRequest.newBuilder()
+    fun init(): Boolean = blockingStub.init(InitRequestProto.newBuilder()
             .setFmuId(fmuId)
             .build()).value
 
-    fun step(stepSize: Double): FmiDefinitions.Status = blockingStub.step(FmiDefinitions.StepRequest.newBuilder()
+    fun step(stepSize: Double): StatusProto = blockingStub.step(StepRequestProto.newBuilder()
             .setFmuId(fmuId)
             .setStepSize(stepSize)
             .build())
 
     fun terminate() {
         try {
-            blockingStub.terminate(FmiDefinitions.UInt.newBuilder()
+            blockingStub.terminate(UIntProto.newBuilder()
                     .setValue(fmuId)
                     .build())
         } finally {
@@ -157,29 +158,29 @@ class FmuInstance internal constructor(
 
         constructor(variableName: String): this(getValueReference(variableName))
 
-        fun asInt(): FmiDefinitions.IntRead {
-            return blockingStub.readInteger(FmiDefinitions.ReadRequest.newBuilder()
+        fun asInt(): IntReadProto {
+            return blockingStub.readInteger(ReadRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .build())
         }
 
-        fun asReal(): FmiDefinitions.RealRead {
-            return blockingStub.readReal(FmiDefinitions.ReadRequest.newBuilder()
+        fun asReal(): RealReadProto {
+            return blockingStub.readReal(ReadRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .build())
         }
 
-        fun asString(): FmiDefinitions.StrRead {
-            return blockingStub.readString(FmiDefinitions.ReadRequest.newBuilder()
+        fun asString(): StrReadProto {
+            return blockingStub.readString(ReadRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .build())
         }
 
-        fun asBoolean(): FmiDefinitions.BoolRead {
-            return blockingStub.readBoolean(FmiDefinitions.ReadRequest.newBuilder()
+        fun asBoolean(): BoolReadProto {
+            return blockingStub.readBoolean(ReadRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .build())
@@ -195,24 +196,24 @@ class FmuInstance internal constructor(
 
 
         fun readInt(): List<Int> {
-            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
             valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
             return blockingStub.bulkReadInteger(builder.build()).valuesList
         }
 
         fun readReal(): List<Double> {
-            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
             valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
             return blockingStub.bulkReadReal(builder.build()).valuesList
         }
         fun readString(): List<String> {
-            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
             valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
             return blockingStub.bulkReadString(builder.build()).valuesList
         }
 
         fun readBoolean(): List<Boolean> {
-            val builder = FmiDefinitions.BulkReadRequest.newBuilder().setFmuId(fmuId)
+            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
             valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
             return blockingStub.bulkReadBoolean(builder.build()).valuesList
         }
@@ -223,32 +224,32 @@ class FmuInstance internal constructor(
             private val valueReference: Int
     ) {
 
-        fun with(value: Int): FmiDefinitions.Status {
-            return blockingStub.writeInteger(FmiDefinitions.WriteIntegerRequest.newBuilder()
+        fun with(value: Int): StatusProto {
+            return blockingStub.writeInteger(WriteIntegerRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .setValue(value)
                     .build())
         }
 
-        fun with(value: Double): FmiDefinitions.Status {
-            return blockingStub.writeReal(FmiDefinitions.WriteRealRequest.newBuilder()
+        fun with(value: Double): StatusProto {
+            return blockingStub.writeReal(WriteRealRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .setValue(value)
                     .build())
         }
 
-        fun with(value: String): FmiDefinitions.Status {
-            return blockingStub.writeString(FmiDefinitions.WriteStringRequest.newBuilder()
+        fun with(value: String): StatusProto {
+            return blockingStub.writeString(WriteStringRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .setValue(value)
                     .build())
         }
 
-        fun with(value: Boolean): FmiDefinitions.Status {
-            return blockingStub.writeBoolean(FmiDefinitions.WriteBooleanRequest.newBuilder()
+        fun with(value: Boolean): StatusProto {
+            return blockingStub.writeBoolean(WriteBooleanRequestProto.newBuilder()
                     .setFmuId(fmuId)
                     .setValueReference(valueReference)
                     .setValue(value)
@@ -262,29 +263,29 @@ class FmuInstance internal constructor(
     ) {
         constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
 
-        fun with(values: IntArray):FmiDefinitions.Status {
-            val builder = FmiDefinitions.BulkWriteIntegerRequest.newBuilder().setFmuId(fmuId)
+        fun with(values: IntArray):StatusProto {
+            val builder = BulkWriteIntegerRequestProto.newBuilder().setFmuId(fmuId)
             values.forEachIndexed{i,v -> builder.setValues(i, v)}
             valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
             return blockingStub.bulkWriteInteger(builder.build())
         }
 
-        fun with(values: DoubleArray):FmiDefinitions.Status {
-            val builder = FmiDefinitions.BulkWriteRealRequest.newBuilder().setFmuId(fmuId)
+        fun with(values: DoubleArray):StatusProto {
+            val builder = BulkWriteRealRequestProto.newBuilder().setFmuId(fmuId)
             values.forEachIndexed{i,v -> builder.setValues(i, v)}
             valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
             return blockingStub.bulkWriteReal(builder.build())
         }
 
-        fun with(values: Array<String>):FmiDefinitions.Status {
-            val builder = FmiDefinitions.BulkWriteStringRequest.newBuilder().setFmuId(fmuId)
+        fun with(values: Array<String>):StatusProto {
+            val builder = BulkWriteStringRequestProto.newBuilder().setFmuId(fmuId)
             values.forEachIndexed{i,v -> builder.setValues(i, v)}
             valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
             return blockingStub.bulkWriteString(builder.build())
         }
 
-        fun with(values: BooleanArray):FmiDefinitions.Status {
-            val builder = FmiDefinitions.BulkWriteBooleanRequest.newBuilder().setFmuId(fmuId)
+        fun with(values: BooleanArray):StatusProto {
+            val builder = BulkWriteBooleanRequestProto.newBuilder().setFmuId(fmuId)
             values.forEachIndexed{i,v -> builder.setValues(i, v)}
             valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
             return blockingStub.bulkWriteBoolean(builder.build())

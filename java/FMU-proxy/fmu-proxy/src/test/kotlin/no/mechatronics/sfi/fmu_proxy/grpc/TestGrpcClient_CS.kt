@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmu_proxy.grpc
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GenericFmuServiceImpl
+import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 import org.junit.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -59,7 +59,7 @@ class TestGrpcClient_CS {
 
             val port = ServerSocket(0).use { it.localPort }
 
-            server = GrpcFmuServer(GenericFmuServiceImpl(fmuFile))
+            server = GrpcFmuServer(GrpcFmuServiceImpl(fmuFile))
             server.start(port)
 
             client = GrpcFmuClient("localhost", port)
@@ -105,8 +105,8 @@ class TestGrpcClient_CS {
             var start = Instant.now()
             val dt = 1.0/100
             while (fmu.currentTime < 10) {
-                val step: FmiDefinitions.Status = fmu.step(dt)
-                Assert.assertTrue(step.code == FmiDefinitions.StatusCode.OK_STATUS)
+                val step = fmu.step(dt)
+                Assert.assertTrue(step.code == StatusCodeProto.OK_STATUS)
             }
             val end = Instant.now()
             LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")

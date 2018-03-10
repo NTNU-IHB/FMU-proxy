@@ -50,9 +50,9 @@ object ProtoGen {
                 if (!isArray) {
 
                     append("""
-    rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it.typeName)}Read);
+    rpc Read_${convertName(it.name)} (UIntProto) returns (${getProtoType(it.typeName)}ReadProto);
 
-    rpc Write_${convertName(it.name)} (${getProtoType(it.typeName)}Write) returns (Status);
+    rpc Write_${convertName(it.name)} (${getProtoType(it.typeName)}WriteProto) returns (StatusProto);
                     """)
 
                 }

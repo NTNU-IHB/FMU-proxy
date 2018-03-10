@@ -25,45 +25,43 @@
 package no.mechatronics.sfi.fmu_proxy.grpc.services
 
 
+import com.google.protobuf.Empty
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import no.mechatronics.sfi.fmu_proxy.grpc.FmiDefinitions
-import no.mechatronics.sfi.fmu_proxy.grpc.GenericFmuServiceGrpc
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
-import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 
 import io.grpc.stub.StreamObserver
+import no.mechatronics.sfi.fmu_proxy.grpc.*
 import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.apache.commons.math3.ode.nonstiff.*
+import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import java.util.concurrent.atomic.AtomicInteger
-
-class GenericFmuServiceImpl(
+class GrpcFmuServiceImpl(
         private val fmuFile: FmuFile
-): GenericFmuServiceGrpc.GenericFmuServiceImplBase(), GrpcFmuService {
+): FmuServiceGrpc.FmuServiceImplBase(), GrpcFmuService {
 
     private val modelDescription: SimpleModelDescription
             = fmuFile.modelDescription
 
-    override fun createInstanceFromCS(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
+    override fun createInstanceFromCS(req: Empty, responseObserver: StreamObserver<UIntProto>) {
 
         val id = Fmus.put(fmuFile.asCoSimulationFmu().newInstance())
 
-        FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
+        UIntProto.newBuilder().setValue(id).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
 
     }
 
-    override fun createInstanceFromME(req: FmiDefinitions.Integrator, responseObserver: StreamObserver<FmiDefinitions.UInt>) {
+    override fun createInstanceFromME(req: IntegratorProto, responseObserver: StreamObserver<UIntProto>) {
 
         fun selectDefaultIntegrator(): FirstOrderIntegrator {
             val stepSize = fmuFile.modelDescription.defaultExperiment?.stepSize ?: 1E-3
@@ -72,76 +70,73 @@ class GenericFmuServiceImpl(
         }
 
         val integrator = when (req.integratorsCase) {
-
-            FmiDefinitions.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
-            FmiDefinitions.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
-            FmiDefinitions.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
-            FmiDefinitions.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
-            FmiDefinitions.Integrator.IntegratorsCase.ADAMS_BASHFORTH -> req.adamsBashforth.let { AdamsBashforthIntegrator(it.nSteps, it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
-            FmiDefinitions.Integrator.IntegratorsCase.DORMAND_PRINCE54 -> req.dormandPrince54.let { DormandPrince54Integrator(it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
-            FmiDefinitions.Integrator.IntegratorsCase.INTEGRATORS_NOT_SET -> selectDefaultIntegrator()
+            IntegratorProto.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
+            IntegratorProto.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
+            IntegratorProto.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
+            IntegratorProto.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
+            IntegratorProto.IntegratorsCase.ADAMS_BASHFORTH -> req.adamsBashforth.let { AdamsBashforthIntegrator(it.nSteps, it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
+            IntegratorProto.IntegratorsCase.DORMAND_PRINCE54 -> req.dormandPrince54.let { DormandPrince54Integrator(it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
+            IntegratorProto.IntegratorsCase.INTEGRATORS_NOT_SET -> selectDefaultIntegrator()
             null -> selectDefaultIntegrator()
         }
 
-        val id = Fmus.put(fmuFile.asModelExchangeFmu().newInstance(integrator))
+        Fmus.put(fmuFile.asModelExchangeFmu().newInstance(integrator)).also { id ->
+            UIntProto.newBuilder().setValue(id).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
+        }
+        
+    }
 
-        FmiDefinitions.UInt.newBuilder().setValue(id).build().also {
+    override fun getGuid(request: Empty, responseObserver: StreamObserver<StrProto>) {
+
+        StrProto.newBuilder().setValue(modelDescription.guid).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
 
     }
 
-    override fun getGuid(request: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.Str>) {
-
-        FmiDefinitions.Str.newBuilder().setValue(modelDescription.guid).build().also {
-            responseObserver.onNext(it)
-            responseObserver.onCompleted()
-        }
-
-    }
-
-    override fun getModelName(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.Str>) {
+    override fun getModelName(req: Empty, responseObserver: StreamObserver<StrProto>) {
 
         val modelName = modelDescription.modelName
-        FmiDefinitions.Str.newBuilder().setValue(modelName).build().also {
+        StrProto.newBuilder().setValue(modelName).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
 
     }
 
-    override fun getModelDescriptionXml(request: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.Str>) {
+    override fun getModelDescriptionXml(request: Empty, responseObserver: StreamObserver<StrProto>) {
 
         val xml = fmuFile.modelDescriptionXml
-        FmiDefinitions.Str.newBuilder().setValue(xml).build().also {
+        StrProto.newBuilder().setValue(xml).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
 
     }
-    
-    override fun getCurrentTime(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Real>) {
+
+    override fun getCurrentTime(req: UIntProto, responseObserver: StreamObserver<RealProto>) {
 
         Fmus.get(req.value)?.apply {
-            responseObserver.onNext(FmiDefinitions.Real.newBuilder().setValue(currentTime).build())
+            responseObserver.onNext(RealProto.newBuilder().setValue(currentTime).build())
         }
-
         responseObserver.onCompleted()
 
     }
 
-    override fun isTerminated(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
+    override fun isTerminated(req: UIntProto, responseObserver: StreamObserver<BoolProto>) {
 
         Fmus.get(req.value)?.apply {
-            responseObserver.onNext(FmiDefinitions.Bool.newBuilder().setValue(isTerminated).build())
+            responseObserver.onNext(BoolProto.newBuilder().setValue(isTerminated).build())
         }
-
         responseObserver.onCompleted()
 
     }
 
-    override fun getModelVariables(req: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.ScalarVariable>) {
+    override fun getModelVariables(req: Empty, responseObserver: StreamObserver<ScalarVariableProto>) {
 
         for (variable in modelDescription.modelVariables) {
             responseObserver.onNext(variable.protoType())
@@ -150,10 +145,10 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun getModelStructure(request: FmiDefinitions.Empty, responseObserver: StreamObserver<FmiDefinitions.ModelStructure>) {
+    override fun getModelStructure(request: Empty, responseObserver: StreamObserver<ModelStructureProto>) {
 
         val modelStructure = modelDescription.modelStructure.let {
-            FmiDefinitions.ModelStructure.newBuilder().apply {
+            ModelStructureProto.newBuilder().apply {
                 addAllOutputs(it.outputs)
                 addAllDerivatives(it.derivatives.map { it.protoType() })
                 addAllInitialUnknowns(it.initialUnknowns.map { it.protoType() })
@@ -165,12 +160,12 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun readInteger(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntRead>) {
+    override fun readInteger(req: ReadRequestProto, responseObserver: StreamObserver<IntReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
         val valueReference = req.valueReference
             val read = variableAccessor.readInteger(valueReference)
-            responseObserver.onNext(FmiDefinitions.IntRead.newBuilder()
+            responseObserver.onNext(IntReadProto.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
@@ -180,10 +175,10 @@ class GenericFmuServiceImpl(
     }
 
 
-    override fun bulkReadInteger(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.IntListRead>) {
+    override fun bulkReadInteger(req: BulkReadRequestProto, responseObserver: StreamObserver<IntListReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
-        val builder = FmiDefinitions.IntListRead.newBuilder()
+        val builder = IntListReadProto.newBuilder()
             val read = variableAccessor.readInteger(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
@@ -195,12 +190,12 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun readReal(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealRead>) {
+    override fun readReal(req: ReadRequestProto, responseObserver: StreamObserver<RealReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
         val valueReference = req.valueReference
             val read = variableAccessor.readReal(valueReference)
-            responseObserver.onNext(FmiDefinitions.RealRead.newBuilder()
+            responseObserver.onNext(RealReadProto.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
@@ -210,10 +205,10 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkReadReal(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.RealListRead>) {
+    override fun bulkReadReal(req: BulkReadRequestProto, responseObserver: StreamObserver<RealListReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
-        val builder = FmiDefinitions.RealListRead.newBuilder()
+        val builder = RealListReadProto.newBuilder()
             val read = variableAccessor.readReal(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
@@ -221,16 +216,15 @@ class GenericFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
         }
-
         responseObserver.onCompleted()
 
     }
 
-    override fun readString(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrRead>) {
+    override fun readString(req: ReadRequestProto, responseObserver: StreamObserver<StrReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val read = variableAccessor.readString(req.valueReference)
-            responseObserver.onNext(FmiDefinitions.StrRead.newBuilder()
+            responseObserver.onNext(StrReadProto.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
@@ -240,10 +234,10 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkReadString(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.StrListRead>) {
+    override fun bulkReadString(req: BulkReadRequestProto, responseObserver: StreamObserver<StrListReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
-            val builder = FmiDefinitions.StrListRead.newBuilder()
+            val builder = StrListReadProto.newBuilder()
             val read = variableAccessor.readString(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
@@ -251,16 +245,15 @@ class GenericFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
         }
-
         responseObserver.onCompleted()
 
     }
 
-    override fun readBoolean(req: FmiDefinitions.ReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolRead>) {
+    override fun readBoolean(req: ReadRequestProto, responseObserver: StreamObserver<BoolReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val read = variableAccessor.readBoolean(req.valueReference)
-            responseObserver.onNext(FmiDefinitions.BoolRead.newBuilder()
+            responseObserver.onNext(BoolReadProto.newBuilder()
                     .setValue(read.value)
                     .setStatus(convert(read.status))
                     .build())
@@ -270,10 +263,10 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkReadBoolean(req: FmiDefinitions.BulkReadRequest, responseObserver: StreamObserver<FmiDefinitions.BoolListRead>) {
+    override fun bulkReadBoolean(req: BulkReadRequestProto, responseObserver: StreamObserver<BoolListReadProto>) {
 
         Fmus.get(req.fmuId)?.apply {
-            val builder = FmiDefinitions.BoolListRead.newBuilder()
+            val builder = BoolListReadProto.newBuilder()
             val read = variableAccessor.readBoolean(req.valueReferencesList.toIntArray())
             builder.status = convert(read.status)
             for (value in read.value) {
@@ -281,12 +274,11 @@ class GenericFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
         }
-
         responseObserver.onCompleted()
 
     }
 
-    override fun writeInteger(req: FmiDefinitions.WriteIntegerRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun writeInteger(req: WriteIntegerRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeInteger(req.valueReference, req.value)
@@ -295,7 +287,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkWriteInteger(req: FmiDefinitions.BulkWriteIntegerRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun bulkWriteInteger(req: BulkWriteIntegerRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeInteger(req.valueReferencesList.toIntArray(), req.valuesList.toIntArray())
@@ -304,7 +296,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun writeReal(req: FmiDefinitions.WriteRealRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun writeReal(req: WriteRealRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeReal(req.valueReference, req.value)
@@ -314,7 +306,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkWriteReal(req: FmiDefinitions.BulkWriteRealRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun bulkWriteReal(req: BulkWriteRealRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeReal(req.valueReferencesList.toIntArray(), req.valuesList.toDoubleArray())
@@ -323,7 +315,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun writeString(req: FmiDefinitions.WriteStringRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun writeString(req: WriteStringRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeString(req.valueReference, req.value)
@@ -333,7 +325,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkWriteString(req: FmiDefinitions.BulkWriteStringRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun bulkWriteString(req: BulkWriteStringRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeString(req.valueReferencesList.toIntArray(), req.valuesList.toTypedArray())
@@ -342,7 +334,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun writeBoolean(req: FmiDefinitions.WriteBooleanRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun writeBoolean(req: WriteBooleanRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeBoolean(req.valueReference, req.value)
@@ -352,7 +344,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun bulkWriteBoolean(req: FmiDefinitions.BulkWriteBooleanRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun bulkWriteBoolean(req: BulkWriteBooleanRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             val status = variableAccessor.writeBoolean(req.valueReferencesList.toIntArray(), req.valuesList.toBooleanArray())
@@ -361,7 +353,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun init(req: FmiDefinitions.InitRequest, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
+    override fun init(req: InitRequestProto, responseObserver: StreamObserver<BoolProto>) {
 
         var init = false
         Fmus.get(req.fmuId)?.apply {
@@ -378,14 +370,14 @@ class GenericFmuServiceImpl(
             }
         }
 
-        FmiDefinitions.Bool.newBuilder().setValue(init).build().also {
+        BoolProto.newBuilder().setValue(init).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
 
     }
 
-    override fun step(req: FmiDefinitions.StepRequest, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun step(req: StepRequestProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.fmuId)?.apply {
             doStep(req.stepSize)
@@ -394,7 +386,7 @@ class GenericFmuServiceImpl(
 
     }
 
-    override fun terminate(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Bool>) {
+    override fun terminate(req: UIntProto, responseObserver: StreamObserver<BoolProto>) {
 
         var success = false
         val fmuId = req.value
@@ -402,14 +394,14 @@ class GenericFmuServiceImpl(
             success = terminate()
             LOG.debug("Terminated fmu with success: $success")
         }
-        FmiDefinitions.Bool.newBuilder().setValue(success).build().also {
+        BoolProto.newBuilder().setValue(success).build().also {
             responseObserver.onNext(it)
             responseObserver.onCompleted()
         }
 
     }
 
-    override fun reset(req: FmiDefinitions.UInt, responseObserver: StreamObserver<FmiDefinitions.Status>) {
+    override fun reset(req: UIntProto, responseObserver: StreamObserver<StatusProto>) {
 
         Fmus.get(req.value)?.apply {
             reset()
@@ -425,100 +417,98 @@ class GenericFmuServiceImpl(
 
 }
 
-private fun getCausality(variable: TypedScalarVariable<*>): FmiDefinitions.Causality {
+private fun TypedScalarVariable<*>.getCausalityProto(): CausalityProto {
 
-    return when (variable.causality) {
-        Causality.INPUT -> FmiDefinitions.Causality.INPUT_CAUSALITY
-        Causality.OUTPUT -> FmiDefinitions.Causality.OUTPUT_CAUSALITY
-        Causality.CALCULATED_PARAMETER -> FmiDefinitions.Causality.CALCULATED_PARAMETER_CAUSALITY
-        Causality.PARAMETER -> FmiDefinitions.Causality.PARAMETER_CAUSALITY
-        Causality.LOCAL -> FmiDefinitions.Causality.LOCAL_CAUSALITY
-        Causality.INDEPENDENT -> FmiDefinitions.Causality.INDEPENDENT_CAUSALITY
-        else -> FmiDefinitions.Causality.UNDEFINED_CAUSALITY
+    return when (causality) {
+        Causality.INPUT -> CausalityProto.INPUT_CAUSALITY
+        Causality.OUTPUT -> CausalityProto.OUTPUT_CAUSALITY
+        Causality.CALCULATED_PARAMETER -> CausalityProto.CALCULATED_PARAMETER_CAUSALITY
+        Causality.PARAMETER -> CausalityProto.PARAMETER_CAUSALITY
+        Causality.LOCAL -> CausalityProto.LOCAL_CAUSALITY
+        Causality.INDEPENDENT -> CausalityProto.INDEPENDENT_CAUSALITY
+        else -> CausalityProto.UNDEFINED_CAUSALITY
     }
 
 }
 
-private fun getVariability(variable: TypedScalarVariable<*>): FmiDefinitions.Variability {
+private fun TypedScalarVariable<*>.getVariabilityProto(): VariabilityProto {
 
-    return when (variable.variability) {
-        Variability.CONSTANT -> FmiDefinitions.Variability.CONSTANT_VARIABILITY
-        Variability.CONTINUOUS -> FmiDefinitions.Variability.CONTINUOUS_VARIABILITY
-        Variability.DISCRETE -> FmiDefinitions.Variability.DISCRETE_VARIABILITY
-        Variability.FIXED -> FmiDefinitions.Variability.FIXED_VARIABILITY
-        Variability.TUNABLE -> FmiDefinitions.Variability.TUNABLE_VARIABILITY
-        else -> FmiDefinitions.Variability.UNDEFINED_VARIABILITY
+    return when (variability) {
+        Variability.CONSTANT -> VariabilityProto.CONSTANT_VARIABILITY
+        Variability.CONTINUOUS -> VariabilityProto.CONTINUOUS_VARIABILITY
+        Variability.DISCRETE -> VariabilityProto.DISCRETE_VARIABILITY
+        Variability.FIXED -> VariabilityProto.FIXED_VARIABILITY
+        Variability.TUNABLE -> VariabilityProto.TUNABLE_VARIABILITY
+        else -> VariabilityProto.UNDEFINED_VARIABILITY
     }
 
 }
 
-private fun getInitial(variable: TypedScalarVariable<*>): FmiDefinitions.Initial {
+private fun TypedScalarVariable<*>.getInitialProto(): InitialProto {
 
-    return when (variable.initial) {
-        Initial.CALCULATED -> FmiDefinitions.Initial.CALCULATED_INITIAL
-        Initial.EXACT -> FmiDefinitions.Initial.EXACT_INITIAL
-        Initial.APPROX -> FmiDefinitions.Initial.APPROX_INITIAL
-        else -> FmiDefinitions.Initial.UNDEFINED_INITIAL
+    return when (initial) {
+        Initial.CALCULATED -> InitialProto.CALCULATED_INITIAL
+        Initial.EXACT -> InitialProto.EXACT_INITIAL
+        Initial.APPROX -> InitialProto.APPROX_INITIAL
+        else -> InitialProto.UNDEFINED_INITIAL
     }
 
 }
 
-private fun getStart(variable: TypedScalarVariable<*>): FmiDefinitions.AnyPrimitive {
-
-    return if (variable.start != null) {
-         FmiDefinitions.AnyPrimitive.newBuilder().apply {
-            when (variable) {
-                is IntegerVariable -> intValue = variable.start!!
-                is RealVariable -> realValue = variable.start!!
-                is StringVariable -> strValue = variable.start
-                is BooleanVariable -> boolValue = variable.start!!
-                is EnumerationVariable -> enumValue = variable.start!!
-                else -> throw UnsupportedOperationException("Variable type not supported: " + variable.javaClass.simpleName)
+private fun TypedScalarVariable<*>.getStartProto(): AnyPrimitiveProto {
+    return if (start != null) {
+        AnyPrimitiveProto.newBuilder().also { builder ->
+            when (this) {
+                is IntegerVariable -> builder.intValue = start!!
+                is RealVariable -> builder.realValue = start!!
+                is StringVariable -> builder.strValue = start
+                is BooleanVariable -> builder.boolValue = start!!
+                is EnumerationVariable -> builder.enumValue = start!!
+                else -> throw UnsupportedOperationException("Variable type not supported: ${this::class.java.simpleName}")
             }
         }.build()
-        
+
     } else {
-         FmiDefinitions.AnyPrimitive.getDefaultInstance()
+        AnyPrimitiveProto.getDefaultInstance()
     }
-    
 }
 
-private fun TypedScalarVariable<*>.getType(): FmiDefinitions.VariableType {
+private fun TypedScalarVariable<*>.getVariableTypeProto(): VariableTypeProto {
     return when(this) {
-        is IntegerVariable -> FmiDefinitions.VariableType.INTEGER_VARIABLE
-        is RealVariable -> FmiDefinitions.VariableType.REAL_VARIABLE
-        is StringVariable -> FmiDefinitions.VariableType.STRING_VARIABLE
-        is BooleanVariable -> FmiDefinitions.VariableType.BOOLEAN_VARIABLE
-        is EnumerationVariable -> FmiDefinitions.VariableType.ENUMERATION_VARIABLE
-        else -> throw UnsupportedOperationException("Variable type not supported: " + typeName)
+        is IntegerVariable -> VariableTypeProto.INTEGER_VARIABLE
+        is RealVariable -> VariableTypeProto.REAL_VARIABLE
+        is StringVariable -> VariableTypeProto.STRING_VARIABLE
+        is BooleanVariable -> VariableTypeProto.BOOLEAN_VARIABLE
+        is EnumerationVariable -> VariableTypeProto.ENUMERATION_VARIABLE
+        else -> throw UnsupportedOperationException("Variable type not supported: $typeName")
     }
 
 }
 
-private fun TypedScalarVariable<*>.protoType() : FmiDefinitions.ScalarVariable {
-    return FmiDefinitions.ScalarVariable.newBuilder()
+private fun TypedScalarVariable<*>.protoType() : ScalarVariableProto {
+    return ScalarVariableProto.newBuilder()
             .setValueReference(valueReference)
             .setName(name)
             .setDescription(description)
-            .setVariableType(getType())
-            .setCausality(getCausality(this))
-            .setVariability(getVariability(this))
-            .setStart(getStart(this))
+            .setVariableType(getVariableTypeProto())
+            .setCausality(this.getCausalityProto())
+            .setVariability(this.getVariabilityProto())
+            .setStart(getStartProto())
             .build()
 }
 
-private fun Unknown.protoType() : FmiDefinitions.Unknown {
-    return FmiDefinitions.Unknown.newBuilder().also { builder ->
+private fun Unknown.protoType() : UnknownProto {
+    return UnknownProto.newBuilder().also { builder ->
         builder.index = index
         builder.addAllDependencies(dependencies)
 
         dependenciesKind?.also {
             builder.dependenciesKind = when(dependenciesKind) {
-                DependenciesKind.CONSTANT -> FmiDefinitions.DependenciesKind.CONSTANT_KIND
-                DependenciesKind.DEPENDENT -> FmiDefinitions.DependenciesKind.DEPENDENT_KIND
-                DependenciesKind.DISCRETE -> FmiDefinitions.DependenciesKind.DISCRETE_KIND
-                DependenciesKind.TUNABLE -> FmiDefinitions.DependenciesKind.TUNABLE_KIND
-                else -> FmiDefinitions.DependenciesKind.UNRECOGNIZED
+                DependenciesKind.CONSTANT -> DependenciesKindProto.CONSTANT_KIND
+                DependenciesKind.DEPENDENT -> DependenciesKindProto.DEPENDENT_KIND
+                DependenciesKind.DISCRETE -> DependenciesKindProto.DISCRETE_KIND
+                DependenciesKind.TUNABLE -> DependenciesKindProto.TUNABLE_KIND
+                else -> DependenciesKindProto.UNRECOGNIZED
             }
         }
     }.build()

@@ -31,7 +31,7 @@ import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
 import info.laht.yaj_rpc.net.zmq.RpcZmqServer
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GenericFmuServiceImpl
+import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.fmu_proxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmu_proxy.json_rpc.RpcFmuService
@@ -106,7 +106,7 @@ object FmuProxy {
 
                 try {
                     val grpcPort = cmd.getOptionValue(GRPC_PORT)?.toIntOrNull() ?: availablePort
-                    GrpcFmuServer(listOfNotNull(GenericFmuServiceImpl(fmuFile), instanceService)).apply {
+                    GrpcFmuServer(listOfNotNull(GrpcFmuServiceImpl(fmuFile), instanceService)).apply {
                         start(grpcPort)
                     }.also { servers.add(it) }
 
