@@ -1,1 +1,1 @@
-python -m grpc_tools.protoc --proto_path=../../java/FMU-proxy/fmu-proxy/src/main/proto --python_out=. --grpc_python_out=. ../../java/FMU-proxy/fmu-proxy/src/main/proto/definitions.proto ../../java/FMU-proxy/fmu-proxy/src/main/proto/service.proto
+python -m grpc_tools.protoc --proto_path=../../java/FMU-proxy/gen-proto-src/src/main/proto --python_out=. --grpc_python_out=. ../../java/FMU-proxy/gen-proto-src/src/main/proto/definitions.proto ../../java/FMU-proxy/gen-proto-src/src/main/proto/service.proto

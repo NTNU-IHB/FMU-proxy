@@ -4,5 +4,7 @@ include 'web'
 include 'servergen'
 include 'grpc-client'
 include 'fmu-proxy'
-
+include 'thrift-client'
+include 'gen-proto-src'
+include 'gen-thrift-src'
 
