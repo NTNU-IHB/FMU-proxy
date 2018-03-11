@@ -4,8 +4,8 @@ import client
 
 client = client.FmuClient("localhost", 8000)
 
-modelName = client.get_model_name()
-print("ModelName={}".format(modelName))
+model_name = client.model_description.model_name
+print("ModelName={}".format(model_name))
 
 fmu = client.create_instance()
 

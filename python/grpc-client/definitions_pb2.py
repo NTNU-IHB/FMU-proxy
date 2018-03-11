@@ -20,12 +20,12 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='definitions.proto',
   package='no.mechatronics.sfi.fmu_proxy.grpc',
   syntax='proto3',
-  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\"no.mechatronics.sfi.fmu_proxy.grpc\"\xba\x03\n\x13ScalarVariableProto\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12L\n\rvariable_type\x18\x04 \x01(\x0e\x32\x35.no.mechatronics.sfi.fmu_proxy.grpc.VariableTypeProto\x12\x41\n\x07initial\x18\x05 \x01(\x0e\x32\x30.no.mechatronics.sfi.fmu_proxy.grpc.InitialProto\x12\x45\n\tcausality\x18\x06 \x01(\x0e\x32\x32.no.mechatronics.sfi.fmu_proxy.grpc.CausalityProto\x12I\n\x0bvariability\x18\x07 \x01(\x0e\x32\x34.no.mechatronics.sfi.fmu_proxy.grpc.VariabilityProto\x12\x44\n\x05start\x18\x08 \x01(\x0b\x32\x35.no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto\"a\n\x0bStatusProto\x12\x41\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\x12\x0f\n\x07message\x18\x02 \x01(\t\"\x88\x01\n\x11\x41nyPrimitiveProto\x12\x13\n\tint_value\x18\x01 \x01(\x05H\x00\x12\x14\n\nreal_value\x18\x02 \x01(\x01H\x00\x12\x13\n\tstr_value\x18\x03 \x01(\tH\x00\x12\x14\n\nbool_value\x18\x04 \x01(\x08H\x00\x12\x14\n\nenum_value\x18\x05 \x01(\rH\x00\x42\x07\n\x05value\"?\n\x10InitRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\"5\n\x10StepRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"\x1a\n\tUIntProto\x12\r\n\x05value\x18\x01 \x01(\r\"\x19\n\x08IntProto\x12\r\n\x05value\x18\x01 \x01(\x05\"b\n\x0cIntReadProto\x12\r\n\x05value\x18\x01 \x01(\x05\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x1e\n\x0cIntListProto\x12\x0e\n\x06values\x18\x01 \x03(\x05\"g\n\x10IntListReadProto\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x1a\n\tRealProto\x12\r\n\x05value\x18\x01 \x01(\x01\"c\n\rRealReadProto\x12\r\n\x05value\x18\x01 \x01(\x01\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x1f\n\rRealListProto\x12\x0e\n\x06values\x18\x01 \x03(\x01\"h\n\x11RealListReadProto\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x19\n\x08StrProto\x12\r\n\x05value\x18\x01 \x01(\t\"b\n\x0cStrReadProto\x12\r\n\x05value\x18\x01 \x01(\t\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x1e\n\x0cStrListProto\x12\x0e\n\x06values\x18\x01 \x03(\t\"g\n\x10StrListReadProto\x12\x0e\n\x06values\x18\x01 \x03(\t\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x1a\n\tBoolProto\x12\r\n\x05value\x18\x01 \x01(\x08\"c\n\rBoolReadProto\x12\r\n\x05value\x18\x01 \x01(\x08\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\"\x1f\n\rBoolListProto\x12\x0e\n\x06values\x18\x01 \x03(\x08\"h\n\x11\x42oolListReadProto\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12\x43\n\x06status\x18\x02 \x01(\x0e\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto\";\n\x10ReadRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\"@\n\x14\x42ulkReadRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\"R\n\x18WriteIntegerRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x05\"X\n\x1c\x42ulkWriteIntegerRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x05\"O\n\x15WriteRealRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x01\"U\n\x19\x42ulkWriteRealRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x01\"Q\n\x17WriteStringRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\t\"W\n\x1b\x42ulkWriteStringRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\t\"R\n\x18WriteBooleanRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x08\"X\n\x1c\x42ulkWriteBooleanRequestProto\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x08\"\x89\x01\n\x0cUnknownProto\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12T\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\x0e\x32\x39.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKindProto\"\xb9\x01\n\x13ModelStructureProto\x12\x0f\n\x07outputs\x18\x01 \x03(\r\x12\x45\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x30.no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto\x12J\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x30.no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto\"\x9e\x04\n\x0fIntegratorProto\x12I\n\x05\x65uler\x18\x01 \x01(\x0b\x32\x38.no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegratorProtoH\x00\x12]\n\x0brunge_kutta\x18\x02 \x01(\x0b\x32\x46.no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegratorProtoH\x00\x12P\n\tmid_point\x18\x03 \x01(\x0b\x32;.no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegratorProtoH\x00\x12G\n\x04gill\x18\x04 \x01(\x0b\x32\x37.no.mechatronics.sfi.fmu_proxy.grpc.GillIntegratorProtoH\x00\x12\\\n\x0f\x61\x64\x61ms_bashforth\x18\x05 \x01(\x0b\x32\x41.no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProtoH\x00\x12Y\n\x10\x64ormand_prince54\x18\x06 \x01(\x0b\x32=.no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54IntegratorH\x00\x42\r\n\x0bintegrators\")\n\x14\x45ulerIntegratorProto\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"7\n\"ClassicalRungeKuttaIntegratorProto\x12\x11\n\tstep_size\x18\x01 \x01(\x01\",\n\x17MidpointIntegratorProto\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"(\n\x13GillIntegratorProto\x12\x11\n\tstep_size\x18\x01 \x01(\x01\"\x96\x01\n\x1d\x41\x64\x61msBashforthIntegratorProto\x12\x0f\n\x07n_steps\x18\x01 \x01(\r\x12\x10\n\x08min_Step\x18\x02 \x01(\x01\x12\x10\n\x08max_step\x18\x03 \x01(\x01\x12\x1f\n\x17scal_absolute_tolerance\x18\x04 \x01(\x01\x12\x1f\n\x17scal_relative_tolerance\x18\x05 \x01(\x01\"\x81\x01\n\x19\x44ormandPrince54Integrator\x12\x10\n\x08min_Step\x18\x01 \x01(\x01\x12\x10\n\x08max_step\x18\x02 \x01(\x01\x12\x1f\n\x17scal_absolute_tolerance\x18\x03 \x01(\x01\x12\x1f\n\x17scal_relative_tolerance\x18\x04 \x01(\x01*\xc1\x01\n\x0e\x43\x61usalityProto\x12\x17\n\x13UNDEFINED_CAUSALITY\x10\x00\x12\x13\n\x0fINPUT_CAUSALITY\x10\x01\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x02\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x03\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x04\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x05\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x06*\xad\x01\n\x10VariabilityProto\x12\x19\n\x15UNDEFINED_VARIABILITY\x10\x00\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x01\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x02\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x03\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x04\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x05*d\n\x0cInitialProto\x12\x15\n\x11UNDEFINED_INITIAL\x10\x00\x12\x11\n\rEXACT_INITIAL\x10\x01\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x02\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x03*\x81\x01\n\x11VariableTypeProto\x12\x14\n\x10INTEGER_VARIABLE\x10\x00\x12\x11\n\rREAL_VARIABLE\x10\x01\x12\x13\n\x0fSTRING_VARIABLE\x10\x02\x12\x14\n\x10\x42OOLEAN_VARIABLE\x10\x03\x12\x18\n\x14\x45NUMERATION_VARIABLE\x10\x04*\x80\x01\n\x0fStatusCodeProto\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05*c\n\x15\x44\x65pendenciesKindProto\x12\x12\n\x0e\x44\x45PENDENT_KIND\x10\x00\x12\x11\n\rCONSTANT_KIND\x10\x01\x12\x10\n\x0cTUNABLE_KIND\x10\x02\x12\x11\n\rDISCRETE_KIND\x10\x04\x42\x02P\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\"no.mechatronics.sfi.fmu_proxy.grpc\"\x8a\x04\n\x10ModelDescription\x12\x12\n\nfmiVersion\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12Q\n\x12\x64\x65\x66\x61ult_experiment\x18\n \x01(\x0b\x32\x35.no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment\x12`\n\x1avariable_naming_convention\x18\x0b \x01(\x0e\x32<.no.mechatronics.sfi.fmu_proxy.grpc.VariableNamingConvention\x12K\n\x0fmodel_variables\x18\x0c \x03(\x0b\x32\x32.no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable\x12K\n\x0fmodel_structure\x18\r \x01(\x0b\x32\x32.no.mechatronics.sfi.fmu_proxy.grpc.ModelStructure\"\x9c\x03\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12G\n\rvariable_type\x18\x04 \x01(\x0e\x32\x30.no.mechatronics.sfi.fmu_proxy.grpc.VariableType\x12<\n\x07initial\x18\x05 \x01(\x0e\x32+.no.mechatronics.sfi.fmu_proxy.grpc.Initial\x12@\n\tcausality\x18\x06 \x01(\x0e\x32-.no.mechatronics.sfi.fmu_proxy.grpc.Causality\x12\x44\n\x0bvariability\x18\x07 \x01(\x0e\x32/.no.mechatronics.sfi.fmu_proxy.grpc.Variability\x12?\n\x05start\x18\x08 \x01(\x0b\x32\x30.no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive\"\x83\x01\n\x0c\x41nyPrimitive\x12\x13\n\tint_value\x18\x01 \x01(\x05H\x00\x12\x14\n\nreal_value\x18\x02 \x01(\x01H\x00\x12\x13\n\tstr_value\x18\x03 \x01(\tH\x00\x12\x14\n\nbool_value\x18\x04 \x01(\x08H\x00\x12\x14\n\nenum_value\x18\x05 \x01(\rH\x00\x42\x07\n\x05value\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"\x7f\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12O\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\x0e\x32\x34.no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind\"\xaa\x01\n\x0eModelStructure\x12\x0f\n\x07outputs\x18\x01 \x03(\r\x12@\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32+.no.mechatronics.sfi.fmu_proxy.grpc.Unknown\x12\x45\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32+.no.mechatronics.sfi.fmu_proxy.grpc.Unknown\"W\n\x06Status\x12<\n\x04\x63ode\x18\x01 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\x12\x0f\n\x07message\x18\x02 \x01(\t\":\n\x0bInitRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\"0\n\x0bStepRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"\x15\n\x04UInt\x12\r\n\x05value\x18\x01 \x01(\r\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"X\n\x07IntRead\x12\r\n\x05value\x18\x01 \x01(\x05\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x19\n\x07IntList\x12\x0e\n\x06values\x18\x01 \x03(\x05\"]\n\x0bIntListRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x15\n\x04Real\x12\r\n\x05value\x18\x01 \x01(\x01\"Y\n\x08RealRead\x12\r\n\x05value\x18\x01 \x01(\x01\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x1a\n\x08RealList\x12\x0e\n\x06values\x18\x01 \x03(\x01\"^\n\x0cRealListRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x14\n\x03Str\x12\r\n\x05value\x18\x01 \x01(\t\"X\n\x07StrRead\x12\r\n\x05value\x18\x01 \x01(\t\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x19\n\x07StrList\x12\x0e\n\x06values\x18\x01 \x03(\t\"]\n\x0bStrListRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\"Y\n\x08\x42oolRead\x12\r\n\x05value\x18\x01 \x01(\x08\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"\x1a\n\x08\x42oolList\x12\x0e\n\x06values\x18\x01 \x03(\x08\"^\n\x0c\x42oolListRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12>\n\x06status\x18\x02 \x01(\x0e\x32..no.mechatronics.sfi.fmu_proxy.grpc.StatusCode\"6\n\x0bReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\";\n\x0f\x42ulkReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\"I\n\x0fWriteIntRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x05\"O\n\x13\x42ulkWriteIntRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x05\"J\n\x10WriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x01\"P\n\x14\x42ulkWriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x01\"I\n\x0fWriteStrRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\t\"O\n\x13\x42ulkWriteStrRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\t\"J\n\x10WriteBoolRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x08\"P\n\x14\x42ulkWriteBoolRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x08\"1\n\x10InstanceIntWrite\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05value\x18\x02 \x01(\x05\"2\n\x11InstanceRealWrite\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05value\x18\x02 \x01(\x01\"1\n\x10InstanceStrWrite\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05value\x18\x02 \x01(\t\"2\n\x11InstanceBoolWrite\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05value\x18\x02 \x01(\x08\"\x89\x07\n\nIntegrator\x12\x45\n\x05\x65uler\x18\x01 \x01(\x0b\x32\x34.no.mechatronics.sfi.fmu_proxy.grpc.Integrator.EulerH\x00\x12Y\n\x0brunge_kutta\x18\x02 \x01(\x0b\x32\x42.no.mechatronics.sfi.fmu_proxy.grpc.Integrator.ClassicalRungeKuttaH\x00\x12L\n\tmid_point\x18\x03 \x01(\x0b\x32\x37.no.mechatronics.sfi.fmu_proxy.grpc.Integrator.MidpointH\x00\x12\x43\n\x04gill\x18\x04 \x01(\x0b\x32\x33.no.mechatronics.sfi.fmu_proxy.grpc.Integrator.GillH\x00\x12X\n\x0f\x61\x64\x61ms_bashforth\x18\x05 \x01(\x0b\x32=.no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforthH\x00\x12Z\n\x10\x64ormand_prince54\x18\x06 \x01(\x0b\x32>.no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54H\x00\x1a\x1a\n\x05\x45uler\x12\x11\n\tstep_size\x18\x01 \x01(\x01\x1a(\n\x13\x43lassicalRungeKutta\x12\x11\n\tstep_size\x18\x01 \x01(\x01\x1a\x1d\n\x08Midpoint\x12\x11\n\tstep_size\x18\x01 \x01(\x01\x1a\x19\n\x04Gill\x12\x11\n\tstep_size\x18\x01 \x01(\x01\x1a\x87\x01\n\x0e\x41\x64\x61msBashforth\x12\x0f\n\x07n_steps\x18\x01 \x01(\r\x12\x10\n\x08min_Step\x18\x02 \x01(\x01\x12\x10\n\x08max_step\x18\x03 \x01(\x01\x12\x1f\n\x17scal_absolute_tolerance\x18\x04 \x01(\x01\x12\x1f\n\x17scal_relative_tolerance\x18\x05 \x01(\x01\x1aw\n\x0f\x44ormandPrince54\x12\x10\n\x08min_Step\x18\x01 \x01(\x01\x12\x10\n\x08max_step\x18\x02 \x01(\x01\x12\x1f\n\x17scal_absolute_tolerance\x18\x03 \x01(\x01\x12\x1f\n\x17scal_relative_tolerance\x18\x04 \x01(\x01\x42\r\n\x0bintegrators*\xbc\x01\n\tCausality\x12\x17\n\x13UNDEFINED_CAUSALITY\x10\x00\x12\x13\n\x0fINPUT_CAUSALITY\x10\x01\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x02\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x03\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x04\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x05\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x06*\xa8\x01\n\x0bVariability\x12\x19\n\x15UNDEFINED_VARIABILITY\x10\x00\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x01\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x02\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x03\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x04\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x05*_\n\x07Initial\x12\x15\n\x11UNDEFINED_INITIAL\x10\x00\x12\x11\n\rEXACT_INITIAL\x10\x01\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x02\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x03*|\n\x0cVariableType\x12\x14\n\x10INTEGER_VARIABLE\x10\x00\x12\x11\n\rREAL_VARIABLE\x10\x01\x12\x13\n\x0fSTRING_VARIABLE\x10\x02\x12\x14\n\x10\x42OOLEAN_VARIABLE\x10\x03\x12\x18\n\x14\x45NUMERATION_VARIABLE\x10\x04*{\n\nStatusCode\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05*^\n\x10\x44\x65pendenciesKind\x12\x12\n\x0e\x44\x45PENDENT_KIND\x10\x00\x12\x11\n\rCONSTANT_KIND\x10\x01\x12\x10\n\x0cTUNABLE_KIND\x10\x02\x12\x11\n\rDISCRETE_KIND\x10\x04*4\n\x18VariableNamingConvention\x12\x08\n\x04\x46LAT\x10\x00\x12\x0e\n\nSTRUCTURED\x10\x01\x42\x07\x42\x05Protob\x06proto3')
 )
 
-_CAUSALITYPROTO = _descriptor.EnumDescriptor(
-  name='CausalityProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.CausalityProto',
+_CAUSALITY = _descriptor.EnumDescriptor(
+  name='Causality',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Causality',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -60,15 +60,15 @@ _CAUSALITYPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4114,
-  serialized_end=4307,
+  serialized_start=4557,
+  serialized_end=4745,
 )
-_sym_db.RegisterEnumDescriptor(_CAUSALITYPROTO)
+_sym_db.RegisterEnumDescriptor(_CAUSALITY)
 
-CausalityProto = enum_type_wrapper.EnumTypeWrapper(_CAUSALITYPROTO)
-_VARIABILITYPROTO = _descriptor.EnumDescriptor(
-  name='VariabilityProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.VariabilityProto',
+Causality = enum_type_wrapper.EnumTypeWrapper(_CAUSALITY)
+_VARIABILITY = _descriptor.EnumDescriptor(
+  name='Variability',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Variability',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -99,15 +99,15 @@ _VARIABILITYPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4310,
-  serialized_end=4483,
+  serialized_start=4748,
+  serialized_end=4916,
 )
-_sym_db.RegisterEnumDescriptor(_VARIABILITYPROTO)
+_sym_db.RegisterEnumDescriptor(_VARIABILITY)
 
-VariabilityProto = enum_type_wrapper.EnumTypeWrapper(_VARIABILITYPROTO)
-_INITIALPROTO = _descriptor.EnumDescriptor(
-  name='InitialProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitialProto',
+Variability = enum_type_wrapper.EnumTypeWrapper(_VARIABILITY)
+_INITIAL = _descriptor.EnumDescriptor(
+  name='Initial',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Initial',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -130,15 +130,15 @@ _INITIALPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4485,
-  serialized_end=4585,
+  serialized_start=4918,
+  serialized_end=5013,
 )
-_sym_db.RegisterEnumDescriptor(_INITIALPROTO)
+_sym_db.RegisterEnumDescriptor(_INITIAL)
 
-InitialProto = enum_type_wrapper.EnumTypeWrapper(_INITIALPROTO)
-_VARIABLETYPEPROTO = _descriptor.EnumDescriptor(
-  name='VariableTypeProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.VariableTypeProto',
+Initial = enum_type_wrapper.EnumTypeWrapper(_INITIAL)
+_VARIABLETYPE = _descriptor.EnumDescriptor(
+  name='VariableType',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.VariableType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -165,15 +165,15 @@ _VARIABLETYPEPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4588,
-  serialized_end=4717,
+  serialized_start=5015,
+  serialized_end=5139,
 )
-_sym_db.RegisterEnumDescriptor(_VARIABLETYPEPROTO)
+_sym_db.RegisterEnumDescriptor(_VARIABLETYPE)
 
-VariableTypeProto = enum_type_wrapper.EnumTypeWrapper(_VARIABLETYPEPROTO)
-_STATUSCODEPROTO = _descriptor.EnumDescriptor(
-  name='StatusCodeProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StatusCodeProto',
+VariableType = enum_type_wrapper.EnumTypeWrapper(_VARIABLETYPE)
+_STATUSCODE = _descriptor.EnumDescriptor(
+  name='StatusCode',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StatusCode',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -204,15 +204,15 @@ _STATUSCODEPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4720,
-  serialized_end=4848,
+  serialized_start=5141,
+  serialized_end=5264,
 )
-_sym_db.RegisterEnumDescriptor(_STATUSCODEPROTO)
+_sym_db.RegisterEnumDescriptor(_STATUSCODE)
 
-StatusCodeProto = enum_type_wrapper.EnumTypeWrapper(_STATUSCODEPROTO)
-_DEPENDENCIESKINDPROTO = _descriptor.EnumDescriptor(
-  name='DependenciesKindProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKindProto',
+StatusCode = enum_type_wrapper.EnumTypeWrapper(_STATUSCODE)
+_DEPENDENCIESKIND = _descriptor.EnumDescriptor(
+  name='DependenciesKind',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.DependenciesKind',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -235,12 +235,35 @@ _DEPENDENCIESKINDPROTO = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4850,
-  serialized_end=4949,
+  serialized_start=5266,
+  serialized_end=5360,
 )
-_sym_db.RegisterEnumDescriptor(_DEPENDENCIESKINDPROTO)
+_sym_db.RegisterEnumDescriptor(_DEPENDENCIESKIND)
 
-DependenciesKindProto = enum_type_wrapper.EnumTypeWrapper(_DEPENDENCIESKINDPROTO)
+DependenciesKind = enum_type_wrapper.EnumTypeWrapper(_DEPENDENCIESKIND)
+_VARIABLENAMINGCONVENTION = _descriptor.EnumDescriptor(
+  name='VariableNamingConvention',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.VariableNamingConvention',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='FLAT', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='STRUCTURED', index=1, number=1,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=5362,
+  serialized_end=5414,
+)
+_sym_db.RegisterEnumDescriptor(_VARIABLENAMINGCONVENTION)
+
+VariableNamingConvention = enum_type_wrapper.EnumTypeWrapper(_VARIABLENAMINGCONVENTION)
 UNDEFINED_CAUSALITY = 0
 INPUT_CAUSALITY = 1
 OUTPUT_CAUSALITY = 2
@@ -273,68 +296,105 @@ DEPENDENT_KIND = 0
 CONSTANT_KIND = 1
 TUNABLE_KIND = 2
 DISCRETE_KIND = 4
+FLAT = 0
+STRUCTURED = 1
 
 
 
-_SCALARVARIABLEPROTO = _descriptor.Descriptor(
-  name='ScalarVariableProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto',
+_MODELDESCRIPTION = _descriptor.Descriptor(
+  name='ModelDescription',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.value_reference', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
+      name='fmiVersion', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.fmiVersion', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='name', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.name', index=1,
+      name='guid', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.guid', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='description', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.description', index=2,
+      name='model_name', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.model_name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='variable_type', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.variable_type', index=3,
-      number=4, type=14, cpp_type=8, label=1,
+      name='license', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.license', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='copyright', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.copyright', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='author', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.author', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='version', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.version', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.description', index=7,
+      number=8, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='generation_tool', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.generation_tool', index=8,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='default_experiment', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.default_experiment', index=9,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='variable_naming_convention', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.variable_naming_convention', index=10,
+      number=11, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='initial', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.initial', index=4,
-      number=5, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
+      name='model_variables', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.model_variables', index=11,
+      number=12, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='causality', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.causality', index=5,
-      number=6, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='variability', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.variability', index=6,
-      number=7, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='start', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto.start', index=7,
-      number=8, type=11, cpp_type=10, label=1,
+      name='model_structure', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription.model_structure', index=12,
+      number=13, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -352,28 +412,70 @@ _SCALARVARIABLEPROTO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=58,
-  serialized_end=500,
+  serialized_end=580,
 )
 
 
-_STATUSPROTO = _descriptor.Descriptor(
-  name='StatusProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StatusProto',
+_SCALARVARIABLE = _descriptor.Descriptor(
+  name='ScalarVariable',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='code', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StatusProto.code', index=0,
-      number=1, type=14, cpp_type=8, label=1,
+      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.value_reference', index=0,
+      number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='message', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StatusProto.message', index=1,
+      name='name', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.name', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='variable_type', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.variable_type', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='initial', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.initial', index=4,
+      number=5, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='causality', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.causality', index=5,
+      number=6, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='variability', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.variability', index=6,
+      number=7, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='start', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable.start', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -389,48 +491,48 @@ _STATUSPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=502,
-  serialized_end=599,
+  serialized_start=583,
+  serialized_end=995,
 )
 
 
-_ANYPRIMITIVEPROTO = _descriptor.Descriptor(
-  name='AnyPrimitiveProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto',
+_ANYPRIMITIVE = _descriptor.Descriptor(
+  name='AnyPrimitive',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='int_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto.int_value', index=0,
+      name='int_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive.int_value', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='real_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto.real_value', index=1,
+      name='real_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive.real_value', index=1,
       number=2, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='str_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto.str_value', index=2,
+      name='str_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive.str_value', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bool_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto.bool_value', index=3,
+      name='bool_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive.bool_value', index=3,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='enum_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto.enum_value', index=4,
+      name='enum_value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive.enum_value', index=4,
       number=5, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -448,870 +550,45 @@ _ANYPRIMITIVEPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto.value',
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive.value',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=602,
-  serialized_end=738,
+  serialized_start=998,
+  serialized_end=1129,
 )
 
 
-_INITREQUESTPROTO = _descriptor.Descriptor(
-  name='InitRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequestProto',
+_DEFAULTEXPERIMENT = _descriptor.Descriptor(
+  name='DefaultExperiment',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='start', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequestProto.start', index=1,
-      number=2, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='stop', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequestProto.stop', index=2,
-      number=3, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=740,
-  serialized_end=803,
-)
-
-
-_STEPREQUESTPROTO = _descriptor.Descriptor(
-  name='StepRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StepRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StepRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StepRequestProto.step_size', index=1,
-      number=2, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=805,
-  serialized_end=858,
-)
-
-
-_UINTPROTO = _descriptor.Descriptor(
-  name='UIntProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.UIntProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.UIntProto.value', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=860,
-  serialized_end=886,
-)
-
-
-_INTPROTO = _descriptor.Descriptor(
-  name='IntProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntProto.value', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=888,
-  serialized_end=913,
-)
-
-
-_INTREADPROTO = _descriptor.Descriptor(
-  name='IntReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntReadProto.value', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=915,
-  serialized_end=1013,
-)
-
-
-_INTLISTPROTO = _descriptor.Descriptor(
-  name='IntListProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListProto.values', index=0,
-      number=1, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1015,
-  serialized_end=1045,
-)
-
-
-_INTLISTREADPROTO = _descriptor.Descriptor(
-  name='IntListReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListReadProto.values', index=0,
-      number=1, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1047,
-  serialized_end=1150,
-)
-
-
-_REALPROTO = _descriptor.Descriptor(
-  name='RealProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealProto.value', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1152,
-  serialized_end=1178,
-)
-
-
-_REALREADPROTO = _descriptor.Descriptor(
-  name='RealReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealReadProto.value', index=0,
+      name='start_time', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment.start_time', index=0,
       number=1, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1180,
-  serialized_end=1279,
-)
-
-
-_REALLISTPROTO = _descriptor.Descriptor(
-  name='RealListProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListProto.values', index=0,
-      number=1, type=1, cpp_type=5, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1281,
-  serialized_end=1312,
-)
-
-
-_REALLISTREADPROTO = _descriptor.Descriptor(
-  name='RealListReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListReadProto.values', index=0,
-      number=1, type=1, cpp_type=5, label=3,
-      has_default_value=False, default_value=[],
+      name='stop_time', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment.stop_time', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1314,
-  serialized_end=1418,
-)
-
-
-_STRPROTO = _descriptor.Descriptor(
-  name='StrProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrProto.value', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1420,
-  serialized_end=1445,
-)
-
-
-_STRREADPROTO = _descriptor.Descriptor(
-  name='StrReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrReadProto.value', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1447,
-  serialized_end=1545,
-)
-
-
-_STRLISTPROTO = _descriptor.Descriptor(
-  name='StrListProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListProto.values', index=0,
-      number=1, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1547,
-  serialized_end=1577,
-)
-
-
-_STRLISTREADPROTO = _descriptor.Descriptor(
-  name='StrListReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListReadProto.values', index=0,
-      number=1, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1579,
-  serialized_end=1682,
-)
-
-
-_BOOLPROTO = _descriptor.Descriptor(
-  name='BoolProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolProto.value', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1684,
-  serialized_end=1710,
-)
-
-
-_BOOLREADPROTO = _descriptor.Descriptor(
-  name='BoolReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolReadProto.value', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1712,
-  serialized_end=1811,
-)
-
-
-_BOOLLISTPROTO = _descriptor.Descriptor(
-  name='BoolListProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListProto.values', index=0,
-      number=1, type=8, cpp_type=7, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1813,
-  serialized_end=1844,
-)
-
-
-_BOOLLISTREADPROTO = _descriptor.Descriptor(
-  name='BoolListReadProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListReadProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListReadProto.values', index=0,
-      number=1, type=8, cpp_type=7, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListReadProto.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1846,
-  serialized_end=1950,
-)
-
-
-_READREQUESTPROTO = _descriptor.Descriptor(
-  name='ReadRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ReadRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ReadRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ReadRequestProto.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1952,
-  serialized_end=2011,
-)
-
-
-_BULKREADREQUESTPROTO = _descriptor.Descriptor(
-  name='BulkReadRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequestProto.value_references', index=1,
-      number=2, type=13, cpp_type=3, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2013,
-  serialized_end=2077,
-)
-
-
-_WRITEINTEGERREQUESTPROTO = _descriptor.Descriptor(
-  name='WriteIntegerRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntegerRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntegerRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntegerRequestProto.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntegerRequestProto.value', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2079,
-  serialized_end=2161,
-)
-
-
-_BULKWRITEINTEGERREQUESTPROTO = _descriptor.Descriptor(
-  name='BulkWriteIntegerRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntegerRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntegerRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntegerRequestProto.value_references', index=1,
-      number=2, type=13, cpp_type=3, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntegerRequestProto.values', index=2,
-      number=3, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2163,
-  serialized_end=2251,
-)
-
-
-_WRITEREALREQUESTPROTO = _descriptor.Descriptor(
-  name='WriteRealRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequestProto.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequestProto.value', index=2,
+      name='tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment.tolerance', index=2,
       number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment.step_size', index=3,
+      number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -1328,259 +605,34 @@ _WRITEREALREQUESTPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2253,
-  serialized_end=2332,
+  serialized_start=1131,
+  serialized_end=1227,
 )
 
 
-_BULKWRITEREALREQUESTPROTO = _descriptor.Descriptor(
-  name='BulkWriteRealRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequestProto',
+_UNKNOWN = _descriptor.Descriptor(
+  name='Unknown',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Unknown',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequestProto.fmu_id', index=0,
+      name='index', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Unknown.index', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequestProto.value_references', index=1,
+      name='dependencies', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Unknown.dependencies', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequestProto.values', index=2,
-      number=3, type=1, cpp_type=5, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2334,
-  serialized_end=2419,
-)
-
-
-_WRITESTRINGREQUESTPROTO = _descriptor.Descriptor(
-  name='WriteStringRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStringRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStringRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStringRequestProto.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStringRequestProto.value', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2421,
-  serialized_end=2502,
-)
-
-
-_BULKWRITESTRINGREQUESTPROTO = _descriptor.Descriptor(
-  name='BulkWriteStringRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStringRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStringRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStringRequestProto.value_references', index=1,
-      number=2, type=13, cpp_type=3, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStringRequestProto.values', index=2,
-      number=3, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2504,
-  serialized_end=2591,
-)
-
-
-_WRITEBOOLEANREQUESTPROTO = _descriptor.Descriptor(
-  name='WriteBooleanRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBooleanRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBooleanRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBooleanRequestProto.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBooleanRequestProto.value', index=2,
-      number=3, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2593,
-  serialized_end=2675,
-)
-
-
-_BULKWRITEBOOLEANREQUESTPROTO = _descriptor.Descriptor(
-  name='BulkWriteBooleanRequestProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBooleanRequestProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBooleanRequestProto.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBooleanRequestProto.value_references', index=1,
-      number=2, type=13, cpp_type=3, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBooleanRequestProto.values', index=2,
-      number=3, type=8, cpp_type=7, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2677,
-  serialized_end=2765,
-)
-
-
-_UNKNOWNPROTO = _descriptor.Descriptor(
-  name='UnknownProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='index', full_name='no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto.index', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='dependencies', full_name='no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto.dependencies', index=1,
-      number=2, type=13, cpp_type=3, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='dependencies_kind', full_name='no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto.dependencies_kind', index=2,
+      name='dependencies_kind', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Unknown.dependencies_kind', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -1598,34 +650,34 @@ _UNKNOWNPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2768,
-  serialized_end=2905,
+  serialized_start=1229,
+  serialized_end=1356,
 )
 
 
-_MODELSTRUCTUREPROTO = _descriptor.Descriptor(
-  name='ModelStructureProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructureProto',
+_MODELSTRUCTURE = _descriptor.Descriptor(
+  name='ModelStructure',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructure',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='outputs', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructureProto.outputs', index=0,
+      name='outputs', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructure.outputs', index=0,
       number=1, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='derivatives', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructureProto.derivatives', index=1,
+      name='derivatives', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructure.derivatives', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='initial_unknowns', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructureProto.initial_unknowns', index=2,
+      name='initial_unknowns', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ModelStructure.initial_unknowns', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1643,91 +695,29 @@ _MODELSTRUCTUREPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2908,
-  serialized_end=3093,
+  serialized_start=1359,
+  serialized_end=1529,
 )
 
 
-_INTEGRATORPROTO = _descriptor.Descriptor(
-  name='IntegratorProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto',
+_STATUS = _descriptor.Descriptor(
+  name='Status',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Status',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='euler', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.euler', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='code', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Status.code', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='runge_kutta', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.runge_kutta', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='mid_point', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.mid_point', index=2,
-      number=3, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='gill', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.gill', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='adams_bashforth', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.adams_bashforth', index=4,
-      number=5, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='dormand_prince54', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.dormand_prince54', index=5,
-      number=6, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-    _descriptor.OneofDescriptor(
-      name='integrators', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto.integrators',
-      index=0, containing_type=None, fields=[]),
-  ],
-  serialized_start=3096,
-  serialized_end=3638,
-)
-
-
-_EULERINTEGRATORPROTO = _descriptor.Descriptor(
-  name='EulerIntegratorProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegratorProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegratorProto.step_size', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
+      name='message', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Status.message', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -1743,141 +733,1422 @@ _EULERINTEGRATORPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3640,
-  serialized_end=3681,
+  serialized_start=1531,
+  serialized_end=1618,
 )
 
 
-_CLASSICALRUNGEKUTTAINTEGRATORPROTO = _descriptor.Descriptor(
-  name='ClassicalRungeKuttaIntegratorProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegratorProto',
+_INITREQUEST = _descriptor.Descriptor(
+  name='InitRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegratorProto.step_size', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3683,
-  serialized_end=3738,
-)
-
-
-_MIDPOINTINTEGRATORPROTO = _descriptor.Descriptor(
-  name='MidpointIntegratorProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegratorProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegratorProto.step_size', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3740,
-  serialized_end=3784,
-)
-
-
-_GILLINTEGRATORPROTO = _descriptor.Descriptor(
-  name='GillIntegratorProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.GillIntegratorProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.GillIntegratorProto.step_size', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3786,
-  serialized_end=3826,
-)
-
-
-_ADAMSBASHFORTHINTEGRATORPROTO = _descriptor.Descriptor(
-  name='AdamsBashforthIntegratorProto',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='n_steps', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto.n_steps', index=0,
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequest.fmu_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='min_Step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto.min_Step', index=1,
+      name='start', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequest.start', index=1,
       number=2, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='max_step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto.max_step', index=2,
+      name='stop', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InitRequest.stop', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1620,
+  serialized_end=1678,
+)
+
+
+_STEPREQUEST = _descriptor.Descriptor(
+  name='StepRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StepRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StepRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StepRequest.step_size', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1680,
+  serialized_end=1728,
+)
+
+
+_UINT = _descriptor.Descriptor(
+  name='UInt',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.UInt',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.UInt.value', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1730,
+  serialized_end=1751,
+)
+
+
+_INT = _descriptor.Descriptor(
+  name='Int',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Int',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Int.value', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1753,
+  serialized_end=1773,
+)
+
+
+_INTREAD = _descriptor.Descriptor(
+  name='IntRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntRead.value', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1775,
+  serialized_end=1863,
+)
+
+
+_INTLIST = _descriptor.Descriptor(
+  name='IntList',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntList.values', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1865,
+  serialized_end=1890,
+)
+
+
+_INTLISTREAD = _descriptor.Descriptor(
+  name='IntListRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListRead.values', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.IntListRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1892,
+  serialized_end=1985,
+)
+
+
+_REAL = _descriptor.Descriptor(
+  name='Real',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Real',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Real.value', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1987,
+  serialized_end=2008,
+)
+
+
+_REALREAD = _descriptor.Descriptor(
+  name='RealRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealRead.value', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2010,
+  serialized_end=2099,
+)
+
+
+_REALLIST = _descriptor.Descriptor(
+  name='RealList',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealList.values', index=0,
+      number=1, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2101,
+  serialized_end=2127,
+)
+
+
+_REALLISTREAD = _descriptor.Descriptor(
+  name='RealListRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListRead.values', index=0,
+      number=1, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.RealListRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2129,
+  serialized_end=2223,
+)
+
+
+_STR = _descriptor.Descriptor(
+  name='Str',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Str',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Str.value', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2225,
+  serialized_end=2245,
+)
+
+
+_STRREAD = _descriptor.Descriptor(
+  name='StrRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrRead.value', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2247,
+  serialized_end=2335,
+)
+
+
+_STRLIST = _descriptor.Descriptor(
+  name='StrList',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrList.values', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2337,
+  serialized_end=2362,
+)
+
+
+_STRLISTREAD = _descriptor.Descriptor(
+  name='StrListRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListRead.values', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.StrListRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2364,
+  serialized_end=2457,
+)
+
+
+_BOOL = _descriptor.Descriptor(
+  name='Bool',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Bool',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Bool.value', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2459,
+  serialized_end=2480,
+)
+
+
+_BOOLREAD = _descriptor.Descriptor(
+  name='BoolRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolRead.value', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2482,
+  serialized_end=2571,
+)
+
+
+_BOOLLIST = _descriptor.Descriptor(
+  name='BoolList',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolList.values', index=0,
+      number=1, type=8, cpp_type=7, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2573,
+  serialized_end=2599,
+)
+
+
+_BOOLLISTREAD = _descriptor.Descriptor(
+  name='BoolListRead',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListRead.values', index=0,
+      number=1, type=8, cpp_type=7, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BoolListRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2601,
+  serialized_end=2695,
+)
+
+
+_READREQUEST = _descriptor.Descriptor(
+  name='ReadRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.ReadRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ReadRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.ReadRequest.value_reference', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2697,
+  serialized_end=2751,
+)
+
+
+_BULKREADREQUEST = _descriptor.Descriptor(
+  name='BulkReadRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequest.value_references', index=1,
+      number=2, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2753,
+  serialized_end=2812,
+)
+
+
+_WRITEINTREQUEST = _descriptor.Descriptor(
+  name='WriteIntRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntRequest.value_reference', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteIntRequest.value', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2814,
+  serialized_end=2887,
+)
+
+
+_BULKWRITEINTREQUEST = _descriptor.Descriptor(
+  name='BulkWriteIntRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntRequest.value_references', index=1,
+      number=2, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntRequest.values', index=2,
+      number=3, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2889,
+  serialized_end=2968,
+)
+
+
+_WRITEREALREQUEST = _descriptor.Descriptor(
+  name='WriteRealRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequest.value_reference', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequest.value', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2970,
+  serialized_end=3044,
+)
+
+
+_BULKWRITEREALREQUEST = _descriptor.Descriptor(
+  name='BulkWriteRealRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequest.value_references', index=1,
+      number=2, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequest.values', index=2,
+      number=3, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3046,
+  serialized_end=3126,
+)
+
+
+_WRITESTRREQUEST = _descriptor.Descriptor(
+  name='WriteStrRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStrRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStrRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStrRequest.value_reference', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteStrRequest.value', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3128,
+  serialized_end=3201,
+)
+
+
+_BULKWRITESTRREQUEST = _descriptor.Descriptor(
+  name='BulkWriteStrRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStrRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStrRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStrRequest.value_references', index=1,
+      number=2, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStrRequest.values', index=2,
+      number=3, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3203,
+  serialized_end=3282,
+)
+
+
+_WRITEBOOLREQUEST = _descriptor.Descriptor(
+  name='WriteBoolRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBoolRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBoolRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_reference', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBoolRequest.value_reference', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.WriteBoolRequest.value', index=2,
+      number=3, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3284,
+  serialized_end=3358,
+)
+
+
+_BULKWRITEBOOLREQUEST = _descriptor.Descriptor(
+  name='BulkWriteBoolRequest',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBoolRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBoolRequest.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value_references', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBoolRequest.value_references', index=1,
+      number=2, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='values', full_name='no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBoolRequest.values', index=2,
+      number=3, type=8, cpp_type=7, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3360,
+  serialized_end=3440,
+)
+
+
+_INSTANCEINTWRITE = _descriptor.Descriptor(
+  name='InstanceIntWrite',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceIntWrite',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceIntWrite.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceIntWrite.value', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3442,
+  serialized_end=3491,
+)
+
+
+_INSTANCEREALWRITE = _descriptor.Descriptor(
+  name='InstanceRealWrite',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceRealWrite',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceRealWrite.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceRealWrite.value', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3493,
+  serialized_end=3543,
+)
+
+
+_INSTANCESTRWRITE = _descriptor.Descriptor(
+  name='InstanceStrWrite',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceStrWrite',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceStrWrite.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceStrWrite.value', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3545,
+  serialized_end=3594,
+)
+
+
+_INSTANCEBOOLWRITE = _descriptor.Descriptor(
+  name='InstanceBoolWrite',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceBoolWrite',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fmu_id', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceBoolWrite.fmu_id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='no.mechatronics.sfi.fmu_proxy.grpc.InstanceBoolWrite.value', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3596,
+  serialized_end=3646,
+)
+
+
+_INTEGRATOR_EULER = _descriptor.Descriptor(
+  name='Euler',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Euler',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Euler.step_size', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4154,
+  serialized_end=4180,
+)
+
+_INTEGRATOR_CLASSICALRUNGEKUTTA = _descriptor.Descriptor(
+  name='ClassicalRungeKutta',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.ClassicalRungeKutta',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.ClassicalRungeKutta.step_size', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4182,
+  serialized_end=4222,
+)
+
+_INTEGRATOR_MIDPOINT = _descriptor.Descriptor(
+  name='Midpoint',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Midpoint',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Midpoint.step_size', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4224,
+  serialized_end=4253,
+)
+
+_INTEGRATOR_GILL = _descriptor.Descriptor(
+  name='Gill',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Gill',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='step_size', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Gill.step_size', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4255,
+  serialized_end=4280,
+)
+
+_INTEGRATOR_ADAMSBASHFORTH = _descriptor.Descriptor(
+  name='AdamsBashforth',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='n_steps', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth.n_steps', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='min_Step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth.min_Step', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='max_step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth.max_step', index=2,
       number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='scal_absolute_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto.scal_absolute_tolerance', index=3,
+      name='scal_absolute_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth.scal_absolute_tolerance', index=3,
       number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='scal_relative_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto.scal_relative_tolerance', index=4,
+      name='scal_relative_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth.scal_relative_tolerance', index=4,
       number=5, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -1895,41 +2166,40 @@ _ADAMSBASHFORTHINTEGRATORPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3829,
-  serialized_end=3979,
+  serialized_start=4283,
+  serialized_end=4418,
 )
 
-
-_DORMANDPRINCE54INTEGRATOR = _descriptor.Descriptor(
-  name='DormandPrince54Integrator',
-  full_name='no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator',
+_INTEGRATOR_DORMANDPRINCE54 = _descriptor.Descriptor(
+  name='DormandPrince54',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='min_Step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator.min_Step', index=0,
+      name='min_Step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54.min_Step', index=0,
       number=1, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='max_step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator.max_step', index=1,
+      name='max_step', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54.max_step', index=1,
       number=2, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='scal_absolute_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator.scal_absolute_tolerance', index=2,
+      name='scal_absolute_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54.scal_absolute_tolerance', index=2,
       number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='scal_relative_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator.scal_relative_tolerance', index=3,
+      name='scal_relative_tolerance', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54.scal_relative_tolerance', index=3,
       number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -1947,403 +2217,530 @@ _DORMANDPRINCE54INTEGRATOR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3982,
-  serialized_end=4111,
+  serialized_start=4420,
+  serialized_end=4539,
 )
 
-_SCALARVARIABLEPROTO.fields_by_name['variable_type'].enum_type = _VARIABLETYPEPROTO
-_SCALARVARIABLEPROTO.fields_by_name['initial'].enum_type = _INITIALPROTO
-_SCALARVARIABLEPROTO.fields_by_name['causality'].enum_type = _CAUSALITYPROTO
-_SCALARVARIABLEPROTO.fields_by_name['variability'].enum_type = _VARIABILITYPROTO
-_SCALARVARIABLEPROTO.fields_by_name['start'].message_type = _ANYPRIMITIVEPROTO
-_STATUSPROTO.fields_by_name['code'].enum_type = _STATUSCODEPROTO
-_ANYPRIMITIVEPROTO.oneofs_by_name['value'].fields.append(
-  _ANYPRIMITIVEPROTO.fields_by_name['int_value'])
-_ANYPRIMITIVEPROTO.fields_by_name['int_value'].containing_oneof = _ANYPRIMITIVEPROTO.oneofs_by_name['value']
-_ANYPRIMITIVEPROTO.oneofs_by_name['value'].fields.append(
-  _ANYPRIMITIVEPROTO.fields_by_name['real_value'])
-_ANYPRIMITIVEPROTO.fields_by_name['real_value'].containing_oneof = _ANYPRIMITIVEPROTO.oneofs_by_name['value']
-_ANYPRIMITIVEPROTO.oneofs_by_name['value'].fields.append(
-  _ANYPRIMITIVEPROTO.fields_by_name['str_value'])
-_ANYPRIMITIVEPROTO.fields_by_name['str_value'].containing_oneof = _ANYPRIMITIVEPROTO.oneofs_by_name['value']
-_ANYPRIMITIVEPROTO.oneofs_by_name['value'].fields.append(
-  _ANYPRIMITIVEPROTO.fields_by_name['bool_value'])
-_ANYPRIMITIVEPROTO.fields_by_name['bool_value'].containing_oneof = _ANYPRIMITIVEPROTO.oneofs_by_name['value']
-_ANYPRIMITIVEPROTO.oneofs_by_name['value'].fields.append(
-  _ANYPRIMITIVEPROTO.fields_by_name['enum_value'])
-_ANYPRIMITIVEPROTO.fields_by_name['enum_value'].containing_oneof = _ANYPRIMITIVEPROTO.oneofs_by_name['value']
-_INTREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_INTLISTREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_REALREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_REALLISTREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_STRREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_STRLISTREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_BOOLREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_BOOLLISTREADPROTO.fields_by_name['status'].enum_type = _STATUSCODEPROTO
-_UNKNOWNPROTO.fields_by_name['dependencies_kind'].enum_type = _DEPENDENCIESKINDPROTO
-_MODELSTRUCTUREPROTO.fields_by_name['derivatives'].message_type = _UNKNOWNPROTO
-_MODELSTRUCTUREPROTO.fields_by_name['initial_unknowns'].message_type = _UNKNOWNPROTO
-_INTEGRATORPROTO.fields_by_name['euler'].message_type = _EULERINTEGRATORPROTO
-_INTEGRATORPROTO.fields_by_name['runge_kutta'].message_type = _CLASSICALRUNGEKUTTAINTEGRATORPROTO
-_INTEGRATORPROTO.fields_by_name['mid_point'].message_type = _MIDPOINTINTEGRATORPROTO
-_INTEGRATORPROTO.fields_by_name['gill'].message_type = _GILLINTEGRATORPROTO
-_INTEGRATORPROTO.fields_by_name['adams_bashforth'].message_type = _ADAMSBASHFORTHINTEGRATORPROTO
-_INTEGRATORPROTO.fields_by_name['dormand_prince54'].message_type = _DORMANDPRINCE54INTEGRATOR
-_INTEGRATORPROTO.oneofs_by_name['integrators'].fields.append(
-  _INTEGRATORPROTO.fields_by_name['euler'])
-_INTEGRATORPROTO.fields_by_name['euler'].containing_oneof = _INTEGRATORPROTO.oneofs_by_name['integrators']
-_INTEGRATORPROTO.oneofs_by_name['integrators'].fields.append(
-  _INTEGRATORPROTO.fields_by_name['runge_kutta'])
-_INTEGRATORPROTO.fields_by_name['runge_kutta'].containing_oneof = _INTEGRATORPROTO.oneofs_by_name['integrators']
-_INTEGRATORPROTO.oneofs_by_name['integrators'].fields.append(
-  _INTEGRATORPROTO.fields_by_name['mid_point'])
-_INTEGRATORPROTO.fields_by_name['mid_point'].containing_oneof = _INTEGRATORPROTO.oneofs_by_name['integrators']
-_INTEGRATORPROTO.oneofs_by_name['integrators'].fields.append(
-  _INTEGRATORPROTO.fields_by_name['gill'])
-_INTEGRATORPROTO.fields_by_name['gill'].containing_oneof = _INTEGRATORPROTO.oneofs_by_name['integrators']
-_INTEGRATORPROTO.oneofs_by_name['integrators'].fields.append(
-  _INTEGRATORPROTO.fields_by_name['adams_bashforth'])
-_INTEGRATORPROTO.fields_by_name['adams_bashforth'].containing_oneof = _INTEGRATORPROTO.oneofs_by_name['integrators']
-_INTEGRATORPROTO.oneofs_by_name['integrators'].fields.append(
-  _INTEGRATORPROTO.fields_by_name['dormand_prince54'])
-_INTEGRATORPROTO.fields_by_name['dormand_prince54'].containing_oneof = _INTEGRATORPROTO.oneofs_by_name['integrators']
-DESCRIPTOR.message_types_by_name['ScalarVariableProto'] = _SCALARVARIABLEPROTO
-DESCRIPTOR.message_types_by_name['StatusProto'] = _STATUSPROTO
-DESCRIPTOR.message_types_by_name['AnyPrimitiveProto'] = _ANYPRIMITIVEPROTO
-DESCRIPTOR.message_types_by_name['InitRequestProto'] = _INITREQUESTPROTO
-DESCRIPTOR.message_types_by_name['StepRequestProto'] = _STEPREQUESTPROTO
-DESCRIPTOR.message_types_by_name['UIntProto'] = _UINTPROTO
-DESCRIPTOR.message_types_by_name['IntProto'] = _INTPROTO
-DESCRIPTOR.message_types_by_name['IntReadProto'] = _INTREADPROTO
-DESCRIPTOR.message_types_by_name['IntListProto'] = _INTLISTPROTO
-DESCRIPTOR.message_types_by_name['IntListReadProto'] = _INTLISTREADPROTO
-DESCRIPTOR.message_types_by_name['RealProto'] = _REALPROTO
-DESCRIPTOR.message_types_by_name['RealReadProto'] = _REALREADPROTO
-DESCRIPTOR.message_types_by_name['RealListProto'] = _REALLISTPROTO
-DESCRIPTOR.message_types_by_name['RealListReadProto'] = _REALLISTREADPROTO
-DESCRIPTOR.message_types_by_name['StrProto'] = _STRPROTO
-DESCRIPTOR.message_types_by_name['StrReadProto'] = _STRREADPROTO
-DESCRIPTOR.message_types_by_name['StrListProto'] = _STRLISTPROTO
-DESCRIPTOR.message_types_by_name['StrListReadProto'] = _STRLISTREADPROTO
-DESCRIPTOR.message_types_by_name['BoolProto'] = _BOOLPROTO
-DESCRIPTOR.message_types_by_name['BoolReadProto'] = _BOOLREADPROTO
-DESCRIPTOR.message_types_by_name['BoolListProto'] = _BOOLLISTPROTO
-DESCRIPTOR.message_types_by_name['BoolListReadProto'] = _BOOLLISTREADPROTO
-DESCRIPTOR.message_types_by_name['ReadRequestProto'] = _READREQUESTPROTO
-DESCRIPTOR.message_types_by_name['BulkReadRequestProto'] = _BULKREADREQUESTPROTO
-DESCRIPTOR.message_types_by_name['WriteIntegerRequestProto'] = _WRITEINTEGERREQUESTPROTO
-DESCRIPTOR.message_types_by_name['BulkWriteIntegerRequestProto'] = _BULKWRITEINTEGERREQUESTPROTO
-DESCRIPTOR.message_types_by_name['WriteRealRequestProto'] = _WRITEREALREQUESTPROTO
-DESCRIPTOR.message_types_by_name['BulkWriteRealRequestProto'] = _BULKWRITEREALREQUESTPROTO
-DESCRIPTOR.message_types_by_name['WriteStringRequestProto'] = _WRITESTRINGREQUESTPROTO
-DESCRIPTOR.message_types_by_name['BulkWriteStringRequestProto'] = _BULKWRITESTRINGREQUESTPROTO
-DESCRIPTOR.message_types_by_name['WriteBooleanRequestProto'] = _WRITEBOOLEANREQUESTPROTO
-DESCRIPTOR.message_types_by_name['BulkWriteBooleanRequestProto'] = _BULKWRITEBOOLEANREQUESTPROTO
-DESCRIPTOR.message_types_by_name['UnknownProto'] = _UNKNOWNPROTO
-DESCRIPTOR.message_types_by_name['ModelStructureProto'] = _MODELSTRUCTUREPROTO
-DESCRIPTOR.message_types_by_name['IntegratorProto'] = _INTEGRATORPROTO
-DESCRIPTOR.message_types_by_name['EulerIntegratorProto'] = _EULERINTEGRATORPROTO
-DESCRIPTOR.message_types_by_name['ClassicalRungeKuttaIntegratorProto'] = _CLASSICALRUNGEKUTTAINTEGRATORPROTO
-DESCRIPTOR.message_types_by_name['MidpointIntegratorProto'] = _MIDPOINTINTEGRATORPROTO
-DESCRIPTOR.message_types_by_name['GillIntegratorProto'] = _GILLINTEGRATORPROTO
-DESCRIPTOR.message_types_by_name['AdamsBashforthIntegratorProto'] = _ADAMSBASHFORTHINTEGRATORPROTO
-DESCRIPTOR.message_types_by_name['DormandPrince54Integrator'] = _DORMANDPRINCE54INTEGRATOR
-DESCRIPTOR.enum_types_by_name['CausalityProto'] = _CAUSALITYPROTO
-DESCRIPTOR.enum_types_by_name['VariabilityProto'] = _VARIABILITYPROTO
-DESCRIPTOR.enum_types_by_name['InitialProto'] = _INITIALPROTO
-DESCRIPTOR.enum_types_by_name['VariableTypeProto'] = _VARIABLETYPEPROTO
-DESCRIPTOR.enum_types_by_name['StatusCodeProto'] = _STATUSCODEPROTO
-DESCRIPTOR.enum_types_by_name['DependenciesKindProto'] = _DEPENDENCIESKINDPROTO
+_INTEGRATOR = _descriptor.Descriptor(
+  name='Integrator',
+  full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='euler', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.euler', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='runge_kutta', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.runge_kutta', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mid_point', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.mid_point', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='gill', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.gill', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='adams_bashforth', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.adams_bashforth', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='dormand_prince54', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.dormand_prince54', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_INTEGRATOR_EULER, _INTEGRATOR_CLASSICALRUNGEKUTTA, _INTEGRATOR_MIDPOINT, _INTEGRATOR_GILL, _INTEGRATOR_ADAMSBASHFORTH, _INTEGRATOR_DORMANDPRINCE54, ],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='integrators', full_name='no.mechatronics.sfi.fmu_proxy.grpc.Integrator.integrators',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=3649,
+  serialized_end=4554,
+)
+
+_MODELDESCRIPTION.fields_by_name['default_experiment'].message_type = _DEFAULTEXPERIMENT
+_MODELDESCRIPTION.fields_by_name['variable_naming_convention'].enum_type = _VARIABLENAMINGCONVENTION
+_MODELDESCRIPTION.fields_by_name['model_variables'].message_type = _SCALARVARIABLE
+_MODELDESCRIPTION.fields_by_name['model_structure'].message_type = _MODELSTRUCTURE
+_SCALARVARIABLE.fields_by_name['variable_type'].enum_type = _VARIABLETYPE
+_SCALARVARIABLE.fields_by_name['initial'].enum_type = _INITIAL
+_SCALARVARIABLE.fields_by_name['causality'].enum_type = _CAUSALITY
+_SCALARVARIABLE.fields_by_name['variability'].enum_type = _VARIABILITY
+_SCALARVARIABLE.fields_by_name['start'].message_type = _ANYPRIMITIVE
+_ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
+  _ANYPRIMITIVE.fields_by_name['int_value'])
+_ANYPRIMITIVE.fields_by_name['int_value'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
+_ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
+  _ANYPRIMITIVE.fields_by_name['real_value'])
+_ANYPRIMITIVE.fields_by_name['real_value'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
+_ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
+  _ANYPRIMITIVE.fields_by_name['str_value'])
+_ANYPRIMITIVE.fields_by_name['str_value'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
+_ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
+  _ANYPRIMITIVE.fields_by_name['bool_value'])
+_ANYPRIMITIVE.fields_by_name['bool_value'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
+_ANYPRIMITIVE.oneofs_by_name['value'].fields.append(
+  _ANYPRIMITIVE.fields_by_name['enum_value'])
+_ANYPRIMITIVE.fields_by_name['enum_value'].containing_oneof = _ANYPRIMITIVE.oneofs_by_name['value']
+_UNKNOWN.fields_by_name['dependencies_kind'].enum_type = _DEPENDENCIESKIND
+_MODELSTRUCTURE.fields_by_name['derivatives'].message_type = _UNKNOWN
+_MODELSTRUCTURE.fields_by_name['initial_unknowns'].message_type = _UNKNOWN
+_STATUS.fields_by_name['code'].enum_type = _STATUSCODE
+_INTREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_INTLISTREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_REALREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_REALLISTREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_STRREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_STRLISTREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_BOOLREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_BOOLLISTREAD.fields_by_name['status'].enum_type = _STATUSCODE
+_INTEGRATOR_EULER.containing_type = _INTEGRATOR
+_INTEGRATOR_CLASSICALRUNGEKUTTA.containing_type = _INTEGRATOR
+_INTEGRATOR_MIDPOINT.containing_type = _INTEGRATOR
+_INTEGRATOR_GILL.containing_type = _INTEGRATOR
+_INTEGRATOR_ADAMSBASHFORTH.containing_type = _INTEGRATOR
+_INTEGRATOR_DORMANDPRINCE54.containing_type = _INTEGRATOR
+_INTEGRATOR.fields_by_name['euler'].message_type = _INTEGRATOR_EULER
+_INTEGRATOR.fields_by_name['runge_kutta'].message_type = _INTEGRATOR_CLASSICALRUNGEKUTTA
+_INTEGRATOR.fields_by_name['mid_point'].message_type = _INTEGRATOR_MIDPOINT
+_INTEGRATOR.fields_by_name['gill'].message_type = _INTEGRATOR_GILL
+_INTEGRATOR.fields_by_name['adams_bashforth'].message_type = _INTEGRATOR_ADAMSBASHFORTH
+_INTEGRATOR.fields_by_name['dormand_prince54'].message_type = _INTEGRATOR_DORMANDPRINCE54
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['euler'])
+_INTEGRATOR.fields_by_name['euler'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['runge_kutta'])
+_INTEGRATOR.fields_by_name['runge_kutta'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['mid_point'])
+_INTEGRATOR.fields_by_name['mid_point'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['gill'])
+_INTEGRATOR.fields_by_name['gill'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['adams_bashforth'])
+_INTEGRATOR.fields_by_name['adams_bashforth'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+_INTEGRATOR.oneofs_by_name['integrators'].fields.append(
+  _INTEGRATOR.fields_by_name['dormand_prince54'])
+_INTEGRATOR.fields_by_name['dormand_prince54'].containing_oneof = _INTEGRATOR.oneofs_by_name['integrators']
+DESCRIPTOR.message_types_by_name['ModelDescription'] = _MODELDESCRIPTION
+DESCRIPTOR.message_types_by_name['ScalarVariable'] = _SCALARVARIABLE
+DESCRIPTOR.message_types_by_name['AnyPrimitive'] = _ANYPRIMITIVE
+DESCRIPTOR.message_types_by_name['DefaultExperiment'] = _DEFAULTEXPERIMENT
+DESCRIPTOR.message_types_by_name['Unknown'] = _UNKNOWN
+DESCRIPTOR.message_types_by_name['ModelStructure'] = _MODELSTRUCTURE
+DESCRIPTOR.message_types_by_name['Status'] = _STATUS
+DESCRIPTOR.message_types_by_name['InitRequest'] = _INITREQUEST
+DESCRIPTOR.message_types_by_name['StepRequest'] = _STEPREQUEST
+DESCRIPTOR.message_types_by_name['UInt'] = _UINT
+DESCRIPTOR.message_types_by_name['Int'] = _INT
+DESCRIPTOR.message_types_by_name['IntRead'] = _INTREAD
+DESCRIPTOR.message_types_by_name['IntList'] = _INTLIST
+DESCRIPTOR.message_types_by_name['IntListRead'] = _INTLISTREAD
+DESCRIPTOR.message_types_by_name['Real'] = _REAL
+DESCRIPTOR.message_types_by_name['RealRead'] = _REALREAD
+DESCRIPTOR.message_types_by_name['RealList'] = _REALLIST
+DESCRIPTOR.message_types_by_name['RealListRead'] = _REALLISTREAD
+DESCRIPTOR.message_types_by_name['Str'] = _STR
+DESCRIPTOR.message_types_by_name['StrRead'] = _STRREAD
+DESCRIPTOR.message_types_by_name['StrList'] = _STRLIST
+DESCRIPTOR.message_types_by_name['StrListRead'] = _STRLISTREAD
+DESCRIPTOR.message_types_by_name['Bool'] = _BOOL
+DESCRIPTOR.message_types_by_name['BoolRead'] = _BOOLREAD
+DESCRIPTOR.message_types_by_name['BoolList'] = _BOOLLIST
+DESCRIPTOR.message_types_by_name['BoolListRead'] = _BOOLLISTREAD
+DESCRIPTOR.message_types_by_name['ReadRequest'] = _READREQUEST
+DESCRIPTOR.message_types_by_name['BulkReadRequest'] = _BULKREADREQUEST
+DESCRIPTOR.message_types_by_name['WriteIntRequest'] = _WRITEINTREQUEST
+DESCRIPTOR.message_types_by_name['BulkWriteIntRequest'] = _BULKWRITEINTREQUEST
+DESCRIPTOR.message_types_by_name['WriteRealRequest'] = _WRITEREALREQUEST
+DESCRIPTOR.message_types_by_name['BulkWriteRealRequest'] = _BULKWRITEREALREQUEST
+DESCRIPTOR.message_types_by_name['WriteStrRequest'] = _WRITESTRREQUEST
+DESCRIPTOR.message_types_by_name['BulkWriteStrRequest'] = _BULKWRITESTRREQUEST
+DESCRIPTOR.message_types_by_name['WriteBoolRequest'] = _WRITEBOOLREQUEST
+DESCRIPTOR.message_types_by_name['BulkWriteBoolRequest'] = _BULKWRITEBOOLREQUEST
+DESCRIPTOR.message_types_by_name['InstanceIntWrite'] = _INSTANCEINTWRITE
+DESCRIPTOR.message_types_by_name['InstanceRealWrite'] = _INSTANCEREALWRITE
+DESCRIPTOR.message_types_by_name['InstanceStrWrite'] = _INSTANCESTRWRITE
+DESCRIPTOR.message_types_by_name['InstanceBoolWrite'] = _INSTANCEBOOLWRITE
+DESCRIPTOR.message_types_by_name['Integrator'] = _INTEGRATOR
+DESCRIPTOR.enum_types_by_name['Causality'] = _CAUSALITY
+DESCRIPTOR.enum_types_by_name['Variability'] = _VARIABILITY
+DESCRIPTOR.enum_types_by_name['Initial'] = _INITIAL
+DESCRIPTOR.enum_types_by_name['VariableType'] = _VARIABLETYPE
+DESCRIPTOR.enum_types_by_name['StatusCode'] = _STATUSCODE
+DESCRIPTOR.enum_types_by_name['DependenciesKind'] = _DEPENDENCIESKIND
+DESCRIPTOR.enum_types_by_name['VariableNamingConvention'] = _VARIABLENAMINGCONVENTION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-ScalarVariableProto = _reflection.GeneratedProtocolMessageType('ScalarVariableProto', (_message.Message,), dict(
-  DESCRIPTOR = _SCALARVARIABLEPROTO,
+ModelDescription = _reflection.GeneratedProtocolMessageType('ModelDescription', (_message.Message,), dict(
+  DESCRIPTOR = _MODELDESCRIPTION,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariableProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ModelDescription)
   ))
-_sym_db.RegisterMessage(ScalarVariableProto)
+_sym_db.RegisterMessage(ModelDescription)
 
-StatusProto = _reflection.GeneratedProtocolMessageType('StatusProto', (_message.Message,), dict(
-  DESCRIPTOR = _STATUSPROTO,
+ScalarVariable = _reflection.GeneratedProtocolMessageType('ScalarVariable', (_message.Message,), dict(
+  DESCRIPTOR = _SCALARVARIABLE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StatusProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ScalarVariable)
   ))
-_sym_db.RegisterMessage(StatusProto)
+_sym_db.RegisterMessage(ScalarVariable)
 
-AnyPrimitiveProto = _reflection.GeneratedProtocolMessageType('AnyPrimitiveProto', (_message.Message,), dict(
-  DESCRIPTOR = _ANYPRIMITIVEPROTO,
+AnyPrimitive = _reflection.GeneratedProtocolMessageType('AnyPrimitive', (_message.Message,), dict(
+  DESCRIPTOR = _ANYPRIMITIVE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitiveProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.AnyPrimitive)
   ))
-_sym_db.RegisterMessage(AnyPrimitiveProto)
+_sym_db.RegisterMessage(AnyPrimitive)
 
-InitRequestProto = _reflection.GeneratedProtocolMessageType('InitRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _INITREQUESTPROTO,
+DefaultExperiment = _reflection.GeneratedProtocolMessageType('DefaultExperiment', (_message.Message,), dict(
+  DESCRIPTOR = _DEFAULTEXPERIMENT,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.InitRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.DefaultExperiment)
   ))
-_sym_db.RegisterMessage(InitRequestProto)
+_sym_db.RegisterMessage(DefaultExperiment)
 
-StepRequestProto = _reflection.GeneratedProtocolMessageType('StepRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _STEPREQUESTPROTO,
+Unknown = _reflection.GeneratedProtocolMessageType('Unknown', (_message.Message,), dict(
+  DESCRIPTOR = _UNKNOWN,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StepRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Unknown)
   ))
-_sym_db.RegisterMessage(StepRequestProto)
+_sym_db.RegisterMessage(Unknown)
 
-UIntProto = _reflection.GeneratedProtocolMessageType('UIntProto', (_message.Message,), dict(
-  DESCRIPTOR = _UINTPROTO,
+ModelStructure = _reflection.GeneratedProtocolMessageType('ModelStructure', (_message.Message,), dict(
+  DESCRIPTOR = _MODELSTRUCTURE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.UIntProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ModelStructure)
   ))
-_sym_db.RegisterMessage(UIntProto)
+_sym_db.RegisterMessage(ModelStructure)
 
-IntProto = _reflection.GeneratedProtocolMessageType('IntProto', (_message.Message,), dict(
-  DESCRIPTOR = _INTPROTO,
+Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,), dict(
+  DESCRIPTOR = _STATUS,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Status)
   ))
-_sym_db.RegisterMessage(IntProto)
+_sym_db.RegisterMessage(Status)
 
-IntReadProto = _reflection.GeneratedProtocolMessageType('IntReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _INTREADPROTO,
+InitRequest = _reflection.GeneratedProtocolMessageType('InitRequest', (_message.Message,), dict(
+  DESCRIPTOR = _INITREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.InitRequest)
   ))
-_sym_db.RegisterMessage(IntReadProto)
+_sym_db.RegisterMessage(InitRequest)
 
-IntListProto = _reflection.GeneratedProtocolMessageType('IntListProto', (_message.Message,), dict(
-  DESCRIPTOR = _INTLISTPROTO,
+StepRequest = _reflection.GeneratedProtocolMessageType('StepRequest', (_message.Message,), dict(
+  DESCRIPTOR = _STEPREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntListProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StepRequest)
   ))
-_sym_db.RegisterMessage(IntListProto)
+_sym_db.RegisterMessage(StepRequest)
 
-IntListReadProto = _reflection.GeneratedProtocolMessageType('IntListReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _INTLISTREADPROTO,
+UInt = _reflection.GeneratedProtocolMessageType('UInt', (_message.Message,), dict(
+  DESCRIPTOR = _UINT,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntListReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.UInt)
   ))
-_sym_db.RegisterMessage(IntListReadProto)
+_sym_db.RegisterMessage(UInt)
 
-RealProto = _reflection.GeneratedProtocolMessageType('RealProto', (_message.Message,), dict(
-  DESCRIPTOR = _REALPROTO,
+Int = _reflection.GeneratedProtocolMessageType('Int', (_message.Message,), dict(
+  DESCRIPTOR = _INT,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Int)
   ))
-_sym_db.RegisterMessage(RealProto)
+_sym_db.RegisterMessage(Int)
 
-RealReadProto = _reflection.GeneratedProtocolMessageType('RealReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _REALREADPROTO,
+IntRead = _reflection.GeneratedProtocolMessageType('IntRead', (_message.Message,), dict(
+  DESCRIPTOR = _INTREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntRead)
   ))
-_sym_db.RegisterMessage(RealReadProto)
+_sym_db.RegisterMessage(IntRead)
 
-RealListProto = _reflection.GeneratedProtocolMessageType('RealListProto', (_message.Message,), dict(
-  DESCRIPTOR = _REALLISTPROTO,
+IntList = _reflection.GeneratedProtocolMessageType('IntList', (_message.Message,), dict(
+  DESCRIPTOR = _INTLIST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealListProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntList)
   ))
-_sym_db.RegisterMessage(RealListProto)
+_sym_db.RegisterMessage(IntList)
 
-RealListReadProto = _reflection.GeneratedProtocolMessageType('RealListReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _REALLISTREADPROTO,
+IntListRead = _reflection.GeneratedProtocolMessageType('IntListRead', (_message.Message,), dict(
+  DESCRIPTOR = _INTLISTREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealListReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntListRead)
   ))
-_sym_db.RegisterMessage(RealListReadProto)
+_sym_db.RegisterMessage(IntListRead)
 
-StrProto = _reflection.GeneratedProtocolMessageType('StrProto', (_message.Message,), dict(
-  DESCRIPTOR = _STRPROTO,
+Real = _reflection.GeneratedProtocolMessageType('Real', (_message.Message,), dict(
+  DESCRIPTOR = _REAL,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Real)
   ))
-_sym_db.RegisterMessage(StrProto)
+_sym_db.RegisterMessage(Real)
 
-StrReadProto = _reflection.GeneratedProtocolMessageType('StrReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _STRREADPROTO,
+RealRead = _reflection.GeneratedProtocolMessageType('RealRead', (_message.Message,), dict(
+  DESCRIPTOR = _REALREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealRead)
   ))
-_sym_db.RegisterMessage(StrReadProto)
+_sym_db.RegisterMessage(RealRead)
 
-StrListProto = _reflection.GeneratedProtocolMessageType('StrListProto', (_message.Message,), dict(
-  DESCRIPTOR = _STRLISTPROTO,
+RealList = _reflection.GeneratedProtocolMessageType('RealList', (_message.Message,), dict(
+  DESCRIPTOR = _REALLIST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrListProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealList)
   ))
-_sym_db.RegisterMessage(StrListProto)
+_sym_db.RegisterMessage(RealList)
 
-StrListReadProto = _reflection.GeneratedProtocolMessageType('StrListReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _STRLISTREADPROTO,
+RealListRead = _reflection.GeneratedProtocolMessageType('RealListRead', (_message.Message,), dict(
+  DESCRIPTOR = _REALLISTREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrListReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.RealListRead)
   ))
-_sym_db.RegisterMessage(StrListReadProto)
+_sym_db.RegisterMessage(RealListRead)
 
-BoolProto = _reflection.GeneratedProtocolMessageType('BoolProto', (_message.Message,), dict(
-  DESCRIPTOR = _BOOLPROTO,
+Str = _reflection.GeneratedProtocolMessageType('Str', (_message.Message,), dict(
+  DESCRIPTOR = _STR,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Str)
   ))
-_sym_db.RegisterMessage(BoolProto)
+_sym_db.RegisterMessage(Str)
 
-BoolReadProto = _reflection.GeneratedProtocolMessageType('BoolReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _BOOLREADPROTO,
+StrRead = _reflection.GeneratedProtocolMessageType('StrRead', (_message.Message,), dict(
+  DESCRIPTOR = _STRREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrRead)
   ))
-_sym_db.RegisterMessage(BoolReadProto)
+_sym_db.RegisterMessage(StrRead)
 
-BoolListProto = _reflection.GeneratedProtocolMessageType('BoolListProto', (_message.Message,), dict(
-  DESCRIPTOR = _BOOLLISTPROTO,
+StrList = _reflection.GeneratedProtocolMessageType('StrList', (_message.Message,), dict(
+  DESCRIPTOR = _STRLIST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolListProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrList)
   ))
-_sym_db.RegisterMessage(BoolListProto)
+_sym_db.RegisterMessage(StrList)
 
-BoolListReadProto = _reflection.GeneratedProtocolMessageType('BoolListReadProto', (_message.Message,), dict(
-  DESCRIPTOR = _BOOLLISTREADPROTO,
+StrListRead = _reflection.GeneratedProtocolMessageType('StrListRead', (_message.Message,), dict(
+  DESCRIPTOR = _STRLISTREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolListReadProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.StrListRead)
   ))
-_sym_db.RegisterMessage(BoolListReadProto)
+_sym_db.RegisterMessage(StrListRead)
 
-ReadRequestProto = _reflection.GeneratedProtocolMessageType('ReadRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _READREQUESTPROTO,
+Bool = _reflection.GeneratedProtocolMessageType('Bool', (_message.Message,), dict(
+  DESCRIPTOR = _BOOL,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ReadRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Bool)
   ))
-_sym_db.RegisterMessage(ReadRequestProto)
+_sym_db.RegisterMessage(Bool)
 
-BulkReadRequestProto = _reflection.GeneratedProtocolMessageType('BulkReadRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _BULKREADREQUESTPROTO,
+BoolRead = _reflection.GeneratedProtocolMessageType('BoolRead', (_message.Message,), dict(
+  DESCRIPTOR = _BOOLREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolRead)
   ))
-_sym_db.RegisterMessage(BulkReadRequestProto)
+_sym_db.RegisterMessage(BoolRead)
 
-WriteIntegerRequestProto = _reflection.GeneratedProtocolMessageType('WriteIntegerRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _WRITEINTEGERREQUESTPROTO,
+BoolList = _reflection.GeneratedProtocolMessageType('BoolList', (_message.Message,), dict(
+  DESCRIPTOR = _BOOLLIST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteIntegerRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolList)
   ))
-_sym_db.RegisterMessage(WriteIntegerRequestProto)
+_sym_db.RegisterMessage(BoolList)
 
-BulkWriteIntegerRequestProto = _reflection.GeneratedProtocolMessageType('BulkWriteIntegerRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITEINTEGERREQUESTPROTO,
+BoolListRead = _reflection.GeneratedProtocolMessageType('BoolListRead', (_message.Message,), dict(
+  DESCRIPTOR = _BOOLLISTREAD,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntegerRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BoolListRead)
   ))
-_sym_db.RegisterMessage(BulkWriteIntegerRequestProto)
+_sym_db.RegisterMessage(BoolListRead)
 
-WriteRealRequestProto = _reflection.GeneratedProtocolMessageType('WriteRealRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _WRITEREALREQUESTPROTO,
+ReadRequest = _reflection.GeneratedProtocolMessageType('ReadRequest', (_message.Message,), dict(
+  DESCRIPTOR = _READREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ReadRequest)
   ))
-_sym_db.RegisterMessage(WriteRealRequestProto)
+_sym_db.RegisterMessage(ReadRequest)
 
-BulkWriteRealRequestProto = _reflection.GeneratedProtocolMessageType('BulkWriteRealRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITEREALREQUESTPROTO,
+BulkReadRequest = _reflection.GeneratedProtocolMessageType('BulkReadRequest', (_message.Message,), dict(
+  DESCRIPTOR = _BULKREADREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkReadRequest)
   ))
-_sym_db.RegisterMessage(BulkWriteRealRequestProto)
+_sym_db.RegisterMessage(BulkReadRequest)
 
-WriteStringRequestProto = _reflection.GeneratedProtocolMessageType('WriteStringRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _WRITESTRINGREQUESTPROTO,
+WriteIntRequest = _reflection.GeneratedProtocolMessageType('WriteIntRequest', (_message.Message,), dict(
+  DESCRIPTOR = _WRITEINTREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteStringRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteIntRequest)
   ))
-_sym_db.RegisterMessage(WriteStringRequestProto)
+_sym_db.RegisterMessage(WriteIntRequest)
 
-BulkWriteStringRequestProto = _reflection.GeneratedProtocolMessageType('BulkWriteStringRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITESTRINGREQUESTPROTO,
+BulkWriteIntRequest = _reflection.GeneratedProtocolMessageType('BulkWriteIntRequest', (_message.Message,), dict(
+  DESCRIPTOR = _BULKWRITEINTREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStringRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteIntRequest)
   ))
-_sym_db.RegisterMessage(BulkWriteStringRequestProto)
+_sym_db.RegisterMessage(BulkWriteIntRequest)
 
-WriteBooleanRequestProto = _reflection.GeneratedProtocolMessageType('WriteBooleanRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _WRITEBOOLEANREQUESTPROTO,
+WriteRealRequest = _reflection.GeneratedProtocolMessageType('WriteRealRequest', (_message.Message,), dict(
+  DESCRIPTOR = _WRITEREALREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteBooleanRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteRealRequest)
   ))
-_sym_db.RegisterMessage(WriteBooleanRequestProto)
+_sym_db.RegisterMessage(WriteRealRequest)
 
-BulkWriteBooleanRequestProto = _reflection.GeneratedProtocolMessageType('BulkWriteBooleanRequestProto', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITEBOOLEANREQUESTPROTO,
+BulkWriteRealRequest = _reflection.GeneratedProtocolMessageType('BulkWriteRealRequest', (_message.Message,), dict(
+  DESCRIPTOR = _BULKWRITEREALREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBooleanRequestProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteRealRequest)
   ))
-_sym_db.RegisterMessage(BulkWriteBooleanRequestProto)
+_sym_db.RegisterMessage(BulkWriteRealRequest)
 
-UnknownProto = _reflection.GeneratedProtocolMessageType('UnknownProto', (_message.Message,), dict(
-  DESCRIPTOR = _UNKNOWNPROTO,
+WriteStrRequest = _reflection.GeneratedProtocolMessageType('WriteStrRequest', (_message.Message,), dict(
+  DESCRIPTOR = _WRITESTRREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.UnknownProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteStrRequest)
   ))
-_sym_db.RegisterMessage(UnknownProto)
+_sym_db.RegisterMessage(WriteStrRequest)
 
-ModelStructureProto = _reflection.GeneratedProtocolMessageType('ModelStructureProto', (_message.Message,), dict(
-  DESCRIPTOR = _MODELSTRUCTUREPROTO,
+BulkWriteStrRequest = _reflection.GeneratedProtocolMessageType('BulkWriteStrRequest', (_message.Message,), dict(
+  DESCRIPTOR = _BULKWRITESTRREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ModelStructureProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteStrRequest)
   ))
-_sym_db.RegisterMessage(ModelStructureProto)
+_sym_db.RegisterMessage(BulkWriteStrRequest)
 
-IntegratorProto = _reflection.GeneratedProtocolMessageType('IntegratorProto', (_message.Message,), dict(
-  DESCRIPTOR = _INTEGRATORPROTO,
+WriteBoolRequest = _reflection.GeneratedProtocolMessageType('WriteBoolRequest', (_message.Message,), dict(
+  DESCRIPTOR = _WRITEBOOLREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.IntegratorProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.WriteBoolRequest)
   ))
-_sym_db.RegisterMessage(IntegratorProto)
+_sym_db.RegisterMessage(WriteBoolRequest)
 
-EulerIntegratorProto = _reflection.GeneratedProtocolMessageType('EulerIntegratorProto', (_message.Message,), dict(
-  DESCRIPTOR = _EULERINTEGRATORPROTO,
+BulkWriteBoolRequest = _reflection.GeneratedProtocolMessageType('BulkWriteBoolRequest', (_message.Message,), dict(
+  DESCRIPTOR = _BULKWRITEBOOLREQUEST,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.EulerIntegratorProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.BulkWriteBoolRequest)
   ))
-_sym_db.RegisterMessage(EulerIntegratorProto)
+_sym_db.RegisterMessage(BulkWriteBoolRequest)
 
-ClassicalRungeKuttaIntegratorProto = _reflection.GeneratedProtocolMessageType('ClassicalRungeKuttaIntegratorProto', (_message.Message,), dict(
-  DESCRIPTOR = _CLASSICALRUNGEKUTTAINTEGRATORPROTO,
+InstanceIntWrite = _reflection.GeneratedProtocolMessageType('InstanceIntWrite', (_message.Message,), dict(
+  DESCRIPTOR = _INSTANCEINTWRITE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.ClassicalRungeKuttaIntegratorProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.InstanceIntWrite)
   ))
-_sym_db.RegisterMessage(ClassicalRungeKuttaIntegratorProto)
+_sym_db.RegisterMessage(InstanceIntWrite)
 
-MidpointIntegratorProto = _reflection.GeneratedProtocolMessageType('MidpointIntegratorProto', (_message.Message,), dict(
-  DESCRIPTOR = _MIDPOINTINTEGRATORPROTO,
+InstanceRealWrite = _reflection.GeneratedProtocolMessageType('InstanceRealWrite', (_message.Message,), dict(
+  DESCRIPTOR = _INSTANCEREALWRITE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.MidpointIntegratorProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.InstanceRealWrite)
   ))
-_sym_db.RegisterMessage(MidpointIntegratorProto)
+_sym_db.RegisterMessage(InstanceRealWrite)
 
-GillIntegratorProto = _reflection.GeneratedProtocolMessageType('GillIntegratorProto', (_message.Message,), dict(
-  DESCRIPTOR = _GILLINTEGRATORPROTO,
+InstanceStrWrite = _reflection.GeneratedProtocolMessageType('InstanceStrWrite', (_message.Message,), dict(
+  DESCRIPTOR = _INSTANCESTRWRITE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.GillIntegratorProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.InstanceStrWrite)
   ))
-_sym_db.RegisterMessage(GillIntegratorProto)
+_sym_db.RegisterMessage(InstanceStrWrite)
 
-AdamsBashforthIntegratorProto = _reflection.GeneratedProtocolMessageType('AdamsBashforthIntegratorProto', (_message.Message,), dict(
-  DESCRIPTOR = _ADAMSBASHFORTHINTEGRATORPROTO,
+InstanceBoolWrite = _reflection.GeneratedProtocolMessageType('InstanceBoolWrite', (_message.Message,), dict(
+  DESCRIPTOR = _INSTANCEBOOLWRITE,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.AdamsBashforthIntegratorProto)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.InstanceBoolWrite)
   ))
-_sym_db.RegisterMessage(AdamsBashforthIntegratorProto)
+_sym_db.RegisterMessage(InstanceBoolWrite)
 
-DormandPrince54Integrator = _reflection.GeneratedProtocolMessageType('DormandPrince54Integrator', (_message.Message,), dict(
-  DESCRIPTOR = _DORMANDPRINCE54INTEGRATOR,
+Integrator = _reflection.GeneratedProtocolMessageType('Integrator', (_message.Message,), dict(
+
+  Euler = _reflection.GeneratedProtocolMessageType('Euler', (_message.Message,), dict(
+    DESCRIPTOR = _INTEGRATOR_EULER,
+    __module__ = 'definitions_pb2'
+    # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Euler)
+    ))
+  ,
+
+  ClassicalRungeKutta = _reflection.GeneratedProtocolMessageType('ClassicalRungeKutta', (_message.Message,), dict(
+    DESCRIPTOR = _INTEGRATOR_CLASSICALRUNGEKUTTA,
+    __module__ = 'definitions_pb2'
+    # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator.ClassicalRungeKutta)
+    ))
+  ,
+
+  Midpoint = _reflection.GeneratedProtocolMessageType('Midpoint', (_message.Message,), dict(
+    DESCRIPTOR = _INTEGRATOR_MIDPOINT,
+    __module__ = 'definitions_pb2'
+    # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Midpoint)
+    ))
+  ,
+
+  Gill = _reflection.GeneratedProtocolMessageType('Gill', (_message.Message,), dict(
+    DESCRIPTOR = _INTEGRATOR_GILL,
+    __module__ = 'definitions_pb2'
+    # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator.Gill)
+    ))
+  ,
+
+  AdamsBashforth = _reflection.GeneratedProtocolMessageType('AdamsBashforth', (_message.Message,), dict(
+    DESCRIPTOR = _INTEGRATOR_ADAMSBASHFORTH,
+    __module__ = 'definitions_pb2'
+    # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator.AdamsBashforth)
+    ))
+  ,
+
+  DormandPrince54 = _reflection.GeneratedProtocolMessageType('DormandPrince54', (_message.Message,), dict(
+    DESCRIPTOR = _INTEGRATOR_DORMANDPRINCE54,
+    __module__ = 'definitions_pb2'
+    # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator.DormandPrince54)
+    ))
+  ,
+  DESCRIPTOR = _INTEGRATOR,
   __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.DormandPrince54Integrator)
+  # @@protoc_insertion_point(class_scope:no.mechatronics.sfi.fmu_proxy.grpc.Integrator)
   ))
-_sym_db.RegisterMessage(DormandPrince54Integrator)
+_sym_db.RegisterMessage(Integrator)
+_sym_db.RegisterMessage(Integrator.Euler)
+_sym_db.RegisterMessage(Integrator.ClassicalRungeKutta)
+_sym_db.RegisterMessage(Integrator.Midpoint)
+_sym_db.RegisterMessage(Integrator.Gill)
+_sym_db.RegisterMessage(Integrator.AdamsBashforth)
+_sym_db.RegisterMessage(Integrator.DormandPrince54)
 
 
 DESCRIPTOR.has_options = True
-DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('P\001'))
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('B\005Proto'))
 # @@protoc_insertion_point(module_scope)

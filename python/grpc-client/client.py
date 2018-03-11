@@ -1,18 +1,18 @@
 import grpc
 from google.protobuf.empty_pb2 import Empty
-from definitions_pb2 import UIntProto
-from definitions_pb2 import InitRequestProto
-from definitions_pb2 import StepRequestProto
-from definitions_pb2 import ReadRequestProto
-from definitions_pb2 import IntReadProto
-from definitions_pb2 import RealReadProto
-from definitions_pb2 import StrReadProto
-from definitions_pb2 import BoolReadProto
-from definitions_pb2 import WriteIntegerRequestProto
-from definitions_pb2 import WriteRealRequestProto
-from definitions_pb2 import WriteStringRequestProto
-from definitions_pb2 import WriteBooleanRequestProto
-from definitions_pb2 import StatusProto
+from definitions_pb2 import UInt
+from definitions_pb2 import InitRequest
+from definitions_pb2 import StepRequest
+from definitions_pb2 import ReadRequest
+from definitions_pb2 import IntRead
+from definitions_pb2 import RealRead
+from definitions_pb2 import StrRead
+from definitions_pb2 import BoolRead
+from definitions_pb2 import WriteIntRequest
+from definitions_pb2 import WriteRealRequest
+from definitions_pb2 import WriteStrRequest
+from definitions_pb2 import WriteBoolRequest
+from definitions_pb2 import Status
 from service_pb2_grpc import FmuServiceStub
 
 
@@ -20,20 +20,20 @@ class VariableReader:
 
     def __init__(self, fmu_id, value_reference, stub):
         self.stub = stub
-        self.request = ReadRequestProto()
+        self.request = ReadRequest()
         self.request.fmu_id = fmu_id
         self.request.value_reference = value_reference
 
-    def read_int(self) -> IntReadProto:
+    def read_int(self) -> IntRead:
         return self.stub.ReadInteger(self.request)
 
-    def read_real(self) -> RealReadProto:
+    def read_real(self) -> RealRead:
         return self.stub.ReadReal(self.request)
 
-    def read_string(self) -> StrReadProto:
+    def read_string(self) -> StrRead:
         return self.stub.ReadString(self.request)
 
-    def read_boolean(self) -> BoolReadProto:
+    def read_boolean(self) -> BoolRead:
         return self.stub.ReadBoolean(self.request)
 
 
@@ -45,28 +45,28 @@ class VariableWriter:
         self.value_reference = value_reference
 
     def write_int(self, value: int):
-        request = WriteIntegerRequestProto()
+        request = WriteIntRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteInt(request)
 
     def write_real(self, value: float):
-        request = WriteRealRequestProto()
+        request = WriteRealRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteReal(request)
 
     def write_string(self, value: str):
-        request = WriteStringRequestProto()
+        request = WriteStrRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteString(request)
 
     def write_boolean(self, value: bool):
-        request = WriteBooleanRequestProto()
+        request = WriteBoolRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
@@ -75,8 +75,9 @@ class VariableWriter:
 
 class FmuInstance:
 
-    def __init__(self, stub: FmuServiceStub, integrator=None):
+    def __init__(self, stub: FmuServiceStub, model_description, integrator=None):
         self.stub = stub
+        self.model_description = model_description
 
         if integrator is None:
             self.fmu_id = self.stub.CreateInstanceFromCS(Empty()).value
@@ -84,34 +85,34 @@ class FmuInstance:
             self.fmu_id = self.stub.CreateInstanceFromME(integrator).value
 
         self.model_variables = dict()
-        for v in self.stub.GetModelVariables(Empty()):
+        for v in self.model_description.model_variables:
             self.model_variables[v.value_reference] = v
 
     def get_current_time(self) -> float:
-        ref = UIntProto()
+        ref = UInt()
         ref.value = self.fmu_id
         return self.stub.GetCurrentTime(ref).value
 
     def init(self, start=0.0, stop=0.0) -> bool:
-        request = InitRequestProto()
+        request = InitRequest()
         request.fmu_id = self.fmu_id
         request.start = start
         request.stop = stop
         return self.stub.Init(request).value
 
-    def step(self, step_size) -> StatusProto:
-        request = StepRequestProto()
+    def step(self, step_size) -> Status:
+        request = StepRequest()
         request.fmu_id = self.fmu_id
         request.step_size = step_size
         return self.stub.Step(request)
 
     def terminate(self) -> bool:
-        request = UIntProto()
+        request = UInt()
         request.value = self.fmu_id
         return self.stub.Terminate(request).value
 
-    def reset(self) -> StatusProto:
-        request = UIntProto()
+    def reset(self) -> Status:
+        request = UInt()
         request.value = self.fmu_id
         self.stub.Reset(request)
 
@@ -146,11 +147,10 @@ class FmuClient:
         self._channel = grpc.insecure_channel(host_address + ':' + str(port))
         self._stub = FmuServiceStub(self._channel)
 
-    def get_model_name(self) -> str:
-        return self._stub.GetModelName(Empty())
+        self.model_description = self._stub.GetModelDescription(Empty())
 
     def create_instance(self, integrator=None) -> FmuInstance:
-        return FmuInstance(self._stub, integrator)
+        return FmuInstance(self._stub, self.model_description, integrator)
 
 
 
