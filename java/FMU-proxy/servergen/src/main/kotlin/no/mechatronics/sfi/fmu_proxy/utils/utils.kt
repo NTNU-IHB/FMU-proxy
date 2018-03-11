@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmu_proxy.utils
 
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import org.apache.commons.io.IOUtils
 import java.io.File
 import java.io.FileOutputStream
@@ -37,16 +38,16 @@ internal fun isArray(name: String) : Boolean {
     return "[" in name && "]" in name
 }
 
-internal fun getProtoType(typeName: String): String {
+internal fun getProtoType(variable: TypedScalarVariable<*>): String {
 
-    when (typeName) {
-        "Integer" -> return "Int"
-        "Real" -> return "Real"
-        "String" -> return "Str"
-        "Boolean" -> return "Bool"
+    return when (variable) {
+        is IntegerVariable -> "Int"
+        is RealVariable -> "Real"
+        is StringVariable -> "Str"
+        is BooleanVariable -> "Bool"
+        is EnumerationVariable -> "Int"
+        else ->  throw RuntimeException()
     }
-
-    throw RuntimeException()
 
 }
 

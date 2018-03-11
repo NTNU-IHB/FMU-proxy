@@ -59,7 +59,7 @@ object ServerGen {
                                 .with("valueReference", it.valueReference)
                                 .with("varName", convertName2(it.name))
                                 .with("typeName", it.typeName)
-                                .with("returnType", "${getProtoType(it.typeName)}Read"))!!
+                                .with("returnType", "${getProtoType(it)}Read"))!!
                     }).append("\n")
 
                     append(JtwigTemplate.classpathTemplate("templates/server/Write.kt").let { template ->
@@ -67,7 +67,7 @@ object ServerGen {
                                 .with("valueReference", it.valueReference)
                                 .with("varName", convertName2(it.name))
                                 .with("typeName", it.typeName)
-                                .with("dataType", getProtoType(it.typeName)))!!
+                                .with("dataType", getProtoType(it)))!!
                     })
 
                 }

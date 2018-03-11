@@ -39,7 +39,7 @@ private val EMPTY = Empty.getDefaultInstance()
 /**
  * @author Lars Ivar Hatledal
  */
-internal object FmuInstances: ArrayList<FmuInstance>() {
+internal object FmuInstances: ArrayList<GrpcFmuClient.FmuInstance>() {
     internal fun terminateAll() {
         forEach{ it.terminate() }
     }
@@ -63,27 +63,19 @@ class GrpcFmuClient(
     private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
             = FmuServiceGrpc.newBlockingStub(channel)
 
-    val guid: String by lazy {
-        blockingStub.getGuid(EMPTY).value
-    }
-
-    val modelName: String by lazy {
-        blockingStub.getModelName(EMPTY).value
-    }
-
-    val modelStructure: ModelStructureProto by lazy {
-        blockingStub.getModelStructure(EMPTY)
+    val modelDescription: Proto.ModelDescription by lazy {
+        blockingStub.getModelDescription(EMPTY)
     }
 
     @JvmOverloads
-    fun createInstance(integrator: IntegratorProto? = null): FmuInstance {
+    fun createInstance(integrator: Proto.Integrator? = null): FmuInstance {
 
         val fmuId = if (integrator == null) {
             blockingStub.createInstanceFromCS(EMPTY).value
         } else {
             blockingStub.createInstanceFromME(integrator).value
         }
-        return FmuInstance(blockingStub, fmuId).also {
+        return FmuInstance(fmuId).also {
             FmuInstances.add(it)
         }
 
@@ -101,197 +93,194 @@ class GrpcFmuClient(
         val LOG: Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
     }
 
-}
 
-class FmuInstance internal constructor(
-        private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub,
-        private val fmuId: Int
-) : Closeable {
+    inner class FmuInstance internal constructor(
+            private val fmuId: Int
+    ) : Closeable {
 
-    private val modelRef = UIntProto.newBuilder().setValue(fmuId).build()
+        private val modelRef = Proto.UInt.newBuilder().setValue(fmuId).build()
 
-    val modelVariables: List<ScalarVariableProto> by lazy {
-        mutableListOf<ScalarVariableProto>().apply {
-            blockingStub.getModelVariables(EMPTY).forEach {add(it)}
-        }
-    }
+        val currentTime: Double
+            get() = blockingStub.getCurrentTime(modelRef).value
 
-    val currentTime: Double
-        get() = blockingStub.getCurrentTime(modelRef).value
+        fun init(): Boolean = blockingStub.init(Proto.InitRequest.newBuilder()
+                .setFmuId(fmuId)
+                .build()).value
 
-    fun init(): Boolean = blockingStub.init(InitRequestProto.newBuilder()
-            .setFmuId(fmuId)
-            .build()).value
+        fun step(stepSize: Double): Proto.Status = blockingStub.step(Proto.StepRequest.newBuilder()
+                .setFmuId(fmuId)
+                .setStepSize(stepSize)
+                .build())
 
-    fun step(stepSize: Double): StatusProto = blockingStub.step(StepRequestProto.newBuilder()
-            .setFmuId(fmuId)
-            .setStepSize(stepSize)
-            .build())
-
-    fun terminate() {
-        try {
-            blockingStub.terminate(UIntProto.newBuilder()
-                    .setValue(fmuId)
-                    .build())
-        } finally {
-            FmuInstances.remove(this)
-        }
-    }
-
-    override fun close() = terminate()
-
-    fun getValueReference(variableName: String)
-            = modelVariables.firstOrNull { it.name == variableName }?.valueReference ?: throw IllegalArgumentException("No variable with that name: $variableName")
-
-    fun read(valueReference: Int) = SingleRead(valueReference)
-    fun read(valueReferences: IntArray) = BulkRead(valueReferences)
-
-    fun read(variableName: String) = SingleRead(variableName)
-    fun read(variableNames: Array<String>) = BulkRead(variableNames)
-
-    fun write(valueReference: Int) = SingleWrite(valueReference)
-    fun write(valueReferences: IntArray) = BulkRead(valueReferences)
-
-    inner class SingleRead(
-            private val valueReference: Int
-    ) {
-
-        constructor(variableName: String): this(getValueReference(variableName))
-
-        fun asInt(): IntReadProto {
-            return blockingStub.readInteger(ReadRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .build())
+        fun terminate() {
+            try {
+                blockingStub.terminate(Proto.UInt.newBuilder()
+                        .setValue(fmuId)
+                        .build())
+            } finally {
+                FmuInstances.remove(this)
+            }
         }
 
-        fun asReal(): RealReadProto {
-            return blockingStub.readReal(ReadRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .build())
+        override fun close() = terminate()
+
+        fun getValueReference(variableName: String)
+                = modelDescription.modelVariablesList
+                .firstOrNull { it.name == variableName }?.valueReference
+                ?: throw IllegalArgumentException("No variable with that name: $variableName")
+
+        fun read(valueReference: Int) = SingleRead(valueReference)
+        fun read(valueReferences: IntArray) = BulkRead(valueReferences)
+
+        fun read(variableName: String) = SingleRead(variableName)
+        fun read(variableNames: Array<String>) = BulkRead(variableNames)
+
+        fun write(valueReference: Int) = SingleWrite(valueReference)
+        fun write(valueReferences: IntArray) = BulkRead(valueReferences)
+
+        inner class SingleRead(
+                private val valueReference: Int
+        ) {
+
+            constructor(variableName: String): this(getValueReference(variableName))
+
+            fun asInt(): Proto.IntRead {
+                return blockingStub.readInteger(Proto.ReadRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .build())
+            }
+
+            fun asReal(): Proto.RealRead{
+                return blockingStub.readReal(Proto.ReadRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .build())
+            }
+
+            fun asString(): Proto.StrRead {
+                return blockingStub.readString(Proto.ReadRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .build())
+            }
+
+            fun asBoolean(): Proto.BoolRead {
+                return blockingStub.readBoolean(Proto.ReadRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .build())
+            }
+
         }
 
-        fun asString(): StrReadProto {
-            return blockingStub.readString(ReadRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .build())
+        inner class BulkRead(
+                private val valueReferences: IntArray
+        ) {
+
+            constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
+
+
+            fun readInt(): List<Int> {
+                val builder = Proto.BulkReadRequest.newBuilder().setFmuId(fmuId)
+                valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+                return blockingStub.bulkReadInteger(builder.build()).valuesList
+            }
+
+            fun readReal(): List<Double> {
+                val builder = Proto.BulkReadRequest.newBuilder().setFmuId(fmuId)
+                valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+                return blockingStub.bulkReadReal(builder.build()).valuesList
+            }
+            fun readString(): List<String> {
+                val builder = Proto.BulkReadRequest.newBuilder().setFmuId(fmuId)
+                valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+                return blockingStub.bulkReadString(builder.build()).valuesList
+            }
+
+            fun readBoolean(): List<Boolean> {
+                val builder = Proto.BulkReadRequest.newBuilder().setFmuId(fmuId)
+                valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
+                return blockingStub.bulkReadBoolean(builder.build()).valuesList
+            }
+
         }
 
-        fun asBoolean(): BoolReadProto {
-            return blockingStub.readBoolean(ReadRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .build())
+        inner class SingleWrite(
+                private val valueReference: Int
+        ) {
+
+            fun with(value: Int): Proto.Status {
+                return blockingStub.writeInteger(Proto.WriteIntRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .setValue(value)
+                        .build())
+            }
+
+            fun with(value: Double): Proto.Status {
+                return blockingStub.writeReal(Proto.WriteRealRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .setValue(value)
+                        .build())
+            }
+
+            fun with(value: String): Proto.Status {
+                return blockingStub.writeString(Proto.WriteStrRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .setValue(value)
+                        .build())
+            }
+
+            fun with(value: Boolean): Proto.Status {
+                return blockingStub.writeBoolean(Proto.WriteBoolRequest.newBuilder()
+                        .setFmuId(fmuId)
+                        .setValueReference(valueReference)
+                        .setValue(value)
+                        .build())
+            }
+
         }
 
-    }
+        inner class BulkWrite(
+                private val valueReferences: IntArray
+        ) {
+            constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
 
-    inner class BulkRead(
-            private val valueReferences: IntArray
-    ) {
+            fun with(values: IntArray):Proto.Status {
+                val builder = Proto.BulkWriteIntRequest.newBuilder().setFmuId(fmuId)
+                values.forEachIndexed{i,v -> builder.setValues(i, v)}
+                valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+                return blockingStub.bulkWriteInteger(builder.build())
+            }
 
-        constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
+            fun with(values: DoubleArray):Proto.Status {
+                val builder = Proto.BulkWriteRealRequest.newBuilder().setFmuId(fmuId)
+                values.forEachIndexed{i,v -> builder.setValues(i, v)}
+                valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+                return blockingStub.bulkWriteReal(builder.build())
+            }
 
+            fun with(values: Array<String>):Proto.Status {
+                val builder = Proto.BulkWriteStrRequest.newBuilder().setFmuId(fmuId)
+                values.forEachIndexed{i,v -> builder.setValues(i, v)}
+                valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+                return blockingStub.bulkWriteString(builder.build())
+            }
 
-        fun readInt(): List<Int> {
-            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
-            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
-            return blockingStub.bulkReadInteger(builder.build()).valuesList
-        }
+            fun with(values: BooleanArray):Proto.Status {
+                val builder = Proto.BulkWriteBoolRequest.newBuilder().setFmuId(fmuId)
+                values.forEachIndexed{i,v -> builder.setValues(i, v)}
+                valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
+                return blockingStub.bulkWriteBoolean(builder.build())
+            }
 
-        fun readReal(): List<Double> {
-            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
-            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
-            return blockingStub.bulkReadReal(builder.build()).valuesList
-        }
-        fun readString(): List<String> {
-            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
-            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
-            return blockingStub.bulkReadString(builder.build()).valuesList
-        }
-
-        fun readBoolean(): List<Boolean> {
-            val builder = BulkReadRequestProto.newBuilder().setFmuId(fmuId)
-            valueReferences.forEachIndexed{ i, v -> builder.setValueReferences(i, v)}
-            return blockingStub.bulkReadBoolean(builder.build()).valuesList
-        }
-
-    }
-
-    inner class SingleWrite(
-            private val valueReference: Int
-    ) {
-
-        fun with(value: Int): StatusProto {
-            return blockingStub.writeInteger(WriteIntegerRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .setValue(value)
-                    .build())
-        }
-
-        fun with(value: Double): StatusProto {
-            return blockingStub.writeReal(WriteRealRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .setValue(value)
-                    .build())
-        }
-
-        fun with(value: String): StatusProto {
-            return blockingStub.writeString(WriteStringRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .setValue(value)
-                    .build())
-        }
-
-        fun with(value: Boolean): StatusProto {
-            return blockingStub.writeBoolean(WriteBooleanRequestProto.newBuilder()
-                    .setFmuId(fmuId)
-                    .setValueReference(valueReference)
-                    .setValue(value)
-                    .build())
-        }
-
-    }
-
-    inner class BulkWrite(
-            private val valueReferences: IntArray
-    ) {
-        constructor(variableNames: Array<String>) : this(variableNames.map { getValueReference(it) }.toIntArray())
-
-        fun with(values: IntArray):StatusProto {
-            val builder = BulkWriteIntegerRequestProto.newBuilder().setFmuId(fmuId)
-            values.forEachIndexed{i,v -> builder.setValues(i, v)}
-            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
-            return blockingStub.bulkWriteInteger(builder.build())
-        }
-
-        fun with(values: DoubleArray):StatusProto {
-            val builder = BulkWriteRealRequestProto.newBuilder().setFmuId(fmuId)
-            values.forEachIndexed{i,v -> builder.setValues(i, v)}
-            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
-            return blockingStub.bulkWriteReal(builder.build())
-        }
-
-        fun with(values: Array<String>):StatusProto {
-            val builder = BulkWriteStringRequestProto.newBuilder().setFmuId(fmuId)
-            values.forEachIndexed{i,v -> builder.setValues(i, v)}
-            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
-            return blockingStub.bulkWriteString(builder.build())
-        }
-
-        fun with(values: BooleanArray):StatusProto {
-            val builder = BulkWriteBooleanRequestProto.newBuilder().setFmuId(fmuId)
-            values.forEachIndexed{i,v -> builder.setValues(i, v)}
-            valueReferences.forEachIndexed { i, v ->  builder.setValueReferences(i, v)}
-            return blockingStub.bulkWriteBoolean(builder.build())
         }
 
     }
+
 
 }
 

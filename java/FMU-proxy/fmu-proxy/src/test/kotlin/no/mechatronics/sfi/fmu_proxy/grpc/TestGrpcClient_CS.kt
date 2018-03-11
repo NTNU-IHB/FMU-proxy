@@ -88,12 +88,14 @@ class TestGrpcClient_CS {
 
     @Test
     fun testModelName() {
-        Assert.assertEquals(modelDescription.modelName, client.modelName)
+        val modelName = client.modelDescription.modelName.also { println("modelName=$it") }
+        Assert.assertEquals(modelDescription.modelName, modelName)
     }
 
     @Test
     fun testGuid() {
-        Assert.assertEquals(modelDescription.guid, client.guid)
+        val guid = client.modelDescription.guid.also { println("guid=$it") }
+        Assert.assertEquals(modelDescription.guid, guid)
     }
 
     @Test
@@ -106,7 +108,7 @@ class TestGrpcClient_CS {
             val dt = 1.0/100
             while (fmu.currentTime < 10) {
                 val step = fmu.step(dt)
-                Assert.assertTrue(step.code == StatusCodeProto.OK_STATUS)
+                Assert.assertTrue(step.code == Proto.StatusCode.OK_STATUS)
             }
             val end = Instant.now()
             LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")

@@ -31,7 +31,7 @@ import org.apache.thrift.protocol.TBinaryProtocol
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-internal object FmuInstances: ArrayList<FmuInstance>() {
+internal object FmuInstances: ArrayList<ThriftFmuClient.FmuInstance>() {
     internal fun terminateAll() {
         forEach{ it.terminate() }
     }
@@ -43,22 +43,20 @@ class ThriftFmuClient(
 ): Closeable {
 
     private val transport: TTransport
-    private val client: ThriftFmuService.Client
+    private val client: FmuService.Client
 
     init {
         transport = TSocket(host, port)
         transport.open()
 
         val protocol = TBinaryProtocol(transport)
-        client = ThriftFmuService.Client(protocol)
+        client = FmuService.Client(protocol)
 
     }
 
-    val modelName: String
-        get() = client.modelName
-
-    val guid: String
-        get() = client.guid
+    val modelDescription: ModelDescription by lazy {
+        client.modelDescription
+    }
 
     @JvmOverloads
     fun createInstance(integrator: Integrator? = null): FmuInstance {
@@ -67,7 +65,7 @@ class ThriftFmuClient(
         } else {
             client.createInstanceFromME(integrator)
         }
-        return FmuInstance(client, fmuId).also {
+        return FmuInstance(fmuId).also {
             FmuInstances.add(it)
         }
     }
@@ -84,34 +82,40 @@ class ThriftFmuClient(
         val LOG: Logger = LoggerFactory.getLogger(ThriftFmuClient::class.java)
     }
 
-}
 
-class FmuInstance(
-        private val client: ThriftFmuService.Client,
-        private val fmuId: Int
-): Closeable {
+    inner class FmuInstance(
+            private val fmuId: Int
+    ): Closeable {
 
-    val currentTime: Double
-        get() = client.getCurrentTime(fmuId)
+        val currentTime: Double
+            get() = client.getCurrentTime(fmuId)
 
-    val isTerminated: Boolean
-        get() = client.isTerminated(fmuId)
+        val isTerminated: Boolean
+            get() = client.isTerminated(fmuId)
 
-    fun init(): Boolean {
-        return client.init(fmuId)
-    }
+        @JvmOverloads
+        fun init(start:Double=0.0, stop:Double=-1.0): Boolean {
+            return client.init(fmuId,start, stop)
+        }
 
-    fun step(stepSize: Double): StatusCode {
-        return client.step(fmuId, stepSize)
-    }
+        fun step(stepSize: Double): StatusCode {
+            return client.step(fmuId, stepSize)
+        }
 
-    fun terminate(): Boolean {
-        return client.terminate(fmuId).also {
-            FmuInstances.remove(this)
+        fun terminate(): Boolean {
+            return client.terminate(fmuId).also {
+                FmuInstances.remove(this)
+            }
+        }
+
+        fun reset(): Boolean {
+            return client.reset(fmuId)
+        }
+
+        override fun close() {
+            terminate()
         }
     }
 
-    override fun close() {
-        terminate()
-    }
+
 }

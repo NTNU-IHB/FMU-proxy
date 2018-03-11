@@ -24,9 +24,8 @@
 
 package no.mechatronics.sfi.fmu_proxy.thrift
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
+import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
 import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.apache.commons.math3.ode.nonstiff.AdamsBashforthIntegrator
@@ -39,32 +38,29 @@ import org.slf4j.LoggerFactory
 
 class ThriftFmuServiceHandler(
         private val fmuFile: FmuFile
-): ThriftFmuService.Iface {
+): FmuService.Iface {
 
-    private val modelDescription: SimpleModelDescription
-            = fmuFile.modelDescription
-
-    override fun getGuid(): String {
-        return modelDescription.guid
+    override fun supportsCosimulation(): Boolean {
+        return fmuFile.supportsCoSimulation
     }
 
-    override fun getModelName(): String {
-        return modelDescription.modelName
+    override fun supportsModelExchange(): Boolean {
+        return fmuFile.supportsCoSimulation
     }
 
     override fun getModelDescriptionXml(): String {
         return fmuFile.modelDescriptionXml
     }
 
-    override fun getModelVariables(): MutableList<ScalarVariable> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getModelDescription(): ModelDescription {
+        return fmuFile.modelDescription.thriftType()
     }
 
     override fun createInstanceFromCS(): Int {
         return Fmus.put(fmuFile.asCoSimulationFmu().newInstance())
     }
 
-    override fun createInstanceFromME(p0: Integrator): Int {
+    override fun createInstanceFromME(i: Integrator): Int {
 
         fun selectDefaultIntegrator(): FirstOrderIntegrator {
             val stepSize = fmuFile.modelDescription.defaultExperiment?.stepSize ?: 1E-3
@@ -73,14 +69,14 @@ class ThriftFmuServiceHandler(
         }
 
         val integrator: FirstOrderIntegrator = when {
-            p0.isSetEuler -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(p0.euler.step_size)
-            p0.isSetRunge_kutta -> ClassicalRungeKuttaIntegrator(p0.runge_kutta.step_size)
-            p0.isSetGill -> GillIntegrator(p0.gill.step_size)
-            p0.isSetMid_point -> MidpointIntegrator(p0.mid_point.step_size)
-            p0.isSetAdams_bashforth -> p0.adams_bashforth.let {
+            i.isSetEuler -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(i.euler.step_size)
+            i.isSetRunge_kutta -> ClassicalRungeKuttaIntegrator(i.runge_kutta.step_size)
+            i.isSetGill -> GillIntegrator(i.gill.step_size)
+            i.isSetMid_point -> MidpointIntegrator(i.mid_point.step_size)
+            i.isSetAdams_bashforth -> i.adams_bashforth.let {
                 AdamsBashforthIntegrator(it.n_steps, it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
             }
-            p0.isSetDormand_prince54 -> p0.dormand_prince54.let {
+            i.isSetDormand_prince54 -> i.dormand_prince54.let {
                 DormandPrince54Integrator(it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
             }
             else -> selectDefaultIntegrator()
@@ -90,37 +86,106 @@ class ThriftFmuServiceHandler(
         return Fmus.put(fmuFile.asModelExchangeFmu().newInstance(integrator))
     }
 
-    override fun getCurrentTime(fmu_id: Int): Double {
-        return Fmus.get(fmu_id)?.let {
+    override fun getCurrentTime(fmuId: Int): Double {
+        return Fmus.get(fmuId)?.let {
             it.currentTime
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmu_id")
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun isTerminated(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
+    override fun isTerminated(fmuId: Int): Boolean {
+        return Fmus.get(fmuId)?.let {
             it.isTerminated
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmu_id")
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun init(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
+    override fun canGetAndSetFMUstate(fmuId: Int): Boolean {
+        return Fmus.get(fmuId)?.let {
+            return it.modelDescription.canGetAndSetFMUstate
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun init(fmuId: Int, startTime: Double, endTime: Double): Boolean {
+        return Fmus.get(fmuId)?.let {
             it.init()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmu_id")
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun step(fmu_id: Int, p1: Double): StatusCode {
-        return Fmus.get(fmu_id)?.let {
+    override fun step(fmuId: Int, p1: Double): StatusCode {
+        return Fmus.get(fmuId)?.let {
             it.doStep(p1)
             convertStatus(it.lastStatus)
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmu_id")
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun terminate(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
+    override fun terminate(fmuId: Int): Boolean {
+        return Fmus.get(fmuId)?.let {
             it.terminate()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmu_id")
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
+
+    override fun reset(fmuId: Int): Boolean {
+        return Fmus.get(fmuId)?.let {
+            it.reset()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun readInt(fmuId: Int, vr: Int): IntRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readInteger(vr).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun readReal(fmuId: Int, vr: Int): RealRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readReal(vr).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun readString(fmuId: Int, vr: Int): StringRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readString(vr).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun readBoolen(fmuId: Int, vr: Int): BoolRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readBoolean(vr).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun writeInt(fmuId: Int, vr: Int, value: Int): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeInteger(vr, value).let {
+                StatusCode.findByValue(it.code)
+            }
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun writeReal(fmuId: Int, vr: Int, value: Double): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeReal(vr, value).let {
+                StatusCode.findByValue(it.code)
+            }
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun writeString(fmuId: Int, vr: Int, value: String): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeString(vr, value).let {
+                StatusCode.findByValue(it.code)
+            }
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+
+    override fun writeBoolen(fmuId: Int, vr: Int, value: Boolean): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeBoolean(vr, value).let {
+                StatusCode.findByValue(it.code)
+            }
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
 
     companion object {
 
@@ -142,3 +207,4 @@ class ThriftFmuServiceHandler(
     }
 
 }
+

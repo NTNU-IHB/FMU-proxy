@@ -42,7 +42,7 @@ class ThriftFmuServer(
     private var server: TServer? = null
 
     private val handler = ThriftFmuServiceHandler(fmuFile)
-    private val processor = ThriftFmuService.Processor(handler)
+    private val processor = FmuService.Processor(handler)
 
     override fun start(port: Int) {
         if (server == null) {

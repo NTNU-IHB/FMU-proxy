@@ -25,192 +25,236 @@
 syntax = "proto3";
 
 package no.mechatronics.sfi.fmu_proxy.grpc;
-option java_multiple_files = true;
+option java_outer_classname = "Proto";
 
-message ScalarVariableProto {
+message ModelDescription {
+    string fmiVersion = 1;
+    string guid = 2;
+    string model_name = 3;
+    string license = 4;
+    string copyright = 5;
+    string author = 6;
+    string version = 7;
+    string description = 8;
+    string generation_tool = 9;
+    DefaultExperiment default_experiment = 10;
+    VariableNamingConvention variable_naming_convention = 11;
+    repeated ScalarVariable model_variables = 12;
+    ModelStructure model_structure = 13;
+}
+
+message ScalarVariable {
     uint32 value_reference = 1;
     string name = 2;
     string description = 3;
-    VariableTypeProto variable_type = 4;
-    InitialProto initial = 5;
-    CausalityProto causality = 6;
-    VariabilityProto variability = 7;
-    AnyPrimitiveProto start = 8;
+    VariableType variable_type = 4;
+    Initial initial = 5;
+    Causality causality = 6;
+    Variability variability = 7;
+    AnyPrimitive start = 8;
 }
 
-message StatusProto {
-    StatusCodeProto code = 1;
-    string message = 2;
-}
-
-message AnyPrimitiveProto {
+message AnyPrimitive {
     oneof value {
         int32 int_value = 1;
         double real_value = 2;
         string str_value = 3;
         bool bool_value = 4;
-		uint32 enum_value = 5;
+        uint32 enum_value = 5;
     }
 }
 
-message InitRequestProto {
-    uint32 fmu_id = 1;
-    double start = 2;
-	double stop = 3;
+message DefaultExperiment {
+    double start_time = 1;
+    double stop_time = 2;
+    double tolerance = 3;
+    double step_size = 4;
 }
 
-message StepRequestProto {
+
+message Unknown {
+    uint32 index = 1;
+    repeated uint32 dependencies = 2;
+    DependenciesKind dependencies_kind = 3;
+}
+
+message ModelStructure {
+    repeated uint32 outputs = 1;
+    repeated Unknown derivatives = 2;
+    repeated Unknown initial_unknowns = 3;
+}
+
+message Status {
+    StatusCode code = 1;
+    string message = 2;
+}
+
+message InitRequest {
+    uint32 fmu_id = 1;
+    double start = 2;
+    double stop = 3;
+}
+
+message StepRequest {
     uint32 fmu_id = 1;
     double step_size = 2;
 }
 
-message UIntProto {
-	uint32 value = 1;
+message UInt {
+    uint32 value = 1;
 }
 
-message IntProto {
+message Int {
     int32 value = 1;
 }
 
-message IntReadProto {
-	int32 value = 1;
-	StatusCodeProto status = 2;
+message IntRead {
+    int32 value = 1;
+    StatusCode status = 2;
 }
 
-message IntListProto {
-	repeated int32 values = 1;
+message IntList {
+    repeated int32 values = 1;
 }
 
-message IntListReadProto {
-	repeated int32 values = 1;
-	StatusCodeProto status = 2;
+message IntListRead {
+    repeated int32 values = 1;
+    StatusCode status = 2;
 }
 
-message RealProto {
+message Real {
     double value = 1;
 }
 
-message RealReadProto {
-	double value = 1;
-	StatusCodeProto status = 2;
+message RealRead {
+    double value = 1;
+    StatusCode status = 2;
 }
 
-message RealListProto {
-	repeated double values = 1;
+message RealList {
+    repeated double values = 1;
 }
 
-message RealListReadProto {
-	repeated double values = 1;
-	StatusCodeProto status = 2;
+message RealListRead {
+    repeated double values = 1;
+    StatusCode status = 2;
 }
 
-message StrProto {
+message Str {
     string value = 1;
 }
 
-message StrReadProto {
-	string value = 1;
-	StatusCodeProto status = 2;
+message StrRead {
+    string value = 1;
+    StatusCode status = 2;
 }
 
-message StrListProto {
-	repeated string values = 1;
+message StrList {
+    repeated string values = 1;
 }
 
-message StrListReadProto {
-	repeated string values = 1;
-	StatusCodeProto status = 2;
+message StrListRead {
+    repeated string values = 1;
+    StatusCode status = 2;
 }
 
-message BoolProto {
+message Bool {
     bool value = 1;
 }
 
-message BoolReadProto {
-	bool value = 1;
-	StatusCodeProto status = 2;
+message BoolRead {
+    bool value = 1;
+    StatusCode status = 2;
 }
 
-message BoolListProto {
-	repeated bool values = 1;
+message BoolList {
+    repeated bool values = 1;
 }
 
-message BoolListReadProto {
-	repeated bool values = 1;
-	StatusCodeProto status = 2;
+message BoolListRead {
+    repeated bool values = 1;
+    StatusCode status = 2;
 }
 
-message ReadRequestProto {
+message ReadRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
 }
 
-message BulkReadRequestProto {
-	uint32 fmu_id = 1;
+message BulkReadRequest {
+    uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
 }
 
-message WriteIntegerRequestProto {
+message WriteIntRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     int32 value = 3;
 }
 
-message BulkWriteIntegerRequestProto {
-	uint32 fmu_id = 1;
+message BulkWriteIntRequest {
+    uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
-	repeated int32 values = 3;
+    repeated int32 values = 3;
 }
 
-message WriteRealRequestProto {
+message WriteRealRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     double value = 3;
 }
 
-message BulkWriteRealRequestProto {
-	uint32 fmu_id = 1;
+message BulkWriteRealRequest {
+    uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
-	repeated double values = 3;
+    repeated double values = 3;
 }
 
-message WriteStringRequestProto {
+message WriteStrRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     string value = 3;
 }
 
-message BulkWriteStringRequestProto {
-	uint32 fmu_id = 1;
+message BulkWriteStrRequest {
+    uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
-	repeated string values = 3;
+    repeated string values = 3;
 }
 
-message WriteBooleanRequestProto {
+message WriteBoolRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     bool value = 3;
 }
 
-message BulkWriteBooleanRequestProto {
-	uint32 fmu_id = 1;
+message BulkWriteBoolRequest {
+    uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
-	repeated bool values = 3;
+    repeated bool values = 3;
 }
 
-message UnknownProto {
-    uint32 index = 1;
-    repeated uint32 dependencies = 2;
-    DependenciesKindProto dependencies_kind = 3;
+message InstanceIntWrite {
+    uint32 fmu_id = 1;
+    int32 value = 2;
 }
 
-message ModelStructureProto {
-    repeated uint32 outputs = 1;
-    repeated UnknownProto derivatives = 2;
-    repeated UnknownProto initial_unknowns = 3;
+message InstanceRealWrite {
+    uint32 fmu_id = 1;
+    double value = 2;
 }
 
-enum CausalityProto {
+message InstanceStrWrite {
+    uint32 fmu_id = 1;
+    string value = 2;
+}
+
+message InstanceBoolWrite {
+    uint32 fmu_id = 1;
+    bool value = 2;
+}
+
+enum Causality {
     UNDEFINED_CAUSALITY = 0;
     INPUT_CAUSALITY = 1;
     OUTPUT_CAUSALITY = 2;
@@ -220,87 +264,100 @@ enum CausalityProto {
     INDEPENDENT_CAUSALITY = 6;
 }
 
-enum VariabilityProto {
+enum Variability {
     UNDEFINED_VARIABILITY = 0;
-    CONSTANT_VARIABILITY =  1;
+    CONSTANT_VARIABILITY = 1;
     FIXED_VARIABILITY = 2;
     CONTINUOUS_VARIABILITY = 3;
     DISCRETE_VARIABILITY = 4;
     TUNABLE_VARIABILITY = 5;
 }
 
-enum InitialProto {
+enum Initial {
     UNDEFINED_INITIAL = 0;
     EXACT_INITIAL = 1;
     APPROX_INITIAL = 2;
     CALCULATED_INITIAL = 3;
 }
 
-enum VariableTypeProto {
+enum VariableType {
     INTEGER_VARIABLE = 0;
     REAL_VARIABLE = 1;
     STRING_VARIABLE = 2;
     BOOLEAN_VARIABLE = 3;
-	ENUMERATION_VARIABLE = 4;
+    ENUMERATION_VARIABLE = 4;
 }
 
-enum StatusCodeProto {
-	OK_STATUS = 0;
-	WARNING_STATUS = 1;
-	DISCARD_STATUS = 2;
-	ERROR_STATUS = 3;
-	FATAL_STATUS = 4;
-	PENDING_STATUS = 5;
+enum StatusCode {
+    OK_STATUS = 0;
+    WARNING_STATUS = 1;
+    DISCARD_STATUS = 2;
+    ERROR_STATUS = 3;
+    FATAL_STATUS = 4;
+    PENDING_STATUS = 5;
 }
 
-enum DependenciesKindProto {
+enum DependenciesKind {
     DEPENDENT_KIND = 0;
     CONSTANT_KIND = 1;
     TUNABLE_KIND = 2;
     DISCRETE_KIND = 4;
 }
 
-message IntegratorProto {
+enum VariableNamingConvention {
+    FLAT = 0;
+    STRUCTURED = 1;
+}
+
+message Integrator {
+
     oneof integrators {
-        EulerIntegratorProto euler = 1;
-        ClassicalRungeKuttaIntegratorProto runge_kutta = 2;
-        MidpointIntegratorProto mid_point = 3;
-        GillIntegratorProto gill = 4;
-        AdamsBashforthIntegratorProto adams_bashforth = 5;
-        DormandPrince54Integrator dormand_prince54 = 6;
+        Euler euler = 1;
+        ClassicalRungeKutta runge_kutta = 2;
+        Midpoint mid_point = 3;
+        Gill gill = 4;
+        AdamsBashforth adams_bashforth = 5;
+        DormandPrince54 dormand_prince54 = 6;
     }
+
+    message Euler {
+        double step_size = 1;
+    }
+
+    message ClassicalRungeKutta {
+        double step_size = 1;
+    }
+
+    message Midpoint {
+        double step_size = 1;
+    }
+
+    message Gill {
+        double step_size = 1;
+    }
+
+    message AdamsBashforth{
+        uint32 n_steps = 1;
+        double min_Step = 2;
+        double max_step = 3;
+        double scal_absolute_tolerance = 4;
+        double scal_relative_tolerance = 5;
+    }
+
+    message DormandPrince54 {
+        double min_Step = 1;
+        double max_step = 2;
+        double scal_absolute_tolerance = 3;
+        double scal_relative_tolerance = 4;
+    }
+
 }
 
-message EulerIntegratorProto {
-	double step_size = 1;
-}
 
-message ClassicalRungeKuttaIntegratorProto {
-	double step_size = 1;
-}
 
-message MidpointIntegratorProto {
-	double step_size = 1;
-}
 
-message GillIntegratorProto {
-	double step_size = 1;
-}
+    
 
-message AdamsBashforthIntegratorProto {
-	uint32 n_steps = 1;
-	double min_Step = 2;
-	double max_step = 3;
-	double scal_absolute_tolerance = 4;
-	double scal_relative_tolerance = 5;
-}
-
-message DormandPrince54Integrator {
-    double min_Step = 1;
-    double max_step = 2;
-    double scal_absolute_tolerance = 3;
-    double scal_relative_tolerance = 4;
-}
 
 
 

@@ -51,13 +51,13 @@ class TestThriftClient {
 
     @Test
     fun testGuid() {
-        val guid = client.guid.also { println("guid=$it") }
+        val guid = client.modelDescription.guid.also { println("guid=$it") }
         Assert.assertEquals(modelDescription.guid, guid)
     }
 
     @Test
     fun testModelName() {
-        val modelName = client.modelName.also { println("modelName=$it") }
+        val modelName = client.modelDescription.modelName.also { println("modelName=$it") }
         Assert.assertEquals(modelDescription.modelName, modelName)
     }
 

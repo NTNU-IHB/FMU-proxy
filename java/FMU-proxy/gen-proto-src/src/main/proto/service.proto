@@ -31,43 +31,45 @@ import "definitions.proto";
 
 service FmuService {
 
-    rpc CreateInstanceFromCS (google.protobuf.Empty) returns (UIntProto);
-	rpc CreateInstanceFromME (IntegratorProto) returns (UIntProto);
+    rpc SupportsCoSimulation(UInt) returns (Bool);
+    rpc SupportsModelExchange(UInt) returns (Bool);
 
-	rpc GetGuid (google.protobuf.Empty)  returns (StrProto);
-    rpc GetModelName (google.protobuf.Empty) returns (StrProto);
-	rpc GetModelDescriptionXml(google.protobuf.Empty) returns (StrProto);
+    rpc GetModelDescriptionXml(google.protobuf.Empty) returns (Str);
+	rpc GetModelDescription(google.protobuf.Empty) returns (ModelDescription);
 
-	rpc GetModelStructure (google.protobuf.Empty) returns (ModelStructureProto);
-    rpc GetModelVariables (google.protobuf.Empty) returns (stream ScalarVariableProto);
+    rpc CreateInstanceFromCS (google.protobuf.Empty) returns (UInt);
+	rpc CreateInstanceFromME (Integrator) returns (UInt);
 
     //instance methods
-    rpc GetCurrentTime (UIntProto) returns (RealProto);
-    rpc IsTerminated (UIntProto) returns (BoolProto);
 
-    rpc Init (InitRequestProto) returns (BoolProto);
-    rpc Step (StepRequestProto) returns (StatusProto);
-    rpc Terminate (UIntProto) returns (BoolProto);
-    rpc Reset(UIntProto) returns (StatusProto);
+    rpc GetCurrentTime (UInt) returns (Real);
+    rpc IsTerminated (UInt) returns (Bool);
 
-    rpc ReadInteger (ReadRequestProto) returns (IntReadProto);
-	rpc ReadReal (ReadRequestProto) returns (RealReadProto);
-	rpc ReadString (ReadRequestProto) returns (StrReadProto);
-	rpc ReadBoolean (ReadRequestProto) returns (BoolReadProto);
+    rpc CanGetAndSetFMUstate(UInt) returns (Bool);
+
+    rpc Init (InitRequest) returns (Bool);
+    rpc Step (StepRequest) returns (Status);
+    rpc Terminate (UInt) returns (Bool);
+    rpc Reset(UInt) returns (Status);
+
+    rpc ReadInteger (ReadRequest) returns (IntRead);
+	rpc ReadReal (ReadRequest) returns (RealRead);
+	rpc ReadString (ReadRequest) returns (StrRead);
+	rpc ReadBoolean (ReadRequest) returns (BoolRead);
 	
-	rpc BulkReadInteger (BulkReadRequestProto) returns (IntListReadProto);
-	rpc BulkReadReal (BulkReadRequestProto) returns (RealListReadProto);
-	rpc BulkReadString (BulkReadRequestProto) returns (StrListReadProto);
-	rpc BulkReadBoolean (BulkReadRequestProto) returns (BoolListReadProto);
+	rpc BulkReadInteger (BulkReadRequest) returns (IntListRead);
+	rpc BulkReadReal (BulkReadRequest) returns (RealListRead);
+	rpc BulkReadString (BulkReadRequest) returns (StrListRead);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BoolListRead);
 	
-    rpc WriteInteger (WriteIntegerRequestProto) returns (StatusProto);
-	rpc WriteReal (WriteRealRequestProto) returns (StatusProto);
-	rpc WriteString (WriteStringRequestProto) returns (StatusProto);
-	rpc WriteBoolean (WriteBooleanRequestProto) returns (StatusProto);
+    rpc WriteInteger (WriteIntRequest) returns (Status);
+	rpc WriteReal (WriteRealRequest) returns (Status);
+	rpc WriteString (WriteStrRequest) returns (Status);
+	rpc WriteBoolean (WriteBoolRequest) returns (Status);
 	
-	rpc BulkWriteInteger (BulkWriteIntegerRequestProto) returns (StatusProto);
-	rpc BulkWriteReal (BulkWriteRealRequestProto) returns (StatusProto);
-	rpc BulkWriteString (BulkWriteStringRequestProto) returns (StatusProto);
-	rpc BulkWriteBoolean (BulkWriteBooleanRequestProto) returns (StatusProto);
+	rpc BulkWriteInteger (BulkWriteIntRequest) returns (Status);
+	rpc BulkWriteReal (BulkWriteRealRequest) returns (Status);
+	rpc BulkWriteString (BulkWriteStrRequest) returns (Status);
+	rpc BulkWriteBoolean (BulkWriteBoolRequest) returns (Status);
 
 }

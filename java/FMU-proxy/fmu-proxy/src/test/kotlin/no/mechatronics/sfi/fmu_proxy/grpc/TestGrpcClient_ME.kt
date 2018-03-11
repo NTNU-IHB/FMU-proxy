@@ -52,19 +52,21 @@ class TestGrpcClient_ME {
 
     @Test
     fun testModelName() {
-        Assert.assertEquals(modelDescription.modelName, client.modelName)
+        val modelName = client.modelDescription.modelName.also { println("modelName=$it") }
+        Assert.assertEquals(modelDescription.modelName, modelName)
     }
 
     @Test
     fun testGuid() {
-        Assert.assertEquals(modelDescription.guid, client.guid)
+        val guid = client.modelDescription.guid.also { println("guid=$it") }
+        Assert.assertEquals(modelDescription.guid, guid)
     }
 
     @Test
     fun testInstance() {
 
-        val integrator = IntegratorProto.newBuilder()
-                .setEuler(EulerIntegratorProto.newBuilder().setStepSize(1E-3)).build()
+        val integrator = Proto.Integrator.newBuilder()
+                .setEuler(Proto.Integrator.Euler.newBuilder().setStepSize(1E-3)).build()
 
         client.createInstance(integrator).use { fmu ->
 
@@ -78,7 +80,7 @@ class TestGrpcClient_ME {
             val dt = 1.0/100
             for (i in 0 until  10) {
                 val step = fmu.step(dt)
-                Assert.assertTrue(step.code == StatusCodeProto.OK_STATUS)
+                Assert.assertTrue(step.code == Proto.StatusCode.OK_STATUS)
             }
 
         }
