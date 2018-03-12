@@ -10,7 +10,8 @@ class TestInputParser {
     @Test
     fun test1() {
 
-        val url = javaClass.classLoader.getResource("PumpControlledWinch/PumpControlledWinch.fmu")
+        val url = TestInputParser::class.java.classLoader
+                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
         val fmuFile = FmuFile(File(url.file))
 

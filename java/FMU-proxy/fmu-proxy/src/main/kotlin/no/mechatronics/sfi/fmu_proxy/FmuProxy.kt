@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmu_proxy
 
 import info.laht.yaj_rpc.RpcHandler
+import info.laht.yaj_rpc.net.RpcServer
 import info.laht.yaj_rpc.net.http.RpcHttpServer
 import info.laht.yaj_rpc.net.tcp.RpcTcpServer
 import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
@@ -35,7 +36,6 @@ import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.fmu_proxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmu_proxy.json_rpc.RpcFmuService
-import no.mechatronics.sfi.fmu_proxy.server.FmuProxyServer
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
@@ -54,12 +54,7 @@ internal data class RemoteFmu(
 
 internal data class NetworkInfo(
         val host: String,
-        val grpcPort: Int,
-        val wsPort: Int,
-        val zmqPort: Int,
-        val tcpPort: Int,
-        val httpPort: Int,
-        val thriftPort: Int
+        val ports: Map<String, Int>
 )
 
 /**
@@ -70,7 +65,9 @@ object FmuProxy {
 
     private const val HELP = "help"
     private const val REMOTE = "remote"
+    private const val GRPC = "grpc"
     private const val GRPC_PORT = "grpcPort"
+    private const val THRIFT = "thrift"
     private const val THRIFT_PORT = "thriftPort"
     private const val JSON_RPC_WS_PORT = "wsPort"
     private const val JSON_RPC_ZMQ_PORT = "zmqPort"
@@ -86,6 +83,7 @@ object FmuProxy {
 
             addOption(HELP, false, "Prints this message")
             addOption(REMOTE, true, "Specify the IP address of the remote tracking server. E.g. ${"127.0.0.1:7000"}")
+            addOption(GRPC, true, "Enable grpc server")
             addOption(GRPC_PORT, true, "Manually specify the port to use for the gRPC server (optional)")
             addOption(THRIFT_PORT, true, "Manually specify the port to use for the Thrift server (optional)")
             addOption(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (WebSocket) server (optional)")
@@ -100,7 +98,7 @@ object FmuProxy {
                 HelpFormatter().printHelp(jarName, options)
             } else {
 
-                val remoteAddress: Pair<String, Int>? = cmd.getOptionValue(REMOTE)?.let {
+                val remoteAddress: SimpleSocketAddress? = cmd.getOptionValue(REMOTE)?.let {
                     parseAddress(it)
                 }
 
@@ -117,34 +115,48 @@ object FmuProxy {
 
                     val rpcHandler = RpcHandler(RpcFmuService(fmuFile))
 
-                    val jsonWsPort = cmd.getOptionValue(JSON_RPC_WS_PORT)?.toIntOrNull() ?: availablePort
-                    object: RpcWebSocketServer(rpcHandler), FmuProxyServer {}.apply {
-                        start(jsonWsPort)
-                    }.also { servers.add(it) }
-
-                    val jsonZmqPort = cmd.getOptionValue(JSON_RPC_ZMQ_PORT)?.toIntOrNull() ?: availablePort
-                    object: RpcZmqServer(rpcHandler), FmuProxyServer {}.apply {
-                        start(jsonZmqPort)
-                    }.also { servers.add(it) }
-
-                    val jsonTcpPort = cmd.getOptionValue(JSON_RPC_TCP_PORT)?.toIntOrNull() ?: availablePort
-                    object: RpcTcpServer(rpcHandler), FmuProxyServer {}.apply {
-                        start(jsonTcpPort)
-                    }.also { servers.add(it) }
-
                     val jsonHttpPort = cmd.getOptionValue(JSON_RPC_HTTP_PORT)?.toIntOrNull() ?: availablePort
-                    object: RpcHttpServer(rpcHandler), FmuProxyServer {}.apply {
+                    object: RpcHttpServer(rpcHandler), FmuProxyServer{
+                        override val simpleName = "jsonRpc/http"
+                    }.apply {
                         start(jsonHttpPort)
                     }.also { servers.add(it) }
 
+                    val jsonWsPort = cmd.getOptionValue(JSON_RPC_WS_PORT)?.toIntOrNull() ?: availablePort
+                    object: RpcWebSocketServer(rpcHandler), FmuProxyServer{
+                        override val simpleName = "jsonRpc/ws"
+                    }.apply {
+                        start(jsonWsPort)
+                    }.also { servers.add(it) }
+
+                    val jsonTcpPort = cmd.getOptionValue(JSON_RPC_TCP_PORT)?.toIntOrNull() ?: availablePort
+                    object: RpcTcpServer(rpcHandler), FmuProxyServer{
+                        override val simpleName = "jsonRpc/tcp"
+                    }.apply {
+                        start(jsonTcpPort)
+                    }.also { servers.add(it) }
+
+
+                    val jsonZmqPort = cmd.getOptionValue(JSON_RPC_ZMQ_PORT)?.toIntOrNull() ?: availablePort
+                    object : RpcZmqServer(rpcHandler), FmuProxyServer{
+                        override val simpleName = "jsonRpc/zmq"
+                    }.apply {
+                        start(jsonZmqPort)
+                    }.also { servers.add(it) }
+
+
+
+
                     val networkInfo = NetworkInfo(
                             host = hostAddress,
-                            grpcPort = grpcPort,
-                            wsPort = jsonWsPort,
-                            zmqPort = jsonZmqPort,
-                            tcpPort = jsonTcpPort,
-                            httpPort = jsonHttpPort,
-                            thriftPort = thriftPort
+                            ports = mapOf(
+                                    "grpc" to grpcPort,
+                                    "thrift" to thriftPort,
+                                    "http" to jsonHttpPort,
+                                    "ws" to jsonWsPort,
+                                    "tcp" to jsonTcpPort,
+                                    "zmq" to jsonZmqPort
+                            )
                     )
                     val remoteFmu = RemoteFmu(
                             guid = fmuFile.modelDescription.guid,
@@ -176,7 +188,7 @@ object FmuProxy {
     }
 
     internal fun stopServers() {
-        beat?.stop()
+        beat?.stopBlocking()
         servers.forEach {
             it.stop()
         }
@@ -200,7 +212,7 @@ object FmuProxy {
             return ServerSocket(0).use { it.localPort }
         }
 
-    private fun parseAddress(value: String) : Pair<String, Int> {
+    private fun parseAddress(value: String) : SimpleSocketAddress {
 
         val split = value.split(":")
         if (split.size != 2) {
@@ -209,7 +221,7 @@ object FmuProxy {
 
         val host = split[0]
         val port = split[1].toIntOrNull() ?: error("Wrong input format! Unable to create port number from input: $value")
-        return host to port
+        return SimpleSocketAddress(host, port)
     }
 
 

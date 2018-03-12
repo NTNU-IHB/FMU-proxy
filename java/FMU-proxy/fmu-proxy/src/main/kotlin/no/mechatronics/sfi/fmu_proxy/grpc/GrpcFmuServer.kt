@@ -30,9 +30,8 @@ import org.slf4j.LoggerFactory
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
+import no.mechatronics.sfi.fmu_proxy.FmuProxyServer
 
-import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
-import no.mechatronics.sfi.fmu_proxy.server.FmuProxyServer
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
 
 
@@ -41,8 +40,10 @@ import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-         private val services: List<GrpcFmuService>
+        private val services: List<GrpcFmuService>
 ): FmuProxyServer {
+
+    override val simpleName = "grpc/http2"
 
     private var server: Server? = null
 

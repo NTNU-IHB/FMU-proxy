@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.fmu_proxy.thrift
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmu_proxy.server.FmuProxyServer
+import no.mechatronics.sfi.fmu_proxy.FmuProxyServer
 import org.apache.thrift.server.TSimpleServer
 import org.apache.thrift.server.TServer
 import org.apache.thrift.transport.TServerSocket
@@ -38,6 +38,8 @@ class ThriftFmuServer(
         fmuFile: FmuFile
 ): FmuProxyServer {
 
+    override val simpleName = "thrift/tpc"
+
     private var serverTransport: TServerTransport? = null
     private var server: TServer? = null
 
@@ -46,7 +48,7 @@ class ThriftFmuServer(
 
     override fun start(port: Int) {
         if (server == null) {
-            serverTransport= TServerSocket(port)
+            serverTransport = TServerSocket(port)
             server = TSimpleServer(TServer.Args(serverTransport).processor(processor)).apply {
                 Thread { serve() }.start()
             }

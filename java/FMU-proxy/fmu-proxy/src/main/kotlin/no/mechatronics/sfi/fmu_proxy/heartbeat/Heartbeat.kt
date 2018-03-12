@@ -27,6 +27,7 @@ package no.mechatronics.sfi.fmu_proxy.heartbeat
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import no.mechatronics.sfi.fmu_proxy.RemoteFmu
+import no.mechatronics.sfi.fmu_proxy.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.zeromq.ZContext
@@ -47,7 +48,7 @@ private const val PPP_HEARTBEAT = "\u0002"//  Signals worker heartbeat
  * @author Lars Ivar Hatledal
  */
 internal class Heartbeat(
-        private val remoteAddress: Pair<String, Int>,
+        private val remoteAddress: SimpleSocketAddress,
         private val remoteFmu: RemoteFmu
 ) {
 
@@ -86,7 +87,7 @@ internal class Heartbeat(
         private fun workerSocket(ctx: ZContext): ZMQ.Socket {
             return ctx.createSocket(ZMQ.DEALER).also { worker ->
                 worker.identity = (remoteFmu.guid.toByteArray(ZMQ.CHARSET))
-                worker.connect("tcp://${remoteAddress.first}:${remoteAddress.second}")
+                worker.connect("tcp://${remoteAddress.host}:${remoteAddress.port}")
 
                 ZMsg().apply {
                     add(PPP_READY)

@@ -32,10 +32,8 @@ class TestGrpcClient_ME {
             val fmuFile = FmuFile(url)
             modelDescription = fmuFile.modelDescription
 
-            val port = ServerSocket(0).use { it.localPort }
-
             server = GrpcFmuServer(GrpcFmuServiceImpl(fmuFile))
-            server.start(port)
+            val port = server.start()
 
             client =  GrpcFmuClient("127.0.0.1", port)
 
