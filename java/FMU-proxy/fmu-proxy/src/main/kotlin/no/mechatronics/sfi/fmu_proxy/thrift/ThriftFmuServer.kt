@@ -25,7 +25,8 @@
 package no.mechatronics.sfi.fmu_proxy.thrift
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmu_proxy.FmuProxyServer
+import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
+import no.mechatronics.sfi.fmu_proxy.thrift.services.ThriftFmuServiceHandler
 import org.apache.thrift.server.TSimpleServer
 import org.apache.thrift.server.TServer
 import org.apache.thrift.transport.TServerSocket
@@ -38,30 +39,33 @@ class ThriftFmuServer(
         fmuFile: FmuFile
 ): FmuProxyServer {
 
-    override val simpleName = "thrift/tpc"
+    override var port: Int? = null
+    override val simpleName = "thrift/tcp"
 
-    private var serverTransport: TServerTransport? = null
     private var server: TServer? = null
+    private var serverTransport: TServerTransport? = null
 
     private val handler = ThriftFmuServiceHandler(fmuFile)
     private val processor = FmuService.Processor(handler)
 
     override fun start(port: Int) {
         if (server == null) {
+            this.port = port
             serverTransport = TServerSocket(port)
             server = TSimpleServer(TServer.Args(serverTransport).processor(processor)).apply {
                 Thread { serve() }.start()
             }
-            LOG.info("${ThriftFmuServer::class.java.simpleName} listening for connections on port: $port");
+            LOG.info("${javaClass.simpleName} listening for connections on port: $port");
         } else {
-            LOG.warn("${ThriftFmuServer::class.java.simpleName} has already been started!")
+            LOG.warn("${javaClass.simpleName} has already been started!")
         }
     }
 
     override fun stop() {
-        server?.apply {
-            stop()
-            LOG.info("${ThriftFmuServer::class.java.simpleName} stopped!")
+        server?.also {
+            it.stop()
+            server = null
+            LOG.info("${javaClass.simpleName} stopped!")
         }
     }
 

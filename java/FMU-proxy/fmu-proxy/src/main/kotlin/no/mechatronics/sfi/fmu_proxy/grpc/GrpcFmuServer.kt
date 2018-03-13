@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import no.mechatronics.sfi.fmu_proxy.FmuProxyServer
+import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
 
@@ -43,19 +43,17 @@ class GrpcFmuServer(
         private val services: List<GrpcFmuService>
 ): FmuProxyServer {
 
+    override var port: Int? = null
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
 
-    constructor(vararg services: GrpcFmuService): this(services.toList())
-
     override fun start(port: Int) {
         if (server == null) {
-            server = ServerBuilder.forPort(port)
-                    .directExecutor()
-                    .apply {
-                        services.forEach { addService(it) }
-                    }.build().start()
+            this.port = port
+            server = ServerBuilder.forPort(port).apply {
+                services.forEach { addService(it) }
+            }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port");
         } else {
@@ -64,13 +62,16 @@ class GrpcFmuServer(
     }
 
     override fun stop() {
-        server?.apply {
-            shutdown()
+        server?.also {
+            it.shutdown()
+            server = null
             LOG.info("${javaClass.simpleName} stopped!")
         }
     }
 
-    override fun close() = stop()
+    override fun close() {
+        stop()
+    }
 
     /**
      * Await termination on the main thread since the grpc library uses daemon

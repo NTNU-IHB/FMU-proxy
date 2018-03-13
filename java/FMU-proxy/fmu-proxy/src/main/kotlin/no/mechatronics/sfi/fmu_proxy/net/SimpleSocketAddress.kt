@@ -22,32 +22,32 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy
 
-import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
-import no.mechatronics.sfi.fmu_proxy.net.SimpleSocketAddress
+package no.mechatronics.sfi.fmu_proxy.net
 
-class ProxyBuilder(
-        private val fmuFile: FmuFile
+/**
+ * @author Lars Ivar Hatledal
+ */
+data class SimpleSocketAddress(
+        val host: String,
+        val port: Int
 ) {
 
-    private var remote: SimpleSocketAddress? = null
-    private val servers = mutableMapOf<FmuProxyServer, Int?>()
+    companion object {
 
-    fun setRemote(remote: SimpleSocketAddress?): ProxyBuilder {
-        this.remote = remote
-        return this
-    }
+        @JvmStatic
+        fun parse(value: String): SimpleSocketAddress {
+            val split = value.split(":")
+            if (split.size != 2) {
+                error("Wrong address format! Expected 'host:port', was '$value'")
+            }
 
-    @JvmOverloads
-    fun addServer(server: FmuProxyServer, port: Int? = null): ProxyBuilder {
-        servers[server] = port
-        return this
-    }
+            val host = split[0]
+            val port = split[1].toIntOrNull()
+                    ?: error("Wrong input format! Unable to create port number from input: $value")
+            return SimpleSocketAddress(host, port)
+        }
 
-    fun build(): FmuProxy {
-        return FmuProxy(fmuFile, remote, servers)
     }
 
 }

@@ -9,7 +9,7 @@ import info.laht.yaj_rpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.fmu_proxy.FmuProxy
+import no.mechatronics.sfi.fmu_proxy.FmuProxy_old
 import org.junit.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -47,14 +47,14 @@ class TestJsonRpcClients {
                     "-zmqPort", "$zmqPort"
             )
 
-            FmuProxy.create(args, fmuFile)
+            FmuProxy_old.create(args, fmuFile)
 
         }
 
         @JvmStatic
         @AfterClass
         fun tearDown() {
-            FmuProxy.stopServers()
+            FmuProxy_old.stopServers()
         }
 
     }

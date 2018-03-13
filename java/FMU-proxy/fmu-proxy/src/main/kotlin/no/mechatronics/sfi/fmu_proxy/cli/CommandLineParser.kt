@@ -1,109 +1,114 @@
 package no.mechatronics.sfi.fmu_proxy.cli
 
+import info.laht.yaj_rpc.RpcHandler
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.FmuProxy
 import no.mechatronics.sfi.fmu_proxy.ProxyBuilder
-import no.mechatronics.sfi.fmu_proxy.SimpleSocketAddress
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
-import org.apache.commons.cli.DefaultParser
-import org.apache.commons.cli.HelpFormatter
-import org.apache.commons.cli.Option
-import org.apache.commons.cli.Options
+import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
+import no.mechatronics.sfi.fmu_proxy.json_rpc.*
+import no.mechatronics.sfi.fmu_proxy.net.SimpleSocketAddress
+import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import picocli.CommandLine
 import java.io.File
-import java.net.ServerSocket
-
-data class ParseResult(
-        val fmuFile: FmuFile
-) {
-    var remote: SimpleSocketAddress? = null
-    var grpcPort: Int? = null
-    var thriftPort: Int? = null
-    var jsonHttpPort: Int? = null
-    var jsonWsPort: Int? = null
-    var jsonTcpPort: Int? = null
-    var jsonZmqPort: Int? = null
-}
+import java.util.concurrent.Callable
 
 object CommandLineParser {
 
-    private const val HELP = "help"
-    private const val FMU = "fmu"
-    private const val REMOTE = "remote"
-    private const val GRPC = "grpc"
-    private const val GRPC_PORT = "grpcPort"
-    private const val THRIFT = "thrift"
-    private const val THRIFT_PORT = "thriftPort"
-    private const val JSON_RPC = "JSON_RPC"
-    private const val JSON_RPC_WS_PORT = "wsPort"
-    private const val JSON_RPC_ZMQ_PORT = "zmqPort"
-    private const val JSON_RPC_TCP_PORT = "tcpPort"
-    private const val JSON_RPC_HTTP_PORT = "httpPort"
+    private val LOG: Logger = LoggerFactory.getLogger(CommandLineParser::class.java)
+
+    private class Args: Callable<FmuProxy> {
+
+        @CommandLine.Option(names = ["-h", "--help"], description = ["Print this help message and quits."], usageHelp = true)
+        private var showHelp = false
+
+        @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the FMU"], required = true)
+        private lateinit var fmuPath: String
+
+        @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)"], converter = [SimpleSocketAddressConverter::class])
+        private var remote: SimpleSocketAddress? = null
+
+        @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the grpc port (optional)"])
+        private var grpcPort: Int? = null
+
+        @CommandLine.Option(names = ["-thrift"], description = ["Manually specify the thrift port (optional)"])
+        private var thriftPort: Int? = null
+
+        @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)"])
+        private var jsonHttpPort: Int? = null
+
+        @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Manually specify the JSON-RPC WS port (optional)"])
+        private var jsonWsPort: Int? = null
+
+        @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Manually specify the JSON-RPC TCP/IP port (optional)"])
+        private var jsonTcpPort: Int? = null
+
+        @CommandLine.Option(names = ["-jsonrpc/zmq"], description = ["Manually specify the JSON-RPC ZMQ port (optional)"])
+        private var jsonZmqPort: Int? = null
+
+        override fun call(): FmuProxy? {
+
+            val fmuFile = FmuFile(File(fmuPath))
+            return ProxyBuilder(fmuFile).apply {
+
+                setRemote(remote)
+
+                GrpcFmuServer(listOf(GrpcFmuServiceImpl(fmuFile))).apply {
+                    grpcPort?.also { addServer(this, it) } ?: addServer(this)
+                }
+
+                ThriftFmuServer(fmuFile)?.apply {
+                    thriftPort?.also { addServer(this, it) } ?: addServer(this)
+                }
+
+                val handler = RpcHandler(listOf(RpcFmuService(fmuFile)))
+                FmuProxyJsonHttpServer(handler).apply {
+                    jsonHttpPort?.also { addServer(this, it) } ?: addServer(this)
+                }
+
+                FmuProxyJsonWsServer(handler).apply {
+                    jsonWsPort?.also { addServer(this, it) } ?: addServer(this)
+                }
+
+                FmuProxyJsonTcpServer(handler).apply {
+                    jsonTcpPort?.also { addServer(this, it) } ?: addServer(this)
+                }
+
+                FmuProxyJsonZmqServer(handler).apply {
+                    jsonZmqPort?.also { addServer(this, it) } ?: addServer(this)
+                }
 
 
-    fun parse(args: Array<String>): ParseResult? {
-
-        val options = Options().apply {
-
-            addOption(Option(HELP, false, "Prints this message"))
-            addOption(Option(FMU, false, "The location of the FMU"))
-            addOption(Option(REMOTE, true, "Specify the IP address of the remote tracking server. E.g. ${"127.0.0.1:7000"}"))
-            addOption(Option(GRPC, true, "Enable grpc server"))
-            addOption(Option(GRPC_PORT, true, "Manually specify the port to use for the gRPC server (optional)"))
-            addOption(Option(THRIFT_PORT, true, "Manually specify the port to use for the Thrift server (optional)"))
-            addOption(Option(JSON_RPC_WS_PORT, true, "Manually specify the port to use for the JSON-RPC (WebSocket) server (optional)"))
-            addOption(Option(JSON_RPC_TCP_PORT, true, "Manually specify the port to use for the JSON-RPC (TCP/IP) server (optional)"))
-            addOption(Option(JSON_RPC_HTTP_PORT, true, "Manually specify the port to use for the JSON-RPC (HTTP) server (optional)"))
-            addOption(Option(JSON_RPC_ZMQ_PORT, true, "Manually specify the port to use for the JSON-RPC (ZMQ) server (optional)"))
+            }.build()
 
         }
 
-        return DefaultParser().parse(options, args).let { cmd ->
-            if (args.isEmpty() || cmd.hasOption(HELP)) {
-                HelpFormatter().printHelp("fmu-proxy", options)
-                null
-            } else {
-                cmd.getOptionValue(FMU)?.let {
-
-                     val fmuFile = FmuFile(File(it))
-
-                 ParseResult(fmuFile).apply {
-
-                        remote = cmd.getOptionValue(REMOTE)?.let { parseAddress(it) }
-                        if (cmd.hasOption(GRPC)) {
-                            grpcPort = cmd.getOptionValue(GRPC_PORT)?.let { it.toIntOrNull() }
-                        }
-                        if (cmd.hasOption(THRIFT)) {
-                            thriftPort = cmd.getOptionValue(THRIFT_PORT)?.let { it.toIntOrNull() }
-                        }
-                        if (cmd.hasOption(JSON_RPC)) {
-                            jsonHttpPort = cmd.getOptionValue(JSON_RPC_HTTP_PORT)?.let { it.toIntOrNull() }
-                        }
-
-                    }
-
-                } ?: null
-            }
-
+        override fun toString(): String {
+            return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftPort=$thriftPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
         }
+
+    }
+
+    fun parse(args: Array<String>): FmuProxy? {
+        return CommandLine.call(Args(), System.out, *args)
     }
 }
 
-private val availablePort: Int
-    get() {
-        return ServerSocket(0).use { it.localPort }
+
+class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
+    override fun convert(value: String): SimpleSocketAddress {
+        return SimpleSocketAddress.parse(value)
     }
-
-
-private fun parseAddress(value: String) : SimpleSocketAddress {
-
-    val split = value.split(":")
-    if (split.size != 2) {
-        error("Wrong address format!")
-    }
-
-    val host = split[0]
-    val port = split[1].toIntOrNull()
-            ?: error("Wrong input format! Unable to create port number from input: $value")
-    return SimpleSocketAddress(host, port)
 }
+
+class FmuFileConverter: CommandLine.ITypeConverter<FmuFile> {
+    override fun convert(value: String): FmuFile {
+        return FmuFile(File(value))
+    }
+}
+
+
+
 

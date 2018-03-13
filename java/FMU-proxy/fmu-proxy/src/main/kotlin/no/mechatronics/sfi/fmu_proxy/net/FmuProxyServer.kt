@@ -22,32 +22,12 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy
+package no.mechatronics.sfi.fmu_proxy.net
 
-import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
-import no.mechatronics.sfi.fmu_proxy.net.SimpleSocketAddress
+import info.laht.yaj_rpc.net.RpcServer
 
-class ProxyBuilder(
-        private val fmuFile: FmuFile
-) {
+interface FmuProxyServer: RpcServer {
 
-    private var remote: SimpleSocketAddress? = null
-    private val servers = mutableMapOf<FmuProxyServer, Int?>()
-
-    fun setRemote(remote: SimpleSocketAddress?): ProxyBuilder {
-        this.remote = remote
-        return this
-    }
-
-    @JvmOverloads
-    fun addServer(server: FmuProxyServer, port: Int? = null): ProxyBuilder {
-        servers[server] = port
-        return this
-    }
-
-    fun build(): FmuProxy {
-        return FmuProxy(fmuFile, remote, servers)
-    }
+    val simpleName: String
 
 }

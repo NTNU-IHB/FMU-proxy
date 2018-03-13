@@ -22,11 +22,12 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.thrift
+package no.mechatronics.sfi.fmu_proxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
+import no.mechatronics.sfi.fmu_proxy.thrift.*
 import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.apache.commons.math3.ode.nonstiff.AdamsBashforthIntegrator
 import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator

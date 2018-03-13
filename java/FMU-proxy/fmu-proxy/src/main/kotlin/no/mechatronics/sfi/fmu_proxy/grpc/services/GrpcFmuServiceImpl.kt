@@ -50,7 +50,6 @@ class GrpcFmuServiceImpl(
     private val modelDescription: SimpleModelDescription
             = fmuFile.modelDescription
 
-
     override fun supportsModelExchange(request: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
         responseObserver.onNext(modelDescription.supportsModelExchange.protoType())
         responseObserver.onCompleted()
@@ -104,24 +103,6 @@ class GrpcFmuServiceImpl(
         
     }
 
-//    override fun getGuid(request: Empty, responseObserver: StreamObserver<Proto.Str>) {
-//
-//        Proto.Str.newBuilder().setValue(modelDescription.guid).build().also {
-//            responseObserver.onNext(it)
-//            responseObserver.onCompleted()
-//        }
-//
-//    }
-//
-//    override fun getModelName(req: Empty, responseObserver: StreamObserver<Proto.Str>) {
-//
-//        Proto.Str.newBuilder().setValue(modelDescription.modelName).build().also {
-//            responseObserver.onNext(it)
-//            responseObserver.onCompleted()
-//        }
-//
-//    }
-
     override fun canGetAndSetFMUstate(req: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
         Fmus.get(req.value)?.apply {
             responseObserver.onNext(modelDescription.canGetAndSetFMUstate.protoType())
@@ -156,30 +137,6 @@ class GrpcFmuServiceImpl(
         responseObserver.onCompleted()
 
     }
-
-//    override fun getModelVariables(req: Empty, responseObserver: StreamObserver<Proto.ScalarVariable>) {
-//
-//        for (variable in modelDescription.modelVariables) {
-//            responseObserver.onNext(variable.protoType())
-//        }
-//        responseObserver.onCompleted()
-//
-//    }
-//
-//    override fun getModelStructure(request: Empty, responseObserver: StreamObserver<Proto.ModelStructure>) {
-//
-//        val modelStructure = modelDescription.modelStructure.let {
-//            Proto.ModelStructure.newBuilder().apply {
-//                addAllOutputs(it.outputs)
-//                addAllDerivatives(it.derivatives.map { it.protoType() })
-//                addAllInitialUnknowns(it.initialUnknowns.map { it.protoType() })
-//            }.build()
-//        }
-//
-//        responseObserver.onNext(modelStructure)
-//        responseObserver.onCompleted()
-//
-//    }
 
     override fun readInteger(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.IntRead>) {
 

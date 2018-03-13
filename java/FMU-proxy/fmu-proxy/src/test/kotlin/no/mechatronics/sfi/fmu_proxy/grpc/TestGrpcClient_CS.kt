@@ -57,7 +57,7 @@ class TestGrpcClient_CS {
             val fmuFile = FmuFile(url)
             modelDescription = fmuFile.modelDescription
 
-            server = GrpcFmuServer(GrpcFmuServiceImpl(fmuFile))
+            server = GrpcFmuServer(listOf(GrpcFmuServiceImpl(fmuFile)))
             val port = server.start()
 
             client = GrpcFmuClient("localhost", port)

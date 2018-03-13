@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.thrift
+package no.mechatronics.sfi.fmu_proxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.FmuBooleanRead
 import no.mechatronics.sfi.fmi4j.common.FmuIntegerRead
@@ -34,6 +34,8 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
+import no.mechatronics.sfi.fmu_proxy.thrift.*
+import no.mechatronics.sfi.fmu_proxy.thrift.ScalarVariable
 
 fun FmuIntegerRead.thriftType()
         = IntRead(value, StatusCode.findByValue(status.code))
@@ -72,7 +74,7 @@ fun no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment.thriftType
         = DefaultExperiment(startTime, stopTime, tolerance, stepSize)
 
 fun no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown.thriftType(): Unknown {
-    return Unknown().also {u ->
+    return Unknown().also { u ->
         u.index = index
         u.dependencies = dependencies
         dependenciesKind?.also { u.dependencies_kind = thriftDependenciesKind(it) }
