@@ -136,11 +136,12 @@ class TestProxy {
     @Test
     fun testJsonRpc() {
 
+        val host = "localhost"
         val clients = listOf(
-                RpcHttpClient("localhost", proxy.getPortFor(FmuProxyJsonHttpServer::class.java)!!),
-                RpcWebSocketClient("localhost", proxy.getPortFor(FmuProxyJsonWsServer::class.java)!!),
-                RpcTcpClient("localhost", proxy.getPortFor(FmuProxyJsonTcpServer::class.java)!!),
-                RpcZmqClient("localhost", proxy.getPortFor(FmuProxyJsonZmqServer::class.java)!!)
+                RpcHttpClient(host, proxy.getPortFor(FmuProxyJsonHttpServer::class.java)!!),
+                RpcWebSocketClient(host, proxy.getPortFor(FmuProxyJsonWsServer::class.java)!!),
+                RpcTcpClient(host, proxy.getPortFor(FmuProxyJsonTcpServer::class.java)!!),
+                RpcZmqClient(host, proxy.getPortFor(FmuProxyJsonZmqServer::class.java)!!)
         ).map { TestJsonRpcClients.FmuRpcClient(it) }
 
 
@@ -153,6 +154,7 @@ class TestProxy {
 
                 Assert.assertEquals(md.guid, fmu.guid)
                 Assert.assertEquals(md.modelName, fmu.modelName)
+                Assert.assertEquals(md.fmiVersion, fmu.fmiVersion)
 
                 Assert.assertTrue(fmu.init())
 

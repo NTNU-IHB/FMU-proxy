@@ -53,6 +53,11 @@ public class RpcFmuService implements RpcService {
     }
 
     @RpcMethod
+    public @NotNull String getFmiVersion() {
+        return modelDescription.getFmiVersion();
+    }
+
+    @RpcMethod
     public @NotNull String getGuid() {
         return modelDescription.getGuid();
     }

@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmu_proxy.grpc.services
 
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
@@ -31,9 +32,22 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmu_proxy.grpc.*
 
+fun FmiStatus.protoType(): Proto.StatusCode {
+    return when (this) {
+        FmiStatus.OK -> Proto.StatusCode.OK_STATUS
+        FmiStatus.Warning -> Proto.StatusCode.WARNING_STATUS
+        FmiStatus.Discard -> Proto.StatusCode.DISCARD_STATUS
+        FmiStatus.Error -> Proto.StatusCode.ERROR_STATUS
+        FmiStatus.Fatal -> Proto.StatusCode.FATAL_STATUS
+        FmiStatus.Pending -> Proto.StatusCode.PENDING_STATUS
+        FmiStatus.NONE -> Proto.StatusCode.UNRECOGNIZED
+    }
+}
+
 internal fun SimpleModelDescription.protoType(): Proto.ModelDescription {
 
     return Proto.ModelDescription.newBuilder().also { builder ->
+
         builder.fmiVersion = fmiVersion
         builder.guid = guid
         builder.modelName = modelName
@@ -44,21 +58,26 @@ internal fun SimpleModelDescription.protoType(): Proto.ModelDescription {
         author?.also { builder.author = it }
         version?.also { builder.version = it }
         license?.also { builder.license = it }
+
     }.build()
 
 }
 
 internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
-    return Proto.ScalarVariable.newBuilder()
-            .setValueReference(valueReference)
-            .setName(name)
-            .setDescription(description)
-            .setVariableType(protoVariableType(this))
-            .setCausality(protoType(causality))
-            .setVariability(protoType(variability))
-            .setInitial(protoType(initial))
-            .setStart(getStartProto())
-            .build()
+    return Proto.ScalarVariable.newBuilder().also { builder ->
+
+        builder.name = name
+        builder.valueReference = valueReference
+        builder.variableType = protoVariableType()
+        builder.description = description
+
+        start?.also { builder.start =protoStartType() }
+        causality?.also { builder.causality = it.protoType() }
+        variability?.also { builder.variability = it.protoType() }
+        initial?.also { builder.initial = it.protoType() }
+
+    }.build()
+
 }
 
 
@@ -83,21 +102,26 @@ internal fun Unknown.protoType(): Proto.Unknown {
         builder.index = index
         builder.addAllDependencies(dependencies)
 
-        dependenciesKind?.also {
-            builder.dependenciesKind = when(dependenciesKind) {
-                DependenciesKind.CONSTANT -> Proto.DependenciesKind.CONSTANT_KIND
-                DependenciesKind.DEPENDENT -> Proto.DependenciesKind.DEPENDENT_KIND
-                DependenciesKind.DISCRETE -> Proto.DependenciesKind.DISCRETE_KIND
-                DependenciesKind.TUNABLE -> Proto.DependenciesKind.TUNABLE_KIND
-                else -> Proto.DependenciesKind.UNRECOGNIZED
-            }
-        }
+        dependenciesKind?.also { builder.dependenciesKind = it.protoType() }
+
     }.build()
 }
 
-internal fun protoType(causality: Causality?): Proto.Causality {
+internal fun DependenciesKind.protoType(): Proto.DependenciesKind {
 
-    return when (causality) {
+    return when (this) {
+        DependenciesKind.CONSTANT -> Proto.DependenciesKind.CONSTANT_KIND
+        DependenciesKind.DEPENDENT -> Proto.DependenciesKind.DEPENDENT_KIND
+        DependenciesKind.DISCRETE -> Proto.DependenciesKind.DISCRETE_KIND
+        DependenciesKind.TUNABLE -> Proto.DependenciesKind.TUNABLE_KIND
+        else -> Proto.DependenciesKind.UNRECOGNIZED
+    }
+
+}
+
+internal fun Causality.protoType(): Proto.Causality {
+
+    return when (this) {
         Causality.INPUT -> Proto.Causality.INPUT_CAUSALITY
         Causality.OUTPUT -> Proto.Causality.OUTPUT_CAUSALITY
         Causality.CALCULATED_PARAMETER -> Proto.Causality.CALCULATED_PARAMETER_CAUSALITY
@@ -109,9 +133,9 @@ internal fun protoType(causality: Causality?): Proto.Causality {
 
 }
 
-internal fun protoType(variability: Variability?): Proto.Variability {
+internal fun Variability.protoType(): Proto.Variability {
 
-    return when (variability) {
+    return when (this) {
         Variability.CONSTANT -> Proto.Variability.CONSTANT_VARIABILITY
         Variability.CONTINUOUS -> Proto.Variability.CONTINUOUS_VARIABILITY
         Variability.DISCRETE -> Proto.Variability.DISCRETE_VARIABILITY
@@ -122,9 +146,9 @@ internal fun protoType(variability: Variability?): Proto.Variability {
 
 }
 
-internal fun protoType(initial: Initial?): Proto.Initial {
+internal fun Initial.protoType(): Proto.Initial {
 
-    return when (initial) {
+    return when (this) {
         Initial.CALCULATED ->  Proto.Initial.CALCULATED_INITIAL
         Initial.EXACT ->  Proto.Initial.EXACT_INITIAL
         Initial.APPROX ->  Proto.Initial.APPROX_INITIAL
@@ -133,7 +157,7 @@ internal fun protoType(initial: Initial?): Proto.Initial {
 
 }
 
-internal fun TypedScalarVariable<*>.getStartProto(): Proto.AnyPrimitive {
+internal fun TypedScalarVariable<*>.protoStartType(): Proto.AnyPrimitive {
     return if (start != null) {
         Proto.AnyPrimitive.newBuilder().also { builder ->
             when (this) {
@@ -151,15 +175,14 @@ internal fun TypedScalarVariable<*>.getStartProto(): Proto.AnyPrimitive {
     }
 }
 
-internal fun protoVariableType(variable: TypedScalarVariable<*>): Proto.VariableType {
-    return when(variable) {
+internal fun TypedScalarVariable<*>.protoVariableType(): Proto.VariableType {
+    return when(this) {
         is IntegerVariable -> Proto.VariableType.INTEGER_VARIABLE
         is RealVariable -> Proto.VariableType.REAL_VARIABLE
         is StringVariable -> Proto.VariableType.STRING_VARIABLE
         is BooleanVariable -> Proto.VariableType.BOOLEAN_VARIABLE
         is EnumerationVariable -> Proto.VariableType.ENUMERATION_VARIABLE
-        else -> throw UnsupportedOperationException("Variable type not supported: ${variable.typeName}")
+        else -> throw UnsupportedOperationException("Variable type not supported: $typeName")
     }
-
 }
 

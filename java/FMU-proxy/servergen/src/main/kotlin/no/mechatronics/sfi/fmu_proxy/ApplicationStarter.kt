@@ -31,79 +31,31 @@ import java.io.File
  *
  * @author Lars Ivar Hatledal
  */
-class ApplicationStarter {
+object ApplicationStarter {
 
-    class Args: Runnable {
-
-        @CommandLine.Option(names = ["-h", "--help"], description = ["Prints this message and closes the application."], usageHelp = true)
-        var helpRequested = false
-
-        @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the fmu"], required = true)
-        lateinit var fmuPath: File
-
-        @CommandLine.Option(names = ["-out", "--output"], description = ["Specify where to copy the generated .jar (optional)"])
-        var out: File? = null
-
-        override fun run() {
-
-            val outputFile = out ?: File(".")
-            ExecutableGenerator(fmuPath).generate(outputFile)
-
-        }
+    @JvmStatic
+    fun main(args: Array<String>) {
+        CommandLine.run(Args(), System.out, *args)
     }
 
-    companion object {
+}
 
-//        private const val HELP = "help"
-//        private const val FMU_FILE = "fmu"
-//        private const val OUTPUT_FOLDER = "out"
+class Args: Runnable {
 
-        @JvmStatic
-        fun main(args: Array<String>) {
+    @CommandLine.Option(names = ["-h", "--help"], description = ["Prints this message and closes the application."], usageHelp = true)
+    var helpRequested = false
 
-            CommandLine.run(Args(), System.out, *args)
+    @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the fmu"], required = true)
+    lateinit var fmuPath: File
 
-//            val options = Options().apply {
-//
-//                addOption(HELP, false, "Prints this message")
-//                addOption(FMU_FILE, true, "Path to the fmu")
-//                addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar (optional)")
-//
-//            }
-//
-//            DefaultParser().parse(options, args).apply {
-//
-//                if (args.isEmpty() || hasOption(HELP)) {
-//                    HelpFormatter().printHelp("fmu-proxy", options)
-//                } else {
-//                    getOptionValue(FMU_FILE)?.also {
-//
-//                        File(it.replace("\\", "/")).apply {
-//                            if (exists() && name.endsWith(".fmu", true)) {
-//
-//                                var out = File(".")
-//                                if (hasOption(OUTPUT_FOLDER)) {
-//                                    val outCandidate = File(getOptionValue(OUTPUT_FOLDER))
-//                                    if (outCandidate.isDirectory) {
-//                                        out = outCandidate
-//                                    }
-//                                }
-//
-//                                ExecutableGenerator(this).generate(out)
-//
-//                            } else {
-//                                error("Not a valid file: $absolutePath")
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
+    @CommandLine.Option(names = ["-out", "--output"], description = ["Specify where to copy the generated .jar (optional)"])
+    var out: File? = null
 
-        }
+    override fun run() {
+
+        ExecutableGenerator(fmuPath).generate(out)
 
     }
-
 }
 
 

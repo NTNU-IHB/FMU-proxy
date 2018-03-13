@@ -104,38 +104,56 @@ class TestJsonRpcClients {
             val client: RpcClient
     ): Closeable {
 
-        private val fmuId: Int
+        private var terminateSent = false
 
-        init {
-            fmuId = client.write("FmuService.createInstanceFromCS").getResult(Int::class.java)!!
-        }
+        private val fmuId: Int
+                = client.write("FmuService.createInstanceFromCS")
+                .getResult(Int::class.java)!!
+
+        val fmiVersion: String
+            get() = client.write("FmuService.getFmiVersion")
+                    .getResult(String::class.java)!!
 
         val modelName: String
-            get() = client.write("FmuService.getModelName").getResult(String::class.java)!!
+            get() = client.write("FmuService.getModelName")
+                    .getResult(String::class.java)!!
 
 
         val guid: String
-            get() = client.write("FmuService.getGuid").getResult(String::class.java)!!
+            get() = client.write("FmuService.getGuid")
+                    .getResult(String::class.java)!!
 
 
         val currentTime: Double
-            get() = client.write("FmuService.getCurrentTime", RpcParams.listParams(fmuId)).getResult(Double::class.java)!!
+            get() = client.write("FmuService.getCurrentTime", RpcParams.listParams(fmuId))
+                    .getResult(Double::class.java)!!
 
 
         fun init(): Boolean {
-            return client.write("FmuService.init", RpcParams.listParams(fmuId)).getResult(Boolean::class.java)!!
+            return client.write("FmuService.init", RpcParams.listParams(fmuId))
+                    .getResult(Boolean::class.java)!!
         }
 
         fun step(dt: Double): Boolean {
-            return client.write("FmuService.step", RpcParams.listParams(fmuId, dt)).getResult(Boolean::class.java)!!
+            return client.write("FmuService.step", RpcParams.listParams(fmuId, dt))
+                    .getResult(Boolean::class.java)!!
+        }
+
+        fun reset(): Boolean {
+            return client.write("FmuService.reset", RpcParams.listParams(fmuId))
+                    .getResult(Boolean::class.java)!!
         }
 
         fun terminate() {
-            client.write("FmuService.terminate", RpcParams.listParams(fmuId))
+            if (!terminateSent) {
+                terminateSent = true
+                client.write("FmuService.terminate", RpcParams.listParams(fmuId))
+            }
         }
 
         fun readReal(name: String): FmuRealRead {
-            return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name)).getResult(FmuRealRead::class.java)!!
+            return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name))
+                    .getResult(FmuRealRead::class.java)!!
         }
 
         override fun close() {

@@ -53,10 +53,12 @@ class ExecutableGenerator(
         private val modelDescriptionXml: String
 ) {
 
-
     constructor(file: File): this(FileInputStream(file), ModelDescriptionParser.extractModelDescriptionXml(FileInputStream(file)))
 
-    fun generate(outDir: File = File(".")) {
+    @JvmOverloads
+    fun generate(outDir: File? = null) {
+
+        val outDir: File = outDir ?: File(defaultOut)
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
         //val tempDir = Files.createTempDirectory("fmu_proxy").toFile()
@@ -142,6 +144,9 @@ class ExecutableGenerator(
 
     companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ExecutableGenerator::class.java)
+
+        private const val defaultOut = "."
+
     }
 
 }

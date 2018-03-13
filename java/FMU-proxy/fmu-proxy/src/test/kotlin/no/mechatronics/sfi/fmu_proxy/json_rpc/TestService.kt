@@ -7,20 +7,20 @@ import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.io.File
 
 class TestService {
 
     lateinit var handler: RpcHandler
-    lateinit var service: RpcFmuService
+    lateinit var fmuFile: FmuFile
 
     @Before
     fun setup() {
         val url = javaClass.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
-
-        service = RpcFmuService(FmuFile(url))
-        handler = RpcHandler(service)
+        fmuFile = FmuFile(File(url.file))
+        handler = RpcHandler(RpcFmuService(fmuFile))
 
     }
 
@@ -39,7 +39,7 @@ class TestService {
         }
 
         println("modelName=$modelName")
-        Assert.assertEquals(service.fmuFile.modelDescription.modelName, modelName)
+        Assert.assertEquals(fmuFile.modelDescription.modelName, modelName)
 
     }
 
@@ -58,7 +58,7 @@ class TestService {
         }
 
         println("guid=$guid")
-        Assert.assertEquals(service.fmuFile.modelDescription.guid, guid)
+        Assert.assertEquals(fmuFile.modelDescription.guid, guid)
 
     }
 
