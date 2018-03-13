@@ -46,8 +46,8 @@ internal object Main {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val fmuFile = FmuFile(Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!)
-        FmuProxy.create(args, fmuFile, {{fmuName}}Service())
+        val fmuPath = Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!.file
+        CommandLineParser.parse(args + arrayOf("-fmu", "$fmuPath"), fmuFile, {{fmuName}}Service())
 
     }
 

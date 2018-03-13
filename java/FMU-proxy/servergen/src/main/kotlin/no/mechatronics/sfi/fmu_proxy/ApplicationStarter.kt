@@ -24,9 +24,7 @@
 
 package no.mechatronics.sfi.fmu_proxy
 
-import org.apache.commons.cli.DefaultParser
-import org.apache.commons.cli.HelpFormatter
-import org.apache.commons.cli.Options
+import picocli.CommandLine
 import java.io.File
 
 /**
@@ -35,51 +33,72 @@ import java.io.File
  */
 class ApplicationStarter {
 
+    class Args: Runnable {
+
+        @CommandLine.Option(names = ["-h", "--help"], description = ["Prints this message and closes the application."], usageHelp = true)
+        var helpRequested = false
+
+        @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the fmu"], required = true)
+        lateinit var fmuPath: File
+
+        @CommandLine.Option(names = ["-out", "--output"], description = ["Specify where to copy the generated .jar (optional)"])
+        var out: File? = null
+
+        override fun run() {
+
+            val outputFile = out ?: File(".")
+            ExecutableGenerator(fmuPath).generate(outputFile)
+
+        }
+    }
+
     companion object {
 
-        private const val HELP = "help"
-        private const val FMU_FILE = "fmu"
-        private const val OUTPUT_FOLDER = "out"
+//        private const val HELP = "help"
+//        private const val FMU_FILE = "fmu"
+//        private const val OUTPUT_FOLDER = "out"
 
         @JvmStatic
         fun main(args: Array<String>) {
 
-            val options = Options().apply {
+            CommandLine.run(Args(), System.out, *args)
 
-                addOption(HELP, false, "Prints this message")
-                addOption(FMU_FILE, true, "Path to the fmu")
-                addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar (optional)")
-
-            }
-
-            DefaultParser().parse(options, args).apply {
-
-                if (args.isEmpty() || hasOption(HELP)) {
-                    HelpFormatter().printHelp("fmu-proxy", options)
-                } else {
-                    getOptionValue(FMU_FILE)?.also {
-
-                        File(it.replace("\\", "/")).apply {
-                            if (exists() && name.endsWith(".fmu", true)) {
-
-                                var out = File(".")
-                                if (hasOption(OUTPUT_FOLDER)) {
-                                    val outCandidate = File(getOptionValue(OUTPUT_FOLDER))
-                                    if (outCandidate.isDirectory) {
-                                        out = outCandidate
-                                    }
-                                }
-
-                                ExecutableGenerator(this).generate(out)
-
-                            } else {
-                                error("Not a valid file: $absolutePath")
-                            }
-                        }
-
-                    }
-                }
-            }
+//            val options = Options().apply {
+//
+//                addOption(HELP, false, "Prints this message")
+//                addOption(FMU_FILE, true, "Path to the fmu")
+//                addOption(OUTPUT_FOLDER, true, "Specify where to copy the generated .jar (optional)")
+//
+//            }
+//
+//            DefaultParser().parse(options, args).apply {
+//
+//                if (args.isEmpty() || hasOption(HELP)) {
+//                    HelpFormatter().printHelp("fmu-proxy", options)
+//                } else {
+//                    getOptionValue(FMU_FILE)?.also {
+//
+//                        File(it.replace("\\", "/")).apply {
+//                            if (exists() && name.endsWith(".fmu", true)) {
+//
+//                                var out = File(".")
+//                                if (hasOption(OUTPUT_FOLDER)) {
+//                                    val outCandidate = File(getOptionValue(OUTPUT_FOLDER))
+//                                    if (outCandidate.isDirectory) {
+//                                        out = outCandidate
+//                                    }
+//                                }
+//
+//                                ExecutableGenerator(this).generate(out)
+//
+//                            } else {
+//                                error("Not a valid file: $absolutePath")
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
 
         }
 

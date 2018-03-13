@@ -3,7 +3,7 @@ package no.mechatronics.sfi.fmu_proxy.cli
 import info.laht.yaj_rpc.RpcHandler
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.FmuProxy
-import no.mechatronics.sfi.fmu_proxy.ProxyBuilder
+import no.mechatronics.sfi.fmu_proxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmu_proxy.json_rpc.*
@@ -50,8 +50,8 @@ object CommandLineParser {
 
         override fun call(): FmuProxy? {
 
-            val fmuFile = FmuFile(File(fmuPath))
-            return ProxyBuilder(fmuFile).apply {
+            val fmuFile = FmuFile(File(fmuPath.replace("\\", "/")))
+            return FmuProxyBuilder(fmuFile).apply {
 
                 setRemote(remote)
 
@@ -59,7 +59,7 @@ object CommandLineParser {
                     grpcPort?.also { addServer(this, it) } ?: addServer(this)
                 }
 
-                ThriftFmuServer(fmuFile)?.apply {
+                ThriftFmuServer(fmuFile).apply {
                     thriftPort?.also { addServer(this, it) } ?: addServer(this)
                 }
 

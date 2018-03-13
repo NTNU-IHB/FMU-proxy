@@ -1,5 +1,6 @@
 package no.mechatronics.sfi.fmu_proxy.json_rpc
 
+import info.laht.yaj_rpc.RpcHandler
 import info.laht.yaj_rpc.RpcParams
 import info.laht.yaj_rpc.net.RpcClient
 import info.laht.yaj_rpc.net.http.RpcHttpClient
@@ -9,7 +10,8 @@ import info.laht.yaj_rpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.fmu_proxy.FmuProxy_old
+import no.mechatronics.sfi.fmu_proxy.FmuProxy
+import no.mechatronics.sfi.fmu_proxy.FmuProxyBuilder
 import org.junit.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,6 +31,7 @@ class TestJsonRpcClients {
         private const val zmqPort = 8003
         private const val httpPort = 8004
 
+        private lateinit var proxy: FmuProxy
         private lateinit var modelDescription: SimpleModelDescription
 
         @JvmStatic
@@ -40,21 +43,22 @@ class TestJsonRpcClients {
             val fmuFile = FmuFile(File(url.file))
             modelDescription = fmuFile.modelDescription
 
-            val args = arrayOf(
-                    "-wsPort", "$wsPort",
-                    "-tcpPort", "$tcpPort",
-                    "-httpPort", "$httpPort",
-                    "-zmqPort", "$zmqPort"
-            )
+            val handler = RpcHandler(RpcFmuService(fmuFile))
+            proxy = FmuProxyBuilder(fmuFile).apply {
+                addServer(FmuProxyJsonHttpServer(handler), httpPort)
+                addServer(FmuProxyJsonWsServer(handler), wsPort)
+                addServer(FmuProxyJsonTcpServer(handler), tcpPort)
+                addServer(FmuProxyJsonZmqServer(handler), zmqPort)
+            }.build().also { it.start() }
 
-            FmuProxy_old.create(args, fmuFile)
+
 
         }
 
         @JvmStatic
         @AfterClass
         fun tearDown() {
-            FmuProxy_old.stopServers()
+            proxy.stop()
         }
 
     }

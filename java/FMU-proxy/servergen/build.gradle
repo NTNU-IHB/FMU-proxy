@@ -25,7 +25,9 @@ repositories {
 dependencies {
    
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    //implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'info.picocli', name: 'picocli', version: '2.3.0'
+
 
     implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
 

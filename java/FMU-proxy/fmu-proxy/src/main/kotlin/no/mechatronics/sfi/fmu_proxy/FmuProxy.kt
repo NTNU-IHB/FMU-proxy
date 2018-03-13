@@ -89,7 +89,7 @@ class FmuProxy(
         get() {
             return NetworkInfo(
                     host = hostAddress,
-                    ports = servers.keys.associate { it.simpleName to it.port!! }
+                    ports = servers.keys.associate { it.simpleName to (servers[it] ?: -1) }
             )
         }
 
@@ -100,5 +100,29 @@ class FmuProxy(
                     networkInfo = networkInfo,
                     modelDescriptionXml = fmuFile.modelDescriptionXml)
         }
+
+}
+
+class FmuProxyBuilder(
+        private val fmuFile: FmuFile
+) {
+
+    private var remote: SimpleSocketAddress? = null
+    private val servers = mutableMapOf<FmuProxyServer, Int?>()
+
+    fun setRemote(remote: SimpleSocketAddress?): FmuProxyBuilder {
+        this.remote = remote
+        return this
+    }
+
+    @JvmOverloads
+    fun addServer(server: FmuProxyServer, port: Int? = null): FmuProxyBuilder {
+        servers[server] = port
+        return this
+    }
+
+    fun build(): FmuProxy {
+        return FmuProxy(fmuFile, remote, servers)
+    }
 
 }

@@ -7,11 +7,11 @@ import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class TestCommandLineParser2 {
+class TestCommandLineParser {
 
     companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(TestCommandLineParser2::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(TestCommandLineParser::class.java)
 
         lateinit var fmuPath: String
 
@@ -19,7 +19,7 @@ class TestCommandLineParser2 {
         @BeforeClass
         fun setup() {
 
-            val url = TestInputParser::class.java.classLoader
+            val url = TestCommandLineParser::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
             fmuPath = url.file
@@ -27,7 +27,6 @@ class TestCommandLineParser2 {
         }
 
     }
-
 
     @Test
     fun test() {
@@ -44,7 +43,7 @@ class TestCommandLineParser2 {
         )
 
         CommandLineParser.parse(args)?.use { proxy ->
-            proxy.start()
+            println(proxy.networkInfo)
         }
 
     }

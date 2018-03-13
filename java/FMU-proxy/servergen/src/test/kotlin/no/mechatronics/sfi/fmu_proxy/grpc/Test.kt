@@ -28,11 +28,14 @@ class Test {
 
     @Before
     fun setUp() {
-        val url = javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
+        val url = Test::class.java.classLoader
+                .getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
         Assert.assertNotNull(url)
+
         val xml = IOUtils.toString(url, Charset.forName("UTF-8"))
         val modelDescription = ModelDescriptionParser.parse(xml)
         generatedJar = File("${modelDescription.modelName}.jar")
+
     }
 
     @After

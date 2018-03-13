@@ -127,7 +127,7 @@ class ExecutableGenerator(
                         }
                     }
                 } else {
-                    LOG.error("Process returned with status: {}", status)
+                    LOG.error("Process returned with status: $status")
                 }
             }
         } finally {

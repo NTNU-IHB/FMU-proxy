@@ -39,13 +39,13 @@ class TestProxy {
         @JvmStatic
         @BeforeClass
         fun setup() {
-            val url = TestInputParser::class.java.classLoader
+            val url = TestProxy::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
             fmuFile = FmuFile(File(url.file))
 
 
-            proxy = ProxyBuilder(fmuFile).apply {
+            proxy = FmuProxyBuilder(fmuFile).apply {
                 addServer(ThriftFmuServer(fmuFile))
                 addServer(GrpcFmuServer(listOf(GrpcFmuServiceImpl(fmuFile))))
                 RpcHandler(RpcFmuService(fmuFile)).also { handler ->
