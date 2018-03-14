@@ -31,12 +31,8 @@ class TestCommandLineParser {
 
     @Test
     fun test1() {
-
-        val args = arrayOf("-h")
-        CommandLineParser.parse(args)
-
+        CommandLineParser.parse(arrayOf("-h"))
     }
-
 
     @Test
     fun test2() {

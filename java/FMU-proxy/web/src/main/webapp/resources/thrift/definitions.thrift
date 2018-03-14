@@ -24,12 +24,42 @@
 
 namespace java no.mechatronics.sfi.fmu_proxy.thrift
 
+typedef list<ScalarVariable> ModelVariables
+
+
+exception NoSuchFmuException {
+    1: string message
+}
+
+exception NoSuchVariableException {
+    1: string message
+}
+
+exception UnsupportedOperationException {
+    1: string message
+}
+
+struct ModelDescription {
+    1: string fmiVersion,
+    2: string modelName,
+    3: string guid,
+    4: optional string license,
+    5: optional string copyright,
+    6: optional string authour,
+    7: optional string version,
+    8: optional string description,
+    9: optional string generation_tool,
+    10: optional DefaultExperiment default_experiment,
+    11: optional VariableNamingConvention variable_naming_convention,
+    12: ModelVariables model_variables,
+    13: ModelStructure model_structure
+}
 
 struct ScalarVariable {
     1: i32 value_reference,
     2: string name,
     3: string description,
-    4: VariableType variableType,
+    4: VariableType variable_type,
     5: Initial inital,
     6: Causality causality,
     7: Variability variability,
@@ -45,19 +75,44 @@ union AnyPrimitive {
 
 struct Unknown {
     1: i32 index,
-    2: i32 dependencies,
+    2: list<i32> dependencies,
     3: DependenciesKind dependencies_kind
 }
 
 struct ModelStructure {
     1: list<i32> outputs,
     2: list<Unknown> derivatives,
-    3: list<Unknown> initial_nknowns
+    3: list<Unknown> initial_unknowns
 }
 
-exception NoSuchFmuException {
-    1: string message
+struct DefaultExperiment {
+    1: double startTime,
+    2: double endTime,
+    3: double tolerance,
+    4: double stepSize
 }
+
+struct IntRead {
+    1: i32 value,
+    2: StatusCode code
+}
+
+struct RealRead {
+    1: double value,
+    2: StatusCode code
+}
+
+struct StringRead {
+    1: string value,
+    2: StatusCode code
+}
+
+struct BoolRead {
+    1: bool value,
+    2: StatusCode code
+}
+
+
 
 enum VariableType {
     INTEGER_VARIABLE = 0,
@@ -107,6 +162,11 @@ enum DependenciesKind {
     CONSTANT_KIND = 1,
     TUNABLE_KIND = 2,
     DISCRETE_KIND = 4
+}
+
+enum VariableNamingConvention {
+    FLAT = 0,
+    STRUCTURED = 1
 }
 
 union Integrator {

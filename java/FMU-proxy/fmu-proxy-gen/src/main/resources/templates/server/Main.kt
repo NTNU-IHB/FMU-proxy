@@ -54,8 +54,10 @@ object Main {
         val url = Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!
 
         val temp = Files.createTempDirectory("fmu_proxy").toFile()
+        LOG.info("Created temp dir $temp")
 
         try {
+
             val fmu = File(temp, "{{fmuName}}.fmu")
             FileUtils.copyURLToFile(url, fmu)
 
@@ -74,15 +76,11 @@ object Main {
 
             }
 
-
         } finally {
             if (temp.deleteRecursively()) {
-                LOG.debug("Deleted $temp")
+                LOG.info("Deleted $temp")
             }
         }
-
-
-
 
     }
 
