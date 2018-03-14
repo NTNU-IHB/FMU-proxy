@@ -37,51 +37,69 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmu_proxy.thrift.*
 import no.mechatronics.sfi.fmu_proxy.thrift.ScalarVariable
 
-fun FmuIntegerRead.thriftType()
+internal fun FmuIntegerRead.thriftType()
         = IntRead(value, StatusCode.findByValue(status.code))
 
-fun FmuRealRead.thriftType()
+internal fun FmuRealRead.thriftType()
         = RealRead(value, StatusCode.findByValue(status.code))
 
-fun FmuStringRead.thriftType()
+internal fun FmuStringRead.thriftType()
         = StringRead(value, StatusCode.findByValue(status.code))
 
-fun FmuBooleanRead.thriftType()
+internal fun FmuBooleanRead.thriftType()
         = BoolRead(value, StatusCode.findByValue(status.code))
 
-fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
+internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
     return ScalarVariable().also { v ->
         v.name = name
         v.value_reference = valueReference
-        causality?.also { v.causality = thriftCausality(it) }
-        variability?.also { v.variability = thriftVariability(it) }
-        initial?.also { v.inital = thriftInitial(it) }
-        start?.also {
-            when(it) {
-                is IntegerVariable -> v.start.int_value = it as Int
-                is RealVariable -> v.start.real_value = it as Real
-                is StringVariable -> v.start.str_value = it as String
-                is BooleanVariable -> v.start.bool_value = it as Boolean
-                is EnumerationVariable -> v.start.int_value = it as Int
+        v.variable_type = thriftVariableType()
+        causality?.also { v.causality = it.thriftType() }
+        variability?.also { v.variability = it.thriftType() }
+        initial?.also { v.inital = it.thriftType() }
+        thriftStartType()?.also { v.start = it }
+    }
+}
+
+internal fun TypedScalarVariable<*>.thriftStartType(): AnyPrimitive? {
+    return start?.let {
+        AnyPrimitive().also { pri ->
+            when(this) {
+                is IntegerVariable -> pri.int_value = start!!
+                is RealVariable -> pri.real_value = start!!
+                is StringVariable -> pri.str_value = start!!
+                is BooleanVariable -> pri.bool_value = start!!
+                is EnumerationVariable -> pri.int_value = start!!
             }
         }
     }
 }
 
-fun ModelVariables.thriftType() = map { it.thriftType() }
-
-fun no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment.thriftType()
-        = DefaultExperiment(startTime, stopTime, tolerance, stepSize)
-
-fun no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown.thriftType(): Unknown {
-    return Unknown().also { u ->
-        u.index = index
-        u.dependencies = dependencies
-        dependenciesKind?.also { u.dependencies_kind = thriftDependenciesKind(it) }
+internal fun TypedScalarVariable<*>.thriftVariableType(): VariableType {
+    return when(this) {
+        is IntegerVariable -> VariableType.INTEGER_VARIABLE
+        is RealVariable -> VariableType.REAL_VARIABLE
+        is StringVariable -> VariableType.STRING_VARIABLE
+        is BooleanVariable -> VariableType.BOOLEAN_VARIABLE
+        is EnumerationVariable -> VariableType.ENUMERATION_VARIABLE
+        else -> throw IllegalStateException()
     }
 }
 
-fun no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure.thriftType(): ModelStructure {
+internal fun ModelVariables.thriftType() = map { it.thriftType() }
+
+internal fun no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment.thriftType()
+        = DefaultExperiment(startTime, stopTime, tolerance, stepSize)
+
+internal fun no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown.thriftType(): Unknown {
+    return Unknown().also { u ->
+        u.index = index
+        u.dependencies = dependencies
+        dependenciesKind?.also { u.dependencies_kind = it.thriftType() }
+    }
+}
+
+internal fun no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure.thriftType(): ModelStructure {
     return ModelStructure().also { ms ->
         ms.outputs = outputs
         ms.derivatives = derivatives.map { it.thriftType() }
@@ -89,7 +107,7 @@ fun no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure.thriftTy
     }
 }
 
-fun SimpleModelDescription.thriftType(): ModelDescription {
+internal fun SimpleModelDescription.thriftType(): ModelDescription {
     return ModelDescription().also { md ->
 
         md.fmiVersion = fmiVersion
@@ -107,8 +125,8 @@ fun SimpleModelDescription.thriftType(): ModelDescription {
     }
 }
 
-private fun thriftCausality(causality: Causality): no.mechatronics.sfi.fmu_proxy.thrift.Causality {
-    return when(causality) {
+internal fun Causality.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.Causality {
+    return when(this) {
         Causality.INPUT -> no.mechatronics.sfi.fmu_proxy.thrift.Causality.INPUT_CAUSALITY
         Causality.OUTPUT -> no.mechatronics.sfi.fmu_proxy.thrift.Causality.OUTPUT_CAUSALITY
         Causality.CALCULATED_PARAMETER -> no.mechatronics.sfi.fmu_proxy.thrift.Causality.CALCULATED_PARAMETER_CAUSALITY
@@ -119,8 +137,8 @@ private fun thriftCausality(causality: Causality): no.mechatronics.sfi.fmu_proxy
     }
 }
 
-private fun thriftVariability(variability: Variability): no.mechatronics.sfi.fmu_proxy.thrift.Variability {
-    return when(variability) {
+internal fun Variability.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.Variability {
+    return when(this) {
         Variability.CONSTANT -> no.mechatronics.sfi.fmu_proxy.thrift.Variability.CONSTANT_VARIABILITY
         Variability.CONTINUOUS -> no.mechatronics.sfi.fmu_proxy.thrift.Variability.CONTINUOUS_VARIABILITY
         Variability.DISCRETE -> no.mechatronics.sfi.fmu_proxy.thrift.Variability.DISCRETE_VARIABILITY
@@ -130,8 +148,8 @@ private fun thriftVariability(variability: Variability): no.mechatronics.sfi.fmu
     }
 }
 
-private fun thriftInitial(initial: Initial): no.mechatronics.sfi.fmu_proxy.thrift.Initial {
-    return when(initial) {
+internal fun Initial.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.Initial {
+    return when(this) {
         Initial.CALCULATED -> no.mechatronics.sfi.fmu_proxy.thrift.Initial.CALCULATED_INITIAL
         Initial.EXACT -> no.mechatronics.sfi.fmu_proxy.thrift.Initial.EXACT_INITIAL
         Initial.APPROX -> no.mechatronics.sfi.fmu_proxy.thrift.Initial.APPROX_INITIAL
@@ -139,8 +157,8 @@ private fun thriftInitial(initial: Initial): no.mechatronics.sfi.fmu_proxy.thrif
     }
 }
 
-private fun thriftDependenciesKind(dependenciesKind: DependenciesKind): no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind {
-    return when(dependenciesKind) {
+internal fun DependenciesKind.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind {
+    return when(this) {
         DependenciesKind.DEPENDENT -> no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind.DEPENDENT_KIND
         DependenciesKind.CONSTANT -> no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind.CONSTANT_KIND
         DependenciesKind.TUNABLE -> no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind.TUNABLE_KIND
