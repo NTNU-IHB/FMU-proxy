@@ -1,11 +1,12 @@
 package no.mechatronics.sfi.fmu_proxy
 
-import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
 
 class TestCommandLineParser {
 
@@ -29,10 +30,18 @@ class TestCommandLineParser {
     }
 
     @Test
-    fun test() {
+    fun test1() {
 
-        val args = arrayOf(
-                "-fmu", "$fmuPath",
+        val args = arrayOf("-h")
+        CommandLineParser.parse(args)
+
+    }
+
+
+    @Test
+    fun test2() {
+
+        var args = arrayOf(
                 "--remote", "127.0.0.1:8888",
                 "-grpc", "8000",
                 "-thrift", "8001",
@@ -42,10 +51,15 @@ class TestCommandLineParser {
                 "-jsonrpc/zmq", "8005"
         )
 
+        args += arrayOf("-fmu", "$fmuPath")
+
+        println(args.toList())
+
         CommandLineParser.parse(args)?.use { proxy ->
             println(proxy.networkInfo)
         }
 
     }
+
 
 }

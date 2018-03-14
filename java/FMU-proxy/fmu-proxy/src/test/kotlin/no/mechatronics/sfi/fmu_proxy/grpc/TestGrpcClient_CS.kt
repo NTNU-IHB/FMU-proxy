@@ -26,11 +26,11 @@ package no.mechatronics.sfi.fmu_proxy.grpc
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
+
 import org.junit.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.net.ServerSocket
+
 import java.time.Duration
 import java.time.Instant
 
@@ -57,7 +57,7 @@ class TestGrpcClient_CS {
             val fmuFile = FmuFile(url)
             modelDescription = fmuFile.modelDescription
 
-            server = GrpcFmuServer(listOf(GrpcFmuServiceImpl(fmuFile)))
+            server = GrpcFmuServer(fmuFile)
             val port = server.start()
 
             client = GrpcFmuClient("localhost", port)

@@ -47,7 +47,7 @@ object CommandLineParser {
 
 }
 
-
+@CommandLine.Command(name = "fmu-proxy")
 class Args: Callable<FmuProxy> {
 
     internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
@@ -91,12 +91,12 @@ class Args: Callable<FmuProxy> {
 
     override fun call(): FmuProxy? {
 
-        val fmuFile = FmuFile(File(fmuPath.replace("\\", "/")))
+        val fmuFile = FmuFile(File(fmuPath))
         return FmuProxyBuilder(fmuFile).apply {
 
             setRemote(remote)
 
-            GrpcFmuServer(listOf(GrpcFmuServiceImpl(fmuFile))).apply {
+            GrpcFmuServer(fmuFile).apply {
                 grpcPort?.also { addServer(this, it) } ?: addServer(this)
             }
 
@@ -104,7 +104,7 @@ class Args: Callable<FmuProxy> {
                 thriftPort?.also { addServer(this, it) } ?: addServer(this)
             }
 
-            val handler = RpcHandler(listOf(RpcFmuService(fmuFile)))
+            val handler = RpcHandler(RpcFmuService(fmuFile))
             FmuProxyJsonHttpServer(handler).apply {
                 jsonHttpPort?.also { addServer(this, it) } ?: addServer(this)
             }
@@ -120,7 +120,6 @@ class Args: Callable<FmuProxy> {
             FmuProxyJsonZmqServer(handler).apply {
                 jsonZmqPort?.also { addServer(this, it) } ?: addServer(this)
             }
-
 
         }.build()
     }

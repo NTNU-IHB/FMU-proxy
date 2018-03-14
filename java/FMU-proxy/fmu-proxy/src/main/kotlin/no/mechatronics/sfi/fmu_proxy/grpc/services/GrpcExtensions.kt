@@ -32,7 +32,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmu_proxy.grpc.*
 
-fun FmiStatus.protoType(): Proto.StatusCode {
+internal fun FmiStatus.protoType(): Proto.StatusCode {
     return when (this) {
         FmiStatus.OK -> Proto.StatusCode.OK_STATUS
         FmiStatus.Warning -> Proto.StatusCode.WARNING_STATUS

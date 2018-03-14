@@ -30,9 +30,11 @@ import org.slf4j.LoggerFactory
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
+import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 
 
 /**
@@ -40,7 +42,7 @@ import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        private val services: List<GrpcFmuService>
+        private val fmuFile: FmuFile
 ): FmuProxyServer {
 
     override var port: Int? = null
@@ -48,8 +50,21 @@ class GrpcFmuServer(
 
     private var server: Server? = null
 
+    private val services: MutableList<GrpcFmuService>
+        = mutableListOf(GrpcFmuServiceImpl(fmuFile))
+
+    val isRunning: Boolean
+        get() = server != null
+
+    fun addService(service: GrpcFmuService) {
+        if (isRunning) {
+            error("Cannot add service while running!")
+        }
+        services.add(service)
+    }
+
     override fun start(port: Int) {
-        if (server == null) {
+        if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
                 services.forEach { addService(it) }
@@ -57,7 +72,7 @@ class GrpcFmuServer(
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port");
         } else {
-            LOG.warn("${javaClass.simpleName} has already been started!")
+            LOG.warn("${javaClass.simpleName} is already running!")
         }
     }
 

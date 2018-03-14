@@ -1,9 +1,9 @@
 rootProject.name = 'FMU-proxy'
 
 include 'web'
-include 'servergen'
-include 'grpc-client'
 include 'fmu-proxy'
+include 'fmu-proxy-gen'
+include 'grpc-client'
 include 'thrift-client'
 include 'gen-proto-src'
 include 'gen-thrift-src'

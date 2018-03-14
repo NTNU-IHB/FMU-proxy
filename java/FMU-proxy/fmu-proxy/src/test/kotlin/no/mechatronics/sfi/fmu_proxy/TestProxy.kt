@@ -9,8 +9,8 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.Proto
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmu_proxy.json_rpc.*
+import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmu_proxy.thrift.StatusCode
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
@@ -36,26 +36,41 @@ class TestProxy {
         lateinit var fmuFile: FmuFile
         lateinit var proxy: FmuProxy
 
+        lateinit var grpcerver: FmuProxyServer
+        lateinit var thrifterver: FmuProxyServer
+
+        const val httpPort: Int = 8003
+        const val wsPort: Int = 8004
+        const val tcpPort: Int = 8005
+        const val zmqPort: Int = 8006
+
         @JvmStatic
         @BeforeClass
         fun setup() {
+
             val url = TestProxy::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
             fmuFile = FmuFile(File(url.file))
 
 
+            grpcerver = GrpcFmuServer(fmuFile)
+            thrifterver = ThriftFmuServer(fmuFile)
+
             proxy = FmuProxyBuilder(fmuFile).apply {
-                addServer(ThriftFmuServer(fmuFile))
-                addServer(GrpcFmuServer(listOf(GrpcFmuServiceImpl(fmuFile))))
+                addServer(grpcerver)
+                addServer(thrifterver)
                 RpcHandler(RpcFmuService(fmuFile)).also { handler ->
-                    addServer(FmuProxyJsonHttpServer(handler))
-                    addServer(FmuProxyJsonWsServer(handler))
-                    addServer(FmuProxyJsonTcpServer(handler))
-                    addServer(FmuProxyJsonZmqServer(handler))
+                    addServer(FmuProxyJsonHttpServer(handler), httpPort)
+                    addServer(FmuProxyJsonWsServer(handler), wsPort)
+                    addServer(FmuProxyJsonTcpServer(handler), tcpPort)
+                    addServer(FmuProxyJsonZmqServer(handler), zmqPort)
                 }
 
-            }.build().apply { start() }.also { println(it.networkInfo) }
+            }.build()
+
+            proxy.start()
+            println(proxy.networkInfo)
 
         }
 
@@ -65,6 +80,20 @@ class TestProxy {
             proxy.stop()
         }
 
+    }
+
+    @Test
+    fun testGetPort() {
+        Assert.assertEquals(httpPort, proxy.getPortFor(FmuProxyJsonHttpServer::class.java))
+        Assert.assertEquals(wsPort, proxy.getPortFor(FmuProxyJsonWsServer::class.java))
+        Assert.assertEquals(tcpPort, proxy.getPortFor(FmuProxyJsonTcpServer::class.java))
+        Assert.assertEquals(zmqPort, proxy.getPortFor(FmuProxyJsonZmqServer::class.java))
+    }
+
+    @Test
+    fun getServer() {
+        Assert.assertEquals(grpcerver, proxy.getServer(GrpcFmuServer::class.java))
+        Assert.assertEquals(thrifterver, proxy.getServer(ThriftFmuServer::class.java))
     }
 
     @Test

@@ -73,8 +73,13 @@ class FmuProxy(
         stop()
     }
 
-    fun getPortFor(server: Class<out FmuProxyServer>): Int?
-            = servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
+    fun <E: FmuProxyServer> getServer(server: Class<E>): E? {
+        return servers.keys.firstOrNull{ server.isAssignableFrom(it.javaClass) } as E
+    }
+
+    fun getPortFor(server: Class<out FmuProxyServer>): Int? {
+        return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
+    }
 
     private val hostAddress: String
         get() {

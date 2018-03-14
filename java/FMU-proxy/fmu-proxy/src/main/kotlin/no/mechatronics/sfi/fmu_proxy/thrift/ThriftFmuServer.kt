@@ -48,8 +48,11 @@ class ThriftFmuServer(
     private val handler = ThriftFmuServiceHandler(fmuFile)
     private val processor = FmuService.Processor(handler)
 
+    val isRunning: Boolean
+        get() = server != null
+
     override fun start(port: Int) {
-        if (server == null) {
+        if (!isRunning) {
             this.port = port
             serverTransport = TServerSocket(port)
             server = TSimpleServer(TServer.Args(serverTransport).processor(processor)).apply {

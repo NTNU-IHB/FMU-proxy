@@ -53,12 +53,7 @@ private const val PORT = 7000
 
 data class NetworkInfo(
         val host: String,
-        val grpcPort: Int,
-        val wsPort: Int,
-        val tcpPort: Int,
-        val httpPort: Int,
-        val zmqPort: Int,
-        val thriftPort: Int
+        val ports: Map<String, Int>
 ): Serializable
 
 @ManagedBean
