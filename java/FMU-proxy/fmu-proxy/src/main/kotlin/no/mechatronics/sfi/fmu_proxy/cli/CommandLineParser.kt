@@ -116,28 +116,28 @@ class Args: Callable<FmuProxy> {
             setRemote(remote)
 
             GrpcFmuServer(fmuFile).apply {
-                grpcPort?.also { addServer(this, it) } ?: addServer(this)
+                addServer(this, grpcPort)
             }
 
             ThriftFmuServer(fmuFile).apply {
-                thriftPort?.also { addServer(this, it) } ?: addServer(this)
+                addServer(this, thriftPort)
             }
 
             val handler = RpcHandler(RpcFmuService(fmuFile))
             FmuProxyJsonHttpServer(handler).apply {
-                jsonHttpPort?.also { addServer(this, it) } ?: addServer(this)
+                addServer(this, jsonHttpPort)
             }
 
             FmuProxyJsonWsServer(handler).apply {
-                jsonWsPort?.also { addServer(this, it) } ?: addServer(this)
+                addServer(this, jsonWsPort)
             }
 
             FmuProxyJsonTcpServer(handler).apply {
-                jsonTcpPort?.also { addServer(this, it) } ?: addServer(this)
+                addServer(this, jsonTcpPort)
             }
 
             FmuProxyJsonZmqServer(handler).apply {
-                jsonZmqPort?.also { addServer(this, it) } ?: addServer(this)
+                addServer(this, jsonZmqPort)
             }
 
         }.build()

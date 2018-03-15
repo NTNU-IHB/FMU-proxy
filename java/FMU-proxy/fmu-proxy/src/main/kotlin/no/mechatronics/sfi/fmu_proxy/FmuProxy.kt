@@ -48,6 +48,33 @@ class FmuProxy(
     private var beat: Heartbeat? = null
     private var hasStarted = false
 
+    private val hostAddress: String
+        get() {
+            return try {
+                InetAddress.getLocalHost().hostAddress
+            } catch (ex: UnknownHostException) {
+                "127.0.0.1"
+            }
+        }
+
+    val networkInfo: NetworkInfo
+        get() {
+            return NetworkInfo(
+                    host = hostAddress,
+                    ports = servers.keys.associate { it.simpleName to (servers[it] ?: it.port ?: -1) }
+            )
+        }
+
+    private val remoteFmu: RemoteFmu
+        get() {
+            return RemoteFmu(
+                    guid = fmuFile.modelDescription.guid,
+                    networkInfo = networkInfo,
+                    modelDescriptionXml = fmuFile.modelDescriptionXml)
+        }
+
+
+
     fun start() {
         if (!hasStarted.also { hasStarted = true }) {
             servers.forEach {
@@ -63,10 +90,10 @@ class FmuProxy(
     }
 
     fun stop() {
-       if (hasStarted) {
-           beat?.stop()
-           servers.forEach { it.key.stop() }
-       }
+        if (hasStarted) {
+            beat?.stop()
+            servers.forEach { it.key.stop() }
+        }
     }
 
     override fun close() {
@@ -81,30 +108,6 @@ class FmuProxy(
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
     }
 
-    private val hostAddress: String
-        get() {
-            return try {
-                InetAddress.getLocalHost().hostAddress
-            } catch (ex: UnknownHostException) {
-                "127.0.0.1"
-            }
-        }
-
-    val networkInfo: NetworkInfo
-        get() {
-            return NetworkInfo(
-                    host = hostAddress,
-                    ports = servers.keys.associate { it.simpleName to (servers[it] ?: -1) }
-            )
-        }
-
-    private val remoteFmu: RemoteFmu
-        get() {
-            return RemoteFmu(
-                    guid = fmuFile.modelDescription.guid,
-                    networkInfo = networkInfo,
-                    modelDescriptionXml = fmuFile.modelDescriptionXml)
-        }
 
 }
 

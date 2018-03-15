@@ -54,7 +54,12 @@ class TestCommandLineParser {
     @Test
     fun test2() {
 
-        var args = arrayOf(
+        var args1 = arrayOf(
+                "--remote", "127.0.0.1:8888",
+                "-grpc", "8000"
+        )
+
+        var args2 = arrayOf(
                 "--remote", "127.0.0.1:8888",
                 "-grpc", "8000",
                 "-thrift", "8001",
@@ -64,12 +69,22 @@ class TestCommandLineParser {
                 "-jsonrpc/zmq", "8005"
         )
 
-        args += arrayOf("-fmu", "$fmuPath")
 
-        println(args.toList())
 
-        CommandLineParser.parse(args)?.use { proxy ->
+        args1 += arrayOf("-fmu", "$fmuPath")
+        CommandLineParser.parse(args1)?.use { proxy ->
+
+            proxy.start()
             println(proxy.networkInfo)
+
+        }
+
+        args2 += arrayOf("-fmu", "$fmuPath")
+        CommandLineParser.parse(args2)?.use { proxy ->
+
+            proxy.start()
+            println(proxy.networkInfo)
+
         }
 
     }
