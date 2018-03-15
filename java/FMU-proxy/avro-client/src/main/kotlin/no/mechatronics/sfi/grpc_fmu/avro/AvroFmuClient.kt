@@ -22,52 +22,52 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.thrift
+package no.mechatronics.sfi.grpc_fmu.avro
 
-import java.io.Closeable
-import org.apache.thrift.transport.TSocket
-import org.apache.thrift.transport.TTransport
-import org.apache.thrift.protocol.TBinaryProtocol
+import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuService
+import no.mechatronics.sfi.fmu_proxy.avro.Integrator
+import no.mechatronics.sfi.fmu_proxy.avro.StatusCode
+import org.apache.avro.ipc.NettyTransceiver
+import org.apache.avro.ipc.Transceiver
+import org.apache.avro.ipc.specific.SpecificRequestor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
+import java.net.InetSocketAddress
 
-internal object FmuInstances: ArrayList<ThriftFmuClient.FmuInstance>() {
+internal object FmuInstances: ArrayList<AvroFmuClient.FmuInstance>() {
     internal fun terminateAll() {
         forEach{ it.terminate() }
     }
 }
 
-class ThriftFmuClient(
+class AvroFmuClient(
         host: String,
         port: Int
 ): Closeable {
 
-    private val transport: TTransport
-    private val client: FmuService.Client
+    private val client: Transceiver
+    private val service: AvroFmuService
 
     init {
-        transport = TSocket(host, port)
-        transport.open()
-
-        val protocol = TBinaryProtocol(transport)
-        client = FmuService.Client(protocol)
-
+        client = NettyTransceiver(InetSocketAddress(host, port))
+        service = SpecificRequestor.getClient(AvroFmuService::class.java, client)
     }
 
-    val modelDescription: ModelDescription by lazy {
-        client.modelDescription
+    val modelDescription by lazy {
+        service.modelDescription
     }
 
     val modelDescriptionXml: String by lazy {
-        client.modelDescriptionXml
+        service.modelDescriptionXml
     }
 
     @JvmOverloads
     fun createInstance(integrator: Integrator? = null): FmuInstance {
         val fmuId = if (integrator == null) {
-            client.createInstanceFromCS()
+            service.createInstanceFromCS()
         } else {
-            client.createInstanceFromME(integrator)
+            service.createInstanceFromME(integrator)
         }
         return FmuInstance(fmuId).also {
             FmuInstances.add(it)
@@ -81,47 +81,46 @@ class ThriftFmuClient(
     override fun close() {
         LOG.info("Closing..")
         FmuInstances.terminateAll()
-        transport.close()
+        client.close()
     }
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuClient::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(AvroFmuClient::class.java)
     }
-
 
     inner class FmuInstance(
             private val fmuId: Int
     ): Closeable {
 
         val currentTime: Double
-            get() = client.getCurrentTime(fmuId)
+            get() = service.getCurrentTime(fmuId)
 
         val isTerminated: Boolean
-            get() = client.isTerminated(fmuId)
+            get() = service.isTerminated(fmuId)
 
         @JvmOverloads
         fun init(start:Double=0.0, stop:Double=-1.0): Boolean {
-            return client.init(fmuId,start, stop)
+            return service.init(fmuId,start, stop)
         }
 
         fun step(stepSize: Double): StatusCode {
-            return client.step(fmuId, stepSize)
+            return service.step(fmuId, stepSize)
         }
 
         fun terminate(): Boolean {
-            return client.terminate(fmuId).also {
+            return service.terminate(fmuId).also {
                 FmuInstances.remove(this)
             }
         }
 
         fun reset(): Boolean {
-            return client.reset(fmuId)
+            TODO("Not yet implemented")
         }
 
         override fun close() {
             terminate()
         }
-    }
 
+    }
 
 }

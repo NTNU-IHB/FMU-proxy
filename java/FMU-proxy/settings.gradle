@@ -8,4 +8,5 @@ include 'thrift-client'
 include 'gen-proto-src'
 include 'gen-thrift-src'
 include 'gen-avro-src'
+include 'avro-client'
 

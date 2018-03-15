@@ -114,7 +114,7 @@ class ThriftFmuServiceHandler(
     override fun step(fmuId: Int, p1: Double): StatusCode {
         return Fmus.get(fmuId)?.let {
             it.doStep(p1)
-            convertStatus(it.lastStatus)
+            it.lastStatus.thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
@@ -123,7 +123,6 @@ class ThriftFmuServiceHandler(
             it.terminate()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
-
 
     override fun reset(fmuId: Int): Boolean {
         return Fmus.get(fmuId)?.let {
@@ -188,23 +187,9 @@ class ThriftFmuServiceHandler(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    companion object {
+    private companion object {
 
         val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceHandler::class.java)
-
-
-        fun convertStatus(status: FmiStatus): StatusCode {
-            return when (status) {
-                FmiStatus.OK -> StatusCode.OK_STATUS
-                FmiStatus.Warning -> StatusCode.WARNING_STATUS
-                FmiStatus.Discard -> StatusCode.DISCARD_STATUS
-                FmiStatus.Error -> StatusCode.ERROR_STATUS
-                FmiStatus.Fatal -> StatusCode.FATAL_STATUS
-                FmiStatus.Pending -> StatusCode.PENDING_STATUS
-                FmiStatus.NONE -> throw RuntimeException()
-            }
-        }
-
     }
 
 }

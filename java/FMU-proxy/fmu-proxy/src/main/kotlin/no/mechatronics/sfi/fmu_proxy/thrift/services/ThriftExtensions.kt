@@ -24,12 +24,12 @@
 
 package no.mechatronics.sfi.fmu_proxy.thrift.services
 
-import no.mechatronics.sfi.fmi4j.common.FmuBooleanRead
-import no.mechatronics.sfi.fmi4j.common.FmuIntegerRead
-import no.mechatronics.sfi.fmi4j.common.FmuRealRead
-import no.mechatronics.sfi.fmi4j.common.FmuStringRead
+import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
+import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
+import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
@@ -56,7 +56,7 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
         v.variable_type = thriftVariableType()
         causality?.also { v.causality = it.thriftType() }
         variability?.also { v.variability = it.thriftType() }
-        initial?.also { v.inital = it.thriftType() }
+        initial?.also { v.initial = it.thriftType() }
         thriftStartType()?.also { v.start = it }
     }
 }
@@ -86,21 +86,24 @@ internal fun TypedScalarVariable<*>.thriftVariableType(): VariableType {
     }
 }
 
-internal fun ModelVariables.thriftType() = map { it.thriftType() }
+internal fun ModelVariables.thriftType(): List<ScalarVariable> {
+    return map { it.thriftType() }
+}
 
-internal fun no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment.thriftType()
-        = DefaultExperiment(startTime, stopTime, tolerance, stepSize)
+internal fun DefaultExperiment.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.DefaultExperiment {
+    return no.mechatronics.sfi.fmu_proxy.thrift.DefaultExperiment(startTime, stopTime, tolerance, stepSize)
+}
 
-internal fun no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown.thriftType(): Unknown {
-    return Unknown().also { u ->
+internal fun Unknown.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.Unknown {
+    return no.mechatronics.sfi.fmu_proxy.thrift.Unknown().also { u ->
         u.index = index
         u.dependencies = dependencies
         dependenciesKind?.also { u.dependencies_kind = it.thriftType() }
     }
 }
 
-internal fun no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure.thriftType(): ModelStructure {
-    return ModelStructure().also { ms ->
+internal fun ModelStructure.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift.ModelStructure {
+    return no.mechatronics.sfi.fmu_proxy.thrift.ModelStructure().also { ms ->
         ms.outputs = outputs
         ms.derivatives = derivatives.map { it.thriftType() }
         ms.initial_unknowns = initialUnknowns.map { it.thriftType() }
@@ -110,17 +113,18 @@ internal fun no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 internal fun SimpleModelDescription.thriftType(): ModelDescription {
     return ModelDescription().also { md ->
 
-        md.fmiVersion = fmiVersion
-        md.modelName = modelName
         md.guid = guid
+        md.modelName = modelName
+        md.fmiVersion = fmiVersion
+        md.model_variables = modelVariables.thriftType()
+        md.model_structure = modelStructure.thriftType()
+
         license?.also { md.license = it }
         copyright?.also { md.copyright = it }
         author?.also { md.authour = it }
         description?.also { md.description = it }
         generationTool?.also { md.generation_tool = it }
         defaultExperiment?.also { md.default_experiment = it.thriftType() }
-        md.model_variables = modelVariables.thriftType()
-        md.model_structure = modelStructure.thriftType()
 
     }
 }
@@ -164,6 +168,18 @@ internal fun DependenciesKind.thriftType(): no.mechatronics.sfi.fmu_proxy.thrift
         DependenciesKind.TUNABLE -> no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind.TUNABLE_KIND
         DependenciesKind.DISCRETE -> no.mechatronics.sfi.fmu_proxy.thrift.DependenciesKind.DISCRETE_KIND
         else -> throw IllegalArgumentException()
+    }
+}
+
+internal fun FmiStatus.thriftType(): StatusCode {
+    return when (this) {
+        FmiStatus.OK -> StatusCode.OK_STATUS
+        FmiStatus.Warning -> StatusCode.WARNING_STATUS
+        FmiStatus.Discard -> StatusCode.DISCARD_STATUS
+        FmiStatus.Error -> StatusCode.ERROR_STATUS
+        FmiStatus.Fatal -> StatusCode.FATAL_STATUS
+        FmiStatus.Pending -> StatusCode.PENDING_STATUS
+        FmiStatus.NONE -> throw RuntimeException()
     }
 }
 

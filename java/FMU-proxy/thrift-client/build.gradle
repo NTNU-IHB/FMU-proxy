@@ -7,14 +7,16 @@ version = '0.1-SNAPSHOT'
 
 repositories {
     maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
-
     implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT'
-
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {

@@ -1,50 +1,54 @@
-package no.mechatronics.sfi.fmu_proxy.thrift
+package no.mechatronics.sfi.fmu_proxy.avro
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.grpc_fmu.avro.AvroFmuClient
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.net.ServerSocket
 import java.time.Duration
 import java.time.Instant
 
-class TestThriftClient {
+class TestAvro {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestThriftClient::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestAvro::class.java)
 
-        private lateinit var server: ThriftFmuServer
-        private lateinit var client: ThriftFmuClient
+        private lateinit var server: AvroFmuServer
+        private lateinit var client: AvroFmuClient
+
         private lateinit var modelDescription: SimpleModelDescription
 
         @JvmStatic
         @BeforeClass
         fun setup() {
 
-            val url = TestThriftClient::class.java.classLoader
+            val url = TestAvro::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
 
             val fmuFile = FmuFile.from(url)
             modelDescription = fmuFile.modelDescription
 
-            server = ThriftFmuServer(fmuFile)
+            server = AvroFmuServer(fmuFile)
             val port = server.start()
 
-            client = ThriftFmuClient("localhost", port)
+            client = AvroFmuClient("localhost", port)
+
         }
+
 
         @JvmStatic
         @AfterClass
         fun tearDown() {
             client.close()
-            server.stop()
+            server.close()
         }
+
 
     }
 
@@ -65,7 +69,7 @@ class TestThriftClient {
 
         client.createInstance().use { fmu ->
 
-           Assert.assertTrue( fmu.init() )
+            Assert.assertTrue( fmu.init() )
 
             val dt = 1.0/100
             val start = Instant.now()

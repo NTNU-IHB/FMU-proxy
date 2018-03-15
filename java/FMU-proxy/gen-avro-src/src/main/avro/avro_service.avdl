@@ -1,0 +1,157 @@
+
+@namespace("no.mechatronics.sfi.fmu_proxy.avro")
+protocol AvroFmuService {
+
+  enum VariableType {
+    INTEGER_VARIABLE,
+    REAL_VARIABLE,
+    STRING_VARIABLE,
+    BOOLEAN_VARIABLE,
+    ENUMERATION_VARIABLE
+  }
+
+  enum StatusCode {
+    OK_STATUS,
+    WARNING_STATUS,
+    DISCARD_STATUS,
+    ERROR_STATUS,
+    FATAL_STATUS,
+    PENDING_STATUS
+  }
+
+  enum Causality {
+    UNDEFINED_CAUSALITY,
+    INPUT_CAUSALITY,
+    OUTPUT_CAUSALITY,
+    PARAMETER_CAUSALITY,
+    CALCULATED_PARAMETER_CAUSALITY,
+    LOCAL_CAUSALITY,
+    INDEPENDENT_CAUSALITY
+  }
+
+  enum Variability {
+    UNDEFINED_VARIABILITY,
+    CONSTANT_VARIABILITY,
+    FIXED_VARIABILITY,
+    CONTINUOUS_VARIABILITY,
+    DISCRETE_VARIABILITY,
+    TUNABLE_VARIABILITY
+  }
+
+  enum Initial {
+    UNDEFINED_INITIAL,
+    EXACT_INITIAL,
+    APPROX_INITIAL,
+    CALCULATED_INITIAL
+  }
+
+  enum DependenciesKind {
+    DEPENDENT_KIND,
+    CONSTANT_KIND,
+    TUNABLE_KIND,
+    DISCRETE_KIND
+  }
+
+  enum VariableNamingConvention {
+    FLAT,
+    STRUCTURED
+  }
+
+  record AnyPrimitive {
+    union {int, double, string, boolean} value;
+  }
+
+  record Unknown {
+    int index;
+    array<int> dependencies;
+    DependenciesKind dependencies_kind;
+  }
+
+  record ModelStructure {
+    array<int> outputs;
+    array<Unknown> derivatives;
+    array<Unknown> initial_unknowns;
+  }
+
+  record ScalarVariable {
+    int value_reference;
+    string name;
+    string description;
+    VariableType variable_type;
+    union {null, Causality} causality;
+    union {null, Variability} variability;
+    union {null, Initial} initial;
+    union {null, AnyPrimitive} start;
+  }
+
+  record DefaultExperiment {
+    double start_time;
+    double stop_time;
+    double tolerance;
+    double step_size;
+  }
+
+  record ModelDescription {
+    string fmiVersion;
+    string modelName;
+    string guid;
+    union {null, string} license;
+    union {null, string} copyright;
+    union {null, string} authour;
+    union {null, string} version;
+    union {null, string} description;
+    union {null, string} generation_tool;
+    union {null, DefaultExperiment} default_experiment;
+    union {null, VariableNamingConvention} variable_naming_convention;
+    array<ScalarVariable> model_variables;
+    ModelStructure model_structure;
+  }
+
+  record EulerIntegrator {
+    double step_size;
+  }
+
+  record ClassicalRungeKuttaIntegrator {
+    double step_size;
+  }
+
+  record GillIntegrator {
+    double step_size;
+  }
+
+  record Integrator {
+    union {EulerIntegrator, ClassicalRungeKuttaIntegrator, GillIntegrator} integrator;
+  }
+
+  error NoSuchFmuException {
+    string message;
+  }
+
+  error NoSuchVariableException {
+    string message;
+  }
+
+  error UnsupportedOperationException {
+    string message;
+  }
+
+  boolean supportsCosimulation();
+  boolean supportsModelExchange();
+
+  string getModelDescriptionXml();
+  ModelDescription getModelDescription();
+
+  int createInstanceFromCS() throws UnsupportedOperationException;
+  int createInstanceFromME(Integrator integrator) throws UnsupportedOperationException;
+
+  boolean canGetAndSetFMUstate(int fmu_id);
+
+  double getCurrentTime(int fmu_id) throws NoSuchFmuException;
+  boolean isTerminated(int fmu_id) throws NoSuchFmuException;
+
+  boolean init(int fmu_id, double start, double stop) throws NoSuchFmuException;
+  StatusCode step(int fmu_id, double step_size) throws NoSuchFmuException;
+  boolean terminate(int fmu_id) throws NoSuchFmuException;
+  boolean reset(int fmu_id) throws NoSuchFmuException;
+
+}
