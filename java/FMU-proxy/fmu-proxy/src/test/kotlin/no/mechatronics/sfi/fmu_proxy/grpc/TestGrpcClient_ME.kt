@@ -25,7 +25,7 @@ class TestGrpcClient_ME {
                     .getResource("fmus/me/BouncingBall/bouncingBall.fmu")
             Assert.assertNotNull(url)
 
-            val fmuFile = FmuFile(url)
+            val fmuFile = FmuFile.from(url)
             modelDescription = fmuFile.modelDescription
 
             server = GrpcFmuServer(fmuFile)

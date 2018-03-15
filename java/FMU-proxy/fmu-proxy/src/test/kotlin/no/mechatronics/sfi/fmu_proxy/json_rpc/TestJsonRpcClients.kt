@@ -40,7 +40,7 @@ class TestJsonRpcClients {
 
             val url = TestJsonRpcClients::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
-            val fmuFile = FmuFile(File(url.file))
+            val fmuFile = FmuFile.from(File(url.file))
             modelDescription = fmuFile.modelDescription
 
             val handler = RpcHandler(RpcFmuService(fmuFile))

@@ -54,24 +54,13 @@ class TestGrpcClient_CS {
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
 
-            val fmuFile = FmuFile(url)
+            val fmuFile = FmuFile.from(url)
             modelDescription = fmuFile.modelDescription
 
             server = GrpcFmuServer(fmuFile)
             val port = server.start()
 
             client = GrpcFmuClient("localhost", port)
-
-//            fmuFile.asCoSimulationFmu().newInstance().use { fmu ->
-//                fmu.init()
-//                val dt = 1.0/100
-//                val start = Instant.now()
-//                while (fmu.currentTime < 10) {
-//                    fmu.doStep(dt)
-//                }
-//                val end = Instant.now()
-//                LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")
-//            }
 
         }
 

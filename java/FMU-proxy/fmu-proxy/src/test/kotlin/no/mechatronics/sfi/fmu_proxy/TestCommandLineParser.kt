@@ -1,5 +1,6 @@
 package no.mechatronics.sfi.fmu_proxy
 
+import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
@@ -7,23 +8,39 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
+import java.io.File
+import java.net.MalformedURLException
+import java.net.URL
+
 
 class TestCommandLineParser {
+
+    private val fmuPath = "jar:file:../../../test/HydraulicCylinder.jar!/HydraulicCylinder.fmu"
 
     companion object {
 
         val LOG: Logger = LoggerFactory.getLogger(TestCommandLineParser::class.java)
 
-        lateinit var fmuPath: String
+    }
 
-        @JvmStatic
-        @BeforeClass
-        fun setup() {
+    @Test
+    fun testPath() {
 
-            val url = TestCommandLineParser::class.java.classLoader
-                    .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-            Assert.assertNotNull(url)
-            fmuPath = url.file
+        File(fmuPath).let { file ->
+
+            if (file.exists()) {
+                FmuFile.from(file)
+            } else {
+                try {
+                    val url = URL(fmuPath)
+                    FmuFile.from(url)
+                } catch (ex: MalformedURLException) {
+                    LOG.error("Interpreted fmuPath as an URL, but an MalformedURLException was thrown", ex)
+                    null
+                }
+            }
+
+        }?.use {
 
         }
 

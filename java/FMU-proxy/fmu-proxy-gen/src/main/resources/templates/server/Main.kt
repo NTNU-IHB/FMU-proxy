@@ -53,33 +53,19 @@ object Main {
 
         val url = Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!
 
-        val temp = Files.createTempDirectory("fmu_proxy").toFile()
-        LOG.info("Created temp dir $temp")
+        val args = args + arrayOf("-fmu", "$url")
+        CommandLineParser.parse(args)?.also { proxy ->
 
-        try {
+            proxy.getServer(GrpcFmuServer::class.java)?.addService({{fmuName}}Service())
+            proxy.start()
 
-            val fmu = File(temp, "{{fmuName}}.fmu")
-            FileUtils.copyURLToFile(url, fmu)
-
-            val args = args + arrayOf("-fmu", fmu.absolutePath)
-            CommandLineParser.parse(args)?.also { proxy ->
-
-                proxy.getServer(GrpcFmuServer::class.java)?.addService({{fmuName}}Service())
-                proxy.start()
-
-                println("Press any key to exit..")
-                if (Scanner(System.`in`).hasNext()) {
-                    println("Exiting..")
-                }
-
-                proxy.stop()
-
+            println("Press any key to exit..")
+            if (Scanner(System.`in`).hasNext()) {
+                println("Exiting..")
             }
 
-        } finally {
-            if (temp.deleteRecursively()) {
-                LOG.info("Deleted $temp")
-            }
+            proxy.stop()
+
         }
 
     }

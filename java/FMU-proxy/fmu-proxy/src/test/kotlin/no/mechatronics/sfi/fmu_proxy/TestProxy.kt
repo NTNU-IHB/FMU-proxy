@@ -51,7 +51,7 @@ class TestProxy {
             val url = TestProxy::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
-            fmuFile = FmuFile(File(url.file))
+            fmuFile = FmuFile.from(File(url.file))
 
 
             grpcerver = GrpcFmuServer(fmuFile)

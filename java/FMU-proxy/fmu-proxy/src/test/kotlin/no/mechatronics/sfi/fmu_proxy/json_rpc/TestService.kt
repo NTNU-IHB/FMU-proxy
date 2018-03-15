@@ -19,7 +19,7 @@ class TestService {
         val url = javaClass.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
         Assert.assertNotNull(url)
-        fmuFile = FmuFile(File(url.file))
+        fmuFile = FmuFile.from(File(url.file))
         handler = RpcHandler(RpcFmuService(fmuFile))
 
     }

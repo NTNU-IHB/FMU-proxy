@@ -30,7 +30,7 @@ class TestThriftClient {
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
 
-            val fmuFile = FmuFile(url)
+            val fmuFile = FmuFile.from(url)
             modelDescription = fmuFile.modelDescription
 
             val port = ServerSocket(0).use { it.localPort }

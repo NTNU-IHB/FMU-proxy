@@ -37,7 +37,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import picocli.CommandLine
 import java.io.File
+import java.net.MalformedURLException
+import java.net.URI
+import java.net.URL
 import java.util.concurrent.Callable
+
+val LOG: Logger = LoggerFactory.getLogger(CommandLineParser::class.java)
 
 object CommandLineParser {
 
@@ -53,12 +58,6 @@ class Args: Callable<FmuProxy> {
     internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
         override fun convert(value: String): SimpleSocketAddress {
             return SimpleSocketAddress.parse(value)
-        }
-    }
-
-    internal class FmuFileConverter: CommandLine.ITypeConverter<FmuFile> {
-        override fun convert(value: String): FmuFile {
-            return FmuFile(File(value))
         }
     }
 
@@ -89,9 +88,29 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-jsonrpc/zmq"], description = ["Manually specify the JSON-RPC ZMQ port (optional)"])
     var jsonZmqPort: Int? = null
 
+
     override fun call(): FmuProxy? {
 
-        val fmuFile = FmuFile(File(fmuPath))
+        LOG.info(fmuPath)
+
+        val fmuFile = File(fmuPath).let {file ->
+
+            if (file.exists()) {
+                FmuFile.from(file)
+            } else {
+                try {
+                    val url = URL(fmuPath)
+                    FmuFile.from(url)
+                } catch (ex: MalformedURLException) {
+                    LOG.error("Interpreted fmuPath as an URL, but an MalformedURLException was thrown", ex)
+                    null
+                }
+            }
+
+        }
+
+       fmuFile ?: return null
+
         return FmuProxyBuilder(fmuFile).apply {
 
             setRemote(remote)
