@@ -6,14 +6,15 @@ import info.laht.yaj_rpc.net.tcp.RpcTcpClient
 import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
 import info.laht.yaj_rpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
+import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.Proto
 import no.mechatronics.sfi.fmu_proxy.json_rpc.*
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
-import no.mechatronics.sfi.fmu_proxy.thrift.StatusCode
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
+import no.mechatronics.sfi.grpc_fmu.avro.AvroFmuClient
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -36,8 +37,9 @@ class TestProxy {
         lateinit var fmuFile: FmuFile
         lateinit var proxy: FmuProxy
 
-        lateinit var grpcerver: FmuProxyServer
-        lateinit var thrifterver: FmuProxyServer
+        lateinit var grpcServer: FmuProxyServer
+        lateinit var avrosServer: FmuProxyServer
+        lateinit var thriftServer: FmuProxyServer
 
         const val httpPort: Int = 8003
         const val wsPort: Int = 8004
@@ -54,12 +56,15 @@ class TestProxy {
             fmuFile = FmuFile.from(File(url.file))
 
 
-            grpcerver = GrpcFmuServer(fmuFile)
-            thrifterver = ThriftFmuServer(fmuFile)
+            grpcServer = GrpcFmuServer(fmuFile)
+            avrosServer = AvroFmuServer(fmuFile)
+            thriftServer = ThriftFmuServer(fmuFile)
+
 
             proxy = FmuProxyBuilder(fmuFile).apply {
-                addServer(grpcerver)
-                addServer(thrifterver)
+                addServer(grpcServer)
+                addServer(thriftServer)
+                addServer(avrosServer)
                 RpcHandler(RpcFmuService(fmuFile)).also { handler ->
                     addServer(FmuProxyJsonHttpServer(handler), httpPort)
                     addServer(FmuProxyJsonWsServer(handler), wsPort)
@@ -92,8 +97,9 @@ class TestProxy {
 
     @Test
     fun getServer() {
-        Assert.assertEquals(grpcerver, proxy.getServer(GrpcFmuServer::class.java))
-        Assert.assertEquals(thrifterver, proxy.getServer(ThriftFmuServer::class.java))
+        Assert.assertEquals(grpcServer, proxy.getServer(GrpcFmuServer::class.java))
+        Assert.assertEquals(avrosServer, proxy.getServer(AvroFmuServer::class.java))
+        Assert.assertEquals(thriftServer, proxy.getServer(ThriftFmuServer::class.java))
     }
 
     @Test
@@ -122,7 +128,7 @@ class TestProxy {
 
                     val end = Instant.now()
                     val duration = Duration.between(start, end)
-                    LOG.info("Duration: ${duration.toMillis()}ms")
+                    LOG.info("gRPC duration: ${duration.toMillis()}ms")
 
                 }
             }
@@ -149,12 +155,44 @@ class TestProxy {
                     val start = Instant.now()
                     while (fmu.currentTime < stopTime) {
                         val status = fmu.step(stepSize)
-                        Assert.assertEquals(StatusCode.OK_STATUS, status)
+                        Assert.assertEquals(no.mechatronics.sfi.fmu_proxy.thrift.StatusCode.OK_STATUS, status)
                     }
 
                     val end = Instant.now()
                     val duration = Duration.between(start, end)
-                    LOG.info("Duration: ${duration.toMillis()}ms")
+                    LOG.info("Thrift duration: ${duration.toMillis()}ms")
+
+                }
+            }
+        }
+
+    }
+
+    @Test
+    fun testAvro() {
+
+        proxy.getPortFor(AvroFmuServer::class.java)?.also { port ->
+            AvroFmuClient("localhost", port).use { client ->
+
+                val mdLocal = fmuFile.modelDescription
+                val mdRemote = client.modelDescription
+
+                Assert.assertEquals(mdLocal.guid, mdRemote.guid)
+                Assert.assertEquals(mdLocal.modelName, mdRemote.modelName)
+                Assert.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
+
+                client.createInstance().use { fmu ->
+
+                    Assert.assertTrue(fmu.init())
+                    val start = Instant.now()
+                    while (fmu.currentTime < stopTime) {
+                        val status = fmu.step(stepSize)
+                        Assert.assertEquals(no.mechatronics.sfi.fmu_proxy.avro.StatusCode.OK_STATUS, status)
+                    }
+
+                    val end = Instant.now()
+                    val duration = Duration.between(start, end)
+                    LOG.info("Avro duration: ${duration.toMillis()}ms")
 
                 }
             }

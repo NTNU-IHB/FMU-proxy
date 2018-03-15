@@ -35,7 +35,6 @@ import java.io.Closeable
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-
 /**
  * @author Lars Ivar Hatledal
  */
@@ -74,7 +73,9 @@ class FmuProxy(
         }
 
 
-
+    /**
+     * Start proxy
+     */
     fun start() {
         if (!hasStarted.also { hasStarted = true }) {
             servers.forEach {
@@ -89,6 +90,9 @@ class FmuProxy(
         }
     }
 
+    /**
+     * Stop proxy
+     */
     fun stop() {
         if (hasStarted) {
             beat?.stop()
@@ -96,6 +100,9 @@ class FmuProxy(
         }
     }
 
+    /**
+     * Same as Stop()
+     */
     override fun close() {
         stop()
     }
@@ -108,9 +115,11 @@ class FmuProxy(
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
     }
 
-
 }
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class FmuProxyBuilder(
         private val fmuFile: FmuFile
 ) {

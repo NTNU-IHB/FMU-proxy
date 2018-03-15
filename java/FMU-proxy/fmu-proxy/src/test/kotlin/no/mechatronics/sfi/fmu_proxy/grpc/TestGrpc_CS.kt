@@ -35,11 +35,11 @@ import java.time.Duration
 import java.time.Instant
 
 
-class TestGrpcClient_CS {
+class TestGrpc_CS {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcClient_CS::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestGrpc_CS::class.java)
 
         private lateinit var server: GrpcFmuServer
         private lateinit var client: GrpcFmuClient
@@ -50,7 +50,7 @@ class TestGrpcClient_CS {
         @BeforeClass
         fun setup() {
 
-            val url = TestGrpcClient_CS::class.java.classLoader
+            val url = TestGrpc_CS::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
 

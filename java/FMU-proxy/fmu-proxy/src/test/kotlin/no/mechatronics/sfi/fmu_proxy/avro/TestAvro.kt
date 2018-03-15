@@ -41,14 +41,12 @@ class TestAvro {
 
         }
 
-
         @JvmStatic
         @AfterClass
         fun tearDown() {
             client.close()
             server.close()
         }
-
 
     }
 

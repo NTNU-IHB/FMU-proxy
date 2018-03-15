@@ -1,4 +1,4 @@
-package no.mechatronics.sfi.fmu_proxy.grpc.ext
+package no.mechatronics.sfi.fmu_proxy.grpc
 
 import org.junit.After
 import org.junit.Assert

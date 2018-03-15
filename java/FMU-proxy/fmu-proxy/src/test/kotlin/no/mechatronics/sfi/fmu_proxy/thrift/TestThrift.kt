@@ -8,15 +8,14 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.net.ServerSocket
 import java.time.Duration
 import java.time.Instant
 
-class TestThriftClient {
+class TestThrift {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestThriftClient::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestThrift::class.java)
 
         private lateinit var server: ThriftFmuServer
         private lateinit var client: ThriftFmuClient
@@ -26,7 +25,7 @@ class TestThriftClient {
         @BeforeClass
         fun setup() {
 
-            val url = TestThriftClient::class.java.classLoader
+            val url = TestThrift::class.java.classLoader
                     .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
             Assert.assertNotNull(url)
 

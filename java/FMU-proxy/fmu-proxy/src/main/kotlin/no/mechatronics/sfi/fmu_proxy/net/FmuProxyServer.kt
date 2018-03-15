@@ -26,6 +26,9 @@ package no.mechatronics.sfi.fmu_proxy.net
 
 import info.laht.yaj_rpc.net.RpcServer
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 interface FmuProxyServer: RpcServer {
 
     val simpleName: String

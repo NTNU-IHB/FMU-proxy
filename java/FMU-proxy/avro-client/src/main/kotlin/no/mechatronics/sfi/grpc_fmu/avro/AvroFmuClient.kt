@@ -114,7 +114,7 @@ class AvroFmuClient(
         }
 
         fun reset(): Boolean {
-            TODO("Not yet implemented")
+            return service.reset(fmuId)
         }
 
         override fun close() {

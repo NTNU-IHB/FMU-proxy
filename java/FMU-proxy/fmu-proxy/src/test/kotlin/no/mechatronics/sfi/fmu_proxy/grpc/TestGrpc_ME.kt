@@ -7,10 +7,10 @@ import org.junit.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class TestGrpcClient_ME {
+class TestGrpc_ME {
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(TestGrpcClient_ME::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(TestGrpc_ME::class.java)
 
 
         private lateinit var server: GrpcFmuServer
@@ -21,7 +21,7 @@ class TestGrpcClient_ME {
         @BeforeClass
         fun setup() {
 
-            val url = TestGrpcClient_ME::class.java.classLoader
+            val url = TestGrpc_ME::class.java.classLoader
                     .getResource("fmus/me/BouncingBall/bouncingBall.fmu")
             Assert.assertNotNull(url)
 

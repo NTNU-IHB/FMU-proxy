@@ -28,6 +28,7 @@ import info.laht.yaj_rpc.RpcHandler
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.FmuProxy
 import no.mechatronics.sfi.fmu_proxy.FmuProxyBuilder
+import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmu_proxy.json_rpc.*
@@ -70,11 +71,14 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)"], converter = [SimpleSocketAddressConverter::class])
     var remote: SimpleSocketAddress? = null
 
-    @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the grpc port (optional)"])
+    @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)"])
     var grpcPort: Int? = null
 
-    @CommandLine.Option(names = ["-thrift"], description = ["Manually specify the thrift port (optional)"])
+    @CommandLine.Option(names = ["-thrift"], description = ["Manually specify the Thrift port (optional)"])
     var thriftPort: Int? = null
+
+    @CommandLine.Option(names = ["-avro"], description = ["Manually specify the Avro port (optional)"])
+    var avroPort: Int? = null
 
     @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)"])
     var jsonHttpPort: Int? = null
@@ -123,6 +127,10 @@ class Args: Callable<FmuProxy> {
                 addServer(this, thriftPort)
             }
 
+            AvroFmuServer(fmuFile).apply {
+                addServer(this, avroPort)
+            }
+
             val handler = RpcHandler(RpcFmuService(fmuFile))
             FmuProxyJsonHttpServer(handler).apply {
                 addServer(this, jsonHttpPort)
@@ -144,8 +152,9 @@ class Args: Callable<FmuProxy> {
     }
 
     override fun toString(): String {
-        return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftPort=$thriftPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
+        return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftPort=$thriftPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
     }
+
 
 }
 
