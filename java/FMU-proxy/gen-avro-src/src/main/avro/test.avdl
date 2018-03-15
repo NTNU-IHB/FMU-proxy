@@ -1,0 +1,5 @@
+
+@namespace("fmu_proxy.avro")
+protocol ModelDescription {
+
+}

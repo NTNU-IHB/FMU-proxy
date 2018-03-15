@@ -1,13 +1,13 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.4'
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.14.0"
     }
 }
-
-apply plugin: 'com.google.protobuf'
+apply plugin: "com.commercehub.gradle.plugin.avro"
+apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -16,34 +16,16 @@ version = '0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
 
-    compile group: 'io.grpc', name: 'grpc-stub', version: '1.10.0'
-    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.10.0'
+    compile group: 'org.apache.avro', name: 'avro', version: '1.8.2'
 
 }
 
-
-protobuf {
-    generatedFilesBaseDir = "$projectDir/src"
-    protoc {
-        artifact = 'com.google.protobuf:protoc:3.5.1'
-    }
-    plugins {
-        grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.9.0'
-        }
-    }
-    generateProtoTasks {
-
-        ofSourceSet('main')*.plugins {
-            grpc {
-                outputSubDir = 'java'
-            }
-        }
-    }
-
-}
 
 signing {
     sign configurations.archives
@@ -66,7 +48,7 @@ uploadArchives {
                 name archivesBaseName
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'Generated proto and gRPC sources for use by FMU-proxy'
+                description 'Generated avro sources for use by FMU-proxy'
                 url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
 
                 scm {
