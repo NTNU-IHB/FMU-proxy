@@ -43,13 +43,13 @@ object ApplicationStarter {
 @CommandLine.Command(name = "fmu-proxy-gen")
 class Args: Runnable {
 
-    @CommandLine.Option(names = ["-h", "--help"], description = ["Prints this message and closes the application."], usageHelp = true)
+    @CommandLine.Option(names = ["-h", "--help"], description = ["Prints this message and quits."], usageHelp = true)
     var helpRequested = false
 
-    @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the fmu"], required = true)
+    @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the fmu."], required = true)
     lateinit var fmuPath: File
 
-    @CommandLine.Option(names = ["-out", "--output"], description = ["Specify where to copy the generated .jar (optional)"])
+    @CommandLine.Option(names = ["-out", "--output"], description = ["Specify where to copy the generated .jar (optional)."])
     var out: File? = null
 
     override fun run() {

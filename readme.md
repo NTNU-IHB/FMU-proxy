@@ -26,19 +26,29 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 ### Generating the server from an FMU
 
 ```
-usage: fmu-proxy
- -fmu <arg>   Path to the fmu
- -help        Prints this message
- -out <arg>   Specify where to copy the generated .jar (optional, not supported yet)
+Usage: fmu-proxy-gen [-h] -fmu=<fmuPath> [-out=<out>]
+      -fmu, --fmuPath=<fmuPath>
+                              Path to the fmu.
+  -h, --help                  Prints this message and quits.
+      -out, --output=<out>    Specify where to copy the generated .jar (optional)
 ```
 
 This will create a self-executable JAR named "myfmu.jar"
 
 ```
-usage: java -jar myfmu.jar
- -help              Prints this message
- -localPort <arg>   Manually specify the local port to use (optional). E.g. 7777 
- -remote <arg>      Specify the IP address of the remote tracking server (optional). E.g. 127.0.0.1:7000
+Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
+                 [-jsonrpc/http=<jsonHttpPort>] [-jsonrpc/tcp=<jsonTcpPort>]
+                 [-jsonrpc/ws=<jsonWsPort>] [-jsonrpc/zmq=<jsonZmqPort>]
+                 [-r=<remote>] [-thrift=<thriftPort>]
+  -h, --help                  Print this message and quits.
+  -r, --remote=<remote>       Specify an address for the remote tracking server (optional).
+      -avro=<avroPort>        Manually specify the Avro port (optional).
+      -grpc=<grpcPort>        Manually specify the gRPC port (optional).
+      -thrift=<thriftPort>    Manually specify the Thrift port (optional).
+      -jsonrpc/http=<jsonHttpPort> Manually specify the JSON-RPC HTTP port(optional).
+      -jsonrpc/tcp=<jsonTcpPort> Manually specify the JSON-RPC TCP/IP port (optional).
+      -jsonrpc/ws=<jsonWsPort> Manually specify the JSON-RPC WS port (optional).
+      -jsonrpc/zmq=<jsonZmqPort> Manually specify the JSON-RPC ZMQ port (optional).
 ```
 
 You can now connect to the FMU in your language of choosing using the general purpose .proto files located in the /proto folder that 

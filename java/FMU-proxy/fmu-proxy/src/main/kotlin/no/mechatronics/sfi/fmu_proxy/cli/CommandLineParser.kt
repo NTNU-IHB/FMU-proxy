@@ -62,34 +62,34 @@ class Args: Callable<FmuProxy> {
         }
     }
 
-    @CommandLine.Option(names = ["-h", "--help"], description = ["Print this help message and quits."], usageHelp = true)
+    @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
     var showHelp = false
 
-    @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the FMU"], required = true)
+    @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the FMU."], required = true)
     lateinit var fmuPath: String
 
-    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)"], converter = [SimpleSocketAddressConverter::class])
+    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
     var remote: SimpleSocketAddress? = null
 
-    @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)"])
+    @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)."])
     var grpcPort: Int? = null
 
-    @CommandLine.Option(names = ["-thrift"], description = ["Manually specify the Thrift port (optional)"])
+    @CommandLine.Option(names = ["-thrift"], description = ["Manually specify the Thrift port (optional)."])
     var thriftPort: Int? = null
 
-    @CommandLine.Option(names = ["-avro"], description = ["Manually specify the Avro port (optional)"])
+    @CommandLine.Option(names = ["-avro"], description = ["Manually specify the Avro port (optional)."])
     var avroPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)"])
+    @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)."])
     var jsonHttpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Manually specify the JSON-RPC WS port (optional)"])
+    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Manually specify the JSON-RPC WS port (optional)."])
     var jsonWsPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Manually specify the JSON-RPC TCP/IP port (optional)"])
+    @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Manually specify the JSON-RPC TCP/IP port (optional)."])
     var jsonTcpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/zmq"], description = ["Manually specify the JSON-RPC ZMQ port (optional)"])
+    @CommandLine.Option(names = ["-jsonrpc/zmq"], description = ["Manually specify the JSON-RPC ZMQ port (optional)."])
     var jsonZmqPort: Int? = null
 
 

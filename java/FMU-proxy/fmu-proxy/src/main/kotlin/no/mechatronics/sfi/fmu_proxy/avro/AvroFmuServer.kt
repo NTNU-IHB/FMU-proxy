@@ -54,6 +54,9 @@ class AvroFmuServer(
         if (!isRunning) {
             val responder = SpecificResponder(AvroFmuService::class.java, AvroFmuServiceImpl(fmuFile))
             server = NettyServer(responder, InetSocketAddress(port))
+            LOG.info("${javaClass.simpleName} listening for connections on port: $port");
+        } else {
+            LOG.warn("${javaClass.simpleName} has already been started!")
         }
     }
 
@@ -61,6 +64,7 @@ class AvroFmuServer(
         if (isRunning) {
             server?.close()
             server = null
+            LOG.info("${javaClass.simpleName} stopped!")
         }
     }
 

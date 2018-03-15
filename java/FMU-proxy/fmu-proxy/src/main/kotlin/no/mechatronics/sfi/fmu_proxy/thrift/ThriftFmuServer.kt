@@ -65,14 +65,12 @@ class ThriftFmuServer(
     }
 
     override fun stop() {
-        server?.also {
-            it.stop()
+        if (isRunning) {
+            server!!.stop()
             server = null
             LOG.info("${javaClass.simpleName} stopped!")
         }
     }
-
-    override fun close() = stop()
 
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
