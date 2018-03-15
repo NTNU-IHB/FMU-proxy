@@ -125,7 +125,7 @@ class ExecutableGenerator(
                     File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
                         if (exists()) {
                             FileUtils.copyFileToDirectory(this, outDir)
-                            LOG.info("Executable '$name' is located in directory '${outDir.absolutePath}'")
+                            LOG.info("Executable '$name' is located in directory: '${outDir.absoluteFile.parentFile.absolutePath}'")
                         }
                     }
                 } else {
@@ -134,9 +134,9 @@ class ExecutableGenerator(
             }
         } finally {
             if (baseFile.deleteRecursively()) {
-                LOG.debug("Deleted temp folder $baseFile")
+                LOG.debug("Deleted temp folder: $baseFile")
             } else {
-                LOG.warn("Failed to delete folder $baseFile")
+                LOG.warn("Failed to delete folder: $baseFile")
             }
         }
 

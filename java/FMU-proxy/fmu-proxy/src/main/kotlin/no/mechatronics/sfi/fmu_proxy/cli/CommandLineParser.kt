@@ -91,7 +91,7 @@ class Args: Callable<FmuProxy> {
 
     override fun call(): FmuProxy? {
 
-        LOG.info(fmuPath)
+        LOG.debug("FmuPath=$fmuPath")
 
         val fmuFile = File(fmuPath).let {file ->
 
