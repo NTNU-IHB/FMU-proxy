@@ -11,10 +11,6 @@ repositories {
     }
 }
 
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
 dependencies {
     implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT'
 }

@@ -61,7 +61,6 @@ class TestCommandLineParser {
 
         var args2 = arrayOf(
                 "--remote", "127.0.0.1:8888",
-                "-grpc", "8000",
                 "-thrift", "8001",
                 "-jsonrpc/http", "8002",
                 "-jsonrpc/ws", "8003",

@@ -53,21 +53,21 @@ internal class Heartbeat(
         private val remoteFmu: RemoteFmu
 ): Closeable {
 
-
-    private var started = false
     private var inner: InnerClass? = null
 
+    private val isRunning: Boolean
+        get() = inner != null
 
     fun start() {
-       if (!started) {
+       if (!isRunning) {
            inner = InnerClass()
            LOG.debug("${javaClass.simpleName} started!")
        }
     }
 
     fun stop() {
-        inner?.also {
-            it.stop()
+        if (isRunning) {
+            inner!!.stop()
             LOG.debug("${javaClass.simpleName} stopped!")
         }
     }
@@ -84,11 +84,12 @@ internal class Heartbeat(
 
         private val thread: Thread
         private var stop = false
-        private val ctx: ZContext = ZContext()
+        private val ctx: ZContext = ZContext(1)
         private val gson: Gson = GsonBuilder().create()
 
         init {
-            thread = Thread(this).apply { start() }
+            thread = Thread(this)
+            thread.start()
         }
 
         fun stop() {
@@ -114,65 +115,72 @@ internal class Heartbeat(
 
         override fun run() {
 
-            var worker = workerSocket(ctx)
-            val poller = ctx.createPoller(1).apply {
-                register(worker, ZMQ.Poller.POLLIN)
-            }
+            try {
 
-            //  If liveness hits zero, queue is considered disconnected
-            var liveness = HEARTBEAT_LIVENESS
-            var interval = INTERVAL_INIT
+                var worker = workerSocket(ctx)
+                val poller = ctx.createPoller(1).apply {
+                    register(worker, ZMQ.Poller.POLLIN)
+                }
 
-            //  Send out heartbeats at regular intervals
-            var heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
+                //  If liveness hits zero, queue is considered disconnected
+                var liveness = HEARTBEAT_LIVENESS
+                var interval = INTERVAL_INIT
 
-            while (!stop) {
+                //  Send out heartbeats at regular intervals
+                var heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
 
-                if (poller.poll(HEARTBEAT_INTERVAL) == -1) break //  Interrupted
+                while (!stop) {
 
-                if (poller.pollin(0)) {
-                    val msg = ZMsg.recvMsg(worker) ?: break          //  Interrupted
-                    when (msg.size) {
-                        1 -> {
-                            val frame = msg.first
-                            if (PPP_HEARTBEAT == String(frame.data)) {
-                                liveness = HEARTBEAT_LIVENESS
-                            } else {
+                    if (poller.poll(HEARTBEAT_INTERVAL) == -1) break //  Interrupted
+
+                    if (poller.pollin(0)) {
+                        val msg = ZMsg.recvMsg(worker) ?: break          //  Interrupted
+                        when (msg.size) {
+                            1 -> {
+                                val frame = msg.first
+                                if (PPP_HEARTBEAT == String(frame.data)) {
+                                    liveness = HEARTBEAT_LIVENESS
+                                } else {
+                                    LOG.warn("E: invalid message\n")
+                                    msg.dump(System.out)
+                                }
+                                msg.destroy()
+                            }
+                            else -> {
                                 LOG.warn("E: invalid message\n")
                                 msg.dump(System.out)
                             }
-                            msg.destroy()
                         }
-                        else -> {
-                            LOG.warn("E: invalid message\n")
-                            msg.dump(System.out)
+                        interval = INTERVAL_INIT
+                    } else if (--liveness == 0L) {
+
+                        LOG.debug("FmuHeartbeat failure, can't reach remote @ $remoteAddress, \n reconnecting in $interval msec")
+
+                        Thread.sleep(interval)
+                        if (interval < INTERVAL_MAX) {
+                            interval *= 2
+                        }
+
+                        poller.unregister(worker)
+                        ctx.destroySocket(worker)
+                        worker = workerSocket(ctx)
+                        poller.register(worker, ZMQ.Poller.POLLIN)
+                        liveness = HEARTBEAT_LIVENESS
+                    }
+
+                    if (System.currentTimeMillis() > heartbeatAt) {
+                        heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
+                        ZFrame(PPP_HEARTBEAT).apply {
+                            send(worker, 0 )
                         }
                     }
-                    interval = INTERVAL_INIT
-                } else if (--liveness == 0L) {
 
-                    LOG.debug("FmuHeartbeat failure, can't reach remote @ $remoteAddress, \n reconnecting in $interval msec")
-
-                    Thread.sleep(interval)
-                    if (interval < INTERVAL_MAX) {
-                        interval *= 2
-                    }
-
-                    poller.unregister(worker)
-                    ctx.destroySocket(worker)
-                    worker = workerSocket(ctx)
-                    poller.register(worker, ZMQ.Poller.POLLIN)
-                    liveness = HEARTBEAT_LIVENESS
                 }
 
-                if (System.currentTimeMillis() > heartbeatAt) {
-                    heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
-                    ZFrame(PPP_HEARTBEAT).apply {
-                        send(worker, 0 )
-                    }
-                }
-
+            } catch (ex: Exception) {
+                LOG.debug("Caught exception", ex)
             }
+
         }
     }
 
