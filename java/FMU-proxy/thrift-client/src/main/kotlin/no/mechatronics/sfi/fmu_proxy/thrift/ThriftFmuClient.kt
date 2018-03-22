@@ -24,12 +24,12 @@
 
 package no.mechatronics.sfi.fmu_proxy.thrift
 
-import java.io.Closeable
+import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
-import org.apache.thrift.protocol.TBinaryProtocol
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
 
 internal object FmuInstances: ArrayList<ThriftFmuClient.FmuInstance>() {
     internal fun terminateAll() {
@@ -100,7 +100,7 @@ class ThriftFmuClient(
             get() = client.isTerminated(fmuId)
 
         @JvmOverloads
-        fun init(start:Double=0.0, stop:Double=-1.0): Boolean {
+        fun init(start:Double=0.0, stop:Double=-1.0): StatusCode {
             return client.init(fmuId,start, stop)
         }
 
@@ -108,13 +108,15 @@ class ThriftFmuClient(
             return client.step(fmuId, stepSize)
         }
 
-        fun terminate(): Boolean {
-            return client.terminate(fmuId).also {
+        fun terminate(): StatusCode {
+            return try {
+                client.terminate(fmuId)
+            } finally {
                 FmuInstances.remove(this)
             }
         }
 
-        fun reset(): Boolean {
+        fun reset(): StatusCode {
             return client.reset(fmuId)
         }
 

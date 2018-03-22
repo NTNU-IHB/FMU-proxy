@@ -24,7 +24,6 @@
 
 package no.mechatronics.sfi.fmu_proxy.thrift.services
 
-import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
 import no.mechatronics.sfi.fmu_proxy.thrift.*
@@ -37,7 +36,7 @@ import org.apache.commons.math3.ode.nonstiff.MidpointIntegrator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class ThriftFmuServiceHandler(
+class ThriftFmuServiceImpl(
         private val fmuFile: FmuFile
 ): FmuService.Iface {
 
@@ -105,9 +104,9 @@ class ThriftFmuServiceHandler(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun init(fmuId: Int, startTime: Double, endTime: Double): Boolean {
+    override fun init(fmuId: Int, startTime: Double, endTime: Double): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.init()
+            it.init().thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
@@ -118,15 +117,15 @@ class ThriftFmuServiceHandler(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun terminate(fmuId: Int): Boolean {
+    override fun terminate(fmuId: Int): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.terminate()
+            it.terminate().thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun reset(fmuId: Int): Boolean {
+    override fun reset(fmuId: Int): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.reset()
+            it.reset().thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
@@ -189,7 +188,7 @@ class ThriftFmuServiceHandler(
 
     private companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceHandler::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
     }
 
 }

@@ -45,10 +45,10 @@ service FmuService {
     double getCurrentTime(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
     bool isTerminated(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 
-    bool init(1: FmuId fmu_id, 2: double start, 3: double stop) throws (1: definitions.NoSuchFmuException ex)
+    definitions.StatusCode init(1: FmuId fmu_id, 2: double start, 3: double stop) throws (1: definitions.NoSuchFmuException ex)
     definitions.StatusCode step(1: FmuId fmu_id, 2: double step_size) throws (1: definitions.NoSuchFmuException ex)
-    bool terminate(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
-    bool reset(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
+    definitions.StatusCode terminate(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
+    definitions.StatusCode reset(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 
     definitions.IntRead readInt(1: FmuId fmu_id, 2: ValueReference vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
     definitions.RealRead readReal(1: FmuId fmu_id, 2: ValueReference vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)

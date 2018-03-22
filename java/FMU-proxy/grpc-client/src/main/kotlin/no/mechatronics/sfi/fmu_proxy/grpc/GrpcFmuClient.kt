@@ -24,15 +24,13 @@
 
 package no.mechatronics.sfi.fmu_proxy.grpc
 
-import com.google.protobuf.Empty
-import java.io.Closeable
 
+import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-
-
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
 
 private val EMPTY = Empty.getDefaultInstance()
 
@@ -60,7 +58,7 @@ class GrpcFmuClient(
             .directExecutor()
             .build()
 
-    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
+    val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
             = FmuServiceGrpc.newBlockingStub(channel)
 
     val modelDescription: Proto.ModelDescription by lazy {
@@ -98,31 +96,42 @@ class GrpcFmuClient(
             private val fmuId: Int
     ) : Closeable {
 
-        private val modelRef = Proto.UInt.newBuilder().setValue(fmuId).build()
+        private val modelRef = Proto.UInt.newBuilder()
+                .setValue(fmuId).build()
 
         val currentTime: Double
             get() = blockingStub.getCurrentTime(modelRef).value
 
-        fun init(): Boolean = blockingStub.init(Proto.InitRequest.newBuilder()
-                .setFmuId(fmuId)
-                .build()).value
+        @JvmOverloads
+        fun init(start: Double = 0.0, stop: Double = -1.0): Proto.Status {
+            return blockingStub.init(
+                    Proto.InitRequest.newBuilder()
+                            .setFmuId(fmuId)
+                            .setStart(start)
+                            .setStop(stop)
+                            .build())
+        }
 
         fun step(stepSize: Double): Proto.Status = blockingStub.step(Proto.StepRequest.newBuilder()
                 .setFmuId(fmuId)
                 .setStepSize(stepSize)
                 .build())
 
-        fun terminate() {
-            try {
-                blockingStub.terminate(Proto.UInt.newBuilder()
-                        .setValue(fmuId)
-                        .build())
+        fun terminate(): Proto.Status {
+            return try {
+                blockingStub.terminate(modelRef)
             } finally {
                 FmuInstances.remove(this)
             }
         }
 
-        override fun close() = terminate()
+        override fun close() {
+            terminate()
+        }
+
+        fun reset(): Proto.Status {
+            return blockingStub.reset(modelRef)
+        }
 
         fun getValueReference(variableName: String)
                 = modelDescription.modelVariablesList

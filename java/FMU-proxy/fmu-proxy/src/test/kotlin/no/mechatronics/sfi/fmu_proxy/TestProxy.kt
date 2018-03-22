@@ -5,6 +5,7 @@ import info.laht.yaj_rpc.net.http.RpcHttpClient
 import info.laht.yaj_rpc.net.tcp.RpcTcpClient
 import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
 import info.laht.yaj_rpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuClient
@@ -12,6 +13,7 @@ import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.Proto
 import no.mechatronics.sfi.fmu_proxy.json_rpc.*
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
+import no.mechatronics.sfi.fmu_proxy.thrift.StatusCode
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
 import no.mechatronics.sfi.grpc_fmu.avro.AvroFmuClient
@@ -118,7 +120,7 @@ class TestProxy {
 
                 client.createInstance().use { fmu ->
 
-                    Assert.assertTrue(fmu.init())
+                    Assert.assertTrue(fmu.init().code == Proto.StatusCode.OK_STATUS)
 
                     val start = Instant.now()
                     while (fmu.currentTime < stopTime) {
@@ -151,7 +153,7 @@ class TestProxy {
 
                 client.createInstance().use { fmu ->
 
-                    Assert.assertTrue(fmu.init())
+                    Assert.assertTrue(fmu.init() == StatusCode.OK_STATUS)
                     val start = Instant.now()
                     while (fmu.currentTime < stopTime) {
                         val status = fmu.step(stepSize)
@@ -183,7 +185,7 @@ class TestProxy {
 
                 client.createInstance().use { fmu ->
 
-                    Assert.assertTrue(fmu.init())
+                    Assert.assertTrue(fmu.init() == no.mechatronics.sfi.fmu_proxy.avro.StatusCode.OK_STATUS)
                     val start = Instant.now()
                     while (fmu.currentTime < stopTime) {
                         val status = fmu.step(stepSize)
@@ -223,13 +225,13 @@ class TestProxy {
                 Assert.assertEquals(md.modelName, fmu.modelName)
                 Assert.assertEquals(md.fmiVersion, fmu.fmiVersion)
 
-                Assert.assertTrue(fmu.init())
+                Assert.assertTrue(fmu.init() == FmiStatus.OK)
 
                 val dt = 1.0/100
                 val start = Instant.now()
                 while (fmu.currentTime < 10) {
                     val status = fmu.step(dt)
-                    Assert.assertTrue(status)
+                    Assert.assertTrue(status == FmiStatus.OK)
                 }
                 val end = Instant.now()
                 val duration = Duration.between(start, end)

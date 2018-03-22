@@ -24,13 +24,15 @@
 
 package no.mechatronics.sfi.fmu_proxy.grpc
 
+import io.grpc.StatusRuntimeException
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-
-import org.junit.*
+import org.junit.AfterClass
+import org.junit.Assert
+import org.junit.BeforeClass
+import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
 import java.time.Duration
 import java.time.Instant
 
@@ -86,11 +88,20 @@ class TestGrpc_CS {
     }
 
     @Test
+    fun testWrongId() {
+        try {
+            client.blockingStub.reset(Proto.UInt.newBuilder().setValue(0).build())
+        } catch (ex: StatusRuntimeException) {
+            LOG.info("${ex.message}}")
+        }
+    }
+
+    @Test
     fun testInstance() {
 
         client.createInstance().use { fmu ->
 
-            Assert.assertTrue(fmu.init())
+            Assert.assertTrue(fmu.init().code == Proto.StatusCode.OK_STATUS)
             var start = Instant.now()
             val dt = 1.0/100
             while (fmu.currentTime < 10) {

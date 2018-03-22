@@ -99,7 +99,7 @@ class AvroFmuClient(
             get() = service.isTerminated(fmuId)
 
         @JvmOverloads
-        fun init(start:Double=0.0, stop:Double=-1.0): Boolean {
+        fun init(start:Double=0.0, stop:Double=-1.0): StatusCode {
             return service.init(fmuId,start, stop)
         }
 
@@ -107,18 +107,20 @@ class AvroFmuClient(
             return service.step(fmuId, stepSize)
         }
 
-        fun terminate(): Boolean {
-            return service.terminate(fmuId).also {
+        fun terminate(): StatusCode {
+            return try {
+                service.terminate(fmuId)
+            } finally {
                 FmuInstances.remove(this)
             }
         }
 
-        fun reset(): Boolean {
-            return service.reset(fmuId)
-        }
-
         override fun close() {
             terminate()
+        }
+
+        fun reset(): StatusCode {
+            return service.reset(fmuId)
         }
 
     }

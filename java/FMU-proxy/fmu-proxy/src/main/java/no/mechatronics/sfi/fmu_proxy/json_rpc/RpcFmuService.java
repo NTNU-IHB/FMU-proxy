@@ -2,18 +2,14 @@ package no.mechatronics.sfi.fmu_proxy.json_rpc;
 
 import info.laht.yaj_rpc.RpcMethod;
 import info.laht.yaj_rpc.RpcService;
-
 import no.mechatronics.sfi.fmi4j.FmiSimulation;
 import no.mechatronics.sfi.fmi4j.common.*;
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile;
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription;
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus;
-
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.jetbrains.annotations.NotNull;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Lars Ivar Hatledal
@@ -83,31 +79,31 @@ public class RpcFmuService implements RpcService {
     }
 
     @RpcMethod
-    public boolean init(int fmuId) {
+    public FmiStatus init(int fmuId) {
         return getFmu(fmuId).init();
     }
 
     @RpcMethod
-    public boolean init(int fmuId, double startTime) {
+    public FmiStatus init(int fmuId, double startTime) {
         return getFmu(fmuId).init(startTime);
     }
 
     @RpcMethod
-    public boolean init(int fmuId, double startTime, double stopTime) {
+    public FmiStatus init(int fmuId, double startTime, double stopTime) {
         return getFmu(fmuId).init(startTime, stopTime);
     }
     @RpcMethod
-    public boolean step(int fmuId, double stepSize) {
+    public FmiStatus step(int fmuId, double stepSize) {
         return getFmu(fmuId).doStep(stepSize);
     }
 
     @RpcMethod
-    public boolean terminate(int fmuId) {
+    public FmiStatus terminate(int fmuId) {
         return getFmu(fmuId).terminate();
     }
 
     @RpcMethod
-    public boolean reset(int fmuId) { return getFmu(fmuId).reset(); }
+    public FmiStatus reset(int fmuId) { return getFmu(fmuId).reset(); }
 
     @RpcMethod
     public @NotNull FmuIntegerRead readInteger(int fmuId, String name) {

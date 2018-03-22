@@ -47,9 +47,9 @@ service FmuService {
 
     rpc CanGetAndSetFMUstate(UInt) returns (Bool);
 
-    rpc Init (InitRequest) returns (Bool);
+    rpc Init (InitRequest) returns (Status);
     rpc Step (StepRequest) returns (Status);
-    rpc Terminate (UInt) returns (Bool);
+    rpc Terminate (UInt) returns (Status);
     rpc Reset(UInt) returns (Status);
 
     rpc ReadInteger (ReadRequest) returns (IntRead);

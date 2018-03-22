@@ -1,18 +1,10 @@
 package no.mechatronics.sfi.fmu_proxy.grpc;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
 import static io.grpc.stub.ClientCalls.blockingUnaryCall;
 import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
@@ -318,20 +310,20 @@ public final class FmuServiceGrpc {
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getInitMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest,
-      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> METHOD_INIT = getInitMethod();
+      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> METHOD_INIT = getInitMethod();
 
   private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest,
-      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> getInitMethod;
+      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> getInitMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest,
-      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> getInitMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> getInitMethod;
+      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> getInitMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> getInitMethod;
     if ((getInitMethod = FmuServiceGrpc.getInitMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getInitMethod = FmuServiceGrpc.getInitMethod) == null) {
           FmuServiceGrpc.getInitMethod = getInitMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.fmu_proxy.grpc.FmuService", "Init"))
@@ -339,7 +331,7 @@ public final class FmuServiceGrpc {
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool.getDefaultInstance()))
+                  no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status.getDefaultInstance()))
                   .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Init"))
                   .build();
           }
@@ -382,20 +374,20 @@ public final class FmuServiceGrpc {
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   @java.lang.Deprecated // Use {@link #getTerminateMethod()} instead. 
   public static final io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt,
-      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> METHOD_TERMINATE = getTerminateMethod();
+      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> METHOD_TERMINATE = getTerminateMethod();
 
   private static volatile io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt,
-      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> getTerminateMethod;
+      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> getTerminateMethod;
 
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt,
-      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> getTerminateMethod() {
-    io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> getTerminateMethod;
+      no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> getTerminateMethod() {
+    io.grpc.MethodDescriptor<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> getTerminateMethod;
     if ((getTerminateMethod = FmuServiceGrpc.getTerminateMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getTerminateMethod = FmuServiceGrpc.getTerminateMethod) == null) {
           FmuServiceGrpc.getTerminateMethod = getTerminateMethod = 
-              io.grpc.MethodDescriptor.<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool>newBuilder()
+              io.grpc.MethodDescriptor.<no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt, no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "no.mechatronics.sfi.fmu_proxy.grpc.FmuService", "Terminate"))
@@ -403,7 +395,7 @@ public final class FmuServiceGrpc {
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool.getDefaultInstance()))
+                  no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status.getDefaultInstance()))
                   .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Terminate"))
                   .build();
           }
@@ -1049,7 +1041,7 @@ public final class FmuServiceGrpc {
     /**
      */
     public void init(no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> responseObserver) {
       asyncUnimplementedUnaryCall(getInitMethod(), responseObserver);
     }
 
@@ -1063,7 +1055,7 @@ public final class FmuServiceGrpc {
     /**
      */
     public void terminate(no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> responseObserver) {
       asyncUnimplementedUnaryCall(getTerminateMethod(), responseObserver);
     }
 
@@ -1256,7 +1248,7 @@ public final class FmuServiceGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest,
-                no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool>(
+                no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status>(
                   this, METHODID_INIT)))
           .addMethod(
             getStepMethod(),
@@ -1270,7 +1262,7 @@ public final class FmuServiceGrpc {
             asyncUnaryCall(
               new MethodHandlers<
                 no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt,
-                no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool>(
+                no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status>(
                   this, METHODID_TERMINATE)))
           .addMethod(
             getResetMethod(),
@@ -1488,7 +1480,7 @@ public final class FmuServiceGrpc {
     /**
      */
     public void init(no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getInitMethod(), getCallOptions()), request, responseObserver);
     }
@@ -1504,7 +1496,7 @@ public final class FmuServiceGrpc {
     /**
      */
     public void terminate(no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt request,
-        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> responseObserver) {
+        io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getTerminateMethod(), getCallOptions()), request, responseObserver);
     }
@@ -1729,7 +1721,7 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool init(no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest request) {
+    public no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status init(no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest request) {
       return blockingUnaryCall(
           getChannel(), getInitMethod(), getCallOptions(), request);
     }
@@ -1743,7 +1735,7 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool terminate(no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt request) {
+    public no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status terminate(no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt request) {
       return blockingUnaryCall(
           getChannel(), getTerminateMethod(), getCallOptions(), request);
     }
@@ -1960,7 +1952,7 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> init(
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> init(
         no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getInitMethod(), getCallOptions()), request);
@@ -1976,7 +1968,7 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool> terminate(
+    public com.google.common.util.concurrent.ListenableFuture<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status> terminate(
         no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt request) {
       return futureUnaryCall(
           getChannel().newCall(getTerminateMethod(), getCallOptions()), request);
@@ -2204,7 +2196,7 @@ public final class FmuServiceGrpc {
           break;
         case METHODID_INIT:
           serviceImpl.init((no.mechatronics.sfi.fmu_proxy.grpc.Proto.InitRequest) request,
-              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool>) responseObserver);
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status>) responseObserver);
           break;
         case METHODID_STEP:
           serviceImpl.step((no.mechatronics.sfi.fmu_proxy.grpc.Proto.StepRequest) request,
@@ -2212,7 +2204,7 @@ public final class FmuServiceGrpc {
           break;
         case METHODID_TERMINATE:
           serviceImpl.terminate((no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt) request,
-              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Bool>) responseObserver);
+              (io.grpc.stub.StreamObserver<no.mechatronics.sfi.fmu_proxy.grpc.Proto.Status>) responseObserver);
           break;
         case METHODID_RESET:
           serviceImpl.reset((no.mechatronics.sfi.fmu_proxy.grpc.Proto.UInt) request,

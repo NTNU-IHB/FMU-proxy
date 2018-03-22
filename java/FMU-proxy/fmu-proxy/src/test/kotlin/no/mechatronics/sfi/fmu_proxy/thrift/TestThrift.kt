@@ -64,7 +64,7 @@ class TestThrift {
 
         client.createInstance().use { fmu ->
 
-           Assert.assertTrue( fmu.init() )
+           Assert.assertTrue( fmu.init() == StatusCode.OK_STATUS )
 
             val dt = 1.0/100
             val start = Instant.now()

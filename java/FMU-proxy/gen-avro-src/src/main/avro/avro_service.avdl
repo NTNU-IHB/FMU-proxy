@@ -74,10 +74,10 @@ protocol AvroFmuService {
   }
 
   record ScalarVariable {
-    int value_reference;
     string name;
-    string description;
+    int value_reference;
     VariableType variable_type;
+    union {null, string} description;
     union {null, Causality} causality;
     union {null, Variability} variability;
     union {null, Initial} initial;
@@ -149,9 +149,9 @@ protocol AvroFmuService {
   double getCurrentTime(int fmu_id) throws NoSuchFmuException;
   boolean isTerminated(int fmu_id) throws NoSuchFmuException;
 
-  boolean init(int fmu_id, double start, double stop) throws NoSuchFmuException;
+  StatusCode init(int fmu_id, double start, double stop) throws NoSuchFmuException;
   StatusCode step(int fmu_id, double step_size) throws NoSuchFmuException;
-  boolean terminate(int fmu_id) throws NoSuchFmuException;
-  boolean reset(int fmu_id) throws NoSuchFmuException;
+  StatusCode terminate(int fmu_id) throws NoSuchFmuException;
+  StatusCode reset(int fmu_id) throws NoSuchFmuException;
 
 }

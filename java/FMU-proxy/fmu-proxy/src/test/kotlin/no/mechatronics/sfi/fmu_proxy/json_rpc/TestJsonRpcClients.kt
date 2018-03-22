@@ -7,12 +7,16 @@ import info.laht.yaj_rpc.net.http.RpcHttpClient
 import info.laht.yaj_rpc.net.tcp.RpcTcpClient
 import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
 import info.laht.yaj_rpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmu_proxy.FmuProxy
 import no.mechatronics.sfi.fmu_proxy.FmuProxyBuilder
-import org.junit.*
+import org.junit.AfterClass
+import org.junit.Assert
+import org.junit.BeforeClass
+import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -79,13 +83,13 @@ class TestJsonRpcClients {
             Assert.assertEquals(modelDescription.modelName, fmu.modelName)
             Assert.assertEquals(modelDescription.guid, fmu.guid)
 
-            Assert.assertTrue(fmu.init())
+            Assert.assertTrue(fmu.init() == FmiStatus.OK)
 
             val dt = 1.0/100
             val start = Instant.now()
             while (fmu.currentTime < 10) {
                 val status = fmu.step(dt)
-                Assert.assertTrue(status)
+                Assert.assertTrue(status == FmiStatus.OK)
 
                // val read = fmu.readReal("wire.v").value
                 //LOG.info("wire.v=${read}")
@@ -129,26 +133,28 @@ class TestJsonRpcClients {
                     .getResult(Double::class.java)!!
 
 
-        fun init(): Boolean {
+        fun init(): FmiStatus {
             return client.write("FmuService.init", RpcParams.listParams(fmuId))
-                    .getResult(Boolean::class.java)!!
+                    .getResult(FmiStatus::class.java)!!
         }
 
-        fun step(dt: Double): Boolean {
+        fun step(dt: Double): FmiStatus {
             return client.write("FmuService.step", RpcParams.listParams(fmuId, dt))
-                    .getResult(Boolean::class.java)!!
+                    .getResult(FmiStatus::class.java)!!
         }
 
-        fun reset(): Boolean {
+        fun reset(): FmiStatus {
             return client.write("FmuService.reset", RpcParams.listParams(fmuId))
-                    .getResult(Boolean::class.java)!!
+                    .getResult(FmiStatus::class.java)!!
         }
 
-        fun terminate() {
+        fun terminate(): FmiStatus? {
             if (!terminateSent) {
                 terminateSent = true
-                client.write("FmuService.terminate", RpcParams.listParams(fmuId))
+                return client.write("FmuService.terminate", RpcParams.listParams(fmuId))
+                        .getResult(FmiStatus::class.java)!!
             }
+            return null
         }
 
         fun readReal(name: String): FmuRealRead {

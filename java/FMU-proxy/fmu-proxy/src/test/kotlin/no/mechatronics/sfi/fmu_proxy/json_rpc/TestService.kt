@@ -1,28 +1,40 @@
 package no.mechatronics.sfi.fmu_proxy.json_rpc
 
-import info.laht.yaj_rpc.*
+import info.laht.yaj_rpc.RpcHandler
+import info.laht.yaj_rpc.RpcParams
+import info.laht.yaj_rpc.RpcRequestOut
+import info.laht.yaj_rpc.RpcResponse
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import org.junit.Assert
-import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 
 class TestService {
 
-    lateinit var handler: RpcHandler
-    lateinit var fmuFile: FmuFile
+   companion object {
+       
+       val LOG: Logger = LoggerFactory.getLogger(TestService::class.java)
 
-    @Before
-    fun setup() {
-        val url = javaClass.classLoader
-                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-        Assert.assertNotNull(url)
-        fmuFile = FmuFile.from(File(url.file))
-        handler = RpcHandler(RpcFmuService(fmuFile))
+       lateinit var handler: RpcHandler
+       lateinit var fmuFile: FmuFile
 
-    }
+       @JvmStatic
+       @BeforeClass
+       fun setup() {
+           val url = javaClass.classLoader
+                   .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
+           Assert.assertNotNull(url)
+           fmuFile = FmuFile.from(File(url.file))
+           handler = RpcHandler(RpcFmuService(fmuFile))
+       }
+       
+   }
 
     @Test
     fun testModelName() {
@@ -38,7 +50,7 @@ class TestService {
             RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)
         }
 
-        println("modelName=$modelName")
+        LOG.info("modelName=$modelName")
         Assert.assertEquals(fmuFile.modelDescription.modelName, modelName)
 
     }
@@ -57,7 +69,7 @@ class TestService {
             RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)
         }
 
-        println("guid=$guid")
+        LOG.info("guid=$guid")
         Assert.assertEquals(fmuFile.modelDescription.guid, guid)
 
     }
@@ -93,9 +105,9 @@ class TestService {
                 methodName = "FmuService.init",
                 params = RpcParams.listParams(fmuId)
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
-                .getResult(Boolean::class.java)!!
+                .getResult(FmiStatus::class.java)!!
 
-        Assert.assertTrue(init)
+        Assert.assertTrue(init == FmiStatus.OK)
 
         val currentTimeMsg = RpcRequestOut(
                 methodName = "FmuService.getCurrentTime",
@@ -107,7 +119,7 @@ class TestService {
                 .getResult(Double::class.java)!!
 
         var currentTime = currentTime()
-        println("currentTime=$currentTime")
+        LOG.info("currentTime=$currentTime")
         Assert.assertEquals(0.0, currentTime, 0.0)
 
         val controller_K = RpcRequestOut(
@@ -116,7 +128,7 @@ class TestService {
         ).toJson().let{ RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(FmuRealRead::class.java)!!
 
-        println("Controller.K=$controller_K")
+        LOG.info("Controller.K=$controller_K")
         Assert.assertEquals(10.0, controller_K.value, 0.0)
 
         val stepMsg = RpcRequestOut(
@@ -127,10 +139,10 @@ class TestService {
         for (i in 0 until 5) {
             val status = stepMsg
                     .let { RpcResponse.fromJson(handler.handle(it)!!) }
-                    .getResult(Boolean::class.java)!!
-            Assert.assertTrue(status)
+                    .getResult(FmiStatus::class.java)!!
+            Assert.assertTrue(status == FmiStatus.OK)
 
-            println("currentTime=${currentTime()}")
+            LOG.info("currentTime=${currentTime()}")
 
         }
 
@@ -139,8 +151,9 @@ class TestService {
                 params = RpcParams.listParams(fmuId)
         ).toJson()
 
-        val status = RpcResponse.fromJson(handler.handle(terminateMsg)!!).getResult(Boolean::class.java)!!
-        Assert.assertTrue(status)
+        val status = RpcResponse.fromJson(handler.handle(terminateMsg)!!)
+                .getResult(FmiStatus::class.java)!!
+        Assert.assertTrue(status == FmiStatus.OK)
 
     }
 

@@ -16,8 +16,9 @@ import no.mechatronics.sfi.fmu_proxy.avro.ScalarVariable
 internal fun TypedScalarVariable<*>.avroType(): ScalarVariable {
     return no.mechatronics.sfi.fmu_proxy.avro.ScalarVariable().also { v ->
         v.name = name
-        v.description = description
+        v.valueReference = valueReference
         v.variableType = avroVariableType()
+        description?.also { v.description = it }
         start?.also { v.start = AnyPrimitive().apply { value = it } }
         causality?.also { v.causality = it.avroType() }
         variability?.also { v.variability = it.avroType() }
