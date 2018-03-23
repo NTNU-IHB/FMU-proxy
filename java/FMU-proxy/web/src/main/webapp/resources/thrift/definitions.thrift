@@ -60,7 +60,7 @@ struct ScalarVariable {
     2: string name,
     3: string description,
     4: VariableType variable_type,
-    5: Initial inital,
+    5: Initial initial,
     6: Causality causality,
     7: Variability variability,
     8: optional AnyPrimitive start
@@ -111,8 +111,6 @@ struct BoolRead {
     1: bool value,
     2: StatusCode code
 }
-
-
 
 enum VariableType {
     INTEGER_VARIABLE = 0,

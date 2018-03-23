@@ -30,7 +30,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import no.mechatronics.sfi.fmu_proxy.grpc.*
+import no.mechatronics.sfi.fmu_proxy.grpc.Proto
 
 internal fun FmiStatus.protoType(): Proto.StatusCode {
     return when (this) {
@@ -48,9 +48,9 @@ internal fun SimpleModelDescription.protoType(): Proto.ModelDescription {
 
     return Proto.ModelDescription.newBuilder().also { builder ->
 
-        builder.fmiVersion = fmiVersion
         builder.guid = guid
         builder.modelName = modelName
+        builder.fmiVersion = fmiVersion
         builder.modelStructure = modelStructure.protoType()
         builder.addAllModelVariables(modelVariables.map { it.protoType() })
         license?.also { builder.license = it }
@@ -69,8 +69,8 @@ internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
         builder.name = name
         builder.valueReference = valueReference
         builder.variableType = protoVariableType()
-        builder.description = description
 
+        description?.also { builder.description = it }
         start?.also { builder.start =protoStartType() }
         causality?.also { builder.causality = it.protoType() }
         variability?.also { builder.variability = it.protoType() }

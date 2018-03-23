@@ -2,7 +2,6 @@ package no.mechatronics.sfi.fmu_proxy.avro
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-import no.mechatronics.sfi.grpc_fmu.avro.AvroFmuClient
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -67,7 +66,7 @@ class TestAvro {
 
         client.createInstance().use { fmu ->
 
-            Assert.assertTrue( fmu.init() )
+            Assert.assertTrue( fmu.init() == StatusCode.OK_STATUS )
 
             val dt = 1.0/100
             val start = Instant.now()

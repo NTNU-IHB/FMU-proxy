@@ -31,7 +31,7 @@ if fmu.init():
     reader = fmu.get_reader("PistonDisplacement")
     print("PistonDisplacement={}".format(reader.read_real().value))
 
-print("Terminated with success: {}".format(fmu.terminate()))
+print("Terminated with success: {}".format(fmu.terminate().code == 0))
 
 
 

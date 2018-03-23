@@ -3,7 +3,6 @@ package no.mechatronics.sfi.fmu_proxy.avro.services
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.avro.*
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
-import no.mechatronics.sfi.fmu_proxy.thrift.MidpointIntegrator
 import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,17 +23,6 @@ class AvroFmuServiceImpl(
        return Fmus.put(fmuFile.asCoSimulationFmu().newInstance())
     }
 
-    override fun terminate(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
-            it.terminate()
-        } ?: throw NoSuchFmuException()
-    }
-
-    override fun reset(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
-            it.reset()
-        } ?: throw NoSuchFmuException()
-    }
 
     override fun createInstanceFromME(i: Integrator): Int {
 
@@ -74,11 +62,32 @@ class AvroFmuServiceImpl(
         return fmuFile.modelDescriptionXml
     }
 
-    override fun init(fmu_id: Int, start: Double, stop: Double): Boolean {
+    override fun init(fmu_id: Int, start: Double, stop: Double): StatusCode {
         return Fmus.get(fmu_id)?.let {
-            it.init(start, stop)
+            it.init(start, stop).avroType()
         } ?: throw NoSuchFmuException()
     }
+
+    override fun step(fmu_id: Int, step_size: Double): StatusCode {
+        return Fmus.get(fmu_id)?.let {
+            it.doStep(step_size)
+            it.lastStatus.avroType()
+        } ?: throw NoSuchFmuException()
+    }
+
+
+    override fun terminate(fmu_id: Int): StatusCode {
+        return Fmus.get(fmu_id)?.let {
+            it.terminate().avroType()
+        } ?: throw NoSuchFmuException()
+    }
+
+    override fun reset(fmu_id: Int): StatusCode {
+        return Fmus.get(fmu_id)?.let {
+            it.reset().avroType()
+        } ?: throw NoSuchFmuException()
+    }
+
 
     override fun canGetAndSetFMUstate(fmu_id: Int): Boolean {
         return Fmus.get(fmu_id)?.let {
@@ -89,13 +98,6 @@ class AvroFmuServiceImpl(
 
     override fun getModelDescription(): ModelDescription {
         return fmuFile.modelDescription.avroType()
-    }
-
-    override fun step(fmu_id: Int, step_size: Double): StatusCode {
-        return Fmus.get(fmu_id)?.let {
-            it.doStep(step_size)
-            it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException()
     }
 
     private companion object {

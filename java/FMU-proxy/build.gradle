@@ -11,9 +11,8 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '4.5'
+    gradleVersion = '4.6'
 }
-
 
 subprojects {
 
@@ -27,22 +26,33 @@ subprojects {
         mavenCentral()
     }
 
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+
     dependencies {
 
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
         testImplementation group: 'junit', name: 'junit', version: '4.12'
 		
     }
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
     }
+
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
     }
 
 }

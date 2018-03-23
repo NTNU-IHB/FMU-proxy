@@ -1,4 +1,36 @@
 
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.0"
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.14.0"
+    }
+}
+
+apply plugin: "com.commercehub.gradle.plugin.avro"
+apply plugin: 'com.google.protobuf'
+apply plugin: "org.jruyi.thrift"
 
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -6,23 +38,47 @@ apply plugin: 'signing'
 group = 'no.mechatronics.sfi.fmu_proxy'
 version = '0.1-SNAPSHOT'
 
-repositories {
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-}
+sourceCompatibility = 1.8
 
 dependencies {
+    compile group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
 
-    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
-    implementation group: 'info.picocli', name: 'picocli', version: '2.3.0'
-    implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
+    compile group: 'io.grpc', name: 'grpc-stub', version: '1.10.0'
+    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.10.0'
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
-    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+    compile group: 'org.apache.avro', name: 'avro', version: '1.8.2'
+    compile group: 'org.apache.avro', name: 'avro-ipc', version: '1.8.2'
+}
 
-    testImplementation project(':fmu-proxy-clients')
+avro {
+    fieldVisibility = "PRIVATE"
+}
 
+protobuf {
+    generatedFilesBaseDir = "$projectDir/build"
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.5.1'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.10.0'
+        }
+    }
+    generateProtoTasks {
+
+        ofSourceSet('main')*.plugins {
+            grpc {
+                outputSubDir = 'java'
+            }
+        }
+    }
+
+}
+
+compileThrift {
+    thriftExecutable "$projectDir/src/main/thrift/thrift-0.11.0.exe"
+    createGenFolder false
+    generator 'java', 'private-members'
 }
 
 signing {
@@ -46,7 +102,7 @@ uploadArchives {
                 name archivesBaseName
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'A Java server, written in Kotlin, for exposing FMUs over the network '
+                description 'Generated thrift sources for use by FMU-proxy'
                 url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
 
                 scm {

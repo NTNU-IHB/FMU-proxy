@@ -98,7 +98,7 @@ class FmuInstance:
         request.fmu_id = self.fmu_id
         request.start = start
         request.stop = stop
-        return self.stub.Init(request).value
+        return self.stub.Init(request)
 
     def step(self, step_size) -> Status:
         request = StepRequest()
@@ -109,7 +109,7 @@ class FmuInstance:
     def terminate(self) -> bool:
         request = UInt()
         request.value = self.fmu_id
-        return self.stub.Terminate(request).value
+        return self.stub.Terminate(request)
 
     def reset(self) -> Status:
         request = UInt()

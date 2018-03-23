@@ -1,13 +1,10 @@
 package no.mechatronics.sfi.fmu_proxy
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import org.junit.Assert
-import org.junit.BeforeClass
+import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
 import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
@@ -32,8 +29,7 @@ class TestCommandLineParser {
                 FmuFile.from(file)
             } else {
                 try {
-                    val url = URL(fmuPath)
-                    FmuFile.from(url)
+                    FmuFile.from(URL(fmuPath))
                 } catch (ex: MalformedURLException) {
                     LOG.error("Interpreted fmuPath as an URL, but an MalformedURLException was thrown", ex)
                     null
@@ -41,7 +37,7 @@ class TestCommandLineParser {
             }
 
         }?.use {
-
+            //closing
         }
 
     }
@@ -61,7 +57,6 @@ class TestCommandLineParser {
 
         var args2 = arrayOf(
                 "--remote", "127.0.0.1:8888",
-                "-grpc", "8000",
                 "-thrift", "8001",
                 "-jsonrpc/http", "8002",
                 "-jsonrpc/ws", "8003",
@@ -75,7 +70,7 @@ class TestCommandLineParser {
         CommandLineParser.parse(args1)?.use { proxy ->
 
             proxy.start()
-            println(proxy.networkInfo)
+            LOG.info("${proxy.networkInfo}")
 
         }
 
@@ -83,7 +78,7 @@ class TestCommandLineParser {
         CommandLineParser.parse(args2)?.use { proxy ->
 
             proxy.start()
-            println(proxy.networkInfo)
+            LOG.info("${proxy.networkInfo}")
 
         }
 

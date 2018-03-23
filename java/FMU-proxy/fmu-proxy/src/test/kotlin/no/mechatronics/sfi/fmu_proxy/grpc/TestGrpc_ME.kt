@@ -2,8 +2,10 @@ package no.mechatronics.sfi.fmu_proxy.grpc
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
-
-import org.junit.*
+import org.junit.AfterClass
+import org.junit.Assert
+import org.junit.BeforeClass
+import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -64,7 +66,7 @@ class TestGrpc_ME {
 
         client.createInstance(integrator).use { fmu ->
 
-            Assert.assertTrue(fmu.init())
+            Assert.assertTrue(fmu.init().code == Proto.StatusCode.OK_STATUS)
 
             fmu.read("h").asReal().also {
                 LOG.info("h=${it.value}")

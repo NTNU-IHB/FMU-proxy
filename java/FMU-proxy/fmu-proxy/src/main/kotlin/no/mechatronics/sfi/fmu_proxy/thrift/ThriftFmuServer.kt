@@ -26,9 +26,9 @@ package no.mechatronics.sfi.fmu_proxy.thrift
 
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
-import no.mechatronics.sfi.fmu_proxy.thrift.services.ThriftFmuServiceHandler
-import org.apache.thrift.server.TSimpleServer
+import no.mechatronics.sfi.fmu_proxy.thrift.services.ThriftFmuServiceImpl
 import org.apache.thrift.server.TServer
+import org.apache.thrift.server.TSimpleServer
 import org.apache.thrift.transport.TServerSocket
 import org.apache.thrift.transport.TServerTransport
 import org.slf4j.Logger
@@ -45,7 +45,7 @@ class ThriftFmuServer(
     private var server: TServer? = null
     private var serverTransport: TServerTransport? = null
 
-    private val handler = ThriftFmuServiceHandler(fmuFile)
+    private val handler = ThriftFmuServiceImpl(fmuFile)
     private val processor = FmuService.Processor(handler)
 
     val isRunning: Boolean

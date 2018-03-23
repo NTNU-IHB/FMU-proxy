@@ -31,6 +31,8 @@ import no.mechatronics.sfi.fmu_proxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmu_proxy.net.NetworkInfo
 import no.mechatronics.sfi.fmu_proxy.net.SimpleSocketAddress
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -96,7 +98,9 @@ class FmuProxy(
     fun stop() {
         if (hasStarted) {
             beat?.stop()
-            servers.forEach { it.key.stop() }
+            servers.forEach {
+                it.key.stop()
+            }
         }
     }
 
@@ -113,6 +117,10 @@ class FmuProxy(
 
     fun getPortFor(server: Class<out FmuProxyServer>): Int? {
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
+    }
+
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
     }
 
 }

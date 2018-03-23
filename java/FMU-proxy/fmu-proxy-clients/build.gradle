@@ -1,5 +1,4 @@
 
-
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -13,16 +12,24 @@ repositories {
 }
 
 dependencies {
-
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
-    implementation group: 'info.picocli', name: 'picocli', version: '2.3.0'
     implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
+    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+}
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
-    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
 
-    testImplementation project(':fmu-proxy-clients')
+task javadocJar (type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
 
+artifacts {
+    archives javadocJar, sourcesJar
 }
 
 signing {
@@ -46,7 +53,7 @@ uploadArchives {
                 name archivesBaseName
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'A Java server, written in Kotlin, for exposing FMUs over the network '
+                description 'A collection of client for talking to FMU-proxy servers'
                 url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
 
                 scm {

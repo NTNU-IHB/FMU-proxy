@@ -22,7 +22,6 @@ buildscript {
 apply plugin: 'com.google.protobuf'
 apply plugin: 'kotlin'
 
-
 wrapper {
     gradleVersion = '4.5'
 }
@@ -34,7 +33,7 @@ configurations.all {
 repositories {
     mavenCentral()
     maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/" //fmi-import
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
 
