@@ -8,6 +8,7 @@ import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmu_proxy.json_rpc.service.RpcFmuService
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
@@ -47,7 +48,8 @@ class TestService {
             "params": []
         }
         """.let {
-            RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)
+            RpcResponse.fromJson(handler.handle(it)!!)
+                    .getResult(String::class.java)
         }
 
         LOG.info("modelName=$modelName")
@@ -133,7 +135,7 @@ class TestService {
 
         val stepMsg = RpcRequestOut(
                 methodName = "FmuService.step",
-                params = RpcParams.listParams(fmuId, 1E-3)
+                params = RpcParams.mapParams("fmuId" to fmuId, "stepSize" to  1E-3)
         ).toJson()
 
         for (i in 0 until 5) {

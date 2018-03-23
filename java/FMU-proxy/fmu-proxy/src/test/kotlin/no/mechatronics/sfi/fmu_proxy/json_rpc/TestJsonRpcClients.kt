@@ -10,6 +10,7 @@ import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmu_proxy.FmuProxy
 import no.mechatronics.sfi.fmu_proxy.FmuProxyBuilder
+import no.mechatronics.sfi.fmu_proxy.json_rpc.service.RpcFmuService
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass

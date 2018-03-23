@@ -30,8 +30,11 @@ import no.mechatronics.sfi.fmu_proxy.FmuProxy
 import no.mechatronics.sfi.fmu_proxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
-import no.mechatronics.sfi.fmu_proxy.json_rpc.*
+import no.mechatronics.sfi.fmu_proxy.json_rpc.FmuProxyJsonHttpServer
+import no.mechatronics.sfi.fmu_proxy.json_rpc.FmuProxyJsonTcpServer
+import no.mechatronics.sfi.fmu_proxy.json_rpc.FmuProxyJsonWsServer
+import no.mechatronics.sfi.fmu_proxy.json_rpc.FmuProxyJsonZmqServer
+import no.mechatronics.sfi.fmu_proxy.json_rpc.service.RpcFmuService
 import no.mechatronics.sfi.fmu_proxy.net.SimpleSocketAddress
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
 import org.slf4j.Logger
@@ -39,7 +42,6 @@ import org.slf4j.LoggerFactory
 import picocli.CommandLine
 import java.io.File
 import java.net.MalformedURLException
-import java.net.URI
 import java.net.URL
 import java.util.concurrent.Callable
 

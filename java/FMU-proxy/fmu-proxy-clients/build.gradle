@@ -15,10 +15,7 @@ dependencies {
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
     implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
-
-    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-proto-src', version: '0.1-SNAPSHOT'
-    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-avro-src', version: '0.1-SNAPSHOT'
-    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT'
+    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {

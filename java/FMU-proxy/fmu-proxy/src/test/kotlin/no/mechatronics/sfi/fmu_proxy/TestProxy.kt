@@ -13,6 +13,7 @@ import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.Proto
 import no.mechatronics.sfi.fmu_proxy.json_rpc.*
+import no.mechatronics.sfi.fmu_proxy.json_rpc.service.RpcFmuService
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmu_proxy.thrift.StatusCode
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuClient
