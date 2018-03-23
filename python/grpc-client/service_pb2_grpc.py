@@ -63,7 +63,7 @@ class FmuServiceStub(object):
     self.Init = channel.unary_unary(
         '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Init',
         request_serializer=definitions__pb2.InitRequest.SerializeToString,
-        response_deserializer=definitions__pb2.Bool.FromString,
+        response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Step = channel.unary_unary(
         '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Step',
@@ -73,7 +73,7 @@ class FmuServiceStub(object):
     self.Terminate = channel.unary_unary(
         '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Terminate',
         request_serializer=definitions__pb2.UInt.SerializeToString,
-        response_deserializer=definitions__pb2.Bool.FromString,
+        response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Reset = channel.unary_unary(
         '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Reset',
@@ -421,7 +421,7 @@ def add_FmuServiceServicer_to_server(servicer, server):
       'Init': grpc.unary_unary_rpc_method_handler(
           servicer.Init,
           request_deserializer=definitions__pb2.InitRequest.FromString,
-          response_serializer=definitions__pb2.Bool.SerializeToString,
+          response_serializer=definitions__pb2.Status.SerializeToString,
       ),
       'Step': grpc.unary_unary_rpc_method_handler(
           servicer.Step,
@@ -431,7 +431,7 @@ def add_FmuServiceServicer_to_server(servicer, server):
       'Terminate': grpc.unary_unary_rpc_method_handler(
           servicer.Terminate,
           request_deserializer=definitions__pb2.UInt.FromString,
-          response_serializer=definitions__pb2.Bool.SerializeToString,
+          response_serializer=definitions__pb2.Status.SerializeToString,
       ),
       'Reset': grpc.unary_unary_rpc_method_handler(
           servicer.Reset,
