@@ -11,12 +11,14 @@ repositories {
     }
 }
 
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
 dependencies {
+    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
+    implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
+
+    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-proto-src', version: '0.1-SNAPSHOT'
     implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-avro-src', version: '0.1-SNAPSHOT'
+    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-thrift-src', version: '0.1-SNAPSHOT'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
@@ -54,7 +56,7 @@ uploadArchives {
                 name archivesBaseName
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'A client for talking to FMU-proxy Avro servers'
+                description 'A collection of client for talking to FMU-proxy servers'
                 url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
 
                 scm {

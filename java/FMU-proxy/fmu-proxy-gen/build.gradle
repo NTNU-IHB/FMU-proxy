@@ -12,8 +12,6 @@ distributions {
 
 
 def snapshot = false
-
-def fmi_md_version = snapshot ? '0.5.8-SNAPSHOT' : '0.5.7'
 def fmi_import_version = snapshot ? '0.2.8-SNAPSHOT' : '0.2.7'
 
 repositories {
@@ -27,13 +25,12 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
     implementation group: 'info.picocli', name: 'picocli', version: '2.3.0'
     implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
-    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-md', version: fmi_md_version, changing: snapshot
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
     testImplementation group: 'io.grpc', name: 'grpc-stub', version: '1.10.0'
     testImplementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
     testImplementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.10.0'
 
     testImplementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
-    testImplementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
 }

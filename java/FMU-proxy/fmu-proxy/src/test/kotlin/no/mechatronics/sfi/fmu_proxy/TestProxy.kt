@@ -7,6 +7,7 @@ import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
 import info.laht.yaj_rpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
+import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
@@ -16,7 +17,6 @@ import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmu_proxy.thrift.StatusCode
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmu_proxy.thrift.ThriftFmuServer
-import no.mechatronics.sfi.grpc_fmu.avro.AvroFmuClient
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -40,7 +40,7 @@ class TestProxy {
         lateinit var proxy: FmuProxy
 
         lateinit var grpcServer: FmuProxyServer
-        lateinit var avrosServer: FmuProxyServer
+        lateinit var avroServer: FmuProxyServer
         lateinit var thriftServer: FmuProxyServer
 
         const val httpPort: Int = 8003
@@ -59,14 +59,14 @@ class TestProxy {
 
 
             grpcServer = GrpcFmuServer(fmuFile)
-            avrosServer = AvroFmuServer(fmuFile)
+            avroServer = AvroFmuServer(fmuFile)
             thriftServer = ThriftFmuServer(fmuFile)
 
 
             proxy = FmuProxyBuilder(fmuFile).apply {
                 addServer(grpcServer)
                 addServer(thriftServer)
-                addServer(avrosServer)
+                addServer(avroServer)
                 RpcHandler(RpcFmuService(fmuFile)).also { handler ->
                     addServer(FmuProxyJsonHttpServer(handler), httpPort)
                     addServer(FmuProxyJsonWsServer(handler), wsPort)
@@ -100,7 +100,7 @@ class TestProxy {
     @Test
     fun getServer() {
         Assert.assertEquals(grpcServer, proxy.getServer(GrpcFmuServer::class.java))
-        Assert.assertEquals(avrosServer, proxy.getServer(AvroFmuServer::class.java))
+        Assert.assertEquals(avroServer, proxy.getServer(AvroFmuServer::class.java))
         Assert.assertEquals(thriftServer, proxy.getServer(ThriftFmuServer::class.java))
     }
 
@@ -211,7 +211,7 @@ class TestProxy {
                 RpcWebSocketClient(host, proxy.getPortFor(FmuProxyJsonWsServer::class.java)!!),
                 RpcTcpClient(host, proxy.getPortFor(FmuProxyJsonTcpServer::class.java)!!),
                 RpcZmqClient(host, proxy.getPortFor(FmuProxyJsonZmqServer::class.java)!!)
-        ).map { TestJsonRpcClients.FmuRpcClient(it) }
+        ).map { JsonRpcFmuClient(it) }
 
 
         val md = fmuFile.modelDescription

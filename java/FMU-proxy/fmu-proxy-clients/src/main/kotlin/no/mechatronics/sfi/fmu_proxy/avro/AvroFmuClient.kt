@@ -22,11 +22,8 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.grpc_fmu.avro
+package no.mechatronics.sfi.fmu_proxy.avro
 
-import no.mechatronics.sfi.fmu_proxy.avro.AvroFmuService
-import no.mechatronics.sfi.fmu_proxy.avro.Integrator
-import no.mechatronics.sfi.fmu_proxy.avro.StatusCode
 import org.apache.avro.ipc.NettyTransceiver
 import org.apache.avro.ipc.Transceiver
 import org.apache.avro.ipc.specific.SpecificRequestor

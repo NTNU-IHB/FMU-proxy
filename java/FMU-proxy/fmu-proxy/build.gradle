@@ -24,9 +24,7 @@ dependencies {
     compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-proto-src', version: '0.1-SNAPSHOT', changing: true
     compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'gen-avro-src', version: '0.1-SNAPSHOT', changing: true
 
-    testImplementation project(':grpc-client')
-    testImplementation project(':avro-client')
-    testImplementation project(':thrift-client')
+    testImplementation project(':fmu-proxy-clients')
 
 }
 
