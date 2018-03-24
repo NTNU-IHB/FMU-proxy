@@ -36,8 +36,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.nio.file.Files
 import java.nio.charset.Charset
+import java.nio.file.Files
 
 
 const val PACKAGE_NAME = "no.mechatronics.sfi.fmu_proxy"
@@ -58,6 +58,7 @@ class ExecutableGenerator(
     @JvmOverloads
     fun generate(outDir: File? = null) {
 
+        @Suppress("NAME_SHADOWING")
         val outDir: File = outDir ?: File(defaultOut)
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)

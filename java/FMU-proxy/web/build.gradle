@@ -1,15 +1,11 @@
 
-def snapshot = true
-def fmi_md_version = snapshot ? '0.2.8-SNAPSHOT' : '0.2.7'
 
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 repositories {
-    if (snapshot) {
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
 
@@ -27,7 +23,9 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
     compile group: 'org.zeromq', name: 'jeromq', version: '0.4.3'
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_md_version, changing: snapshot
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.3.1-SNAPSHOT', changing: true
+
+    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
 }
 
@@ -36,7 +34,7 @@ gretty {
     httpEnabled = true
     httpPort = 8080
     contextPath = "/fmu-proxy"
-    logDir = projectDir
+    logDir = "$projectDir/logs"
 }
 
 task copyThrift(type: Copy) {

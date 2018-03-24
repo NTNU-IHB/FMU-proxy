@@ -18,8 +18,8 @@ dependencies {
     implementation group: 'info.picocli', name: 'picocli', version: '2.3.0'
     implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
-    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+    api group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.3.1-SNAPSHOT', changing: true
+    api group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
     testImplementation project(':fmu-proxy-clients')
 

@@ -26,8 +26,8 @@ package no.mechatronics.sfi.fmu_proxy.json_rpc.service
 
 import info.laht.yaj_rpc.RpcMethod
 import info.laht.yaj_rpc.RpcService
-import no.mechatronics.sfi.fmi4j.FmiSimulation
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.fmu.FmiSimulation
 import no.mechatronics.sfi.fmi4j.fmu.FmuFile
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
 import no.mechatronics.sfi.fmu_proxy.fmu.Fmus

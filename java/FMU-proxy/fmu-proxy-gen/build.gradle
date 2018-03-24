@@ -11,8 +11,8 @@ distributions {
 }
 
 
-def snapshot = false
-def fmi_import_version = snapshot ? '0.2.8-SNAPSHOT' : '0.2.7'
+def snapshot = true
+def fmi_import_version = snapshot ? '0.3.1-SNAPSHOT' : '0.3'
 
 repositories {
     maven {

@@ -52,8 +52,7 @@ class TestCommandLineParser {
 
         var args1 = arrayOf(
                 "--remote", "127.0.0.1:8888",
-                "-grpc", "8000"
-        )
+                "-grpc", "8000")
 
         var args2 = arrayOf(
                 "--remote", "127.0.0.1:8888",
@@ -63,8 +62,6 @@ class TestCommandLineParser {
                 "-jsonrpc/tcp", "8004",
                 "-jsonrpc/zmq", "8005"
         )
-
-
 
         args1 += arrayOf("-fmu", "$fmuPath")
         CommandLineParser.parse(args1)?.use { proxy ->

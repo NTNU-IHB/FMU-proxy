@@ -45,6 +45,7 @@ generated/
 out/
 
 *.log
+**/logs/**
 
 __pycache__
 

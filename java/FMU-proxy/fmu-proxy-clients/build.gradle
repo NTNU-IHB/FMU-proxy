@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
     implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
-    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.2.8-SNAPSHOT', changing: true
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: '0.3.1-SNAPSHOT', changing: true
     implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 }
 

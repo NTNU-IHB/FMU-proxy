@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 class AvroFmuServiceImpl(
         private val fmuFile: FmuFile
 ): AvroFmuService {
+
     override fun getCurrentTime(fmu_id: Int): Double {
         return Fmus.get(fmu_id)?.let {
             it.currentTime
