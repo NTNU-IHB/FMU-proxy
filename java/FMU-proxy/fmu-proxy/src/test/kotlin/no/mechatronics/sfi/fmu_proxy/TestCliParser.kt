@@ -10,13 +10,13 @@ import java.net.MalformedURLException
 import java.net.URL
 
 
-class TestCommandLineParser {
+class TestCliParser {
 
     private val fmuPath = "jar:file:../../../test/HydraulicCylinder.jar!/HydraulicCylinder.fmu"
 
     companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(TestCommandLineParser::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
 
     }
 

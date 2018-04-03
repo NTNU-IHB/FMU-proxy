@@ -65,7 +65,8 @@ class AvroFmuServiceImpl(
 
     override fun init(fmu_id: Int, start: Double, stop: Double): StatusCode {
         return Fmus.get(fmu_id)?.let {
-            it.init(start, stop).avroType()
+            it.init(start, stop)
+            it.lastStatus.avroType()
         } ?: throw NoSuchFmuException()
     }
 
@@ -79,13 +80,15 @@ class AvroFmuServiceImpl(
 
     override fun terminate(fmu_id: Int): StatusCode {
         return Fmus.get(fmu_id)?.let {
-            it.terminate().avroType()
+            it.terminate()
+            it.lastStatus.avroType()
         } ?: throw NoSuchFmuException()
     }
 
     override fun reset(fmu_id: Int): StatusCode {
         return Fmus.get(fmu_id)?.let {
-            it.reset().avroType()
+            it.reset()
+            it.lastStatus.avroType()
         } ?: throw NoSuchFmuException()
     }
 

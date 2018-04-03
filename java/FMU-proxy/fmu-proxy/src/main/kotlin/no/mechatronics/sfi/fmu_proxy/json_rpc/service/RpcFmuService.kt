@@ -87,32 +87,50 @@ class RpcFmuService(protected val fmuFile: FmuFile) : RpcService {
 
     @RpcMethod
     fun init(fmuId: Int): FmiStatus {
-        return getFmu(fmuId).init()
+        return getFmu(fmuId).let {
+            it.init()
+            it.lastStatus
+        }
     }
 
     @RpcMethod
     fun init(fmuId: Int, startTime: Double): FmiStatus {
-        return getFmu(fmuId).init(startTime)
+        return getFmu(fmuId).let {
+            it.init(startTime)
+            it.lastStatus
+        }
     }
 
     @RpcMethod
     fun init(fmuId: Int, startTime: Double, stopTime: Double): FmiStatus {
-        return getFmu(fmuId).init(startTime, stopTime)
+        return getFmu(fmuId).let {
+            it.init(startTime, stopTime)
+            it.lastStatus
+        }
     }
 
     @RpcMethod
     fun step(fmuId: Int, stepSize: Double): FmiStatus {
-        return getFmu(fmuId).doStep(stepSize)
+        return getFmu(fmuId).let {
+            it.doStep(stepSize)
+            it.lastStatus
+        }
     }
 
     @RpcMethod
     fun terminate(fmuId: Int): FmiStatus {
-        return getFmu(fmuId).terminate()
+        return getFmu(fmuId).let {
+            it.terminate()
+            it.lastStatus
+        }
     }
 
     @RpcMethod
     fun reset(fmuId: Int): FmiStatus {
-        return getFmu(fmuId).reset()
+        return getFmu(fmuId).let {
+            it.reset()
+            it.lastStatus
+        }
     }
 
     @RpcMethod
