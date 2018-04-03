@@ -29,12 +29,11 @@ import no.mechatronics.sfi.fmu_proxy.PROTO_SRC_OUTPUT_FOLDER
 import no.mechatronics.sfi.fmu_proxy.utils.FileFuture
 import no.mechatronics.sfi.fmu_proxy.utils.getProtoType
 import no.mechatronics.sfi.fmu_proxy.utils.isArray
-
-import java.io.File
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 
 object ProtoGen {
@@ -71,85 +70,8 @@ object ProtoGen {
 
     }
 
-
     private fun convertName(str: String) =
             str.substring(0, 1)
                     .toUpperCase() + str.substring(1)
                     .replace(".", "_")
-
-
 }
-
-
-
-//private const val PROTOC_EXE = "protoc-3.5.1-win32.exe"
-
-///**
-// *
-// * @author Lars Ivar Hatledal
-// */
-//class ProtoCode(
-//         val uniqueService: FileFuture
-//) {
-//
-//    private companion object {
-//        val LOG: Logger = LoggerFactory.getLogger(ProtoCode::class.java)
-//    }
-//
-//    private fun writeToDir(dir: File) {
-//        if (!dir.exists()) {
-//            dir.mkdirs()
-//        }
-//
-//        uniqueService.create(dir)
-//
-//    }
-//
-//    fun compile(baseDir: File, protoOut: String, javaOut: String) : Boolean {
-//
-//        LOG.debug("Compiling proto..")
-//
-//        File(javaOut).apply {
-//            if (!exists()) {
-//                mkdirs()
-//            }
-//        }
-//
-//        writeToDir(File(protoOut))
-//
-//        val cmd = arrayOf(
-//                "${baseDir.absolutePath}/$PROTOC_EXE/",
-//                "--java_out=\"$javaOut\"",
-//                "--grpc-java_out=\"$javaOut\"",
-//                "--proto_path=\"$protoOut\"",
-//                "\"$protoOut/${definitions.name}\"",
-//                "\"$protoOut/${service.name}\"",
-//                "\"$protoOut/${uniqueService.name}\"")
-//
-//        return ProcessBuilder()
-//                .command(*cmd)
-//                .redirectError(ProcessBuilder.Redirect.INHERIT)
-//                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-//                .start()
-//                .waitFor().let { status ->
-//
-//            if (status == 0) {
-//                LOG.debug("Compiling done!")
-//                return true
-//            } else {
-//                LOG.warn("Process exited with status: {}", status)
-//                return false
-//            }
-//
-//        }
-//
-//    }
-//
-//    override fun toString(): String {
-//        return "ProtoCode(definitions=$definitions, service=$service)"
-//    }
-//
-//}
-
-
-

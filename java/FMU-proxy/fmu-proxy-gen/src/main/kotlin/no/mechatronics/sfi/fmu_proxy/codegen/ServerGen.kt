@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmu_proxy.codegen
 
 import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmu_proxy.KOTLIN_SRC_OUTPUT_FOLDER
 import no.mechatronics.sfi.fmu_proxy.PACKAGE_NAME
 import no.mechatronics.sfi.fmu_proxy.utils.FileFuture
@@ -35,6 +36,17 @@ import org.jtwig.JtwigTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+
+
+private val TypedScalarVariable<*>.typeName: String
+    get() = when(this) {
+        is IntegerVariable -> INTEGER_TYPE
+        is RealVariable -> REAL_TYPE
+        is StringVariable -> STRING_TYPE
+        is BooleanVariable -> BOOLEAN_TYPE
+        is EnumerationVariable -> ENUMERATION_TYPE
+        else -> throw IllegalStateException("$this is not a valid variable type..")
+    }
 
 /**
  *

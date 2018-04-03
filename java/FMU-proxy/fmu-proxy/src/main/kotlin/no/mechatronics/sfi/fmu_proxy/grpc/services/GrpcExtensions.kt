@@ -182,7 +182,7 @@ internal fun TypedScalarVariable<*>.protoVariableType(): Proto.VariableType {
         is StringVariable -> Proto.VariableType.STRING_VARIABLE
         is BooleanVariable -> Proto.VariableType.BOOLEAN_VARIABLE
         is EnumerationVariable -> Proto.VariableType.ENUMERATION_VARIABLE
-        else -> throw UnsupportedOperationException("Variable type not supported: $typeName")
+        else -> throw UnsupportedOperationException("$this is not a supported variable type!")
     }
 }
 
