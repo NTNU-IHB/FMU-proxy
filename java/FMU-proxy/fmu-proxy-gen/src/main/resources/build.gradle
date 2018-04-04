@@ -23,7 +23,7 @@ apply plugin: 'com.google.protobuf'
 apply plugin: 'kotlin'
 
 wrapper {
-    gradleVersion = '4.5'
+    gradleVersion = '4.6'
 }
 
 configurations.all {
@@ -62,7 +62,7 @@ protobuf {
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.10.0'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.11.0'
         }
     }
     generateProtoTasks {

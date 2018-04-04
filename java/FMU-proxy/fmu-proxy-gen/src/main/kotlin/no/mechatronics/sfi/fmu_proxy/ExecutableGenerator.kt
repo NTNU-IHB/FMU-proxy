@@ -28,15 +28,12 @@ import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.fmu_proxy.codegen.ProtoGen
 import no.mechatronics.sfi.fmu_proxy.codegen.ServerGen
 import no.mechatronics.sfi.fmu_proxy.utils.copyZippedContent
-import org.apache.commons.io.FileUtils
-import org.apache.commons.io.IOUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.nio.charset.Charset
 import java.nio.file.Files
 
 
@@ -74,7 +71,7 @@ class ExecutableGenerator(
             "build.gradle".also { name ->
                 File(baseFile, name).also { file ->
                     FileOutputStream(file).use { fos ->
-                        IOUtils.copy(javaClass.classLoader.getResourceAsStream(name), fos)
+                        javaClass.classLoader.getResourceAsStream(name).copyTo(fos)
                         LOG.debug("Copied $name to $file")
                     }
                 }
@@ -93,13 +90,13 @@ class ExecutableGenerator(
             }
 
             File(resourcesFile, "modelDescription.xml").also { file ->
-                FileUtils.writeStringToFile(file, modelDescriptionXml, Charset.forName("UTF-8"))
+                file.writeText(modelDescriptionXml)
             }
 
             "log4j.properties".also { name ->
                 File(resourcesFile, name).also { file ->
                     FileOutputStream(file).use { fos ->
-                        IOUtils.copy(javaClass.classLoader.getResourceAsStream(name), fos)
+                        javaClass.classLoader.getResourceAsStream(name).copyTo(fos)
                         LOG.debug("Copied $name to $file")
                     }
                 }
@@ -107,7 +104,7 @@ class ExecutableGenerator(
 
             File(resourcesFile, "${modelDescription.modelName}.fmu").also { file ->
                 FileOutputStream(file).use { fos ->
-                    IOUtils.copy(inputStream, fos)
+                    inputStream.copyTo(fos)
                 }
             }
 
@@ -123,10 +120,12 @@ class ExecutableGenerator(
                     .waitFor().also {status ->
 
                 if (status == 0) {
-                    File(baseFile, "build/libs/${modelDescription.modelName}.jar").apply {
+                    val fileName = "${modelDescription.modelName}.jar"
+                    File(baseFile, "build/libs/$fileName").apply {
                         if (exists()) {
-                            FileUtils.copyFileToDirectory(this, outDir)
-                            LOG.info("Executable '$name' is located in directory: '${outDir.absoluteFile.parentFile.absolutePath}'")
+                            val target = File(outDir, fileName)
+                            copyTo(target, overwrite = true)
+                            LOG.info("Executable '$name' is located here: '$target'")
                         }
                     }
                 } else {

@@ -24,9 +24,7 @@
 
 package no.mechatronics.sfi.fmu_proxy.utils
 
-import org.apache.commons.io.FileUtils
 import java.io.File
-import java.nio.charset.Charset
 
 /**
  *
@@ -43,7 +41,7 @@ class FileFuture (
             if (!dir.exists()) {
                 dir.mkdirs()
             }
-            FileUtils.writeStringToFile(file, text, Charset.forName("UTF-8"))
+            file.writeText(text)
         }
     }
 
