@@ -1,15 +1,15 @@
 
 
+apply plugin: 'kotlin'
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 repositories {
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
 }
 
 dependencies {
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     providedCompile 'javax.servlet:servlet-api:2.2'
     providedCompile 'javax.servlet.jsp:jsp-api:2.2'

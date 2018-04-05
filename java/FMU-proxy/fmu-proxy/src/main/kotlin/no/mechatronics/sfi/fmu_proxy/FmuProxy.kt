@@ -115,6 +115,7 @@ class FmuProxy(
     }
 
     fun <E: FmuProxyServer> getServer(server: Class<E>): E? {
+        @Suppress("UNCHECKED_CAST")
         return servers.keys.firstOrNull{ server.isAssignableFrom(it.javaClass) } as E
     }
 

@@ -14,16 +14,18 @@ wrapper {
     gradleVersion = '4.6'
 }
 
-subprojects {
+subprojects { sub ->
 
-    apply plugin: 'java-library'
-    apply plugin: 'kotlin'
+    apply plugin: 'java'
 
     sourceCompatibility = 1.8
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
     repositories {
         mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
 
     configurations.all {
@@ -32,7 +34,7 @@ subprojects {
 
     dependencies {
 
-        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
 
         implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
         runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
@@ -40,18 +42,20 @@ subprojects {
         testImplementation group: 'junit', name: 'junit', version: '4.12'
 		
     }
-
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            javaParameters = true
+    
+    sub.plugins.withId('kotlin') {
+        compileKotlin {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                javaParameters = true
+            }
         }
-    }
 
-    compileTestKotlin {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            javaParameters = true
+        compileTestKotlin {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                javaParameters = true
+            }
         }
     }
 

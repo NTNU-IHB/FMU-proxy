@@ -80,7 +80,6 @@ class ThriftFmuServiceImpl(
                 DormandPrince54Integrator(it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
             }
             else -> selectDefaultIntegrator()
-
         }
 
         return Fmus.put(fmuFile.asModelExchangeFmu().newInstance(integrator))
