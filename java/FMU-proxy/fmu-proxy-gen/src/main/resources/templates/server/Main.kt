@@ -26,9 +26,10 @@ package no.mechatronics.sfi.fmu_proxy
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.*
-
-{{fmuName}}Service
+import java.util.Scanner
+import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
+import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
+import no.mechatronics.sfi.fmu_proxy.grpc.{{fmuName}}Service
 
 
 /**
