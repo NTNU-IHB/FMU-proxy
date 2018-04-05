@@ -54,7 +54,7 @@ class GrpcFmuClient(
 
     private val channel: ManagedChannel = ManagedChannelBuilder
             .forAddress(host, port)
-            .usePlaintext(true)
+            .usePlaintext()
             .directExecutor()
             .build()
 

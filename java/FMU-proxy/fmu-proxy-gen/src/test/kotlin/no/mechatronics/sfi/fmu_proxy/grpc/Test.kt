@@ -1,22 +1,18 @@
 package no.mechatronics.sfi.fmu_proxy.grpc
 
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmu_proxy.ApplicationStarter
+import no.mechatronics.sfi.fmu_proxy.ExecutableGenerator
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
-
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmu_proxy.ApplicationStarter
-import no.mechatronics.sfi.fmu_proxy.ExecutableGenerator
-import org.apache.commons.io.IOUtils
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import java.nio.charset.Charset
 
 class Test {
 
@@ -32,7 +28,7 @@ class Test {
                 .getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
         Assert.assertNotNull(url)
 
-        val xml = IOUtils.toString(url, Charset.forName("UTF-8"))
+        val xml = url.readText()
         val modelDescription = ModelDescriptionParser.parse(xml)
         generatedJar = File("${modelDescription.modelName}.jar")
 

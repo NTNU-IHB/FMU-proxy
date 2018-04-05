@@ -1,4 +1,5 @@
 
+apply plugin: 'kotlin'
 apply plugin: 'application'
 
 mainClassName = 'no.mechatronics.sfi.fmu_proxy.ApplicationStarter'
@@ -10,27 +11,21 @@ distributions {
     }
 }
 
-
-def snapshot = false
-def fmi_import_version = snapshot ? '0.2.8-SNAPSHOT' : '0.2.7'
-
-repositories {
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-}
+def snapshot = true
+def fmi4j_version = snapshot ? '0.6-SNAPSHOT' : '0.6'
 
 dependencies {
-   
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
-    implementation group: 'info.picocli', name: 'picocli', version: '2.3.0'
-    implementation group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
-    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi_import_version, changing: snapshot
 
-    testImplementation group: 'io.grpc', name: 'grpc-stub', version: '1.10.0'
-    testImplementation group: 'io.grpc', name: 'grpc-netty', version: '1.10.0'
-    testImplementation group: 'io.grpc', name: 'grpc-protobuf', version: '1.10.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    testImplementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
+    compile group: 'info.picocli', name: 'picocli', version: '2.3.0'
+    compile group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
+
+    testCompile group: 'io.grpc', name: 'grpc-stub', version: '1.11.0'
+    testCompile group: 'io.grpc', name: 'grpc-netty', version: '1.11.0'
+    testCompile group: 'io.grpc', name: 'grpc-protobuf', version: '1.11.0'
+
+    testCompile group: 'no.mechatronics.sfi.fmu_proxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
 
 }

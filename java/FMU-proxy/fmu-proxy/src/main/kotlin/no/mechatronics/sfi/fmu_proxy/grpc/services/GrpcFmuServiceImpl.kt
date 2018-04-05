@@ -379,14 +379,14 @@ class GrpcFmuServiceImpl(
             val stop = req.stop
             val hasStart = start > 0
             val hasStop = stop > 0 && stop > start
-            val status = if (hasStart && hasStop) {
+            if (hasStart && hasStop) {
                 init(start, stop)
             } else if (hasStart && hasStop) {
                 init(start)
             } else {
                 init()
             }
-            statusReply(status, responseObserver)
+            statusReply(lastStatus, responseObserver)
         } ?: noSuchFmuReply(fmuId, responseObserver)
 
 
@@ -397,8 +397,8 @@ class GrpcFmuServiceImpl(
         
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
-            doStep(req.stepSize).also { status -> 
-                statusReply(status, responseObserver)
+            doStep(req.stepSize).also {
+                statusReply(lastStatus, responseObserver)
             }
         } ?: noSuchFmuReply(fmuId, responseObserver)
 
@@ -409,7 +409,8 @@ class GrpcFmuServiceImpl(
        
         val fmuId = req.value
         Fmus.remove(fmuId)?.apply {
-            terminate().also { status ->
+            terminate()
+            lastStatus.also { status ->
                 LOG.debug("Terminated fmu with status: $status")
                 statusReply(status, responseObserver)
             }
@@ -421,8 +422,8 @@ class GrpcFmuServiceImpl(
 
         val fmuId = req.value
         Fmus.get(fmuId)?.apply {
-            reset().also { status ->
-                statusReply(status, responseObserver)
+            reset().also {
+                statusReply(lastStatus, responseObserver)
             }
         } ?: noSuchFmuReply(fmuId, responseObserver)
 

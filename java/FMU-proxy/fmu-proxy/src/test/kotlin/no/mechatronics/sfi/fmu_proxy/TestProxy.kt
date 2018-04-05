@@ -35,7 +35,7 @@ class TestProxy {
         val LOG: Logger = LoggerFactory.getLogger(TestProxy::class.java)
 
         const val stepSize: Double = 1.0/100
-        const val stopTime: Double = 10.0
+        const val stopTime: Double = 5.0
 
         lateinit var fmuFile: FmuFile
         lateinit var proxy: FmuProxy
@@ -78,7 +78,7 @@ class TestProxy {
             }.build()
 
             proxy.start()
-            println(proxy.networkInfo)
+            LOG.info("${proxy.networkInfo}")
 
         }
 

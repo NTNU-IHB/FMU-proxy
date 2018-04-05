@@ -25,11 +25,9 @@
 package no.mechatronics.sfi.fmu_proxy.utils
 
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import org.apache.commons.io.IOUtils
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.nio.charset.Charset
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
@@ -63,7 +61,7 @@ internal fun copyZippedContent(baseFile: File, content: InputStream) {
                             file.parentFile.mkdirs()
                         }
                         FileOutputStream(file).use { fis ->
-                            IOUtils.copy(zis, fis)
+                            zis.copyTo(fis)
                         }
                     }
                 }
@@ -73,5 +71,6 @@ internal fun copyZippedContent(baseFile: File, content: InputStream) {
     }
 
 }
+
 
 

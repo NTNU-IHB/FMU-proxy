@@ -101,6 +101,9 @@ class FmuProxy(
             servers.forEach {
                 it.key.stop()
             }
+            LOG.debug("proxy stopped!")
+        } else {
+            LOG.warn("Calling stop, but has not started..")
         }
     }
 
@@ -112,6 +115,7 @@ class FmuProxy(
     }
 
     fun <E: FmuProxyServer> getServer(server: Class<E>): E? {
+        @Suppress("UNCHECKED_CAST")
         return servers.keys.firstOrNull{ server.isAssignableFrom(it.javaClass) } as E
     }
 

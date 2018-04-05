@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmu_proxy.fmu
 
-import no.mechatronics.sfi.fmi4j.FmiSimulation
+import no.mechatronics.sfi.fmi4j.fmu.FmiSimulation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger

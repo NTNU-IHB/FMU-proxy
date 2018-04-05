@@ -26,18 +26,9 @@ package no.mechatronics.sfi.fmu_proxy
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 
-import java.io.File
-import java.nio.file.Files
-import java.util.Scanner
-
-import org.apache.commons.io.FileUtils
-import org.apache.commons.io.IOUtils
-
-import no.mechatronics.sfi.fmi4j.fmu.FmuFile
-import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
-import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmu_proxy.grpc.{{fmuName}}Service
+{{fmuName}}Service
 
 
 /**
@@ -53,8 +44,8 @@ object Main {
 
         val url = Main::class.java.classLoader.getResource("{{fmuName}}.fmu")!!
 
-        val args = args + arrayOf("-fmu", "$url")
-        CommandLineParser.parse(args)?.also { proxy ->
+        val _args = args + arrayOf("-fmu", "$url")
+        CommandLineParser.parse(_args)?.also { proxy ->
 
             proxy.getServer(GrpcFmuServer::class.java)?.addService({{fmuName}}Service())
             proxy.start()

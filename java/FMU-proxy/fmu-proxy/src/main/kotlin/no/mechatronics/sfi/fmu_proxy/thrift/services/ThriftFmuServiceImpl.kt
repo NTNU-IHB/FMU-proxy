@@ -80,7 +80,6 @@ class ThriftFmuServiceImpl(
                 DormandPrince54Integrator(it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
             }
             else -> selectDefaultIntegrator()
-
         }
 
         return Fmus.put(fmuFile.asModelExchangeFmu().newInstance(integrator))
@@ -106,7 +105,8 @@ class ThriftFmuServiceImpl(
 
     override fun init(fmuId: Int, startTime: Double, endTime: Double): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.init().thriftType()
+            it.init()
+            it.lastStatus.thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
@@ -119,13 +119,15 @@ class ThriftFmuServiceImpl(
 
     override fun terminate(fmuId: Int): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.terminate().thriftType()
+            it.terminate()
+            it.lastStatus.thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
     override fun reset(fmuId: Int): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.reset().thriftType()
+            it.reset()
+            it.lastStatus.thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
