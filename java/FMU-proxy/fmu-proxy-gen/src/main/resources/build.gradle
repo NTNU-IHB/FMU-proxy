@@ -1,4 +1,6 @@
 
+println "Gradle version is ${GradleVersion.current().version}"
+
 buildscript {
     ext.kotlin_version = '1.2.30'
 
