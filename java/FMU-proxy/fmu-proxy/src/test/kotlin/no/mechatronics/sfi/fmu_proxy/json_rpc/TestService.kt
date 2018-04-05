@@ -28,7 +28,7 @@ class TestService {
        @JvmStatic
        @BeforeClass
        fun setup() {
-           val url = javaClass.classLoader
+           val url = TestService::class.java.classLoader
                    .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
            Assert.assertNotNull(url)
            fmuFile = FmuFile.from(File(url.file))
