@@ -31,6 +31,9 @@ import javax.servlet.ServletContextListener
 
 typealias ContextListener = () -> Unit
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class ServletContextListenerImpl : ServletContextListener  {
 
     companion object {

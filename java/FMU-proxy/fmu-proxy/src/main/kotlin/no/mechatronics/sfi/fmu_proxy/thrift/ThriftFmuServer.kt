@@ -53,12 +53,11 @@ class ThriftFmuServer(
 
     override fun start(port: Int) {
         if (!isRunning) {
-            this.port = port
-            serverTransport = TServerSocket(port)
+            serverTransport = TServerSocket(port).also { this.port = port }
             server = TSimpleServer(TServer.Args(serverTransport).processor(processor)).apply {
                 Thread { serve() }.start()
             }
-            LOG.info("${javaClass.simpleName} listening for connections on port: $port");
+            LOG.info("${javaClass.simpleName} listening for connections on port: $port")
         } else {
             LOG.warn("${javaClass.simpleName} has already been started!")
         }

@@ -42,7 +42,7 @@ import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuServiceImpl
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        private val fmuFile: FmuFile
+        fmuFile: FmuFile
 ): FmuProxyServer {
 
     override var port: Int? = null
@@ -70,7 +70,7 @@ class GrpcFmuServer(
                 services.forEach { addService(it) }
             }.build().start()
 
-            LOG.info("${javaClass.simpleName} listening for connections on port: $port");
+            LOG.info("${javaClass.simpleName} listening for connections on port: $port")
         } else {
             LOG.warn("${javaClass.simpleName} is already running!")
         }

@@ -62,7 +62,9 @@ class FmuProxy(
         get() {
             return NetworkInfo(
                     host = hostAddress,
-                    ports = servers.keys.associate { it.simpleName to (servers[it] ?: it.port ?: -1) }
+                    ports = servers.keys.associate { server ->
+                        server.simpleName to (servers[server] ?: server.port ?: -1)
+                    }
             )
         }
 
@@ -70,6 +72,7 @@ class FmuProxy(
         get() {
             return RemoteFmu(
                     guid = fmuFile.modelDescription.guid,
+                    modelName = fmuFile.modelDescription.modelName,
                     networkInfo = networkInfo,
                     modelDescriptionXml = fmuFile.modelDescriptionXml)
         }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,24 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.fmu
+package no.mechatronics.sfi.fmu_proxy.web.proto
 
-import no.mechatronics.sfi.fmu_proxy.net.NetworkInfo
+import javax.faces.bean.ManagedBean
+import org.primefaces.model.StreamedContent
+import org.primefaces.model.DefaultStreamedContent
+import javax.annotation.PostConstruct
+import javax.faces.context.FacesContext
 
-/**
- * @author Lars Ivar Hatledal
- */
-internal data class RemoteFmu(
-        val guid: String,
-        val modelName: String,
-        val networkInfo: NetworkInfo,
-        val modelDescriptionXml: String
-)
+@ManagedBean
+class ProtoDownload {
+
+    var file: StreamedContent? = null
+
+    @PostConstruct
+    fun init() {
+        val name = "fmu-proxy-generic-proto.zip"
+        val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/proto/$name")
+        file = DefaultStreamedContent(stream, "application/octet-stream", name)
+    }
+
+}

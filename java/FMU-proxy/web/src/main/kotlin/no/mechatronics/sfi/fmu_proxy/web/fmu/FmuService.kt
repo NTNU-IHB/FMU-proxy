@@ -51,44 +51,19 @@ private const val PPP_HEARTBEAT = "\u0002"      //  Signals worker heartbeat
 private const val PORT = 7000
 
 
-data class NetworkInfo(
-        val host: String,
-        val ports: Map<String, Int>
-): Serializable
-
-@ManagedBean
-data class RemoteFmu(
-        val guid: String,
-        val networkInfo: NetworkInfo,
-        val modelDescriptionXml: String
-): Serializable {
-
-    private var _modelDescription: SimpleModelDescription? = null
-
-    val modelName: String
-        get() = modelDescription.modelName
-
-    val description: String
-        get() = modelDescription.description ?: "-"
-
-    val modelDescription: SimpleModelDescription
-        get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
-
-    val modelVariables: List<TypedScalarVariable<*>>
-        get() = modelDescription.modelVariables.variables
-
-    override fun toString(): String {
-        return "RemoteFmu(guid='$guid', networkInfo=$networkInfo)"
-    }
-
-}
-
+/**
+ * @author Lars Ivar Hatledal
+ */
 @ManagedBean(eager = true)
 @ApplicationScoped()
 class FmuService {
 
-    private var beat: Heartbeat? = null
     val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
+    private var beat: Heartbeat? = null
+
+    init {
+        INSTANCE = this
+    }
 
     @PostConstruct
     fun init() {
@@ -126,10 +101,13 @@ class FmuService {
 
     companion object {
         private val LOG: Logger = LoggerFactory.getLogger(FmuService::class.java)
+
+        internal lateinit var INSTANCE: FmuService
+
     }
 
 
-    inner class Heartbeat(
+    private inner class Heartbeat(
             private val port: Int
     ) {
 
@@ -171,7 +149,7 @@ class FmuService {
 
                                 if (String(msg.first.data, ZMQ.CHARSET) == PPP_READY) {
 
-                                    val data = String(msg.last.data, ZMQ.CHARSET);
+                                    val data = String(msg.last.data, ZMQ.CHARSET)
                                     val remoteFmu = gson.fromJson(data, RemoteFmu::class.java).apply {
                                         init()
                                     }

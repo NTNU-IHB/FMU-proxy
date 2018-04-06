@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,17 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.fmu
+package no.mechatronics.sfi.fmu_proxy.web.fmu
 
-import no.mechatronics.sfi.fmu_proxy.net.NetworkInfo
+import java.io.Serializable
 
 /**
  * @author Lars Ivar Hatledal
  */
-internal data class RemoteFmu(
-        val guid: String,
-        val modelName: String,
-        val networkInfo: NetworkInfo,
-        val modelDescriptionXml: String
-)
+data class NetworkInfo(
+        val host: String,
+        /**
+         * keys: "grpc/http2", "avro/tcp", "thrift/tcp", "jsonRpc/http", "jsonRpc/ws", "jsonRpc/tcp", "jsonRpc/zmq"
+         */
+        val ports: Map<String, Int>
+): Serializable
