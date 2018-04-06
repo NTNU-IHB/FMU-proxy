@@ -24,7 +24,14 @@
 
 package no.mechatronics.sfi.fmu_proxy.net
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 data class NetworkInfo(
+
         val host: String,
+        /**
+         * keys: "grpc/http2", "avro/tcp", "thrift/tcp", "jsonRpc/http", "jsonRpc/ws", "jsonRpc/tcp", "jsonRpc/zmq"
+         */
         val ports: Map<String, Int>
 )

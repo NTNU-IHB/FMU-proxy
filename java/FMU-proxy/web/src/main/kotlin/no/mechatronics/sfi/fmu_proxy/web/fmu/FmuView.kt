@@ -29,6 +29,9 @@ import javax.faces.bean.ManagedBean
 import javax.faces.bean.ManagedProperty
 import javax.faces.bean.ViewScoped
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 @ManagedBean
 @ViewScoped
 class FmuView: Serializable {
@@ -37,5 +40,9 @@ class FmuView: Serializable {
     lateinit var service: FmuService
 
     var selectedFmu: RemoteFmu? = null
+
+    override fun toString(): String {
+        return "FmuView(selectedFmu=$selectedFmu)"
+    }
 
 }

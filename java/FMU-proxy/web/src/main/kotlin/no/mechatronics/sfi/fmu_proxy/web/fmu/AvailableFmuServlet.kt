@@ -22,24 +22,38 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.web
+package no.mechatronics.sfi.fmu_proxy.web.fmu
 
-import javax.faces.bean.ManagedBean
-import org.primefaces.model.StreamedContent
-import org.primefaces.model.DefaultStreamedContent
-import javax.annotation.PostConstruct
-import javax.faces.context.FacesContext
+import com.google.gson.GsonBuilder
+import javax.servlet.annotation.WebServlet
+import javax.servlet.http.HttpServlet
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
-@ManagedBean
-class ProtoDownload {
+private const val CONTENT_TYPE = "text/html"
 
-    var file: StreamedContent? = null
+/**
+ * @author Lars Ivar Hatledal
+ */
 
-    @PostConstruct
-    fun init() {
-        val name = "fmu-proxy-generic-proto.zip"
-        val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/proto/$name")
-        file = DefaultStreamedContent(stream, "application/octet-stream", name)
+@WebServlet(urlPatterns = ["/availablefmus"])
+class AvailableFmuServlet: HttpServlet() {
+
+    override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
+
+        with (resp) {
+            contentType = CONTENT_TYPE
+
+                val service = FmuService.INSTANCE
+                val info = GsonBuilder()
+                        .setPrettyPrinting()
+                        .create()
+                        .toJson(service.fmus)
+
+                writer.println(info)
+                writer.close()
+
+        }
+
     }
-
 }

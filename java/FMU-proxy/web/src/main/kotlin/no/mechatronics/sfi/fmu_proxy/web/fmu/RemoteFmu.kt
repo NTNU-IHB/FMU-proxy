@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,39 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.fmu
+package no.mechatronics.sfi.fmu_proxy.web.fmu
 
-import no.mechatronics.sfi.fmu_proxy.net.NetworkInfo
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.modeldescription.SimpleModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
+import java.io.Serializable
+import javax.faces.bean.ManagedBean
 
 /**
  * @author Lars Ivar Hatledal
  */
-internal data class RemoteFmu(
+@ManagedBean
+data class RemoteFmu(
         val guid: String,
         val modelName: String,
         val networkInfo: NetworkInfo,
         val modelDescriptionXml: String
-)
+): Serializable {
+
+    @Transient
+    private var _modelDescription: SimpleModelDescription? = null
+
+    val description: String
+        get() = modelDescription.description ?: "-"
+
+    val modelDescription: SimpleModelDescription
+        get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
+
+    val modelVariables: List<TypedScalarVariable<*>>
+        get() = modelDescription.modelVariables.variables
+
+    override fun toString(): String {
+        return "RemoteFmu(modelName=$modelName, guid='$guid', networkInfo=$networkInfo)"
+    }
+
+}

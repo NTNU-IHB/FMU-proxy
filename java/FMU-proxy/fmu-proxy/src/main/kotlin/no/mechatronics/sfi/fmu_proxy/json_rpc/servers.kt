@@ -31,7 +31,9 @@ import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
 import info.laht.yaj_rpc.net.zmq.RpcZmqServer
 import no.mechatronics.sfi.fmu_proxy.net.FmuProxyServer
 
-
+/**
+ * @author Lars Ivar Hatledal
+ */
 class FmuProxyJsonHttpServer(
         handler: RpcHandler
 ): RpcHttpServer(handler), FmuProxyServer {
@@ -40,6 +42,9 @@ class FmuProxyJsonHttpServer(
 
 }
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class FmuProxyJsonWsServer(
         handler: RpcHandler
 ): RpcWebSocketServer(handler), FmuProxyServer {
@@ -48,6 +53,9 @@ class FmuProxyJsonWsServer(
 
 }
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class FmuProxyJsonTcpServer(
         handler: RpcHandler
 ): RpcTcpServer(handler), FmuProxyServer {
@@ -56,6 +64,9 @@ class FmuProxyJsonTcpServer(
 
 }
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class FmuProxyJsonZmqServer(
         handler: RpcHandler
 ): RpcZmqServer(handler), FmuProxyServer {

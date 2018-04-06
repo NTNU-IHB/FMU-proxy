@@ -9,16 +9,15 @@
         <param-value>true</param-value>
     </context-param>
 
-      <listener>
-          <listener-class>
-              no.mechatronics.sfi.fmu_proxy.web.ServletContextListenerImpl
-          </listener-class>
-      </listener>
+    <listener>
+      <listener-class>
+          no.mechatronics.sfi.fmu_proxy.web.ServletContextListenerImpl
+      </listener-class>
+    </listener>
 
-
-      <welcome-file-list>
-          <welcome-file>index.xhtml</welcome-file>
-      </welcome-file-list>
+    <welcome-file-list>
+      <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
     <!--
       <context-param>
           <param-name>javax.faces.STATE_SAVING_METHOD</param-name>

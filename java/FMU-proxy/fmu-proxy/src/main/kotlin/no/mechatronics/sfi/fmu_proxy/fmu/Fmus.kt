@@ -29,6 +29,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 object Fmus {
 
     private val LOG: Logger = LoggerFactory.getLogger(Fmus::class.java)
