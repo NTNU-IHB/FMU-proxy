@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         mavenCentral()
@@ -35,8 +35,6 @@ subprojects { sub ->
     }
 
     dependencies {
-
-
 
         implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
         runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'

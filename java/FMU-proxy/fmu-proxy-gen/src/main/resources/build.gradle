@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         mavenCentral()
@@ -17,7 +17,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.4'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
     }
 }
 
