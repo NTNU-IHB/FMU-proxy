@@ -16,147 +16,147 @@ class FmuServiceStub(object):
       channel: A grpc.Channel.
     """
     self.SupportsCoSimulation = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/SupportsCoSimulation',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/SupportsCoSimulation',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.SupportsModelExchange = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/SupportsModelExchange',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/SupportsModelExchange',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.GetModelDescriptionXml = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/GetModelDescriptionXml',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/GetModelDescriptionXml',
         request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.Str.FromString,
         )
     self.GetModelDescription = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/GetModelDescription',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/GetModelDescription',
         request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.ModelDescription.FromString,
         )
     self.CreateInstanceFromCS = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/CreateInstanceFromCS',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/CreateInstanceFromCS',
         request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
         response_deserializer=definitions__pb2.UInt.FromString,
         )
     self.CreateInstanceFromME = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/CreateInstanceFromME',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/CreateInstanceFromME',
         request_serializer=definitions__pb2.Integrator.SerializeToString,
         response_deserializer=definitions__pb2.UInt.FromString,
         )
     self.GetCurrentTime = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/GetCurrentTime',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/GetCurrentTime',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Real.FromString,
         )
     self.IsTerminated = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/IsTerminated',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/IsTerminated',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.CanGetAndSetFMUstate = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/CanGetAndSetFMUstate',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/CanGetAndSetFMUstate',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Bool.FromString,
         )
     self.Init = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Init',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/Init',
         request_serializer=definitions__pb2.InitRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Step = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Step',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/Step',
         request_serializer=definitions__pb2.StepRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Terminate = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Terminate',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/Terminate',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.Reset = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/Reset',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/Reset',
         request_serializer=definitions__pb2.UInt.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.ReadInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/ReadInteger',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/ReadInteger',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.IntRead.FromString,
         )
     self.ReadReal = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/ReadReal',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/ReadReal',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.RealRead.FromString,
         )
     self.ReadString = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/ReadString',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/ReadString',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.StrRead.FromString,
         )
     self.ReadBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/ReadBoolean',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/ReadBoolean',
         request_serializer=definitions__pb2.ReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.BoolRead.FromString,
         )
     self.BulkReadInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkReadInteger',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkReadInteger',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.IntListRead.FromString,
         )
     self.BulkReadReal = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkReadReal',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkReadReal',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.RealListRead.FromString,
         )
     self.BulkReadString = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkReadString',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkReadString',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.StrListRead.FromString,
         )
     self.BulkReadBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkReadBoolean',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkReadBoolean',
         request_serializer=definitions__pb2.BulkReadRequest.SerializeToString,
         response_deserializer=definitions__pb2.BoolListRead.FromString,
         )
     self.WriteInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/WriteInteger',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/WriteInteger',
         request_serializer=definitions__pb2.WriteIntRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteReal = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/WriteReal',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/WriteReal',
         request_serializer=definitions__pb2.WriteRealRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteString = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/WriteString',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/WriteString',
         request_serializer=definitions__pb2.WriteStrRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.WriteBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/WriteBoolean',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/WriteBoolean',
         request_serializer=definitions__pb2.WriteBoolRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteInteger = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkWriteInteger',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkWriteInteger',
         request_serializer=definitions__pb2.BulkWriteIntRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteReal = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkWriteReal',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkWriteReal',
         request_serializer=definitions__pb2.BulkWriteRealRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteString = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkWriteString',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkWriteString',
         request_serializer=definitions__pb2.BulkWriteStrRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
     self.BulkWriteBoolean = channel.unary_unary(
-        '/no.mechatronics.sfi.fmu_proxy.grpc.FmuService/BulkWriteBoolean',
+        '/no.mechatronics.sfi.fmuproxy.grpc.FmuService/BulkWriteBoolean',
         request_serializer=definitions__pb2.BulkWriteBoolRequest.SerializeToString,
         response_deserializer=definitions__pb2.Status.FromString,
         )
@@ -520,5 +520,5 @@ def add_FmuServiceServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'no.mechatronics.sfi.fmu_proxy.grpc.FmuService', rpc_method_handlers)
+      'no.mechatronics.sfi.fmuproxy.grpc.FmuService', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

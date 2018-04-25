@@ -22,14 +22,14 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy
+package no.mechatronics.sfi.fmuproxy
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.Scanner
-import no.mechatronics.sfi.fmu_proxy.cli.CommandLineParser
-import no.mechatronics.sfi.fmu_proxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmu_proxy.grpc.{{fmuName}}Service
+import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
+import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
+import no.mechatronics.sfi.fmuproxy.grpc.{{fmuName}}Service
 
 
 /**

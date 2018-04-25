@@ -1,8 +1,8 @@
 package no.mechatronics.sfi.fmu_proxy.grpc
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmu_proxy.ApplicationStarter
-import no.mechatronics.sfi.fmu_proxy.ExecutableGenerator
+import no.mechatronics.sfi.fmuproxy.ApplicationStarter
+import no.mechatronics.sfi.fmuproxy.ExecutableGenerator
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before

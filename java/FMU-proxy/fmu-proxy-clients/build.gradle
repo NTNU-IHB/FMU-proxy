@@ -3,15 +3,17 @@ apply plugin: 'kotlin'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = 'no.mechatronics.sfi.fmu_proxy'
+group = 'no.mechatronics.sfi.fmuproxy'
 version = '0.1-SNAPSHOT'
 
+def snapshot = true
+def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
+
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.11.0'
     implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
-    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: '0.6-SNAPSHOT', changing: true
-    implementation group: 'no.mechatronics.sfi.fmu_proxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
+    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {

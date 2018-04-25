@@ -2,7 +2,7 @@
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
-mainClassName = 'no.mechatronics.sfi.fmu_proxy.ApplicationStarter'
+mainClassName = 'no.mechatronics.sfi.fmuproxy.ApplicationStarter'
 
 distributions {
     main {
@@ -12,11 +12,9 @@ distributions {
 }
 
 def snapshot = true
-def fmi4j_version = snapshot ? '0.6-SNAPSHOT' : '0.6'
+def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {
-
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     compile group: 'info.picocli', name: 'picocli', version: '2.3.0'
     compile group: 'org.jtwig', name: 'jtwig-core', version: '5.86.1.RELEASE'
@@ -26,6 +24,6 @@ dependencies {
     testCompile group: 'io.grpc', name: 'grpc-netty', version: '1.11.0'
     testCompile group: 'io.grpc', name: 'grpc-protobuf', version: '1.11.0'
 
-    testCompile group: 'no.mechatronics.sfi.fmu_proxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
+    testCompile group: 'no.mechatronics.sfi.fmuproxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
 
 }
