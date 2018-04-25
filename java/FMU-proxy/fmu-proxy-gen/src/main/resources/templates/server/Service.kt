@@ -22,15 +22,15 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmu_proxy.grpc
+package no.mechatronics.sfi.fmuproxy.grpc
 
 import io.grpc.BindableService
 import io.grpc.stub.StreamObserver
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 
-import no.mechatronics.sfi.fmu_proxy.fmu.Fmus
-import no.mechatronics.sfi.fmu_proxy.grpc.services.GrpcFmuService
+import no.mechatronics.sfi.fmuproxy.fmu.Fmus
+import no.mechatronics.sfi.fmuproxy.grpc.services.GrpcFmuService
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

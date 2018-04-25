@@ -35,7 +35,7 @@ apply plugin: "org.jruyi.thrift"
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = 'no.mechatronics.sfi.fmu_proxy'
+group = 'no.mechatronics.sfi.fmuproxy'
 version = '0.1-SNAPSHOT'
 
 dependencies {

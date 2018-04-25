@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         mavenCentral()
@@ -43,7 +43,7 @@ dependencies {
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    compile group: 'no.mechatronics.sfi.fmu_proxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
+    compile group: 'no.mechatronics.sfi.fmuproxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'

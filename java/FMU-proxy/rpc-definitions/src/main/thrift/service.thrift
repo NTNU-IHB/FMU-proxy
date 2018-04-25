@@ -24,14 +24,14 @@
 
 include "definitions.thrift"
 
-namespace java no.mechatronics.sfi.fmu_proxy.thrift
+namespace java no.mechatronics.sfi.fmuproxy.thrift
 
 typedef i32 FmuId
 typedef i32 ValueReference
 
 service FmuService {
 
-    bool supportsCosimulation()
+    bool supportsCoSimulation()
     bool supportsModelExchange()
 
     string getModelDescriptionXml()

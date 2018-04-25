@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         mavenCentral()
@@ -15,6 +15,9 @@ buildscript {
 wrapper {
     gradleVersion = '4.6'
 }
+
+ext.fmi4j_stable_version = '0.6'
+ext.fmi4j_snapshot_version = '0.6.1-SNAPSHOT'
 
 subprojects { sub ->
 
@@ -36,10 +39,12 @@ subprojects { sub ->
 
     dependencies {
 
-
+        sub.plugins.withId('kotlin') {
+            compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+        }
 
         implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+        runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
         testImplementation group: 'junit', name: 'junit', version: '4.12'
 		

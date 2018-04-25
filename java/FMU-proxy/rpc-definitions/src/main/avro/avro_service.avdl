@@ -23,7 +23,7 @@
  */
 
 
-@namespace("no.mechatronics.sfi.fmu_proxy.avro")
+@namespace("no.mechatronics.sfi.fmuproxy.avro")
 protocol AvroFmuService {
 
   enum VariableType {

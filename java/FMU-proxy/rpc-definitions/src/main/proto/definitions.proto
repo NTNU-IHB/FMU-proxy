@@ -24,7 +24,7 @@
 
 syntax = "proto3";
 
-package no.mechatronics.sfi.fmu_proxy.grpc;
+package no.mechatronics.sfi.fmuproxy.grpc;
 option java_outer_classname = "Proto";
 
 message ModelDescription {

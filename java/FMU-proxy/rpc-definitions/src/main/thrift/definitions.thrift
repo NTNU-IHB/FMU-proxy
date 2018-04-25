@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-namespace java no.mechatronics.sfi.fmu_proxy.thrift
+namespace java no.mechatronics.sfi.fmuproxy.thrift
 
 typedef list<ScalarVariable> ModelVariables
 
