@@ -1,14 +1,14 @@
 package no.mechatronics.sfi.fmuproxy.json_rpc
 
-import info.laht.yaj_rpc.RpcHandler
-import info.laht.yaj_rpc.RpcParams
-import info.laht.yaj_rpc.RpcRequestOut
-import info.laht.yaj_rpc.RpcResponse
+import info.laht.yajrpc.RpcHandler
+import info.laht.yajrpc.RpcParams
+import info.laht.yajrpc.RpcRequestOut
+import info.laht.yajrpc.RpcResponse
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmuproxy.json_rpc.service.RpcFmuService
+import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test

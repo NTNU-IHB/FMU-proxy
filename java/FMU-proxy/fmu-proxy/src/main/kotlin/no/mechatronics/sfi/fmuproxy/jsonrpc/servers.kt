@@ -22,13 +22,13 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.json_rpc
+package no.mechatronics.sfi.fmuproxy.jsonrpc
 
-import info.laht.yaj_rpc.RpcHandler
-import info.laht.yaj_rpc.net.http.RpcHttpServer
-import info.laht.yaj_rpc.net.tcp.RpcTcpServer
-import info.laht.yaj_rpc.net.ws.RpcWebSocketServer
-import info.laht.yaj_rpc.net.zmq.RpcZmqServer
+import info.laht.yajrpc.RpcHandler
+import info.laht.yajrpc.net.http.RpcHttpServer
+import info.laht.yajrpc.net.tcp.RpcTcpServer
+import info.laht.yajrpc.net.ws.RpcWebSocketServer
+import info.laht.yajrpc.net.zmq.RpcZmqServer
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 
 /**

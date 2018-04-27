@@ -11,7 +11,7 @@ def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.11.0'
-    implementation group: 'info.laht', name: 'yaj-rpc', version: '0.5-SNAPSHOT', changing: true
+    implementation group: 'info.laht', name: 'yaj-rpc', version: '0.6-SNAPSHOT', changing: true
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
     implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 }
@@ -51,7 +51,7 @@ uploadArchives {
                 name archivesBaseName
                 packaging 'jar'
                 // optionally artifactId can be defined here
-                description 'A collection of client for talking to FMU-proxy servers'
+                description 'A collection of clients for talking to FMU-proxy servers'
                 url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
 
                 scm {

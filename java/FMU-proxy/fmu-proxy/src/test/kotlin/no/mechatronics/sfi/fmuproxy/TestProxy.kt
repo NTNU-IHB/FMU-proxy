@@ -1,10 +1,10 @@
 package no.mechatronics.sfi.fmuproxy
 
-import info.laht.yaj_rpc.RpcHandler
-import info.laht.yaj_rpc.net.http.RpcHttpClient
-import info.laht.yaj_rpc.net.tcp.RpcTcpClient
-import info.laht.yaj_rpc.net.ws.RpcWebSocketClient
-import info.laht.yaj_rpc.net.zmq.RpcZmqClient
+import info.laht.yajrpc.RpcHandler
+import info.laht.yajrpc.net.http.RpcHttpClient
+import info.laht.yajrpc.net.tcp.RpcTcpClient
+import info.laht.yajrpc.net.ws.RpcWebSocketClient
+import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
@@ -13,10 +13,10 @@ import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.Proto
 import no.mechatronics.sfi.fmuproxy.json_rpc.*
-import no.mechatronics.sfi.fmuproxy.json_rpc.service.RpcFmuService
+import no.mechatronics.sfi.fmuproxy.jsonrpc.*
+import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmuproxy.thrift.StatusCode
-import no.mechatronics.sfi.fmuproxy.jsonrpc.JsonRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
 import org.junit.AfterClass

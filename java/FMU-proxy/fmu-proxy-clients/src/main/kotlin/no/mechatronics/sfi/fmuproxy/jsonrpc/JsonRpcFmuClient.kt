@@ -24,11 +24,9 @@
 
 package no.mechatronics.sfi.fmuproxy.jsonrpc
 
-import info.laht.yaj_rpc.RpcParams
-import info.laht.yaj_rpc.net.RpcClient
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.common.FmuIntegerRead
-import no.mechatronics.sfi.fmi4j.common.FmuRealRead
+import info.laht.yajrpc.RpcParams
+import info.laht.yajrpc.net.RpcClient
+import no.mechatronics.sfi.fmi4j.common.*
 import java.io.Closeable
 
 class JsonRpcFmuClient(
@@ -105,6 +103,17 @@ class JsonRpcFmuClient(
         return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name))
                 .getResult(FmuRealRead::class.java)!!
     }
+
+    fun readString(name: String): FmuStringRead {
+        return client.write("FmuService.readString", RpcParams.listParams(fmuId, name))
+                .getResult(FmuStringRead::class.java)!!
+    }
+
+    fun readBoolean(name: String): FmuBooleanRead {
+        return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, name))
+                .getResult(FmuBooleanRead::class.java)!!
+    }
+
 
     /**
      * Terminates the FMU and closes the client connection

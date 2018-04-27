@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.net
 
-import info.laht.yaj_rpc.net.RpcServer
+import info.laht.yajrpc.net.RpcServer
 
 /**
  * @author Lars Ivar Hatledal

@@ -24,17 +24,17 @@
 
 package no.mechatronics.sfi.fmuproxy.cli
 
-import info.laht.yaj_rpc.RpcHandler
+import info.laht.yajrpc.RpcHandler
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmuproxy.json_rpc.FmuProxyJsonHttpServer
-import no.mechatronics.sfi.fmuproxy.json_rpc.FmuProxyJsonTcpServer
-import no.mechatronics.sfi.fmuproxy.json_rpc.FmuProxyJsonWsServer
-import no.mechatronics.sfi.fmuproxy.json_rpc.FmuProxyJsonZmqServer
-import no.mechatronics.sfi.fmuproxy.json_rpc.service.RpcFmuService
+import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonHttpServer
+import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonTcpServer
+import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonWsServer
+import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonZmqServer
+import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
 import org.slf4j.Logger

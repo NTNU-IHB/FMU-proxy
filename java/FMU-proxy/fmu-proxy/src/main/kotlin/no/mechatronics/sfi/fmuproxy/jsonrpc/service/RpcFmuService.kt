@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.json_rpc.service
+package no.mechatronics.sfi.fmuproxy.jsonrpc.service
 
-import info.laht.yaj_rpc.RpcMethod
-import info.laht.yaj_rpc.RpcService
+import info.laht.yajrpc.RpcMethod
+import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.fmu.FmiSimulation
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
