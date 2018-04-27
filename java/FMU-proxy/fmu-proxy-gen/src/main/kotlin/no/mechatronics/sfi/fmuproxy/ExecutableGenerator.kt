@@ -59,7 +59,7 @@ class ExecutableGenerator(
         val outDir: File = outDir ?: File(defaultOut)
 
         val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
-        //val tempDir = Files.createTempDirectory("fmu_proxy").toFile()
+        //val tempDir = Files.createTempDirectory("fmuproxy").toFile()
 
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists() && mkdir()) {
@@ -68,10 +68,13 @@ class ExecutableGenerator(
         }
 
         try {
+
             "build.gradle".also { name ->
                 File(baseFile, name).also { file ->
                     FileOutputStream(file).use { fos ->
-                        javaClass.classLoader.getResourceAsStream(name).copyTo(fos)
+                        javaClass.classLoader.getResourceAsStream(name).use { resource ->
+                            resource.copyTo(fos)
+                        }
                         LOG.debug("Copied $name to $file")
                     }
                 }
@@ -96,7 +99,9 @@ class ExecutableGenerator(
             "log4j.properties".also { name ->
                 File(resourcesFile, name).also { file ->
                     FileOutputStream(file).use { fos ->
-                        javaClass.classLoader.getResourceAsStream(name).copyTo(fos)
+                        javaClass.classLoader.getResourceAsStream(name).use { resource ->
+                            resource.copyTo(fos)
+                        }
                         LOG.debug("Copied $name to $file")
                     }
                 }
@@ -104,7 +109,7 @@ class ExecutableGenerator(
 
             File(resourcesFile, "${modelDescription.modelName}.fmu").also { file ->
                 FileOutputStream(file).use { fos ->
-                    inputStream.copyTo(fos)
+                    inputStream.use { it.copyTo(fos) }
                 }
             }
 

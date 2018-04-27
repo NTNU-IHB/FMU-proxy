@@ -1,4 +1,4 @@
-package no.mechatronics.sfi.fmu_proxy.grpc
+package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.ApplicationStarter
