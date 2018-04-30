@@ -24,10 +24,10 @@
 
 package no.mechatronics.sfi.fmuproxy.web.proto
 
-import javax.faces.bean.ManagedBean
-import org.primefaces.model.StreamedContent
 import org.primefaces.model.DefaultStreamedContent
+import org.primefaces.model.StreamedContent
 import javax.annotation.PostConstruct
+import javax.faces.bean.ManagedBean
 import javax.faces.context.FacesContext
 
 @ManagedBean
@@ -38,7 +38,7 @@ class ProtoDownload {
     @PostConstruct
     fun init() {
         val name = "fmu-proxy-generic-proto.zip"
-        val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/proto/$name")
+        val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/schemas/proto/$name")
         file = DefaultStreamedContent(stream, "application/octet-stream", name)
     }
 

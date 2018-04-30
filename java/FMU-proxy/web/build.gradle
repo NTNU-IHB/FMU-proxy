@@ -34,30 +34,39 @@ gretty {
     logDir = "$projectDir/logs"
 }
 
+task copyAvro(type: Copy) {
+
+    from('../rpc-definitions/src/main/avro')
+    into('src/main/webapp/resources/schemas/avro')
+    include('*.avdl')
+
+}
+
 task copyThrift(type: Copy) {
 
-    from('../gen-thrift-src/src/main/thrift')
-    into('src/main/webapp/resources/thrift')
+    from('../rpc-definitions/src/main/thrift')
+    into('src/main/webapp/resources/schemas/thrift')
     include('*.thrift')
 
 }
 
 task copyProto(type: Copy) {
 
-    from('../gen-proto-src/src/main/proto')
-    into('src/main/webapp/resources/proto')
+    from('../rpc-definitions/src/main/proto')
+    into('src/main/webapp/resources/schemas/proto')
     include('*.proto')
 
 }
 
 task copyProtoZip(type: Zip) {
 
-    from '../gen-proto-src/src/main/proto'
+    from '../rpc-definitions/src/main/proto'
     include '*'
     archiveName 'fmu-proxy-generic-proto.zip'
-    destinationDir(file('src/main/webapp/resources/proto/'))
+    destinationDir(file('src/main/webapp/resources/schemas/proto/'))
 }
 
+compileKotlin.dependsOn(copyAvro)
 compileKotlin.dependsOn(copyThrift)
 compileKotlin.dependsOn(copyProto)
 compileKotlin.dependsOn(copyProtoZip)

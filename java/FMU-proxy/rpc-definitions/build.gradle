@@ -1,36 +1,10 @@
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.0"
-    }
+plugins {
+    id "de.undercouch.download" version "3.4.2"
+    id "com.google.protobuf" version "0.8.5"
+    id "org.jruyi.thrift" version "0.4.0"
+    id "com.commercehub.gradle.plugin.avro" version "0.14.0"
 }
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
-    }
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.14.0"
-    }
-}
-
-apply plugin: "com.commercehub.gradle.plugin.avro"
-apply plugin: 'com.google.protobuf'
-apply plugin: "org.jruyi.thrift"
 
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -73,10 +47,19 @@ protobuf {
 
 }
 
-compileThrift {
-    thriftExecutable "$projectDir/src/main/thrift/thrift-0.11.0.exe"
-    createGenFolder false
-    generator 'java', 'private-members'
+import org.apache.tools.ant.taskdefs.condition.Os
+
+def thriftPath = System.getenv("THRIFT_COMPILER")
+def supportsThrift = Os.isFamily(Os.FAMILY_WINDOWS) && thriftPath != null
+
+if (supportsThrift) {
+    compileThrift {
+        thriftExecutable "$thriftPath/thrift.exe"
+        createGenFolder false
+        generator 'java', 'private-members'
+    }
+} else {
+    logger.warn("Cannot generate Thrift sources! OS is Windows? THRIFT_COMPILER added to env variables?")
 }
 
 signing {
