@@ -1,27 +1,10 @@
 ## FMU-proxy
 
-The main goal of the Functional Mock-up Interface (FMI) is to allow simulation models to be shared across tools. 
-To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. 
-This archive is called an Functional Mock-up Unit (FMU) and uses the extension .fmu. 
-In theory, an FMU can run on multiple platforms, however, this is not always the case and depends on the 
-type of binaries the exporting tool is able to provide. Furthermore, ready made libraries providing 
-FMI support may not be available in some languages, and those who are may not support the whole standard. 
-Another issue is related to protection of Intellectual Property (IP). 
-While an FMU may choose to only provide the C-code in its binary form, resources shipped with 
-the FMU may be unprotected.   
+The main goal of the Functional Mock-up Interface (FMI) statndard is to allow simulation models to be shared across tools. To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. This archive is called an Functional Mock-up Unit (FMU) and uses the extension .fmu. In theory, an FMU can support multiple platforms, however this is not always the case and depends on the type of binaries the exporting tool was able to provide. Furthermore, a library providing FMI support may not be available in a particular language or platform, and/or it may not support the whole standard. Another issue is related to the protection of Intellectual Property (IP). While an FMU is free to only provide the C-code in its binary form, other resources shipped with the FMU may be unprotected.   
 
-In order to overcome these challenges, this paper presents an open-source framework 
-for working with functional mock-up units across languages and platforms. 
-By analyzing the XML-file located within an FMU, the framework is able to generate 
-a Google Protocol Buffer schema (.proto) that defines general FMI functions as well as 
-instance specific functions, such as getter and setters for each defined variable. 
-From the .proto file, a cross-platform executable is generated. This executable launches 
-a gRPC server on some available network port, allowing multiple servers to be hosted 
-on a single computer. This port, along with the network address and basic information about the FMU, 
-is then transmitted to a web service specified upon launch. The web service acts as a single point 
-of entry and provides users with general information about the available FMUs, 
-as well as information necessary to connect to one over gRPC. 
+In order to overcome these challenges, this paper presents an open-source framework for working with functional mock-up units across languages and platforms. By wrapping a single FMU inside a server program supporting multiple language independent Remote Procedure Calls (RPC) protocols over several network transports. Currently, Apache Thrift (TCP/IP), Apache Avro (TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. Together, they allow FMUs to be invoked from virtually any language on any platform.
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
+
 
 ### Generating the server from an FMU
 
@@ -51,8 +34,8 @@ Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
       -jsonrpc/zmq=<jsonZmqPort> Manually specify the JSON-RPC ZMQ port (optional).
 ```
 
-You can now connect to the FMU in your language of choosing using the general purpose .proto files located in the /proto folder that 
-will work with all generated gRPC-FMU servers. Alternatively, you can download and generate code from the FMU specific .proto with getter and setters 
-from the remote tracking server, in which the FMU is connected. 
+You can now connect to the FMU in your language of choosing using one of the general purpose schemas located in the /schema folder that 
+will work with all generated servers. Alternatively, you can download and generate code from one of the FMU specific schemas, which provides getters and setters 
+from the remote tracking server. 
 
 
