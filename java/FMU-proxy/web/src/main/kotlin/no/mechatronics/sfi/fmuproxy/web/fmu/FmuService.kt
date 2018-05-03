@@ -32,6 +32,7 @@ import org.zeromq.ZContext
 import org.zeromq.ZFrame
 import org.zeromq.ZMQ
 import org.zeromq.ZMsg
+import java.io.Serializable
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.faces.bean.ApplicationScoped
@@ -51,10 +52,12 @@ private const val PORT = 7000
  * @author Lars Ivar Hatledal
  */
 @ManagedBean(eager = true)
-@ApplicationScoped()
-class FmuService {
+@ApplicationScoped
+class FmuService: Serializable {
 
     val fmus: MutableSet<RemoteFmu> = Collections.synchronizedSet(HashSet())
+
+    @Transient
     private var beat: Heartbeat? = null
 
     init {
@@ -96,6 +99,7 @@ class FmuService {
 
 
     companion object {
+
         private val LOG: Logger = LoggerFactory.getLogger(FmuService::class.java)
 
         internal lateinit var INSTANCE: FmuService

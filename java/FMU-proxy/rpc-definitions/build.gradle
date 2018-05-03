@@ -59,7 +59,7 @@ if (supportsThrift) {
         generator 'java', 'private-members'
     }
 } else {
-    logger.warn("Cannot generate Thrift sources! OS is Windows? THRIFT_COMPILER added to env variables?")
+    logger.warn("Cannot generate Thrift sources! OS is Windows? Location of Thrift.exe specified by THRIFT_COMPILER added to ENVIRONMENT variable?")
 }
 
 signing {
