@@ -24,6 +24,9 @@ dependencies {
     testCompile group: 'io.grpc', name: 'grpc-netty', version: '1.11.0'
     testCompile group: 'io.grpc', name: 'grpc-protobuf', version: '1.11.0'
 
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+
     testCompile group: 'no.mechatronics.sfi.fmuproxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
 
 }

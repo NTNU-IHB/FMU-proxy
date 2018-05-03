@@ -19,6 +19,9 @@ dependencies {
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: snapshot
     compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+
     testImplementation project(':fmu-proxy-clients')
 
 }
