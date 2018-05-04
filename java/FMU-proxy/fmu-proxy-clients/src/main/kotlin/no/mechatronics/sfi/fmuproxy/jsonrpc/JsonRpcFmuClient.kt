@@ -27,11 +27,12 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc
 import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import java.io.Closeable
 
 class JsonRpcFmuClient(
         val client: RpcClient
-): Closeable {
+): RpcFmuClient {
 
     private var terminateSent = false
 

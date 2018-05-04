@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift
 
+import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
@@ -40,7 +41,7 @@ internal object FmuInstances: ArrayList<ThriftFmuClient.FmuInstance>() {
 class ThriftFmuClient(
         host: String,
         port: Int
-): Closeable {
+): RpcFmuClient {
 
     private val transport: TTransport
     private val client: FmuService.Client
@@ -72,10 +73,6 @@ class ThriftFmuClient(
         return FmuInstance(fmuId).also {
             FmuInstances.add(it)
         }
-    }
-
-    fun stop() {
-        close()
     }
 
     override fun close() {

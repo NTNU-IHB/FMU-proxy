@@ -28,6 +28,7 @@ package no.mechatronics.sfi.fmuproxy.grpc
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -50,7 +51,7 @@ internal object FmuInstances: ArrayList<GrpcFmuClient.FmuInstance>() {
 class GrpcFmuClient(
         host: String,
         port: Int
-): Closeable {
+): RpcFmuClient {
 
     private val channel: ManagedChannel = ManagedChannelBuilder
             .forAddress(host, port)
@@ -78,8 +79,6 @@ class GrpcFmuClient(
         }
 
     }
-
-    fun stop() = close()
 
     override fun close() {
         LOG.debug("Closing..")

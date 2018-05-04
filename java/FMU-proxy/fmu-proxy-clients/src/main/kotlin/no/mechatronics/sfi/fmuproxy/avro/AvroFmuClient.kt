@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.avro
 
+import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.apache.avro.ipc.NettyTransceiver
 import org.apache.avro.ipc.Transceiver
 import org.apache.avro.ipc.specific.SpecificRequestor
@@ -41,7 +42,7 @@ internal object FmuInstances: ArrayList<AvroFmuClient.FmuInstance>() {
 class AvroFmuClient(
         host: String,
         port: Int
-): Closeable {
+): RpcFmuClient {
 
     private val client: Transceiver
     private val service: AvroFmuService
@@ -69,10 +70,6 @@ class AvroFmuClient(
         return FmuInstance(fmuId).also {
             FmuInstances.add(it)
         }
-    }
-
-    fun stop() {
-        close()
     }
 
     override fun close() {
