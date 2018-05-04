@@ -75,22 +75,19 @@ class TestJsonRpcClients {
 
         clients.forEach { client ->
 
-            client.use { fmu ->
-                LOG.info("Testing client of type ${fmu.client.javaClass.simpleName}")
-                Assert.assertEquals(modelDescription.modelName, fmu.modelName)
-                Assert.assertEquals(modelDescription.guid, fmu.guid)
+            LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
+            Assert.assertEquals(modelDescription.modelName, client.modelName)
+            Assert.assertEquals(modelDescription.guid, client.guid)
 
-                Assert.assertTrue(fmu.init() == FmiStatus.OK)
+            client.createInstance().use { instance ->
+
+                Assert.assertEquals(FmiStatus.OK, instance.init())
 
                 val dt = 1.0/100
                 val start = Instant.now()
-                while (fmu.currentTime < 10) {
-                    val status = fmu.step(dt)
-                    Assert.assertTrue(status == FmiStatus.OK)
-
-                    // val read = fmu.readReal("wire.v").value
-                    //LOG.info("wire.v=${read}")
-
+                while (instance.currentTime < 10) {
+                    val status = instance.step(dt)
+                    Assert.assertEquals(FmiStatus.OK, status)
                 }
                 val end = Instant.now()
                 val duration = Duration.between(start, end)

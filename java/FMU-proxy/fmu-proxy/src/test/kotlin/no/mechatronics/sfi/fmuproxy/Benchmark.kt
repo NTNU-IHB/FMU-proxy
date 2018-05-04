@@ -1,11 +1,19 @@
 package no.mechatronics.sfi.fmuproxy
 
+import info.laht.yajrpc.RpcHandler
+import info.laht.yajrpc.net.http.RpcHttpClient
+import info.laht.yajrpc.net.tcp.RpcTcpClient
+import info.laht.yajrpc.net.ws.RpcWebSocketClient
+import info.laht.yajrpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.Proto
+import no.mechatronics.sfi.fmuproxy.jsonrpc.*
+import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.thrift.StatusCode
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
@@ -24,8 +32,8 @@ class Benchmark {
 
         private val fmuPath = File(System.getenv("TEST_FMUs"), "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
 
-        private const val dt = 1E-3
-        private const val stop = 50
+        private const val dt = 1E-2
+        private const val stop = 100
 
 
     }
@@ -146,6 +154,58 @@ class Benchmark {
 
             client.close()
             server.close()
+
+        }
+
+    }
+
+    @Test
+    fun measureTimeJsonWs() {
+
+        val wsPort = 8001
+        val tcpPort = 8002
+        val zmqPort = 8003
+        val httpPort = 8004
+
+        Fmu.from(fmuPath).use {
+
+            val handler = RpcHandler(RpcFmuService(it))
+
+            val servers = listOf(
+                    FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
+                    FmuProxyJsonWsServer(handler).apply { start(wsPort) },
+                    FmuProxyJsonTcpServer(handler).apply { start(tcpPort) },
+                    FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
+            )
+
+            val host = "localhost"
+            val clients = listOf(
+                    RpcHttpClient(host, httpPort),
+                    RpcWebSocketClient(host, wsPort),
+                    RpcTcpClient(host, tcpPort),
+                    RpcZmqClient(host, zmqPort)
+            ).map { JsonRpcFmuClient(it) }
+
+            clients.forEach { client ->
+
+                client.createInstance().use { instance ->
+
+                    Assert.assertEquals(FmiStatus.OK, instance.init())
+
+                    measureTimeMillis {
+                        while (instance.currentTime < stop) {
+                            val status = instance.step(dt)
+                            Assert.assertEquals(FmiStatus.OK, status)
+                        }
+                    }.also {
+                        LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
+                    }
+
+                }
+
+                client.close()
+            }
+            servers.forEach { it.close() }
 
         }
 

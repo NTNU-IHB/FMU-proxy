@@ -293,24 +293,3 @@ class GrpcFmuClient(
 }
 
 
-//fun main(args: Array<String>) {
-//
-//    GrpcFmuClient("localhost", 8000).use {
-//
-//        it.createInstance().use { fmu ->
-//            fmu.init()
-//            val dt = 1.0/1000
-//            val start = Instant.now()
-//            while (fmu.currentTime < 10) {
-//                fmu.step(dt)
-//            }
-//            val end = Instant.now()
-//            println("${Duration.between(start, end).toMillis()}ms")
-//        }
-//
-//    }
-//
-//}
-
-
-

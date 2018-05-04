@@ -217,21 +217,22 @@ class TestProxy {
 
         val md = fmu.modelDescription
 
-        clients.forEach {
-            it.use { fmu ->
+        clients.forEach { client ->
 
-                LOG.info("Testing client of type ${fmu.client.javaClass.simpleName}")
+            LOG.info("Testing client of type ${client.javaClass.simpleName}")
 
-                Assert.assertEquals(md.guid, fmu.guid)
-                Assert.assertEquals(md.modelName, fmu.modelName)
-                Assert.assertEquals(md.fmiVersion, fmu.fmiVersion)
+            Assert.assertEquals(md.guid, client.guid)
+            Assert.assertEquals(md.modelName, client.modelName)
+            Assert.assertEquals(md.fmiVersion, client.fmiVersion)
 
-                Assert.assertTrue(fmu.init() == FmiStatus.OK)
+            client.createInstance().use { instance ->
+
+                Assert.assertTrue(instance.init() == FmiStatus.OK)
 
                 val dt = 1.0/100
                 val start = Instant.now()
-                while (fmu.currentTime < 10) {
-                    val status = fmu.step(dt)
+                while (instance.currentTime < 10) {
+                    val status = instance.step(dt)
                     Assert.assertTrue(status == FmiStatus.OK)
                 }
                 val end = Instant.now()
