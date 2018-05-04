@@ -91,7 +91,7 @@ internal fun Boolean.protoType(): Proto.Bool {
 
 internal fun ModelStructure.protoType(): Proto.ModelStructure {
     return Proto.ModelStructure.newBuilder()
-            .addAllOutputs(outputs)
+            .addAllOutputs(outputs.map { it.index })
             .addAllDerivatives(derivatives.map { it.protoType() })
             .addAllInitialUnknowns(initialUnknowns.map { it.protoType() })
             .build()

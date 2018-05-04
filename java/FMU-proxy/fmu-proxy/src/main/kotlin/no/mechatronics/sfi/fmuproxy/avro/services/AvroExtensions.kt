@@ -51,7 +51,7 @@ internal fun Unknown.avroType(): no.mechatronics.sfi.fmuproxy.avro.Unknown {
 
 internal fun ModelStructure.avroType(): no.mechatronics.sfi.fmuproxy.avro.ModelStructure {
     return no.mechatronics.sfi.fmuproxy.avro.ModelStructure().also { ms ->
-        ms.outputs = outputs
+        ms.outputs = outputs.map { it.index }
         ms.derivatives = derivatives.map { it.avroType() }
         ms.initialUnknowns = initialUnknowns.map { it.avroType() }
     }

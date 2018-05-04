@@ -105,7 +105,7 @@ internal fun Unknown.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Unknown {
 
 internal fun ModelStructure.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.ModelStructure {
     return no.mechatronics.sfi.fmuproxy.thrift.ModelStructure().also { ms ->
-        ms.outputs = outputs
+        ms.outputs = outputs.map { it.index }
         ms.derivatives = derivatives.map { it.thriftType() }
         ms.initial_unknowns = initialUnknowns.map { it.thriftType() }
     }

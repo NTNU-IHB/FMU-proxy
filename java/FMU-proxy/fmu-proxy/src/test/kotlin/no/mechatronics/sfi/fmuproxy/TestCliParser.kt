@@ -9,15 +9,12 @@ import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
 
+private const val fmuPath = "jar:file:../../../test/HydraulicCylinder.jar!/HydraulicCylinder.fmu"
 
 class TestCliParser {
 
-    private val fmuPath = "jar:file:../../../test/HydraulicCylinder.jar!/HydraulicCylinder.fmu"
-
     companion object {
-
         val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
-
     }
 
     @Test
@@ -41,12 +38,7 @@ class TestCliParser {
     }
 
     @Test
-    fun test1() {
-        CommandLineParser.parse(arrayOf("-h"))
-    }
-
-    @Test
-    fun test2() {
+    fun test() {
 
         var args1 = arrayOf(
                 "--remote", "127.0.0.1:8888",
@@ -78,6 +70,5 @@ class TestCliParser {
         }
 
     }
-
 
 }
