@@ -16,8 +16,8 @@ wrapper {
     gradleVersion = '4.6'
 }
 
-ext.fmi4j_stable_version = '0.6.1'
-ext.fmi4j_snapshot_version = '0.6.2-SNAPSHOT'
+ext.fmi4j_stable_version = '0.7'
+ext.fmi4j_snapshot_version = '0.7.1-SNAPSHOT'
 
 subprojects { sub ->
 
