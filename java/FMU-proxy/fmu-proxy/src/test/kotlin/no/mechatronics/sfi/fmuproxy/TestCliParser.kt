@@ -38,11 +38,23 @@ class TestCliParser {
     }
 
     @Test
-    fun test() {
+    fun test1() {
 
         var args1 = arrayOf(
                 "--remote", "127.0.0.1:8888",
                 "-grpc", "8000")
+
+        args1 += arrayOf("-fmu", "$fmuPath")
+        CommandLineParser.parse(args1)?.use { proxy ->
+
+            proxy.start()
+            LOG.info("${proxy.networkInfo}")
+
+        }
+    }
+
+    @Test
+    fun test2() {
 
         var args2 = arrayOf(
                 "--remote", "127.0.0.1:8888",
@@ -52,14 +64,6 @@ class TestCliParser {
                 "-jsonrpc/tcp", "8004",
                 "-jsonrpc/zmq", "8005"
         )
-
-        args1 += arrayOf("-fmu", "$fmuPath")
-        CommandLineParser.parse(args1)?.use { proxy ->
-
-            proxy.start()
-            LOG.info("${proxy.networkInfo}")
-
-        }
 
         args2 += arrayOf("-fmu", "$fmuPath")
         CommandLineParser.parse(args2)?.use { proxy ->

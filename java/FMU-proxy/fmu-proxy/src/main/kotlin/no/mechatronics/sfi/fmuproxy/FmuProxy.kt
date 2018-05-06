@@ -26,6 +26,7 @@
 package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
 import no.mechatronics.sfi.fmuproxy.fmu.RemoteFmu
 import no.mechatronics.sfi.fmuproxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
@@ -36,6 +37,8 @@ import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.net.InetAddress
 import java.net.UnknownHostException
+import java.util.*
+
 
 /**
  * @author Lars Ivar Hatledal
@@ -128,6 +131,21 @@ class FmuProxy(
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            CommandLineParser.parse(args).also {
+                it?.apply {
+                    start()
+                    println("Press any key to exit..")
+                    if (Scanner(System.`in`).hasNext()) {
+                        println("Exiting..")
+                    }
+                    stop()
+                }
+            }
+        }
+
     }
 
 }

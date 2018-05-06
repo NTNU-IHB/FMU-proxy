@@ -118,7 +118,7 @@ class ExecutableGenerator(
 
             ProcessBuilder()
                     .directory(baseFile)
-                    .command("${baseFile.absolutePath}/gradlew.bat", "fatJar")
+                    .command("${baseFile.absolutePath}/gradlew.bat", "shadowJar")
                     .redirectError(ProcessBuilder.Redirect.INHERIT)
                     .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                     .start()
