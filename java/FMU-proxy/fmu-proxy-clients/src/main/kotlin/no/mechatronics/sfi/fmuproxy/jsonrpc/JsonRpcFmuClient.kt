@@ -27,21 +27,13 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc
 import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
-import java.io.Closeable
 
-/**
- * @author Lars Ivar Hatledal
- */
-internal object FmuInstances: ArrayList<JsonRpcFmuClient.FmuInstance>() {
-    internal fun terminateAll() {
-        forEach{ it.terminate() }
-    }
-}
 
 class JsonRpcFmuClient(
         val client: RpcClient
-): RpcFmuClient {
+): RpcFmuClient() {
 
     val fmiVersion: String by lazy {
         client.write("FmuService.getFmiVersion")
@@ -58,92 +50,82 @@ class JsonRpcFmuClient(
                 .getResult(String::class.java)!!
     }
 
-    fun createInstance(): FmuInstance {
-        return FmuInstance(client.write("FmuService.createInstanceFromCS")
-                .getResult(Int::class.java)!!)
+    override val modelDescriptionXml: String by lazy {
+        client.write("FmuService.getModelDescriptionXml")
+                .getResult(String::class.java)!!
     }
-
 
     /**
      * Terminates the FMU and closes the client connection
      */
     override fun close() {
-        FmuInstances.terminateAll()
+        super.close()
         client.close()
     }
 
-    inner class FmuInstance(
-            private val fmuId: Int
-    ) :Closeable {
+    override fun isTerminated(fmuId: Int): Boolean {
+        return client.write("FmuService.getGuid", RpcParams.listParams(fmuId))
+                .getResult(Boolean::class.java)!!
+    }
 
-        private var terminateSent = false
+    override fun createInstanceFromCS(): Int {
+        return client.write("FmuService.createInstanceFromCS")
+                .getResult(Int::class.java)!!
+    }
 
-        val currentTime: Double
-            get() = client.write("FmuService.getCurrentTime", RpcParams.listParams(fmuId))
-                    .getResult(Double::class.java)!!
+    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
+    override fun getCurrentTime(fmuId: Int): Double {
+        return client.write("FmuService.getCurrentTime", RpcParams.listParams(fmuId))
+                .getResult(Double::class.java)!!
+    }
 
-        fun init(): FmiStatus {
-            return client.write("FmuService.init", RpcParams.listParams(fmuId))
-                    .getResult(FmiStatus::class.java)!!
-        }
+    override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
+        return client.write("FmuService.init", RpcParams.listParams(fmuId, start))
+                .getResult(FmiStatus::class.java)!!
+    }
 
-        fun init(start: Double): FmiStatus {
-            return client.write("FmuService.init", RpcParams.listParams(fmuId, start))
-                    .getResult(FmiStatus::class.java)!!
-        }
+    override fun step(fmuId: Int, stepSize: Double): FmiStatus {
+        return client.write("FmuService.step", RpcParams.listParams(fmuId, stepSize))
+                .getResult(FmiStatus::class.java)!!
+    }
 
-        fun step(stepSize: Double): FmiStatus {
-            return client.write("FmuService.step", RpcParams.listParams(fmuId, stepSize))
-                    .getResult(FmiStatus::class.java)!!
-        }
+    /**
+     * Resets the FMU
+     */
+    override fun reset(fmuId: Int): FmiStatus {
+        return client.write("FmuService.reset", RpcParams.listParams(fmuId))
+                .getResult(FmiStatus::class.java)!!
+    }
 
-        /**
-         * Resets the FMU
-         */
-        fun reset(): FmiStatus {
-            return client.write("FmuService.reset", RpcParams.listParams(fmuId))
-                    .getResult(FmiStatus::class.java)!!
-        }
+    /**
+     * Terminates the FMU
+     */
+    override fun terminate(fmuId: Int): FmiStatus {
+        return client.write("FmuService.terminate", RpcParams.listParams(fmuId))
+                .getResult(FmiStatus::class.java)!!
+    }
 
-        override fun close() {
-            terminate()
-        }
+    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
+        return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, name))
+                .getResult(FmuIntegerRead::class.java)!!
+    }
 
-        /**
-         * Terminates the FMU
-         */
-        fun terminate() {
-            if (!terminateSent) {
-                terminateSent = true
-                try {
-                    client.write("FmuService.terminate", RpcParams.listParams(fmuId))
-                } finally {
-                    FmuInstances.remove(this)
-                }
-            }
-        }
+    override fun readReal(fmuId: Int, name: String): FmuRealRead {
+        return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name))
+                .getResult(FmuRealRead::class.java)!!
+    }
 
-        fun readInteger(name: String): FmuIntegerRead {
-            return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, name))
-                    .getResult(FmuIntegerRead::class.java)!!
-        }
+    override fun readString(fmuId: Int, name: String): FmuStringRead {
+        return client.write("FmuService.readString", RpcParams.listParams(fmuId, name))
+                .getResult(FmuStringRead::class.java)!!
+    }
 
-        fun readReal(name: String): FmuRealRead {
-            return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name))
-                    .getResult(FmuRealRead::class.java)!!
-        }
-
-        fun readString(name: String): FmuStringRead {
-            return client.write("FmuService.readString", RpcParams.listParams(fmuId, name))
-                    .getResult(FmuStringRead::class.java)!!
-        }
-
-        fun readBoolean(name: String): FmuBooleanRead {
-            return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, name))
-                    .getResult(FmuBooleanRead::class.java)!!
-        }
-
+    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
+        return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, name))
+                .getResult(FmuBooleanRead::class.java)!!
     }
 
 }

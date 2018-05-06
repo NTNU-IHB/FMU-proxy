@@ -24,24 +24,18 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift
 
-import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmuproxy.*
+import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import java.io.Closeable
 
-internal object FmuInstances: ArrayList<ThriftFmuClient.FmuInstance>() {
-    internal fun terminateAll() {
-        forEach{ it.terminate() }
-    }
-}
 
 class ThriftFmuClient(
         host: String,
         port: Int
-): RpcFmuClient {
+): RpcFmuClient() {
 
     private val transport: TTransport
     private val client: FmuService.Client
@@ -59,68 +53,69 @@ class ThriftFmuClient(
         client.modelDescription
     }
 
-    val modelDescriptionXml: String by lazy {
+    override val modelDescriptionXml: String by lazy {
         client.modelDescriptionXml
     }
 
-    @JvmOverloads
-    fun createInstance(integrator: Integrator? = null): FmuInstance {
-        val fmuId = if (integrator == null) {
-            client.createInstanceFromCS()
-        } else {
-            client.createInstanceFromME(integrator)
-        }
-        return FmuInstance(fmuId).also {
-            FmuInstances.add(it)
-        }
+    override fun getCurrentTime(fmuId: Int): Double {
+        return client.getCurrentTime(fmuId)
+    }
+
+    override fun isTerminated(fmuId: Int): Boolean {
+        return client.isTerminated(fmuId)
+    }
+
+    override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
+        return client.init(fmuId, start, stop).convert()
+    }
+
+    override fun terminate(fmuId: Int): FmiStatus {
+        return client.terminate(fmuId).convert()
+    }
+
+    override fun step(fmuId: Int, stepSize: Double): FmiStatus {
+        return client.step(fmuId, stepSize).convert()
+    }
+
+    override fun reset(fmuId: Int): FmiStatus {
+        return client.reset(fmuId).convert()
+    }
+
+    override fun createInstanceFromCS(): Int {
+        return client.createInstanceFromCS()
+    }
+
+    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
+        return client.createInstanceFromME(integrator.thriftType())
     }
 
     override fun close() {
-        LOG.info("Closing..")
-        FmuInstances.terminateAll()
+        super.close()
         transport.close()
     }
 
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuClient::class.java)
+
+    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
+        return modelDescription.model_variables.find { it.name == name }?.let {
+            client.readInt(fmuId, it.value_reference).convert()
+        } ?: throw IllegalArgumentException("No such variable '$name'")
     }
 
-
-    inner class FmuInstance(
-            private val fmuId: Int
-    ): Closeable {
-
-        val currentTime: Double
-            get() = client.getCurrentTime(fmuId)
-
-        val isTerminated: Boolean
-            get() = client.isTerminated(fmuId)
-
-        @JvmOverloads
-        fun init(start:Double=0.0, stop:Double=-1.0): StatusCode {
-            return client.init(fmuId,start, stop)
-        }
-
-        fun step(stepSize: Double): StatusCode {
-            return client.step(fmuId, stepSize)
-        }
-
-        fun terminate(): StatusCode {
-            return try {
-                client.terminate(fmuId)
-            } finally {
-                FmuInstances.remove(this)
-            }
-        }
-
-        fun reset(): StatusCode {
-            return client.reset(fmuId)
-        }
-
-        override fun close() {
-            terminate()
-        }
+    override fun readReal(fmuId: Int, name: String): FmuRealRead {
+        return modelDescription.model_variables.find { it.name == name }?.let {
+            client.readReal(fmuId, it.value_reference).convert()
+        } ?: throw IllegalArgumentException("No such variable '$name'")
     }
 
+    override fun readString(fmuId: Int, name: String): FmuStringRead {
+        return modelDescription.model_variables.find { it.name == name }?.let {
+            client.readString(fmuId, it.value_reference).convert()
+        } ?: throw IllegalArgumentException("No such variable '$name'")
+    }
 
+    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
+        return modelDescription.model_variables.find { it.name == name }?.let {
+            client.readBoolen(fmuId, it.value_reference).convert()
+        } ?: throw IllegalArgumentException("No such variable '$name'")
+    }
 }

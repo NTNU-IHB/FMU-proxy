@@ -28,6 +28,8 @@ package no.mechatronics.sfi.fmuproxy.grpc
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -44,14 +46,13 @@ internal object FmuInstances: ArrayList<GrpcFmuClient.FmuInstance>() {
     }
 }
 
-
 /**
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuClient(
         host: String,
         port: Int
-): RpcFmuClient {
+): RpcFmuClient() {
 
     private val channel: ManagedChannel = ManagedChannelBuilder
             .forAddress(host, port)
@@ -64,6 +65,70 @@ class GrpcFmuClient(
 
     val modelDescription: Proto.ModelDescription by lazy {
         blockingStub.getModelDescription(EMPTY)
+    }
+
+    override val modelDescriptionXml: String by lazy {
+        blockingStub.getModelDescriptionXml(EMPTY).value
+    }
+
+    override fun getCurrentTime(fmuId: Int): Double {
+        return blockingStub.getCurrentTime(fmuId.asProtoUInt()).value
+    }
+
+    override fun isTerminated(fmuId: Int): Boolean {
+        return blockingStub.isTerminated(fmuId.asProtoUInt()).value
+    }
+
+    override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
+        return Proto.InitRequest.newBuilder()
+                .setFmuId(fmuId)
+                .setStart(start)
+                .setStop(stop)
+                .build().let {
+                    blockingStub.init(it).convert()
+                }
+    }
+
+    override fun step(fmuId: Int, stepSize: Double): FmiStatus {
+        return Proto.StepRequest.newBuilder()
+                .setFmuId(fmuId)
+                .setStepSize(stepSize)
+                .build().let {
+                    blockingStub.step(it).convert()
+                }
+    }
+
+    override fun reset(fmuId: Int): FmiStatus {
+        return blockingStub.reset(fmuId.asProtoUInt()).convert()
+    }
+
+    override fun terminate(fmuId: Int): FmiStatus {
+        return blockingStub.terminate(fmuId.asProtoUInt()).convert()
+    }
+
+
+    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readReal(fmuId: Int, name: String): FmuRealRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readString(fmuId: Int, name: String): FmuStringRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun createInstanceFromCS(): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     @JvmOverloads

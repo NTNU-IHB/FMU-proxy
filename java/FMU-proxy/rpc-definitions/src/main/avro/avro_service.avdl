@@ -131,6 +131,26 @@ protocol AvroFmuService {
     ModelStructure model_structure;
   }
 
+  record IntegerRead {
+    int value;
+    StatusCode code;
+  }
+
+  record RealRead {
+    double value;
+    StatusCode code;
+  }
+
+  record StringRead {
+    string value;
+    StatusCode code;
+  }
+
+  record BooleanRead {
+    boolean value;
+    StatusCode code;
+  }
+
   record EulerIntegrator {
     double step_size;
   }
@@ -177,5 +197,15 @@ protocol AvroFmuService {
   StatusCode step(int fmu_id, double step_size) throws NoSuchFmuException;
   StatusCode terminate(int fmu_id) throws NoSuchFmuException;
   StatusCode reset(int fmu_id) throws NoSuchFmuException;
+
+  IntegerRead readInt(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  RealRead readReal(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  StringRead readString(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  BooleanRead readBoolean(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+
+  StatusCode writeInt(int fmu_id, int vr, int value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode writeReal(int fmu_id, int vr, double value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode writeString(int fmu_id, int vr, string value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode writeBoolean(int fmu_id, int vr, boolean value) throws NoSuchFmuException, NoSuchVariableException;
 
 }
