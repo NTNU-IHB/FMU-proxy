@@ -34,7 +34,6 @@ import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.Closeable
 
 private val EMPTY = Empty.getDefaultInstance()
 
