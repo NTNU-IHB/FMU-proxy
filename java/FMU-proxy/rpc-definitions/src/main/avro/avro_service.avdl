@@ -26,14 +26,6 @@
 @namespace("no.mechatronics.sfi.fmuproxy.avro")
 protocol AvroFmuService {
 
-  enum VariableType {
-    INTEGER_VARIABLE,
-    REAL_VARIABLE,
-    STRING_VARIABLE,
-    BOOLEAN_VARIABLE,
-    ENUMERATION_VARIABLE
-  }
-
   enum StatusCode {
     OK_STATUS,
     WARNING_STATUS,
@@ -78,10 +70,6 @@ protocol AvroFmuService {
     STRUCTURED
   }
 
-  record AnyPrimitive {
-    union {int, double, string, boolean} value;
-  }
-
   record Unknown {
     int index;
     array<int> dependencies;
@@ -94,16 +82,41 @@ protocol AvroFmuService {
     array<Unknown> initial_unknowns;
   }
 
+  record IntegerAttribute {
+      union{null, int} min;
+      union{null, int} max;
+      union{null, int} start;
+  }
+
+  record RealAttribute {
+    union{null, double} min;
+    union{null, double} max;
+    union{null, double} start;
+  }
+
+  record StringAttribute {
+    union{null, string} start;
+  }
+
+  record BooleanAttribute {
+    union{null, boolean} start;
+  }
+
+  record EnumerationAttribute {
+    union{null, int} min;
+    union{null, int} max;
+    union{null, int} start;
+  }
+
   record ScalarVariable {
     string name;
     int value_reference;
-    VariableType variable_type;
-    union {null, string} declared_type;
     union {null, string} description;
+    union {null, string} declared_type;
     union {null, Causality} causality;
     union {null, Variability} variability;
     union {null, Initial} initial;
-    union {null, AnyPrimitive} start;
+    union {IntegerAttribute, RealAttribute, StringAttribute, BooleanAttribute, EnumerationAttribute} attribute;
   }
 
   record DefaultExperiment {

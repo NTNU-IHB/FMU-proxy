@@ -46,25 +46,46 @@ message ModelDescription {
     bool supports_model_exchange = 16;
 }
 
+message IntegerAttribute {
+    int32 min = 1;
+    int32 max = 2;
+    int32 start = 3;
+}
+
+message RealAttribute {
+    double min = 1;
+    double max = 2;
+    double start = 3;
+}
+
+message StringAttribute {
+    string start = 1;
+}
+
+message BooleanAttribute {
+    bool start = 1;
+}
+
+message EnumerationAttribute {
+    int32 min = 1;
+    int32 max = 2;
+    int32 start = 3;
+}
+
 message ScalarVariable {
     uint32 value_reference = 1;
     string name = 2;
     string description = 3;
-    VariableType variable_type = 4;
-    string declared_type = 5;
-    Initial initial = 6;
-    Causality causality = 7;
-    Variability variability = 8;
-    AnyPrimitive start = 9;
-}
-
-message AnyPrimitive {
-    oneof value {
-        int32 int_value = 1;
-        double real_value = 2;
-        string str_value = 3;
-        bool bool_value = 4;
-        uint32 enum_value = 5;
+    string declared_type = 4;
+    Initial initial = 5;
+    Causality causality = 6;
+    Variability variability = 7;
+    oneof attribute {
+        IntegerAttribute integerAttribute = 10;
+        RealAttribute realAttribute = 11;
+        StringAttribute stringAttribute = 12;
+        BooleanAttribute booleanAttribute = 13;
+        EnumerationAttribute enumerationAttribute = 14;
     }
 }
 
@@ -279,14 +300,6 @@ enum Initial {
     EXACT_INITIAL = 0;
     APPROX_INITIAL = 1;
     CALCULATED_INITIAL = 2;
-}
-
-enum VariableType {
-    INTEGER_VARIABLE = 0;
-    REAL_VARIABLE = 1;
-    STRING_VARIABLE = 2;
-    BOOLEAN_VARIABLE = 3;
-    ENUMERATION_VARIABLE = 4;
 }
 
 enum StatusCode {

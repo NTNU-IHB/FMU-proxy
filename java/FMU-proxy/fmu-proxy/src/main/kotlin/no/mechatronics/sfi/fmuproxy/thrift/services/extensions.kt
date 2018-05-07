@@ -49,41 +49,66 @@ internal fun FmuStringRead.thriftType()
 internal fun FmuBooleanRead.thriftType()
         = BoolRead(value, StatusCode.findByValue(status.code))
 
+internal fun IntegerVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute {
+    return no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute().also { attribute->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun RealVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.RealAttribute {
+    return no.mechatronics.sfi.fmuproxy.thrift.RealAttribute().also { attribute->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun StringVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.StringAttribute {
+    return no.mechatronics.sfi.fmuproxy.thrift.StringAttribute().also { attribute ->
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun BooleanVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute {
+    return no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute().also { attribute ->
+        start?.also { attribute.isStart = it }
+    }
+}
+
+internal fun EnumerationVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute {
+    return no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute().also { attribute->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
 internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
     return ScalarVariable().also { v ->
+
         v.name = name
         v.value_reference = valueReference
-        v.variableType = thriftVariableType()
         description?.also { v.description = it }
         causality?.also { v.causality = it.thriftType() }
         variability?.also { v.variability = it.thriftType() }
         initial?.also { v.initial = it.thriftType() }
-        thriftStartType()?.also { v.start = it }
-    }
-}
 
-internal fun TypedScalarVariable<*>.thriftStartType(): AnyPrimitive? {
-    return start?.let {
-        AnyPrimitive().also { pri ->
-            when(this) {
-                is IntegerVariable -> pri.intValue = start!!
-                is RealVariable -> pri.realValue = start!!
-                is StringVariable -> pri.strValue = start!!
-                is BooleanVariable -> pri.boolValue = start!!
-                is EnumerationVariable -> pri.intValue = start!!
+        v.attribute = ScalarVariableAttribute().also { attribute ->
+
+            when (this) {
+                is IntegerVariable -> attribute.integerAttribute = this.thriftType()
+                is RealVariable -> attribute.realAttribute = this.thriftType()
+                is StringVariable -> attribute.stringAttribute = this.thriftType()
+                is BooleanVariable -> attribute.booleanAttribute = this.thriftType()
+                is EnumerationVariable -> attribute.enumerationAttribute = this.thriftType()
+                else -> throw AssertionError()
             }
-        }
-    }
-}
 
-internal fun TypedScalarVariable<*>.thriftVariableType(): VariableType {
-    return when(this) {
-        is IntegerVariable -> VariableType.INTEGER_VARIABLE
-        is RealVariable -> VariableType.REAL_VARIABLE
-        is StringVariable -> VariableType.STRING_VARIABLE
-        is BooleanVariable -> VariableType.BOOLEAN_VARIABLE
-        is EnumerationVariable -> VariableType.ENUMERATION_VARIABLE
-        else -> throw IllegalStateException()
+        }
+
+
     }
 }
 

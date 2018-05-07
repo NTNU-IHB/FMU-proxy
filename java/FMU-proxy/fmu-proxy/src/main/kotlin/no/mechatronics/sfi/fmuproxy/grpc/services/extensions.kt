@@ -63,18 +63,61 @@ internal fun CommonModelDescription.protoType(): Proto.ModelDescription {
 
 }
 
+internal fun IntegerVariable.protoType(): Proto.IntegerAttribute {
+    return Proto.IntegerAttribute.newBuilder().also {builder ->
+        min?.also { builder.min = it }
+        max?.also { builder.max = it }
+        start?.also { builder.start = it }
+    }.build()
+}
+
+internal fun RealVariable.protoType(): Proto.RealAttribute {
+    return Proto.RealAttribute.newBuilder().also {builder ->
+        min?.also { builder.min = it }
+        max?.also { builder.max = it }
+        start?.also { builder.start = it }
+    }.build()
+}
+
+internal fun StringVariable.protoType(): Proto.StringAttribute {
+    return Proto.StringAttribute.newBuilder().also {builder ->
+        start?.also { builder.start = it }
+    }.build()
+}
+
+internal fun BooleanVariable.protoType(): Proto.BooleanAttribute {
+    return Proto.BooleanAttribute.newBuilder().also {builder ->
+        start?.also { builder.start = it }
+    }.build()
+}
+
+internal fun EnumerationVariable.protoType(): Proto.EnumerationAttribute {
+    return Proto.EnumerationAttribute.newBuilder().also {builder ->
+        min?.also { builder.min = it }
+        max?.also { builder.max = it }
+        start?.also { builder.start = it }
+    }.build()
+}
+
 internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
     return Proto.ScalarVariable.newBuilder().also { builder ->
 
         builder.name = name
         builder.valueReference = valueReference
-        builder.variableType = protoVariableType()
 
         description?.also { builder.description = it }
-        start?.also { builder.start =protoStartType() }
         causality?.also { builder.causality = it.protoType() }
         variability?.also { builder.variability = it.protoType() }
         initial?.also { builder.initial = it.protoType() }
+
+        when (this) {
+            is IntegerVariable -> builder.integerAttribute = this.protoType()
+            is RealVariable -> builder.realAttribute = this.protoType()
+            is StringVariable -> builder.stringAttribute = this.protoType()
+            is BooleanVariable -> builder.booleanAttribute = this.protoType()
+            is EnumerationVariable -> builder.enumerationAttribute = this.protoType()
+            else -> throw AssertionError()
+        }
 
     }.build()
 
@@ -157,32 +200,32 @@ internal fun Initial.protoType(): Proto.Initial {
 
 }
 
-internal fun TypedScalarVariable<*>.protoStartType(): Proto.AnyPrimitive {
-    return if (start != null) {
-        Proto.AnyPrimitive.newBuilder().also { builder ->
-            when (this) {
-                is IntegerVariable -> builder.intValue = start!!
-                is RealVariable -> builder.realValue = start!!
-                is StringVariable -> builder.strValue = start
-                is BooleanVariable -> builder.boolValue = start!!
-                is EnumerationVariable -> builder.enumValue = start!!
-                else -> throw UnsupportedOperationException("Variable type not supported: ${this::class.java.simpleName}")
-            }
-        }.build()
+//internal fun TypedScalarVariable<*>.protoStartType(): Proto.AnyPrimitive {
+//    return if (start != null) {
+//        Proto.AnyPrimitive.newBuilder().also { builder ->
+//            when (this) {
+//                is IntegerVariable -> builder.intValue = start!!
+//                is RealVariable -> builder.realValue = start!!
+//                is StringVariable -> builder.strValue = start
+//                is BooleanVariable -> builder.boolValue = start!!
+//                is EnumerationVariable -> builder.enumValue = start!!
+//                else -> throw UnsupportedOperationException("Variable type not supported: ${this::class.java.simpleName}")
+//            }
+//        }.build()
+//
+//    } else {
+//        Proto.AnyPrimitive.getDefaultInstance()
+//    }
+//}
 
-    } else {
-        Proto.AnyPrimitive.getDefaultInstance()
-    }
-}
-
-internal fun TypedScalarVariable<*>.protoVariableType(): Proto.VariableType {
-    return when(this) {
-        is IntegerVariable -> Proto.VariableType.INTEGER_VARIABLE
-        is RealVariable -> Proto.VariableType.REAL_VARIABLE
-        is StringVariable -> Proto.VariableType.STRING_VARIABLE
-        is BooleanVariable -> Proto.VariableType.BOOLEAN_VARIABLE
-        is EnumerationVariable -> Proto.VariableType.ENUMERATION_VARIABLE
-        else -> throw UnsupportedOperationException("$this is not a supported variable type!")
-    }
-}
+//internal fun TypedScalarVariable<*>.protoVariableType(): Proto.VariableType {
+//    return when(this) {
+//        is IntegerVariable -> Proto.VariableType.INTEGER_VARIABLE
+//        is RealVariable -> Proto.VariableType.REAL_VARIABLE
+//        is StringVariable -> Proto.VariableType.STRING_VARIABLE
+//        is BooleanVariable -> Proto.VariableType.BOOLEAN_VARIABLE
+//        is EnumerationVariable -> Proto.VariableType.ENUMERATION_VARIABLE
+//        else -> throw UnsupportedOperationException("$this is not a supported variable type!")
+//    }
+//}
 

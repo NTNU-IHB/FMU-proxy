@@ -58,23 +58,49 @@ struct ModelDescription {
     16: bool supportsModelExchange
 }
 
+struct IntegerAttribute {
+    1: i32 min,
+    2: i32 max,
+    3: i32 start
+}
+
+struct RealAttribute {
+    1: double min,
+    2: double max,
+    3: double start
+}
+
+struct StringAttribute {
+    1: string start
+}
+
+struct BooleanAttribute {
+    1: bool start
+}
+
+struct EnumerationAttribute {
+    1: i32 min,
+    2: i32 max,
+    3: i32 start
+}
+
+union ScalarVariableAttribute {
+    1: IntegerAttribute integerAttribute,
+    2: RealAttribute realAttribute,
+    3: StringAttribute stringAttribute,
+    4: BooleanAttribute booleanAttribute,
+    5: EnumerationAttribute enumerationAttribute
+}
+
 struct ScalarVariable {
     1: i32 value_reference,
     2: string name,
-    3: string description,
-    4: VariableType variableType,
-    5: optional string declaredType,
-    6: optional Initial initial,
-    7: optional Causality causality,
-    8: optional Variability variability,
-    9: optional AnyPrimitive start
-}
-
-union AnyPrimitive {
-    1: i32 intValue,
-    2: double realValue,
-    3: string strValue,
-    4: bool boolValue
+    3: optional string description,
+    4: optional string declaredType,
+    5: optional Initial initial,
+    6: optional Causality causality,
+    7: optional Variability variability,
+    8: ScalarVariableAttribute attribute
 }
 
 struct Unknown {
@@ -134,14 +160,6 @@ struct BoolRead {
 struct BoolArrayRead {
     1: list<bool> value,
     2: StatusCode code
-}
-
-enum VariableType {
-    INTEGER_VARIABLE = 0,
-    REAL_VARIABLE = 1,
-    STRING_VARIABLE = 2,
-    BOOLEAN_VARIABLE = 3,
-    ENUMERATION_VARIABLE = 4
 }
 
 enum StatusCode {

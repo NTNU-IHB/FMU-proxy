@@ -13,29 +13,63 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.avro.ScalarVariable
 
+internal fun IntegerVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute().also { attribute ->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun RealVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.RealAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.RealAttribute().also { attribute ->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun StringVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.StringAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.StringAttribute().also { attribute ->
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun BooleanVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute().also { attribute ->
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun EnumerationVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute().also { attribute ->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
 internal fun TypedScalarVariable<*>.avroType(): ScalarVariable {
     return no.mechatronics.sfi.fmuproxy.avro.ScalarVariable().also { v ->
         v.name = name
         v.valueReference = valueReference
-        v.variableType = avroVariableType()
         description?.also { v.description = it }
-        start?.also { v.start = AnyPrimitive().apply { value = it } }
         causality?.also { v.causality = it.avroType() }
         variability?.also { v.variability = it.avroType() }
         initial?.also { v.initial = it.avroType() }
+
+        when (this) {
+            is IntegerVariable -> v.attribute = this.avroType()
+            is RealVariable -> v.attribute = this.avroType()
+            is StringVariable -> v.attribute = this.avroType()
+            is BooleanVariable -> v.attribute = this.avroType()
+            is EnumerationVariable -> v.attribute = this.avroType()
+            else -> throw AssertionError()
+        }
+
     }
 }
 
-internal fun TypedScalarVariable<*>.avroVariableType(): VariableType {
-    return when(this) {
-        is IntegerVariable -> VariableType.INTEGER_VARIABLE
-        is RealVariable -> VariableType.REAL_VARIABLE
-        is StringVariable -> VariableType.STRING_VARIABLE
-        is BooleanVariable -> VariableType.BOOLEAN_VARIABLE
-        is EnumerationVariable -> VariableType.ENUMERATION_VARIABLE
-        else -> throw IllegalStateException()
-    }
-}
 
 internal fun ModelVariables.avroType(): List<ScalarVariable> {
     return map { it.avroType() }
