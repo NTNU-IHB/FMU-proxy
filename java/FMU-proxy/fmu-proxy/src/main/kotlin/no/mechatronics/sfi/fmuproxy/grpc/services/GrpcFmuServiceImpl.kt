@@ -71,16 +71,6 @@ class GrpcFmuServiceImpl(
     private val modelDescription: CommonModelDescription
             = fmu.modelDescription
 
-    override fun supportsModelExchange(request: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
-        responseObserver.onNext(modelDescription.supportsModelExchange.protoType())
-        responseObserver.onCompleted()
-    }
-
-    override fun supportsCoSimulation(request: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
-        responseObserver.onNext(modelDescription.supportsCoSimulation.protoType())
-        responseObserver.onCompleted()
-    }
-
     override fun getModelDescription(request: Empty, responseObserver: StreamObserver<Proto.ModelDescription>) {
         responseObserver.onNext(modelDescription.protoType())
         responseObserver.onCompleted()

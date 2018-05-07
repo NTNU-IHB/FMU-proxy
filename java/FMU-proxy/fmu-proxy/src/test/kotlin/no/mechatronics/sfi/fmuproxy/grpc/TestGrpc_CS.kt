@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc
 
-import io.grpc.StatusRuntimeException
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import org.junit.AfterClass
@@ -33,8 +33,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.time.Duration
-import java.time.Instant
+import kotlin.system.measureTimeMillis
 
 
 class TestGrpc_CS {
@@ -87,29 +86,30 @@ class TestGrpc_CS {
         Assert.assertEquals(modelDescription.guid, guid)
     }
 
-    @Test
-    fun testWrongId() {
-        try {
-            client.blockingStub.reset(Proto.UInt.newBuilder().setValue(0).build())
-        } catch (ex: StatusRuntimeException) {
-            LOG.info("${ex.message}}")
-        }
-    }
+//    @Test
+//    fun testWrongId() {
+//        try {
+//            client.blockingStub.reset(Proto.UInt.newBuilder().setValue(0).build())
+//        } catch (ex: StatusRuntimeException) {
+//            LOG.info("${ex.message}}")
+//        }
+//    }
 
     @Test
     fun testInstance() {
 
-        client.createInstance().use { fmu ->
+        client.newInstance().use { instance ->
 
-            Assert.assertTrue(fmu.init().code == Proto.StatusCode.OK_STATUS)
-            var start = Instant.now()
+            Assert.assertEquals(FmiStatus.OK, instance.init())
+
             val dt = 1.0/100
-            while (fmu.currentTime < 10) {
-                val step = fmu.step(dt)
-                Assert.assertTrue(step.code == Proto.StatusCode.OK_STATUS)
-            }
-            val end = Instant.now()
-            LOG.info("Duration: ${Duration.between(start, end).toMillis()}ms")
+            measureTimeMillis {
+                while (instance.currentTime < 10) {
+                    val step = instance.step(dt)
+                    Assert.assertEquals(FmiStatus.OK, step)
+                }
+            }.also { LOG.info("Duration: ${it}ms") }
+
 
         }
 

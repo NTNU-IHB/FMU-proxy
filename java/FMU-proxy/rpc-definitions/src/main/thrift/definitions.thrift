@@ -45,49 +45,53 @@ struct ModelDescription {
     3: string guid,
     4: optional string license,
     5: optional string copyright,
-    6: optional string authour,
+    6: optional string author,
     7: optional string version,
     8: optional string description,
-    9: optional string generation_tool,
-    10: optional DefaultExperiment default_experiment,
-    11: optional VariableNamingConvention variable_naming_convention,
-    12: ModelVariables model_variables,
-    13: ModelStructure model_structure
+    9: optional string generationTool,
+    10: optional string generationDateAndTime,
+    11: optional DefaultExperiment defaultExperiment,
+    12: optional VariableNamingConvention variableNamingConvention,
+    13: ModelVariables modelVariables,
+    14: ModelStructure modelStructure,
+    15: bool supportsCoSimulation,
+    16: bool supportsModelExchange
 }
 
 struct ScalarVariable {
     1: i32 value_reference,
     2: string name,
     3: string description,
-    4: VariableType variable_type,
-    5: Initial initial,
-    6: Causality causality,
-    7: Variability variability,
-    8: optional AnyPrimitive start
+    4: VariableType variableType,
+    5: optional string declaredType,
+    6: optional Initial initial,
+    7: optional Causality causality,
+    8: optional Variability variability,
+    9: optional AnyPrimitive start
 }
 
 union AnyPrimitive {
-    1: i32 int_value,
-    2: double real_value,
-    3: string str_value,
-    4: bool bool_value
+    1: i32 intValue,
+    2: double realValue,
+    3: string strValue,
+    4: bool boolValue
 }
 
 struct Unknown {
     1: i32 index,
     2: list<i32> dependencies,
-    3: DependenciesKind dependencies_kind
+    3: DependenciesKind dependenciesKind
 }
 
 struct ModelStructure {
-    1: list<i32> outputs,
+    1: list<Unknown> outputs,
     2: list<Unknown> derivatives,
-    3: list<Unknown> initial_unknowns
+    3: list<Unknown> initialUnknowns
 }
 
 struct DefaultExperiment {
     1: double startTime,
-    2: double endTime,
+    2: double stopTime,
     3: double tolerance,
     4: double stepSize
 }
@@ -150,36 +154,33 @@ enum StatusCode {
 }
 
 enum Causality {
-    UNDEFINED_CAUSALITY = 0,
-    INPUT_CAUSALITY = 1,
-    OUTPUT_CAUSALITY = 2,
-    PARAMETER_CAUSALITY = 3,
-    CALCULATED_PARAMETER_CAUSALITY = 4,
-    LOCAL_CAUSALITY = 5,
-    INDEPENDENT_CAUSALITY = 6
+    INPUT_CAUSALITY = 0,
+    OUTPUT_CAUSALITY = 1,
+    PARAMETER_CAUSALITY = 2,
+    CALCULATED_PARAMETER_CAUSALITY = 3,
+    LOCAL_CAUSALITY = 4,
+    INDEPENDENT_CAUSALITY = 5
 }
 
 enum Variability {
-    UNDEFINED_VARIABILITY = 0,
-    CONSTANT_VARIABILITY =  1,
-    FIXED_VARIABILITY = 2,
-    CONTINUOUS_VARIABILITY = 3,
-    DISCRETE_VARIABILITY = 4,
-    TUNABLE_VARIABILITY = 5
+    CONSTANT_VARIABILITY =  0,
+    FIXED_VARIABILITY = 1,
+    CONTINUOUS_VARIABILITY = 2,
+    DISCRETE_VARIABILITY = 3,
+    TUNABLE_VARIABILITY = 4
 }
 
 enum Initial {
-    UNDEFINED_INITIAL = 0,
-    EXACT_INITIAL = 1,
-    APPROX_INITIAL = 2,
-    CALCULATED_INITIAL = 3
+    EXACT_INITIAL = 0,
+    APPROX_INITIAL = 1,
+    CALCULATED_INITIAL = 2
 }
 
 enum DependenciesKind {
     DEPENDENT_KIND = 0,
     CONSTANT_KIND = 1,
     TUNABLE_KIND = 2,
-    DISCRETE_KIND = 4
+    DISCRETE_KIND = 3
 }
 
 enum VariableNamingConvention {

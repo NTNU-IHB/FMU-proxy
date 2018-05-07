@@ -24,10 +24,11 @@
 
 package no.mechatronics.sfi.fmuproxy.fmu
 
-import no.mechatronics.sfi.fmi4j.fmu.FmiSimulation
+
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
+import no.mechatronics.sfi.fmi4j.common.FmiSimulation
 
 /**
  * @author Lars Ivar Hatledal

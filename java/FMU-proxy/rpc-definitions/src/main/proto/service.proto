@@ -31,9 +31,6 @@ import "definitions.proto";
 
 service FmuService {
 
-    rpc SupportsCoSimulation(UInt) returns (Bool);
-    rpc SupportsModelExchange(UInt) returns (Bool);
-
     rpc GetModelDescriptionXml(google.protobuf.Empty) returns (Str);
 	rpc GetModelDescription(google.protobuf.Empty) returns (ModelDescription);
 

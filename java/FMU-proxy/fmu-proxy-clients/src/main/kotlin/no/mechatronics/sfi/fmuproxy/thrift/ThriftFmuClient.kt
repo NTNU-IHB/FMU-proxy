@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -40,8 +41,6 @@ class ThriftFmuClient(
     private val transport: TTransport
     private val client: FmuService.Client
 
-    private val nameToVr = mutableMapOf<String, Int>()
-
     init {
         transport = TSocket(host, port).also {
             it.open()
@@ -52,8 +51,8 @@ class ThriftFmuClient(
 
     }
 
-    val modelDescription: ModelDescription by lazy {
-        client.modelDescription
+    override val modelDescription: CommonModelDescription by lazy {
+        client.modelDescription.convert()
     }
 
     override val modelDescriptionXml: String by lazy {
@@ -97,11 +96,6 @@ class ThriftFmuClient(
         transport.close()
     }
 
-    override fun getValueReference(name: String): Int? {
-        return modelDescription.model_variables
-                .firstOrNull { it.name == name }?.value_reference
-    }
-
     override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
         return client.readInt(fmuId, vr).convert()
     }
@@ -134,4 +128,35 @@ class ThriftFmuClient(
         return client.bulkReadBoolean(fmuId, vr).convert()
     }
 
+    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
+        return client.writeInt(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
+        return client.bulkWriteInt(fmuId, vr, value).convert()
+    }
+
+    override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
+        return client.writeReal(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
+        return client.bulkWriteReal(fmuId, vr, value).convert()
+    }
+
+    override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
+        return client.writeString(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
+        return client.bulkWriteString(fmuId, vr, value).convert()
+    }
+
+    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return client.writeBoolean(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
+        return client.bulkWriteBoolean(fmuId, vr, value).convert()
+    }
 }

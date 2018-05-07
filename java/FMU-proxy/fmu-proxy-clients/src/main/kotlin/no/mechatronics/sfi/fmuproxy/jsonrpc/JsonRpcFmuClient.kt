@@ -27,6 +27,7 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc
 import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 
@@ -50,6 +51,11 @@ class JsonRpcFmuClient(
                 .getResult(String::class.java)!!
     }
 
+    override val modelDescription: CommonModelDescription by lazy {
+        client.write("FmuService.getModelDescription")
+                .getResult(CommonModelDescription::class.java)!!
+    }
+
     override val modelDescriptionXml: String by lazy {
         client.write("FmuService.getModelDescriptionXml")
                 .getResult(String::class.java)!!
@@ -68,9 +74,81 @@ class JsonRpcFmuClient(
                 .getResult(Boolean::class.java)!!
     }
 
-    override fun createInstanceFromCS(): Int {
+    override fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead {
+        return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuIntegerRead::class.java)!!
+    }
+
+    override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
+        return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuIntegerArrayRead::class.java)!!
+    }
+
+    override fun readReal(fmuId: Int, vr: ValueReference): FmuRealRead {
+        return client.write("FmuService.readReal", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuRealRead::class.java)!!
+    }
+
+    override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
+        return client.write("FmuService.readReal", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuRealArrayRead::class.java)!!
+    }
+
+    override fun readString(fmuId: Int, vr: ValueReference): FmuStringRead {
+        return client.write("FmuService.readString", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuStringRead::class.java)!!
+    }
+
+    override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
+        return client.write("FmuService.readString", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuStringArrayRead::class.java)!!
+    }
+
+    override fun readBoolean(fmuId: Int, vr: ValueReference): FmuBooleanRead {
+        return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuBooleanRead::class.java)!!
+    }
+
+    override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
+        return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, vr))
+                .getResult(FmuBooleanArrayRead::class.java)!!
+    }
+
+    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun createInstanceFromCS(): ValueReference {
         return client.write("FmuService.createInstanceFromCS")
-                .getResult(Int::class.java)!!
+                .getResult(ValueReference::class.java)!!
     }
 
     override fun createInstanceFromME(integrator: IntegratorSettings): Int {
@@ -106,26 +184,6 @@ class JsonRpcFmuClient(
     override fun terminate(fmuId: Int): FmiStatus {
         return client.write("FmuService.terminate", RpcParams.listParams(fmuId))
                 .getResult(FmiStatus::class.java)!!
-    }
-
-    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
-        return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, name))
-                .getResult(FmuIntegerRead::class.java)!!
-    }
-
-    override fun readReal(fmuId: Int, name: String): FmuRealRead {
-        return client.write("FmuService.readReal", RpcParams.listParams(fmuId, name))
-                .getResult(FmuRealRead::class.java)!!
-    }
-
-    override fun readString(fmuId: Int, name: String): FmuStringRead {
-        return client.write("FmuService.readString", RpcParams.listParams(fmuId, name))
-                .getResult(FmuStringRead::class.java)!!
-    }
-
-    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, name))
-                .getResult(FmuBooleanRead::class.java)!!
     }
 
 }

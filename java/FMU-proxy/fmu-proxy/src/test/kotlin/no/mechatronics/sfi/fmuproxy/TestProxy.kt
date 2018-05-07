@@ -119,13 +119,13 @@ class TestProxy {
                 Assert.assertEquals(mdLocal.modelName, mdRemote.modelName)
                 Assert.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
 
-                client.createInstance().use { fmu ->
+                client.newInstance().use { instance ->
 
-                    Assert.assertTrue(fmu.init().code == Proto.StatusCode.OK_STATUS)
+                    Assert.assertEquals(FmiStatus.OK, instance.init())
 
                     val start = Instant.now()
-                    while (fmu.currentTime < stopTime) {
-                        val status = fmu.step(stepSize)
+                    while (instance.currentTime < stopTime) {
+                        val status = instance.step(stepSize)
                         Assert.assertEquals(Proto.StatusCode.OK_STATUS, status.code)
                     }
 
@@ -152,12 +152,12 @@ class TestProxy {
                 Assert.assertEquals(mdLocal.modelName, mdRemote.modelName)
                 Assert.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
 
-                client.createInstance().use { fmu ->
+                client.newInstance().use { instance ->
 
-                    Assert.assertTrue(fmu.init() == StatusCode.OK_STATUS)
+                    Assert.assertTrue(instance.init() == StatusCode.OK_STATUS)
                     val start = Instant.now()
-                    while (fmu.currentTime < stopTime) {
-                        val status = fmu.step(stepSize)
+                    while (instance.currentTime < stopTime) {
+                        val status = instance.step(stepSize)
                         Assert.assertEquals(no.mechatronics.sfi.fmuproxy.thrift.StatusCode.OK_STATUS, status)
                     }
 
@@ -184,12 +184,12 @@ class TestProxy {
                 Assert.assertEquals(mdLocal.modelName, mdRemote.modelName)
                 Assert.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
 
-                client.createInstance().use { fmu ->
+                client.newInstance().use { instance ->
 
-                    Assert.assertTrue(fmu.init() == no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS)
+                    Assert.assertTrue(instance.init() == no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS)
                     val start = Instant.now()
-                    while (fmu.currentTime < stopTime) {
-                        val status = fmu.step(stepSize)
+                    while (instance.currentTime < stopTime) {
+                        val status = instance.step(stepSize)
                         Assert.assertEquals(no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS, status)
                     }
 
@@ -225,7 +225,7 @@ class TestProxy {
             Assert.assertEquals(md.modelName, client.modelName)
             Assert.assertEquals(md.fmiVersion, client.fmiVersion)
 
-            client.createInstance().use { instance ->
+            client.newInstance().use { instance ->
 
                 Assert.assertTrue(instance.init() == FmiStatus.OK)
 

@@ -53,7 +53,7 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
     return ScalarVariable().also { v ->
         v.name = name
         v.value_reference = valueReference
-        v.variable_type = thriftVariableType()
+        v.variableType = thriftVariableType()
         description?.also { v.description = it }
         causality?.also { v.causality = it.thriftType() }
         variability?.also { v.variability = it.thriftType() }
@@ -66,11 +66,11 @@ internal fun TypedScalarVariable<*>.thriftStartType(): AnyPrimitive? {
     return start?.let {
         AnyPrimitive().also { pri ->
             when(this) {
-                is IntegerVariable -> pri.int_value = start!!
-                is RealVariable -> pri.real_value = start!!
-                is StringVariable -> pri.str_value = start!!
-                is BooleanVariable -> pri.bool_value = start!!
-                is EnumerationVariable -> pri.int_value = start!!
+                is IntegerVariable -> pri.intValue = start!!
+                is RealVariable -> pri.realValue = start!!
+                is StringVariable -> pri.strValue = start!!
+                is BooleanVariable -> pri.boolValue = start!!
+                is EnumerationVariable -> pri.intValue = start!!
             }
         }
     }
@@ -99,15 +99,15 @@ internal fun Unknown.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Unknown {
     return no.mechatronics.sfi.fmuproxy.thrift.Unknown().also { u ->
         u.index = index
         u.dependencies = dependencies
-        dependenciesKind?.also { u.dependencies_kind = it.thriftType() }
+        dependenciesKind?.also { u.dependenciesKind = it.thriftType() }
     }
 }
 
 internal fun ModelStructure.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.ModelStructure {
     return no.mechatronics.sfi.fmuproxy.thrift.ModelStructure().also { ms ->
-        ms.outputs = outputs.map { it.index }
+        ms.outputs = outputs.map { it.thriftType() }
         ms.derivatives = derivatives.map { it.thriftType() }
-        ms.initial_unknowns = initialUnknowns.map { it.thriftType() }
+        ms.initialUnknowns = initialUnknowns.map { it.thriftType() }
     }
 }
 
@@ -117,15 +117,16 @@ internal fun CommonModelDescription.thriftType(): ModelDescription {
         md.guid = guid
         md.modelName = modelName
         md.fmiVersion = fmiVersion
-        md.model_variables = modelVariables.thriftType()
-        md.model_structure = modelStructure.thriftType()
+        md.modelVariables = modelVariables.thriftType()
+        md.modelStructure = modelStructure.thriftType()
 
         license?.also { md.license = it }
         copyright?.also { md.copyright = it }
-        author?.also { md.authour = it }
+        author?.also { md.author = it }
         description?.also { md.description = it }
-        generationTool?.also { md.generation_tool = it }
-        defaultExperiment?.also { md.default_experiment = it.thriftType() }
+        generationTool?.also { md.generationTool = it }
+        generationDateAndTime?.also { md.generationDateAndTime = it }
+        defaultExperiment?.also { md.defaultExperiment = it.thriftType() }
 
     }
 }

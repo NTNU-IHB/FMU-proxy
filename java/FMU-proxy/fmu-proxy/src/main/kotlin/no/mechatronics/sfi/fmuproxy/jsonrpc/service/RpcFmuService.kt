@@ -27,7 +27,6 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc.service
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.fmu.FmiSimulation
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
@@ -136,48 +135,67 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
-        return getFmu(fmuId).variableAccessor.readInteger(name)
+    fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead {
+        return getFmu(fmuId).variableAccessor.readInteger(vr)
     }
 
     @RpcMethod
-    fun readReal(fmuId: Int, name: String): FmuRealRead {
-        return getFmu(fmuId).variableAccessor.readReal(name)
+    fun bulkReadInteger(fmuId: Int, vr: ValueReferences): FmuIntegerArrayRead {
+        return getFmu(fmuId).variableAccessor.readInteger(vr)
     }
 
     @RpcMethod
-    fun readString(fmuId: Int, name: String): FmuStringRead {
-        return getFmu(fmuId).variableAccessor.readString(name)
+    fun readReal(fmuId: Int, vr: ValueReference): FmuRealRead {
+        return getFmu(fmuId).variableAccessor.readReal(vr)
     }
 
     @RpcMethod
-    fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        return getFmu(fmuId).variableAccessor.readBoolean(name)
+    fun bulkReadReal(fmuId: Int, vr: ValueReferences): FmuRealArrayRead {
+        return getFmu(fmuId).variableAccessor.readReal(vr)
     }
 
     @RpcMethod
-    fun writeInteger(fmuId: Int, name: String, value: Int): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeInteger(name, value)
+    fun readString(fmuId: Int, vr: ValueReference): FmuStringRead {
+        return getFmu(fmuId).variableAccessor.readString(vr)
     }
 
     @RpcMethod
-    fun writeReal(fmuId: Int, name: String, value: Double): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeReal(name, value)
+    fun bulkReadString(fmuId: Int, vr: ValueReferences): FmuStringArrayRead {
+        return getFmu(fmuId).variableAccessor.readString(vr)
     }
 
     @RpcMethod
-    fun writeString(fmuId: Int, name: String, value: String): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeString(name, value)
+    fun readBoolean(fmuId: Int, vr: ValueReference): FmuBooleanRead {
+        return getFmu(fmuId).variableAccessor.readBoolean(vr)
     }
 
     @RpcMethod
-    fun writeBoolean(fmuId: Int, name: String, value: Boolean): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeBoolean(name, value)
+    fun bulkReadBoolean(fmuId: Int, vr: ValueReferences): FmuBooleanArrayRead {
+        return getFmu(fmuId).variableAccessor.readBoolean(vr)
     }
 
-    companion object {
+    @RpcMethod
+    fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeInteger(vr, value)
+    }
 
-        private val LOG: Logger = LoggerFactory.getLogger(RpcFmuService::class.java)
+    @RpcMethod
+    fun writeReal(fmuId: Int, vr: ValueReference, value: Double): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeReal(vr, value)
+    }
+
+    @RpcMethod
+    fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeString(vr, value)
+    }
+
+    @RpcMethod
+    fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
+    }
+
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(RpcFmuService::class.java)
     }
 
 }

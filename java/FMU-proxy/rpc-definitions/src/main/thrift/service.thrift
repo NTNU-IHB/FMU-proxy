@@ -36,9 +36,6 @@ typedef list<bool> BooleanArray
 
 service FmuService {
 
-    bool supportsCoSimulation()
-    bool supportsModelExchange()
-
     string getModelDescriptionXml()
     definitions.ModelDescription getModelDescription()
 

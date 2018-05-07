@@ -37,10 +37,13 @@ message ModelDescription {
     string version = 7;
     string description = 8;
     string generation_tool = 9;
-    DefaultExperiment default_experiment = 10;
-    VariableNamingConvention variable_naming_convention = 11;
-    repeated ScalarVariable model_variables = 12;
-    ModelStructure model_structure = 13;
+    string generationDateAndTime = 10;
+    DefaultExperiment default_experiment = 11;
+    VariableNamingConvention variable_naming_convention = 12;
+    repeated ScalarVariable model_variables = 13;
+    ModelStructure model_structure = 14;
+    bool supports_co_simulation = 15;
+    bool supports_model_exchange = 16;
 }
 
 message ScalarVariable {
@@ -48,10 +51,11 @@ message ScalarVariable {
     string name = 2;
     string description = 3;
     VariableType variable_type = 4;
-    Initial initial = 5;
-    Causality causality = 6;
-    Variability variability = 7;
-    AnyPrimitive start = 8;
+    string declared_type = 5;
+    Initial initial = 6;
+    Causality causality = 7;
+    Variability variability = 8;
+    AnyPrimitive start = 9;
 }
 
 message AnyPrimitive {
@@ -79,7 +83,7 @@ message Unknown {
 }
 
 message ModelStructure {
-    repeated uint32 outputs = 1;
+    repeated Unknown outputs = 1;
     repeated Unknown derivatives = 2;
     repeated Unknown initial_unknowns = 3;
 }
@@ -255,29 +259,26 @@ message InstanceBoolWrite {
 }
 
 enum Causality {
-    UNDEFINED_CAUSALITY = 0;
-    INPUT_CAUSALITY = 1;
-    OUTPUT_CAUSALITY = 2;
-    PARAMETER_CAUSALITY = 3;
-    CALCULATED_PARAMETER_CAUSALITY = 4;
-    LOCAL_CAUSALITY = 5;
-    INDEPENDENT_CAUSALITY = 6;
+    INPUT_CAUSALITY = 0;
+    OUTPUT_CAUSALITY = 1;
+    PARAMETER_CAUSALITY = 2;
+    CALCULATED_PARAMETER_CAUSALITY = 3;
+    LOCAL_CAUSALITY = 4;
+    INDEPENDENT_CAUSALITY = 5;
 }
 
 enum Variability {
-    UNDEFINED_VARIABILITY = 0;
-    CONSTANT_VARIABILITY = 1;
-    FIXED_VARIABILITY = 2;
-    CONTINUOUS_VARIABILITY = 3;
-    DISCRETE_VARIABILITY = 4;
-    TUNABLE_VARIABILITY = 5;
+    CONSTANT_VARIABILITY = 0;
+    FIXED_VARIABILITY = 1;
+    CONTINUOUS_VARIABILITY = 2;
+    DISCRETE_VARIABILITY = 3;
+    TUNABLE_VARIABILITY = 4;
 }
 
 enum Initial {
-    UNDEFINED_INITIAL = 0;
-    EXACT_INITIAL = 1;
-    APPROX_INITIAL = 2;
-    CALCULATED_INITIAL = 3;
+    EXACT_INITIAL = 0;
+    APPROX_INITIAL = 1;
+    CALCULATED_INITIAL = 2;
 }
 
 enum VariableType {

@@ -40,14 +40,6 @@ class ThriftFmuServiceImpl(
         private val fmu: Fmu
 ): FmuService.Iface {
 
-    override fun supportsCoSimulation(): Boolean {
-        return fmu.supportsCoSimulation
-    }
-
-    override fun supportsModelExchange(): Boolean {
-        return fmu.supportsCoSimulation
-    }
-
     override fun getModelDescriptionXml(): String {
         return fmu.modelDescriptionXml
     }
@@ -149,7 +141,7 @@ class ThriftFmuServiceImpl(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun readBoolen(fmuId: Int, vr: Int): BoolRead {
+    override fun readBoolean(fmuId: Int, vr: Int): BoolRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readBoolean(vr).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
@@ -180,12 +172,44 @@ class ThriftFmuServiceImpl(
     }
 
 
-    override fun writeBoolen(fmuId: Int, vr: Int, value: Boolean): StatusCode {
+    override fun writeBoolean(fmuId: Int, vr: Int, value: Boolean): StatusCode {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.writeBoolean(vr, value).let {
                 StatusCode.findByValue(it.code)
             }
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+    }
+
+    override fun bulkWriteReal(p0: Int, p1: MutableList<Int>?, p2: MutableList<Double>?): StatusCode {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkReadBoolean(p0: Int, p1: MutableList<Int>?): BoolArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteString(p0: Int, p1: MutableList<Int>?, p2: MutableList<String>?): StatusCode {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteInt(p0: Int, p1: MutableList<Int>?, p2: MutableList<Int>?): StatusCode {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkReadInt(p0: Int, p1: MutableList<Int>?): IntArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkReadReal(p0: Int, p1: MutableList<Int>?): RealArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkReadString(p0: Int, p1: MutableList<Int>?): StringArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bulkWriteBoolean(p0: Int, p1: MutableList<Int>?, p2: MutableList<Boolean>?): StatusCode {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private companion object {

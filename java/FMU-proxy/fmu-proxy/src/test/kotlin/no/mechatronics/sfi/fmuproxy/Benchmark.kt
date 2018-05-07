@@ -73,7 +73,7 @@ class Benchmark {
 
             val client = ThriftFmuClient("localhost", port)
 
-            client.createInstance().use { instance ->
+            client.newInstance().use { instance ->
 
                 Assert.assertEquals(StatusCode.OK_STATUS, instance.init())
 
@@ -105,7 +105,7 @@ class Benchmark {
 
             val client = AvroFmuClient("localhost", port)
 
-            client.createInstance().use { instance ->
+            client.newInstance().use { instance ->
 
                 Assert.assertEquals(no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS, instance.init())
 
@@ -137,7 +137,7 @@ class Benchmark {
 
             val client = GrpcFmuClient("localhost", port)
 
-            client.createInstance().use { instance ->
+            client.newInstance().use { instance ->
 
                 Assert.assertEquals(Proto.StatusCode.OK_STATUS, instance.init().code)
 
@@ -188,7 +188,7 @@ class Benchmark {
 
             clients.forEach { client ->
 
-                client.createInstance().use { instance ->
+                client.newInstance().use { instance ->
 
                     Assert.assertEquals(FmiStatus.OK, instance.init())
 

@@ -91,7 +91,7 @@ internal fun Boolean.protoType(): Proto.Bool {
 
 internal fun ModelStructure.protoType(): Proto.ModelStructure {
     return Proto.ModelStructure.newBuilder()
-            .addAllOutputs(outputs.map { it.index })
+            .addAllOutputs(outputs.map { it.protoType() })
             .addAllDerivatives(derivatives.map { it.protoType() })
             .addAllInitialUnknowns(initialUnknowns.map { it.protoType() })
             .build()
@@ -128,7 +128,7 @@ internal fun Causality.protoType(): Proto.Causality {
         Causality.PARAMETER -> Proto.Causality.PARAMETER_CAUSALITY
         Causality.LOCAL -> Proto.Causality.LOCAL_CAUSALITY
         Causality.INDEPENDENT -> Proto.Causality.INDEPENDENT_CAUSALITY
-        else -> Proto.Causality.UNDEFINED_CAUSALITY
+        else -> Proto.Causality.UNRECOGNIZED
     }
 
 }
@@ -141,7 +141,7 @@ internal fun Variability.protoType(): Proto.Variability {
         Variability.DISCRETE -> Proto.Variability.DISCRETE_VARIABILITY
         Variability.FIXED -> Proto.Variability.FIXED_VARIABILITY
         Variability.TUNABLE -> Proto.Variability.TUNABLE_VARIABILITY
-        else -> Proto.Variability.UNDEFINED_VARIABILITY
+        else -> Proto.Variability.UNRECOGNIZED
     }
 
 }
@@ -152,7 +152,7 @@ internal fun Initial.protoType(): Proto.Initial {
         Initial.CALCULATED ->  Proto.Initial.CALCULATED_INITIAL
         Initial.EXACT ->  Proto.Initial.EXACT_INITIAL
         Initial.APPROX ->  Proto.Initial.APPROX_INITIAL
-        else ->  Proto.Initial.UNDEFINED_INITIAL
+        else ->  Proto.Initial.UNRECOGNIZED
     }
 
 }

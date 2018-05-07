@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -36,14 +37,6 @@ abstract class RpcFmuClient: Closeable {
 
         val LOG: Logger = LoggerFactory.getLogger(RpcFmuClient::class.java)
 
-        private val nameToVr = mutableMapOf<String, Int>()
-
-        fun resolveToValueReference(client: RpcFmuClient, name: String): Int {
-            return nameToVr.getOrPut(name, {
-                client.getValueReference(name) ?: throw IllegalArgumentException("No such variable: $name")
-            })
-        }
-
         internal object FmuInstances: ArrayList<FmuInstance>() {
             internal fun terminateAll() {
                 forEach{ it.terminate() }
@@ -52,8 +45,7 @@ abstract class RpcFmuClient: Closeable {
     }
 
     abstract val modelDescriptionXml: String
-
-    protected abstract fun getValueReference(variableName: String): Int?
+    abstract val modelDescription: CommonModelDescription
 
     protected abstract fun getCurrentTime(fmuId: Int): Double
     protected abstract fun isTerminated(fmuId: Int): Boolean
@@ -62,33 +54,29 @@ abstract class RpcFmuClient: Closeable {
     protected abstract fun step(fmuId: Int, stepSize: Double): FmiStatus
     protected abstract fun reset(fmuId: Int): FmiStatus
 
-    protected fun readInteger(fmuId: Int, name: String): FmuIntegerRead  {
-        return readInteger(fmuId, resolveToValueReference(this, name))
-    }
+    internal abstract fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead
+    internal abstract fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead
 
-    protected fun readReal(fmuId: Int, name: String): FmuRealRead {
-        return readReal(fmuId, resolveToValueReference(this, name))
-    }
+    internal abstract fun readReal(fmuId: Int, vr: ValueReference): FmuRealRead
+    internal abstract fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead
 
-    protected fun readString(fmuId: Int, name: String): FmuStringRead {
-        return readString(fmuId, resolveToValueReference(this, name))
-    }
+    internal abstract fun readString(fmuId: Int, vr: ValueReference): FmuStringRead
+    internal abstract fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead
 
-    protected fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        return readBoolean(fmuId, resolveToValueReference(this, name))
-    }
+    internal abstract fun readBoolean(fmuId: Int, vr: ValueReference): FmuBooleanRead
+    internal abstract fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead
 
-    protected abstract fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead
-    protected abstract fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead
+    internal abstract fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus
+    internal abstract fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus
 
-    protected abstract fun readReal(fmuId: Int, vr: Int): FmuRealRead
-    protected abstract fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead
+    internal abstract fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus
+    internal abstract fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus
 
-    protected abstract fun readString(fmuId: Int, vr: Int): FmuStringRead
-    protected abstract fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead
+    internal abstract fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus
+    internal abstract fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus
 
-    protected abstract fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead
-    protected abstract fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead
+    internal abstract fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus
+    internal abstract fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus
 
     protected abstract fun createInstanceFromCS(): Int
     protected abstract fun createInstanceFromME(integrator: IntegratorSettings): Int
@@ -100,7 +88,9 @@ abstract class RpcFmuClient: Closeable {
         } else {
             createInstanceFromME(integrator)
         }
-        return FmuInstance(fmuId)
+        return FmuInstance(fmuId).also {
+            FmuInstances.add(it)
+        }
     }
 
     fun stop() {
@@ -121,6 +111,9 @@ abstract class RpcFmuClient: Closeable {
 
         val isTerminated: Boolean
             get() = isTerminated(fmuId)
+
+        val variableAccessor: FmuVariableAccessor
+                = VariableAccessorImpl(fmuId, this@RpcFmuClient)
 
         @JvmOverloads
         fun init(start:Double=0.0, stop:Double=-1.0): FmiStatus {
@@ -147,30 +140,93 @@ abstract class RpcFmuClient: Closeable {
             terminate()
         }
 
-        fun readInteger(name: String): FmuIntegerRead {
-            return readInteger(fmuId, name)
-        }
+    }
 
-        fun readReal(vr: Int): FmuRealRead{
-            return readReal(fmuId, vr)
-        }
+}
 
-        fun readReal(name: String): FmuRealRead{
-            return readReal(fmuId, name)
-        }
+class VariableAccessorImpl(
+        private val fmuId: Int,
+        private val client: RpcFmuClient
+): FmuVariableAccessor {
 
-        fun readString(name: String): FmuStringRead{
-            return readString(fmuId, name)
-        }
+    override fun readBoolean(name: String) = client.readBoolean(fmuId, process(name))
 
-        fun readBoolean(vr: Int): FmuBooleanRead {
-            return readBoolean(fmuId, vr)
-        }
+    override fun readBoolean(vr: ValueReference) = client.readBoolean(fmuId, vr)
 
-        fun readBoolean(name: String): FmuBooleanRead {
-            return readBoolean(fmuId, name)
-        }
+    override fun readBoolean(vr: ValueReferences) = client.bulkReadBoolean(fmuId, vr.toList())
 
+    override fun readBoolean(vr: ValueReferences, value: BooleanArray): FmuBooleanArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readBoolean(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readInteger(name: String) = client.readInteger(fmuId, process(name))
+
+    override fun readInteger(vr: ValueReference) = client.readInteger(fmuId, vr)
+
+    override fun readInteger(vr: ValueReferences) = client.bulkReadInteger(fmuId, vr.toList())
+
+    override fun readInteger(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readReal(name: String) = client.readReal(fmuId, process(name))
+
+    override fun readReal(vr: ValueReference) = client.readReal(fmuId, vr)
+
+    override fun readReal(vr: ValueReferences) = client.bulkReadReal(fmuId, vr.toList())
+
+    override fun readReal(vr: ValueReferences, value: RealArray): FmuRealArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun readString(name: String) = client.readString(fmuId, process(name))
+
+    override fun readString(vr: ValueReference) = client.readString(fmuId, vr)
+
+    override fun readString(vr: ValueReferences) = client.bulkReadString(fmuId, vr.toList())
+
+    override fun readString(vr: ValueReferences, value: StringArray): FmuStringArrayRead {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun writeBoolean(name: String, value: Boolean) = client.writeBoolean(fmuId, process(name), value)
+
+    override fun writeBoolean(vr: ValueReference, value: Boolean) = client.writeBoolean(fmuId, vr, value)
+
+    override fun writeBoolean(vr: ValueReferences, value: BooleanArray) = client.bulkWriteBoolean(fmuId, vr.toList(), value.toList())
+
+    override fun writeBoolean(vr: ValueReferences, value: IntArray) = client.bulkWriteBoolean(fmuId, vr.toList(), value.map { it != 0 })
+
+    override fun writeInteger(name: String, value: Int) = client.writeInteger(fmuId, process(name), value)
+
+    override fun writeInteger(vr: ValueReference, value: Int) = client.writeInteger(fmuId, vr, value)
+
+    override fun writeInteger(vr: ValueReferences, value: IntArray) = client.bulkWriteInteger(fmuId, vr.toList(), value.toList())
+
+    override fun writeReal(name: String, value: Real) = client.writeReal(fmuId, process(name), value)
+
+    override fun writeReal(vr: ValueReference, value: Real) = client.writeReal(fmuId, vr, value)
+
+    override fun writeReal(vr: ValueReferences, value: RealArray) = client.bulkWriteReal(fmuId, vr.toList(), value.toList())
+
+    override fun writeString(name: String, value: String) = client.writeString(fmuId, process(name), value)
+
+    override fun writeString(vr: ValueReference, value: String) = client.writeString(fmuId, vr, value)
+
+    override fun writeString(vr: ValueReferences, value: StringArray) = client.bulkWriteString(fmuId, vr.toList(), value.toList())
+
+    private fun process(name: String): Int {
+        return NAME_TO_VALUE_REF.getOrPut(name, {
+            client.modelDescription.modelVariables.getValueReference(name)
+        })
+    }
+
+    private companion object {
+        val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
     }
 
 }

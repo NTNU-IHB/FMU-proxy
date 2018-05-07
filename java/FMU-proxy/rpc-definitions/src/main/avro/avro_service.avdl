@@ -44,7 +44,6 @@ protocol AvroFmuService {
   }
 
   enum Causality {
-    UNDEFINED_CAUSALITY,
     INPUT_CAUSALITY,
     OUTPUT_CAUSALITY,
     PARAMETER_CAUSALITY,
@@ -54,7 +53,6 @@ protocol AvroFmuService {
   }
 
   enum Variability {
-    UNDEFINED_VARIABILITY,
     CONSTANT_VARIABILITY,
     FIXED_VARIABILITY,
     CONTINUOUS_VARIABILITY,
@@ -63,7 +61,6 @@ protocol AvroFmuService {
   }
 
   enum Initial {
-    UNDEFINED_INITIAL,
     EXACT_INITIAL,
     APPROX_INITIAL,
     CALCULATED_INITIAL
@@ -88,11 +85,11 @@ protocol AvroFmuService {
   record Unknown {
     int index;
     array<int> dependencies;
-    DependenciesKind dependencies_kind;
+    union{null, DependenciesKind} dependencies_kind;
   }
 
   record ModelStructure {
-    array<int> outputs;
+    array<Unknown> outputs;
     array<Unknown> derivatives;
     array<Unknown> initial_unknowns;
   }
@@ -101,6 +98,7 @@ protocol AvroFmuService {
     string name;
     int value_reference;
     VariableType variable_type;
+    union {null, string} declared_type;
     union {null, string} description;
     union {null, Causality} causality;
     union {null, Variability} variability;
@@ -121,14 +119,17 @@ protocol AvroFmuService {
     string guid;
     union {null, string} license;
     union {null, string} copyright;
-    union {null, string} authour;
+    union {null, string} author;
     union {null, string} version;
     union {null, string} description;
     union {null, string} generation_tool;
+    union {null, string} generation_date_and_time;
     union {null, DefaultExperiment} default_experiment;
     union {null, VariableNamingConvention} variable_naming_convention;
     array<ScalarVariable> model_variables;
     ModelStructure model_structure;
+    boolean supports_co_simulation;
+    boolean supports_model_exchange;
   }
 
   record IntegerRead {
@@ -198,9 +199,6 @@ protocol AvroFmuService {
   error UnsupportedOperationException {
     string message;
   }
-
-  boolean supportsCosimulation();
-  boolean supportsModelExchange();
 
   string getModelDescriptionXml();
   ModelDescription getModelDescription();

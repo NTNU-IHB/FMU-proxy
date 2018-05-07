@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.apache.avro.ipc.NettyTransceiver
@@ -37,13 +38,11 @@ class AvroFmuClient(
         port: Int
 ): RpcFmuClient() {
 
-    private val nameToVr = mutableMapOf<String, Int>()
-
     private val client = NettyTransceiver(InetSocketAddress(host, port))
     private val service = SpecificRequestor.getClient(AvroFmuService::class.java, client)
 
-    val modelDescription by lazy {
-        service.modelDescription
+    override val modelDescription: CommonModelDescription by lazy {
+        service.modelDescription.convert()
     }
 
     override val modelDescriptionXml: String by lazy {
@@ -72,11 +71,6 @@ class AvroFmuClient(
 
     override fun reset(fmuId: Int): FmiStatus {
         return service.reset(fmuId).convert()
-    }
-
-    override fun getValueReference(name: String): Int? {
-        return modelDescription.modelVariables
-                    .firstOrNull { it.name == name }?.valueReference
     }
 
     override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
@@ -109,6 +103,38 @@ class AvroFmuClient(
 
     override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
         return service.bulkReadBoolean(fmuId, vr).convert()
+    }
+
+    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
+        return service.writeInt(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
+        return service.bulkWriteInt(fmuId, vr, value).convert()
+    }
+
+    override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
+        return service.writeReal(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
+        return service.bulkWriteReal(fmuId, vr, value).convert()
+    }
+
+    override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
+        return service.writeString(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
+        return service.bulkWriteString(fmuId, vr, value).convert()
+    }
+
+    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return service.writeBoolean(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
+        return service.bulkWriteBoolean(fmuId, vr, value).convert()
     }
 
     override fun createInstanceFromCS(): Int {

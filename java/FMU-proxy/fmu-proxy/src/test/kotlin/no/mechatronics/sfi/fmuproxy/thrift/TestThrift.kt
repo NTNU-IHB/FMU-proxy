@@ -1,5 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import org.junit.AfterClass
@@ -10,6 +11,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.time.Duration
 import java.time.Instant
+import kotlin.system.measureTimeMillis
 
 class TestThrift {
 
@@ -62,18 +64,17 @@ class TestThrift {
     @Test
     fun testInstance() {
 
-        client.createInstance().use { fmu ->
+        client.newInstance().use { instance ->
 
-           Assert.assertTrue( fmu.init() == StatusCode.OK_STATUS)
+           Assert.assertEquals(FmiStatus.OK, instance.init())
 
             val dt = 1.0/100
-            val start = Instant.now()
-            while (fmu.currentTime < 10) {
-                val status = fmu.step(dt)
-                Assert.assertTrue(status == StatusCode.OK_STATUS)
-            }
-            val end = Instant.now()
-            LOG.info("Duration=${Duration.between(start, end).toMillis()}ms")
+            measureTimeMillis {
+                while (instance.currentTime < 10) {
+                    val status = instance.step(dt)
+                    Assert.assertEquals(FmiStatus.OK, status)
+                }
+            }.also { LOG.info("Duration=${it}ms") }
 
         }
 

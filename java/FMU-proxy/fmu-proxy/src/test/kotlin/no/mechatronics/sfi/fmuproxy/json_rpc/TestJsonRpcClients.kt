@@ -79,7 +79,7 @@ class TestJsonRpcClients {
             Assert.assertEquals(modelDescription.modelName, client.modelName)
             Assert.assertEquals(modelDescription.guid, client.guid)
 
-            client.createInstance().use { instance ->
+            client.newInstance().use { instance ->
 
                 Assert.assertEquals(FmiStatus.OK, instance.init())
 
