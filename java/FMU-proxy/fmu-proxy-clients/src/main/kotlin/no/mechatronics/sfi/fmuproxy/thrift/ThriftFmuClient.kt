@@ -25,8 +25,8 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmuproxy.*
 import no.mechatronics.sfi.fmuproxy.IntegratorSettings
+import no.mechatronics.sfi.fmuproxy.RpcFmuClient
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
@@ -40,9 +40,12 @@ class ThriftFmuClient(
     private val transport: TTransport
     private val client: FmuService.Client
 
+    private val nameToVr = mutableMapOf<String, Int>()
+
     init {
-        transport = TSocket(host, port)
-        transport.open()
+        transport = TSocket(host, port).also {
+            it.open()
+        }
 
         val protocol = TBinaryProtocol(transport)
         client = FmuService.Client(protocol)
@@ -94,28 +97,41 @@ class ThriftFmuClient(
         transport.close()
     }
 
-
-    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
-        return modelDescription.model_variables.find { it.name == name }?.let {
-            client.readInt(fmuId, it.value_reference).convert()
-        } ?: throw IllegalArgumentException("No such variable '$name'")
+    override fun getValueReference(name: String): Int? {
+        return modelDescription.model_variables
+                .firstOrNull { it.name == name }?.value_reference
     }
 
-    override fun readReal(fmuId: Int, name: String): FmuRealRead {
-        return modelDescription.model_variables.find { it.name == name }?.let {
-            client.readReal(fmuId, it.value_reference).convert()
-        } ?: throw IllegalArgumentException("No such variable '$name'")
+    override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
+        return client.readInt(fmuId, vr).convert()
     }
 
-    override fun readString(fmuId: Int, name: String): FmuStringRead {
-        return modelDescription.model_variables.find { it.name == name }?.let {
-            client.readString(fmuId, it.value_reference).convert()
-        } ?: throw IllegalArgumentException("No such variable '$name'")
+    override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
+        return client.bulkReadInt(fmuId, vr).convert()
     }
 
-    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        return modelDescription.model_variables.find { it.name == name }?.let {
-            client.readBoolen(fmuId, it.value_reference).convert()
-        } ?: throw IllegalArgumentException("No such variable '$name'")
+    override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
+        return client.readReal(fmuId, vr).convert()
     }
+
+    override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
+        return client.bulkReadReal(fmuId, vr).convert()
+    }
+
+    override fun readString(fmuId: Int, vr: Int): FmuStringRead {
+        return client.readString(fmuId, vr).convert()
+    }
+
+    override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
+        return client.bulkReadString(fmuId, vr).convert()
+    }
+
+    override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
+        return client.readBoolean(fmuId, vr).convert()
+    }
+
+    override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
+        return client.bulkReadBoolean(fmuId, vr).convert()
+    }
+
 }

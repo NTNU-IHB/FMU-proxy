@@ -35,14 +35,30 @@ internal fun Proto.IntRead.convert(): FmuIntegerRead {
     return FmuIntegerRead(value, status.convert())
 }
 
+internal fun Proto.IntListRead.convert(): FmuIntegerArrayRead {
+    return FmuIntegerArrayRead(valuesList.toIntArray(), status.convert())
+}
+
 internal fun Proto.RealRead.convert(): FmuRealRead {
     return FmuRealRead(value, status.convert())
+}
+
+internal fun Proto.RealListRead.convert(): FmuRealArrayRead {
+    return FmuRealArrayRead(valuesList.toDoubleArray(), status.convert())
 }
 
 internal fun Proto.StrRead.convert(): FmuStringRead {
     return FmuStringRead(value, status.convert())
 }
 
+internal fun Proto.StrListRead.convert(): FmuStringArrayRead {
+    return FmuStringArrayRead(valuesList.toTypedArray(), status.convert())
+}
+
 internal fun Proto.BoolRead.convert(): FmuBooleanRead {
     return FmuBooleanRead(value, status.convert())
+}
+
+internal fun Proto.BoolListRead.convert(): FmuBooleanArrayRead {
+    return FmuBooleanArrayRead(valuesList.toBooleanArray(), status.convert())
 }

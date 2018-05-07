@@ -37,6 +37,8 @@ class AvroFmuClient(
         port: Int
 ): RpcFmuClient() {
 
+    private val nameToVr = mutableMapOf<String, Int>()
+
     private val client = NettyTransceiver(InetSocketAddress(host, port))
     private val service = SpecificRequestor.getClient(AvroFmuService::class.java, client)
 
@@ -72,28 +74,41 @@ class AvroFmuClient(
         return service.reset(fmuId).convert()
     }
 
-    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
-        return modelDescription.modelVariables.find { it.name == name }?.let {
-            service.readInt(fmuId, it.valueReference).convert()
-        } ?: throw IllegalArgumentException("")
+    override fun getValueReference(name: String): Int? {
+        return modelDescription.modelVariables
+                    .firstOrNull { it.name == name }?.valueReference
     }
 
-    override fun readReal(fmuId: Int, name: String): FmuRealRead {
-        return modelDescription.modelVariables.find { it.name == name }?.let {
-            service.readReal(fmuId, it.valueReference).convert()
-        } ?: throw IllegalArgumentException("")
+    override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
+        return service.readInt(fmuId, vr).convert()
     }
 
-    override fun readString(fmuId: Int, name: String): FmuStringRead {
-        return modelDescription.modelVariables.find { it.name == name }?.let {
-            service.readString(fmuId, it.valueReference).convert()
-        } ?: throw IllegalArgumentException("")
+    override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
+        return service.bulkReadInt(fmuId, vr).convert()
     }
 
-    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        return modelDescription.modelVariables.find { it.name == name }?.let {
-            service.readBoolean(fmuId, it.valueReference).convert()
-        } ?: throw IllegalArgumentException("")
+    override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
+        return service.readReal(fmuId, vr).convert()
+    }
+
+    override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
+        return service.bulkReadReal(fmuId, vr).convert()
+    }
+
+    override fun readString(fmuId: Int, vr: Int): FmuStringRead {
+        return service.readString(fmuId, vr).convert()
+    }
+
+    override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
+        return service.bulkReadString(fmuId, vr).convert()
+    }
+
+    override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
+        return service.readBoolean(fmuId, vr).convert()
+    }
+
+    override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
+        return service.bulkReadBoolean(fmuId, vr).convert()
     }
 
     override fun createInstanceFromCS(): Int {

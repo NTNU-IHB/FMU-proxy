@@ -97,8 +97,18 @@ struct IntRead {
     2: StatusCode code
 }
 
+struct IntArrayRead {
+    1: list<i32> value,
+    2: StatusCode code
+}
+
 struct RealRead {
     1: double value,
+    2: StatusCode code
+}
+
+struct RealArrayRead {
+    1: list<double> value,
     2: StatusCode code
 }
 
@@ -107,8 +117,18 @@ struct StringRead {
     2: StatusCode code
 }
 
+struct StringArrayRead {
+    1: list<string> value,
+    2: StatusCode code
+}
+
 struct BoolRead {
     1: bool value,
+    2: StatusCode code
+}
+
+struct BoolArrayRead {
+    1: list<bool> value,
     2: StatusCode code
 }
 

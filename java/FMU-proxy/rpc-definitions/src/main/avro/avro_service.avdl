@@ -136,8 +136,18 @@ protocol AvroFmuService {
     StatusCode code;
   }
 
+  record IntegerArrayRead {
+    array<int> value;
+    StatusCode code;
+  }
+
   record RealRead {
     double value;
+    StatusCode code;
+  }
+
+  record RealArrayRead {
+    array<double> value;
     StatusCode code;
   }
 
@@ -146,8 +156,18 @@ protocol AvroFmuService {
     StatusCode code;
   }
 
+  record StringArrayRead {
+    array<string> value;
+    StatusCode code;
+  }
+
   record BooleanRead {
     boolean value;
+    StatusCode code;
+  }
+
+  record BooleanArrayRead {
+    array<boolean> value;
     StatusCode code;
   }
 
@@ -199,13 +219,27 @@ protocol AvroFmuService {
   StatusCode reset(int fmu_id) throws NoSuchFmuException;
 
   IntegerRead readInt(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  IntegerArrayRead bulkReadInt(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
   RealRead readReal(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  RealArrayRead bulkReadReal(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
   StringRead readString(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  StringArrayRead bulkReadString(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
   BooleanRead readBoolean(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  BooleanArrayRead bulkReadBoolean(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
 
   StatusCode writeInt(int fmu_id, int vr, int value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode bulkWriteInt(int fmu_id,  array<int> vr, array<int> value) throws NoSuchFmuException, NoSuchVariableException;
+
   StatusCode writeReal(int fmu_id, int vr, double value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode bulkWriteReal(int fmu_id, array<int> vr, array<double> value) throws NoSuchFmuException, NoSuchVariableException;
+
   StatusCode writeString(int fmu_id, int vr, string value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode bulkWriteString(int fmu_id, array<int> vr, array<string> value) throws NoSuchFmuException, NoSuchVariableException;
+
   StatusCode writeBoolean(int fmu_id, int vr, boolean value) throws NoSuchFmuException, NoSuchVariableException;
+  StatusCode bulkWriteBoolean(int fmu_id, array<int> vr, array<boolean> value) throws NoSuchFmuException, NoSuchVariableException;
 
 }

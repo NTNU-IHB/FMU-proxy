@@ -1,6 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 
 internal fun StatusCode.convert(): FmiStatus {
     return when(this) {
@@ -28,14 +29,34 @@ internal fun IntegerRead.convert(): FmuIntegerRead {
     return FmuIntegerRead(value, code.convert())
 }
 
+internal fun IntegerArrayRead.convert(): FmuIntegerArrayRead {
+    return FmuIntegerArrayRead(value.toIntArray(), code.convert())
+}
+
 internal fun RealRead.convert(): FmuRealRead {
     return FmuRealRead(value, code.convert())
+}
+
+internal fun RealArrayRead.convert(): FmuRealArrayRead {
+    return FmuRealArrayRead(value.toDoubleArray(), code.convert())
 }
 
 internal fun StringRead.convert(): FmuStringRead {
     return FmuStringRead(value, code.convert())
 }
 
+internal fun StringArrayRead.convert(): FmuStringArrayRead {
+    return FmuStringArrayRead(value.toTypedArray(), code.convert())
+}
+
 internal fun BooleanRead.convert(): FmuBooleanRead {
     return FmuBooleanRead(value, code.convert())
+}
+
+internal fun BooleanArrayRead.convert(): FmuBooleanArrayRead {
+    return FmuBooleanArrayRead(value.toBooleanArray(), code.convert())
+}
+
+internal fun ModelDescription.convert(): CommonModelDescription {
+    TODO()
 }

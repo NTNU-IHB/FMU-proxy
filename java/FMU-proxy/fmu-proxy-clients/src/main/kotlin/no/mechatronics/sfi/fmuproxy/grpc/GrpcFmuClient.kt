@@ -37,14 +37,6 @@ import java.io.Closeable
 
 private val EMPTY = Empty.getDefaultInstance()
 
-/**
- * @author Lars Ivar Hatledal
- */
-internal object FmuInstances: ArrayList<GrpcFmuClient.FmuInstance>() {
-    internal fun terminateAll() {
-        forEach{ it.terminate() }
-    }
-}
 
 /**
  * @author Lars Ivar Hatledal
@@ -54,13 +46,15 @@ class GrpcFmuClient(
         port: Int
 ): RpcFmuClient() {
 
+    private val nameToVr = mutableMapOf<String, Int>()
+
     private val channel: ManagedChannel = ManagedChannelBuilder
             .forAddress(host, port)
             .usePlaintext()
             .directExecutor()
             .build()
 
-    val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
+    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
             = FmuServiceGrpc.newBlockingStub(channel)
 
     val modelDescription: Proto.ModelDescription by lazy {
@@ -106,21 +100,56 @@ class GrpcFmuClient(
         return blockingStub.terminate(fmuId.asProtoUInt()).convert()
     }
 
-
-    override fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun getReadRequest(fmuId: Int, vr: Int): Proto.ReadRequest {
+        return Proto.ReadRequest.newBuilder()
+                .setFmuId(fmuId)
+                .setValueReference(vr)
+                .build()
     }
 
-    override fun readReal(fmuId: Int, name: String): FmuRealRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun getReadRequest(fmuId: Int, vr: List<Int>): Proto.BulkReadRequest {
+        return Proto.BulkReadRequest.newBuilder()
+                .setFmuId(fmuId)
+                .addAllValueReferences(vr)
+                .build()
     }
 
-    override fun readString(fmuId: Int, name: String): FmuStringRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getValueReference(variableName: String): Int? {
+        return modelDescription.modelVariablesList.firstOrNull {
+            it.name == variableName
+        }?.valueReference
     }
 
-    override fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
+        return blockingStub.readInteger(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
+        return blockingStub.bulkReadInteger(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
+        return blockingStub.readReal(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
+        return blockingStub.bulkReadReal(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun readString(fmuId: Int, vr: Int): FmuStringRead {
+        return blockingStub.readString(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
+        return blockingStub.bulkReadString(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
+        return blockingStub.readBoolean(getReadRequest(fmuId, vr)).convert()
+    }
+
+    override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
+        return blockingStub.bulkReadBoolean(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun createInstanceFromCS(): Int {
@@ -131,23 +160,23 @@ class GrpcFmuClient(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    @JvmOverloads
-    fun createInstance(integrator: Proto.Integrator? = null): FmuInstance {
 
-        val fmuId = if (integrator == null) {
-            blockingStub.createInstanceFromCS(EMPTY).value
-        } else {
-            blockingStub.createInstanceFromME(integrator).value
-        }
-        return FmuInstance(fmuId).also {
-            FmuInstances.add(it)
-        }
-
-    }
+//    @JvmOverloads
+//    fun createInstance(integrator: Proto.Integrator? = null): FmuInstance {
+//
+//        val fmuId = if (integrator == null) {
+//            blockingStub.createInstanceFromCS(EMPTY).value
+//        } else {
+//            blockingStub.createInstanceFromME(integrator).value
+//        }
+//        return FmuInstance(fmuId).also {
+//            FmuInstances.add(it)
+//        }
+//
+//    }
 
     override fun close() {
-        LOG.debug("Closing..")
-        FmuInstances.terminateAll()
+        super.close()
         channel.shutdownNow()
     }
 
@@ -182,11 +211,7 @@ class GrpcFmuClient(
                 .build())
 
         fun terminate(): Proto.Status {
-            return try {
-                blockingStub.terminate(modelRef)
-            } finally {
-                FmuInstances.remove(this)
-            }
+            return blockingStub.terminate(modelRef)
         }
 
         override fun close() {
@@ -197,10 +222,11 @@ class GrpcFmuClient(
             return blockingStub.reset(modelRef)
         }
 
-        fun getValueReference(variableName: String)
-                = modelDescription.modelVariablesList
-                .firstOrNull { it.name == variableName }?.valueReference
-                ?: throw IllegalArgumentException("No variable with that name: $variableName")
+        fun getValueReference(variableName: String): Int {
+             return modelDescription.modelVariablesList
+                    .firstOrNull { it.name == variableName }?.valueReference
+                    ?: throw IllegalArgumentException("No such variable: $variableName")
+        }
 
         fun read(valueReference: Int) = SingleRead(valueReference)
         fun read(valueReferences: IntArray) = BulkRead(valueReferences)

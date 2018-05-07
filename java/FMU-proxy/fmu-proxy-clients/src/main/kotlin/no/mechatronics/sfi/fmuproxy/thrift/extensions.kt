@@ -31,14 +31,30 @@ internal fun IntRead.convert(): FmuIntegerRead {
     return FmuIntegerRead(value, code.convert())
 }
 
+internal fun IntArrayRead.convert(): FmuIntegerArrayRead {
+    return FmuIntegerArrayRead(value.toIntArray(), code.convert())
+}
+
 internal fun RealRead.convert(): FmuRealRead {
     return FmuRealRead(value, code.convert())
+}
+
+internal fun RealArrayRead.convert(): FmuRealArrayRead {
+    return FmuRealArrayRead(value.toDoubleArray(), code.convert())
 }
 
 internal fun StringRead.convert(): FmuStringRead {
     return FmuStringRead(value, code.convert())
 }
 
+internal fun StringArrayRead.convert(): FmuStringArrayRead {
+    return FmuStringArrayRead(value.toTypedArray(), code.convert())
+}
+
 internal fun BoolRead.convert(): FmuBooleanRead {
     return FmuBooleanRead(isValue, code.convert())
+}
+
+internal fun BoolArrayRead.convert(): FmuBooleanArrayRead {
+    return FmuBooleanArrayRead(value.toBooleanArray(), code.convert())
 }
