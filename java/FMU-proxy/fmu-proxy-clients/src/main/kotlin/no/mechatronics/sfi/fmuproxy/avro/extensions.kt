@@ -33,9 +33,14 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.BooleanAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.EnumerationAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 
 internal fun StatusCode.convert(): FmiStatus {
@@ -170,8 +175,45 @@ internal fun no.mechatronics.sfi.fmuproxy.avro.ModelStructure.convert(): ModelSt
     }
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.avro.ScalarVariable.convert(): ScalarVariable {
-    return object : ScalarVariable {
+internal fun no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute.convert(): IntegerAttribute {
+    return IntegerAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.avro.RealAttribute.convert(): RealAttribute {
+    return RealAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.avro.StringAttribute.convert(): StringAttribute {
+    return StringAttribute(
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute.convert(): BooleanAttribute {
+    return BooleanAttribute(
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute.convert(): EnumerationAttribute {
+    return EnumerationAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+
+internal fun no.mechatronics.sfi.fmuproxy.avro.ScalarVariable.convert(): TypedScalarVariable<*> {
+    val v = object : ScalarVariable {
         override val causality: Causality?
             get() = getCausality()?.convert()
         override val declaredType: String?
@@ -187,15 +229,25 @@ internal fun no.mechatronics.sfi.fmuproxy.avro.ScalarVariable.convert(): ScalarV
         override val variability: Variability?
             get() = getVariability()?.convert()
     }
+
+    val attribute = attribute
+    return when (attribute) {
+        is no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute -> IntegerVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.avro.RealAttribute -> RealVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.avro.StringAttribute -> StringVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute -> BooleanVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute -> EnumerationVariableImpl(v, attribute.convert())
+        else -> throw AssertionError()
+    }
+
 }
 
+
 internal fun List<no.mechatronics.sfi.fmuproxy.avro.ScalarVariable>.convert(): ModelVariables {
-
-    val _variables = map { it.convert() }
-
     return object : ModelVariables {
-        override val variables: List<TypedScalarVariable<*>>
-        get() = TODO()
+        override val variables: List<TypedScalarVariable<*>> by lazy {
+            this@convert.map { it.convert() }
+        }
     }
 }
 
@@ -232,7 +284,7 @@ class AvroModelDescription(
     override val modelStructure: ModelStructure
         get() = modelDescription.modelStructure.convert()
     override val modelVariables: ModelVariables
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = modelDescription.modelVariables.convert()
     override val supportsCoSimulation: Boolean
         get() = modelDescription.supportsCoSimulation
     override val supportsModelExchange: Boolean

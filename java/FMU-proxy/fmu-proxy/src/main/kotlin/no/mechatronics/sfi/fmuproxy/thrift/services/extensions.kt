@@ -89,7 +89,7 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
     return ScalarVariable().also { v ->
 
         v.name = name
-        v.value_reference = valueReference
+        v.valueReference = valueReference
         description?.also { v.description = it }
         causality?.also { v.causality = it.thriftType() }
         variability?.also { v.variability = it.thriftType() }

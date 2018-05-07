@@ -28,7 +28,16 @@ import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.log.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.ModelVariables
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.BooleanAttribute
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.EnumerationAttribute
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 
 
@@ -40,6 +49,37 @@ internal fun StatusCode.convert(): FmiStatus {
         StatusCode.WARNING_STATUS -> FmiStatus.Warning
         StatusCode.PENDING_STATUS -> FmiStatus.Pending
         StatusCode.FATAL_STATUS -> FmiStatus.Fatal
+    }
+}
+
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.Causality.convert(): Causality {
+    return when(this) {
+        no.mechatronics.sfi.fmuproxy.thrift.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
+        no.mechatronics.sfi.fmuproxy.thrift.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
+        no.mechatronics.sfi.fmuproxy.thrift.Causality.INPUT_CAUSALITY -> Causality.INPUT
+        no.mechatronics.sfi.fmuproxy.thrift.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
+        no.mechatronics.sfi.fmuproxy.thrift.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
+        no.mechatronics.sfi.fmuproxy.thrift.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
+    }
+}
+
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.Variability.convert(): Variability {
+    return when(this) {
+        no.mechatronics.sfi.fmuproxy.thrift.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
+        no.mechatronics.sfi.fmuproxy.thrift.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
+        no.mechatronics.sfi.fmuproxy.thrift.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
+        no.mechatronics.sfi.fmuproxy.thrift.Variability.FIXED_VARIABILITY -> Variability.FIXED
+        no.mechatronics.sfi.fmuproxy.thrift.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
+    }
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.Initial.convert(): Initial {
+    return when(this) {
+        no.mechatronics.sfi.fmuproxy.thrift.Initial.APPROX_INITIAL -> Initial.APPROX
+        no.mechatronics.sfi.fmuproxy.thrift.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
+        no.mechatronics.sfi.fmuproxy.thrift.Initial.EXACT_INITIAL -> Initial.EXACT
     }
 }
 
@@ -135,6 +175,80 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.ModelStructure.convert(): Model
     }
 }
 
+internal fun no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute.convert(): IntegerAttribute {
+    return IntegerAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.RealAttribute.convert(): RealAttribute {
+    return RealAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.StringAttribute.convert(): StringAttribute {
+    return StringAttribute(
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute.convert(): BooleanAttribute {
+    return BooleanAttribute(
+            start = isStart
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute.convert(): EnumerationAttribute {
+    return EnumerationAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable.convert(): TypedScalarVariable<*> {
+    val v = object : ScalarVariable {
+        override val causality: Causality?
+            get() = getCausality()?.convert()
+        override val declaredType: String?
+            get() = getDeclaredType()
+        override val description: String?
+            get() = getDescription()
+        override val initial: Initial?
+            get() = getInitial()?.convert()
+        override val name: String
+            get() = getName()
+        override val valueReference: Int
+            get() = getValueReference()
+        override val variability: Variability?
+            get() = getVariability()?.convert()
+    }
+
+    val attribute = attribute
+    return when (attribute) {
+        is no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute -> IntegerVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.thrift.RealAttribute -> RealVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.thrift.StringAttribute -> StringVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute -> BooleanVariableImpl(v, attribute.convert())
+        is no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute -> EnumerationVariableImpl(v, attribute.convert())
+        else -> throw AssertionError()
+    }
+
+}
+
+internal fun List<no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable>.convert(): ModelVariables {
+    return object : ModelVariables {
+        override val variables: List<TypedScalarVariable<*>> by lazy {
+            this@convert.map { it.convert() }
+        }
+    }
+}
+
 internal fun ModelDescription.convert(): CommonModelDescription {
     return ThriftModelDescription(this)
 }
@@ -168,7 +282,7 @@ class ThriftModelDescription(
     override val modelStructure: ModelStructure
         get() = modelDescription.modelStructure.convert()
     override val modelVariables: ModelVariables
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = modelDescription.modelVariables.convert()
     override val supportsCoSimulation: Boolean
         get() = modelDescription.isSupportsCoSimulation
     override val supportsModelExchange: Boolean

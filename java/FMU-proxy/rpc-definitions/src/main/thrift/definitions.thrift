@@ -93,7 +93,7 @@ union ScalarVariableAttribute {
 }
 
 struct ScalarVariable {
-    1: i32 value_reference,
+    1: i32 valueReference,
     2: string name,
     3: optional string description,
     4: optional string declaredType,
