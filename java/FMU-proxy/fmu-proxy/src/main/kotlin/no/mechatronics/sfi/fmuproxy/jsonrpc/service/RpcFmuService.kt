@@ -33,6 +33,16 @@ import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+
+private fun getFmu(id: Int): FmiSimulation {
+    val fmu = Fmus.get(id)
+    if (fmu != null) {
+        return fmu
+    }
+    throw IllegalArgumentException("No fmu with id=$id")
+}
+
+
 /**
  * @author Lars Ivar Hatledal
  */
@@ -41,7 +51,10 @@ class RpcFmuService(
 ) : RpcService {
 
     override val name = "FmuService"
-    private val modelDescription: CommonModelDescription
+
+    val modelDescription: CommonModelDescription
+        @RpcMethod
+        get() = fmu.modelDescription
 
     val fmiVersion: String
         @RpcMethod
@@ -59,17 +72,6 @@ class RpcFmuService(
         @RpcMethod
         get() = fmu.modelDescriptionXml
 
-    init {
-        this.modelDescription = fmu.modelDescription
-    }
-
-    private fun getFmu(id: Int): FmiSimulation {
-        val fmu = Fmus.get(id)
-        if (fmu != null) {
-            return fmu
-        }
-        throw IllegalArgumentException("No fmu with id=$id")
-    }
 
     @RpcMethod
     fun createInstanceFromCS(): Int {
@@ -180,7 +182,17 @@ class RpcFmuService(
     }
 
     @RpcMethod
+    fun bulkWriteInteger(fmuId: Int, vr: ValueReferences, value: IntArray): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeInteger(vr, value)
+    }
+
+    @RpcMethod
     fun writeReal(fmuId: Int, vr: ValueReference, value: Double): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeReal(vr, value)
+    }
+
+    @RpcMethod
+    fun bulkWriteReal(fmuId: Int, vr: ValueReferences, value: DoubleArray): FmiStatus {
         return getFmu(fmuId).variableAccessor.writeReal(vr, value)
     }
 
@@ -190,7 +202,17 @@ class RpcFmuService(
     }
 
     @RpcMethod
+    fun bulkWriteString(fmuId: Int, vr: ValueReferences, value: StringArray): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeString(vr, value)
+    }
+
+    @RpcMethod
     fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
+    }
+
+    @RpcMethod
+    fun bulkWriteBoolean(fmuId: Int, vr: ValueReferences, value: BooleanArray): FmiStatus {
         return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
     }
 

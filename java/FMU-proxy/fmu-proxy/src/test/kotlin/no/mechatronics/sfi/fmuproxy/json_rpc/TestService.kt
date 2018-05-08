@@ -8,6 +8,7 @@ import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -28,10 +29,7 @@ class TestService {
        @JvmStatic
        @BeforeClass
        fun setup() {
-           val url = TestService::class.java.classLoader
-                   .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-           Assert.assertNotNull(url)
-           fmu = Fmu.from(File(url.file))
+           val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
            handler = RpcHandler(RpcFmuService(fmu))
        }
        
@@ -124,14 +122,14 @@ class TestService {
         LOG.info("currentTime=$currentTime")
         Assert.assertEquals(0.0, currentTime, 0.0)
 
-        val controller_K = RpcRequestOut(
+        val h = RpcRequestOut(
                 methodName = "FmuService.readReal",
-                params = RpcParams.listParams(fmuId, "Controller.K")
+                params = RpcParams.listParams(fmuId, "0")
         ).toJson().let{ RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(FmuRealRead::class.java)!!
 
-        LOG.info("Controller.K=$controller_K")
-        Assert.assertEquals(10.0, controller_K.value, 0.0)
+        LOG.info("h=$h")
+        Assert.assertEquals(1.0, h.value, 0.0)
 
         val stepMsg = RpcRequestOut(
                 methodName = "FmuService.step",
