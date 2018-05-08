@@ -53,30 +53,34 @@ class ThriftFmuServiceImpl(
         return Fmus.put(fmu.asCoSimulationFmu().newInstance())
     }
 
-    override fun createInstanceFromME(i: Integrator): Int {
-
-        fun selectDefaultIntegrator(): FirstOrderIntegrator {
-            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
-            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
-        }
-
-        val integrator: FirstOrderIntegrator = when {
-            i.isSetEuler -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(i.euler.step_size)
-            i.isSetRunge_kutta -> ClassicalRungeKuttaIntegrator(i.runge_kutta.step_size)
-            i.isSetGill -> GillIntegrator(i.gill.step_size)
-            i.isSetMid_point -> MidpointIntegrator(i.mid_point.step_size)
-            i.isSetAdams_bashforth -> i.adams_bashforth.let {
-                AdamsBashforthIntegrator(it.n_steps, it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
-            }
-            i.isSetDormand_prince54 -> i.dormand_prince54.let {
-                DormandPrince54Integrator(it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
-            }
-            else -> selectDefaultIntegrator()
-        }
-
-        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
+    override fun createInstanceFromME(p0: Solver?): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    //    override fun createInstanceFromME(i: Integrator): Int {
+//
+//        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+//            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+//            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
+//            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
+//        }
+//
+//        val integrator: FirstOrderIntegrator = when {
+//            i.isSetEuler -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(i.euler.step_size)
+//            i.isSetRunge_kutta -> ClassicalRungeKuttaIntegrator(i.runge_kutta.step_size)
+//            i.isSetGill -> GillIntegrator(i.gill.step_size)
+//            i.isSetMid_point -> MidpointIntegrator(i.mid_point.step_size)
+//            i.isSetAdams_bashforth -> i.adams_bashforth.let {
+//                AdamsBashforthIntegrator(it.n_steps, it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
+//            }
+//            i.isSetDormand_prince54 -> i.dormand_prince54.let {
+//                DormandPrince54Integrator(it.min_Step, it.max_step, it.scal_absolute_tolerance, it.scal_relative_tolerance)
+//            }
+//            else -> selectDefaultIntegrator()
+//        }
+//
+//        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
+//    }
 
     override fun getCurrentTime(fmuId: Int): Double {
         return Fmus.get(fmuId)?.let {

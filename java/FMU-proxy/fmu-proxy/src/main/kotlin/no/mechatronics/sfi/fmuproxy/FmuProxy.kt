@@ -80,7 +80,6 @@ class FmuProxy(
                     modelDescriptionXml = fmuFile.modelDescriptionXml)
         }
 
-
     /**
      * Start proxy
      */

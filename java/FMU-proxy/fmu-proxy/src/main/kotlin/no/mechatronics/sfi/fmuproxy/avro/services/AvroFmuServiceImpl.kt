@@ -49,26 +49,29 @@ class AvroFmuServiceImpl(
        return Fmus.put(fmu.asCoSimulationFmu().newInstance())
     }
 
-
-    override fun createInstanceFromME(i: Integrator): Int {
-
-        fun selectDefaultIntegrator(): FirstOrderIntegrator {
-            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
-            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
-        }
-
-        val it = i.integrator
-        val integrator: FirstOrderIntegrator = when(it) {
-            is EulerIntegrator -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(it.stepSize)
-            is ClassicalRungeKuttaIntegrator -> org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator(it.stepSize)
-            is GillIntegrator-> org.apache.commons.math3.ode.nonstiff.GillIntegrator(it.stepSize)
-            else -> selectDefaultIntegrator()
-
-        }
-
-        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
+    override fun createInstanceFromME(solver: Solver?): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    //    override fun createInstanceFromME(i: Integrator): Int {
+//
+//        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+//            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+//            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
+//            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
+//        }
+//
+//        val it = i.integrator
+//        val integrator: FirstOrderIntegrator = when(it) {
+//            is EulerIntegrator -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(it.stepSize)
+//            is ClassicalRungeKuttaIntegrator -> org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator(it.stepSize)
+//            is GillIntegrator-> org.apache.commons.math3.ode.nonstiff.GillIntegrator(it.stepSize)
+//            else -> selectDefaultIntegrator()
+//
+//        }
+//
+//        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
+//    }
 
     override fun isTerminated(fmuId: Int): Boolean {
         return Fmus.get(fmuId)?.let {

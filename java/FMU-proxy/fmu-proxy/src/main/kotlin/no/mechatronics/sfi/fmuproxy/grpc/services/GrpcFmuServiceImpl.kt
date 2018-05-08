@@ -96,32 +96,34 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun createInstanceFromME(req: Proto.Integrator, responseObserver: StreamObserver<Proto.UInt>) {
 
-        fun selectDefaultIntegrator(): FirstOrderIntegrator {
-            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
-            return EulerIntegrator(stepSize)
-        }
 
-        val integrator = when (req.integratorsCase) {
-            Proto.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
-            Proto.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
-            Proto.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
-            Proto.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
-            Proto.Integrator.IntegratorsCase.ADAMS_BASHFORTH -> req.adamsBashforth.let { AdamsBashforthIntegrator(it.nSteps, it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
-            Proto.Integrator.IntegratorsCase.DORMAND_PRINCE54 -> req.dormandPrince54.let { DormandPrince54Integrator(it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
-            else -> selectDefaultIntegrator()
-        }
-
-        Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator)).also { id ->
-            Proto.UInt.newBuilder().setValue(id).build().also {
-                responseObserver.onNext(it)
-                responseObserver.onCompleted()
-            }
-        }
-
-    }
+//    override fun createInstanceFromME(req: Proto.Integrator, responseObserver: StreamObserver<Proto.UInt>) {
+//
+//        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+//            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+//            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
+//            return EulerIntegrator(stepSize)
+//        }
+//
+//        val integrator = when (req.integratorsCase) {
+//            Proto.Integrator.IntegratorsCase.GILL -> GillIntegrator(req.gill.stepSize)
+//            Proto.Integrator.IntegratorsCase.EULER -> EulerIntegrator(req.euler.stepSize)
+//            Proto.Integrator.IntegratorsCase.MID_POINT -> MidpointIntegrator(req.midPoint.stepSize)
+//            Proto.Integrator.IntegratorsCase.RUNGE_KUTTA -> ClassicalRungeKuttaIntegrator(req.rungeKutta.stepSize)
+//            Proto.Integrator.IntegratorsCase.ADAMS_BASHFORTH -> req.adamsBashforth.let { AdamsBashforthIntegrator(it.nSteps, it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
+//            Proto.Integrator.IntegratorsCase.DORMAND_PRINCE54 -> req.dormandPrince54.let { DormandPrince54Integrator(it.minStep, it.maxStep, it.scalAbsoluteTolerance, it.scalRelativeTolerance) }
+//            else -> selectDefaultIntegrator()
+//        }
+//
+//        Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator)).also { id ->
+//            Proto.UInt.newBuilder().setValue(id).build().also {
+//                responseObserver.onNext(it)
+//                responseObserver.onCompleted()
+//            }
+//        }
+//
+//    }
 
     override fun canGetAndSetFMUstate(req: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
         val fmuId = req.value

@@ -98,9 +98,7 @@ class GrpcFmuServer(
     }
 
     private companion object {
-
         val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
-
     }
 
 }
