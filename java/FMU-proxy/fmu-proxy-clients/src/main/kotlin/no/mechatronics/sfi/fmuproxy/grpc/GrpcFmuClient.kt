@@ -30,8 +30,8 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.Solver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -228,7 +228,7 @@ class GrpcFmuClient(
         return blockingStub.createInstanceFromCS(EMPTY).value
     }
 
-    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
+    override fun createInstanceFromME(solver: Solver): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

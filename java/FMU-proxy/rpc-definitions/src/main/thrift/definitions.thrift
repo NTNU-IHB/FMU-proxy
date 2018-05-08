@@ -206,42 +206,7 @@ enum VariableNamingConvention {
     STRUCTURED = 1
 }
 
-union Integrator {
-    1: EulerIntegrator euler
-    2: ClassicalRungeKuttaIntegrator runge_kutta
-    3: MidpointIntegrator mid_point
-    4: GillIntegrator gill
-    5: AdamsBashforthIntegrator adams_bashforth
-    6: DormandPrince54Integrator dormand_prince54
-}
-
-struct EulerIntegrator {
-	1: double step_size
-}
-
-struct ClassicalRungeKuttaIntegrator {
-	1: double step_size
-}
-
-struct MidpointIntegrator {
-	1: double step_size
-}
-
-struct GillIntegrator {
-	1: double step_size
-}
-
-struct AdamsBashforthIntegrator {
-	1: i32 n_steps
-	2: double min_Step
-	3: double max_step
-	4: double scal_absolute_tolerance
-	5: double scal_relative_tolerance
-}
-
-struct DormandPrince54Integrator {
-    1: double min_Step
-    2: double max_step
-    3: double scal_absolute_tolerance
-    4: double scal_relative_tolerance
+struct Solver {
+    1: string name,
+    2: string settings
 }

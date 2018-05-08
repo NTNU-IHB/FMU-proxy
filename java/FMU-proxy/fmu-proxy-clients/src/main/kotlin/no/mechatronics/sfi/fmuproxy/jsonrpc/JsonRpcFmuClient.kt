@@ -29,8 +29,8 @@ import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
-import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.Solver
 
 
 class JsonRpcFmuClient(
@@ -152,7 +152,7 @@ class JsonRpcFmuClient(
                 .getResult(ValueReference::class.java)!!
     }
 
-    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
+    override fun createInstanceFromME(solver: Solver): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

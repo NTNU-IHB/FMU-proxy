@@ -26,8 +26,8 @@ package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
@@ -87,8 +87,8 @@ class ThriftFmuClient(
         return client.createInstanceFromCS()
     }
 
-    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
-        return client.createInstanceFromME(integrator.thriftType())
+    override fun createInstanceFromME(solver: Solver): Int {
+        TODO()
     }
 
     override fun close() {

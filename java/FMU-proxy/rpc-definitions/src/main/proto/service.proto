@@ -35,7 +35,7 @@ service FmuService {
 	rpc GetModelDescription(google.protobuf.Empty) returns (ModelDescription);
 
     rpc CreateInstanceFromCS (google.protobuf.Empty) returns (UInt);
-	rpc CreateInstanceFromME (Integrator) returns (UInt);
+	rpc CreateInstanceFromME (Solver) returns (UInt);
 
     //instance methods
 

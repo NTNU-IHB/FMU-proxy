@@ -26,8 +26,8 @@ package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.avro.ipc.NettyTransceiver
 import org.apache.avro.ipc.specific.SpecificRequestor
 import java.net.InetSocketAddress
@@ -141,7 +141,7 @@ class AvroFmuClient(
         return service.createInstanceFromCS()
     }
 
-    override fun createInstanceFromME(integrator: IntegratorSettings): Int {
+    override fun createInstanceFromME(solver: Solver): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

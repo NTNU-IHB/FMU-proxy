@@ -185,20 +185,9 @@ protocol AvroFmuService {
     StatusCode code;
   }
 
-  record EulerIntegrator {
-    double step_size;
-  }
-
-  record ClassicalRungeKuttaIntegrator {
-    double step_size;
-  }
-
-  record GillIntegrator {
-    double step_size;
-  }
-
-  record Integrator {
-    union {EulerIntegrator, ClassicalRungeKuttaIntegrator, GillIntegrator} integrator;
+  record Solver {
+    string name;
+    string settings;
   }
 
   error NoSuchFmuException {
@@ -217,7 +206,7 @@ protocol AvroFmuService {
   ModelDescription getModelDescription();
 
   int createInstanceFromCS() throws UnsupportedOperationException;
-  int createInstanceFromME(Integrator integrator) throws UnsupportedOperationException;
+  int createInstanceFromME(Solver solver) throws UnsupportedOperationException;
 
   boolean canGetAndSetFMUstate(int fmu_id);
 

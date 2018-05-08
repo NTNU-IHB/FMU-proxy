@@ -37,7 +37,6 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
-import no.mechatronics.sfi.fmuproxy.IntegratorSettings
 
 
 internal fun StatusCode.convert(): FmiStatus {
@@ -95,17 +94,6 @@ internal fun VariableNamingConvention.convert(): no.mechatronics.sfi.fmi4j.model
     return when(this) {
         VariableNamingConvention.FLAT -> no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention.FLAT
         VariableNamingConvention.STRUCTURED -> no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention.STRUCTURED
-    }
-}
-
-internal fun IntegratorSettings.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Integrator {
-    return when(this) {
-        is no.mechatronics.sfi.fmuproxy.EulerIntegrator -> no.mechatronics.sfi.fmuproxy.thrift.Integrator.euler(EulerIntegrator(stepSize))
-        is no.mechatronics.sfi.fmuproxy.ClassicalRungeKuttaIntegrator -> no.mechatronics.sfi.fmuproxy.thrift.Integrator.runge_kutta(ClassicalRungeKuttaIntegrator(stepSize))
-        is no.mechatronics.sfi.fmuproxy.GillIntegrator -> no.mechatronics.sfi.fmuproxy.thrift.Integrator.gill(no.mechatronics.sfi.fmuproxy.thrift.GillIntegrator(stepSize))
-        is no.mechatronics.sfi.fmuproxy.MidPointIntegrator -> no.mechatronics.sfi.fmuproxy.thrift.Integrator.mid_point(MidpointIntegrator(stepSize))
-        is no.mechatronics.sfi.fmuproxy.AdamsBashforthIntegrator -> no.mechatronics.sfi.fmuproxy.thrift.Integrator.adams_bashforth(AdamsBashforthIntegrator(n_steps, min_Step, max_step, scal_absolute_tolerance, scal_relative_tolerance))
-        is no.mechatronics.sfi.fmuproxy.DormandPrince54Integrator -> no.mechatronics.sfi.fmuproxy.thrift.Integrator.dormand_prince54(DormandPrince54Integrator(min_Step, max_step, scal_absolute_tolerance, scal_relative_tolerance))
     }
 }
 

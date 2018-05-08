@@ -279,6 +279,11 @@ message InstanceBoolWrite {
     bool value = 2;
 }
 
+message Solver {
+    string name = 1;
+    string settings = 2;
+}
+
 enum Causality {
     INPUT_CAUSALITY = 0;
     OUTPUT_CAUSALITY = 1;
@@ -321,50 +326,6 @@ enum DependenciesKind {
 enum VariableNamingConvention {
     FLAT = 0;
     STRUCTURED = 1;
-}
-
-message Integrator {
-
-    oneof integrators {
-        Euler euler = 1;
-        ClassicalRungeKutta runge_kutta = 2;
-        Midpoint mid_point = 3;
-        Gill gill = 4;
-        AdamsBashforth adams_bashforth = 5;
-        DormandPrince54 dormand_prince54 = 6;
-    }
-
-    message Euler {
-        double step_size = 1;
-    }
-
-    message ClassicalRungeKutta {
-        double step_size = 1;
-    }
-
-    message Midpoint {
-        double step_size = 1;
-    }
-
-    message Gill {
-        double step_size = 1;
-    }
-
-    message AdamsBashforth{
-        uint32 n_steps = 1;
-        double min_Step = 2;
-        double max_step = 3;
-        double scal_absolute_tolerance = 4;
-        double scal_relative_tolerance = 5;
-    }
-
-    message DormandPrince54 {
-        double min_Step = 1;
-        double max_step = 2;
-        double scal_absolute_tolerance = 3;
-        double scal_relative_tolerance = 4;
-    }
-
 }
 
 

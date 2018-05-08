@@ -40,7 +40,7 @@ service FmuService {
     definitions.ModelDescription getModelDescription()
 
     FmuId createInstanceFromCS() throws (1: definitions.UnsupportedOperationException ex)
-    FmuId createInstanceFromME(1: definitions.Integrator integrator) throws (1: definitions.UnsupportedOperationException ex)
+    FmuId createInstanceFromME(1: definitions.Solver solver) throws (1: definitions.UnsupportedOperationException ex)
 
     bool canGetAndSetFMUstate(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 

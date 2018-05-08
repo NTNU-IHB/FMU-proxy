@@ -80,14 +80,14 @@ abstract class RpcFmuClient: Closeable {
     internal abstract fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus
 
     protected abstract fun createInstanceFromCS(): Int
-    protected abstract fun createInstanceFromME(integrator: IntegratorSettings): Int
+    protected abstract fun createInstanceFromME(solver: Solver): Int
 
     @JvmOverloads
-    fun newInstance(integrator: IntegratorSettings? = null): FmuInstance {
-        val fmuId = if(integrator == null) {
+    fun newInstance(solver: Solver? = null): FmuInstance {
+        val fmuId = if(solver == null) {
             createInstanceFromCS()
         } else {
-            createInstanceFromME(integrator)
+            createInstanceFromME(solver)
         }
         return FmuInstance(fmuId).also {
             FmuInstances.add(it)
