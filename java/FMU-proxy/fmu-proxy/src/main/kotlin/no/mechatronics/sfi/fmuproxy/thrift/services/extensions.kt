@@ -108,7 +108,6 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
 
         }
 
-
     }
 }
 

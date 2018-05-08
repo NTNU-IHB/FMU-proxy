@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.log.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.BooleanAttribute
@@ -35,7 +35,6 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.EnumerationAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.IntegratorSettings
@@ -212,32 +211,27 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute.convert():
 }
 
 internal fun no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable.convert(): TypedScalarVariable<*> {
-    val v = object : ScalarVariable {
-        override val causality: Causality?
-            get() = getCausality()?.convert()
-        override val declaredType: String?
-            get() = getDeclaredType()
-        override val description: String?
-            get() = getDescription()
-        override val initial: Initial?
-            get() = getInitial()?.convert()
-        override val name: String
-            get() = getName()
-        override val valueReference: Int
-            get() = getValueReference()
-        override val variability: Variability?
-            get() = getVariability()?.convert()
+
+    val v = ScalarVariableImpl(
+            name = name,
+            description = description,
+            valueReference = valueReference,
+            declaredType = declaredType,
+            causality = causality?.convert(),
+            variability = variability?.convert(),
+            initial = initial?.convert()
+    )
+
+    when {
+        attribute.isSetIntegerAttribute -> v.integerAttribute = attribute.integerAttribute.convert()
+        attribute.isSetRealAttribute -> v.realAttribute = attribute.realAttribute.convert()
+        attribute.isSetStringAttribute -> v.stringAttribute = attribute.stringAttribute.convert()
+        attribute.isSetBooleanAttribute -> v.booleanAttribute = attribute.booleanAttribute.convert()
+        attribute.isSetEnumerationAttribute -> v.enumerationAttribute = attribute.enumerationAttribute.convert()
+        else -> throw AssertionError("All attributes are null!")
     }
 
-    val attribute = attribute
-    return when (attribute) {
-        is no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute -> IntegerVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.thrift.RealAttribute -> RealVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.thrift.StringAttribute -> StringVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute -> BooleanVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute -> EnumerationVariableImpl(v, attribute.convert())
-        else -> throw AssertionError()
-    }
+    return v.toTyped()
 
 }
 
@@ -261,8 +255,7 @@ class ThriftModelDescription(
         get() = modelDescription.author
     override val copyright: String?
         get() = modelDescription.copyright
-    override val defaultExperiment: no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment?
-        get() = modelDescription.defaultExperiment.convert()
+    override val defaultExperiment: no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment? = modelDescription.defaultExperiment?.convert()
     override val description: String?
         get() = modelDescription.description
     override val fmiVersion: String
@@ -279,16 +272,13 @@ class ThriftModelDescription(
         get() = null
     override val modelName: String
         get() = modelDescription.modelName
-    override val modelStructure: ModelStructure
-        get() = modelDescription.modelStructure.convert()
-    override val modelVariables: ModelVariables
-        get() = modelDescription.modelVariables.convert()
+    override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
+    override val modelVariables: ModelVariables = modelDescription.modelVariables.convert()
     override val supportsCoSimulation: Boolean
         get() = modelDescription.isSupportsCoSimulation
     override val supportsModelExchange: Boolean
         get() = modelDescription.isSupportsModelExchange
-    override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention?
-        get() = modelDescription.variableNamingConvention?.convert()
+    override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
 }

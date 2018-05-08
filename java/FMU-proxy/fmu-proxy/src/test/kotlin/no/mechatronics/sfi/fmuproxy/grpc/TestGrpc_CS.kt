@@ -102,6 +102,10 @@ class TestGrpc_CS {
 
             Assert.assertEquals(FmiStatus.OK, instance.init())
 
+            val controllerMaximum = client.modelDescription.modelVariables
+                    .getByName("Controller.maximum").asRealVariable()
+            LOG.info("Controller.maximum=$controllerMaximum")
+
             val dt = 1.0/100
             measureTimeMillis {
                 while (instance.currentTime < 10) {

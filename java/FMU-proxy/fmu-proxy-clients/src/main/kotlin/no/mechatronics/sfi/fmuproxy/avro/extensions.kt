@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.log.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
@@ -213,32 +213,28 @@ internal fun no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute.convert(): E
 
 
 internal fun no.mechatronics.sfi.fmuproxy.avro.ScalarVariable.convert(): TypedScalarVariable<*> {
-    val v = object : ScalarVariable {
-        override val causality: Causality?
-            get() = getCausality()?.convert()
-        override val declaredType: String?
-            get() = getDeclaredType()
-        override val description: String?
-            get() = getDescription()
-        override val initial: Initial?
-            get() = getInitial()?.convert()
-        override val name: String
-            get() = getName()
-        override val valueReference: Int
-            get() = getValueReference()
-        override val variability: Variability?
-            get() = getVariability()?.convert()
-    }
+
+    val v = ScalarVariableImpl(
+            name = name,
+            description = description,
+            valueReference = valueReference,
+            declaredType = declaredType,
+            causality = causality?.convert(),
+            variability = variability?.convert(),
+            initial = initial?.convert()
+    )
 
     val attribute = attribute
-    return when (attribute) {
-        is no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute -> IntegerVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.avro.RealAttribute -> RealVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.avro.StringAttribute -> StringVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute -> BooleanVariableImpl(v, attribute.convert())
-        is no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute -> EnumerationVariableImpl(v, attribute.convert())
+    when (attribute) {
+        is no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute -> v.integerAttribute = attribute.convert()
+        is no.mechatronics.sfi.fmuproxy.avro.RealAttribute -> v.realAttribute = attribute.convert()
+        is no.mechatronics.sfi.fmuproxy.avro.StringAttribute -> v.stringAttribute = attribute.convert()
+        is no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute -> v.booleanAttribute = attribute.convert()
+        is no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute -> v.enumerationAttribute = attribute.convert()
         else -> throw AssertionError()
     }
+
+    return v.toTyped()
 
 }
 
@@ -263,8 +259,7 @@ class AvroModelDescription(
         get() = modelDescription.author
     override val copyright: String?
         get() = modelDescription.copyright
-    override val defaultExperiment: DefaultExperiment?
-        get() = modelDescription.defaultExperiment.convert()
+    override val defaultExperiment: DefaultExperiment? = modelDescription.defaultExperiment?.convert()
     override val description: String?
         get() = modelDescription.description
     override val fmiVersion: String
@@ -281,16 +276,13 @@ class AvroModelDescription(
         get() = null
     override val modelName: String
         get() = modelDescription.modelName
-    override val modelStructure: ModelStructure
-        get() = modelDescription.modelStructure.convert()
-    override val modelVariables: ModelVariables
-        get() = modelDescription.modelVariables.convert()
+    override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
+    override val modelVariables: ModelVariables = modelDescription.modelVariables.convert()
     override val supportsCoSimulation: Boolean
         get() = modelDescription.supportsCoSimulation
     override val supportsModelExchange: Boolean
         get() = modelDescription.supportsModelExchange
-    override val variableNamingConvention: VariableNamingConvention?
-        get() = modelDescription.variableNamingConvention?.convert()
+    override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
 }

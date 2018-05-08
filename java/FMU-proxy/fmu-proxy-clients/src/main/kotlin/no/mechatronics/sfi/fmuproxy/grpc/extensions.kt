@@ -26,13 +26,13 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.log.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.ModelVariables
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 
 
 internal fun Proto.Status.convert(): FmiStatus {
@@ -48,6 +48,40 @@ internal fun Proto.StatusCode.convert(): FmiStatus {
         Proto.StatusCode.PENDING_STATUS -> FmiStatus.Pending
         Proto.StatusCode.FATAL_STATUS -> FmiStatus.Fatal
         Proto.StatusCode.UNRECOGNIZED -> throw AssertionError()
+    }
+}
+
+
+internal fun Proto.Causality.convert(): Causality {
+    return when(this) {
+        Proto.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
+        Proto.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
+        Proto.Causality.INPUT_CAUSALITY -> Causality.INPUT
+        Proto.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
+        Proto.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
+        Proto.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
+        Proto.Causality.UNRECOGNIZED -> throw AssertionError()
+    }
+}
+
+
+internal fun Proto.Variability.convert(): Variability {
+    return when(this) {
+        Proto.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
+        Proto.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
+        Proto.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
+        Proto.Variability.FIXED_VARIABILITY -> Variability.FIXED
+        Proto.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
+        Proto.Variability.UNRECOGNIZED -> throw AssertionError()
+    }
+}
+
+internal fun Proto.Initial.convert(): Initial {
+    return when(this) {
+        Proto.Initial.APPROX_INITIAL -> Initial.APPROX
+        Proto.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
+        Proto.Initial.EXACT_INITIAL -> Initial.EXACT
+        Proto.Initial.UNRECOGNIZED -> throw AssertionError()
     }
 }
 
@@ -144,6 +178,75 @@ internal fun Proto.ModelStructure.convert(): ModelStructure {
     }
 }
 
+internal fun Proto.IntegerAttribute.convert(): IntegerAttribute {
+    return IntegerAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun Proto.RealAttribute.convert(): RealAttribute {
+    return RealAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun Proto.StringAttribute.convert(): StringAttribute {
+    return StringAttribute(
+            start = start
+    )
+}
+
+internal fun Proto.BooleanAttribute.convert(): BooleanAttribute {
+    return BooleanAttribute(
+            start = start
+    )
+}
+
+internal fun Proto.EnumerationAttribute.convert(): EnumerationAttribute {
+    return EnumerationAttribute(
+            min = min,
+            max = max,
+            start = start
+    )
+}
+
+internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
+
+    val v = ScalarVariableImpl(
+            name = name,
+            description = description,
+            valueReference = valueReference,
+            declaredType = declaredType,
+            causality = causality?.convert(),
+            variability = variability?.convert(),
+            initial = initial?.convert()
+    )
+
+    when(attributeCase) {
+        Proto.ScalarVariable.AttributeCase.INTEGERATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.REALATTRIBUTE -> v.realAttribute = realAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.STRINGATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.BOOLEANATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.ENUMERATIONATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
+        else -> throw AssertionError()
+    }
+
+    return v.toTyped()
+
+}
+
+internal fun List<Proto.ScalarVariable>.convert(): ModelVariables {
+    return object : ModelVariables {
+        override val variables: List<TypedScalarVariable<*>> by lazy {
+            this@convert.map { it.convert() }
+        }
+    }
+}
+
 internal fun Proto.ModelDescription.convert(): CommonModelDescription {
     return GrpcModelDescription(this)
 }
@@ -156,8 +259,7 @@ class GrpcModelDescription(
         get() = modelDescription.author
     override val copyright: String?
         get() = modelDescription.copyright
-    override val defaultExperiment: DefaultExperiment?
-        get() = modelDescription.defaultExperiment.convert()
+    override val defaultExperiment: DefaultExperiment? =  modelDescription.defaultExperiment?.convert()
     override val description: String?
         get() = modelDescription.description
     override val fmiVersion: String
@@ -174,16 +276,13 @@ class GrpcModelDescription(
         get() = null
     override val modelName: String
         get() = modelDescription.modelName
-    override val modelStructure: ModelStructure
-        get() = modelDescription.modelStructure.convert()
-    override val modelVariables: ModelVariables
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
+    override val modelVariables: ModelVariables = modelDescription.modelVariablesList.convert()
     override val supportsCoSimulation: Boolean
         get() = modelDescription.supportsCoSimulation
     override val supportsModelExchange: Boolean
         get() = modelDescription.supportsModelExchange
-    override val variableNamingConvention: VariableNamingConvention?
-        get() = modelDescription.variableNamingConvention?.convert()
+    override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
 }
