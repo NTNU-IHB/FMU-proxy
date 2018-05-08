@@ -238,7 +238,6 @@ internal fun no.mechatronics.sfi.fmuproxy.avro.ScalarVariable.convert(): TypedSc
 
 }
 
-
 internal fun List<no.mechatronics.sfi.fmuproxy.avro.ScalarVariable>.convert(): ModelVariables {
     return object : ModelVariables {
         override val variables: List<TypedScalarVariable<*>> by lazy {

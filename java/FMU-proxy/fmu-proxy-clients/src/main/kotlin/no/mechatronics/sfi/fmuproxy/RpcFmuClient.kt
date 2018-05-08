@@ -26,6 +26,7 @@ package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.AbstractTypedScalarVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -114,6 +115,16 @@ abstract class RpcFmuClient: Closeable {
 
         val variableAccessor: FmuVariableAccessor
                 = VariableAccessorImpl(fmuId, this@RpcFmuClient)
+
+        init {
+            modelDescription.modelVariables.forEach { variable ->
+                if (variable is AbstractTypedScalarVariable<*>) {
+                    variable::class.java.getField("accessor").also { field ->
+                        field.set(variable, variableAccessor)
+                    }
+                }
+            }
+        }
 
         @JvmOverloads
         fun init(start:Double=0.0, stop:Double=-1.0): FmiStatus {
