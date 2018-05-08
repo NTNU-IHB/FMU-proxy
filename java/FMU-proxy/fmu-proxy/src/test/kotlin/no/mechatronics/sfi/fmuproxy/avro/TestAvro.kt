@@ -3,12 +3,14 @@ package no.mechatronics.sfi.fmuproxy.avro
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 import kotlin.system.measureTimeMillis
 
 class TestAvro {
@@ -26,11 +28,7 @@ class TestAvro {
         @BeforeClass
         fun setup() {
 
-            val url = TestAvro::class.java.classLoader
-                    .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-            Assert.assertNotNull(url)
-
-            val fmu = Fmu.from(url)
+            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
             modelDescription = fmu.modelDescription
 
             server = AvroFmuServer(fmu)
@@ -68,15 +66,17 @@ class TestAvro {
 
             Assert.assertEquals(FmiStatus.OK, instance.init())
 
-            val controllerMaximum = client.modelDescription.modelVariables
-                    .getByName("Controller.maximum").asRealVariable()
-            LOG.info("Controller.maximum=$controllerMaximum")
+            val h = client.modelDescription.modelVariables
+                    .getByName("h").asRealVariable()
 
             val dt = 1.0/100
             measureTimeMillis {
                 while (instance.currentTime < 10) {
                     val status = instance.step(dt)
                     Assert.assertEquals(FmiStatus.OK, status)
+
+                    LOG.info("h=${h.read()}")
+
                 }
             }.also { LOG.info("Duration=${it}ms") }
 

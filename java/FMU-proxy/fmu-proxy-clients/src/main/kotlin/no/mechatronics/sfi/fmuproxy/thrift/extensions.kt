@@ -109,12 +109,11 @@ internal fun IntegratorSettings.thriftType(): no.mechatronics.sfi.fmuproxy.thrif
     }
 }
 
-
-internal fun IntRead.convert(): FmuIntegerRead {
+internal fun IntegerRead.convert(): FmuIntegerRead {
     return FmuIntegerRead(value, code.convert())
 }
 
-internal fun IntArrayRead.convert(): FmuIntegerArrayRead {
+internal fun IntegerArrayRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(value.toIntArray(), code.convert())
 }
 
@@ -134,11 +133,11 @@ internal fun StringArrayRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(value.toTypedArray(), code.convert())
 }
 
-internal fun BoolRead.convert(): FmuBooleanRead {
+internal fun BooleanRead.convert(): FmuBooleanRead {
     return FmuBooleanRead(isValue, code.convert())
 }
 
-internal fun BoolArrayRead.convert(): FmuBooleanArrayRead {
+internal fun BooleanArrayRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(value.toBooleanArray(), code.convert())
 }
 

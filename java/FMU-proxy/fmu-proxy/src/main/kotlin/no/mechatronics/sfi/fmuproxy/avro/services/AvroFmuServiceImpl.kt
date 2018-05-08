@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.avro.services
 
+import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
@@ -35,10 +36,10 @@ class AvroFmuServiceImpl(
         private val fmu: Fmu
 ): AvroFmuService {
 
-    override fun getCurrentTime(fmu_id: Int): Double {
-        return Fmus.get(fmu_id)?.let {
+    override fun getCurrentTime(fmuId: Int): Double {
+        return Fmus.get(fmuId)?.let {
             it.currentTime
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
     override fun createInstanceFromCS(): Int {
@@ -69,50 +70,50 @@ class AvroFmuServiceImpl(
         return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
     }
 
-    override fun isTerminated(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
+    override fun isTerminated(fmuId: Int): Boolean {
+        return Fmus.get(fmuId)?.let {
             it.isTerminated
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
     override fun getModelDescriptionXml(): String {
         return fmu.modelDescriptionXml
     }
 
-    override fun init(fmu_id: Int, start: Double, stop: Double): StatusCode {
-        return Fmus.get(fmu_id)?.let {
+    override fun init(fmuId: Int, start: Double, stop: Double): StatusCode {
+        return Fmus.get(fmuId)?.let {
             it.init(start, stop)
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun step(fmu_id: Int, step_size: Double): StatusCode {
-        return Fmus.get(fmu_id)?.let {
+    override fun step(fmuId: Int, step_size: Double): StatusCode {
+        return Fmus.get(fmuId)?.let {
             it.doStep(step_size)
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
 
-    override fun terminate(fmu_id: Int): StatusCode {
-        return Fmus.get(fmu_id)?.let {
+    override fun terminate(fmuId: Int): StatusCode {
+        return Fmus.get(fmuId)?.let {
             it.terminate()
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun reset(fmu_id: Int): StatusCode {
-        return Fmus.get(fmu_id)?.let {
+    override fun reset(fmuId: Int): StatusCode {
+        return Fmus.get(fmuId)?.let {
             it.reset()
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
 
-    override fun canGetAndSetFMUstate(fmu_id: Int): Boolean {
-        return Fmus.get(fmu_id)?.let {
+    override fun canGetAndSetFMUstate(fmuId: Int): Boolean {
+        return Fmus.get(fmuId)?.let {
             it.modelDescription.canGetAndSetFMUstate
-        } ?: throw NoSuchFmuException()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
 
@@ -120,68 +121,100 @@ class AvroFmuServiceImpl(
         return fmu.modelDescription.avroType()
     }
 
-    override fun writeString(p0: Int, p1: Int, p2: String?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun writeString(fmuId: Int, vr: ValueReference, value: String): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeString(vr, value).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun readReal(p0: Int, p1: Int): RealRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun readReal(fmuId: Int, vr: ValueReference): RealRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readReal(vr).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteReal(p0: Int, p1: MutableList<Int>?, p2: MutableList<Double>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteReal(fmuId: Int, vr: List<ValueReference>, value: List<Double>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeReal(vr.toIntArray(), value.toDoubleArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadBoolean(p0: Int, p1: MutableList<Int>?): BooleanArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadBoolean(fmuId: Int, vr: List<ValueReference>): BooleanArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readBoolean(vr.toIntArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteString(p0: Int, p1: MutableList<Int>?, p2: MutableList<String>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteString(fmuId: Int, vr: List<ValueReference>, value: List<String>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeString(vr.toIntArray(), value.toTypedArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun writeBoolean(p0: Int, p1: Int, p2: Boolean): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeBoolean(vr, value).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun writeReal(p0: Int, p1: Int, p2: Double): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun writeReal(fmuId: Int, vr: ValueReference, value: Double): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeReal(vr, value).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun writeInt(p0: Int, p1: Int, p2: Int): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeInteger(vr, value).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun readString(p0: Int, p1: Int): StringRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun readString(fmuId: Int, vr: ValueReference): StringRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readString(vr).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun readBoolean(p0: Int, p1: Int): BooleanRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun readBoolean(fmuId: Int, vr: ValueReference): BooleanRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readBoolean(vr).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteInt(p0: Int, p1: MutableList<Int>?, p2: MutableList<Int>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteInteger(fmuId: Int, vr: List<ValueReference>, value: List<Int>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeInteger(vr.toIntArray(), value.toIntArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun readInt(p0: Int, p1: Int): IntegerRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun readInteger(fmuId: Int, vr: ValueReference): IntegerRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readInteger(vr).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadInt(p0: Int, p1: MutableList<Int>?): IntegerArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadInteger(fmuId: Int, vr: List<ValueReference>): IntegerArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readInteger(vr.toIntArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadReal(p0: Int, p1: MutableList<Int>?): RealArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadReal(fmuId: Int, vr: List<ValueReference>): RealArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readReal(vr.toIntArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadString(p0: Int, p1: MutableList<Int>?): StringArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadString(fmuId: Int, vr: List<ValueReference>): StringArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readString(vr.toIntArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteBoolean(p0: Int, p1: MutableList<Int>?, p2: MutableList<Boolean>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteBoolean(fmuId: Int, vr: List<ValueReference>, value: List<Boolean>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).avroType()
+        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
     private companion object {

@@ -66,7 +66,6 @@ class TestThrift {
 
             val h = client.modelDescription.modelVariables
                     .getByName("h").asRealVariable()
-            LOG.info("h=$h")
 
             val dt = 1.0/100
             measureTimeMillis {

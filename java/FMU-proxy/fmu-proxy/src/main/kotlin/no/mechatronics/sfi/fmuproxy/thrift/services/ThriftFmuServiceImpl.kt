@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift.services
 
+import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import no.mechatronics.sfi.fmuproxy.thrift.*
@@ -102,9 +103,9 @@ class ThriftFmuServiceImpl(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun step(fmuId: Int, p1: Double): StatusCode {
+    override fun step(fmuId: Int, vr: Double): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.doStep(p1)
+            it.doStep(vr)
             it.lastStatus.thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
@@ -123,7 +124,7 @@ class ThriftFmuServiceImpl(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun readInt(fmuId: Int, vr: Int): IntRead {
+    override fun readInteger(fmuId: Int, vr: Int): IntegerRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readInteger(vr).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
@@ -141,75 +142,83 @@ class ThriftFmuServiceImpl(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun readBoolean(fmuId: Int, vr: Int): BoolRead {
+    override fun readBoolean(fmuId: Int, vr: Int): BooleanRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readBoolean(vr).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun writeInt(fmuId: Int, vr: Int, value: Int): StatusCode {
+    override fun writeInteger(fmuId: Int, vr: Int, value: Int): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeInteger(vr, value).let {
-                StatusCode.findByValue(it.code)
-            }
+            it.variableAccessor.writeInteger(vr, value).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
     override fun writeReal(fmuId: Int, vr: Int, value: Double): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeReal(vr, value).let {
-                StatusCode.findByValue(it.code)
-            }
+            it.variableAccessor.writeReal(vr, value).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
     override fun writeString(fmuId: Int, vr: Int, value: String): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeString(vr, value).let {
-                StatusCode.findByValue(it.code)
-            }
+            it.variableAccessor.writeString(vr, value).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
 
-    override fun writeBoolean(fmuId: Int, vr: Int, value: Boolean): StatusCode {
+    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): StatusCode {
         return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeBoolean(vr, value).let {
-                StatusCode.findByValue(it.code)
-            }
+            it.variableAccessor.writeBoolean(vr, value).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkWriteReal(p0: Int, p1: MutableList<Int>?, p2: MutableList<Double>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteReal(fmuId: Int, vr: List<ValueReference>, value: List<Double>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeReal(vr.toIntArray(), value.toDoubleArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadBoolean(p0: Int, p1: MutableList<Int>?): BoolArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadBoolean(fmuId: Int, vr: List<ValueReference>): BooleanArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readBoolean(vr.toIntArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkWriteString(p0: Int, p1: MutableList<Int>?, p2: MutableList<String>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteString(fmuId: Int, vr: List<ValueReference>, value: List<String>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeString(vr.toIntArray(), value.toTypedArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkWriteInt(p0: Int, p1: MutableList<Int>?, p2: MutableList<Int>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteInteger(fmuId: Int, vr: List<ValueReference>, value: List<Int>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeInteger(vr.toIntArray(), value.toIntArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadInt(p0: Int, p1: MutableList<Int>?): IntArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadInteger(fmuId: Int, vr: List<ValueReference>): IntegerArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readInteger(vr.toIntArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadReal(p0: Int, p1: MutableList<Int>?): RealArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadReal(fmuId: Int, vr: List<ValueReference>): RealArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readReal(vr.toIntArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadString(p0: Int, p1: MutableList<Int>?): StringArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkReadString(fmuId: Int, vr: List<ValueReference>): StringArrayRead {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.readString(vr.toIntArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkWriteBoolean(p0: Int, p1: MutableList<Int>?, p2: MutableList<Boolean>?): StatusCode {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun bulkWriteBoolean(fmuId: Int, vr: List<ValueReference>, value: List<Boolean>): StatusCode {
+        return Fmus.get(fmuId)?.let {
+            it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).thriftType()
+        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
     private companion object {

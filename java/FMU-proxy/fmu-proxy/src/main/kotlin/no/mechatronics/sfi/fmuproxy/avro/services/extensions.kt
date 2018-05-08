@@ -1,6 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.avro.services
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
+import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
@@ -12,6 +12,30 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.avro.ScalarVariable
+
+internal fun FmuIntegerRead.avroType()
+        = IntegerRead(value, status.avroType())
+
+internal fun FmuRealRead.avroType()
+        = RealRead(value, status.avroType())
+
+internal fun FmuStringRead.avroType()
+        = StringRead(value, status.avroType())
+
+internal fun FmuBooleanRead.avroType()
+        = BooleanRead(value, status.avroType())
+
+internal fun FmuIntegerArrayRead.avroType()
+        = IntegerArrayRead(value.toList(), status.avroType())
+
+internal fun FmuRealArrayRead.avroType()
+        = RealArrayRead(value.toList(), status.avroType())
+
+internal fun FmuStringArrayRead.avroType()
+        = StringArrayRead(value.toList(), status.avroType())
+
+internal fun FmuBooleanArrayRead.avroType()
+        = BooleanArrayRead(value.toList(), status.avroType())
 
 internal fun IntegerVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute().also { attribute ->
@@ -53,6 +77,7 @@ internal fun TypedScalarVariable<*>.avroType(): ScalarVariable {
     return no.mechatronics.sfi.fmuproxy.avro.ScalarVariable().also { v ->
         v.name = name
         v.valueReference = valueReference
+        v.declaredType = declaredType
         description?.also { v.description = it }
         causality?.also { v.causality = it.avroType() }
         variability?.also { v.variability = it.avroType() }
@@ -109,13 +134,14 @@ internal fun CommonModelDescription.avroType(): ModelDescription {
         md.modelVariables = modelVariables.avroType()
         md.modelStructure = modelStructure.avroType()
 
+        version?.also { md.version = it }
         license?.also { md.license = it }
         copyright?.also { md.copyright = it }
         author?.also { md.author = it }
         description?.also { md.description = it }
         generationTool?.also { md.generationTool = it }
+        generationDateAndTime?.also { md.generationDateAndTime = it }
         defaultExperiment?.also { md.defaultExperiment = it.avroType() }
-
 
     }
 }

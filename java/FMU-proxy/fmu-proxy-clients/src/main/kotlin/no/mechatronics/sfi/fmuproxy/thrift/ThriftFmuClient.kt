@@ -97,11 +97,11 @@ class ThriftFmuClient(
     }
 
     override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
-        return client.readInt(fmuId, vr).convert()
+        return client.readInteger(fmuId, vr).convert()
     }
 
     override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
-        return client.bulkReadInt(fmuId, vr).convert()
+        return client.bulkReadInteger(fmuId, vr).convert()
     }
 
     override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
@@ -129,11 +129,11 @@ class ThriftFmuClient(
     }
 
     override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
-        return client.writeInt(fmuId, vr, value).convert()
+        return client.writeInteger(fmuId, vr, value).convert()
     }
 
     override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
-        return client.bulkWriteInt(fmuId, vr, value).convert()
+        return client.bulkWriteInteger(fmuId, vr, value).convert()
     }
 
     override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {

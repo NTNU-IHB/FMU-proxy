@@ -74,11 +74,11 @@ class AvroFmuClient(
     }
 
     override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
-        return service.readInt(fmuId, vr).convert()
+        return service.readInteger(fmuId, vr).convert()
     }
 
     override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
-        return service.bulkReadInt(fmuId, vr).convert()
+        return service.bulkReadInteger(fmuId, vr).convert()
     }
 
     override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
@@ -106,11 +106,11 @@ class AvroFmuClient(
     }
 
     override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
-        return service.writeInt(fmuId, vr, value).convert()
+        return service.writeInteger(fmuId, vr, value).convert()
     }
 
     override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
-        return service.bulkWriteInt(fmuId, vr, value).convert()
+        return service.bulkWriteInteger(fmuId, vr, value).convert()
     }
 
     override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {

@@ -58,6 +58,8 @@ internal fun CommonModelDescription.protoType(): Proto.ModelDescription {
         author?.also { builder.author = it }
         version?.also { builder.version = it }
         license?.also { builder.license = it }
+        generationTool?.also { builder.generationTool = it }
+        generationDateAndTime?.also { builder.generationDateAndTime = it }
 
     }.build()
 
@@ -105,6 +107,7 @@ internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
         builder.name = name
         builder.valueReference = valueReference
 
+        declaredType?.also { builder.declaredType = it }
         description?.also { builder.description = it }
         causality?.also { builder.causality = it.protoType() }
         variability?.also { builder.variability = it.protoType() }

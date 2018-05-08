@@ -38,16 +38,28 @@ import no.mechatronics.sfi.fmuproxy.thrift.*
 import no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable
 
 internal fun FmuIntegerRead.thriftType()
-        = IntRead(value, StatusCode.findByValue(status.code))
+        = IntegerRead(value, status.thriftType())
 
 internal fun FmuRealRead.thriftType()
-        = RealRead(value, StatusCode.findByValue(status.code))
+        = RealRead(value, status.thriftType())
 
 internal fun FmuStringRead.thriftType()
-        = StringRead(value, StatusCode.findByValue(status.code))
+        = StringRead(value, status.thriftType())
 
 internal fun FmuBooleanRead.thriftType()
-        = BoolRead(value, StatusCode.findByValue(status.code))
+        = BooleanRead(value, status.thriftType())
+
+internal fun FmuIntegerArrayRead.thriftType()
+        = IntegerArrayRead(value.toList(), status.thriftType())
+
+internal fun FmuRealArrayRead.thriftType()
+        = RealArrayRead(value.toList(), status.thriftType())
+
+internal fun FmuStringArrayRead.thriftType()
+        = StringArrayRead(value.toList(), status.thriftType())
+
+internal fun FmuBooleanArrayRead.thriftType()
+        = BooleanArrayRead(value.toList(), status.thriftType())
 
 internal fun IntegerVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute().also { attribute->
@@ -90,6 +102,7 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
 
         v.name = name
         v.valueReference = valueReference
+        declaredType?.also { v.declaredType = it }
         description?.also { v.description = it }
         causality?.also { v.causality = it.thriftType() }
         variability?.also { v.variability = it.thriftType() }
@@ -147,6 +160,7 @@ internal fun CommonModelDescription.thriftType(): ModelDescription {
         license?.also { md.license = it }
         copyright?.also { md.copyright = it }
         author?.also { md.author = it }
+        version?.also { md.version = it }
         description?.also { md.description = it }
         generationTool?.also { md.generationTool = it }
         generationDateAndTime?.also { md.generationDateAndTime = it }

@@ -122,12 +122,12 @@ struct DefaultExperiment {
     4: double stepSize
 }
 
-struct IntRead {
+struct IntegerRead {
     1: i32 value,
     2: StatusCode code
 }
 
-struct IntArrayRead {
+struct IntegerArrayRead {
     1: list<i32> value,
     2: StatusCode code
 }
@@ -152,12 +152,12 @@ struct StringArrayRead {
     2: StatusCode code
 }
 
-struct BoolRead {
+struct BooleanRead {
     1: bool value,
     2: StatusCode code
 }
 
-struct BoolArrayRead {
+struct BooleanArrayRead {
     1: list<bool> value,
     2: StatusCode code
 }
