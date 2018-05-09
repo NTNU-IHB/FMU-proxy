@@ -89,7 +89,8 @@ class TestGrpc_CS {
 
         client.newInstance().use { instance ->
 
-            Assert.assertEquals(FmiStatus.OK, instance.init())
+            instance.init()
+            Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
 
             val h = client.modelDescription.modelVariables
                     .getByName("h").asRealVariable()
@@ -97,8 +98,8 @@ class TestGrpc_CS {
             val dt = 1.0/100
             measureTimeMillis {
                 while (instance.currentTime < 10) {
-                    val step = instance.step(dt)
-                    Assert.assertEquals(FmiStatus.OK, step)
+                    val step = instance.doStep(dt)
+                    Assert.assertTrue(step)
 
                     LOG.info("h=${h.read()}")
 

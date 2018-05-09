@@ -47,6 +47,7 @@ abstract class RpcFmuClient: Closeable {
 
     abstract val modelDescriptionXml: String
     abstract val modelDescription: CommonModelDescription
+    protected abstract val lastStatus: FmiStatus
 
     protected abstract fun getCurrentTime(fmuId: Int): Double
     protected abstract fun isTerminated(fmuId: Int): Boolean
@@ -105,16 +106,25 @@ abstract class RpcFmuClient: Closeable {
 
     inner class FmuInstance(
             private val fmuId: Int
-    ): Closeable {
+    ): FmiSimulation {
 
-        val currentTime: Double
+        override val currentTime: Double
             get() = getCurrentTime(fmuId)
 
-        val isTerminated: Boolean
+        override val isTerminated: Boolean
             get() = isTerminated(fmuId)
 
-        val variableAccessor: FmuVariableAccessor
+        override val variableAccessor: FmuVariableAccessor
                 = VariableAccessorImpl(fmuId, this@RpcFmuClient)
+
+        override var isInitialized = false
+            private set
+
+        override val lastStatus
+            get() = this@RpcFmuClient.lastStatus
+
+        override val modelDescription
+            get() = this@RpcFmuClient.modelDescription
 
         init {
             modelDescription.modelVariables.forEach { variable ->
@@ -126,25 +136,31 @@ abstract class RpcFmuClient: Closeable {
             }
         }
 
-        @JvmOverloads
-        fun init(start:Double=0.0, stop:Double=-1.0): FmiStatus {
-            return init(fmuId, start, stop)
+
+        override fun init() = init(0.0)
+
+        override fun init(start: Double) = init(start, 0.0)
+
+        override fun init(start: Double, stop: Double) {
+             init(fmuId, start, stop).also {
+                 isInitialized = true
+             }
         }
 
-        fun step(stepSize: Double): FmiStatus {
-            return step(fmuId, stepSize)
+        override fun doStep(stepSize: Double): Boolean {
+            return step(fmuId, stepSize) == FmiStatus.OK
         }
 
-        fun terminate(): FmiStatus {
-            return try {
-                terminate(fmuId)
+        override fun terminate(): Boolean {
+             return try {
+                terminate(fmuId) == FmiStatus.OK
             } finally {
                 FmuInstances.remove(this)
             }
         }
 
-        fun reset(): FmiStatus {
-            return reset(fmuId)
+        override fun reset(): Boolean {
+            return reset(fmuId) == FmiStatus.OK
         }
 
         override fun close() {

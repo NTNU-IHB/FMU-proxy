@@ -5,6 +5,7 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmiSimulation
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.Duration
 import java.time.Instant
+import kotlin.system.measureTimeMillis
 
 class TestProxy {
 
@@ -104,6 +106,20 @@ class TestProxy {
         Assert.assertEquals(thriftServer, proxy.getServer(ThriftFmuServer::class.java))
     }
 
+    private fun runInstance(instance: FmiSimulation) : Long {
+
+        instance.init()
+        Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
+
+        return measureTimeMillis {
+            while (instance.currentTime < stopTime) {
+                val status = instance.doStep(stepSize)
+                Assert.assertTrue(status)
+            }
+        }
+
+    }
+
     @Test
     fun testGrpc() {
 
@@ -120,17 +136,9 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    Assert.assertEquals(FmiStatus.OK, instance.init())
-
-                    val start = Instant.now()
-                    while (instance.currentTime < stopTime) {
-                        val status = instance.step(stepSize)
-                        Assert.assertEquals(Proto.StatusCode.OK_STATUS, status.code)
+                    runInstance(instance).also {
+                        LOG.info("gRPC duration: ${it}ms")
                     }
-
-                    val end = Instant.now()
-                    val duration = Duration.between(start, end)
-                    LOG.info("gRPC duration: ${duration.toMillis()}ms")
 
                 }
             }
@@ -153,16 +161,9 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    Assert.assertTrue(instance.init() == StatusCode.OK_STATUS)
-                    val start = Instant.now()
-                    while (instance.currentTime < stopTime) {
-                        val status = instance.step(stepSize)
-                        Assert.assertEquals(no.mechatronics.sfi.fmuproxy.thrift.StatusCode.OK_STATUS, status)
+                    runInstance(instance).also {
+                        LOG.info("Thrift duration: ${it}ms")
                     }
-
-                    val end = Instant.now()
-                    val duration = Duration.between(start, end)
-                    LOG.info("Thrift duration: ${duration.toMillis()}ms")
 
                 }
             }
@@ -185,16 +186,9 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    Assert.assertTrue(instance.init() == no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS)
-                    val start = Instant.now()
-                    while (instance.currentTime < stopTime) {
-                        val status = instance.step(stepSize)
-                        Assert.assertEquals(no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS, status)
+                    runInstance(instance).also {
+                        LOG.info("Avro duration: ${it}ms")
                     }
-
-                    val end = Instant.now()
-                    val duration = Duration.between(start, end)
-                    LOG.info("Avro duration: ${duration.toMillis()}ms")
 
                 }
             }
@@ -226,17 +220,9 @@ class TestProxy {
 
             client.newInstance().use { instance ->
 
-                Assert.assertTrue(instance.init() == FmiStatus.OK)
-
-                val dt = 1.0/100
-                val start = Instant.now()
-                while (instance.currentTime < 10) {
-                    val status = instance.step(dt)
-                    Assert.assertTrue(status == FmiStatus.OK)
+                runInstance(instance).also {
+                    LOG.info("${client.javaClass.simpleName} duration: ${it}ms")
                 }
-                val end = Instant.now()
-                val duration = Duration.between(start, end)
-                LOG.info("Duration: ${duration.toMillis()}ms")
 
             }
 

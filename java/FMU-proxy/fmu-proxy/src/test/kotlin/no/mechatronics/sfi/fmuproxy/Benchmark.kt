@@ -5,6 +5,7 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmiSimulation
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
@@ -35,6 +36,19 @@ class Benchmark {
         private const val dt = 1E-2
         private const val stop = 100
 
+    }
+
+    private fun runInstance(instance: FmiSimulation) : Long {
+
+        instance.init()
+        Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
+
+        return measureTimeMillis {
+            while (instance.currentTime < stop) {
+                val status = instance.doStep(dt)
+                Assert.assertTrue(status)
+            }
+        }
 
     }
 
@@ -45,14 +59,7 @@ class Benchmark {
 
             it.asCoSimulationFmu().newInstance().use { instance ->
 
-                instance.init()
-
-                measureTimeMillis {
-                    while (instance.currentTime < stop) {
-                        val status = instance.doStep(dt)
-                        Assert.assertTrue(status)
-                    }
-                }.also {
+                runInstance(instance).also {
                     LOG.info("Local duration=${it}ms")
                 }
 
@@ -75,14 +82,7 @@ class Benchmark {
 
             client.newInstance().use { instance ->
 
-                Assert.assertEquals(StatusCode.OK_STATUS, instance.init())
-
-                measureTimeMillis {
-                    while (instance.currentTime < stop) {
-                        val status = instance.step(dt)
-                        Assert.assertEquals(StatusCode.OK_STATUS, status)
-                    }
-                }.also {
+                runInstance(instance).also {
                     LOG.info("Thrift duration=${it}ms")
                 }
 
@@ -107,14 +107,7 @@ class Benchmark {
 
             client.newInstance().use { instance ->
 
-                Assert.assertEquals(no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS, instance.init())
-
-                measureTimeMillis {
-                    while (instance.currentTime < stop) {
-                        val status = instance.step(dt)
-                        Assert.assertEquals(no.mechatronics.sfi.fmuproxy.avro.StatusCode.OK_STATUS, status)
-                    }
-                }.also {
+                runInstance(instance).also {
                     LOG.info("Avro duration=${it}ms")
                 }
 
@@ -139,14 +132,7 @@ class Benchmark {
 
             client.newInstance().use { instance ->
 
-                Assert.assertEquals(Proto.StatusCode.OK_STATUS, instance.init().code)
-
-                measureTimeMillis {
-                    while (instance.currentTime < stop) {
-                        val status = instance.step(dt)
-                        Assert.assertEquals(Proto.StatusCode.OK_STATUS, status.code)
-                    }
-                }.also {
+                runInstance(instance).also {
                     LOG.info("gRPC duration=${it}ms")
                 }
 
@@ -190,14 +176,7 @@ class Benchmark {
 
                 client.newInstance().use { instance ->
 
-                    Assert.assertEquals(FmiStatus.OK, instance.init())
-
-                    measureTimeMillis {
-                        while (instance.currentTime < stop) {
-                            val status = instance.step(dt)
-                            Assert.assertEquals(FmiStatus.OK, status)
-                        }
-                    }.also {
+                    runInstance(instance).also {
                         LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
                     }
 

@@ -81,7 +81,8 @@ class TestJsonRpcClients {
 
             client.newInstance().use { instance ->
 
-                Assert.assertEquals(FmiStatus.OK, instance.init())
+                instance.init()
+                Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
 
                 val h = client.modelDescription.modelVariables
                         .getByName("h").asRealVariable()
@@ -89,8 +90,8 @@ class TestJsonRpcClients {
                 val dt = 1.0/100
                 measureTimeMillis {
                     while (instance.currentTime < 10) {
-                        val status = instance.step(dt)
-                        Assert.assertEquals(FmiStatus.OK, status)
+                        val status = instance.doStep(dt)
+                        Assert.assertTrue(status)
 
                         LOG.info("h=${h.read()}")
 

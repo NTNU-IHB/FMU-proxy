@@ -30,7 +30,9 @@ import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import no.mechatronics.sfi.fmuproxy.grpc.FmuServiceGrpc
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
@@ -128,7 +130,13 @@ class GrpcFmuServiceImpl(
     override fun canGetAndSetFMUstate(req: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
         val fmuId = req.value
         Fmus.get(fmuId)?.apply {
-            responseObserver.onNext(modelDescription.canGetAndSetFMUstate.protoType())
+            val md = modelDescription
+            val canGetAndSetFMUstate = when (md) {
+                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
+                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
+                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
+            }
+            responseObserver.onNext(canGetAndSetFMUstate.protoType())
             responseObserver.onCompleted()
         } ?: noSuchFmuReply(fmuId, responseObserver)
 
@@ -143,7 +151,6 @@ class GrpcFmuServiceImpl(
             responseObserver.onCompleted()
         } ?: noSuchFmuReply(fmuId, responseObserver)
 
-
     }
 
     override fun isTerminated(req: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
@@ -153,7 +160,6 @@ class GrpcFmuServiceImpl(
             responseObserver.onNext(isTerminated.protoType())
             responseObserver.onCompleted()
         }?: noSuchFmuReply(fmuId, responseObserver)
-
 
     }
 

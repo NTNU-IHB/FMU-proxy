@@ -26,6 +26,8 @@ package no.mechatronics.sfi.fmuproxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import no.mechatronics.sfi.fmuproxy.thrift.*
 import org.apache.commons.math3.ode.FirstOrderIntegrator
@@ -96,7 +98,12 @@ class ThriftFmuServiceImpl(
 
     override fun canGetAndSetFMUstate(fmuId: Int): Boolean {
         return Fmus.get(fmuId)?.let {
-            return it.modelDescription.canGetAndSetFMUstate
+            val md = it.modelDescription
+            when (md) {
+                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
+                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
+                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
+            }
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
