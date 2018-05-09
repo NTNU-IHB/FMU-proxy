@@ -38,7 +38,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 mainClassName = "no.mechatronics.sfi.fmuproxy.Main"
 
 wrapper {
-    gradleVersion = '4.6'
+    gradleVersion = '4.7'
 }
 
 configurations.all {
