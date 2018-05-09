@@ -44,7 +44,7 @@ class JsonRpcFmuClient(
 
     val modelName: String by lazy {
         client.write("FmuService.getModelName")
-                .getResult(String::class.java)!!
+                .getResult<String>()!!
     }
 
     val guid: String by lazy {
@@ -75,136 +75,136 @@ class JsonRpcFmuClient(
 
     override fun isTerminated(fmuId: Int): Boolean {
         return client.write("FmuService.getGuid", RpcParams.listParams(fmuId))
-                .getResult(Boolean::class.java)!!
+                .getResult<Boolean>()!!
     }
 
     override fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead {
         return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuIntegerRead::class.java)!!.also {
+                .getResult<FmuIntegerRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
         return client.write("FmuService.readInteger", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuIntegerArrayRead::class.java)!!.also {
+                .getResult<FmuIntegerArrayRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun readReal(fmuId: Int, vr: ValueReference): FmuRealRead {
         return client.write("FmuService.readReal", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuRealRead::class.java)!!.also {
+                .getResult<FmuRealRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
         return client.write("FmuService.readReal", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuRealArrayRead::class.java)!!.also {
+                .getResult<FmuRealArrayRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun readString(fmuId: Int, vr: ValueReference): FmuStringRead {
         return client.write("FmuService.readString", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuStringRead::class.java)!!.also {
+                .getResult<FmuStringRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
         return client.write("FmuService.readString", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuStringArrayRead::class.java)!!.also {
+                .getResult<FmuStringArrayRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun readBoolean(fmuId: Int, vr: ValueReference): FmuBooleanRead {
         return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuBooleanRead::class.java)!!.also {
+                .getResult<FmuBooleanRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
         return client.write("FmuService.readBoolean", RpcParams.listParams(fmuId, vr))
-                .getResult(FmuBooleanArrayRead::class.java)!!.also {
+                .getResult<FmuBooleanArrayRead>()!!.also {
             lastStatus = it.status
         }
     }
 
     override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
         return client.write("FmuService.writeInteger", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
         return client.write("FmuService.bulkWriteInteger", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
         return client.write("FmuService.writeReal", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
         return client.write("FmuService.bulkWriteReal", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
         return client.write("FmuService.writeString", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
         return client.write("FmuService.bulkWriteString", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
         return client.write("FmuService.writeBoolean", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
         return client.write("FmuService.bulkWriteBoolean", RpcParams.listParams(fmuId, vr, value))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun getCurrentTime(fmuId: Int): Double {
         return client.write("FmuService.getCurrentTime", RpcParams.listParams(fmuId))
-                .getResult(Double::class.java)!!
+                .getResult<Double>()!!
     }
 
     override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
         return client.write("FmuService.init", RpcParams.listParams(fmuId, start))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun step(fmuId: Int, stepSize: Double): FmiStatus {
         return client.write("FmuService.step", RpcParams.listParams(fmuId, stepSize))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
@@ -214,7 +214,7 @@ class JsonRpcFmuClient(
      */
     override fun reset(fmuId: Int): FmiStatus {
         return client.write("FmuService.reset", RpcParams.listParams(fmuId))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
@@ -224,14 +224,14 @@ class JsonRpcFmuClient(
      */
     override fun terminate(fmuId: Int): FmiStatus {
         return client.write("FmuService.terminate", RpcParams.listParams(fmuId))
-                .getResult(FmiStatus::class.java)!!.also {
+                .getResult<FmiStatus>()!!.also {
             lastStatus = it
         }
     }
 
     override fun createInstanceFromCS(): ValueReference {
         return client.write("FmuService.createInstanceFromCS")
-                .getResult(ValueReference::class.java)!!
+                .getResult<ValueReference>()!!
     }
 
     override fun createInstanceFromME(solver: Solver): Int {

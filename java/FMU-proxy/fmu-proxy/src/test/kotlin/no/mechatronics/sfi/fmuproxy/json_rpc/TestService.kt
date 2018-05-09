@@ -29,7 +29,7 @@ class TestService {
        @JvmStatic
        @BeforeClass
        fun setup() {
-           val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+           fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
            handler = RpcHandler(RpcFmuService(fmu))
        }
        
@@ -47,7 +47,7 @@ class TestService {
         }
         """.let {
             RpcResponse.fromJson(handler.handle(it)!!)
-                    .getResult(String::class.java)
+                    .getResult<String>()
         }
 
         LOG.info("modelName=$modelName")

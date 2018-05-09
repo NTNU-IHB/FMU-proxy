@@ -13,11 +13,11 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '4.6'
+    gradleVersion = '4.7'
 }
 
-ext.fmi4j_stable_version = '0.7'
-ext.fmi4j_snapshot_version = '0.7.1-SNAPSHOT'
+ext.fmi4j_stable_version = '0.7.1'
+ext.fmi4j_snapshot_version = '0.7.2-SNAPSHOT'
 
 subprojects { sub ->
 

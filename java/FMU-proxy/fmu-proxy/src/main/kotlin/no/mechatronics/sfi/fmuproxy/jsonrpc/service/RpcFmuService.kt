@@ -50,7 +50,7 @@ class RpcFmuService(
         private val fmu: Fmu
 ) : RpcService {
 
-    override val name = "FmuService"
+    override val serviceName = "FmuService"
 
     val modelDescription: CommonModelDescription
         @RpcMethod
