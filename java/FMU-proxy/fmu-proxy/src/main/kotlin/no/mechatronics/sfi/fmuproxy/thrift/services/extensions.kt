@@ -211,14 +211,14 @@ internal fun DependenciesKind.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.
     }
 }
 
-internal fun FmiStatus.thriftType(): StatusCode {
+internal fun FmiStatus.thriftType(): Status {
     return when (this) {
-        FmiStatus.OK -> StatusCode.OK_STATUS
-        FmiStatus.Warning -> StatusCode.WARNING_STATUS
-        FmiStatus.Discard -> StatusCode.DISCARD_STATUS
-        FmiStatus.Error -> StatusCode.ERROR_STATUS
-        FmiStatus.Fatal -> StatusCode.FATAL_STATUS
-        FmiStatus.Pending -> StatusCode.PENDING_STATUS
+        FmiStatus.OK -> Status.OK_STATUS
+        FmiStatus.Warning -> Status.WARNING_STATUS
+        FmiStatus.Discard -> Status.DISCARD_STATUS
+        FmiStatus.Error -> Status.ERROR_STATUS
+        FmiStatus.Fatal -> Status.FATAL_STATUS
+        FmiStatus.Pending -> Status.PENDING_STATUS
         FmiStatus.NONE -> throw RuntimeException()
     }
 }

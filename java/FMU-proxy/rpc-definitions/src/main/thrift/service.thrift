@@ -47,10 +47,10 @@ service FmuService {
     double getCurrentTime(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
     bool isTerminated(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 
-    definitions.StatusCode init(1: FmuId fmu_id, 2: double start, 3: double stop) throws (1: definitions.NoSuchFmuException ex)
-    definitions.StatusCode step(1: FmuId fmu_id, 2: double step_size) throws (1: definitions.NoSuchFmuException ex)
-    definitions.StatusCode terminate(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
-    definitions.StatusCode reset(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
+    definitions.Status init(1: FmuId fmu_id, 2: double start, 3: double stop) throws (1: definitions.NoSuchFmuException ex)
+    definitions.StepResult step(1: FmuId fmu_id, 2: double step_size) throws (1: definitions.NoSuchFmuException ex)
+    definitions.Status terminate(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
+    definitions.Status reset(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 
     definitions.IntegerRead readInteger(1: FmuId fmu_id, 2: ValueReference vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
     definitions.IntegerArrayRead bulkReadInteger(1: FmuId fmu_id, 2: ValueReferences vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
@@ -65,16 +65,16 @@ service FmuService {
     definitions.BooleanArrayRead bulkReadBoolean(1: FmuId fmu_id, 2: ValueReferences vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
 
 
-    definitions.StatusCode writeInteger(1: FmuId fmu_id, 2: ValueReference vr, 3: i32 value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.StatusCode bulkWriteInteger(1: FmuId fmu_id, 2: ValueReferences vr, 3: IntArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status writeInteger(1: FmuId fmu_id, 2: ValueReference vr, 3: i32 value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status bulkWriteInteger(1: FmuId fmu_id, 2: ValueReferences vr, 3: IntArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
 
-    definitions.StatusCode writeReal(1: FmuId fmu_id, 2: ValueReference vr, 3: double value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.StatusCode bulkWriteReal(1: FmuId fmu_id, 2: ValueReferences vr, 3: RealArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status writeReal(1: FmuId fmu_id, 2: ValueReference vr, 3: double value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status bulkWriteReal(1: FmuId fmu_id, 2: ValueReferences vr, 3: RealArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
 
-    definitions.StatusCode writeString(1: FmuId fmu_id, 2: ValueReference vr, 3: string value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.StatusCode bulkWriteString(1: FmuId fmu_id, 2: ValueReferences vr, 3: StringArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status writeString(1: FmuId fmu_id, 2: ValueReference vr, 3: string value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status bulkWriteString(1: FmuId fmu_id, 2: ValueReferences vr, 3: StringArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
 
-    definitions.StatusCode writeBoolean(1: FmuId fmu_id, 2: ValueReference vr, 3: bool value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.StatusCode bulkWriteBoolean(1: FmuId fmu_id, 2: ValueReferences vr, 3: BooleanArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status writeBoolean(1: FmuId fmu_id, 2: ValueReference vr, 3: bool value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status bulkWriteBoolean(1: FmuId fmu_id, 2: ValueReferences vr, 3: BooleanArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
 
 }

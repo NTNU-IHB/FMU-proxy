@@ -113,10 +113,13 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun step(fmuId: Int, stepSize: Double): FmiStatus {
+    fun step(fmuId: Int, stepSize: Double): StepResult {
         return getFmu(fmuId).let {
             it.doStep(stepSize)
-            it.lastStatus
+            StepResult(
+                    simulationTime = it.currentTime,
+                    status = it.lastStatus
+            )
         }
     }
 
@@ -221,3 +224,8 @@ class RpcFmuService(
     }
 
 }
+
+class StepResult(
+        val status: FmiStatus,
+        val simulationTime: Double
+)

@@ -54,19 +54,13 @@ class Benchmark {
 
     @Test
     fun measureTimeLocal() {
-
         Fmu.from(fmuPath).use {
-
             it.asCoSimulationFmu().newInstance().use { instance ->
-
                 runInstance(instance).also {
                     LOG.info("Local duration=${it}ms")
                 }
-
             }
-
         }
-
     }
 
 
@@ -79,13 +73,10 @@ class Benchmark {
             val port = server.start()
 
             val client = ThriftFmuClient("localhost", port)
-
             client.newInstance().use { instance ->
-
                 runInstance(instance).also {
                     LOG.info("Thrift duration=${it}ms")
                 }
-
             }
 
             client.close()
@@ -104,13 +95,10 @@ class Benchmark {
             val port = server.start()
 
             val client = AvroFmuClient("localhost", port)
-
             client.newInstance().use { instance ->
-
                 runInstance(instance).also {
                     LOG.info("Avro duration=${it}ms")
                 }
-
             }
 
             client.close()
@@ -129,13 +117,10 @@ class Benchmark {
             val port = server.start()
 
             val client = GrpcFmuClient("localhost", port)
-
             client.newInstance().use { instance ->
-
                 runInstance(instance).also {
                     LOG.info("gRPC duration=${it}ms")
                 }
-
             }
 
             client.close()
@@ -175,11 +160,9 @@ class Benchmark {
             clients.forEach { client ->
 
                 client.newInstance().use { instance ->
-
                     runInstance(instance).also {
                         LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
                     }
-
                 }
 
                 client.close()

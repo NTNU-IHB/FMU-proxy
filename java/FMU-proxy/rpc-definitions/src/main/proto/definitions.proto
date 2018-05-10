@@ -96,7 +96,6 @@ message DefaultExperiment {
     double step_size = 4;
 }
 
-
 message Unknown {
     uint32 index = 1;
     repeated uint32 dependencies = 2;
@@ -109,9 +108,8 @@ message ModelStructure {
     repeated Unknown initial_unknowns = 3;
 }
 
-message Status {
-    StatusCode code = 1;
-    string message = 2;
+message StatusResponse {
+    Status status = 1;
 }
 
 message InitRequest {
@@ -125,6 +123,11 @@ message StepRequest {
     double step_size = 2;
 }
 
+message StepResult {
+    Status status = 1;
+    double simulationTime = 2;
+}
+
 message UInt {
     uint32 value = 1;
 }
@@ -135,7 +138,7 @@ message Int {
 
 message IntRead {
     int32 value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message IntList {
@@ -144,7 +147,7 @@ message IntList {
 
 message IntListRead {
     repeated int32 values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message Real {
@@ -153,7 +156,7 @@ message Real {
 
 message RealRead {
     double value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message RealList {
@@ -162,7 +165,7 @@ message RealList {
 
 message RealListRead {
     repeated double values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message Str {
@@ -171,7 +174,7 @@ message Str {
 
 message StrRead {
     string value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message StrList {
@@ -180,7 +183,7 @@ message StrList {
 
 message StrListRead {
     repeated string values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message Bool {
@@ -189,7 +192,7 @@ message Bool {
 
 message BoolRead {
     bool value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message BoolList {
@@ -198,7 +201,7 @@ message BoolList {
 
 message BoolListRead {
     repeated bool values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message ReadRequest {
@@ -307,7 +310,7 @@ enum Initial {
     CALCULATED_INITIAL = 2;
 }
 
-enum StatusCode {
+enum Status {
     OK_STATUS = 0;
     WARNING_STATUS = 1;
     DISCARD_STATUS = 2;

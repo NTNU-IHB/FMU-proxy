@@ -61,10 +61,7 @@ class GrpcFmuClient(
     override val modelDescriptionXml: String by lazy {
         blockingStub.getModelDescriptionXml(EMPTY).value
     }
-
-    override var lastStatus: FmiStatus = FmiStatus.NONE
-        private set
-
+    
     override fun getCurrentTime(fmuId: Int): Double {
         return blockingStub.getCurrentTime(fmuId.asProtoUInt()).value
     }
@@ -79,81 +76,59 @@ class GrpcFmuClient(
                 .setStart(start)
                 .setStop(stop)
                 .build().let {
-                    blockingStub.init(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.init(it).convert()
                 }
     }
 
-    override fun step(fmuId: Int, stepSize: Double): FmiStatus {
+    override fun step(fmuId: Int, stepSize: Double): Pair<Double, FmiStatus> {
         return Proto.StepRequest.newBuilder()
                 .setFmuId(fmuId)
                 .setStepSize(stepSize)
                 .build().let {
-                    blockingStub.step(it).convert().also {
-                        lastStatus = it
+                    blockingStub.step(it).let { 
+                        it.simulationTime to it.status.convert()
                     }
                 }
     }
 
     override fun reset(fmuId: Int): FmiStatus {
-        return blockingStub.reset(fmuId.asProtoUInt()).convert().also {
-            lastStatus = it
-        }
+        return blockingStub.reset(fmuId.asProtoUInt()).convert()
     }
 
     override fun terminate(fmuId: Int): FmiStatus {
-        return blockingStub.terminate(fmuId.asProtoUInt()).convert().also {
-            lastStatus = it
-        }
+        return blockingStub.terminate(fmuId.asProtoUInt()).convert()
     }
 
     override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
-        return blockingStub.readInteger(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.readInteger(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
-        return blockingStub.bulkReadInteger(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.bulkReadInteger(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
-        return blockingStub.readReal(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.readReal(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
-        return blockingStub.bulkReadReal(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.bulkReadReal(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun readString(fmuId: Int, vr: Int): FmuStringRead {
-        return blockingStub.readString(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.readString(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
-        return blockingStub.bulkReadString(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.bulkReadString(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
-        return blockingStub.readBoolean(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.readBoolean(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
-        return blockingStub.bulkReadBoolean(getReadRequest(fmuId, vr)).convert().also {
-            lastStatus = it.status
-        }
+        return blockingStub.bulkReadBoolean(getReadRequest(fmuId, vr)).convert()
     }
 
     override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
@@ -162,9 +137,7 @@ class GrpcFmuClient(
                 .setValueReference(vr)
                 .setValue(value)
                 .build().let {
-                    blockingStub.writeInteger(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.writeInteger(it).convert()
                 }
     }
 
@@ -174,9 +147,7 @@ class GrpcFmuClient(
                 .addAllValueReferences(vr)
                 .addAllValues(value)
                 .build().let {
-                    blockingStub.bulkWriteInteger(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.bulkWriteInteger(it).convert()
                 }
     }
 
@@ -186,9 +157,7 @@ class GrpcFmuClient(
                 .setValueReference(vr)
                 .setValue(value)
                 .build().let {
-                    blockingStub.writeReal(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.writeReal(it).convert()
                 }
     }
 
@@ -198,9 +167,7 @@ class GrpcFmuClient(
                 .addAllValueReferences(vr)
                 .addAllValues(value)
                 .build().let {
-                    blockingStub.bulkWriteReal(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.bulkWriteReal(it).convert()
                 }
     }
 
@@ -210,9 +177,7 @@ class GrpcFmuClient(
                 .setValueReference(vr)
                 .setValue(value)
                 .build().let {
-                    blockingStub.writeString(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.writeString(it).convert()
                 }
     }
 
@@ -222,9 +187,7 @@ class GrpcFmuClient(
                 .addAllValueReferences(vr)
                 .addAllValues(value)
                 .build().let {
-                    blockingStub.bulkWriteString(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.bulkWriteString(it).convert()
                 }
     }
 
@@ -234,9 +197,7 @@ class GrpcFmuClient(
                 .setValueReference(vr)
                 .setValue(value)
                 .build().let {
-                    blockingStub.writeBoolean(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.writeBoolean(it).convert()
                 }
     }
 
@@ -246,9 +207,7 @@ class GrpcFmuClient(
                 .addAllValueReferences(vr)
                 .addAllValues(value)
                 .build().let {
-                    blockingStub.bulkWriteBoolean(it).convert().also {
-                        lastStatus = it
-                    }
+                    blockingStub.bulkWriteBoolean(it).convert()
                 }
     }
 

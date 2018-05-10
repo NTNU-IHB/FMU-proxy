@@ -38,6 +38,8 @@ abstract class RpcFmuClient: Closeable {
 
         val LOG: Logger = LoggerFactory.getLogger(RpcFmuClient::class.java)
 
+        val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
+
         internal object FmuInstances: ArrayList<FmuInstance>() {
             internal fun terminateAll() {
                 forEach{ it.terminate() }
@@ -47,13 +49,12 @@ abstract class RpcFmuClient: Closeable {
 
     abstract val modelDescriptionXml: String
     abstract val modelDescription: CommonModelDescription
-    protected abstract val lastStatus: FmiStatus
 
     protected abstract fun getCurrentTime(fmuId: Int): Double
     protected abstract fun isTerminated(fmuId: Int): Boolean
     protected abstract fun init(fmuId: Int, start: Double, stop: Double): FmiStatus
     protected abstract fun terminate(fmuId: Int): FmiStatus
-    protected abstract fun step(fmuId: Int, stepSize: Double): FmiStatus
+    protected abstract fun step(fmuId: Int, stepSize: Double): Pair<Double, FmiStatus>
     protected abstract fun reset(fmuId: Int): FmiStatus
 
     internal abstract fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead
@@ -83,6 +84,12 @@ abstract class RpcFmuClient: Closeable {
     protected abstract fun createInstanceFromCS(): Int
     protected abstract fun createInstanceFromME(solver: Solver): Int
 
+    protected fun process(name: String): Int {
+        return NAME_TO_VALUE_REF.getOrPut(name, {
+            modelDescription.modelVariables.getValueReference(name)
+        })
+    }
+
     @JvmOverloads
     fun newInstance(solver: Solver? = null): FmuInstance {
         val fmuId = if(solver == null) {
@@ -106,27 +113,24 @@ abstract class RpcFmuClient: Closeable {
 
     inner class FmuInstance(
             private val fmuId: Int
-    ): FmiSimulation {
-
-        override val currentTime: Double
-            get() = getCurrentTime(fmuId)
+    ): FmiSimulation, FmuVariableAccessor {
 
         override val isTerminated: Boolean
             get() = isTerminated(fmuId)
 
-        override val variableAccessor: FmuVariableAccessor
-                = VariableAccessorImpl(fmuId, this@RpcFmuClient)
+        override val variableAccessor = this
 
         override var isInitialized = false
             private set
 
-        override val lastStatus
-            get() = this@RpcFmuClient.lastStatus
+        override var lastStatus = FmiStatus.NONE
+        override var currentTime: Double = 0.0
 
         override val modelDescription
             get() = this@RpcFmuClient.modelDescription
 
         init {
+            currentTime = getCurrentTime(fmuId)
             modelDescription.modelVariables.forEach { variable ->
                 if (variable is AbstractTypedScalarVariable<*>) {
                     variable::class.java.getField("accessor").also { field ->
@@ -136,124 +140,113 @@ abstract class RpcFmuClient: Closeable {
             }
         }
 
-
         override fun init() = init(0.0)
-
         override fun init(start: Double) = init(start, 0.0)
-
         override fun init(start: Double, stop: Double) {
-             init(fmuId, start, stop).also {
-                 isInitialized = true
-             }
+            init(fmuId, start, stop).also {
+                lastStatus = it
+                isInitialized = true
+            }
         }
 
         override fun doStep(stepSize: Double): Boolean {
-            return step(fmuId, stepSize) == FmiStatus.OK
+            val stepResult = step(fmuId, stepSize)
+            currentTime = stepResult.first
+            lastStatus = stepResult.second
+            return lastStatus == FmiStatus.OK
         }
 
         override fun terminate(): Boolean {
-             return try {
-                terminate(fmuId) == FmiStatus.OK
+            return try {
+                terminate(fmuId).also {
+                    lastStatus = it
+                } == FmiStatus.OK
             } finally {
                 FmuInstances.remove(this)
             }
         }
 
         override fun reset(): Boolean {
-            return reset(fmuId) == FmiStatus.OK
+            return reset(fmuId).also {
+                lastStatus = it
+            } == FmiStatus.OK
         }
 
         override fun close() {
             terminate()
         }
 
+        override fun readBoolean(name: String) = readBoolean(fmuId, process(name)).also { lastStatus = it.status }
+
+        override fun readBoolean(vr: ValueReference) = readBoolean(fmuId, vr).also { lastStatus = it.status }
+
+        override fun readBoolean(vr: ValueReferences) = bulkReadBoolean(fmuId, vr.toList()).also { lastStatus = it.status }
+
+        override fun readBoolean(vr: ValueReferences, value: BooleanArray): FmuBooleanArrayRead {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun readBoolean(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun readInteger(name: String) = readInteger(fmuId, process(name)).also { lastStatus = it.status }
+
+        override fun readInteger(vr: ValueReference) = readInteger(fmuId, vr).also { lastStatus = it.status }
+
+        override fun readInteger(vr: ValueReferences) = bulkReadInteger(fmuId, vr.toList()).also { lastStatus = it.status }
+
+        override fun readInteger(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun readReal(name: String) = readReal(fmuId, process(name)).also { lastStatus = it.status }
+
+        override fun readReal(vr: ValueReference) = readReal(fmuId, vr).also { lastStatus = it.status }
+
+        override fun readReal(vr: ValueReferences) = bulkReadReal(fmuId, vr.toList()).also { lastStatus = it.status }
+
+        override fun readReal(vr: ValueReferences, value: RealArray): FmuRealArrayRead {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun readString(name: String) = readString(fmuId, process(name)).also { lastStatus = it.status }
+
+        override fun readString(vr: ValueReference) = readString(fmuId, vr).also { lastStatus = it.status }
+
+        override fun readString(vr: ValueReferences) = bulkReadString(fmuId, vr.toList()).also { lastStatus = it.status }
+
+        override fun readString(vr: ValueReferences, value: StringArray): FmuStringArrayRead {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun writeBoolean(name: String, value: Boolean) = writeBoolean(fmuId, process(name), value).also { lastStatus = it }
+
+        override fun writeBoolean(vr: ValueReference, value: Boolean) = writeBoolean(fmuId, vr, value).also { lastStatus = it }
+
+        override fun writeBoolean(vr: ValueReferences, value: BooleanArray) = bulkWriteBoolean(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+
+        override fun writeBoolean(vr: ValueReferences, value: IntArray) = bulkWriteBoolean(fmuId, vr.toList(), value.map { it != 0 })
+
+        override fun writeInteger(name: String, value: Int) = writeInteger(fmuId, process(name), value).also { lastStatus = it }
+
+        override fun writeInteger(vr: ValueReference, value: Int) = writeInteger(fmuId, vr, value).also { lastStatus = it }
+
+        override fun writeInteger(vr: ValueReferences, value: IntArray) = bulkWriteInteger(fmuId, vr.toList(), value.toList())
+
+        override fun writeReal(name: String, value: Real) = writeReal(fmuId, process(name), value).also { lastStatus = it }
+
+        override fun writeReal(vr: ValueReference, value: Real) = writeReal(fmuId, vr, value).also { lastStatus = it }
+
+        override fun writeReal(vr: ValueReferences, value: RealArray) = bulkWriteReal(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+
+        override fun writeString(name: String, value: String) = writeString(fmuId, process(name), value).also { lastStatus = it }
+
+        override fun writeString(vr: ValueReference, value: String) = writeString(fmuId, vr, value).also { lastStatus = it }
+
+        override fun writeString(vr: ValueReferences, value: StringArray) = bulkWriteString(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+
     }
 
-}
-
-class VariableAccessorImpl(
-        private val fmuId: Int,
-        private val client: RpcFmuClient
-): FmuVariableAccessor {
-
-    override fun readBoolean(name: String) = client.readBoolean(fmuId, process(name))
-
-    override fun readBoolean(vr: ValueReference) = client.readBoolean(fmuId, vr)
-
-    override fun readBoolean(vr: ValueReferences) = client.bulkReadBoolean(fmuId, vr.toList())
-
-    override fun readBoolean(vr: ValueReferences, value: BooleanArray): FmuBooleanArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun readBoolean(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun readInteger(name: String) = client.readInteger(fmuId, process(name))
-
-    override fun readInteger(vr: ValueReference) = client.readInteger(fmuId, vr)
-
-    override fun readInteger(vr: ValueReferences) = client.bulkReadInteger(fmuId, vr.toList())
-
-    override fun readInteger(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun readReal(name: String) = client.readReal(fmuId, process(name))
-
-    override fun readReal(vr: ValueReference) = client.readReal(fmuId, vr)
-
-    override fun readReal(vr: ValueReferences) = client.bulkReadReal(fmuId, vr.toList())
-
-    override fun readReal(vr: ValueReferences, value: RealArray): FmuRealArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun readString(name: String) = client.readString(fmuId, process(name))
-
-    override fun readString(vr: ValueReference) = client.readString(fmuId, vr)
-
-    override fun readString(vr: ValueReferences) = client.bulkReadString(fmuId, vr.toList())
-
-    override fun readString(vr: ValueReferences, value: StringArray): FmuStringArrayRead {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun writeBoolean(name: String, value: Boolean) = client.writeBoolean(fmuId, process(name), value)
-
-    override fun writeBoolean(vr: ValueReference, value: Boolean) = client.writeBoolean(fmuId, vr, value)
-
-    override fun writeBoolean(vr: ValueReferences, value: BooleanArray) = client.bulkWriteBoolean(fmuId, vr.toList(), value.toList())
-
-    override fun writeBoolean(vr: ValueReferences, value: IntArray) = client.bulkWriteBoolean(fmuId, vr.toList(), value.map { it != 0 })
-
-    override fun writeInteger(name: String, value: Int) = client.writeInteger(fmuId, process(name), value)
-
-    override fun writeInteger(vr: ValueReference, value: Int) = client.writeInteger(fmuId, vr, value)
-
-    override fun writeInteger(vr: ValueReferences, value: IntArray) = client.bulkWriteInteger(fmuId, vr.toList(), value.toList())
-
-    override fun writeReal(name: String, value: Real) = client.writeReal(fmuId, process(name), value)
-
-    override fun writeReal(vr: ValueReference, value: Real) = client.writeReal(fmuId, vr, value)
-
-    override fun writeReal(vr: ValueReferences, value: RealArray) = client.bulkWriteReal(fmuId, vr.toList(), value.toList())
-
-    override fun writeString(name: String, value: String) = client.writeString(fmuId, process(name), value)
-
-    override fun writeString(vr: ValueReference, value: String) = client.writeString(fmuId, vr, value)
-
-    override fun writeString(vr: ValueReferences, value: StringArray) = client.bulkWriteString(fmuId, vr.toList(), value.toList())
-
-    private fun process(name: String): Int {
-        return NAME_TO_VALUE_REF.getOrPut(name, {
-            client.modelDescription.modelVariables.getValueReference(name)
-        })
-    }
-
-    private companion object {
-        val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
-    }
 
 }

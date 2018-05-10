@@ -10,6 +10,7 @@ import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
+import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
@@ -107,7 +108,7 @@ class TestService {
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(FmiStatus::class.java)!!
 
-        Assert.assertTrue(init == FmiStatus.OK)
+        Assert.assertEquals(FmiStatus.OK, init)
 
         val currentTimeMsg = RpcRequestOut(
                 methodName = "FmuService.getCurrentTime",
@@ -137,10 +138,10 @@ class TestService {
         ).toJson()
 
         for (i in 0 until 5) {
-            val status = stepMsg
+            val stepResult = stepMsg
                     .let { RpcResponse.fromJson(handler.handle(it)!!) }
-                    .getResult(FmiStatus::class.java)!!
-            Assert.assertTrue(status == FmiStatus.OK)
+                    .getResult(StepResult::class.java)!!
+            Assert.assertEquals(FmiStatus.OK, stepResult.status)
 
             LOG.info("currentTime=${currentTime()}")
 
@@ -153,7 +154,7 @@ class TestService {
 
         val status = RpcResponse.fromJson(handler.handle(terminateMsg)!!)
                 .getResult(FmiStatus::class.java)!!
-        Assert.assertTrue(status == FmiStatus.OK)
+        Assert.assertEquals(FmiStatus.OK, status)
 
     }
 

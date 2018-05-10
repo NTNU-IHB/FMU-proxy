@@ -45,13 +45,8 @@ class ThriftFmuClient(
         transport = TSocket(host, port).also {
             it.open()
         }
-
-        val protocol = TBinaryProtocol(transport)
-        client = FmuService.Client(protocol)
-
+        client = FmuService.Client(TBinaryProtocol(transport))
     }
-
-    override var lastStatus: FmiStatus = FmiStatus.NONE
 
     override val modelDescription: CommonModelDescription by lazy {
         client.modelDescription.convert()
@@ -70,27 +65,21 @@ class ThriftFmuClient(
     }
 
     override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
-        return client.init(fmuId, start, stop).convert().also {
-            lastStatus = it
-        }
+        return client.init(fmuId, start, stop).convert()
     }
 
     override fun terminate(fmuId: Int): FmiStatus {
-        return client.terminate(fmuId).convert().also {
-            lastStatus = it
-        }
+        return client.terminate(fmuId).convert()
     }
 
-    override fun step(fmuId: Int, stepSize: Double): FmiStatus {
-        return client.step(fmuId, stepSize).convert().also {
-            lastStatus = it
+    override fun step(fmuId: Int, stepSize: Double): Pair<Double, FmiStatus> {
+        return client.step(fmuId, stepSize).let {
+            it.simulationTime to it.status.convert()
         }
     }
 
     override fun reset(fmuId: Int): FmiStatus {
-        return client.reset(fmuId).convert().also {
-            lastStatus = it
-        }
+        return client.reset(fmuId).convert()
     }
 
     override fun createInstanceFromCS(): Int {
@@ -107,98 +96,66 @@ class ThriftFmuClient(
     }
 
     override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
-        return client.readInteger(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.readInteger(fmuId, vr).convert()
     }
 
     override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
-        return client.bulkReadInteger(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.bulkReadInteger(fmuId, vr).convert()
     }
 
     override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
-        return client.readReal(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.readReal(fmuId, vr).convert()
     }
 
     override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
-        return client.bulkReadReal(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.bulkReadReal(fmuId, vr).convert()
     }
 
     override fun readString(fmuId: Int, vr: Int): FmuStringRead {
-        return client.readString(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.readString(fmuId, vr).convert()
     }
 
     override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
-        return client.bulkReadString(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.bulkReadString(fmuId, vr).convert()
     }
 
     override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
-        return client.readBoolean(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.readBoolean(fmuId, vr).convert()
     }
 
     override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
-        return client.bulkReadBoolean(fmuId, vr).convert().also {
-            lastStatus = it.status
-        }
+        return client.bulkReadBoolean(fmuId, vr).convert()
     }
 
     override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
-        return client.writeInteger(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.writeInteger(fmuId, vr, value).convert()
     }
 
     override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
-        return client.bulkWriteInteger(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.bulkWriteInteger(fmuId, vr, value).convert()
     }
 
     override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
-        return client.writeReal(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.writeReal(fmuId, vr, value).convert()
     }
 
     override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
-        return client.bulkWriteReal(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.bulkWriteReal(fmuId, vr, value).convert()
     }
 
     override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
-        return client.writeString(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.writeString(fmuId, vr, value).convert()
     }
 
     override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
-        return client.bulkWriteString(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.bulkWriteString(fmuId, vr, value).convert()
     }
 
     override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
-        return client.writeBoolean(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.writeBoolean(fmuId, vr, value).convert()
     }
 
     override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
-        return client.bulkWriteBoolean(fmuId, vr, value).convert().also {
-            lastStatus = it
-        }
+        return client.bulkWriteBoolean(fmuId, vr, value).convert()
     }
 }

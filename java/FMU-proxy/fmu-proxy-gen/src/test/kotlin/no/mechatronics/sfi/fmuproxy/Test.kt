@@ -61,7 +61,7 @@ class Test {
 
     }
 
-    private fun isPresentInJar(path:String): Boolean {
+    private fun isPresentInJar(path: String): Boolean {
 
         ZipInputStream(FileInputStream(generatedJar)).use {
 

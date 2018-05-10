@@ -122,47 +122,52 @@ struct DefaultExperiment {
     4: double stepSize
 }
 
+struct StepResult {
+    1: Status status,
+    2: double simulationTime
+}
+
 struct IntegerRead {
     1: i32 value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct IntegerArrayRead {
     1: list<i32> value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct RealRead {
     1: double value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct RealArrayRead {
     1: list<double> value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct StringRead {
     1: string value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct StringArrayRead {
     1: list<string> value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct BooleanRead {
     1: bool value,
-    2: StatusCode code
+    2: Status status
 }
 
 struct BooleanArrayRead {
     1: list<bool> value,
-    2: StatusCode code
+    2: Status status
 }
 
-enum StatusCode {
+enum Status {
     OK_STATUS = 0,
     WARNING_STATUS = 1,
     DISCARD_STATUS = 2,

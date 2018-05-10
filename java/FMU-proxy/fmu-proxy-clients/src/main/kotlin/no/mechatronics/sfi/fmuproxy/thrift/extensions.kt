@@ -39,14 +39,14 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 
 
-internal fun StatusCode.convert(): FmiStatus {
+internal fun Status.convert(): FmiStatus {
     return when(this) {
-        StatusCode.OK_STATUS -> FmiStatus.OK
-        StatusCode.DISCARD_STATUS -> FmiStatus.Discard
-        StatusCode.ERROR_STATUS -> FmiStatus.Error
-        StatusCode.WARNING_STATUS -> FmiStatus.Warning
-        StatusCode.PENDING_STATUS -> FmiStatus.Pending
-        StatusCode.FATAL_STATUS -> FmiStatus.Fatal
+        Status.OK_STATUS -> FmiStatus.OK
+        Status.DISCARD_STATUS -> FmiStatus.Discard
+        Status.ERROR_STATUS -> FmiStatus.Error
+        Status.WARNING_STATUS -> FmiStatus.Warning
+        Status.PENDING_STATUS -> FmiStatus.Pending
+        Status.FATAL_STATUS -> FmiStatus.Fatal
     }
 }
 
@@ -98,35 +98,35 @@ internal fun VariableNamingConvention.convert(): no.mechatronics.sfi.fmi4j.model
 }
 
 internal fun IntegerRead.convert(): FmuIntegerRead {
-    return FmuIntegerRead(value, code.convert())
+    return FmuIntegerRead(value, status.convert())
 }
 
 internal fun IntegerArrayRead.convert(): FmuIntegerArrayRead {
-    return FmuIntegerArrayRead(value.toIntArray(), code.convert())
+    return FmuIntegerArrayRead(value.toIntArray(), status.convert())
 }
 
 internal fun RealRead.convert(): FmuRealRead {
-    return FmuRealRead(value, code.convert())
+    return FmuRealRead(value, status.convert())
 }
 
 internal fun RealArrayRead.convert(): FmuRealArrayRead {
-    return FmuRealArrayRead(value.toDoubleArray(), code.convert())
+    return FmuRealArrayRead(value.toDoubleArray(), status.convert())
 }
 
 internal fun StringRead.convert(): FmuStringRead {
-    return FmuStringRead(value, code.convert())
+    return FmuStringRead(value, status.convert())
 }
 
 internal fun StringArrayRead.convert(): FmuStringArrayRead {
-    return FmuStringArrayRead(value.toTypedArray(), code.convert())
+    return FmuStringArrayRead(value.toTypedArray(), status.convert())
 }
 
 internal fun BooleanRead.convert(): FmuBooleanRead {
-    return FmuBooleanRead(isValue, code.convert())
+    return FmuBooleanRead(isValue, status.convert())
 }
 
 internal fun BooleanArrayRead.convert(): FmuBooleanArrayRead {
-    return FmuBooleanArrayRead(value.toBooleanArray(), code.convert())
+    return FmuBooleanArrayRead(value.toBooleanArray(), status.convert())
 }
 
 internal fun DefaultExperiment.convert(): no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment {

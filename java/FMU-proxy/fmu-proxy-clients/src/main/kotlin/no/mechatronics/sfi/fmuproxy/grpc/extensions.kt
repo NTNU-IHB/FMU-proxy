@@ -35,22 +35,21 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 
 
-internal fun Proto.Status.convert(): FmiStatus {
-    return code.convert()
+internal fun Proto.StatusResponse.convert(): FmiStatus {
+    return status.convert()
 }
 
-internal fun Proto.StatusCode.convert(): FmiStatus {
+internal fun Proto.Status.convert(): FmiStatus {
     return when(this) {
-        Proto.StatusCode.OK_STATUS -> FmiStatus.OK
-        Proto.StatusCode.DISCARD_STATUS -> FmiStatus.Discard
-        Proto.StatusCode.ERROR_STATUS -> FmiStatus.Error
-        Proto.StatusCode.WARNING_STATUS -> FmiStatus.Warning
-        Proto.StatusCode.PENDING_STATUS -> FmiStatus.Pending
-        Proto.StatusCode.FATAL_STATUS -> FmiStatus.Fatal
-        Proto.StatusCode.UNRECOGNIZED -> throw AssertionError()
+        Proto.Status.OK_STATUS -> FmiStatus.OK
+        Proto.Status.DISCARD_STATUS -> FmiStatus.Discard
+        Proto.Status.ERROR_STATUS -> FmiStatus.Error
+        Proto.Status.WARNING_STATUS -> FmiStatus.Warning
+        Proto.Status.PENDING_STATUS -> FmiStatus.Pending
+        Proto.Status.FATAL_STATUS -> FmiStatus.Fatal
+        Proto.Status.UNRECOGNIZED -> throw AssertionError()
     }
 }
-
 
 internal fun Proto.Causality.convert(): Causality {
     return when(this) {
@@ -63,7 +62,6 @@ internal fun Proto.Causality.convert(): Causality {
         Proto.Causality.UNRECOGNIZED -> throw AssertionError()
     }
 }
-
 
 internal fun Proto.Variability.convert(): Variability {
     return when(this) {
