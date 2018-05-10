@@ -16,7 +16,6 @@ import no.mechatronics.sfi.fmuproxy.grpc.Proto
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
-import no.mechatronics.sfi.fmuproxy.thrift.StatusCode
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
 import org.junit.AfterClass

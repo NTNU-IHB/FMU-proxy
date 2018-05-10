@@ -12,10 +12,8 @@ import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmuproxy.grpc.Proto
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
-import no.mechatronics.sfi.fmuproxy.thrift.StatusCode
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
 import org.junit.Assert
