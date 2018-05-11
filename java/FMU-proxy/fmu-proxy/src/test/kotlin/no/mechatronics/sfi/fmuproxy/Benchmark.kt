@@ -129,7 +129,7 @@ class Benchmark {
     }
 
     @Test
-    fun measureTimeJsonWs() {
+    fun measureTimeJson() {
 
         val wsPort = 8001
         val tcpPort = 8002
