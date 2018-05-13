@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.40'
+    ext.kotlin_version = '1.2.41'
 
     repositories {
         mavenCentral()
@@ -13,11 +13,11 @@ buildscript {
 }
 
 wrapper {
-    gradleVersion = '4.6'
+    gradleVersion = '4.7'
 }
 
-ext.fmi4j_stable_version = '0.6.1'
-ext.fmi4j_snapshot_version = '0.6.2-SNAPSHOT'
+ext.fmi4j_stable_version = '0.7.1'
+ext.fmi4j_snapshot_version = '0.7.2-SNAPSHOT'
 
 subprojects { sub ->
 

@@ -45,82 +45,129 @@ struct ModelDescription {
     3: string guid,
     4: optional string license,
     5: optional string copyright,
-    6: optional string authour,
+    6: optional string author,
     7: optional string version,
     8: optional string description,
-    9: optional string generation_tool,
-    10: optional DefaultExperiment default_experiment,
-    11: optional VariableNamingConvention variable_naming_convention,
-    12: ModelVariables model_variables,
-    13: ModelStructure model_structure
+    9: optional string generationTool,
+    10: optional string generationDateAndTime,
+    11: optional DefaultExperiment defaultExperiment,
+    12: optional VariableNamingConvention variableNamingConvention,
+    13: ModelVariables modelVariables,
+    14: ModelStructure modelStructure,
+    15: bool supportsCoSimulation,
+    16: bool supportsModelExchange
+}
+
+struct IntegerAttribute {
+    1: i32 min,
+    2: i32 max,
+    3: i32 start
+}
+
+struct RealAttribute {
+    1: double min,
+    2: double max,
+    3: double start
+}
+
+struct StringAttribute {
+    1: string start
+}
+
+struct BooleanAttribute {
+    1: bool start
+}
+
+struct EnumerationAttribute {
+    1: i32 min,
+    2: i32 max,
+    3: i32 start
+}
+
+union ScalarVariableAttribute {
+    1: IntegerAttribute integerAttribute,
+    2: RealAttribute realAttribute,
+    3: StringAttribute stringAttribute,
+    4: BooleanAttribute booleanAttribute,
+    5: EnumerationAttribute enumerationAttribute
 }
 
 struct ScalarVariable {
-    1: i32 value_reference,
+    1: i32 valueReference,
     2: string name,
-    3: string description,
-    4: VariableType variable_type,
-    5: Initial initial,
-    6: Causality causality,
-    7: Variability variability,
-    8: optional AnyPrimitive start
-}
-
-union AnyPrimitive {
-    1: i32 int_value,
-    2: double real_value,
-    3: string str_value,
-    4: bool bool_value
+    3: optional string description,
+    4: optional string declaredType,
+    5: optional Initial initial,
+    6: optional Causality causality,
+    7: optional Variability variability,
+    8: ScalarVariableAttribute attribute
 }
 
 struct Unknown {
     1: i32 index,
     2: list<i32> dependencies,
-    3: DependenciesKind dependencies_kind
+    3: DependenciesKind dependenciesKind
 }
 
 struct ModelStructure {
-    1: list<i32> outputs,
+    1: list<Unknown> outputs,
     2: list<Unknown> derivatives,
-    3: list<Unknown> initial_unknowns
+    3: list<Unknown> initialUnknowns
 }
 
 struct DefaultExperiment {
     1: double startTime,
-    2: double endTime,
+    2: double stopTime,
     3: double tolerance,
     4: double stepSize
 }
 
-struct IntRead {
+struct StepResult {
+    1: Status status,
+    2: double simulationTime
+}
+
+struct IntegerRead {
     1: i32 value,
-    2: StatusCode code
+    2: Status status
+}
+
+struct IntegerArrayRead {
+    1: list<i32> value,
+    2: Status status
 }
 
 struct RealRead {
     1: double value,
-    2: StatusCode code
+    2: Status status
+}
+
+struct RealArrayRead {
+    1: list<double> value,
+    2: Status status
 }
 
 struct StringRead {
     1: string value,
-    2: StatusCode code
+    2: Status status
 }
 
-struct BoolRead {
+struct StringArrayRead {
+    1: list<string> value,
+    2: Status status
+}
+
+struct BooleanRead {
     1: bool value,
-    2: StatusCode code
+    2: Status status
 }
 
-enum VariableType {
-    INTEGER_VARIABLE = 0,
-    REAL_VARIABLE = 1,
-    STRING_VARIABLE = 2,
-    BOOLEAN_VARIABLE = 3,
-    ENUMERATION_VARIABLE = 4
+struct BooleanArrayRead {
+    1: list<bool> value,
+    2: Status status
 }
 
-enum StatusCode {
+enum Status {
     OK_STATUS = 0,
     WARNING_STATUS = 1,
     DISCARD_STATUS = 2,
@@ -130,36 +177,33 @@ enum StatusCode {
 }
 
 enum Causality {
-    UNDEFINED_CAUSALITY = 0,
-    INPUT_CAUSALITY = 1,
-    OUTPUT_CAUSALITY = 2,
-    PARAMETER_CAUSALITY = 3,
-    CALCULATED_PARAMETER_CAUSALITY = 4,
-    LOCAL_CAUSALITY = 5,
-    INDEPENDENT_CAUSALITY = 6
+    INPUT_CAUSALITY = 0,
+    OUTPUT_CAUSALITY = 1,
+    PARAMETER_CAUSALITY = 2,
+    CALCULATED_PARAMETER_CAUSALITY = 3,
+    LOCAL_CAUSALITY = 4,
+    INDEPENDENT_CAUSALITY = 5
 }
 
 enum Variability {
-    UNDEFINED_VARIABILITY = 0,
-    CONSTANT_VARIABILITY =  1,
-    FIXED_VARIABILITY = 2,
-    CONTINUOUS_VARIABILITY = 3,
-    DISCRETE_VARIABILITY = 4,
-    TUNABLE_VARIABILITY = 5
+    CONSTANT_VARIABILITY =  0,
+    FIXED_VARIABILITY = 1,
+    CONTINUOUS_VARIABILITY = 2,
+    DISCRETE_VARIABILITY = 3,
+    TUNABLE_VARIABILITY = 4
 }
 
 enum Initial {
-    UNDEFINED_INITIAL = 0,
-    EXACT_INITIAL = 1,
-    APPROX_INITIAL = 2,
-    CALCULATED_INITIAL = 3
+    EXACT_INITIAL = 0,
+    APPROX_INITIAL = 1,
+    CALCULATED_INITIAL = 2
 }
 
 enum DependenciesKind {
     DEPENDENT_KIND = 0,
     CONSTANT_KIND = 1,
     TUNABLE_KIND = 2,
-    DISCRETE_KIND = 4
+    DISCRETE_KIND = 3
 }
 
 enum VariableNamingConvention {
@@ -167,42 +211,7 @@ enum VariableNamingConvention {
     STRUCTURED = 1
 }
 
-union Integrator {
-    1: EulerIntegrator euler
-    2: ClassicalRungeKuttaIntegrator runge_kutta
-    3: MidpointIntegrator mid_point
-    4: GillIntegrator gill
-    5: AdamsBashforthIntegrator adams_bashforth
-    6: DormandPrince54Integrator dormand_prince54
-}
-
-struct EulerIntegrator {
-	1: double step_size
-}
-
-struct ClassicalRungeKuttaIntegrator {
-	1: double step_size
-}
-
-struct MidpointIntegrator {
-	1: double step_size
-}
-
-struct GillIntegrator {
-	1: double step_size
-}
-
-struct AdamsBashforthIntegrator {
-	1: i32 n_steps
-	2: double min_Step
-	3: double max_step
-	4: double scal_absolute_tolerance
-	5: double scal_relative_tolerance
-}
-
-struct DormandPrince54Integrator {
-    1: double min_Step
-    2: double max_step
-    3: double scal_absolute_tolerance
-    4: double scal_relative_tolerance
+struct Solver {
+    1: string name,
+    2: string settings
 }

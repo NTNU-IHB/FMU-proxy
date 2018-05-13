@@ -55,14 +55,16 @@ object CommandLineParser {
 
 }
 
+
+internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
+    override fun convert(value: String): SimpleSocketAddress {
+        return SimpleSocketAddress.parse(value)
+    }
+}
+
+
 @CommandLine.Command(name = "fmu-proxy")
 class Args: Callable<FmuProxy> {
-
-    internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
-        override fun convert(value: String): SimpleSocketAddress {
-            return SimpleSocketAddress.parse(value)
-        }
-    }
 
     @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
     var showHelp = false

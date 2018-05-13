@@ -1,6 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.avro.services
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
+import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
@@ -13,27 +13,85 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.avro.ScalarVariable
 
+internal fun FmuIntegerRead.avroType()
+        = IntegerRead(value, status.avroType())
+
+internal fun FmuRealRead.avroType()
+        = RealRead(value, status.avroType())
+
+internal fun FmuStringRead.avroType()
+        = StringRead(value, status.avroType())
+
+internal fun FmuBooleanRead.avroType()
+        = BooleanRead(value, status.avroType())
+
+internal fun FmuIntegerArrayRead.avroType()
+        = IntegerArrayRead(value.toList(), status.avroType())
+
+internal fun FmuRealArrayRead.avroType()
+        = RealArrayRead(value.toList(), status.avroType())
+
+internal fun FmuStringArrayRead.avroType()
+        = StringArrayRead(value.toList(), status.avroType())
+
+internal fun FmuBooleanArrayRead.avroType()
+        = BooleanArrayRead(value.toList(), status.avroType())
+
+internal fun IntegerVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute().also { attribute ->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun RealVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.RealAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.RealAttribute().also { attribute ->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun StringVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.StringAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.StringAttribute().also { attribute ->
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun BooleanVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.BooleanAttribute().also { attribute ->
+        start?.also { attribute.start = it }
+    }
+}
+
+internal fun EnumerationVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute {
+    return no.mechatronics.sfi.fmuproxy.avro.EnumerationAttribute().also { attribute ->
+        min?.also { attribute.min = it }
+        max?.also { attribute.max = it }
+        start?.also { attribute.start = it }
+    }
+}
+
 internal fun TypedScalarVariable<*>.avroType(): ScalarVariable {
     return no.mechatronics.sfi.fmuproxy.avro.ScalarVariable().also { v ->
         v.name = name
         v.valueReference = valueReference
-        v.variableType = avroVariableType()
+        v.declaredType = declaredType
         description?.also { v.description = it }
-        start?.also { v.start = AnyPrimitive().apply { value = it } }
         causality?.also { v.causality = it.avroType() }
         variability?.also { v.variability = it.avroType() }
         initial?.also { v.initial = it.avroType() }
-    }
-}
 
-internal fun TypedScalarVariable<*>.avroVariableType(): VariableType {
-    return when(this) {
-        is IntegerVariable -> VariableType.INTEGER_VARIABLE
-        is RealVariable -> VariableType.REAL_VARIABLE
-        is StringVariable -> VariableType.STRING_VARIABLE
-        is BooleanVariable -> VariableType.BOOLEAN_VARIABLE
-        is EnumerationVariable -> VariableType.ENUMERATION_VARIABLE
-        else -> throw IllegalStateException()
+        when (this) {
+            is IntegerVariable -> v.attribute = this.avroType()
+            is RealVariable -> v.attribute = this.avroType()
+            is StringVariable -> v.attribute = this.avroType()
+            is BooleanVariable -> v.attribute = this.avroType()
+            is EnumerationVariable -> v.attribute = this.avroType()
+            else -> throw AssertionError()
+        }
+
     }
 }
 
@@ -51,7 +109,7 @@ internal fun Unknown.avroType(): no.mechatronics.sfi.fmuproxy.avro.Unknown {
 
 internal fun ModelStructure.avroType(): no.mechatronics.sfi.fmuproxy.avro.ModelStructure {
     return no.mechatronics.sfi.fmuproxy.avro.ModelStructure().also { ms ->
-        ms.outputs = outputs
+        ms.outputs = outputs.map { it.avroType() }
         ms.derivatives = derivatives.map { it.avroType() }
         ms.initialUnknowns = initialUnknowns.map { it.avroType() }
     }
@@ -75,13 +133,14 @@ internal fun CommonModelDescription.avroType(): ModelDescription {
         md.modelVariables = modelVariables.avroType()
         md.modelStructure = modelStructure.avroType()
 
+        version?.also { md.version = it }
         license?.also { md.license = it }
         copyright?.also { md.copyright = it }
-        author?.also { md.authour = it }
+        author?.also { md.author = it }
         description?.also { md.description = it }
         generationTool?.also { md.generationTool = it }
+        generationDateAndTime?.also { md.generationDateAndTime = it }
         defaultExperiment?.also { md.defaultExperiment = it.avroType() }
-
 
     }
 }
@@ -128,14 +187,14 @@ internal fun DependenciesKind.avroType(): no.mechatronics.sfi.fmuproxy.avro.Depe
     }
 }
 
-internal fun FmiStatus.avroType(): StatusCode {
+internal fun FmiStatus.avroType(): Status {
     return when (this) {
-        FmiStatus.OK -> StatusCode.OK_STATUS
-        FmiStatus.Warning -> StatusCode.WARNING_STATUS
-        FmiStatus.Discard -> StatusCode.DISCARD_STATUS
-        FmiStatus.Error -> StatusCode.ERROR_STATUS
-        FmiStatus.Fatal -> StatusCode.FATAL_STATUS
-        FmiStatus.Pending -> StatusCode.PENDING_STATUS
+        FmiStatus.OK -> Status.OK_STATUS
+        FmiStatus.Warning -> Status.WARNING_STATUS
+        FmiStatus.Discard -> Status.DISCARD_STATUS
+        FmiStatus.Error -> Status.ERROR_STATUS
+        FmiStatus.Fatal -> Status.FATAL_STATUS
+        FmiStatus.Pending -> Status.PENDING_STATUS
         FmiStatus.NONE -> throw RuntimeException()
     }
 }

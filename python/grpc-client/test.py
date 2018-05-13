@@ -19,10 +19,12 @@ if fmu.init():
 
     dt = 1.0/100
     start = time.time()
-    while fmu.get_current_time() < 10:
-        status = fmu.step(dt)
-        if status.code != 0:
-            print(status.message)
+    t = fmu.get_current_time()
+    while t < 10:
+        step = fmu.step(dt)
+        t = step.simulation_time
+        if step.status != 0:
+            print("Error: t={}, FMU returned status {}".format(t, step.status))
             break
     end = time.time()
 
@@ -31,7 +33,7 @@ if fmu.init():
     reader = fmu.get_reader("PistonDisplacement")
     print("PistonDisplacement={}".format(reader.read_real().value))
 
-print("Terminated with success: {}".format(fmu.terminate().code == 0))
+print("Terminated with success: {}".format(fmu.terminate().status == 0))
 
 
 

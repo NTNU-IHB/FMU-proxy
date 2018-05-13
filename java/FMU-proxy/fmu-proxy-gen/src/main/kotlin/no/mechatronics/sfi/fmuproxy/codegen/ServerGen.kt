@@ -37,7 +37,10 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 private val TypedScalarVariable<*>.typeName: String
     get() = when(this) {
         is IntegerVariable -> INTEGER_TYPE

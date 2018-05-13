@@ -36,6 +36,10 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 object ProtoGen {
 
     private val LOG: Logger = LoggerFactory.getLogger(ProtoGen::class.java)
@@ -51,7 +55,7 @@ object ProtoGen {
                     append("""
     rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it)}Read);
 
-    rpc Write_${convertName(it.name)} (Instance${getProtoType(it)}Write) returns (Status);
+    rpc Write_${convertName(it.name)} (Instance${getProtoType(it)}Write) returns (StatusResponse);
                     """)
 
                 }

@@ -10,6 +10,7 @@ import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
+import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import org.junit.AfterClass
@@ -19,8 +20,7 @@ import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.time.Duration
-import java.time.Instant
+import kotlin.system.measureTimeMillis
 
 class TestJsonRpcClients {
 
@@ -40,9 +40,7 @@ class TestJsonRpcClients {
         @BeforeClass
         fun setup() {
 
-            val url = TestJsonRpcClients::class.java.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-            Assert.assertNotNull(url)
-            val fmu = Fmu.from(File(url.file))
+            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
             modelDescription = fmu.modelDescription
 
             val handler = RpcHandler(RpcFmuService(fmu))
@@ -75,26 +73,31 @@ class TestJsonRpcClients {
 
         clients.forEach { client ->
 
-            client.use { fmu ->
-                LOG.info("Testing client of type ${fmu.client.javaClass.simpleName}")
-                Assert.assertEquals(modelDescription.modelName, fmu.modelName)
-                Assert.assertEquals(modelDescription.guid, fmu.guid)
+            LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
+            Assert.assertEquals(modelDescription.modelName, client.modelName)
+            Assert.assertEquals(modelDescription.guid, client.guid)
 
-                Assert.assertTrue(fmu.init() == FmiStatus.OK)
+            println(client.modelDescription)
+
+            client.newInstance().use { instance ->
+
+                instance.init()
+                Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
+
+                val h = client.modelDescription.modelVariables
+                        .getByName("h").asRealVariable()
 
                 val dt = 1.0/100
-                val start = Instant.now()
-                while (fmu.currentTime < 10) {
-                    val status = fmu.step(dt)
-                    Assert.assertTrue(status == FmiStatus.OK)
+                measureTimeMillis {
+                    while (instance.currentTime < 10) {
+                        val status = instance.doStep(dt)
+                        Assert.assertTrue(status)
 
-                    // val read = fmu.readReal("wire.v").value
-                    //LOG.info("wire.v=${read}")
+                        LOG.info("h=${h.read()}")
 
-                }
-                val end = Instant.now()
-                val duration = Duration.between(start, end)
-                LOG.info("Duration: ${duration.toMillis()}ms")
+                    }
+                }.also { LOG.info("Duration: ${it}ms") }
+
             }
 
         }

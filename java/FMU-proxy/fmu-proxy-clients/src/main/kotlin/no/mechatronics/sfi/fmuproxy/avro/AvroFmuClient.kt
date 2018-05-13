@@ -24,102 +24,132 @@
 
 package no.mechatronics.sfi.fmuproxy.avro
 
+import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.avro.ipc.NettyTransceiver
-import org.apache.avro.ipc.Transceiver
 import org.apache.avro.ipc.specific.SpecificRequestor
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import java.io.Closeable
 import java.net.InetSocketAddress
 
-internal object FmuInstances: ArrayList<AvroFmuClient.FmuInstance>() {
-    internal fun terminateAll() {
-        forEach{ it.terminate() }
-    }
-}
 
 class AvroFmuClient(
         host: String,
         port: Int
-): Closeable {
+): RpcFmuClient() {
 
-    private val client: Transceiver
-    private val service: AvroFmuService
+    private val client = NettyTransceiver(InetSocketAddress(host, port))
+    private val service = SpecificRequestor.getClient(AvroFmuService::class.java, client)
 
-    init {
-        client = NettyTransceiver(InetSocketAddress(host, port))
-        service = SpecificRequestor.getClient(AvroFmuService::class.java, client)
+    override val modelDescription: CommonModelDescription by lazy {
+        service.modelDescription.convert()
     }
 
-    val modelDescription by lazy {
-        service.modelDescription
-    }
-
-    val modelDescriptionXml: String by lazy {
+    override val modelDescriptionXml: String by lazy {
         service.modelDescriptionXml
     }
 
-    @JvmOverloads
-    fun createInstance(integrator: Integrator? = null): FmuInstance {
-        val fmuId = if (integrator == null) {
-            service.createInstanceFromCS()
-        } else {
-            service.createInstanceFromME(integrator)
-        }
-        return FmuInstance(fmuId).also {
-            FmuInstances.add(it)
+    override fun getCurrentTime(fmuId: Int): Double {
+        return service.getCurrentTime(fmuId)
+    }
+
+    override fun isTerminated(fmuId: Int): Boolean {
+        return service.isTerminated(fmuId)
+    }
+
+    override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
+        return service.init(fmuId, start, stop).convert()
+    }
+
+    override fun terminate(fmuId: Int): FmiStatus {
+        return service.terminate(fmuId).convert()
+    }
+
+    override fun step(fmuId: Int, stepSize: Double): Pair<Double, FmiStatus> {
+        return service.step(fmuId, stepSize).let {
+            it.simulationTime to it.status.convert()
         }
     }
 
-    fun stop() {
-        close()
+    override fun reset(fmuId: Int): FmiStatus {
+        return service.reset(fmuId).convert()
+    }
+
+    override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
+        return service.readInteger(fmuId, vr).convert()
+    }
+
+    override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
+        return service.bulkReadInteger(fmuId, vr).convert()
+    }
+
+    override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
+        return service.readReal(fmuId, vr).convert()
+    }
+
+    override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
+        return service.bulkReadReal(fmuId, vr).convert()
+    }
+
+    override fun readString(fmuId: Int, vr: Int): FmuStringRead {
+        return service.readString(fmuId, vr).convert()
+    }
+
+    override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
+        return service.bulkReadString(fmuId, vr).convert()
+    }
+
+    override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
+        return service.readBoolean(fmuId, vr).convert()
+    }
+
+    override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
+        return service.bulkReadBoolean(fmuId, vr).convert()
+    }
+
+    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
+        return service.writeInteger(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
+        return service.bulkWriteInteger(fmuId, vr, value).convert()
+    }
+
+    override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
+        return service.writeReal(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
+        return service.bulkWriteReal(fmuId, vr, value).convert()
+    }
+
+    override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
+        return service.writeString(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
+        return service.bulkWriteString(fmuId, vr, value).convert()
+    }
+
+    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return service.writeBoolean(fmuId, vr, value).convert()
+    }
+
+    override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
+        return service.bulkWriteBoolean(fmuId, vr, value).convert()
+    }
+
+    override fun createInstanceFromCS(): Int {
+        return service.createInstanceFromCS()
+    }
+
+    override fun createInstanceFromME(solver: Solver): Int {
+        return service.createInstanceFromME(solver.avroType())
     }
 
     override fun close() {
-        LOG.info("Closing..")
-        FmuInstances.terminateAll()
+        super.close()
         client.close()
-    }
-
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(AvroFmuClient::class.java)
-    }
-
-    inner class FmuInstance(
-            private val fmuId: Int
-    ): Closeable {
-
-        val currentTime: Double
-            get() = service.getCurrentTime(fmuId)
-
-        val isTerminated: Boolean
-            get() = service.isTerminated(fmuId)
-
-        @JvmOverloads
-        fun init(start:Double=0.0, stop:Double=-1.0): StatusCode {
-            return service.init(fmuId,start, stop)
-        }
-
-        fun step(stepSize: Double): StatusCode {
-            return service.step(fmuId, stepSize)
-        }
-
-        fun terminate(): StatusCode {
-            return try {
-                service.terminate(fmuId)
-            } finally {
-                FmuInstances.remove(this)
-            }
-        }
-
-        override fun close() {
-            terminate()
-        }
-
-        fun reset(): StatusCode {
-            return service.reset(fmuId)
-        }
-
     }
 
 }

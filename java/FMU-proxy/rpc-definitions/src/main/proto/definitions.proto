@@ -37,30 +37,55 @@ message ModelDescription {
     string version = 7;
     string description = 8;
     string generation_tool = 9;
-    DefaultExperiment default_experiment = 10;
-    VariableNamingConvention variable_naming_convention = 11;
-    repeated ScalarVariable model_variables = 12;
-    ModelStructure model_structure = 13;
+    string generationDateAndTime = 10;
+    DefaultExperiment default_experiment = 11;
+    VariableNamingConvention variable_naming_convention = 12;
+    repeated ScalarVariable model_variables = 13;
+    ModelStructure model_structure = 14;
+    bool supports_co_simulation = 15;
+    bool supports_model_exchange = 16;
+}
+
+message IntegerAttribute {
+    int32 min = 1;
+    int32 max = 2;
+    int32 start = 3;
+}
+
+message RealAttribute {
+    double min = 1;
+    double max = 2;
+    double start = 3;
+}
+
+message StringAttribute {
+    string start = 1;
+}
+
+message BooleanAttribute {
+    bool start = 1;
+}
+
+message EnumerationAttribute {
+    int32 min = 1;
+    int32 max = 2;
+    int32 start = 3;
 }
 
 message ScalarVariable {
     uint32 value_reference = 1;
     string name = 2;
     string description = 3;
-    VariableType variable_type = 4;
+    string declared_type = 4;
     Initial initial = 5;
     Causality causality = 6;
     Variability variability = 7;
-    AnyPrimitive start = 8;
-}
-
-message AnyPrimitive {
-    oneof value {
-        int32 int_value = 1;
-        double real_value = 2;
-        string str_value = 3;
-        bool bool_value = 4;
-        uint32 enum_value = 5;
+    oneof attribute {
+        IntegerAttribute integerAttribute = 10;
+        RealAttribute realAttribute = 11;
+        StringAttribute stringAttribute = 12;
+        BooleanAttribute booleanAttribute = 13;
+        EnumerationAttribute enumerationAttribute = 14;
     }
 }
 
@@ -71,7 +96,6 @@ message DefaultExperiment {
     double step_size = 4;
 }
 
-
 message Unknown {
     uint32 index = 1;
     repeated uint32 dependencies = 2;
@@ -79,14 +103,13 @@ message Unknown {
 }
 
 message ModelStructure {
-    repeated uint32 outputs = 1;
+    repeated Unknown outputs = 1;
     repeated Unknown derivatives = 2;
     repeated Unknown initial_unknowns = 3;
 }
 
-message Status {
-    StatusCode code = 1;
-    string message = 2;
+message StatusResponse {
+    Status status = 1;
 }
 
 message InitRequest {
@@ -100,6 +123,11 @@ message StepRequest {
     double step_size = 2;
 }
 
+message StepResult {
+    Status status = 1;
+    double simulation_time = 2;
+}
+
 message UInt {
     uint32 value = 1;
 }
@@ -110,7 +138,7 @@ message Int {
 
 message IntRead {
     int32 value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message IntList {
@@ -119,7 +147,7 @@ message IntList {
 
 message IntListRead {
     repeated int32 values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message Real {
@@ -128,7 +156,7 @@ message Real {
 
 message RealRead {
     double value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message RealList {
@@ -137,7 +165,7 @@ message RealList {
 
 message RealListRead {
     repeated double values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message Str {
@@ -146,7 +174,7 @@ message Str {
 
 message StrRead {
     string value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message StrList {
@@ -155,7 +183,7 @@ message StrList {
 
 message StrListRead {
     repeated string values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message Bool {
@@ -164,7 +192,7 @@ message Bool {
 
 message BoolRead {
     bool value = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message BoolList {
@@ -173,7 +201,7 @@ message BoolList {
 
 message BoolListRead {
     repeated bool values = 1;
-    StatusCode status = 2;
+    Status status = 2;
 }
 
 message ReadRequest {
@@ -254,41 +282,35 @@ message InstanceBoolWrite {
     bool value = 2;
 }
 
+message Solver {
+    string name = 1;
+    string settings = 2;
+}
+
 enum Causality {
-    UNDEFINED_CAUSALITY = 0;
-    INPUT_CAUSALITY = 1;
-    OUTPUT_CAUSALITY = 2;
-    PARAMETER_CAUSALITY = 3;
-    CALCULATED_PARAMETER_CAUSALITY = 4;
-    LOCAL_CAUSALITY = 5;
-    INDEPENDENT_CAUSALITY = 6;
+    INPUT_CAUSALITY = 0;
+    OUTPUT_CAUSALITY = 1;
+    PARAMETER_CAUSALITY = 2;
+    CALCULATED_PARAMETER_CAUSALITY = 3;
+    LOCAL_CAUSALITY = 4;
+    INDEPENDENT_CAUSALITY = 5;
 }
 
 enum Variability {
-    UNDEFINED_VARIABILITY = 0;
-    CONSTANT_VARIABILITY = 1;
-    FIXED_VARIABILITY = 2;
-    CONTINUOUS_VARIABILITY = 3;
-    DISCRETE_VARIABILITY = 4;
-    TUNABLE_VARIABILITY = 5;
+    CONSTANT_VARIABILITY = 0;
+    FIXED_VARIABILITY = 1;
+    CONTINUOUS_VARIABILITY = 2;
+    DISCRETE_VARIABILITY = 3;
+    TUNABLE_VARIABILITY = 4;
 }
 
 enum Initial {
-    UNDEFINED_INITIAL = 0;
-    EXACT_INITIAL = 1;
-    APPROX_INITIAL = 2;
-    CALCULATED_INITIAL = 3;
+    EXACT_INITIAL = 0;
+    APPROX_INITIAL = 1;
+    CALCULATED_INITIAL = 2;
 }
 
-enum VariableType {
-    INTEGER_VARIABLE = 0;
-    REAL_VARIABLE = 1;
-    STRING_VARIABLE = 2;
-    BOOLEAN_VARIABLE = 3;
-    ENUMERATION_VARIABLE = 4;
-}
-
-enum StatusCode {
+enum Status {
     OK_STATUS = 0;
     WARNING_STATUS = 1;
     DISCARD_STATUS = 2;
@@ -307,50 +329,6 @@ enum DependenciesKind {
 enum VariableNamingConvention {
     FLAT = 0;
     STRUCTURED = 1;
-}
-
-message Integrator {
-
-    oneof integrators {
-        Euler euler = 1;
-        ClassicalRungeKutta runge_kutta = 2;
-        Midpoint mid_point = 3;
-        Gill gill = 4;
-        AdamsBashforth adams_bashforth = 5;
-        DormandPrince54 dormand_prince54 = 6;
-    }
-
-    message Euler {
-        double step_size = 1;
-    }
-
-    message ClassicalRungeKutta {
-        double step_size = 1;
-    }
-
-    message Midpoint {
-        double step_size = 1;
-    }
-
-    message Gill {
-        double step_size = 1;
-    }
-
-    message AdamsBashforth{
-        uint32 n_steps = 1;
-        double min_Step = 2;
-        double max_step = 3;
-        double scal_absolute_tolerance = 4;
-        double scal_relative_tolerance = 5;
-    }
-
-    message DormandPrince54 {
-        double min_Step = 1;
-        double max_step = 2;
-        double scal_absolute_tolerance = 3;
-        double scal_relative_tolerance = 4;
-    }
-
 }
 
 

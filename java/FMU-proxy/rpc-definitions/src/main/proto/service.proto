@@ -31,14 +31,11 @@ import "definitions.proto";
 
 service FmuService {
 
-    rpc SupportsCoSimulation(UInt) returns (Bool);
-    rpc SupportsModelExchange(UInt) returns (Bool);
-
     rpc GetModelDescriptionXml(google.protobuf.Empty) returns (Str);
 	rpc GetModelDescription(google.protobuf.Empty) returns (ModelDescription);
 
     rpc CreateInstanceFromCS (google.protobuf.Empty) returns (UInt);
-	rpc CreateInstanceFromME (Integrator) returns (UInt);
+	rpc CreateInstanceFromME (Solver) returns (UInt);
 
     //instance methods
 
@@ -47,10 +44,10 @@ service FmuService {
 
     rpc CanGetAndSetFMUstate(UInt) returns (Bool);
 
-    rpc Init (InitRequest) returns (Status);
-    rpc Step (StepRequest) returns (Status);
-    rpc Terminate (UInt) returns (Status);
-    rpc Reset(UInt) returns (Status);
+    rpc Init (InitRequest) returns (StatusResponse);
+    rpc Step (StepRequest) returns (StepResult);
+    rpc Terminate (UInt) returns (StatusResponse);
+    rpc Reset(UInt) returns (StatusResponse);
 
     rpc ReadInteger (ReadRequest) returns (IntRead);
 	rpc ReadReal (ReadRequest) returns (RealRead);
@@ -62,14 +59,14 @@ service FmuService {
 	rpc BulkReadString (BulkReadRequest) returns (StrListRead);
 	rpc BulkReadBoolean (BulkReadRequest) returns (BoolListRead);
 	
-    rpc WriteInteger (WriteIntRequest) returns (Status);
-	rpc WriteReal (WriteRealRequest) returns (Status);
-	rpc WriteString (WriteStrRequest) returns (Status);
-	rpc WriteBoolean (WriteBoolRequest) returns (Status);
+    rpc WriteInteger (WriteIntRequest) returns (StatusResponse);
+	rpc WriteReal (WriteRealRequest) returns (StatusResponse);
+	rpc WriteString (WriteStrRequest) returns (StatusResponse);
+	rpc WriteBoolean (WriteBoolRequest) returns (StatusResponse);
 	
-	rpc BulkWriteInteger (BulkWriteIntRequest) returns (Status);
-	rpc BulkWriteReal (BulkWriteRealRequest) returns (Status);
-	rpc BulkWriteString (BulkWriteStrRequest) returns (Status);
-	rpc BulkWriteBoolean (BulkWriteBoolRequest) returns (Status);
+	rpc BulkWriteInteger (BulkWriteIntRequest) returns (StatusResponse);
+	rpc BulkWriteReal (BulkWriteRealRequest) returns (StatusResponse);
+	rpc BulkWriteString (BulkWriteStrRequest) returns (StatusResponse);
+	rpc BulkWriteBoolean (BulkWriteBoolRequest) returns (StatusResponse);
 
 }

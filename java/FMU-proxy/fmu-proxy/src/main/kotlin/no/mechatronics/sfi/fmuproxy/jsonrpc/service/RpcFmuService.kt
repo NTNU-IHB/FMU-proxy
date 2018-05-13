@@ -24,15 +24,27 @@
 
 package no.mechatronics.sfi.fmuproxy.jsonrpc.service
 
+import com.google.gson.Gson
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.fmu.FmiSimulation
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
+import no.mechatronics.sfi.fmuproxy.solver.parseIntegrator
+import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+
+private fun getFmu(id: Int): FmiSimulation {
+    val fmu = Fmus.get(id)
+    if (fmu != null) {
+        return fmu
+    }
+    throw IllegalArgumentException("No fmu with id=$id")
+}
+
 
 /**
  * @author Lars Ivar Hatledal
@@ -41,8 +53,11 @@ class RpcFmuService(
         private val fmu: Fmu
 ) : RpcService {
 
-    override val name = "FmuService"
-    private val modelDescription: CommonModelDescription
+    override val serviceName = "FmuService"
+
+    val modelDescription: CommonModelDescription
+        @RpcMethod
+        get() = fmu.modelDescription
 
     val fmiVersion: String
         @RpcMethod
@@ -60,21 +75,23 @@ class RpcFmuService(
         @RpcMethod
         get() = fmu.modelDescriptionXml
 
-    init {
-        this.modelDescription = fmu.modelDescription
-    }
-
-    private fun getFmu(id: Int): FmiSimulation {
-        val fmu = Fmus.get(id)
-        if (fmu != null) {
-            return fmu
-        }
-        throw IllegalArgumentException("No fmu with id=$id")
-    }
 
     @RpcMethod
     fun createInstanceFromCS(): Int {
         return Fmus.put(fmu.asCoSimulationFmu().newInstance())
+    }
+
+    @RpcMethod
+    fun createInstanceFromME(solver: Solver): Int {
+
+        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+            LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
+            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
+        }
+
+        val integrator = parseIntegrator(solver.name, solver.settings) ?: selectDefaultIntegrator()
+        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
     }
 
     @RpcMethod
@@ -112,10 +129,13 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun step(fmuId: Int, stepSize: Double): FmiStatus {
+    fun step(fmuId: Int, stepSize: Double): StepResult {
         return getFmu(fmuId).let {
             it.doStep(stepSize)
-            it.lastStatus
+            StepResult(
+                    simulationTime = it.currentTime,
+                    status = it.lastStatus
+            )
         }
     }
 
@@ -136,48 +156,109 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun readInteger(fmuId: Int, name: String): FmuIntegerRead {
-        return getFmu(fmuId).variableAccessor.readInteger(name)
+    fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead {
+        return getFmu(fmuId).variableAccessor.readInteger(vr)
     }
 
     @RpcMethod
-    fun readReal(fmuId: Int, name: String): FmuRealRead {
-        return getFmu(fmuId).variableAccessor.readReal(name)
+    fun bulkReadInteger(fmuId: Int, vr: ValueReferences): FmuIntegerArrayRead {
+        return getFmu(fmuId).variableAccessor.readInteger(vr)
     }
 
     @RpcMethod
-    fun readString(fmuId: Int, name: String): FmuStringRead {
-        return getFmu(fmuId).variableAccessor.readString(name)
+    fun readReal(fmuId: Int, vr: ValueReference): FmuRealRead {
+        return getFmu(fmuId).variableAccessor.readReal(vr)
     }
 
     @RpcMethod
-    fun readBoolean(fmuId: Int, name: String): FmuBooleanRead {
-        return getFmu(fmuId).variableAccessor.readBoolean(name)
+    fun bulkReadReal(fmuId: Int, vr: ValueReferences): FmuRealArrayRead {
+        return getFmu(fmuId).variableAccessor.readReal(vr)
     }
 
     @RpcMethod
-    fun writeInteger(fmuId: Int, name: String, value: Int): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeInteger(name, value)
+    fun readString(fmuId: Int, vr: ValueReference): FmuStringRead {
+        return getFmu(fmuId).variableAccessor.readString(vr)
     }
 
     @RpcMethod
-    fun writeReal(fmuId: Int, name: String, value: Double): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeReal(name, value)
+    fun bulkReadString(fmuId: Int, vr: ValueReferences): FmuStringArrayRead {
+        return getFmu(fmuId).variableAccessor.readString(vr)
     }
 
     @RpcMethod
-    fun writeString(fmuId: Int, name: String, value: String): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeString(name, value)
+    fun readBoolean(fmuId: Int, vr: ValueReference): FmuBooleanRead {
+        return getFmu(fmuId).variableAccessor.readBoolean(vr)
     }
 
     @RpcMethod
-    fun writeBoolean(fmuId: Int, name: String, value: Boolean): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeBoolean(name, value)
+    fun bulkReadBoolean(fmuId: Int, vr: ValueReferences): FmuBooleanArrayRead {
+        return getFmu(fmuId).variableAccessor.readBoolean(vr)
     }
 
-    companion object {
-
-        private val LOG: Logger = LoggerFactory.getLogger(RpcFmuService::class.java)
+    @RpcMethod
+    fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeInteger(vr, value)
     }
+
+    @RpcMethod
+    fun bulkWriteInteger(fmuId: Int, vr: ValueReferences, value: IntArray): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeInteger(vr, value)
+    }
+
+    @RpcMethod
+    fun writeReal(fmuId: Int, vr: ValueReference, value: Double): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeReal(vr, value)
+    }
+
+    @RpcMethod
+    fun bulkWriteReal(fmuId: Int, vr: ValueReferences, value: DoubleArray): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeReal(vr, value)
+    }
+
+    @RpcMethod
+    fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeString(vr, value)
+    }
+
+    @RpcMethod
+    fun bulkWriteString(fmuId: Int, vr: ValueReferences, value: StringArray): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeString(vr, value)
+    }
+
+    @RpcMethod
+    fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
+    }
+
+    @RpcMethod
+    fun bulkWriteBoolean(fmuId: Int, vr: ValueReferences, value: BooleanArray): FmiStatus {
+        return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
+    }
+
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(RpcFmuService::class.java)
+    }
+
+}
+
+class StepResult(
+        val status: FmiStatus,
+        val simulationTime: Double
+)
+
+class Solver(
+        val name: String,
+        val settings: String
+) {
+
+//    private val properties = Gson().fromJson(json, Map::class.java) as Map<String, *>
+//
+//    fun <T> getProperty(name: String, type: Class<T>): T? {
+//        return properties[name] as T
+//    }
+//
+//    inline fun <reified T> getProperty(name: String): T? {
+//        return getProperty(name, T::class.java)
+//    }
 
 }

@@ -26,15 +26,7 @@
 @namespace("no.mechatronics.sfi.fmuproxy.avro")
 protocol AvroFmuService {
 
-  enum VariableType {
-    INTEGER_VARIABLE,
-    REAL_VARIABLE,
-    STRING_VARIABLE,
-    BOOLEAN_VARIABLE,
-    ENUMERATION_VARIABLE
-  }
-
-  enum StatusCode {
+  enum Status {
     OK_STATUS,
     WARNING_STATUS,
     DISCARD_STATUS,
@@ -44,7 +36,6 @@ protocol AvroFmuService {
   }
 
   enum Causality {
-    UNDEFINED_CAUSALITY,
     INPUT_CAUSALITY,
     OUTPUT_CAUSALITY,
     PARAMETER_CAUSALITY,
@@ -54,7 +45,6 @@ protocol AvroFmuService {
   }
 
   enum Variability {
-    UNDEFINED_VARIABILITY,
     CONSTANT_VARIABILITY,
     FIXED_VARIABILITY,
     CONTINUOUS_VARIABILITY,
@@ -63,7 +53,6 @@ protocol AvroFmuService {
   }
 
   enum Initial {
-    UNDEFINED_INITIAL,
     EXACT_INITIAL,
     APPROX_INITIAL,
     CALCULATED_INITIAL
@@ -81,31 +70,53 @@ protocol AvroFmuService {
     STRUCTURED
   }
 
-  record AnyPrimitive {
-    union {int, double, string, boolean} value;
-  }
-
   record Unknown {
     int index;
     array<int> dependencies;
-    DependenciesKind dependencies_kind;
+    union{null, DependenciesKind} dependencies_kind;
   }
 
   record ModelStructure {
-    array<int> outputs;
+    array<Unknown> outputs;
     array<Unknown> derivatives;
     array<Unknown> initial_unknowns;
+  }
+
+  record IntegerAttribute {
+      union{null, int} min;
+      union{null, int} max;
+      union{null, int} start;
+  }
+
+  record RealAttribute {
+    union{null, double} min;
+    union{null, double} max;
+    union{null, double} start;
+  }
+
+  record StringAttribute {
+    union{null, string} start;
+  }
+
+  record BooleanAttribute {
+    union{null, boolean} start;
+  }
+
+  record EnumerationAttribute {
+    union{null, int} min;
+    union{null, int} max;
+    union{null, int} start;
   }
 
   record ScalarVariable {
     string name;
     int value_reference;
-    VariableType variable_type;
     union {null, string} description;
+    union {null, string} declared_type;
     union {null, Causality} causality;
     union {null, Variability} variability;
     union {null, Initial} initial;
-    union {null, AnyPrimitive} start;
+    union {IntegerAttribute, RealAttribute, StringAttribute, BooleanAttribute, EnumerationAttribute} attribute;
   }
 
   record DefaultExperiment {
@@ -121,30 +132,67 @@ protocol AvroFmuService {
     string guid;
     union {null, string} license;
     union {null, string} copyright;
-    union {null, string} authour;
+    union {null, string} author;
     union {null, string} version;
     union {null, string} description;
     union {null, string} generation_tool;
+    union {null, string} generation_date_and_time;
     union {null, DefaultExperiment} default_experiment;
     union {null, VariableNamingConvention} variable_naming_convention;
     array<ScalarVariable> model_variables;
     ModelStructure model_structure;
+    boolean supports_co_simulation;
+    boolean supports_model_exchange;
   }
 
-  record EulerIntegrator {
-    double step_size;
+  record StepResult {
+    Status status;
+    double simulationTime;
   }
 
-  record ClassicalRungeKuttaIntegrator {
-    double step_size;
+  record IntegerRead {
+    int value;
+    Status status;
   }
 
-  record GillIntegrator {
-    double step_size;
+  record IntegerArrayRead {
+    array<int> value;
+    Status status;
   }
 
-  record Integrator {
-    union {EulerIntegrator, ClassicalRungeKuttaIntegrator, GillIntegrator} integrator;
+  record RealRead {
+    double value;
+    Status status;
+  }
+
+  record RealArrayRead {
+    array<double> value;
+    Status status;
+  }
+
+  record StringRead {
+    string value;
+    Status status;
+  }
+
+  record StringArrayRead {
+    array<string> value;
+    Status status;
+  }
+
+  record BooleanRead {
+    boolean value;
+    Status status;
+  }
+
+  record BooleanArrayRead {
+    array<boolean> value;
+    Status status;
+  }
+
+  record Solver {
+    string name;
+    string settings;
   }
 
   error NoSuchFmuException {
@@ -159,23 +207,44 @@ protocol AvroFmuService {
     string message;
   }
 
-  boolean supportsCosimulation();
-  boolean supportsModelExchange();
-
   string getModelDescriptionXml();
   ModelDescription getModelDescription();
 
   int createInstanceFromCS() throws UnsupportedOperationException;
-  int createInstanceFromME(Integrator integrator) throws UnsupportedOperationException;
+  int createInstanceFromME(Solver solver) throws UnsupportedOperationException;
 
   boolean canGetAndSetFMUstate(int fmu_id);
 
   double getCurrentTime(int fmu_id) throws NoSuchFmuException;
   boolean isTerminated(int fmu_id) throws NoSuchFmuException;
 
-  StatusCode init(int fmu_id, double start, double stop) throws NoSuchFmuException;
-  StatusCode step(int fmu_id, double step_size) throws NoSuchFmuException;
-  StatusCode terminate(int fmu_id) throws NoSuchFmuException;
-  StatusCode reset(int fmu_id) throws NoSuchFmuException;
+  Status init(int fmu_id, double start, double stop) throws NoSuchFmuException;
+  StepResult step(int fmu_id, double step_size) throws NoSuchFmuException;
+  Status terminate(int fmu_id) throws NoSuchFmuException;
+  Status reset(int fmu_id) throws NoSuchFmuException;
+
+  IntegerRead readInteger(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  IntegerArrayRead bulkReadInteger(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
+  RealRead readReal(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  RealArrayRead bulkReadReal(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
+  StringRead readString(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  StringArrayRead bulkReadString(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
+  BooleanRead readBoolean(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
+  BooleanArrayRead bulkReadBoolean(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+
+  Status writeInteger(int fmu_id, int vr, int value) throws NoSuchFmuException, NoSuchVariableException;
+  Status bulkWriteInteger(int fmu_id,  array<int> vr, array<int> value) throws NoSuchFmuException, NoSuchVariableException;
+
+  Status writeReal(int fmu_id, int vr, double value) throws NoSuchFmuException, NoSuchVariableException;
+  Status bulkWriteReal(int fmu_id, array<int> vr, array<double> value) throws NoSuchFmuException, NoSuchVariableException;
+
+  Status writeString(int fmu_id, int vr, string value) throws NoSuchFmuException, NoSuchVariableException;
+  Status bulkWriteString(int fmu_id, array<int> vr, array<string> value) throws NoSuchFmuException, NoSuchVariableException;
+
+  Status writeBoolean(int fmu_id, int vr, boolean value) throws NoSuchFmuException, NoSuchVariableException;
+  Status bulkWriteBoolean(int fmu_id, array<int> vr, array<boolean> value) throws NoSuchFmuException, NoSuchVariableException;
 
 }

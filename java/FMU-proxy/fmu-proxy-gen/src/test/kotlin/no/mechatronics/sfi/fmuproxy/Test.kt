@@ -1,8 +1,6 @@
-package no.mechatronics.sfi.fmuproxy.grpc
+package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmuproxy.ApplicationStarter
-import no.mechatronics.sfi.fmuproxy.ExecutableGenerator
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -23,7 +21,7 @@ class Test {
     }
 
     @Before
-    fun setUp() {
+    fun setup() {
         val url = Test::class.java.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
         Assert.assertNotNull(url)
@@ -63,18 +61,16 @@ class Test {
 
     }
 
-    private fun isPresentInJar(path:String): Boolean {
+    private fun isPresentInJar(path: String): Boolean {
 
         ZipInputStream(FileInputStream(generatedJar)).use {
 
             var nextEntry: ZipEntry? = it.nextEntry
             while (nextEntry != null) {
-
                 val name = nextEntry.name
                 if (name == path) {
                     return true
                 }
-
                 nextEntry = it.nextEntry
             }
 
