@@ -87,7 +87,7 @@ class ThriftFmuClient(
     }
 
     override fun createInstanceFromME(solver: Solver): Int {
-        TODO()
+        return client.createInstanceFromME(solver.thriftType())
     }
 
     override fun close() {

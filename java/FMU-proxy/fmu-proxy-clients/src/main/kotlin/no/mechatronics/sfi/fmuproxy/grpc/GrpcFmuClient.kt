@@ -216,7 +216,7 @@ class GrpcFmuClient(
     }
 
     override fun createInstanceFromME(solver: Solver): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return blockingStub.createInstanceFromME(solver.protoType()).value
     }
 
     override fun close() {

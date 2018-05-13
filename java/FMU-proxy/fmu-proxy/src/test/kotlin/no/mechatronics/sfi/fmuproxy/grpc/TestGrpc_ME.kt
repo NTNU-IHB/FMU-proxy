@@ -1,13 +1,18 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
+import com.google.gson.Gson
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmuproxy.Solver
+import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
 
 class TestGrpc_ME {
 
@@ -23,11 +28,7 @@ class TestGrpc_ME {
         @BeforeClass
         fun setup() {
 
-            val url = TestGrpc_ME::class.java.classLoader
-                    .getResource("fmus/me/BouncingBall/bouncingBall.fmu")
-            Assert.assertNotNull(url)
-
-            val fmu = Fmu.from(url)
+            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
             modelDescription = fmu.modelDescription
 
             server = GrpcFmuServer(fmu)
@@ -58,28 +59,37 @@ class TestGrpc_ME {
         Assert.assertEquals(modelDescription.guid, guid)
     }
 
+
     @Test
     fun testInstance() {
 
-//        val integrator = Proto.Integrator.newBuilder()
-//                .setEuler(Proto.Integrator.Euler.newBuilder().setStepSize(1E-3)).build()
-//
-//        client.newInstance(integrator).use { fmu ->
-//
-//            Assert.assertTrue(fmu.init().code == Proto.StatusCode.OK_STATUS)
-//
-//            fmu.read("h").asReal().also {
-//                LOG.info("h=${it.value}")
-//                Assert.assertEquals(1.0, it.value, 0.0)
-//            }
-//
-//            val dt = 1.0/100
-//            for (i in 0 until  10) {
-//                val step = fmu.step(dt)
-//                Assert.assertTrue(step.code == Proto.StatusCode.OK_STATUS)
-//            }
-//
-//        }
+        val solver = Solver("Euler").apply {
+            addProperty("step_size", 1E-3)
+        }
+
+        client.newInstance(solver).use { instance ->
+
+            instance.init()
+            Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
+
+            val h = instance.getVariableByName("h").asRealVariable()
+
+            h.read().also {
+                LOG.info("h=${it.value}")
+                Assert.assertEquals(1.0, it.value, 0.0)
+            }
+
+            val dt = 1.0/100
+            for (i in 0 until  10) {
+                val step = instance.doStep(dt)
+                Assert.assertTrue(step)
+
+                LOG.info("h=${h.read()}")
+
+            }
+
+        }
+
     }
 
 }

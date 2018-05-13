@@ -144,7 +144,7 @@ class AvroFmuClient(
     }
 
     override fun createInstanceFromME(solver: Solver): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return service.createInstanceFromME(solver.avroType())
     }
 
     override fun close() {

@@ -24,12 +24,15 @@
 
 package no.mechatronics.sfi.fmuproxy.jsonrpc.service
 
+import com.google.gson.Gson
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
+import no.mechatronics.sfi.fmuproxy.solver.parseIntegrator
+import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -76,6 +79,19 @@ class RpcFmuService(
     @RpcMethod
     fun createInstanceFromCS(): Int {
         return Fmus.put(fmu.asCoSimulationFmu().newInstance())
+    }
+
+    @RpcMethod
+    fun createInstanceFromME(solver: Solver): Int {
+
+        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+            LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
+            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
+        }
+
+        val integrator = parseIntegrator(solver.name, solver.settings) ?: selectDefaultIntegrator()
+        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
     }
 
     @RpcMethod
@@ -229,3 +245,20 @@ class StepResult(
         val status: FmiStatus,
         val simulationTime: Double
 )
+
+class Solver(
+        val name: String,
+        val settings: String
+) {
+
+//    private val properties = Gson().fromJson(json, Map::class.java) as Map<String, *>
+//
+//    fun <T> getProperty(name: String, type: Class<T>): T? {
+//        return properties[name] as T
+//    }
+//
+//    inline fun <reified T> getProperty(name: String): T? {
+//        return getProperty(name, T::class.java)
+//    }
+
+}

@@ -37,6 +37,7 @@ import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import no.mechatronics.sfi.fmuproxy.grpc.FmuServiceGrpc
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.Proto
+import no.mechatronics.sfi.fmuproxy.solver.parseIntegrator
 import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.apache.commons.math3.ode.nonstiff.*
 import org.slf4j.Logger
@@ -393,6 +394,24 @@ class GrpcFmuServiceImpl(
     override fun createInstanceFromCS(req: Empty, responseObserver: StreamObserver<Proto.UInt>) {
 
         Fmus.put(fmu.asCoSimulationFmu().newInstance()).also { id ->
+            Proto.UInt.newBuilder().setValue(id).build().also {
+                responseObserver.onNext(it)
+                responseObserver.onCompleted()
+            }
+        }
+
+    }
+
+    override fun createInstanceFromME(req: Proto.Solver, responseObserver: StreamObserver<Proto.UInt>) {
+
+        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+            LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
+            return EulerIntegrator(stepSize)
+        }
+
+        val integrator = parseIntegrator(req.name, req.settings) ?: selectDefaultIntegrator()
+        Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator)).also { id ->
             Proto.UInt.newBuilder().setValue(id).build().also {
                 responseObserver.onNext(it)
                 responseObserver.onCompleted()

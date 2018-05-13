@@ -42,6 +42,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
+import no.mechatronics.sfi.fmuproxy.Solver
 
 internal fun Status.convert(): FmiStatus {
     return when(this) {
@@ -272,4 +273,8 @@ class AvroModelDescription(
     override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
+}
+
+fun Solver.avroType(): no.mechatronics.sfi.fmuproxy.avro.Solver {
+    return no.mechatronics.sfi.fmuproxy.avro.Solver(name, settings)
 }

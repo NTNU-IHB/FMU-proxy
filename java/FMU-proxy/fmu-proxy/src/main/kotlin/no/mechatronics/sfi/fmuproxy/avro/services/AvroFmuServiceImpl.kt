@@ -30,6 +30,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
+import no.mechatronics.sfi.fmuproxy.solver.parseIntegrator
 import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -49,6 +50,19 @@ class AvroFmuServiceImpl(
             throw UnsupportedOperationException("FMU does not support CoSimulation!")
         }
        return Fmus.put(fmu.asCoSimulationFmu().newInstance())
+    }
+
+    override fun createInstanceFromME(solver: Solver): Int {
+
+        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
+            LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
+            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
+        }
+
+        val integrator = parseIntegrator(solver.name, solver.settings) ?: selectDefaultIntegrator()
+        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
+
     }
 
     override fun isTerminated(fmuId: Int): Boolean {
@@ -205,31 +219,6 @@ class AvroFmuServiceImpl(
             it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
-
-    override fun createInstanceFromME(solver: Solver?): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    //    override fun createInstanceFromME(i: Integrator): Int {
-//
-//        fun selectDefaultIntegrator(): FirstOrderIntegrator {
-//            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-//            LOG.warn("No integrator specified.. Defaulting to Euler with $stepSize stepSize")
-//            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
-//        }
-//
-//        val it = i.integrator
-//        val integrator: FirstOrderIntegrator = when(it) {
-//            is EulerIntegrator -> org.apache.commons.math3.ode.nonstiff.EulerIntegrator(it.stepSize)
-//            is ClassicalRungeKuttaIntegrator -> org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator(it.stepSize)
-//            is GillIntegrator-> org.apache.commons.math3.ode.nonstiff.GillIntegrator(it.stepSize)
-//            else -> selectDefaultIntegrator()
-//
-//        }
-//
-//        return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
-//    }
-
 
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(AvroFmuServiceImpl::class.java)

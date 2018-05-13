@@ -33,6 +33,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
+import no.mechatronics.sfi.fmuproxy.Solver
 
 
 internal fun Proto.StatusResponse.convert(): FmiStatus {
@@ -283,4 +284,11 @@ class GrpcModelDescription(
     override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
+}
+
+fun Solver.protoType(): Proto.Solver {
+    return Proto.Solver.newBuilder()
+            .setName(name)
+            .setSettings(settings)
+            .build()
 }

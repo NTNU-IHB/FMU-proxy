@@ -37,6 +37,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
+import no.mechatronics.sfi.fmuproxy.Solver
 
 
 internal fun Status.convert(): FmiStatus {
@@ -268,4 +269,8 @@ class ThriftModelDescription(
     override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
+}
+
+fun Solver.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Solver {
+    return no.mechatronics.sfi.fmuproxy.thrift.Solver(name, settings)
 }
