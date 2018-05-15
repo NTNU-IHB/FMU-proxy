@@ -1,9 +1,9 @@
-package no.mechatronics.sfi.fmuproxy.avro
+package no.mechatronics.sfi.fmuproxy.grpc
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
+import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -11,30 +11,28 @@ import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.system.measureTimeMillis
 
-class TestAvro {
+class TestGrpcTorsionBar {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestAvro::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcTorsionBar::class.java)
 
-        private lateinit var server: AvroFmuServer
-        private lateinit var client: AvroFmuClient
-
+        private lateinit var server: GrpcFmuServer
+        private lateinit var client: GrpcFmuClient
         private lateinit var modelDescription: CommonModelDescription
 
         @JvmStatic
         @BeforeClass
         fun setup() {
 
-            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/20sim/4.6.4.8004/TorsionBar/TorsionBar.fmu"))
             modelDescription = fmu.modelDescription
 
-            server = AvroFmuServer(fmu)
+            server = GrpcFmuServer(fmu)
             val port = server.start()
 
-            client = AvroFmuClient("localhost", port)
+            client = GrpcFmuClient("localhost", port)
 
         }
 
@@ -63,24 +61,11 @@ class TestAvro {
     fun testInstance() {
 
         client.newInstance().use { instance ->
-
-            instance.init()
-            Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
-
-            val h = client.modelDescription.modelVariables
-                    .getByName("h").asRealVariable()
-
-            val dt = 1.0/100
-            measureTimeMillis {
-                while (instance.currentTime < 10) {
-                    val status = instance.doStep(dt)
-                    Assert.assertTrue(status)
-
-                    LOG.info("h=${h.read()}")
-
-                }
-            }.also { LOG.info("Duration=${it}ms") }
-
+            val dt = 1E-5
+            val stop = 12.0
+            runInstance(instance, dt, stop).also {
+                LOG.info("Duration=${it}ms")
+            }
         }
 
     }

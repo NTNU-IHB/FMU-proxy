@@ -1,9 +1,9 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
+import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -11,13 +11,12 @@ import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.system.measureTimeMillis
 
-class TestThrift {
+class TestThriftBouncing {
 
     companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestThrift::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestThriftBouncing::class.java)
 
         private lateinit var server: ThriftFmuServer
         private lateinit var client: ThriftFmuClient
@@ -62,22 +61,16 @@ class TestThrift {
 
         client.newInstance().use { instance ->
 
-            instance.init()
-            Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
-
             val h = client.modelDescription.modelVariables
                     .getByName("h").asRealVariable()
 
             val dt = 1.0/100
-            measureTimeMillis {
-                while (instance.currentTime < 10) {
-                    val status = instance.doStep(dt)
-                    Assert.assertTrue(status)
-
-                    LOG.info("v=${h.read()}")
-
-                }
-            }.also { LOG.info("Duration=${it}ms") }
+            val stop = 100.0
+            runInstance(instance, dt, stop, {
+                h.read()
+            }).also {
+                LOG.info("Duration: ${it}ms")
+            }
 
         }
 

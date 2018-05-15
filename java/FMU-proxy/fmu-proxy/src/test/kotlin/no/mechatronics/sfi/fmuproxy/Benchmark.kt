@@ -32,21 +32,7 @@ class Benchmark {
         private val fmuPath = File(System.getenv("TEST_FMUs"), "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
 
         private const val dt = 1E-2
-        private const val stop = 100
-
-    }
-
-    private fun runInstance(instance: FmiSimulation) : Long {
-
-        instance.init()
-        Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
-
-        return measureTimeMillis {
-            while (instance.currentTime < stop) {
-                val status = instance.doStep(dt)
-                Assert.assertTrue(status)
-            }
-        }
+        private const val stop = 100.0
 
     }
 
@@ -54,7 +40,7 @@ class Benchmark {
     fun measureTimeLocal() {
         Fmu.from(fmuPath).use {
             it.asCoSimulationFmu().newInstance().use { instance ->
-                runInstance(instance).also {
+                runInstance(instance, dt, stop).also {
                     LOG.info("Local duration=${it}ms")
                 }
             }
@@ -72,7 +58,7 @@ class Benchmark {
 
             val client = ThriftFmuClient("localhost", port)
             client.newInstance().use { instance ->
-                runInstance(instance).also {
+                runInstance(instance, dt, stop).also {
                     LOG.info("Thrift duration=${it}ms")
                 }
             }
@@ -94,7 +80,7 @@ class Benchmark {
 
             val client = AvroFmuClient("localhost", port)
             client.newInstance().use { instance ->
-                runInstance(instance).also {
+                runInstance(instance, dt, stop).also {
                     LOG.info("Avro duration=${it}ms")
                 }
             }
@@ -116,7 +102,7 @@ class Benchmark {
 
             val client = GrpcFmuClient("localhost", port)
             client.newInstance().use { instance ->
-                runInstance(instance).also {
+                runInstance(instance, dt, stop).also {
                     LOG.info("gRPC duration=${it}ms")
                 }
             }
@@ -158,7 +144,7 @@ class Benchmark {
             clients.forEach { client ->
 
                 client.newInstance().use { instance ->
-                    runInstance(instance).also {
+                    runInstance(instance, dt, stop).also {
                         LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
                     }
                 }

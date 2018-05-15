@@ -13,6 +13,7 @@ import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
+import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
@@ -77,8 +78,6 @@ class TestJsonRpcClients {
             Assert.assertEquals(modelDescription.modelName, client.modelName)
             Assert.assertEquals(modelDescription.guid, client.guid)
 
-            println(client.modelDescription)
-
             client.newInstance().use { instance ->
 
                 instance.init()
@@ -88,15 +87,10 @@ class TestJsonRpcClients {
                         .getByName("h").asRealVariable()
 
                 val dt = 1.0/100
-                measureTimeMillis {
-                    while (instance.currentTime < 10) {
-                        val status = instance.doStep(dt)
-                        Assert.assertTrue(status)
-
-                        LOG.info("h=${h.read()}")
-
-                    }
-                }.also { LOG.info("Duration: ${it}ms") }
+                val stop = 100.0
+                runInstance(instance, dt, stop, {
+                    h.read()
+                }).also { LOG.info("Duration: ${it}ms") }
 
             }
 

@@ -1,6 +1,5 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
-import com.google.gson.Gson
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
@@ -14,10 +13,10 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-class TestGrpc_ME {
+class TestGrpcBouncingME {
 
     companion object {
-        val LOG: Logger = LoggerFactory.getLogger(TestGrpc_ME::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(TestGrpcBouncingME::class.java)
 
 
         private lateinit var server: GrpcFmuServer
