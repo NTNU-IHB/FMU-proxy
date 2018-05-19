@@ -1,4 +1,4 @@
-package no.mechatronics.sfi.fmuproxy.json_rpc
+package no.mechatronics.sfi.fmuproxy.jsonrpc
 
 import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.RpcParams
@@ -11,31 +11,23 @@ import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult
-import org.junit.Assert
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestService {
 
-   companion object {
-       
+    companion object {
        val LOG: Logger = LoggerFactory.getLogger(TestService::class.java)
+    }
 
-       lateinit var handler: RpcHandler
-       lateinit var fmu: Fmu
-
-       @JvmStatic
-       @BeforeClass
-       fun setup() {
-           fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-           handler = RpcHandler(RpcFmuService(fmu))
-       }
-       
-   }
-
+    private val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+    private val handler = RpcHandler(RpcFmuService(fmu))
+    
     @Test
     fun testModelName() {
 
@@ -52,7 +44,7 @@ class TestService {
         }
 
         LOG.info("modelName=$modelName")
-        Assert.assertEquals(fmu.modelDescription.modelName, modelName)
+        Assertions.assertEquals(fmu.modelDescription.modelName, modelName)
 
     }
 
@@ -71,7 +63,7 @@ class TestService {
         }
 
         LOG.info("guid=$guid")
-        Assert.assertEquals(fmu.modelDescription.guid, guid)
+        Assertions.assertEquals(fmu.modelDescription.guid, guid)
 
     }
 
@@ -108,7 +100,7 @@ class TestService {
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(FmiStatus::class.java)!!
 
-        Assert.assertEquals(FmiStatus.OK, init)
+        Assertions.assertEquals(FmiStatus.OK, init)
 
         val currentTimeMsg = RpcRequestOut(
                 methodName = "FmuService.getCurrentTime",
@@ -121,7 +113,7 @@ class TestService {
 
         var currentTime = currentTime()
         LOG.info("currentTime=$currentTime")
-        Assert.assertEquals(0.0, currentTime, 0.0)
+        Assertions.assertEquals(0.0, currentTime)
 
         val h = RpcRequestOut(
                 methodName = "FmuService.readReal",
@@ -130,7 +122,7 @@ class TestService {
                 .getResult(FmuRealRead::class.java)!!
 
         LOG.info("h=$h")
-        Assert.assertEquals(1.0, h.value, 0.0)
+        Assertions.assertEquals(1.0, h.value)
 
         val stepMsg = RpcRequestOut(
                 methodName = "FmuService.step",
@@ -141,7 +133,7 @@ class TestService {
             val stepResult = stepMsg
                     .let { RpcResponse.fromJson(handler.handle(it)!!) }
                     .getResult(StepResult::class.java)!!
-            Assert.assertEquals(FmiStatus.OK, stepResult.status)
+            Assertions.assertEquals(FmiStatus.OK, stepResult.status)
 
             LOG.info("currentTime=${currentTime()}")
 
@@ -154,7 +146,7 @@ class TestService {
 
         val status = RpcResponse.fromJson(handler.handle(terminateMsg)!!)
                 .getResult(FmiStatus::class.java)!!
-        Assert.assertEquals(FmiStatus.OK, status)
+        Assertions.assertEquals(FmiStatus.OK, status)
 
     }
 

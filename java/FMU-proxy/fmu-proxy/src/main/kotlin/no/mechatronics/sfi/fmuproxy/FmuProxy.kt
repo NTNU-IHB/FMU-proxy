@@ -119,13 +119,21 @@ class FmuProxy(
         stop()
     }
 
-    fun <E: FmuProxyServer> getServer(server: Class<E>): E? {
+    fun <T: FmuProxyServer> getServer(server: Class<T>): T? {
         @Suppress("UNCHECKED_CAST")
-        return servers.keys.firstOrNull{ server.isAssignableFrom(it.javaClass) } as E
+        return servers.keys.firstOrNull{ server.isAssignableFrom(it.javaClass) } as T
+    }
+
+    inline fun <reified T: FmuProxyServer> getServer(): T? {
+        return getServer(T::class.java)
     }
 
     fun getPortFor(server: Class<out FmuProxyServer>): Int? {
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
+    }
+
+    inline fun <reified T:FmuProxyServer> getPortFor(): Int? {
+        return getPortFor(T::class.java)
     }
 
     companion object {

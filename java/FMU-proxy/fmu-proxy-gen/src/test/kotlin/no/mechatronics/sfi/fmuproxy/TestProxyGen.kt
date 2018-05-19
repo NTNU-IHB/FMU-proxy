@@ -1,10 +1,7 @@
 package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import org.junit.After
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -12,19 +9,19 @@ import java.io.FileInputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-class Test {
-
-    lateinit var generatedJar: File
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class TestProxyGen {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(ExecutableGenerator::class.java)
     }
 
-    @Before
-    fun setup() {
-        val url = Test::class.java.classLoader
+    private val generatedJar: File
+
+    init {
+        val url = TestProxyGen::class.java.classLoader
                 .getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
-        Assert.assertNotNull(url)
+        Assertions.assertNotNull(url)
 
         val xml = url.readText()
         val modelDescription = ModelDescriptionParser.parse(xml)
@@ -32,7 +29,7 @@ class Test {
 
     }
 
-    @After
+    @AfterAll
     fun tearDown() {
         if (generatedJar.exists()) {
             if (generatedJar.delete()) {
@@ -44,20 +41,21 @@ class Test {
     @Test
     fun generate() {
 
-        val file = File(javaClass.classLoader.getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu").file)
-        Assert.assertTrue(file.exists())
+        val file = File(javaClass.classLoader
+                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu").file)
+        Assertions.assertTrue(file.exists())
         val args = arrayOf(
                 "-fmu", file.absolutePath,
                 "-out", File(".").absolutePath
         )
         ApplicationStarter.main(args)
 
-        Assert.assertTrue(generatedJar.exists())
+        Assertions.assertTrue(generatedJar.exists())
 
-        Assert.assertTrue(isPresentInJar("modelDescription.xml"))
-        Assert.assertTrue(isPresentInJar("definitions.proto"))
-        Assert.assertTrue(isPresentInJar("service.proto"))
-        Assert.assertTrue(isPresentInJar("unique_service.proto"))
+        Assertions.assertTrue(isPresentInJar("modelDescription.xml"))
+        Assertions.assertTrue(isPresentInJar("definitions.proto"))
+        Assertions.assertTrue(isPresentInJar("service.proto"))
+        Assertions.assertTrue(isPresentInJar("unique_service.proto"))
 
     }
 

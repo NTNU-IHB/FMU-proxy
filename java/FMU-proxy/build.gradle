@@ -43,8 +43,14 @@ subprojects { sub ->
             compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         }
 
-        testImplementation group: 'junit', name: 'junit', version: '4.12'
+        testImplementation('org.junit.jupiter:junit-jupiter-api:5.2.0')
+        testImplementation('org.junit.jupiter:junit-jupiter-params:5.2.0')
+        testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 		
+    }
+
+    test {
+        useJUnitPlatform()
     }
     
     sub.plugins.withId('kotlin') {

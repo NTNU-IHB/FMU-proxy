@@ -3,59 +3,56 @@ package no.mechatronics.sfi.fmuproxy.avro
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
-import no.mechatronics.sfi.fmuproxy.grpc.TestGrpcBouncingCS
 import no.mechatronics.sfi.fmuproxy.runInstance
-import org.junit.AfterClass
-import org.junit.Assert
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestAvroBouncing {
 
     companion object {
-
         private val LOG: Logger = LoggerFactory.getLogger(TestAvroBouncing::class.java)
+    }
 
-        private lateinit var server: AvroFmuServer
-        private lateinit var client: AvroFmuClient
-        private lateinit var modelDescription: CommonModelDescription
+    private val fmu: Fmu
+    private val server: AvroFmuServer
+    private val client: AvroFmuClient
+    private val modelDescription: CommonModelDescription
 
-        @JvmStatic
-        @BeforeClass
-        fun setup() {
+    init {
 
-            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-            modelDescription = fmu.modelDescription
+        fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+        modelDescription = fmu.modelDescription
 
-            server = AvroFmuServer(fmu)
-            val port = server.start()
+        server = AvroFmuServer(fmu)
+        val port = server.start()
 
-            client = AvroFmuClient("localhost", port)
+        client = AvroFmuClient("localhost", port)
 
-        }
+    }
 
-        @JvmStatic
-        @AfterClass
-        fun tearDown() {
-            client.close()
-            server.close()
-        }
-
+    @AfterAll
+    fun tearDown() {
+        client.close()
+        server.close()
+        fmu.close()
     }
 
     @Test
     fun testGuid() {
         val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
-        Assert.assertEquals(modelDescription.guid, guid)
+        Assertions.assertEquals(modelDescription.guid, guid)
     }
 
     @Test
     fun testModelName() {
         val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
-        Assert.assertEquals(modelDescription.modelName, modelName)
+        Assertions.assertEquals(modelDescription.modelName, modelName)
     }
 
     @Test

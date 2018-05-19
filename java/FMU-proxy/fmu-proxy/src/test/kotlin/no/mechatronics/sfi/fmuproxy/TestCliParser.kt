@@ -2,7 +2,7 @@ package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File

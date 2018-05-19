@@ -1,4 +1,4 @@
-package no.mechatronics.sfi.fmuproxy.json_rpc
+package no.mechatronics.sfi.fmuproxy.jsonrpc
 
 import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.net.http.RpcHttpClient
@@ -11,18 +11,17 @@ import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
-import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.runInstance
-import org.junit.AfterClass
-import org.junit.Assert
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.system.measureTimeMillis
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestJsonRpcClients {
 
     companion object {
@@ -34,32 +33,31 @@ class TestJsonRpcClients {
         private const val zmqPort = 8003
         private const val httpPort = 8004
 
-        private lateinit var proxy: FmuProxy
-        private lateinit var modelDescription: CommonModelDescription
+    }
 
-        @JvmStatic
-        @BeforeClass
-        fun setup() {
+    private val fmu: Fmu
+    private var proxy: FmuProxy
+    private var modelDescription: CommonModelDescription
 
-            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-            modelDescription = fmu.modelDescription
+    init {
 
-            val handler = RpcHandler(RpcFmuService(fmu))
-            proxy = FmuProxyBuilder(fmu).apply {
-                addServer(FmuProxyJsonHttpServer(handler), httpPort)
-                addServer(FmuProxyJsonWsServer(handler), wsPort)
-                addServer(FmuProxyJsonTcpServer(handler), tcpPort)
-                addServer(FmuProxyJsonZmqServer(handler), zmqPort)
-            }.build().also { it.start() }
+        fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+        modelDescription = fmu.modelDescription
 
-        }
+        val handler = RpcHandler(RpcFmuService(fmu))
+        proxy = FmuProxyBuilder(fmu).apply {
+            addServer(FmuProxyJsonHttpServer(handler), httpPort)
+            addServer(FmuProxyJsonWsServer(handler), wsPort)
+            addServer(FmuProxyJsonTcpServer(handler), tcpPort)
+            addServer(FmuProxyJsonZmqServer(handler), zmqPort)
+        }.build().also { it.start() }
 
-        @JvmStatic
-        @AfterClass
-        fun tearDown() {
-            proxy.stop()
-        }
+    }
 
+    @AfterAll
+    fun tearDown() {
+        proxy.stop()
+        fmu.close()
     }
 
     @Test
@@ -75,13 +73,13 @@ class TestJsonRpcClients {
         clients.forEach { client ->
 
             LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
-            Assert.assertEquals(modelDescription.modelName, client.modelName)
-            Assert.assertEquals(modelDescription.guid, client.guid)
+            Assertions.assertEquals(modelDescription.modelName, client.modelName)
+            Assertions.assertEquals(modelDescription.guid, client.guid)
 
             client.newInstance().use { instance ->
 
                 instance.init()
-                Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
+                Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
 
                 val h = client.modelDescription.modelVariables
                         .getByName("h").asRealVariable()
