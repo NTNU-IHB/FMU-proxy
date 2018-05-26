@@ -176,77 +176,103 @@ abstract class RpcFmuClient: Closeable {
             terminate()
         }
 
-        override fun readBoolean(name: String) = readBoolean(fmuId, process(name)).also { lastStatus = it.status }
+        override fun readBoolean(name: String)
+                = readBoolean(fmuId, process(name)).also { lastStatus = it.status }
 
-        override fun readBoolean(vr: ValueReference) = readBoolean(fmuId, vr).also { lastStatus = it.status }
+        override fun readBoolean(vr: ValueReference)
+                = readBoolean(fmuId, vr).also { lastStatus = it.status }
 
-        override fun readBoolean(vr: ValueReferences) = bulkReadBoolean(fmuId, vr.toList()).also { lastStatus = it.status }
+        override fun readBoolean(vr: ValueReferences)
+                = bulkReadBoolean(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readBoolean(vr: ValueReferences, value: BooleanArray): FmuBooleanArrayRead {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun readBoolean(vr: ValueReferences, value: BooleanArray)
+                = bulkReadBoolean(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readBoolean(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun readBoolean(vr: ValueReferences, value: IntArray)
+                = bulkReadInteger(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readInteger(name: String) = readInteger(fmuId, process(name)).also { lastStatus = it.status }
 
-        override fun readInteger(vr: ValueReference) = readInteger(fmuId, vr).also { lastStatus = it.status }
+        override fun readInteger(name: String)
+                = readInteger(fmuId, process(name)).also { lastStatus = it.status }
 
-        override fun readInteger(vr: ValueReferences) = bulkReadInteger(fmuId, vr.toList()).also { lastStatus = it.status }
+        override fun readInteger(vr: ValueReference)
+                = readInteger(fmuId, vr).also { lastStatus = it.status }
 
-        override fun readInteger(vr: ValueReferences, value: IntArray): FmuIntegerArrayRead {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun readInteger(vr: ValueReferences)
+                = bulkReadInteger(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readReal(name: String) = readReal(fmuId, process(name)).also { lastStatus = it.status }
+        override fun readInteger(vr: ValueReferences, value: IntArray)
+                = bulkReadInteger(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readReal(vr: ValueReference) = readReal(fmuId, vr).also { lastStatus = it.status }
 
-        override fun readReal(vr: ValueReferences) = bulkReadReal(fmuId, vr.toList()).also { lastStatus = it.status }
+        override fun readReal(name: String)
+                = readReal(fmuId, process(name)).also { lastStatus = it.status }
 
-        override fun readReal(vr: ValueReferences, value: RealArray): FmuRealArrayRead {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun readReal(vr: ValueReference)
+                = readReal(fmuId, vr).also { lastStatus = it.status }
 
-        override fun readString(name: String) = readString(fmuId, process(name)).also { lastStatus = it.status }
+        override fun readReal(vr: ValueReferences)
+                = bulkReadReal(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readString(vr: ValueReference) = readString(fmuId, vr).also { lastStatus = it.status }
+        override fun readReal(vr: ValueReferences, value: RealArray)
+                = bulkReadReal(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readString(vr: ValueReferences) = bulkReadString(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readString(vr: ValueReferences, value: StringArray): FmuStringArrayRead {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+        override fun readString(name: String)
+                = readString(fmuId, process(name)).also { lastStatus = it.status }
 
-        override fun writeBoolean(name: String, value: Boolean) = writeBoolean(fmuId, process(name), value).also { lastStatus = it }
+        override fun readString(vr: ValueReference)
+                = readString(fmuId, vr).also { lastStatus = it.status }
 
-        override fun writeBoolean(vr: ValueReference, value: Boolean) = writeBoolean(fmuId, vr, value).also { lastStatus = it }
+        override fun readString(vr: ValueReferences)
+                = bulkReadString(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun writeBoolean(vr: ValueReferences, value: BooleanArray) = bulkWriteBoolean(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+        override fun readString(vr: ValueReferences, value: StringArray)
+                = bulkReadString(fmuId, vr.toList()).also { lastStatus = it.status }
 
-        override fun writeBoolean(vr: ValueReferences, value: IntArray) = bulkWriteBoolean(fmuId, vr.toList(), value.map { it != 0 })
 
-        override fun writeInteger(name: String, value: Int) = writeInteger(fmuId, process(name), value).also { lastStatus = it }
+        override fun writeBoolean(name: String, value: Boolean)
+                = writeBoolean(fmuId, process(name), value).also { lastStatus = it }
 
-        override fun writeInteger(vr: ValueReference, value: Int) = writeInteger(fmuId, vr, value).also { lastStatus = it }
+        override fun writeBoolean(vr: ValueReference, value: Boolean)
+                = writeBoolean(fmuId, vr, value).also { lastStatus = it }
 
-        override fun writeInteger(vr: ValueReferences, value: IntArray) = bulkWriteInteger(fmuId, vr.toList(), value.toList())
+        override fun writeBoolean(vr: ValueReferences, value: BooleanArray)
+                = bulkWriteBoolean(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
 
-        override fun writeReal(name: String, value: Real) = writeReal(fmuId, process(name), value).also { lastStatus = it }
+        override fun writeBoolean(vr: ValueReferences, value: IntArray)
+                = bulkWriteBoolean(fmuId, vr.toList(), value.map { it != 0 })
 
-        override fun writeReal(vr: ValueReference, value: Real) = writeReal(fmuId, vr, value).also { lastStatus = it }
 
-        override fun writeReal(vr: ValueReferences, value: RealArray) = bulkWriteReal(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+        override fun writeInteger(name: String, value: Int)
+                = writeInteger(fmuId, process(name), value).also { lastStatus = it }
 
-        override fun writeString(name: String, value: String) = writeString(fmuId, process(name), value).also { lastStatus = it }
+        override fun writeInteger(vr: ValueReference, value: Int)
+                = writeInteger(fmuId, vr, value).also { lastStatus = it }
 
-        override fun writeString(vr: ValueReference, value: String) = writeString(fmuId, vr, value).also { lastStatus = it }
+        override fun writeInteger(vr: ValueReferences, value: IntArray)
+                = bulkWriteInteger(fmuId, vr.toList(), value.toList())
 
-        override fun writeString(vr: ValueReferences, value: StringArray) = bulkWriteString(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+
+        override fun writeReal(name: String, value: Real)
+                = writeReal(fmuId, process(name), value).also { lastStatus = it }
+
+        override fun writeReal(vr: ValueReference, value: Real)
+                = writeReal(fmuId, vr, value).also { lastStatus = it }
+
+        override fun writeReal(vr: ValueReferences, value: RealArray)
+                = bulkWriteReal(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
+
+
+        override fun writeString(name: String, value: String)
+                = writeString(fmuId, process(name), value).also { lastStatus = it }
+
+        override fun writeString(vr: ValueReference, value: String)
+                = writeString(fmuId, vr, value).also { lastStatus = it }
+
+        override fun writeString(vr: ValueReferences, value: StringArray)
+                = bulkWriteString(fmuId, vr.toList(), value.toList()).also { lastStatus = it }
 
     }
-
 
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,32 @@
  * THE SOFTWARE.
  */
 
-
 package no.mechatronics.sfi.fmuproxy.net
+
+import info.laht.yajrpc.net.RpcServer
+
+
+/**
+ * @author Lars Ivar Hatledal
+ */
+interface FmuProxyServer: RpcServer {
+
+    val simpleName: String
+
+}
+
+/**
+ * @author Lars Ivar Hatledal
+ */
+data class NetworkInfo(
+
+        val host: String,
+
+        /**
+         * keys: "grpc/http2", "avro/tcp", "thrift/tcp", "jsonRpc/http", "jsonRpc/ws", "jsonRpc/tcp", "jsonRpc/zmq"
+         */
+        val ports: Map<String, Int>
+)
 
 /**
  * @author Lars Ivar Hatledal

@@ -14,7 +14,7 @@ private val gson: Gson by lazy {
 
 fun parseIntegrator(name: String, json: String): FirstOrderIntegrator? {
     return when(name.toLowerCase()) {
-        "euler" -> return eulerFromJson(json)
+        "euler" -> eulerFromJson(json)
         "rk4" -> rk4FromJson(json)
         else -> null
     }
