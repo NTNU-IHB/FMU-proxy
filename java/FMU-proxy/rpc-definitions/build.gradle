@@ -3,7 +3,7 @@ plugins {
     id "de.undercouch.download" version "3.4.2"
     id "com.google.protobuf" version "0.8.5"
     id "org.jruyi.thrift" version "0.4.0"
-    id "com.commercehub.gradle.plugin.avro" version "0.14.0"
+    id "com.commercehub.gradle.plugin.avro-base" version "0.14.0"
 }
 
 apply plugin: 'maven'
@@ -11,6 +11,8 @@ apply plugin: 'signing'
 
 group = 'no.mechatronics.sfi.fmuproxy'
 version = '0.1-SNAPSHOT'
+
+def definitions = "../../../rpc-definitions"
 
 dependencies {
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
@@ -25,6 +27,18 @@ dependencies {
 avro {
     fieldVisibility = "PRIVATE"
 }
+
+task generateAvroProtocol(type: com.commercehub.gradle.plugin.avro.GenerateAvroProtocolTask) {
+    source("${definitions}/avro")
+    outputDir = file("build/avro")
+}
+
+task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
+    source("build/avro")
+    outputDir = file("build/avro")
+}
+generateAvro.dependsOn(generateAvroProtocol)
+compileJava.source(generateAvro.outputs)
 
 protobuf {
     generatedFilesBaseDir = "$projectDir/build"
@@ -47,6 +61,14 @@ protobuf {
 
 }
 
+sourceSets {
+    main {
+        proto {
+            srcDir "${definitions}/proto"
+        }
+    }
+}
+
 import org.apache.tools.ant.taskdefs.condition.Os
 
 def thriftPath = System.getenv("THRIFT_COMPILER")
@@ -57,6 +79,7 @@ if (supportsThrift) {
         thriftExecutable "$thriftPath/thrift.exe"
         createGenFolder false
         generator 'java', 'private-members'
+        sourceItems "${definitions}/thrift"
     }
 } else {
     logger.warn("Cannot generate Thrift sources! OS is Windows? Location of Thrift.exe specified by THRIFT_COMPILER added to ENVIRONMENT variable?")
