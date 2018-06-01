@@ -30,11 +30,11 @@ avro {
 
 task generateAvroProtocol(type: com.commercehub.gradle.plugin.avro.GenerateAvroProtocolTask) {
     source("${definitions}/avro")
-    outputDir = file("build/avro")
+    outputDir = file("build/avpr")
 }
 
 task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
-    source("build/avro")
+    source("build/avpr")
     outputDir = file("build/avro")
 }
 generateAvro.dependsOn(generateAvroProtocol)
