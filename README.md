@@ -34,8 +34,10 @@ Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
       -jsonrpc/zmq=<jsonZmqPort> Manually specify the JSON-RPC ZMQ port (optional).
 ```
 
-You can now connect to the FMU in your language of choosing using one of the general purpose schemas located in the /schema folder that 
-will work with all generated servers. Alternatively, you can download and generate code from one of the FMU specific schemas, which provides getters and setters 
-from the remote tracking server. 
+You can now connect to the FMU in your language of choosing using one of the schemas available from the web server or located [here](rpc-definitions) . 
+
+## Software architecture
+
+![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
 

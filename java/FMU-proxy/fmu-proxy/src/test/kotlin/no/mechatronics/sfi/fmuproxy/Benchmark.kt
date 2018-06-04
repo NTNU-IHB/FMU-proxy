@@ -16,115 +16,99 @@ import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.system.measureTimeMillis
 
+
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class Benchmark {
 
     companion object {
 
         private val LOG: Logger = LoggerFactory.getLogger(Benchmark::class.java)
 
-        private val fmuPath = File(System.getenv("TEST_FMUs"), "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
-
         private const val dt = 1E-2
-        private const val stop = 100
+        private const val stop = 100.0
+
+        private val fmuPath = File(System.getenv("TEST_FMUs"), "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
 
     }
 
-    private fun runInstance(instance: FmiSimulation) : Long {
+    private val fmu = Fmu.from(fmuPath)
 
-        instance.init()
-        Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
-
-        return measureTimeMillis {
-            while (instance.currentTime < stop) {
-                val status = instance.doStep(dt)
-                Assert.assertTrue(status)
-            }
-        }
-
+    @AfterAll
+    fun tearDown() {
+        fmu.close()
     }
 
     @Test
     fun measureTimeLocal() {
-        Fmu.from(fmuPath).use {
-            it.asCoSimulationFmu().newInstance().use { instance ->
-                runInstance(instance).also {
-                    LOG.info("Local duration=${it}ms")
-                }
+
+        fmu.asCoSimulationFmu().newInstance().use { instance ->
+            runInstance(instance, dt, stop).also {
+                LOG.info("Local duration=${it}ms")
             }
         }
+
     }
 
 
     @Test
     fun measureTimeThrift() {
 
-        Fmu.from(fmuPath).use {
+        val server = ThriftFmuServer(fmu)
+        val port = server.start()
 
-            val server = ThriftFmuServer(it)
-            val port = server.start()
-
-            val client = ThriftFmuClient("localhost", port)
-            client.newInstance().use { instance ->
-                runInstance(instance).also {
-                    LOG.info("Thrift duration=${it}ms")
-                }
+        val client = ThriftFmuClient("localhost", port)
+        client.newInstance().use { instance ->
+            runInstance(instance, dt, stop).also {
+                LOG.info("Thrift duration=${it}ms")
             }
-
-            client.close()
-            server.close()
-
         }
+
+        client.close()
+        server.close()
 
     }
 
     @Test
     fun measureTimeAvro() {
 
-        Fmu.from(fmuPath).use {
+        val server = AvroFmuServer(fmu)
+        val port = server.start()
 
-            val server = AvroFmuServer(it)
-            val port = server.start()
-
-            val client = AvroFmuClient("localhost", port)
-            client.newInstance().use { instance ->
-                runInstance(instance).also {
-                    LOG.info("Avro duration=${it}ms")
-                }
+        val client = AvroFmuClient("localhost", port)
+        client.newInstance().use { instance ->
+            runInstance(instance, dt, stop).also {
+                LOG.info("Avro duration=${it}ms")
             }
-
-            client.close()
-            server.close()
-
         }
+
+        client.close()
+        server.close()
 
     }
 
     @Test
     fun measureTimeGrpc() {
 
-        Fmu.from(fmuPath).use {
+        val server = GrpcFmuServer(fmu)
+        val port = server.start()
 
-            val server = GrpcFmuServer(it)
-            val port = server.start()
-
-            val client = GrpcFmuClient("localhost", port)
-            client.newInstance().use { instance ->
-                runInstance(instance).also {
-                    LOG.info("gRPC duration=${it}ms")
-                }
+        val client = GrpcFmuClient("localhost", port)
+        client.newInstance().use { instance ->
+            runInstance(instance, dt, stop).also {
+                LOG.info("gRPC duration=${it}ms")
             }
-
-            client.close()
-            server.close()
-
         }
+
+        client.close()
+        server.close()
 
     }
 
@@ -136,38 +120,36 @@ class Benchmark {
         val zmqPort = 8003
         val httpPort = 8004
 
-        Fmu.from(fmuPath).use {
+        val handler = RpcHandler(RpcFmuService(fmu))
 
-            val handler = RpcHandler(RpcFmuService(it))
+        val servers = listOf(
+                FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
+                FmuProxyJsonWsServer(handler).apply { start(wsPort) },
+                FmuProxyJsonTcpServer(handler).apply { start(tcpPort) },
+                FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
+        )
 
-            val servers = listOf(
-                    FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
-                    FmuProxyJsonWsServer(handler).apply { start(wsPort) },
-                    FmuProxyJsonTcpServer(handler).apply { start(tcpPort) },
-                    FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
-            )
+        val host = "localhost"
+        val clients = listOf(
+                RpcHttpClient(host, httpPort),
+                RpcWebSocketClient(host, wsPort),
+                RpcTcpClient(host, tcpPort),
+                RpcZmqClient(host, zmqPort)
+        ).map { JsonRpcFmuClient(it) }
 
-            val host = "localhost"
-            val clients = listOf(
-                    RpcHttpClient(host, httpPort),
-                    RpcWebSocketClient(host, wsPort),
-                    RpcTcpClient(host, tcpPort),
-                    RpcZmqClient(host, zmqPort)
-            ).map { JsonRpcFmuClient(it) }
+        clients.forEach { client ->
 
-            clients.forEach { client ->
-
-                client.newInstance().use { instance ->
-                    runInstance(instance).also {
-                        LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
-                    }
+            client.newInstance().use { instance ->
+                runInstance(instance, dt, stop).also {
+                    LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
                 }
-
-                client.close()
             }
-            servers.forEach { it.close() }
+
+            client.close()
 
         }
+
+        servers.forEach { it.close() }
 
     }
 

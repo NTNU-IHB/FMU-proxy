@@ -24,64 +24,59 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TEST_FMUs
-import org.junit.AfterClass
-import org.junit.Assert
-import org.junit.BeforeClass
-import org.junit.Test
+import no.mechatronics.sfi.fmuproxy.runInstance
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.system.measureTimeMillis
 
-
-class TestGrpc_CS {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class TestGrpcBouncingCS {
 
     companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcBouncingCS::class.java)
+    }
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestGrpc_CS::class.java)
+    private val fmu: Fmu
+    private val server: GrpcFmuServer
+    private val client: GrpcFmuClient
+    private val modelDescription: CommonModelDescription
 
-        private lateinit var server: GrpcFmuServer
-        private lateinit var client: GrpcFmuClient
-        private lateinit var modelDescription: CommonModelDescription
+    init {
 
+        fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+        modelDescription = fmu.modelDescription
 
-        @JvmStatic
-        @BeforeClass
-        fun setup() {
+        server = GrpcFmuServer(fmu)
+        val port = server.start()
 
-            val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-            modelDescription = fmu.modelDescription
-
-            server = GrpcFmuServer(fmu)
-            val port = server.start()
-
-            client = GrpcFmuClient("localhost", port)
-
-        }
-
-        @JvmStatic
-        @AfterClass
-        fun tearDown() {
-            client.close()
-            server.stop()
-        }
+        client = GrpcFmuClient("localhost", port)
 
     }
 
+    @AfterAll
+    fun tearDown() {
+        client.close()
+        server.stop()
+        fmu.close()
+    }
+    
     @Test
     fun testModelName() {
         val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
-        Assert.assertEquals(modelDescription.modelName, modelName)
+        Assertions.assertEquals(modelDescription.modelName, modelName)
     }
 
     @Test
     fun testGuid() {
         val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
-        Assert.assertEquals(modelDescription.guid, guid)
+        Assertions.assertEquals(modelDescription.guid, guid)
     }
 
     @Test
@@ -89,23 +84,16 @@ class TestGrpc_CS {
 
         client.newInstance().use { instance ->
 
-            instance.init()
-            Assert.assertEquals(FmiStatus.OK, instance.lastStatus)
-
             val h = client.modelDescription.modelVariables
                     .getByName("h").asRealVariable()
 
             val dt = 1.0/100
-            measureTimeMillis {
-                while (instance.currentTime < 10) {
-                    val step = instance.doStep(dt)
-                    Assert.assertTrue(step)
-
-                    LOG.info("h=${h.read()}")
-
-                }
-            }.also { LOG.info("Duration: ${it}ms") }
-
+            val stop = 100.0
+            runInstance(instance, dt, stop, {
+                h.read()
+            }).also {
+                LOG.info("Duration: ${it}ms")
+            }
 
         }
 

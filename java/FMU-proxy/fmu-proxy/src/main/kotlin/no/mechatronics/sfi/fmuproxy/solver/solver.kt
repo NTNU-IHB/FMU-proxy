@@ -14,7 +14,7 @@ private val gson: Gson by lazy {
 
 fun parseIntegrator(name: String, json: String): FirstOrderIntegrator? {
     return when(name.toLowerCase()) {
-        "euler" -> return eulerFromJson(json)
+        "euler" -> eulerFromJson(json)
         "rk4" -> rk4FromJson(json)
         else -> null
     }
@@ -22,6 +22,7 @@ fun parseIntegrator(name: String, json: String): FirstOrderIntegrator? {
 
 private fun eulerFromJson(json: String): EulerIntegrator? {
 
+    @Suppress("UNCHECKED_CAST")
     val settings = Gson().fromJson(json, Map::class.java) as Map<String, *>
 
     if (STEP_SIZE !in settings) {
@@ -35,6 +36,7 @@ private fun eulerFromJson(json: String): EulerIntegrator? {
 
 private fun rk4FromJson(json: String): ClassicalRungeKuttaIntegrator? {
 
+    @Suppress("UNCHECKED_CAST")
     val settings = gson.fromJson(json, Map::class.java) as Map<String, *>
 
     if (STEP_SIZE !in settings) {
