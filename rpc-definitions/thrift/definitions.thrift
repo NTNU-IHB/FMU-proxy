@@ -22,10 +22,8 @@
  * THE SOFTWARE.
  */
 
+namespace cpp fmuproxy.thrift
 namespace java no.mechatronics.sfi.fmuproxy.thrift
-
-typedef list<ScalarVariable> ModelVariables
-
 
 exception NoSuchFmuException {
     1: string message
@@ -39,23 +37,49 @@ exception UnsupportedOperationException {
     1: string message
 }
 
-struct ModelDescription {
-    1: string fmiVersion,
-    2: string modelName,
-    3: string guid,
-    4: optional string license,
-    5: optional string copyright,
-    6: optional string author,
-    7: optional string version,
-    8: optional string description,
-    9: optional string generationTool,
-    10: optional string generationDateAndTime,
-    11: optional DefaultExperiment defaultExperiment,
-    12: optional VariableNamingConvention variableNamingConvention,
-    13: ModelVariables modelVariables,
-    14: ModelStructure modelStructure,
-    15: bool supportsCoSimulation,
-    16: bool supportsModelExchange
+
+enum Status {
+    OK_STATUS = 0,
+    WARNING_STATUS = 1,
+    DISCARD_STATUS = 2,
+    ERROR_STATUS = 3,
+    FATAL_STATUS = 4,
+    PENDING_STATUS = 5
+}
+
+enum Causality {
+    INPUT_CAUSALITY = 0,
+    OUTPUT_CAUSALITY = 1,
+    PARAMETER_CAUSALITY = 2,
+    CALCULATED_PARAMETER_CAUSALITY = 3,
+    LOCAL_CAUSALITY = 4,
+    INDEPENDENT_CAUSALITY = 5
+}
+
+enum Variability {
+    CONSTANT_VARIABILITY =  0,
+    FIXED_VARIABILITY = 1,
+    CONTINUOUS_VARIABILITY = 2,
+    DISCRETE_VARIABILITY = 3,
+    TUNABLE_VARIABILITY = 4
+}
+
+enum Initial {
+    EXACT_INITIAL = 0,
+    APPROX_INITIAL = 1,
+    CALCULATED_INITIAL = 2
+}
+
+enum DependenciesKind {
+    DEPENDENT_KIND = 0,
+    CONSTANT_KIND = 1,
+    TUNABLE_KIND = 2,
+    DISCRETE_KIND = 3
+}
+
+enum VariableNamingConvention {
+    FLAT = 0,
+    STRUCTURED = 1
 }
 
 struct IntegerAttribute {
@@ -102,6 +126,8 @@ struct ScalarVariable {
     7: optional Variability variability,
     8: ScalarVariableAttribute attribute
 }
+
+typedef list<ScalarVariable> ModelVariables
 
 struct Unknown {
     1: i32 index,
@@ -167,51 +193,28 @@ struct BooleanArrayRead {
     2: Status status
 }
 
-enum Status {
-    OK_STATUS = 0,
-    WARNING_STATUS = 1,
-    DISCARD_STATUS = 2,
-    ERROR_STATUS = 3,
-    FATAL_STATUS = 4,
-    PENDING_STATUS = 5
-}
-
-enum Causality {
-    INPUT_CAUSALITY = 0,
-    OUTPUT_CAUSALITY = 1,
-    PARAMETER_CAUSALITY = 2,
-    CALCULATED_PARAMETER_CAUSALITY = 3,
-    LOCAL_CAUSALITY = 4,
-    INDEPENDENT_CAUSALITY = 5
-}
-
-enum Variability {
-    CONSTANT_VARIABILITY =  0,
-    FIXED_VARIABILITY = 1,
-    CONTINUOUS_VARIABILITY = 2,
-    DISCRETE_VARIABILITY = 3,
-    TUNABLE_VARIABILITY = 4
-}
-
-enum Initial {
-    EXACT_INITIAL = 0,
-    APPROX_INITIAL = 1,
-    CALCULATED_INITIAL = 2
-}
-
-enum DependenciesKind {
-    DEPENDENT_KIND = 0,
-    CONSTANT_KIND = 1,
-    TUNABLE_KIND = 2,
-    DISCRETE_KIND = 3
-}
-
-enum VariableNamingConvention {
-    FLAT = 0,
-    STRUCTURED = 1
-}
-
 struct Solver {
     1: string name,
     2: string settings
 }
+
+struct ModelDescription {
+    1: string fmiVersion,
+    2: string modelName,
+    3: string guid,
+    4: optional string license,
+    5: optional string copyright,
+    6: optional string author,
+    7: optional string version,
+    8: optional string description,
+    9: optional string generationTool,
+    10: optional string generationDateAndTime,
+    11: optional DefaultExperiment defaultExperiment,
+    12: optional VariableNamingConvention variableNamingConvention,
+    13: ModelVariables modelVariables,
+    14: ModelStructure modelStructure,
+    15: bool supportsCoSimulation,
+    16: bool supportsModelExchange
+}
+
+

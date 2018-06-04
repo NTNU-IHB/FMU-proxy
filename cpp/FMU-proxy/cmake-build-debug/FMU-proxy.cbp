@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="FMU-proxy"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ThriftClient">
+				<Option output="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/ThriftClient" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 ThriftClient"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ThriftClient/fast">
+				<Option output="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/ThriftClient" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 ThriftClient/fast"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ThriftServer">
+				<Option output="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/ThriftServer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 ThriftServer"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ThriftServer/fast">
+				<Option output="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/ThriftServer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 ThriftServer/fast"/>
+					<CompileFile command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j2 -f &quot;/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/CppClient.cpp">
+			<Option target="ThriftClient"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/CppServer.cpp">
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/FmuService.cpp">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/FmuService.h">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/definitions_constants.cpp">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/definitions_constants.h">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/definitions_types.cpp">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/definitions_types.h">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/service_constants.cpp">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/service_constants.h">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/service_types.cpp">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/gen-cpp/service_types.h">
+			<Option target="ThriftClient"/>
+			<Option target="ThriftServer"/>
+		</Unit>
+		<Unit filename="/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
