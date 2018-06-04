@@ -52,3 +52,5 @@ out/
 __pycache__
 
 /**/web/src/main/webapp/resources/schemas/
+
+/**/cmake-build-debug

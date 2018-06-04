@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/ThriftClient.dir/gen-cpp/definitions_constants.cpp.o CMakeFiles/ThriftClient.dir/gen-cpp/definitions_types.cpp.o CMakeFiles/ThriftClient.dir/gen-cpp/service_constants.cpp.o CMakeFiles/ThriftClient.dir/gen-cpp/service_types.cpp.o CMakeFiles/ThriftClient.dir/gen-cpp/FmuService.cpp.o CMakeFiles/ThriftClient.dir/CppClient.cpp.o  -o ThriftClient -lthrift 

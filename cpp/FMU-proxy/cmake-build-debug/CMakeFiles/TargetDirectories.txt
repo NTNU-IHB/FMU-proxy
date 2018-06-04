@@ -1,4 +1,0 @@
-/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/CMakeFiles/ThriftClient.dir
-/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/laht/Documents/FMU-proxy/cpp/FMU-proxy/cmake-build-debug/CMakeFiles/ThriftServer.dir
