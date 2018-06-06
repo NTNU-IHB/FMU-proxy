@@ -1,23 +1,29 @@
 /*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * The MIT License
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * Copyright 2017-2018 Norwegian University of Technology
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING  FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 #include <iostream>
+#include <thread>
 
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
@@ -25,6 +31,8 @@
 #include <thrift/transport/TBufferTransports.h>
 
 #include "gen-cpp/FmuService.h"
+#include "FmuWrapper.h"
+
 
 using namespace std;
 using namespace ::apache::thrift;
@@ -32,28 +40,35 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
+using namespace fmuproxy;
 using namespace ::fmuproxy::thrift;
 
+int id_gen = 0;
+
 class FmuServiceHandler : virtual public FmuServiceIf {
+
+private:
+    FmuWrapper fmu;
+    map<FmuId, FmuInstance*> fmus;
+
 public:
-    FmuServiceHandler() {
-      // Your initialization goes here
-    }
+    FmuServiceHandler(const char* fmu_path)
+            : fmu(FmuWrapper(fmu_path)) {}
 
     void getModelDescriptionXml(std::string& _return) {
-        _return = "this is a test";
-      // Your implementation goes here
-      printf("getModelDescriptionXml\n");
+        _return = "xml placeholder";
     }
 
     void getModelDescription( ::ModelDescription& _return) {
-      // Your implementation goes here
-      printf("getModelDescription\n");
+      _return = fmu.getModelDescription();
     }
 
     FmuId createInstanceFromCS() {
-      // Your implementation goes here
-      printf("createInstanceFromCS\n");
+      FmuInstance* instance = fmu.newInstance();
+      FmuId my_id = id_gen++;
+      fmus[my_id] = instance;
+      cout << "create instance with id=" << my_id << endl;
+      return my_id;
     }
 
     FmuId createInstanceFromME(const  ::Solver& solver) {
@@ -62,78 +77,78 @@ public:
     }
 
     bool canGetAndSetFMUstate(const FmuId fmu_id) {
-      // Your implementation goes here
-      printf("canGetAndSetFMUstate\n");
+      return false;
     }
 
     double getCurrentTime(const FmuId fmu_id) {
-      // Your implementation goes here
-      printf("getCurrentTime\n");
+        FmuInstance* instance = fmus[fmu_id];
+        return instance->getCurrentTime();
     }
 
     bool isTerminated(const FmuId fmu_id) {
-      // Your implementation goes here
-      printf("isTerminated\n");
+        FmuInstance* instance = fmus[fmu_id];
+        return instance->isTerminated();
     }
 
     ::Status::type init(const FmuId fmu_id, const double start, const double stop) {
-      // Your implementation goes here
-      printf("init\n");
+        cout << "init" << endl;
+        FmuInstance* instance = fmus[fmu_id];
+        instance->init(start, stop);
+        return ::Status::OK_STATUS;
     }
 
     void step( ::StepResult& _return, const FmuId fmu_id, const double step_size) {
-      // Your implementation goes here
-      printf("step\n");
+        cout << "step" << endl;
+        FmuInstance* instance = fmus[fmu_id];
+        instance->step(step_size, _return);
     }
 
     ::Status::type terminate(const FmuId fmu_id) {
-      // Your implementation goes here
-      printf("terminate\n");
+        FmuInstance *instance = fmus[fmu_id];
+        Status::type status = instance->terminate();
+        delete instance;
+        return status;
     }
 
     ::Status::type reset(const FmuId fmu_id) {
-      // Your implementation goes here
-      printf("reset\n");
+        FmuInstance* instance = fmus[fmu_id];
+        return instance->reset();
     }
 
     void readInteger( ::IntegerRead& _return, const FmuId fmu_id, const ValueReference vr) {
-      // Your implementation goes here
-      printf("readInteger\n");
+        FmuInstance* instance = fmus[fmu_id];
+        instance->getInteger(vr, _return);
     }
 
     void bulkReadInteger( ::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
-      // Your implementation goes here
-      printf("bulkReadInteger\n");
+        FmuInstance* instance = fmus[fmu_id];
     }
 
     void readReal( ::RealRead& _return, const FmuId fmu_id, const ValueReference vr) {
-      // Your implementation goes here
-      printf("readReal\n");
+        FmuInstance* instance = fmus[fmu_id];
+        instance->getReal(vr, _return);
     }
 
     void bulkReadReal( ::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
-      // Your implementation goes here
-      printf("bulkReadReal\n");
+        FmuInstance* instance = fmus[fmu_id];
     }
 
     void readString( ::StringRead& _return, const FmuId fmu_id, const ValueReference vr) {
-      // Your implementation goes here
-      printf("readString\n");
+        FmuInstance* instance = fmus[fmu_id];
+        instance->getString(vr, _return);
     }
 
     void bulkReadString( ::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
-      // Your implementation goes here
-      printf("bulkReadString\n");
+        FmuInstance* instance = fmus[fmu_id];
     }
 
     void readBoolean( ::BooleanRead& _return, const FmuId fmu_id, const ValueReference vr) {
-      // Your implementation goes here
-      printf("readBoolean\n");
+        FmuInstance* instance = fmus[fmu_id];
+        instance->getBoolean(vr, _return);
     }
 
     void bulkReadBoolean( ::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
-      // Your implementation goes here
-      printf("bulkReadBoolean\n");
+        FmuInstance* instance = fmus[fmu_id];
     }
 
     ::Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) {
@@ -178,18 +193,33 @@ public:
 
 };
 
-int main(int argc, char **argv) {
-  int port = 9090;
-  ::apache::thrift::stdcxx::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler());
-  ::apache::thrift::stdcxx::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
-  ::apache::thrift::stdcxx::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  ::apache::thrift::stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  ::apache::thrift::stdcxx::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+void wait_for_input(TSimpleServer* server) {
+    do {
+        cout << '\n' << "Press a key to continue...";
+    } while (cin.get() != '\n');
+    cout << "Done." << endl;
+    server->stop();
+}
 
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  cout << "Starting the server..." << endl;
-  server.serve();
-  cout << "Done." << endl;
-  return 0;
+int main(int argc, char **argv) {
+    int port = 9090;
+    const char* fmu_path = "/home/laht/Downloads/ControlledTemperature.fmu";
+
+    ::apache::thrift::stdcxx::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu_path));
+    ::apache::thrift::stdcxx::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
+    ::apache::thrift::stdcxx::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    ::apache::thrift::stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    ::apache::thrift::stdcxx::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+
+    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+
+    thread t(wait_for_input, &server);
+
+    cout << "Starting the server..." << endl;
+    server.serve();
+
+    t.join();
+
+    return 0;
 }
 
