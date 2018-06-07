@@ -17,6 +17,7 @@ import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
 import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
@@ -27,7 +28,6 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 
-@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class Benchmark {
@@ -36,11 +36,11 @@ class Benchmark {
 
         private val LOG: Logger = LoggerFactory.getLogger(Benchmark::class.java)
 
-        private const val dt = 1E-2
-        private const val stop = 100.0
+        private const val dt = 1E-4
+        private const val stop = 20.0
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
+                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     }
 
@@ -56,6 +56,8 @@ class Benchmark {
 
         fmu.asCoSimulationFmu().newInstance().use { instance ->
             runInstance(instance, dt, stop).also {
+                val read = instance.variableAccessor.readReal("Temperature_Room")
+                Assertions.assertTrue(read.value > 0)
                 LOG.info("Local duration=${it}ms")
             }
         }
@@ -72,6 +74,8 @@ class Benchmark {
         val client = ThriftFmuClient("localhost", port)
         client.newInstance().use { instance ->
             runInstance(instance, dt, stop).also {
+                val read = instance.readReal("Temperature_Room")
+                Assertions.assertTrue(read.value > 0)
                 LOG.info("Thrift duration=${it}ms")
             }
         }
@@ -90,6 +94,8 @@ class Benchmark {
         val client = AvroFmuClient("localhost", port)
         client.newInstance().use { instance ->
             runInstance(instance, dt, stop).also {
+                val read = instance.readReal("Temperature_Room")
+                Assertions.assertTrue(read.value > 0)
                 LOG.info("Avro duration=${it}ms")
             }
         }
@@ -108,6 +114,8 @@ class Benchmark {
         val client = GrpcFmuClient("localhost", port)
         client.newInstance().use { instance ->
             runInstance(instance, dt, stop).also {
+                val read = instance.readReal("Temperature_Room")
+                Assertions.assertTrue(read.value > 0)
                 LOG.info("gRPC duration=${it}ms")
             }
         }
@@ -146,6 +154,8 @@ class Benchmark {
 
             client.newInstance().use { instance ->
                 runInstance(instance, dt, stop).also {
+                    val read = instance.readReal("Temperature_Room")
+                    Assertions.assertTrue(read.value > 0)
                     LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
                 }
             }
