@@ -3,8 +3,6 @@ project(FMU-proxy)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(common/thrift-gen)
-
 add_executable(FmuTest
         common/thrift-gen/definitions_types.cpp
         common/thrift-gen/definitions_types.h
