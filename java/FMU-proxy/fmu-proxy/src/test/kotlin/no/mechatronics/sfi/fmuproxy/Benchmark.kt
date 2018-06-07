@@ -19,13 +19,17 @@ import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import org.junit.jupiter.api.condition.EnabledOnOs
+import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
 
-
+@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class Benchmark {
 
     companion object {
@@ -35,7 +39,8 @@ class Benchmark {
         private const val dt = 1E-2
         private const val stop = 100.0
 
-        private val fmuPath = File(System.getenv("TEST_FMUs"), "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
+        private val fmuPath = File(TestUtils.getTEST_FMUs(),
+                "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu")
 
     }
 

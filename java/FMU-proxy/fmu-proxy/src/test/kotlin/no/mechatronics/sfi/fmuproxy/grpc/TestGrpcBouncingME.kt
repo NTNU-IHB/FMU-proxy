@@ -4,16 +4,21 @@ import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.Solver
-import no.mechatronics.sfi.fmuproxy.TEST_FMUs
+import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import org.junit.jupiter.api.condition.EnabledOnOs
+import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
+@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestGrpcBouncingME {
 
     companion object {
@@ -27,7 +32,8 @@ class TestGrpcBouncingME {
 
     init {
 
-        fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+                "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
         modelDescription = fmu.modelDescription
 
         server = GrpcFmuServer(fmu)
