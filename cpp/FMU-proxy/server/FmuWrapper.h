@@ -29,7 +29,7 @@
 
 #include <fmilib.h>
 #include <boost/filesystem.hpp>
-#include "thrift-gen/definitions_types.h"
+#include "../common/thrift-gen/definitions_types.h"
 
 using namespace boost::filesystem;
 using namespace ::fmuproxy::thrift;

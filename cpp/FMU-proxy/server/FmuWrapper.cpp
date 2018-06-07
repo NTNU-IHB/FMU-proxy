@@ -25,7 +25,7 @@
 #include <iostream>
 
 #include "FmuWrapper.h"
-#include "ThriftHelper.h"
+#include "../common/ThriftHelper.h"
 
 #define RELTOL 1E-4
 

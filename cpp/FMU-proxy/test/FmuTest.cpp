@@ -28,8 +28,8 @@
 
 #include <fmilib.h>
 
-#include "FmuWrapper.h"
-#include "thrift-gen/definitions_types.h"
+#include "../server/FmuWrapper.h"
+#include "../common/thrift-gen/definitions_types.h"
 
 using namespace std;
 using namespace fmuproxy;
