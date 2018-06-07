@@ -91,14 +91,12 @@ public:
     }
 
     ::Status::type init(const FmuId fmu_id, const double start, const double stop) {
-        cout << "init" << endl;
         FmuInstance* instance = fmus[fmu_id];
         instance->init(start, stop);
         return ::Status::OK_STATUS;
     }
 
     void step( ::StepResult& _return, const FmuId fmu_id, const double step_size) {
-        cout << "step" << endl;
         FmuInstance* instance = fmus[fmu_id];
         instance->step(step_size, _return);
     }
@@ -203,9 +201,11 @@ void wait_for_input(TSimpleServer* server) {
 
 int main(int argc, char **argv) {
     int port = 9090;
-    const char* fmu_path = "/home/laht/Downloads/ControlledTemperature.fmu";
 
-    ::apache::thrift::stdcxx::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu_path));
+    string fmu_path = string(string(getenv("TEST_FMUs")))
+            + "/FMI_2.0/CoSimulation/linux64/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+
+    ::apache::thrift::stdcxx::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu_path.c_str()));
     ::apache::thrift::stdcxx::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
     ::apache::thrift::stdcxx::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
     ::apache::thrift::stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());

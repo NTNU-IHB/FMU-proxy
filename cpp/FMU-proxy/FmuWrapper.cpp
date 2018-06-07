@@ -180,8 +180,6 @@ fmuproxy::FmuInstance::FmuInstance(fmi2_import_t *fmu) {
 
 void fmuproxy::FmuInstance::init(double start, double stop) {
 
-    cout << "hello from init, start=" << start << ", stop=" << stop << endl;
-
     fmi2_boolean_t stop_time_defined = start < stop;
     fmi2_status_t status = fmi2_import_setup_experiment(instance, fmi2_true,
                                                         RELTOL, start, stop_time_defined, stop);

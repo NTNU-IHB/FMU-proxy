@@ -23,6 +23,7 @@
  */
 
 #include <iostream>
+#include <ctime>
 
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
@@ -40,6 +41,9 @@ using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
 
+const double stop = 20;
+const double step_size = 1E-4;
+
 int main() {
   stdcxx::shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
   stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
@@ -48,19 +52,31 @@ int main() {
 
   try {
     transport->open();
-    
+
     ModelDescription modelDescription;
     client.getModelDescription(modelDescription);
-    cout << "modelName=" << modelDescription.modelName << endl;
-    client.getModelDescription(modelDescription);
     cout << "GUID=" << modelDescription.guid << endl;
+    cout << "modelName=" << modelDescription.modelName << endl;
 
     FmuId id = client.createInstanceFromCS();
     client.init(id, 0.0, 0.0);
-    RealRead read;
-    client.readReal(read, id, 47);
-    cout << read.value << endl;
-    cout << client.terminate(id) << endl;
+
+    clock_t begin = clock();
+
+    StepResult result;
+    while (result.simulationTime < stop) {
+        client.step(result, id, step_size);
+        RealRead read;
+        client.readReal(read, id, 47);
+//        cout << "read=" << read.value << endl;
+    }
+
+    clock_t end = clock();
+
+    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
+    cout << "elapsed=" << elapsed_secs << "s" << endl;
+
+    client.terminate(id);
 
     transport->close();
   } catch (TException& tx) {
