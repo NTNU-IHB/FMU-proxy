@@ -2,7 +2,7 @@ package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.TEST_FMUs
+import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
@@ -26,7 +26,8 @@ class TestAvroTorsionBar {
 
     init {
 
-        fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/20sim/4.6.4.8004/TorsionBar/TorsionBar.fmu"))
+        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/TorsionBar/TorsionBar.fmu"))
         modelDescription = fmu.modelDescription
 
         server = AvroFmuServer(fmu)

@@ -21,65 +21,70 @@ dependencies {
 
 }
 
-task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
+if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
 
-task javadocJar (type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+    task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
 
-artifacts {
-    archives javadocJar, sourcesJar
-}
+    task javadocJar (type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
 
-signing {
-    sign configurations.archives
-}
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    signing {
+        sign configurations.archives
+    }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            pom.project {
-                name archivesBaseName
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'A collection of clients for talking to FMU-proxy servers'
-                url 'https://github.com/SFI-Mechatronics/FMU-proxy'
-
-                scm {
-                    connection 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
-                    developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
-                    url 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
-                licenses {
-                    license {
-                        name 'The MIT License'
-                        url 'https://opensource.org/licenses/mit-license.php'
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name archivesBaseName
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'A collection of clients for talking to FMU-proxy servers'
+                    url 'https://github.com/SFI-Mechatronics/FMU-proxy'
+
+                    scm {
+                        connection 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
+                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
+                        url 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
                     }
-                }
 
-                developers {
-                    developer {
-                        id 'laht'
-                        name 'Lars Ivar Hatledal'
-                        email 'laht@ntnu.no'
+                    licenses {
+                        license {
+                            name 'The MIT License'
+                            url 'https://opensource.org/licenses/mit-license.php'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'laht'
+                            name 'Lars Ivar Hatledal'
+                            email 'laht@ntnu.no'
+                        }
                     }
                 }
             }
         }
     }
+
 }

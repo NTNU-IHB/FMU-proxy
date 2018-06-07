@@ -24,6 +24,7 @@
 
 include "definitions.thrift"
 
+namespace cpp fmuproxy.thrift
 namespace java no.mechatronics.sfi.fmuproxy.thrift
 
 typedef i32 FmuId

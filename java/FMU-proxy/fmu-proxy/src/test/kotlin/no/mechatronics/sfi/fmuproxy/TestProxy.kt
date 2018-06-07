@@ -21,12 +21,14 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import kotlin.system.measureTimeMillis
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestProxy {
 
     companion object {
@@ -52,10 +54,8 @@ class TestProxy {
 
     init {
 
-        val url = TestProxy::class.java.classLoader
-                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu")
-        Assertions.assertNotNull(url)
-        fmu = Fmu.from(File(url.file))
+        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/OpenModelica/v1.11.0/WaterTank_Control/WaterTank_Control.fmu"))
 
         grpcServer = GrpcFmuServer(fmu)
         avroServer = AvroFmuServer(fmu)
