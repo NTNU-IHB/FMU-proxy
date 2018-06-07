@@ -43,17 +43,15 @@ int main(int argc, char **argv) {
 
     FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
 
-
     ModelDescription* md = fmu.getModelDescription();
     cout << md->defaultExperiment << endl;
 
-//    for (auto var : md.modelVariables) {
-//        cout << var.attribute.realAttribute << endl;
-//    }
+    for (auto var : md->modelVariables) {
+        cout << var.attribute.realAttribute << endl;
+    }
 
     FmuInstance* instance1 = fmu.newInstance();
     FmuInstance* instance2 = fmu.newInstance();
-
 
     instance1->init(0.0, -1);
     instance2->init(0.0, -1);
@@ -72,7 +70,6 @@ int main(int argc, char **argv) {
 
     instance1->terminate();
     delete instance1;
-
 
     instance2->getReal("Temperature_Room", read);
     cout << "Temperature_Room=" << read.value << endl;

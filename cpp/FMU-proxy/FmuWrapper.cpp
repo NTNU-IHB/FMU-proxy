@@ -23,7 +23,6 @@
  */
 
 #include <iostream>
-#include <cfloat>
 
 #include "FmuWrapper.h"
 #include "ThriftHelper.h"
@@ -32,7 +31,7 @@
 
 using namespace std;
 using namespace ::fmuproxy::thrift;
-using namespace thrift_helper;
+using namespace ::fmuproxy::thrift_helper;
 using namespace boost::filesystem;
 
 void import_logger(jm_callbacks *c, jm_string module, jm_log_level_enu_t log_level, jm_string message)
