@@ -30,7 +30,7 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
-#include "gen-cpp/FmuService.h"
+#include "thrift-gen/FmuService.h"
 #include "FmuWrapper.h"
 
 

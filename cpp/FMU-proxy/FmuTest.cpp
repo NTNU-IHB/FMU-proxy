@@ -29,7 +29,7 @@
 #include <fmilib.h>
 
 #include "FmuWrapper.h"
-
+#include "thrift-gen/definitions_types.h"
 
 using namespace std;
 using namespace fmuproxy;

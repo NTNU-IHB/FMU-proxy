@@ -30,8 +30,8 @@
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/stdcxx.h>
 
-#include "gen-cpp/FmuService.h"
-#include "gen-cpp/definitions_types.h"
+#include "thrift-gen/FmuService.h"
+#include "thrift-gen/definitions_types.h"
 
 
 using namespace std;

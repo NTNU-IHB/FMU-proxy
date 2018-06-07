@@ -8,11 +8,9 @@
 #endif //FMU_PROXY_THRIFTHELPER_H
 
 
-
-
 #include <cfloat>
 #include <fmilib.h>
-#include "gen-cpp/definitions_types.h"
+#include "thrift-gen/definitions_types.h"
 
 using namespace ::fmuproxy::thrift;
 
