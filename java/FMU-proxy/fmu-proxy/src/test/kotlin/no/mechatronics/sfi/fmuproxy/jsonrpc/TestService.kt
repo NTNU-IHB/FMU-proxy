@@ -8,16 +8,19 @@ import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
-import no.mechatronics.sfi.fmuproxy.TEST_FMUs
+import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.EnabledOnOs
+import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
+@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestService {
 
@@ -25,7 +28,8 @@ class TestService {
        val LOG: Logger = LoggerFactory.getLogger(TestService::class.java)
     }
 
-    private val fmu = Fmu.from(File(TEST_FMUs, "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
     private val handler = RpcHandler(RpcFmuService(fmu))
     
     @Test
@@ -111,7 +115,7 @@ class TestService {
                 .let{ RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(Double::class.java)!!
 
-        var currentTime = currentTime()
+        val currentTime = currentTime()
         LOG.info("currentTime=$currentTime")
         Assertions.assertEquals(0.0, currentTime)
 
