@@ -60,7 +60,7 @@ public:
     }
 
     void getModelDescription( ::ModelDescription& _return) {
-        fmu->getModelDescription(_return);
+        _return = *fmu-> getModelDescription();
     }
 
     FmuId createInstanceFromCS() {

@@ -43,9 +43,9 @@ int main(int argc, char **argv) {
 
     FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
 
-    ModelDescription md;
-    fmu.getModelDescription(md);
-    cout << md.defaultExperiment << endl;
+
+    ModelDescription* md = fmu.getModelDescription();
+    cout << md->defaultExperiment << endl;
 
 //    for (auto var : md.modelVariables) {
 //        cout << var.attribute.realAttribute << endl;

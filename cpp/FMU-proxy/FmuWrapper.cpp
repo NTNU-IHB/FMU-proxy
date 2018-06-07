@@ -238,10 +238,13 @@ fmuproxy::FmuWrapper::FmuWrapper (const char* fmu_path) {
 
     xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
 
+    modelDescription = new ModelDescription();
+    get_model_description(version, xml, *modelDescription);
+
 }
 
-void fmuproxy::FmuWrapper::getModelDescription(ModelDescription& modelDescription) {
-        get_model_description(version, xml, modelDescription);
+ModelDescription* fmuproxy::FmuWrapper::getModelDescription() {
+    return modelDescription;
 }
 
 fmuproxy::FmuInstance* fmuproxy::FmuWrapper::newInstance() {
@@ -275,6 +278,7 @@ fmuproxy::FmuWrapper::~FmuWrapper() {
 
     cout << "FmuWrapper destructor called" << endl;
 
+    delete modelDescription;
     fmi_import_free_context(ctx);
     remove_all(tmp_path);
 

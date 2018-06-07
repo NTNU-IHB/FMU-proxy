@@ -90,13 +90,15 @@ namespace fmuproxy {
         fmi_xml_context_t* ctx;
         jm_callbacks callbacks;
         fmi_version_enu_t version;
-        
+
+        ModelDescription* modelDescription;
+
     public:
         FmuWrapper(const char *fmu_path);
 
         const char* getModelDescriptionXml();
 
-        void getModelDescription(ModelDescription& modelDescription);
+        ModelDescription* getModelDescription();
 
         FmuInstance* newInstance();
 
