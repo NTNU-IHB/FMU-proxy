@@ -41,7 +41,7 @@ using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
 
-const double stop = 20;
+const double stop = 1;
 const double step_size = 1E-4;
 
 int main() {
@@ -57,6 +57,15 @@ int main() {
     client.getModelDescription(modelDescription);
     cout << "GUID=" << modelDescription.guid << endl;
     cout << "modelName=" << modelDescription.modelName << endl;
+    cout << "license=" << modelDescription.license << endl;
+    cout << "license=" << modelDescription << endl;
+
+    ModelVariables modelVariables = modelDescription.modelVariables;
+    cout << modelVariables.size() << endl;
+
+    cout << modelVariables[0] << endl;
+
+    cout << modelDescription.defaultExperiment << endl;
 
     FmuId id = client.createInstanceFromCS();
     client.init(id, 0.0, 0.0);

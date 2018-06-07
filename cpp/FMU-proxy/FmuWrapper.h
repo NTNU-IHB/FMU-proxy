@@ -39,7 +39,9 @@ namespace fmuproxy {
     class FmuInstance {
 
     private:
+
         fmi2_import_t *instance;
+
         double current_time = 0.0;
         bool terminated = false;
 
@@ -85,15 +87,16 @@ namespace fmuproxy {
 
         path tmp_path;
         fmi2_import_t* xml;
+        fmi_xml_context_t* ctx;
+        jm_callbacks callbacks;
         fmi_version_enu_t version;
-
-
+        
     public:
         FmuWrapper(const char *fmu_path);
 
         const char* getModelDescriptionXml();
 
-        ModelDescription getModelDescription();
+        void getModelDescription(ModelDescription& modelDescription);
 
         FmuInstance* newInstance();
 

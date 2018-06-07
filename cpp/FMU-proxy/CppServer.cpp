@@ -48,23 +48,23 @@ int id_gen = 0;
 class FmuServiceHandler : virtual public FmuServiceIf {
 
 private:
-    FmuWrapper fmu;
+    FmuWrapper* fmu;
     map<FmuId, FmuInstance*> fmus;
 
 public:
     FmuServiceHandler(const char* fmu_path)
-            : fmu(FmuWrapper(fmu_path)) {}
+            : fmu(new FmuWrapper(fmu_path)) {}
 
     void getModelDescriptionXml(std::string& _return) {
-        _return = "xml placeholder";
+        _return = "XML placeholder";
     }
 
     void getModelDescription( ::ModelDescription& _return) {
-      _return = fmu.getModelDescription();
+        fmu->getModelDescription(_return);
     }
 
     FmuId createInstanceFromCS() {
-      FmuInstance* instance = fmu.newInstance();
+      FmuInstance* instance = fmu->newInstance();
       FmuId my_id = id_gen++;
       fmus[my_id] = instance;
       cout << "create instance with id=" << my_id << endl;
@@ -189,6 +189,10 @@ public:
       printf("bulkWriteBoolean\n");
     }
 
+    ~FmuServiceHandler() {
+        delete fmu;
+    }
+
 };
 
 void wait_for_input(TSimpleServer* server) {
@@ -199,17 +203,26 @@ void wait_for_input(TSimpleServer* server) {
     server->stop();
 }
 
+string getOs() {
+
+#ifdef _WIN32
+    return "win64";
+#elif __linux__
+   return "linux64";
+#endif
+}
+
 int main(int argc, char **argv) {
     int port = 9090;
 
     string fmu_path = string(string(getenv("TEST_FMUs")))
-            + "/FMI_2.0/CoSimulation/linux64/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+            + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    ::apache::thrift::stdcxx::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu_path.c_str()));
-    ::apache::thrift::stdcxx::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
-    ::apache::thrift::stdcxx::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-    ::apache::thrift::stdcxx::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-    ::apache::thrift::stdcxx::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu_path.c_str()));
+    shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
 

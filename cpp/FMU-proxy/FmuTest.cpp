@@ -27,7 +27,6 @@
 #include <boost/filesystem.hpp>
 
 #include <fmilib.h>
-#include <JM/jm_portability.h>
 
 #include "FmuWrapper.h"
 
@@ -39,40 +38,47 @@ using namespace boost::filesystem;
 
 int main(int argc, char **argv) {
 
-    const char* fmu_path = "/home/laht/Downloads/ControlledTemperature.fmu";
+    string fmu_path = string(string(getenv("TEST_FMUs")))
+                      + "/FMI_2.0/CoSimulation/linux64/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    FmuWrapper fmu = FmuWrapper(fmu_path);
+    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
 
-    FmuInstance instance1 = fmu.newInstance();
-    FmuInstance instance2 = fmu.newInstance();
+    ModelDescription md;
+    fmu.getModelDescription(md);
+    cout << md.defaultExperiment << endl;
 
-    map<int, FmuInstance*> my_map;
-    my_map[0] = &instance1;
+//    for (auto var : md.modelVariables) {
+//        cout << var.attribute.realAttribute << endl;
+//    }
 
-    FmuInstance* instance = my_map[0];
+    FmuInstance* instance1 = fmu.newInstance();
+    FmuInstance* instance2 = fmu.newInstance();
+
+
+    instance1->init(0.0, -1);
+    instance2->init(0.0, -1);
 
     RealRead read;
 
-    instance->init(0.0, -1);
-    instance2.init(0.0, -1);
-
-    instance->getReal("Temperature_Room", read);
+    instance1->getReal("Temperature_Room", read);
     cout << "Temperature_Room=" << read.value << endl;
     double dt = 1.0/100;
 
     StepResult result;
-    instance1.step(dt, result);
+    instance1->step(dt, result);
 
-
-    instance1.getReal("Temperature_Room", read);
+    instance1->getReal("Temperature_Room", read);
     cout << "Temperature_Room=" << read.value << endl;
 
-    instance1.terminate();
+    instance1->terminate();
+    delete instance1;
 
-    instance2.getReal("Temperature_Room", read);
+
+    instance2->getReal("Temperature_Room", read);
     cout << "Temperature_Room=" << read.value << endl;
 
-    instance2.terminate();
+    instance2->terminate();
+    delete instance2;
 
     printf("Everything seems to be OK since you got this far=)!\n");
 
