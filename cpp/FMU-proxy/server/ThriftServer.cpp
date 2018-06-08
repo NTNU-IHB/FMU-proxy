@@ -30,7 +30,7 @@ using namespace fmuproxy;
 using namespace fmuproxy::server;
 
 
-::ThriftServer::ThriftServer(FmuWrapper* fmu, int port) {
+::ThriftServer::ThriftServer(shared_ptr<FmuWrapper> fmu, int port) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
@@ -38,7 +38,7 @@ using namespace fmuproxy::server;
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    this->server = new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory);
+    this->server = shared_ptr<TSimpleServer>(new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory));
 
 }
 

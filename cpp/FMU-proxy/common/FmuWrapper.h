@@ -29,6 +29,7 @@
 #include <boost/filesystem.hpp>
 #include "thrift-gen/definitions_types.h"
 
+using namespace std;
 using namespace boost::filesystem;
 using namespace ::fmuproxy::thrift;
 
@@ -89,16 +90,16 @@ namespace fmuproxy {
         jm_callbacks callbacks;
         fmi_version_enu_t version;
 
-        ModelDescription* modelDescription;
+        shared_ptr<ModelDescription> modelDescription;
 
     public:
         FmuWrapper(const char *fmu_path);
 
         const char* getModelDescriptionXml();
 
-        ModelDescription* getModelDescription();
+        shared_ptr<ModelDescription> getModelDescription();
 
-        FmuInstance* newInstance();
+        shared_ptr<FmuInstance> newInstance();
 
         ~FmuWrapper();
 

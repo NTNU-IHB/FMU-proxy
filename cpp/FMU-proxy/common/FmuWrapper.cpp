@@ -38,26 +38,26 @@ using namespace boost::filesystem;
 
 FmuWrapper::FmuWrapper (const char* fmu_path) {
 
-    tmp_path = temp_directory_path() /= path(fmu_path).stem();
+    this->tmp_path = temp_directory_path() /= path(fmu_path).stem();
     create_directories(tmp_path);
 
-    callbacks = create_callbacks(jm_log_level_nothing);
+    this->callbacks = create_callbacks(jm_log_level_nothing);
 
-    ctx = fmi_import_allocate_context(&callbacks);
-    version = fmi_import_get_fmi_version(ctx, fmu_path, tmp_path.c_str());
+    this->ctx = fmi_import_allocate_context(&callbacks);
+    this->version = fmi_import_get_fmi_version(ctx, fmu_path, tmp_path.c_str());
 
-    xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
+    this->xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
 
-    modelDescription = new ModelDescription();
+    this->modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
     get_model_description(version, xml, *modelDescription);
 
 }
 
-ModelDescription* FmuWrapper::getModelDescription() {
+shared_ptr<ModelDescription> FmuWrapper::getModelDescription() {
     return modelDescription;
 }
 
-FmuInstance* FmuWrapper::newInstance() {
+shared_ptr<FmuInstance> FmuWrapper::newInstance() {
 
     fmi2_callback_functions_t callBackFunctions;
     callBackFunctions.logger = fmi2_log_forwarding;
@@ -80,7 +80,7 @@ FmuInstance* FmuWrapper::newInstance() {
         __throw_runtime_error("fmi2_import_instantiate failed!");
     }
 
-    return new FmuInstance(fmu);
+    return shared_ptr<FmuInstance>(new FmuInstance(fmu));
 
 }
 
@@ -88,9 +88,8 @@ FmuWrapper::~FmuWrapper() {
 
     cout << "FmuWrapper destructor called" << endl;
 
-    delete modelDescription;
-    fmi_import_free_context(ctx);
-    remove_all(tmp_path);
+    fmi_import_free_context(this->ctx);
+    remove_all(this->tmp_path);
 
 }
 

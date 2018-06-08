@@ -21,11 +21,11 @@ namespace fmuproxy {
         class FmuServiceHandler : virtual public FmuServiceIf {
 
         private:
-            FmuWrapper* fmu;
-            map<FmuId, FmuInstance*> fmus;
+            shared_ptr<FmuWrapper> fmu;
+            map<FmuId, shared_ptr<FmuInstance>> fmus;
 
         public:
-            FmuServiceHandler(FmuWrapper* fmu);
+            FmuServiceHandler(shared_ptr<FmuWrapper> fmu);
 
             void getModelDescriptionXml(std::string &_return) override;
 

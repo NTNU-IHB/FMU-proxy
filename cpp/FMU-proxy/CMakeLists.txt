@@ -38,16 +38,17 @@ target_link_libraries(ThriftServerTest boost_system)
 target_link_libraries(ThriftServerTest boost_filesystem)
 target_link_libraries(ThriftServerTest dl)
 
-
-add_executable(ThriftClient
+add_executable(ThriftClientTest
         common/thrift-gen/definitions_types.cpp
         common/thrift-gen/definitions_types.h
         common/thrift-gen/service_types.h
         common/thrift-gen/FmuService.cpp
         common/thrift-gen/FmuService.h
-        client/ThriftClient.cpp)
-target_link_libraries(ThriftClient thrift)
-
+        client/ThriftClient.cpp
+        client/ThriftClient.h
+        test/ThriftClientTest.cpp)
+target_link_libraries(ThriftClientTest thrift)
+target_link_libraries(ThriftClientTest fmilib)
 
 
 

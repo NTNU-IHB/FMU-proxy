@@ -11,7 +11,7 @@ using namespace fmuproxy;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::server;
 
-::FmuServiceHandler::FmuServiceHandler(FmuWrapper* fmu) {
+::FmuServiceHandler::FmuServiceHandler(shared_ptr<FmuWrapper> fmu) {
     this->fmu = fmu;
 }
 
@@ -24,7 +24,7 @@ void FmuServiceHandler::getModelDescription(ModelDescription &_return) {
 }
 
 FmuId FmuServiceHandler::createInstanceFromCS() {
-    FmuInstance* instance = fmu->newInstance();
+    shared_ptr<FmuInstance> instance = fmu->newInstance();
     FmuId my_id = id_gen++;
     fmus[my_id] = instance;
     cout << "create instance with id=" << my_id << endl;
@@ -40,41 +40,40 @@ bool FmuServiceHandler::canGetAndSetFMUstate(const FmuId fmu_id) {
 }
 
 double FmuServiceHandler::getCurrentTime(const FmuId fmu_id) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     return instance->getCurrentTime();
 }
 
 bool FmuServiceHandler::isTerminated(const FmuId fmu_id) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     return instance->isTerminated();
 }
 
 Status::type FmuServiceHandler::init(const FmuId fmu_id, const double start, const double stop) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     instance->init(start, stop);
     return ::Status::OK_STATUS;
 }
 
 void FmuServiceHandler::step(StepResult &_return, const FmuId fmu_id, const double step_size) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     instance->step(step_size, _return);
 }
 
 Status::type FmuServiceHandler::terminate(const FmuId fmu_id) {
-    FmuInstance *instance = fmus[fmu_id];
+    shared_ptr<FmuInstance>instance = fmus[fmu_id];
     Status::type status = instance->terminate();
     fmus.erase(fmu_id);
-    delete instance;
     return status;
 }
 
 Status::type FmuServiceHandler::reset(const FmuId fmu_id) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     return instance->reset();
 }
 
 void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     instance->getInteger(vr, _return);
 }
 
@@ -83,7 +82,7 @@ void FmuServiceHandler::bulkReadInteger(IntegerArrayRead &_return, const FmuId f
 }
 
 void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     instance->getReal(vr, _return);
 }
 
@@ -92,7 +91,7 @@ void FmuServiceHandler::bulkReadReal(RealArrayRead &_return, const FmuId fmu_id,
 }
 
 void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     instance->getString(vr, _return);
 }
 
@@ -101,7 +100,7 @@ void FmuServiceHandler::bulkReadString(StringArrayRead &_return, const FmuId fmu
 }
 
 void FmuServiceHandler::readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    FmuInstance* instance = fmus[fmu_id];
+    shared_ptr<FmuInstance> instance = fmus[fmu_id];
     instance->getBoolean(vr, _return);
 }
 

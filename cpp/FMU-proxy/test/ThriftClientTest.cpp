@@ -23,15 +23,16 @@
  */
 
 #include <iostream>
+#include <ctime>
 
-#include <thrift/transport/TSocket.h>
 #include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
 #include "../common/thrift-gen/FmuService.h"
 #include "../common/thrift-gen/definitions_types.h"
 
-#include "ThriftClient.h"
+#include "../client/ThriftClient.h"
 
 using namespace std;
 using namespace apache::thrift;
@@ -41,24 +42,40 @@ using namespace apache::thrift::transport;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::client;
 
-::ThriftClient::ThriftClient(const char* host, int port) {
-    shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
-    transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
-    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-    this->client = shared_ptr<FmuServiceClient>(new FmuServiceClient(protocol));
-    transport->open();
-}
+const double stop = 20;
+const double step_size = 1E-4;
 
-shared_ptr<ModelDescription> ThriftClient::getModelDescription() {
-    if (!modelDescription) {
-        modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
-        client->getModelDescription(*modelDescription);
+int main() {
+
+    try {
+
+        ThriftClient client = ThriftClient("localhost", 9090);
+
+        shared_ptr<ModelDescription> modelDescription = client.getModelDescription();
+        cout << "GUID=" << modelDescription->guid << endl;
+        cout << "modelName=" << modelDescription->modelName << endl;
+        cout << "license=" << modelDescription->license << endl;
+
+        for (auto var : modelDescription->modelVariables) {
+            cout << "name= " << var.name << endl;
+        }
+
+        shared_ptr<RemoteFmuInstance> instance = client.newInstance();
+        instance->init(0.0, 0.0);
+
+        RealRead read;
+        StepResult result;
+        while (result.simulationTime < 10) {
+            instance->step(result, step_size);
+            instance->readReal(read, 47);
+        }
+
+        auto status = instance->terminate();
+        cout << "terminated FMU with status " << status << endl;
+
+        client.close();
+
+    } catch (TException& tx) {
+        cout << "ERROR: " << tx.what() << endl;
     }
-    return modelDescription;
-}
-
-shared_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
-    FmuId fmu_id = client->createInstanceFromCS();
-    std::shared_ptr<RemoteFmuInstance> instance(new RemoteFmuInstance(fmu_id, client));
-    return instance;
 }
