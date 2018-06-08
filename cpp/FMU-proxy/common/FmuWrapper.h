@@ -25,11 +25,9 @@
 #ifndef FMU_PROXY_FMUWRAPPER_H
 #define FMU_PROXY_FMUWRAPPER_H
 
-#endif //FMU_PROXY_FMUWRAPPER_H
-
 #include <fmilib.h>
 #include <boost/filesystem.hpp>
-#include "../common/thrift-gen/definitions_types.h"
+#include "thrift-gen/definitions_types.h"
 
 using namespace boost::filesystem;
 using namespace ::fmuproxy::thrift;
@@ -107,3 +105,7 @@ namespace fmuproxy {
     };
 
 }
+
+
+#endif //FMU_PROXY_FMUWRAPPER_H
+

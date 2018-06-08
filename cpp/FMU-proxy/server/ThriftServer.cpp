@@ -22,62 +22,31 @@
  * THE SOFTWARE.
  */
 
-#include <iostream>
-#include <thread>
 
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/server/TSimpleServer.h>
-#include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TBufferTransports.h>
-
-#include "FmuServiceHandler.h"
+#include "ThriftServer.h"
 
 using namespace std;
+using namespace fmuproxy;
+using namespace fmuproxy::server;
 
-void wait_for_input(::apache::thrift::server::TSimpleServer* server) {
-    do {
-        cout << '\n' << "Press a key to continue...";
-    } while (cin.get() != '\n');
-    cout << "Done." << endl;
-    server->stop();
-}
 
-string getOs() {
+::ThriftServer::ThriftServer(FmuWrapper* fmu, int port) {
 
-#ifdef _WIN32
-    return "win64";
-#elif __linux__
-   return "linux64";
-#endif
-}
-
-int main(int argc, char **argv) {
-    int port = 9090;
-
-    string fmu_path = string(string(getenv("TEST_FMUs")))
-            + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
-
-    using namespace fmuproxy::server;
-    using namespace ::apache::thrift;
-    using namespace ::apache::thrift::server;
-    using namespace ::apache::thrift::protocol;
-    using namespace ::apache::thrift::transport;
-
-    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu_path.c_str()));
+    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+    this->server = new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory);
 
-    thread t(wait_for_input, &server);
+}
 
-    cout << "Starting the server..." << endl;
-    server.serve();
+void ::ThriftServer::serve() {
+    server->serve();
+}
 
-    t.join();
-
-    return 0;
+void ::ThriftServer::stop() {
+    server->stop();
 }
 

@@ -33,7 +33,6 @@
 #include "../common/thrift-gen/FmuService.h"
 #include "../common/thrift-gen/definitions_types.h"
 
-
 using namespace std;
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -41,14 +40,17 @@ using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
 
-const double stop = 1;
+
+const double stop = 20;
 const double step_size = 1E-4;
 
 int main() {
-  stdcxx::shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
-  stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
-  stdcxx::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-  FmuServiceClient client(protocol);
+
+    shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
+    shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
+    FmuServiceClient client(protocol);
+   
 
   try {
     transport->open();

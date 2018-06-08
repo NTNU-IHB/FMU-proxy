@@ -28,7 +28,7 @@
 
 #include <fmilib.h>
 
-#include "../server/FmuWrapper.h"
+#include "../common/FmuWrapper.h"
 #include "../common/thrift-gen/definitions_types.h"
 
 using namespace std;
