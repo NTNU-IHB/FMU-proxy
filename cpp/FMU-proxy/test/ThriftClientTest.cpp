@@ -28,11 +28,11 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
-#include <thrift/stdcxx.h>
 
-#include "gen-cpp/FmuService.h"
-#include "gen-cpp/definitions_types.h"
+#include "../common/thrift-gen/FmuService.h"
+#include "../common/thrift-gen/definitions_types.h"
 
+#include "../client/ThriftClient.h"
 
 using namespace std;
 using namespace apache::thrift;
@@ -40,55 +40,42 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
+using namespace fmuproxy::client;
 
-const double stop = 1;
+const double stop = 20;
 const double step_size = 1E-4;
 
 int main() {
-  stdcxx::shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
-  stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
-  stdcxx::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-  FmuServiceClient client(protocol);
 
-  try {
-    transport->open();
+    try {
 
-    ModelDescription modelDescription;
-    client.getModelDescription(modelDescription);
-    cout << "GUID=" << modelDescription.guid << endl;
-    cout << "modelName=" << modelDescription.modelName << endl;
-    cout << "license=" << modelDescription.license << endl;
-    cout << "license=" << modelDescription << endl;
+        ThriftClient client = ThriftClient("localhost", 9090);
 
-    ModelVariables modelVariables = modelDescription.modelVariables;
-    cout << modelVariables.size() << endl;
+        shared_ptr<ModelDescription> modelDescription = client.getModelDescription();
+        cout << "GUID=" << modelDescription->guid << endl;
+        cout << "modelName=" << modelDescription->modelName << endl;
+        cout << "license=" << modelDescription->license << endl;
 
-    cout << modelVariables[0] << endl;
+        for (auto var : modelDescription->modelVariables) {
+            cout << "name= " << var.name << endl;
+        }
 
-    cout << modelDescription.defaultExperiment << endl;
+        shared_ptr<RemoteFmuInstance> instance = client.newInstance();
+        instance->init(0.0, 0.0);
 
-    FmuId id = client.createInstanceFromCS();
-    client.init(id, 0.0, 0.0);
-
-    clock_t begin = clock();
-
-    StepResult result;
-    while (result.simulationTime < stop) {
-        client.step(result, id, step_size);
         RealRead read;
-        client.readReal(read, id, 47);
-//        cout << "read=" << read.value << endl;
+        StepResult result;
+        while (result.simulationTime < 10) {
+            instance->step(result, step_size);
+            instance->readReal(read, 47);
+        }
+
+        auto status = instance->terminate();
+        cout << "terminated FMU with status " << status << endl;
+
+        client.close();
+
+    } catch (TException& tx) {
+        cout << "ERROR: " << tx.what() << endl;
     }
-
-    clock_t end = clock();
-
-    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-    cout << "elapsed=" << elapsed_secs << "s" << endl;
-
-    client.terminate(id);
-
-    transport->close();
-  } catch (TException& tx) {
-    cout << "ERROR: " << tx.what() << endl;
-  }
 }

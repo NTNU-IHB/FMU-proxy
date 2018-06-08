@@ -25,12 +25,11 @@
 #ifndef FMU_PROXY_FMUWRAPPER_H
 #define FMU_PROXY_FMUWRAPPER_H
 
-#endif //FMU_PROXY_FMUWRAPPER_H
-
 #include <fmilib.h>
 #include <boost/filesystem.hpp>
-#include "gen-cpp/definitions_types.h"
+#include "thrift-gen/definitions_types.h"
 
+using namespace std;
 using namespace boost::filesystem;
 using namespace ::fmuproxy::thrift;
 
@@ -90,18 +89,24 @@ namespace fmuproxy {
         fmi_xml_context_t* ctx;
         jm_callbacks callbacks;
         fmi_version_enu_t version;
-        
+
+        shared_ptr<ModelDescription> modelDescription;
+
     public:
         FmuWrapper(const char *fmu_path);
 
         const char* getModelDescriptionXml();
 
-        void getModelDescription(ModelDescription& modelDescription);
+        shared_ptr<ModelDescription> getModelDescription();
 
-        FmuInstance* newInstance();
+        shared_ptr<FmuInstance> newInstance();
 
         ~FmuWrapper();
 
     };
 
 }
+
+
+#endif //FMU_PROXY_FMUWRAPPER_H
+
