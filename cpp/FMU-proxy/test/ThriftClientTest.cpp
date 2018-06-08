@@ -56,19 +56,22 @@ int main() {
         cout << "modelName=" << modelDescription->modelName << endl;
         cout << "license=" << modelDescription->license << endl;
 
-        for (auto var : modelDescription->modelVariables) {
-            cout << "name= " << var.name << endl;
-        }
-
         shared_ptr<RemoteFmuInstance> instance = client.newInstance();
         instance->init(0.0, 0.0);
 
+        clock_t begin = clock();
+
         RealRead read;
         StepResult result;
-        while (result.simulationTime < 10) {
+        while (result.simulationTime < stop) {
             instance->step(result, step_size);
             instance->readReal(read, 47);
         }
+
+        clock_t end = clock();
+
+        double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
+        cout << "elapsed=" << elapsed_secs << "s" << endl;
 
         auto status = instance->terminate();
         cout << "terminated FMU with status " << status << endl;
