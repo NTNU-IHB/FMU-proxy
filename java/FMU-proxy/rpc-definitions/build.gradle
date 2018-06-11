@@ -71,9 +71,7 @@ sourceSets {
 import org.apache.tools.ant.taskdefs.condition.Os
 
 def thriftPath = System.getenv("THRIFT_COMPILER")
-def supportsThrift = Os.isFamily(Os.FAMILY_WINDOWS) && thriftPath != null
-
-if (supportsThrift) {
+if (thriftPath != null && Os.isFamily(Os.FAMILY_WINDOWS)) {
     compileThrift {
         thriftExecutable "$thriftPath/thrift.exe"
         createGenFolder false
@@ -81,54 +79,62 @@ if (supportsThrift) {
         sourceItems "${definitions}/thrift"
     }
 } else {
-    logger.warn("Cannot generate Thrift sources! OS is Windows? Location of Thrift.exe specified by THRIFT_COMPILER added to ENVIRONMENT variable?")
+    compileThrift {
+        createGenFolder false
+        generator 'java', 'private-members'
+        sourceItems "${definitions}/thrift"
+    }
 }
 
-signing {
-    sign configurations.archives
-}
+if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    signing {
+        sign configurations.archives
+    }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name archivesBaseName
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'Generated thrift sources for use by FMU-proxy'
-                url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
-
-                scm {
-                    connection 'scm:git:git://github.com/SFI-Mechatronics/gRPC-FMU.git'
-                    developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/gRPC-FMU.git'
-                    url 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
-                licenses {
-                    license {
-                        name 'The MIT License'
-                        url 'https://opensource.org/licenses/mit-license.php'
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name archivesBaseName
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'Generated thrift sources for use by FMU-proxy'
+                    url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
+
+                    scm {
+                        connection 'scm:git:git://github.com/SFI-Mechatronics/gRPC-FMU.git'
+                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/gRPC-FMU.git'
+                        url 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
                     }
-                }
 
-                developers {
-                    developer {
-                        id 'laht'
-                        name 'Lars Ivar Hatledal'
-                        email 'laht@ntnu.no'
+                    licenses {
+                        license {
+                            name 'The MIT License'
+                            url 'https://opensource.org/licenses/mit-license.php'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'laht'
+                            name 'Lars Ivar Hatledal'
+                            email 'laht@ntnu.no'
+                        }
                     }
                 }
             }
         }
     }
+
 }
