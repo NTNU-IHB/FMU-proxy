@@ -7,7 +7,7 @@ add_executable(FmuTest
         common/FmuWrapper.cpp
         common/FmuWrapper.h
         test/FmuTest.cpp)
-target_link_libraries(FmuTest ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(FmuTest thrift ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
 
 add_executable(ThriftServerTest

@@ -30,6 +30,13 @@
 #
 cmake_minimum_required (VERSION 2.8.11)
 
+SET(FMILIB_HOME $ENV{FMILIB_HOME})
+if(WIN32)
+    SET(FMILIB_DIR ${FMILIB_HOME}/include)
+    SET(FMILIB_DLL ${FMILIB_HOME}/lib)
+    SET(FMILIB_LIBRARY ${FMILIB_HOME}/lib)
+    SET(FMILIB_SHARED_LIBRARY ${FMILIB_HOME}/lib)
+endif()
 
 # Find static library, and use its path prefix to provide a HINTS option to the
 # other find_*() commands.
