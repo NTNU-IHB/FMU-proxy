@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.50'
 
     repositories {
         mavenCentral()
@@ -58,7 +58,7 @@ subprojects { sub ->
             kotlinOptions {
                 jvmTarget = "1.8"
                 javaParameters = true
-                freeCompilerArgs = ['-Xenable-jvm-default']
+                freeCompilerArgs = ['-Xjvm-default=enable']
             }
         }
 
