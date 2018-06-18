@@ -82,10 +82,12 @@ class TestService {
             "params": []
         }
         """.let {
-            RpcResponse.fromJson(handler.handle(it)!!).getResult(String::class.java)!!
+            RpcResponse.fromJson(handler.handle(it)!!)
+                    .getResult(String::class.java)!!
         }
 
-        ModelDescriptionParser.parse(xml).asCoSimulationModelDescription()
+        val md = ModelDescriptionParser.parse(xml).asCoSimulationModelDescription()
+        LOG.debug("$md")
 
     }
 

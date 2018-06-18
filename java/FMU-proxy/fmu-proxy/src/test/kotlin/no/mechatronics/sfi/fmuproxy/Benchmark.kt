@@ -37,7 +37,7 @@ class Benchmark {
         private val LOG: Logger = LoggerFactory.getLogger(Benchmark::class.java)
 
         private const val dt = 1E-4
-        private const val stop = 20.0
+        private const val stop = 2.0
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
                 "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
@@ -64,7 +64,6 @@ class Benchmark {
         }
 
     }
-
 
     @Test
     fun measureTimeThrift() {

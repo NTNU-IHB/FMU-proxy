@@ -59,12 +59,25 @@ class TestGrpcTorsionBar {
     }
 
     @Test
+    fun testGetVariable() {
+        val motorDiskRev = client.modelDescription.modelVariables
+                .getByName("MotorDiskRev").asRealVariable()
+        Assertions.assertEquals(105, motorDiskRev.valueReference)
+    }
+
+    @Test
     fun testInstance() {
 
+        client.modelDescription.modelVariables.getByName("MotorDiskRev")
+
         client.newInstance().use { instance ->
-            val dt = 1E-3
-            val stop = 2.0
-            runInstance(instance, dt, stop).also {
+            val dt = 1E-5
+            val stop = 0.1
+            val motorDiskRev = client.modelDescription.modelVariables
+                    .getByName("MotorDiskRev").asRealVariable()
+            runInstance(instance, dt, stop, {
+                val read = motorDiskRev.read()
+            }).also {
                 LOG.info("Duration=${it}ms")
             }
         }

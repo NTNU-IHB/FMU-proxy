@@ -45,17 +45,15 @@ class TestProxy {
 
     }
 
-    private val fmu: Fmu
     private val proxy: FmuProxy
-
     private val grpcServer: FmuProxyServer
     private val avroServer: FmuProxyServer
     private val thriftServer: FmuProxyServer
 
-    init {
+    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/OpenModelica/v1.11.0/WaterTank_Control/WaterTank_Control.fmu"))
 
-        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/OpenModelica/v1.11.0/WaterTank_Control/WaterTank_Control.fmu"))
+    init {
 
         grpcServer = GrpcFmuServer(fmu)
         avroServer = AvroFmuServer(fmu)
@@ -101,20 +99,6 @@ class TestProxy {
         Assertions.assertEquals(thriftServer, proxy.getServer<ThriftFmuServer>())
     }
 
-    private fun runInstance(instance: FmiSimulation) : Long {
-
-        instance.init()
-        Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
-
-        return measureTimeMillis {
-            while (instance.currentTime < stopTime) {
-                val status = instance.doStep(stepSize)
-                Assertions.assertTrue(status)
-            }
-        }
-
-    }
-
     @Test
     fun testGrpc() {
 
@@ -131,7 +115,7 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    runInstance(instance).also {
+                    runInstance(instance, stepSize, stopTime).also {
                         LOG.info("gRPC duration: ${it}ms")
                     }
 
@@ -156,7 +140,7 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    runInstance(instance).also {
+                    runInstance(instance, stepSize, stopTime).also {
                         LOG.info("Thrift duration: ${it}ms")
                     }
 
@@ -181,7 +165,7 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    runInstance(instance).also {
+                    runInstance(instance, stepSize, stopTime).also {
                         LOG.info("Avro duration: ${it}ms")
                     }
 
@@ -197,9 +181,9 @@ class TestProxy {
         val host = "localhost"
         val clients = listOf(
                 RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!),
-                RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!),
-                RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
-                RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
+                RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!)
+               // RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!)
+                //RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
         ).map { JsonRpcFmuClient(it) }
 
 
@@ -215,8 +199,8 @@ class TestProxy {
 
             client.newInstance().use { instance ->
 
-                runInstance(instance).also {
-                    LOG.info("${client.javaClass.simpleName} duration: ${it}ms")
+                runInstance(instance, stepSize, stopTime).also {
+                    LOG.info("${client.client.javaClass.simpleName} duration: ${it}ms")
                 }
 
             }

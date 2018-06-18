@@ -223,10 +223,15 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable.convert(): Typed
 
 }
 
+private var variables: List<TypedScalarVariable<*>>? = null
+
 internal fun List<no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable>.convert(): ModelVariables {
     return object : ModelVariables {
-        override val variables: List<TypedScalarVariable<*>> by lazy {
-            this@convert.map { it.convert() }
+        override fun getVariables(): List<TypedScalarVariable<*>> {
+            if (variables == null) {
+                variables = this@convert.map { it.convert() }
+            }
+            return variables!!
         }
     }
 }
