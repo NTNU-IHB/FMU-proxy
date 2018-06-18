@@ -35,11 +35,18 @@ using namespace std;
 using namespace fmuproxy;
 using namespace boost::filesystem;
 
+string getOs() {
+#ifdef _WIN32
+    return "win64";
+#elif __linux__
+    return "linux64";
+#endif
+}
 
 int main(int argc, char **argv) {
 
     string fmu_path = string(string(getenv("TEST_FMUs")))
-                      + "/FMI_2.0/CoSimulation/linux64/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
 

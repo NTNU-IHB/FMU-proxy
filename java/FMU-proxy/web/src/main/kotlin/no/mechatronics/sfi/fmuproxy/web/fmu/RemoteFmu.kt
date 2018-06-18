@@ -51,7 +51,7 @@ data class RemoteFmu(
         get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
 
     val modelVariables: List<TypedScalarVariable<*>>
-        get() = modelDescription.modelVariables.variables
+        get() = modelDescription.modelVariables.getVariables()
 
     override fun toString(): String {
         return "RemoteFmu(modelName=$modelName, guid='$guid', networkInfo=$networkInfo)"
