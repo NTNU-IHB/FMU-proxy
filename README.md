@@ -4,13 +4,13 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SFI-Mechatronics/FMU-proxy/issues)
 
 
-The main goal of the Functional Mock-up Interface (FMI) statndard is to allow simulation models to be shared across tools. To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. This archive is called an Functional Mock-up Unit (FMU) and uses the extension .fmu. In theory, an FMU can support multiple platforms, however this is not always the case and depends on the type of binaries the exporting tool was able to provide. Furthermore, a library providing FMI support may not be available in a particular language or platform, and/or it may not support the whole standard. Another issue is related to the protection of Intellectual Property (IP). While an FMU is free to only provide the C-code in its binary form, other resources shipped with the FMU may be unprotected.   
+The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models to be shared across tools. To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. This archive is called an Functional Mock-up Unit (FMU) and uses the extension .fmu. In theory, an FMU can support multiple platforms, however this is not always the case and depends on the type of binaries the exporting tool was able to provide. Furthermore, a library providing FMI support may not be available in a particular language or platform, and/or it may not support the whole standard. Another issue is related to the protection of Intellectual Property (IP). While an FMU is free to only provide the C-code in its binary form, other resources shipped with the FMU may be unprotected.   
 
-In order to overcome these challenges, this paper presents an open-source framework for working with functional mock-up units across languages and platforms. By wrapping a single FMU inside a server program supporting multiple language independent Remote Procedure Calls (RPC) protocols over several network transports. Currently, Apache Thrift (TCP/IP), Apache Avro (TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. Together, they allow FMUs to be invoked from virtually any language on any platform.
+In order to overcome these challenges, this paper presents an open-source framework for working with functional mock-up units across languages and platforms. By wrapping a single FMU inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. Currently, Apache Thrift (TCP/IP), Apache Avro (TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. Together, they allow FMUs to be invoked from virtually any language on any platform.
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
 
 
-### Generating the server from an FMU
+### Generating the JVM server from an FMU
 
 ```
 Usage: fmu-proxy-gen [-h] -fmu=<fmuPath> [-out=<out>]
@@ -38,7 +38,7 @@ Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
       -jsonrpc/zmq=<jsonZmqPort> Manually specify the JSON-RPC ZMQ port (optional).
 ```
 
-You can now connect to the FMU in your language of choosing using one of the schemas available from the web server or located [here](rpc-definitions) . 
+You can now connect to the FMU in a language of your choosing using one of the schemas available from the web server or located [here](rpc-definitions). When using JSON-RPC, no schema is required. 
 
 ## Software architecture
 
