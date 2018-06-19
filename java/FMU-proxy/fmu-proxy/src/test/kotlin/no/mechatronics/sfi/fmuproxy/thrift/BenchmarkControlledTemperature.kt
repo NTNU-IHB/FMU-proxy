@@ -2,12 +2,14 @@ package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.fmu.Fmu
 import no.mechatronics.sfi.fmuproxy.TestUtils
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.util.*
 import kotlin.system.measureTimeMillis
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -41,11 +43,17 @@ class BenchmarkControlledTemperature {
 
     }
 
+    @AfterAll
+    fun cleanup() {
+        fmu.close()
+    }
+
+
 //    @Test
-//    fun test() {
+//    fun connectRemoteClient() {
 //
-//        for (i in 0..5) {
-//            val client = ThriftTestClient("localhost", 9090)
+//        for (i in 0..3) {
+//            val client = ThriftTestClient("localhost", 33069)
 //            client.newInstance().use { instance ->
 //                runInstance(instance, dt, stop, {
 //                    val read = instance.readReal(46)
@@ -58,28 +66,41 @@ class BenchmarkControlledTemperature {
 //        }
 //
 //    }
+//
+//    @Test
+//    fun runServer() {
+//        val server = ThriftFmuServer(fmu)
+//        val port = server.start()
+//
+//        Scanner(System.`in`).use {
+//            if (it.hasNext()) {
+//                server.close()
+//            }
+//        }
+//
+//    }
 
 
     @Test
     fun benchmark() {
 
-       fmu.use {
-           val server = ThriftFmuServer(fmu)
-           val port = server.start()
+        val server = ThriftFmuServer(fmu)
+        val port = server.start()
 
-           val client = ThriftTestClient("localhost", 9090)
-           client.newInstance().use { instance ->
-               runInstance(instance, dt, stop, {
-                   val read = instance.readReal(46)
-                   Assertions.assertTrue(read.value > 0)
-               }).also {
-                   LOG.info("Thrift duration=${it}ms")
-               }
-           }
+        for (i in 0..2) {
+          val client = ThriftTestClient("localhost", port)
+          client.newInstance().use { instance ->
+              runInstance(instance, dt, stop, {
+                  val read = instance.readReal(46)
+                  Assertions.assertTrue(read.value > 0)
+              }).also {
+                  LOG.info("Thrift duration=${it}ms")
+              }
+          }
+            client.close()
+        }
 
-           client.close()
-           server.close()
-       }
+        server.close()
 
     }
 

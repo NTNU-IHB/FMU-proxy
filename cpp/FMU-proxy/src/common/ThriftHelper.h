@@ -25,8 +25,6 @@
 #ifndef FMU_PROXY_THRIFTHELPER_H
 #define FMU_PROXY_THRIFTHELPER_H
 
-#endif //FMU_PROXY_THRIFTHELPER_H
-
 
 #include <cfloat>
 #include <fmilib.h>
@@ -226,3 +224,6 @@ namespace fmuproxy {
 
     }
 }
+
+#endif //FMU_PROXY_THRIFTHELPER_H
+

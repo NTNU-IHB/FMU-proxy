@@ -59,6 +59,6 @@ shared_ptr<ModelDescription> ThriftClient::getModelDescription() {
 
 shared_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     FmuId fmu_id = client->createInstanceFromCS();
-    std::shared_ptr<RemoteFmuInstance> instance(new RemoteFmuInstance(fmu_id, client));
+    shared_ptr<RemoteFmuInstance> instance(new RemoteFmuInstance(fmu_id, client));
     return instance;
 }

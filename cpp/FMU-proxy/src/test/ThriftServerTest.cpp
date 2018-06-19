@@ -25,6 +25,7 @@
 #include <iostream>
 #include <thread>
 
+#include "../common/Util.h"
 #include "../common/FmuWrapper.h"
 #include "../server/ThriftServer.h"
 
@@ -38,14 +39,6 @@ void wait_for_input(::ThriftServer* server) {
     } while (cin.get() != '\n');
     cout << "Done." << endl;
     server->stop();
-}
-
-string getOs() {
-    #ifdef _WIN32
-        return "win64";
-    #elif __linux__
-        return "linux64";
-    #endif
 }
 
 int main(int argc, char **argv) {
