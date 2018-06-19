@@ -42,7 +42,7 @@ using namespace apache::thrift::transport;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::client;
 
-const double stop = 20;
+const double stop = 10;
 const double step_size = 1E-4;
 
 int main() {
@@ -81,4 +81,5 @@ int main() {
     } catch (TException& tx) {
         cout << "ERROR: " << tx.what() << endl;
     }
+
 }
