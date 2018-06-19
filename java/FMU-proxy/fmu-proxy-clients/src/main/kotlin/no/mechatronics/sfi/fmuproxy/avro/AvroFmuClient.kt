@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.avro.ipc.NettyTransceiver
 import org.apache.avro.ipc.specific.SpecificRequestor
@@ -36,7 +36,7 @@ import java.net.InetSocketAddress
 class AvroFmuClient(
         host: String,
         port: Int
-): RpcFmuClient() {
+): AbstractRpcFmuClient() {
 
     private val client = NettyTransceiver(InetSocketAddress(host, port))
     private val service = SpecificRequestor.getClient(AvroFmuService::class.java, client)

@@ -29,14 +29,14 @@ import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
-import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 
 private const val SERVICE = "FmuService"
 
 class JsonRpcFmuClient(
         val client: RpcClient
-): RpcFmuClient() {
+): AbstractRpcFmuClient() {
 
     val fmiVersion: String by lazy {
         client.write("$SERVICE.getFmiVersion")

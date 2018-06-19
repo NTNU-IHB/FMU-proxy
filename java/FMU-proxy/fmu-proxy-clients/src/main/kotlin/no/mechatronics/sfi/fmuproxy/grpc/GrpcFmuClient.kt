@@ -30,7 +30,7 @@ import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -44,7 +44,7 @@ private val EMPTY = Empty.getDefaultInstance()
 class GrpcFmuClient(
         host: String,
         port: Int
-): RpcFmuClient() {
+): AbstractRpcFmuClient() {
 
     private val channel: ManagedChannel = ManagedChannelBuilder
             .forAddress(host, port)

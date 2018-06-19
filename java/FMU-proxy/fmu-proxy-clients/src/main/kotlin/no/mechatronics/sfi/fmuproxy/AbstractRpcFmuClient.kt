@@ -32,11 +32,11 @@ import org.slf4j.LoggerFactory
 import java.io.Closeable
 
 
-abstract class RpcFmuClient: Closeable {
+abstract class AbstractRpcFmuClient: Closeable {
 
     protected companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(RpcFmuClient::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(AbstractRpcFmuClient::class.java)
 
         val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
 
@@ -127,7 +127,7 @@ abstract class RpcFmuClient: Closeable {
         override var currentTime: Double = 0.0
 
         override val modelDescription
-            get() = this@RpcFmuClient.modelDescription
+            get() = this@AbstractRpcFmuClient.modelDescription
 
         init {
             currentTime = getCurrentTime(fmuId)
