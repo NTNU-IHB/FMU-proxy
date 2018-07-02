@@ -73,9 +73,9 @@ class TestThriftTorsionBar {
             val stop = 0.1
             val motorDiskRev = client.modelDescription.modelVariables
                     .getByName("MotorDiskRev").asRealVariable()
-            runInstance(instance, dt, stop, {
+            runInstance(instance, dt, stop) {
                 val read = motorDiskRev.read()
-            }).also {
+            }.also {
                 LOG.info("Duration=${it}ms")
             }
         }

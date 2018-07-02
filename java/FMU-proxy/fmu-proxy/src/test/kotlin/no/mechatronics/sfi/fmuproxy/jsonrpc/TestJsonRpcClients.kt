@@ -92,9 +92,9 @@ class TestJsonRpcClients {
 
                 val dt = 1.0/100
                 val stop = 10.0
-                runInstance(instance, dt, stop, {
+                runInstance(instance, dt, stop) {
                     h.read()
-                }).also { LOG.info("Duration: ${it}ms") }
+                }.also { LOG.info("Duration: ${it}ms") }
 
             }
 

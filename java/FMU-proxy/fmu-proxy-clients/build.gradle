@@ -1,18 +1,13 @@
 
 apply plugin: 'kotlin'
-apply plugin: 'maven'
-apply plugin: 'signing'
-
-group = 'no.mechatronics.sfi.fmuproxy'
-version = '0.1-SNAPSHOT'
 
 def snapshot = true
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {
 
-    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.12.0'
-    implementation group: 'info.laht', name: 'YAJ-RPC', version: '0.7'
+    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.13.1'
+    implementation group: 'info.laht', name: 'YAJ-RPC', version: '0.7.1'
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
     implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
@@ -21,7 +16,13 @@ dependencies {
 
 }
 
-if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
+if (hasProperty("ossrhUsername") && hasProperty("ossrhPassword")) {
+
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    group = 'no.mechatronics.sfi.fmuproxy'
+    version = '0.1-SNAPSHOT'
 
     task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
         classifier = 'sources'
@@ -40,7 +41,6 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
     signing {
         sign configurations.archives
     }
-
 
     uploadArchives {
         repositories {
@@ -82,6 +82,7 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
                             email 'laht@ntnu.no'
                         }
                     }
+
                 }
             }
         }

@@ -69,9 +69,9 @@ class TestAvroBouncing {
 
             val dt = 1.0/100
             val stop = 100.0
-            runInstance(instance, dt, stop, {
+            runInstance(instance, dt, stop) {
                 h.read()
-            }).also {
+            }.also {
                 LOG.info("Duration=${it}ms")
             }
         }

@@ -37,7 +37,7 @@ class Benchmark {
         private val LOG: Logger = LoggerFactory.getLogger(Benchmark::class.java)
 
         private const val dt = 1E-4
-        private const val stop = 10.0
+        private const val stop = 1.0
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
                 "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
@@ -55,10 +55,10 @@ class Benchmark {
     fun measureTimeLocal() {
 
         fmu.asCoSimulationFmu().newInstance().use { instance ->
-            runInstance(instance, dt, stop, {
+            runInstance(instance, dt, stop) {
                 val read = instance.variableAccessor.readReal("Temperature_Room")
                 Assertions.assertTrue(read.value > 0)
-            }).also {
+            }.also {
                 LOG.info("Local duration=${it}ms")
             }
         }
@@ -73,10 +73,10 @@ class Benchmark {
 
         val client = ThriftFmuClient("localhost", port)
         client.newInstance().use { instance ->
-            runInstance(instance, dt, stop, {
+            runInstance(instance, dt, stop) {
                 val read = instance.readReal("Temperature_Room")
                 Assertions.assertTrue(read.value > 0)
-            }).also {
+            }.also {
                 LOG.info("Thrift duration=${it}ms")
             }
         }
@@ -94,10 +94,10 @@ class Benchmark {
 
         val client = AvroFmuClient("localhost", port)
         client.newInstance().use { instance ->
-            runInstance(instance, dt, stop, {
+            runInstance(instance, dt, stop) {
                 val read = instance.readReal("Temperature_Room")
                 Assertions.assertTrue(read.value > 0)
-            }).also {
+            }.also {
                 LOG.info("Avro duration=${it}ms")
             }
         }
@@ -115,10 +115,10 @@ class Benchmark {
 
         val client = GrpcFmuClient("localhost", port)
         client.newInstance().use { instance ->
-            runInstance(instance, dt, stop, {
+            runInstance(instance, dt, stop) {
                 val read = instance.readReal("Temperature_Room")
                 Assertions.assertTrue(read.value > 0)
-            }).also {
+            }.also {
                 LOG.info("gRPC duration=${it}ms")
             }
         }
@@ -156,10 +156,10 @@ class Benchmark {
         clients.forEach { client ->
 
             client.newInstance().use { instance ->
-                runInstance(instance, dt, stop, {
+                runInstance(instance, dt, stop) {
                     val read = instance.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
-                }).also {
+                }.also {
                     LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
                 }
             }
