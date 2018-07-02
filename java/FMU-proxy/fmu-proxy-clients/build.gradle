@@ -6,8 +6,8 @@ def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {
 
-    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.13.1'
     implementation group: 'info.laht', name: 'YAJ-RPC', version: '0.7.1'
+    implementation group: 'io.grpc', name: 'grpc-netty', version: '1.13.1'
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
     implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 

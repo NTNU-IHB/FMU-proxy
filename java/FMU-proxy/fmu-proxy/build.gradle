@@ -9,8 +9,6 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'maven'
-apply plugin: 'signing'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'no.mechatronics.sfi.fmuproxy'
@@ -48,6 +46,9 @@ shadowJar {
 }
 
 if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
+
+    apply plugin: 'maven'
+    apply plugin: 'signing'
 
     signing {
         sign configurations.archives

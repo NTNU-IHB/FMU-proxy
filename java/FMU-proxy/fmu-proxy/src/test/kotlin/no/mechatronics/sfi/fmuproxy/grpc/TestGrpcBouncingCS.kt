@@ -72,17 +72,17 @@ class TestGrpcBouncingCS {
         server.stop()
         fmu.close()
     }
-    
-    @Test
-    fun testModelName() {
-        val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
-        Assertions.assertEquals(modelDescription.modelName, modelName)
-    }
 
     @Test
     fun testGuid() {
         val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
         Assertions.assertEquals(modelDescription.guid, guid)
+    }
+    
+    @Test
+    fun testModelName() {
+        val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
+        Assertions.assertEquals(modelDescription.modelName, modelName)
     }
 
     @Test

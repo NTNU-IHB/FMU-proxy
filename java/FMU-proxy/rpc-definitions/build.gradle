@@ -1,15 +1,9 @@
 
 plugins {
-    id "com.google.protobuf" version "0.8.5"
+    id "com.google.protobuf" version "0.8.6"
     id "org.jruyi.thrift" version "0.4.0"
     id "com.commercehub.gradle.plugin.avro-base" version "0.14.1"
 }
-
-apply plugin: 'maven'
-apply plugin: 'signing'
-
-group = 'no.mechatronics.sfi.fmuproxy'
-version = '0.1-SNAPSHOT'
 
 def avro_version = '1.8.2'
 def grpc_version = '1.13.1'
@@ -90,6 +84,12 @@ if (thriftPath != null && Os.isFamily(Os.FAMILY_WINDOWS)) {
 
 if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
 
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    group = 'no.mechatronics.sfi.fmuproxy'
+    version = '0.1-SNAPSHOT'
+
     signing {
         sign configurations.archives
     }
@@ -111,12 +111,12 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
                     name archivesBaseName
                     packaging 'jar'
                     // optionally artifactId can be defined here
-                    description 'Generated thrift sources for use by FMU-proxy'
-                    url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
+                    description 'Generated sources from RPC schema definitions for use by FMU-proxy'
+                    url 'https://github.com/SFI-Mechatronics/FMU-proxy'
 
                     scm {
-                        connection 'scm:git:git://github.com/SFI-Mechatronics/gRPC-FMU.git'
-                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/gRPC-FMU.git'
+                        connection 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
+                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
                         url 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
                     }
 
@@ -134,6 +134,7 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
                             email 'laht@ntnu.no'
                         }
                     }
+
                 }
             }
         }
