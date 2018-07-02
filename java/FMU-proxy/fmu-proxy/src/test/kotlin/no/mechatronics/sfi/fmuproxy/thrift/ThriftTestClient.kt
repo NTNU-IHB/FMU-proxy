@@ -84,11 +84,6 @@ class ThriftTestClient(
         }
     }
 
-    protected fun createInstanceFromCS(): Int {
-        return client.createInstanceFromCS()
-    }
-
-
     override fun close() {
         transport.close()
         FmuInstances.terminateAll()
@@ -99,7 +94,7 @@ class ThriftTestClient(
     }
 
     fun newInstance(solver: Solver? = null): FmuInstance {
-        val fmuId = createInstanceFromCS()
+        val fmuId = if (solver == null) client.createInstanceFromCS() else client.createInstanceFromME(solver.thriftType())
         return FmuInstance(fmuId).also {
             FmuInstances.add(it)
         }

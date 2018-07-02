@@ -85,9 +85,9 @@ abstract class AbstractRpcFmuClient: Closeable {
     protected abstract fun createInstanceFromME(solver: Solver): Int
 
     protected fun process(name: String): Int {
-        return NAME_TO_VALUE_REF.getOrPut(name, {
+        return NAME_TO_VALUE_REF.getOrPut(name) {
             modelDescription.modelVariables.getValueReference(name)
-        })
+        }
     }
 
     @JvmOverloads
