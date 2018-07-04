@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.RpcFmuClient
+import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
@@ -36,7 +36,7 @@ import org.apache.thrift.transport.TTransport
 class ThriftFmuClient(
         host: String,
         port: Int
-): RpcFmuClient() {
+): AbstractRpcFmuClient() {
 
     private val transport: TTransport
     private val client: FmuService.Client

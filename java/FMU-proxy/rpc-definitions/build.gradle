@@ -1,26 +1,22 @@
 
 plugins {
-    id "com.google.protobuf" version "0.8.5"
+    id "com.google.protobuf" version "0.8.6"
     id "org.jruyi.thrift" version "0.4.0"
     id "com.commercehub.gradle.plugin.avro-base" version "0.14.1"
 }
 
-apply plugin: 'maven'
-apply plugin: 'signing'
-
-group = 'no.mechatronics.sfi.fmuproxy'
-version = '0.1-SNAPSHOT'
-
+def avro_version = '1.8.2'
+def grpc_version = '1.13.1'
 def definitions = "../../../rpc-definitions"
 
 dependencies {
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
 
-    compile group: 'io.grpc', name: 'grpc-stub', version: '1.12.0'
-    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.12.0'
+    compile group: 'io.grpc', name: 'grpc-stub', version: grpc_version
+    compile group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
 
-    compile group: 'org.apache.avro', name: 'avro', version: '1.8.2'
-    compile group: 'org.apache.avro', name: 'avro-ipc', version: '1.8.2'
+    compile group: 'org.apache.avro', name: 'avro', version: avro_version
+    compile group: 'org.apache.avro', name: 'avro-ipc', version: avro_version
 }
 
 avro {
@@ -42,11 +38,11 @@ compileJava.source(generateAvro.outputs)
 protobuf {
     generatedFilesBaseDir = "$projectDir/build"
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.5.1'
+        artifact = 'com.google.protobuf:protoc:3.6.0'
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.12.0'
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpc_version}"
         }
     }
     generateProtoTasks {
@@ -88,6 +84,12 @@ if (thriftPath != null && Os.isFamily(Os.FAMILY_WINDOWS)) {
 
 if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
 
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+
+    group = 'no.mechatronics.sfi.fmuproxy'
+    version = '0.1-SNAPSHOT'
+
     signing {
         sign configurations.archives
     }
@@ -109,12 +111,12 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
                     name archivesBaseName
                     packaging 'jar'
                     // optionally artifactId can be defined here
-                    description 'Generated thrift sources for use by FMU-proxy'
-                    url 'https://github.com/SFI-Mechatronics/gRPC-FMU'
+                    description 'Generated sources from RPC schema definitions for use by FMU-proxy'
+                    url 'https://github.com/SFI-Mechatronics/FMU-proxy'
 
                     scm {
-                        connection 'scm:git:git://github.com/SFI-Mechatronics/gRPC-FMU.git'
-                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/gRPC-FMU.git'
+                        connection 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
+                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
                         url 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
                     }
 
@@ -132,6 +134,7 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
                             email 'laht@ntnu.no'
                         }
                     }
+
                 }
             }
         }

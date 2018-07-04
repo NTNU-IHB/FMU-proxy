@@ -65,6 +65,7 @@ class GrpcFmuServer(
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
+                directExecutor()
                 services.forEach { addService(it) }
             }.build().start()
 

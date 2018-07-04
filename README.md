@@ -44,4 +44,8 @@ You can now connect to the FMU in a language of your choosing using one of the s
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
+#### Running tests
+
+In order to run the tests, a system variable named __TEST_FMUs__ must be present on your system. This variable should point to the location of the content found [here](https://github.com/markaren/TEST_FMUs).
+
 

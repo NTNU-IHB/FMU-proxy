@@ -26,7 +26,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.5'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
     }
 }
 
@@ -79,11 +79,11 @@ shadowJar {
 protobuf {
     generatedFilesBaseDir = "$projectDir/src"
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.5.1'
+        artifact = 'com.google.protobuf:protoc:3.6.0'
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.12.0'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.13.1'
         }
     }
     generateProtoTasks {

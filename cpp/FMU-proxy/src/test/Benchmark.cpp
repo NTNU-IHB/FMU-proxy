@@ -23,41 +23,50 @@
  */
 
 #include <iostream>
-#include <thread>
+
+#include <boost/filesystem.hpp>
+
+#include <fmilib.h>
 
 #include "../common/Util.h"
 #include "../common/FmuWrapper.h"
-#include "../server/ThriftServer.h"
+#include "../common/thrift-gen/definitions_types.h"
 
 using namespace std;
 using namespace fmuproxy;
-using namespace fmuproxy::server;
+using namespace boost::filesystem;
 
-void wait_for_input(::ThriftServer* server) {
-    do {
-        cout << '\n' << "Press a key to continue...\n";
-    } while (cin.get() != '\n');
-    cout << "Done." << endl;
-    server->stop();
-}
+const double stop = 10;
+const double step_size = 1E-4;
 
 int main(int argc, char **argv) {
 
-    int port = 9090;
     string fmu_path = string(string(getenv("TEST_FMUs")))
-                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+                      + "/FMI_2.0/CoSimulation/" + getOs() +
+                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    shared_ptr<FmuWrapper> fmu(new FmuWrapper(fmu_path.c_str()));
-    ThriftServer server = ThriftServer(fmu, port);
+    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
 
-    thread t(wait_for_input, &server);
+    shared_ptr<FmuInstance> instance = fmu.newInstance();
 
-    cout << "Starting the server..." << endl;
-    server.serve();
+    instance->init(0.0, 0.0);
 
-    t.join();
+    clock_t begin = clock();
 
+    RealRead read;
+    StepResult result;
+    while (result.simulationTime <= stop) {
+        instance->step(step_size, result);
+        instance->getReal("Temperature_Room", read);
+    }
+
+    clock_t end = clock();
+
+    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
+    cout << "elapsed=" << elapsed_secs << "s" << endl;
+
+    instance->terminate();
 
     return 0;
-}
 
+}

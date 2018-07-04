@@ -72,7 +72,7 @@ class TestAvroTorsionBar {
             val motorDiskRev = client.modelDescription.modelVariables
                     .getByName("MotorDiskRev").asRealVariable()
             runInstance(instance, dt, stop, {
-                val read = motorDiskRev.read()
+                motorDiskRev.read()
             }).also {
                 LOG.info("Duration=${it}ms")
             }
