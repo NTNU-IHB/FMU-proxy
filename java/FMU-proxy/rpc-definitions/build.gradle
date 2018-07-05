@@ -2,7 +2,7 @@
 plugins {
     id "com.google.protobuf" version "0.8.6"
     id "org.jruyi.thrift" version "0.4.0"
-    id "com.commercehub.gradle.plugin.avro-base" version "0.14.1"
+    id "com.commercehub.gradle.plugin.avro-base" version "0.14.2"
 }
 
 def avro_version = '1.8.2'
