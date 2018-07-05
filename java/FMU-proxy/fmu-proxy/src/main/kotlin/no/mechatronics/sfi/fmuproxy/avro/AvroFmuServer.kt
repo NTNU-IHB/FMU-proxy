@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.avro
 
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.services.AvroFmuServiceImpl
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import org.apache.avro.ipc.NettyServer

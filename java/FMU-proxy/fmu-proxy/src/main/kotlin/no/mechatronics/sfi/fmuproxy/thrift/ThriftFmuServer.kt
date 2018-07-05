@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift
 
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmuproxy.thrift.services.ThriftFmuServiceImpl
 import org.apache.thrift.server.TServer
