@@ -11,7 +11,6 @@ find_package(Boost 1.63.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 SET(FMILIB_USE_SHARED_LIB true)
-SET(FMILIB_PRINT_VARS true)
 find_package(FMILIB REQUIRED)
 IF(FMILIB_FOUND)
     MESSAGE(STATUS "FMI library found")
