@@ -36,8 +36,8 @@ import javax.faces.bean.ViewScoped
 @ViewScoped
 class FmuView: Serializable {
 
-    @ManagedProperty("#{fmuService}")
-    lateinit var service: FmuService
+//    @ManagedProperty("#{fmuService}")
+//    lateinit var service: FmuService
 
     var selectedFmu: RemoteFmu? = null
 

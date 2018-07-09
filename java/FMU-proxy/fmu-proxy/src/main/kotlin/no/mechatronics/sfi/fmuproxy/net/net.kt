@@ -25,7 +25,12 @@
 package no.mechatronics.sfi.fmuproxy.net
 
 import info.laht.yajrpc.net.RpcServer
+import java.net.ServerSocket
 
+
+fun findAvailablePort(): Int = ServerSocket(0).use {
+    it.localPort
+}
 
 /**
  * @author Lars Ivar Hatledal

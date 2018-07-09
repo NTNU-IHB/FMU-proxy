@@ -24,13 +24,21 @@
 
 package no.mechatronics.sfi.fmuproxy.web.fmu
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.util.*
 import javax.servlet.annotation.WebServlet
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-private const val CONTENT_TYPE = "text/html"
+private const val CONTENT_TYPE_TEXT_HTML = "text/html"
+
+val service: FmuService
+    get() = FmuService.INSTANCE
+
 
 /**
  * @author Lars Ivar Hatledal
@@ -42,9 +50,8 @@ class AvailableFmuServlet: HttpServlet() {
     override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
 
         with (resp) {
-            contentType = CONTENT_TYPE
+            contentType = CONTENT_TYPE_TEXT_HTML
 
-                val service = FmuService.INSTANCE
                 val info = GsonBuilder()
                         .setPrettyPrinting()
                         .create()
@@ -56,4 +63,53 @@ class AvailableFmuServlet: HttpServlet() {
         }
 
     }
+}
+
+@WebServlet(urlPatterns = ["/keepalive"])
+class KeepAlive: HttpServlet() {
+
+    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+
+        val guid = req.inputStream.reader().readText()
+
+    }
+
+}
+
+@WebServlet(urlPatterns = ["/registerfmu"])
+class RegisterFmuServlet: HttpServlet() {
+
+    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+
+        try {
+
+            val json = req.inputStream.reader().readText()
+            val remoteFmu = Gson().fromJson(json, RemoteFmu::class.java)
+            service.fmus.add(remoteFmu)
+
+            with(resp) {
+                contentType = CONTENT_TYPE_TEXT_HTML
+                writer.println("success")
+                writer.close()
+            }
+
+        } catch (ex: Exception) {
+
+        }
+
+    }
+
+
+    private class Runner: Runnable {
+
+        override fun run() {
+
+        }
+
+    }
+
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(RegisterFmuServlet::class.java)
+    }
+
 }
