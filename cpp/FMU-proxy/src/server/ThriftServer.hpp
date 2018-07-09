@@ -16,8 +16,8 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
-#include "../common/FmuWrapper.h"
-#include "FmuServiceHandler.h"
+#include "../common/FmuWrapper.hpp"
+#include "FmuServiceHandler.hpp"
 
 
 using namespace ::apache::thrift;

@@ -64,17 +64,17 @@ namespace fmuproxy {
         }
 
         void getInteger(unsigned int vr, IntegerRead& read);
-        void getInteger(const char *name, IntegerRead& read);
+        void getInteger(string name, IntegerRead& read);
 
         void getReal(unsigned int vr, RealRead& read);
-        void getReal(const char *name, RealRead& read);
+        void getReal(string name, RealRead& read);
 
 
         void getString(unsigned int vr, StringRead& read);
-        void getString(const char *name, StringRead& read);
+        void getString(string name, StringRead& read);
 
         void getBoolean(unsigned int vr, BooleanRead& read);
-        void getBoolean(const char *name, BooleanRead& read);
+        void getBoolean(string name, BooleanRead& read);
 
         ~FmuInstance();
 
@@ -93,7 +93,7 @@ namespace fmuproxy {
         shared_ptr<ModelDescription> modelDescription;
 
     public:
-        FmuWrapper(const char *fmu_path);
+        FmuWrapper(string fmu_path);
 
         const char* getModelDescriptionXml();
 
