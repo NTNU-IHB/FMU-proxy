@@ -27,7 +27,6 @@ package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
-import no.mechatronics.sfi.fmuproxy.fmu.RemoteFmu
 import no.mechatronics.sfi.fmuproxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
@@ -44,8 +43,8 @@ import java.util.*
  * @author Lars Ivar Hatledal
  */
 class FmuProxy(
-        private val fmuFile: Fmu,
-        private val remote: SimpleSocketAddress? = null,
+        val fmuFile: Fmu,
+        val remoteAddress: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
 
@@ -71,15 +70,6 @@ class FmuProxy(
             )
         }
 
-    private val remoteFmu: RemoteFmu
-        get() {
-            return RemoteFmu(
-                    guid = fmuFile.modelDescription.guid,
-                    modelName = fmuFile.modelDescription.modelName,
-                    networkInfo = networkInfo,
-                    modelDescriptionXml = fmuFile.modelDescriptionXml)
-        }
-
     /**
      * Start proxy
      */
@@ -89,8 +79,8 @@ class FmuProxy(
                 val (server, port) = it
                 if (port == null) server.start() else server.start(port)
             }
-            beat = remote?.let {
-                Heartbeat(remote, remoteFmu).apply {
+            beat = remoteAddress?.let {
+                Heartbeat(remoteAddress, networkInfo, fmuFile.modelDescriptionXml).apply {
                     start()
                 }
             }

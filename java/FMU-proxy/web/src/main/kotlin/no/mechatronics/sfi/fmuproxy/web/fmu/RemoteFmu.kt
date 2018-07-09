@@ -35,26 +35,30 @@ import javax.faces.bean.ManagedBean
  */
 @ManagedBean
 data class RemoteFmu(
-        val guid: String,
-        val modelName: String,
+        val uuid: String,
         val networkInfo: NetworkInfo,
         val modelDescriptionXml: String
 ): Serializable {
 
     @Transient
     private var _modelDescription: CommonModelDescription? = null
+    val modelDescription: CommonModelDescription
+        get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
+
+    val guid: String
+        get() = modelDescription.guid
+
+    val modelName: String
+        get() = modelDescription.modelName
 
     val description: String
         get() = modelDescription.description ?: "-"
-
-    val modelDescription: CommonModelDescription
-        get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
 
     val modelVariables: List<TypedScalarVariable<*>>
         get() = modelDescription.modelVariables.getVariables()
 
     override fun toString(): String {
-        return "RemoteFmu(modelName=$modelName, guid='$guid', networkInfo=$networkInfo)"
+        return "RemoteFmu(guid='${modelDescription.guid}', modelName='${modelDescription.modelName}', networkInfo=$networkInfo)"
     }
 
 }

@@ -62,6 +62,8 @@ data class SimpleSocketAddress(
         val port: Int
 ) {
 
+    fun urlString() = "http://$host:$port"
+
     companion object {
 
         @JvmStatic

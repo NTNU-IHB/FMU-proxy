@@ -1,9 +1,8 @@
 package no.mechatronics.sfi.fmuproxy.heartbeat
 
-import com.sun.net.httpserver.HttpExchange
+import com.google.gson.GsonBuilder
 import com.sun.net.httpserver.HttpHandler
 import com.sun.net.httpserver.HttpServer
-import no.mechatronics.sfi.fmuproxy.fmu.RemoteFmu
 import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import no.mechatronics.sfi.fmuproxy.net.findAvailablePort
@@ -11,29 +10,38 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.io.DataOutputStream
-import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 import java.net.InetSocketAddress
 
-
-
 internal class Heartbeat(
         private val remoteAddress: SimpleSocketAddress,
-        private val remoteFmu: RemoteFmu
+        private val networkInfo: NetworkInfo,
+        private val modelDescriptionXml: String
 ): Closeable {
 
     private var thread: Thread? = null
-
     private var stop: Boolean = false
 
-    private var timeStamp = -1L
+    private var connected: Boolean = false
+    private val uuid: String = UUID.randomUUID().toString()
 
-    private val connected: Boolean
-        get() = timeStamp != -1L && (System.currentTimeMillis() - timeStamp) < 2500L
+    val jsonData: String
+        get() {
+            val gson = GsonBuilder().create()
+            val map = mapOf(
+                    "uuid" to uuid,
+                    "networkInfo" to networkInfo,
+                    "modelDescriptionXml" to modelDescriptionXml
+            )
+            return gson.toJson(map)
+        }
 
-    var server: MyHttpServer? = null
+
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
+    }
 
     fun start() {
 
@@ -53,100 +61,136 @@ internal class Heartbeat(
 
     fun stop() {
         thread?.also {
-            it.interrupt()
             stop = true
+            it.interrupt()
         }
     }
 
     private fun run() {
 
-        server = MyHttpServer()
+        fun sleep(millis: Long) {
+            try {
+                Thread.sleep(millis)
+            } catch (ex: InterruptedException) {
+                // ignore
+            }
+        }
 
         while (!stop && !Thread.currentThread().isInterrupted) {
 
             if (connected) {
 
-                try {
-                    Thread.sleep(1000)
-                } catch (ex: InterruptedException) {
-                    LOG.debug("Thread interrupted..")
-                }
+                post("ping", uuid, {
+                    connected = it == "success"
+                    sleep(500L)
+                }, { ex ->
+                    connected = false
+                    LOG.trace("$ex")
+                })
 
             } else {
 
-                val urlString = "http://${remoteAddress.host}:${remoteAddress.port}/fmu-proxy/registerfmu"
+                post("registerfmu", jsonData, {
+                    connected = it == "success"
+                    println("$it == success = $connected")
+                }, { ex ->
+                    LOG.trace("$ex")
+                    sleep(2500L)
+                })
 
-                val url = URL(urlString)
-                (url.openConnection() as HttpURLConnection).apply {
-                    requestMethod = "POST"
-                    doOutput = true
-                    setRequestProperty("Content-Type", "application/text")
+            }
 
-                    DataOutputStream(outputStream).use {
-                        it.writeBytes("${remoteFmu.toJson()}")
-                        it.flush()
-                    }
+        }
 
-                    println("responseCode=$responseCode")
-                    println("responseMessage=${inputStream.reader().readText()}")
+    }
 
+
+    private fun post(ctx: String, data: String, responseCallback: (String) -> Unit, onError: (Exception) -> Unit) {
+
+        try {
+
+            val urlString = "${remoteAddress.urlString()}/fmu-proxy/$ctx"
+            val url = URL(urlString)
+            (url.openConnection() as HttpURLConnection).apply {
+                requestMethod = "POST"
+                doOutput = true
+                setRequestProperty("Content-Type", "application/text")
+
+                DataOutputStream(outputStream).use {
+                    it.writeBytes(data)
+                    it.flush()
                 }
 
+                responseCallback(inputStream.reader().readText().trim())
             }
 
+        } catch (ex: Exception) {
+            onError(ex)
         }
 
     }
-
-    inner class MyHttpServer {
-
-        private val server: HttpServer
-        private val port: Int
-
-        init {
-
-
-            val handler = HttpHandler { t ->
-
-                timeStamp = System.currentTimeMillis()
-
-                val response = "I'm alive".toByteArray()
-                t.sendResponseHeaders(200, response.size.toLong())
-                t.responseBody.use {
-                    it.write(response)
-                }
-            }
-
-            port = findAvailablePort()
-            server = HttpServer.create(InetSocketAddress(port), 0).apply {
-                createContext("/", handler)
-                executor = null
-                start()
-            }
-
-        }
-
-        fun stop() {
-            server?.stop(0)
-        }
-
-    }
-
-
-
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
-    }
-
 
 }
 
 fun main(args: Array<String>) {
 
+    val xml = """
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fmiModelDescription
+  fmiVersion="2.0"
+  modelName="bouncingBall"
+  guid="{8c4e810f-3df3-4a00-8276-176fa3c9f003}"
+  numberOfEventIndicators="1">
+
+<CoSimulation
+  modelIdentifier="bouncingBall"/>
+
+<ModelVariables>
+  <ScalarVariable name="h" valueReference="0" description="height, used as state"
+                  causality="local" variability="continuous" initial="exact">
+    <Real start="1"/>
+  </ScalarVariable>
+  <ScalarVariable name="der(h)" valueReference="1" description="velocity of ball"
+                  causality="local" variability="continuous" initial="calculated">
+    <Real derivative="1"/>
+  </ScalarVariable>
+  <ScalarVariable name="v" valueReference="2" description="velocity of ball, used as state"
+                  causality="local" variability="continuous" initial="exact">
+    <Real start="0" reinit="true"/>
+  </ScalarVariable>
+  <ScalarVariable name="der(v)" valueReference="3" description="acceleration of ball"
+                  causality="local" variability="continuous" initial="calculated">
+    <Real derivative="3"/>
+  </ScalarVariable>
+  <ScalarVariable name="g" valueReference="4" description="acceleration of gravity"
+                  causality="parameter" variability="fixed" initial="exact">
+    <Real start="9.81"/>
+  </ScalarVariable>
+  <ScalarVariable name="e" valueReference="5" description="dimensionless parameter"
+                  causality="parameter" variability="tunable" initial="exact">
+    <Real start="0.7" min="0.5" max="1"/>
+  </ScalarVariable>
+</ModelVariables>
+
+<ModelStructure>
+  <Derivatives>
+    <Unknown index="2" />
+    <Unknown index="4" />
+  </Derivatives>
+  <InitialUnknowns>
+    <Unknown index="2"/>
+    <Unknown index="4"/>
+  </InitialUnknowns>
+</ModelStructure>
+
+</fmiModelDescription>
+    """.trimIndent()
+
     val beat = Heartbeat(
-            SimpleSocketAddress("localhost", 8080),
-            RemoteFmu("myGuid", "myModel", NetworkInfo("localhost", mapOf("jsonRpc/http" to 9090)), "<fmiModelDescription></fmiModelDescription>")
-    )
+            remoteAddress = SimpleSocketAddress("localhost", 8080),
+            networkInfo = NetworkInfo("localhost", mapOf("jsonRpc/http" to 9090)),
+            modelDescriptionXml = xml)
+
 
     beat.start()
 
