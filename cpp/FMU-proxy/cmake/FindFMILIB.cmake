@@ -28,15 +28,16 @@
 #    FMILIB_LIBRARY         - Path to static library.
 #    FMILIB_SHARED_LIBRARY  - Path to shared/import library.
 #
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required (VERSION 3.10)
 
 SET(FMILIB_HOME $ENV{FMILIB_HOME})
-if(WIN32)
-    SET(FMILIB_DIR ${FMILIB_HOME}/include)
+message(${FMILIB_HOME})
+SET(FMILIB_DIR ${FMILIB_HOME}/include)
+if (WIN32)
     SET(FMILIB_DLL ${FMILIB_HOME}/lib)
-    SET(FMILIB_LIBRARY ${FMILIB_HOME}/lib)
-    SET(FMILIB_SHARED_LIBRARY ${FMILIB_HOME}/lib)
 endif()
+SET(FMILIB_LIBRARY ${FMILIB_HOME}/lib)
+SET(FMILIB_SHARED_LIBRARY ${FMILIB_HOME}/lib)
 
 # Find static library, and use its path prefix to provide a HINTS option to the
 # other find_*() commands.

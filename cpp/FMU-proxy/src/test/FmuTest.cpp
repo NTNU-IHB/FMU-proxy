@@ -45,42 +45,44 @@ string getOs() {
 
 int main(int argc, char **argv) {
 
-    string fmu_path = string(string(getenv("TEST_FMUs")))
-                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+    cout << getOs() << endl;
 
-    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
-
-    auto md = fmu.getModelDescription();
-    cout << md->defaultExperiment << endl;
-
-    for (auto var : md->modelVariables) {
-        cout << var.attribute.realAttribute << endl;
-    }
-
-    shared_ptr<FmuInstance> instance1 = fmu.newInstance();
-    shared_ptr<FmuInstance> instance2 = fmu.newInstance();
-
-    instance1->init(0.0, -1);
-    instance2->init(0.0, -1);
-
-    RealRead read;
-
-    instance1->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
-    double dt = 1.0/100;
-
-    StepResult result;
-    instance1->step(dt, result);
-
-    instance1->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
-
-    instance1->terminate();
-
-    instance2->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
-
-    instance2->terminate();
+//    string fmu_path = string(string(getenv("TEST_FMUs")))
+//                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+//
+//    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
+//
+//    auto md = fmu.getModelDescription();
+//    cout << md->defaultExperiment << endl;
+//
+//    for (auto var : md->modelVariables) {
+//        cout << var.attribute.realAttribute << endl;
+//    }
+//
+//    shared_ptr<FmuInstance> instance1 = fmu.newInstance();
+//    shared_ptr<FmuInstance> instance2 = fmu.newInstance();
+//
+//    instance1->init(0.0, -1);
+//    instance2->init(0.0, -1);
+//
+//    RealRead read;
+//
+//    instance1->getReal("Temperature_Room", read);
+//    cout << "Temperature_Room=" << read.value << endl;
+//    double dt = 1.0/100;
+//
+//    StepResult result;
+//    instance1->step(dt, result);
+//
+//    instance1->getReal("Temperature_Room", read);
+//    cout << "Temperature_Room=" << read.value << endl;
+//
+//    instance1->terminate();
+//
+//    instance2->getReal("Temperature_Room", read);
+//    cout << "Temperature_Room=" << read.value << endl;
+//
+//    instance2->terminate();
 
     return 0;
 
