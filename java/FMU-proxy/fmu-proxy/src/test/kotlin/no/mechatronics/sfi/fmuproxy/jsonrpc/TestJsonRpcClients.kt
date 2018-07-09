@@ -6,7 +6,7 @@ import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
@@ -92,9 +92,9 @@ class TestJsonRpcClients {
 
                 val dt = 1.0/100
                 val stop = 10.0
-                runInstance(instance, dt, stop, {
+                runInstance(instance, dt, stop) {
                     h.read()
-                }).also { LOG.info("Duration: ${it}ms") }
+                }.also { LOG.info("Duration: ${it}ms") }
 
             }
 

@@ -1,7 +1,6 @@
-package no.mechatronics.sfi.fmuproxy
+package no.mechatronics.sfi.fmuproxy.cli
 
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
-import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

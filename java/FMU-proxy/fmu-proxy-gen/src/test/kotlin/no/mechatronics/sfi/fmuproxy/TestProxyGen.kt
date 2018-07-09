@@ -2,6 +2,7 @@ package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -10,24 +11,18 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestProxyGen {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(ExecutableGenerator::class.java)
     }
 
-    private val generatedJar: File
+    private val fmuPath = File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
-    init {
-        val url = TestProxyGen::class.java.classLoader
-                .getResource("fmus/cs/PumpControlledWinch/modelDescription.xml")
-        Assertions.assertNotNull(url)
-
-        val xml = url.readText()
-        val modelDescription = ModelDescriptionParser.parse(xml)
-        generatedJar = File("${modelDescription.modelName}.jar")
-
-    }
+    private val modelDescription = ModelDescriptionParser.parse(fmuPath)
+    private val generatedJar = File("${modelDescription.modelName}.jar")
 
     @AfterAll
     fun tearDown() {
@@ -41,11 +36,9 @@ class TestProxyGen {
     @Test
     fun generate() {
 
-        val file = File(javaClass.classLoader
-                .getResource("fmus/cs/PumpControlledWinch/PumpControlledWinch.fmu").file)
-        Assertions.assertTrue(file.exists())
+        Assertions.assertTrue(fmuPath.exists())
         val args = arrayOf(
-                "-fmu", file.absolutePath,
+                "-fmu", fmuPath.absolutePath,
                 "-out", File(".").absolutePath
         )
         ApplicationStarter.main(args)

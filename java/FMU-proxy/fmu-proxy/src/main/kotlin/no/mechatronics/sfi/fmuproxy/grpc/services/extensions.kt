@@ -202,33 +202,3 @@ internal fun Initial.protoType(): Proto.Initial {
     }
 
 }
-
-//internal fun TypedScalarVariable<*>.protoStartType(): Proto.AnyPrimitive {
-//    return if (start != null) {
-//        Proto.AnyPrimitive.newBuilder().also { builder ->
-//            when (this) {
-//                is IntegerVariable -> builder.intValue = start!!
-//                is RealVariable -> builder.realValue = start!!
-//                is StringVariable -> builder.strValue = start
-//                is BooleanVariable -> builder.boolValue = start!!
-//                is EnumerationVariable -> builder.enumValue = start!!
-//                else -> throw UnsupportedOperationException("Variable type not supported: ${this::class.java.simpleName}")
-//            }
-//        }.build()
-//
-//    } else {
-//        Proto.AnyPrimitive.getDefaultInstance()
-//    }
-//}
-
-//internal fun TypedScalarVariable<*>.protoVariableType(): Proto.VariableType {
-//    return when(this) {
-//        is IntegerVariable -> Proto.VariableType.INTEGER_VARIABLE
-//        is RealVariable -> Proto.VariableType.REAL_VARIABLE
-//        is StringVariable -> Proto.VariableType.STRING_VARIABLE
-//        is BooleanVariable -> Proto.VariableType.BOOLEAN_VARIABLE
-//        is EnumerationVariable -> Proto.VariableType.ENUMERATION_VARIABLE
-//        else -> throw UnsupportedOperationException("$this is not a supported variable type!")
-//    }
-//}
-

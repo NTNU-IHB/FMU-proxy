@@ -1,6 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
@@ -73,9 +73,9 @@ class TestThriftTorsionBar {
             val stop = 0.1
             val motorDiskRev = client.modelDescription.modelVariables
                     .getByName("MotorDiskRev").asRealVariable()
-            runInstance(instance, dt, stop, {
-                val read = motorDiskRev.read()
-            }).also {
+            runInstance(instance, dt, stop) {
+                motorDiskRev.read()
+            }.also {
                 LOG.info("Duration=${it}ms")
             }
         }

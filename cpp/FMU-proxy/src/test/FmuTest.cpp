@@ -28,6 +28,7 @@
 
 #include <fmilib.h>
 
+#include "../common/Util.h"
 #include "../common/FmuWrapper.h"
 #include "../common/thrift-gen/definitions_types.h"
 
@@ -35,13 +36,7 @@ using namespace std;
 using namespace fmuproxy;
 using namespace boost::filesystem;
 
-string getOs() {
-#ifdef _WIN32
-    return "win64";
-#elif __linux__
-    return "linux64";
-#endif
-}
+
 
 int main(int argc, char **argv) {
 
@@ -87,4 +82,3 @@ int main(int argc, char **argv) {
     return 0;
 
 }
-

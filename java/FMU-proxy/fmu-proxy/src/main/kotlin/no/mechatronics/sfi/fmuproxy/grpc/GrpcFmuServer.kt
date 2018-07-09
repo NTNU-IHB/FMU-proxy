@@ -27,7 +27,7 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.fmuproxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
@@ -65,6 +65,7 @@ class GrpcFmuServer(
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
+                directExecutor()
                 services.forEach { addService(it) }
             }.build().start()
 

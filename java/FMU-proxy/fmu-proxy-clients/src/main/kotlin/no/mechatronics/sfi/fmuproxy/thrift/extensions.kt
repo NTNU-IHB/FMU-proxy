@@ -27,6 +27,8 @@ package no.mechatronics.sfi.fmuproxy.thrift
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.BooleanAttribute
@@ -262,6 +264,10 @@ class ThriftModelDescription(
     override val license: String?
         get() = modelDescription.license
     override val logCategories: LogCategories?
+        get() = null
+    override val typeDefinitions: List<SimpleType>?
+        get() = null
+    override val unitDefinitions: List<Unit>?
         get() = null
     override val modelName: String
         get() = modelDescription.modelName

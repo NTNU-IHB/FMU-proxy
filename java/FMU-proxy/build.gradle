@@ -2,7 +2,7 @@
 println "Gradle version is ${GradleVersion.current().version}"
 
 buildscript {
-    ext.kotlin_version = '1.2.50'
+    ext.kotlin_version = '1.2.51'
 
     repositories {
         mavenCentral()
@@ -16,8 +16,8 @@ wrapper {
     gradleVersion = '4.7'
 }
 
-ext.fmi4j_stable_version = '0.7.1'
-ext.fmi4j_snapshot_version = '0.7.2-SNAPSHOT'
+ext.fmi4j_stable_version = '0.7.2'
+ext.fmi4j_snapshot_version = '0.7.3-SNAPSHOT'
 
 subprojects { sub ->
 
@@ -37,15 +37,17 @@ subprojects { sub ->
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     }
 
+    def junit_version = '5.2.0'
+
     dependencies {
 
         sub.plugins.withId('kotlin') {
             compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         }
 
-        testImplementation('org.junit.jupiter:junit-jupiter-api:5.2.0')
-        testImplementation('org.junit.jupiter:junit-jupiter-params:5.2.0')
-        testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+        testImplementation("org.junit.jupiter:junit-jupiter-api:${junit_version}")
+        testImplementation("org.junit.jupiter:junit-jupiter-params:${junit_version}")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junit_version}")
 		
     }
 
@@ -58,6 +60,8 @@ subprojects { sub ->
             kotlinOptions {
                 jvmTarget = "1.8"
                 javaParameters = true
+                
+                //required for @JvmDefault
                 freeCompilerArgs = ['-Xjvm-default=enable']
             }
         }

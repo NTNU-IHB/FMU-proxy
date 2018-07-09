@@ -28,7 +28,7 @@ import com.google.gson.Gson
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import no.mechatronics.sfi.fmuproxy.solver.parseIntegrator

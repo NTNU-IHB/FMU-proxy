@@ -7,7 +7,7 @@ import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.common.FmiSimulation
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
@@ -82,7 +82,6 @@ class TestProxy {
         proxy.stop()
         fmu.close()
     }
-
 
     @Test
     fun testGetPort() {
@@ -175,38 +174,38 @@ class TestProxy {
 
     }
 
-    @Test
-    fun testJsonRpc() {
-
-        val host = "localhost"
-        val clients = listOf(
-                RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!),
-                RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!)
-               // RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!)
-                //RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
-        ).map { JsonRpcFmuClient(it) }
-
-
-        val md = fmu.modelDescription
-
-        clients.forEach { client ->
-
-            LOG.info("Testing client of type ${client.javaClass.simpleName}")
-
-            Assertions.assertEquals(md.guid, client.guid)
-            Assertions.assertEquals(md.modelName, client.modelName)
-            Assertions.assertEquals(md.fmiVersion, client.fmiVersion)
-
-            client.newInstance().use { instance ->
-
-                runInstance(instance, stepSize, stopTime).also {
-                    LOG.info("${client.client.javaClass.simpleName} duration: ${it}ms")
-                }
-
-            }
-
-        }
-
-    }
+//    @Test
+//    fun testJsonRpc() {
+//
+//        val host = "localhost"
+//        val clients = listOf(
+//                RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!),
+//                RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!),
+//                RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
+//                RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
+//        ).map { JsonRpcFmuClient(it) }
+//
+//
+//        val md = fmu.modelDescription
+//
+//        clients.forEach { client ->
+//
+//            LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
+//
+//            Assertions.assertEquals(md.guid, client.guid)
+//            Assertions.assertEquals(md.modelName, client.modelName)
+//            Assertions.assertEquals(md.fmiVersion, client.fmiVersion)
+//
+//            client.newInstance().use { instance ->
+//
+//                runInstance(instance, stepSize, stopTime).also {
+//                    LOG.info("${client.client.javaClass.simpleName} duration: ${it}ms")
+//                }
+//
+//            }
+//
+//        }
+//
+//    }
 
 }
