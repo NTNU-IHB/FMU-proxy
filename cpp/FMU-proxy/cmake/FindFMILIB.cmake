@@ -28,7 +28,7 @@
 #    FMILIB_LIBRARY         - Path to static library.
 #    FMILIB_SHARED_LIBRARY  - Path to shared/import library.
 #
-cmake_minimum_required (VERSION 2.8.11)
+cmake_minimum_required (VERSION 3.10)
 
 SET(FMILIB_HOME $ENV{FMILIB_HOME})
 if(WIN32)
