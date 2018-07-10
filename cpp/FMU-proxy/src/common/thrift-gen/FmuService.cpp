@@ -7356,7 +7356,7 @@ void FmuServiceClient::recv_readInteger( ::fmuproxy::thrift::IntegerRead& _retur
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readInteger failed: unknown result");
 }
 
-void FmuServiceClient::bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceClient::bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   send_bulkReadInteger(fmu_id, vr);
   recv_bulkReadInteger(_return);
@@ -7377,7 +7377,7 @@ void FmuServiceClient::send_bulkReadInteger(const FmuId fmu_id, const ValueRefer
   oprot_->getTransport()->flush();
 }
 
-void FmuServiceClient::recv_bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return)
+void FmuServiceClient::recv_bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return)
 {
 
   int32_t rseqid = 0;
@@ -7486,7 +7486,7 @@ void FmuServiceClient::recv_readReal( ::fmuproxy::thrift::RealRead& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readReal failed: unknown result");
 }
 
-void FmuServiceClient::bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceClient::bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   send_bulkReadReal(fmu_id, vr);
   recv_bulkReadReal(_return);
@@ -7507,7 +7507,7 @@ void FmuServiceClient::send_bulkReadReal(const FmuId fmu_id, const ValueReferenc
   oprot_->getTransport()->flush();
 }
 
-void FmuServiceClient::recv_bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return)
+void FmuServiceClient::recv_bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return)
 {
 
   int32_t rseqid = 0;
@@ -7616,7 +7616,7 @@ void FmuServiceClient::recv_readString( ::fmuproxy::thrift::StringRead& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readString failed: unknown result");
 }
 
-void FmuServiceClient::bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceClient::bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   send_bulkReadString(fmu_id, vr);
   recv_bulkReadString(_return);
@@ -7637,7 +7637,7 @@ void FmuServiceClient::send_bulkReadString(const FmuId fmu_id, const ValueRefere
   oprot_->getTransport()->flush();
 }
 
-void FmuServiceClient::recv_bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return)
+void FmuServiceClient::recv_bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return)
 {
 
   int32_t rseqid = 0;
@@ -7746,7 +7746,7 @@ void FmuServiceClient::recv_readBoolean( ::fmuproxy::thrift::BooleanRead& _retur
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "readBoolean failed: unknown result");
 }
 
-void FmuServiceClient::bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceClient::bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   send_bulkReadBoolean(fmu_id, vr);
   recv_bulkReadBoolean(_return);
@@ -7767,7 +7767,7 @@ void FmuServiceClient::send_bulkReadBoolean(const FmuId fmu_id, const ValueRefer
   oprot_->getTransport()->flush();
 }
 
-void FmuServiceClient::recv_bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return)
+void FmuServiceClient::recv_bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return)
 {
 
   int32_t rseqid = 0;
@@ -10999,7 +10999,7 @@ void FmuServiceConcurrentClient::recv_readInteger( ::fmuproxy::thrift::IntegerRe
   } // end while(true)
 }
 
-void FmuServiceConcurrentClient::bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceConcurrentClient::bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   int32_t seqid = send_bulkReadInteger(fmu_id, vr);
   recv_bulkReadInteger(_return, seqid);
@@ -11024,7 +11024,7 @@ int32_t FmuServiceConcurrentClient::send_bulkReadInteger(const FmuId fmu_id, con
   return cseqid;
 }
 
-void FmuServiceConcurrentClient::recv_bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const int32_t seqid)
+void FmuServiceConcurrentClient::recv_bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -11185,7 +11185,7 @@ void FmuServiceConcurrentClient::recv_readReal( ::fmuproxy::thrift::RealRead& _r
   } // end while(true)
 }
 
-void FmuServiceConcurrentClient::bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceConcurrentClient::bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   int32_t seqid = send_bulkReadReal(fmu_id, vr);
   recv_bulkReadReal(_return, seqid);
@@ -11210,7 +11210,7 @@ int32_t FmuServiceConcurrentClient::send_bulkReadReal(const FmuId fmu_id, const 
   return cseqid;
 }
 
-void FmuServiceConcurrentClient::recv_bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const int32_t seqid)
+void FmuServiceConcurrentClient::recv_bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -11371,7 +11371,7 @@ void FmuServiceConcurrentClient::recv_readString( ::fmuproxy::thrift::StringRead
   } // end while(true)
 }
 
-void FmuServiceConcurrentClient::bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceConcurrentClient::bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   int32_t seqid = send_bulkReadString(fmu_id, vr);
   recv_bulkReadString(_return, seqid);
@@ -11396,7 +11396,7 @@ int32_t FmuServiceConcurrentClient::send_bulkReadString(const FmuId fmu_id, cons
   return cseqid;
 }
 
-void FmuServiceConcurrentClient::recv_bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const int32_t seqid)
+void FmuServiceConcurrentClient::recv_bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -11557,7 +11557,7 @@ void FmuServiceConcurrentClient::recv_readBoolean( ::fmuproxy::thrift::BooleanRe
   } // end while(true)
 }
 
-void FmuServiceConcurrentClient::bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr)
+void FmuServiceConcurrentClient::bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const FmuId fmu_id, const ValueReferences& vr)
 {
   int32_t seqid = send_bulkReadBoolean(fmu_id, vr);
   recv_bulkReadBoolean(_return, seqid);
@@ -11582,7 +11582,7 @@ int32_t FmuServiceConcurrentClient::send_bulkReadBoolean(const FmuId fmu_id, con
   return cseqid;
 }
 
-void FmuServiceConcurrentClient::recv_bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const int32_t seqid)
+void FmuServiceConcurrentClient::recv_bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;

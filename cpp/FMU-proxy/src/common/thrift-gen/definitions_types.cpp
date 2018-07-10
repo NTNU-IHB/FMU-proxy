@@ -2207,25 +2207,25 @@ void IntegerRead::printTo(std::ostream& out) const {
 }
 
 
-IntegerArrayRead::~IntegerArrayRead() throw() {
+BulkIntegerRead::~BulkIntegerRead() throw() {
 }
 
 
-void IntegerArrayRead::__set_value(const std::vector<int32_t> & val) {
+void BulkIntegerRead::__set_value(const std::vector<int32_t> & val) {
   this->value = val;
 }
 
-void IntegerArrayRead::__set_status(const Status::type val) {
+void BulkIntegerRead::__set_status(const Status::type val) {
   this->status = val;
 }
-std::ostream& operator<<(std::ostream& out, const IntegerArrayRead& obj)
+std::ostream& operator<<(std::ostream& out, const BulkIntegerRead& obj)
 {
   obj.printTo(out);
   return out;
 }
 
 
-uint32_t IntegerArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t BulkIntegerRead::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2288,10 +2288,10 @@ uint32_t IntegerArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t IntegerArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t BulkIntegerRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("IntegerArrayRead");
+  xfer += oprot->writeStructBegin("BulkIntegerRead");
 
   xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 1);
   {
@@ -2314,27 +2314,27 @@ uint32_t IntegerArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) c
   return xfer;
 }
 
-void swap(IntegerArrayRead &a, IntegerArrayRead &b) {
+void swap(BulkIntegerRead &a, BulkIntegerRead &b) {
   using ::std::swap;
   swap(a.value, b.value);
   swap(a.status, b.status);
   swap(a.__isset, b.__isset);
 }
 
-IntegerArrayRead::IntegerArrayRead(const IntegerArrayRead& other67) {
+BulkIntegerRead::BulkIntegerRead(const BulkIntegerRead& other67) {
   value = other67.value;
   status = other67.status;
   __isset = other67.__isset;
 }
-IntegerArrayRead& IntegerArrayRead::operator=(const IntegerArrayRead& other68) {
+BulkIntegerRead& BulkIntegerRead::operator=(const BulkIntegerRead& other68) {
   value = other68.value;
   status = other68.status;
   __isset = other68.__isset;
   return *this;
 }
-void IntegerArrayRead::printTo(std::ostream& out) const {
+void BulkIntegerRead::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
-  out << "IntegerArrayRead(";
+  out << "BulkIntegerRead(";
   out << "value=" << to_string(value);
   out << ", " << "status=" << to_string(status);
   out << ")";
@@ -2455,25 +2455,25 @@ void RealRead::printTo(std::ostream& out) const {
 }
 
 
-RealArrayRead::~RealArrayRead() throw() {
+BulkRealRead::~BulkRealRead() throw() {
 }
 
 
-void RealArrayRead::__set_value(const std::vector<double> & val) {
+void BulkRealRead::__set_value(const std::vector<double> & val) {
   this->value = val;
 }
 
-void RealArrayRead::__set_status(const Status::type val) {
+void BulkRealRead::__set_status(const Status::type val) {
   this->status = val;
 }
-std::ostream& operator<<(std::ostream& out, const RealArrayRead& obj)
+std::ostream& operator<<(std::ostream& out, const BulkRealRead& obj)
 {
   obj.printTo(out);
   return out;
 }
 
 
-uint32_t RealArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t BulkRealRead::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2536,10 +2536,10 @@ uint32_t RealArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t RealArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t BulkRealRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("RealArrayRead");
+  xfer += oprot->writeStructBegin("BulkRealRead");
 
   xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 1);
   {
@@ -2562,27 +2562,27 @@ uint32_t RealArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) cons
   return xfer;
 }
 
-void swap(RealArrayRead &a, RealArrayRead &b) {
+void swap(BulkRealRead &a, BulkRealRead &b) {
   using ::std::swap;
   swap(a.value, b.value);
   swap(a.status, b.status);
   swap(a.__isset, b.__isset);
 }
 
-RealArrayRead::RealArrayRead(const RealArrayRead& other79) {
+BulkRealRead::BulkRealRead(const BulkRealRead& other79) {
   value = other79.value;
   status = other79.status;
   __isset = other79.__isset;
 }
-RealArrayRead& RealArrayRead::operator=(const RealArrayRead& other80) {
+BulkRealRead& BulkRealRead::operator=(const BulkRealRead& other80) {
   value = other80.value;
   status = other80.status;
   __isset = other80.__isset;
   return *this;
 }
-void RealArrayRead::printTo(std::ostream& out) const {
+void BulkRealRead::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
-  out << "RealArrayRead(";
+  out << "BulkRealRead(";
   out << "value=" << to_string(value);
   out << ", " << "status=" << to_string(status);
   out << ")";
@@ -2703,25 +2703,25 @@ void StringRead::printTo(std::ostream& out) const {
 }
 
 
-StringArrayRead::~StringArrayRead() throw() {
+BulkStringRead::~BulkStringRead() throw() {
 }
 
 
-void StringArrayRead::__set_value(const std::vector<std::string> & val) {
+void BulkStringRead::__set_value(const std::vector<std::string> & val) {
   this->value = val;
 }
 
-void StringArrayRead::__set_status(const Status::type val) {
+void BulkStringRead::__set_status(const Status::type val) {
   this->status = val;
 }
-std::ostream& operator<<(std::ostream& out, const StringArrayRead& obj)
+std::ostream& operator<<(std::ostream& out, const BulkStringRead& obj)
 {
   obj.printTo(out);
   return out;
 }
 
 
-uint32_t StringArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t BulkStringRead::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2784,10 +2784,10 @@ uint32_t StringArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t StringArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t BulkStringRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("StringArrayRead");
+  xfer += oprot->writeStructBegin("BulkStringRead");
 
   xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 1);
   {
@@ -2810,27 +2810,27 @@ uint32_t StringArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) co
   return xfer;
 }
 
-void swap(StringArrayRead &a, StringArrayRead &b) {
+void swap(BulkStringRead &a, BulkStringRead &b) {
   using ::std::swap;
   swap(a.value, b.value);
   swap(a.status, b.status);
   swap(a.__isset, b.__isset);
 }
 
-StringArrayRead::StringArrayRead(const StringArrayRead& other91) {
+BulkStringRead::BulkStringRead(const BulkStringRead& other91) {
   value = other91.value;
   status = other91.status;
   __isset = other91.__isset;
 }
-StringArrayRead& StringArrayRead::operator=(const StringArrayRead& other92) {
+BulkStringRead& BulkStringRead::operator=(const BulkStringRead& other92) {
   value = other92.value;
   status = other92.status;
   __isset = other92.__isset;
   return *this;
 }
-void StringArrayRead::printTo(std::ostream& out) const {
+void BulkStringRead::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
-  out << "StringArrayRead(";
+  out << "BulkStringRead(";
   out << "value=" << to_string(value);
   out << ", " << "status=" << to_string(status);
   out << ")";
@@ -2951,25 +2951,25 @@ void BooleanRead::printTo(std::ostream& out) const {
 }
 
 
-BooleanArrayRead::~BooleanArrayRead() throw() {
+BulkBooleanRead::~BulkBooleanRead() throw() {
 }
 
 
-void BooleanArrayRead::__set_value(const std::vector<bool> & val) {
+void BulkBooleanRead::__set_value(const std::vector<bool> & val) {
   this->value = val;
 }
 
-void BooleanArrayRead::__set_status(const Status::type val) {
+void BulkBooleanRead::__set_status(const Status::type val) {
   this->status = val;
 }
-std::ostream& operator<<(std::ostream& out, const BooleanArrayRead& obj)
+std::ostream& operator<<(std::ostream& out, const BulkBooleanRead& obj)
 {
   obj.printTo(out);
   return out;
 }
 
 
-uint32_t BooleanArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t BulkBooleanRead::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -3032,10 +3032,10 @@ uint32_t BooleanArrayRead::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t BooleanArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t BulkBooleanRead::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("BooleanArrayRead");
+  xfer += oprot->writeStructBegin("BulkBooleanRead");
 
   xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_LIST, 1);
   {
@@ -3058,27 +3058,27 @@ uint32_t BooleanArrayRead::write(::apache::thrift::protocol::TProtocol* oprot) c
   return xfer;
 }
 
-void swap(BooleanArrayRead &a, BooleanArrayRead &b) {
+void swap(BulkBooleanRead &a, BulkBooleanRead &b) {
   using ::std::swap;
   swap(a.value, b.value);
   swap(a.status, b.status);
   swap(a.__isset, b.__isset);
 }
 
-BooleanArrayRead::BooleanArrayRead(const BooleanArrayRead& other103) {
+BulkBooleanRead::BulkBooleanRead(const BulkBooleanRead& other103) {
   value = other103.value;
   status = other103.status;
   __isset = other103.__isset;
 }
-BooleanArrayRead& BooleanArrayRead::operator=(const BooleanArrayRead& other104) {
+BulkBooleanRead& BulkBooleanRead::operator=(const BulkBooleanRead& other104) {
   value = other104.value;
   status = other104.status;
   __isset = other104.__isset;
   return *this;
 }
-void BooleanArrayRead::printTo(std::ostream& out) const {
+void BulkBooleanRead::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
-  out << "BooleanArrayRead(";
+  out << "BulkBooleanRead(";
   out << "value=" << to_string(value);
   out << ", " << "status=" << to_string(status);
   out << ")";

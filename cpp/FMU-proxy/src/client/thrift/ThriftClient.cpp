@@ -85,7 +85,7 @@ void RemoteFmuInstance::readInteger(IntegerRead& read, ValueReference vr) {
     return client->readInteger(read, fmu_id, vr);
 }
 
-void RemoteFmuInstance::readInteger(IntegerArrayRead& read, ValueReferences vr) {
+void RemoteFmuInstance::readInteger(BulkIntegerRead& read, ValueReferences vr) {
     return client->bulkReadInteger(read, fmu_id, vr);
 }
 
@@ -93,7 +93,7 @@ void RemoteFmuInstance::readReal(RealRead &read, ValueReference vr) {
     return client->readReal(read, fmu_id, vr);
 }
 
-void RemoteFmuInstance::readReal(RealArrayRead &read, ValueReferences vr) {
+void RemoteFmuInstance::readReal(BulkRealRead &read, ValueReferences vr) {
     return client->bulkReadReal(read, fmu_id, vr);
 }
 
@@ -101,7 +101,7 @@ void RemoteFmuInstance::readString(StringRead &read, ValueReference vr) {
     return client->readString(read, fmu_id, vr);
 }
 
-void RemoteFmuInstance::readString(StringArrayRead &read, ValueReferences vr) {
+void RemoteFmuInstance::readString(BulkStringRead &read, ValueReferences vr) {
     return client->bulkReadString(read, fmu_id, vr);
 }
 
@@ -109,7 +109,7 @@ void RemoteFmuInstance::readBoolean(BooleanRead &read, ValueReference vr) {
     return client->readBoolean(read, fmu_id, vr);
 }
 
-void RemoteFmuInstance::readBoolean(BooleanArrayRead &read, ValueReferences vr) {
+void RemoteFmuInstance::readBoolean(BulkBooleanRead &read, ValueReferences vr) {
     return client->bulkReadBoolean(read, fmu_id, vr);
 }
 

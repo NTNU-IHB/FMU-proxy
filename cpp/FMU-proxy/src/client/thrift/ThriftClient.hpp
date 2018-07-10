@@ -78,19 +78,19 @@ namespace fmuproxy {
 
             void readInteger(IntegerRead& read, ValueReference vr);
 
-            void readInteger(IntegerArrayRead& read, ValueReferences vr);
+            void readInteger(BulkIntegerRead& read, ValueReferences vr);
 
             void readReal(RealRead &read, ValueReference vr);
 
-            void readReal(RealArrayRead& read, ValueReferences vr);
+            void readReal(BulkRealRead& read, ValueReferences vr);
 
             void readString(StringRead &read, ValueReference vr);
 
-            void readString(StringArrayRead &read, ValueReferences vr);
+            void readString(BulkStringRead &read, ValueReferences vr);
 
             void readBoolean(BooleanRead &read, ValueReference vr);
 
-            void readBoolean(BooleanArrayRead &read, ValueReferences vr);
+            void readBoolean(BulkBooleanRead &read, ValueReferences vr);
 
             Status::type writeInteger(ValueReference vr, int value);
 
