@@ -17,12 +17,12 @@ add_library(server STATIC
         server/FmuServiceHandler.cpp
         server/ThriftServer.hpp
         server/ThriftServer.cpp)
-target_link_libraries(server common thrift)
+target_link_libraries(server common)
 
 add_library(client STATIC
         client/thrift/ThriftClient.cpp
         client/thrift/ThriftClient.hpp)
-target_link_libraries(client common thrift)
+target_link_libraries(client common)
 
 add_executable(Benchmark
         test/Benchmark.cpp)
