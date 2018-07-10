@@ -32,7 +32,7 @@
 #include "../common/thrift-gen/FmuService.h"
 #include "../common/thrift-gen/definitions_types.h"
 
-#include "../client/ThriftClient.hpp"
+#include "../client/thrift/ThriftClient.hpp"
 
 using namespace std;
 using namespace apache::thrift;
@@ -49,14 +49,16 @@ int main() {
 
     try {
 
-        ThriftClient client = ThriftClient("localhost", 9090);
+        ThriftClient fmu = ThriftClient("localhost", 9090);
 
-        shared_ptr<ModelDescription> modelDescription = client.getModelDescription();
+        shared_ptr<ModelDescription> modelDescription = fmu.getModelDescription();
         cout << "GUID=" << modelDescription->guid << endl;
         cout << "modelName=" << modelDescription->modelName << endl;
         cout << "license=" << modelDescription->license << endl;
 
-        shared_ptr<RemoteFmuInstance> instance = client.newInstance();
+        int value_reference = fmu.getValueReference("Temperature_Room");
+
+        shared_ptr<RemoteFmuInstance> instance = fmu.newInstance();
         instance->init(0.0, 0.0);
 
         clock_t begin = clock();
@@ -65,7 +67,7 @@ int main() {
         StepResult result;
         while (result.simulationTime < stop) {
             instance->step(result, step_size);
-            instance->readReal(read, 47);
+            instance->readReal(read, value_reference);
         }
 
         clock_t end = clock();
@@ -76,7 +78,7 @@ int main() {
         auto status = instance->terminate();
         cout << "terminated FMU with status " << status << endl;
 
-        client.close();
+        fmu.close();
 
     } catch (TException& tx) {
         cout << "ERROR: " << tx.what() << endl;

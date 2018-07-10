@@ -28,8 +28,8 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../common/thrift-gen/FmuService.h"
-#include "../common/thrift-gen/definitions_types.h"
+#include "../../common/thrift-gen/FmuService.h"
+#include "../../common/thrift-gen/definitions_types.h"
 
 #include "ThriftClient.hpp"
 
@@ -61,4 +61,74 @@ shared_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     FmuId fmu_id = client->createInstanceFromCS();
     shared_ptr<RemoteFmuInstance> instance(new RemoteFmuInstance(fmu_id, client));
     return instance;
+}
+
+Status::type RemoteFmuInstance::init(double start, double stop) {
+    return client->init(fmu_id, start, stop);
+}
+
+Status::type RemoteFmuInstance::step(StepResult& result, double step_size) {
+    client->step(result, fmu_id, step_size);
+    current_time = result.simulationTime;
+    return result.status;
+}
+
+Status::type RemoteFmuInstance::terminate() {
+    return client->terminate(fmu_id);
+}
+
+Status::type RemoteFmuInstance::reset() {
+    return client->reset(fmu_id);
+}
+
+void RemoteFmuInstance::readInteger(IntegerRead& read, ValueReference vr) {
+    return client->readInteger(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readInteger(IntegerArrayRead& read, ValueReferences vr) {
+    return client->bulkReadInteger(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readReal(RealRead &read, ValueReference vr) {
+    return client->readReal(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readReal(RealArrayRead &read, ValueReferences vr) {
+    return client->bulkReadReal(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readString(StringRead &read, ValueReference vr) {
+    return client->readString(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readString(StringArrayRead &read, ValueReferences vr) {
+    return client->bulkReadString(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readBoolean(BooleanRead &read, ValueReference vr) {
+    return client->readBoolean(read, fmu_id, vr);
+}
+
+void RemoteFmuInstance::readBoolean(BooleanArrayRead &read, ValueReferences vr) {
+    return client->bulkReadBoolean(read, fmu_id, vr);
+}
+
+Status::type RemoteFmuInstance::writeInteger(ValueReference vr, int value) {
+    return client->writeInteger(fmu_id, vr, value);
+}
+
+Status::type RemoteFmuInstance::writeInteger(ValueReferences vr, vector<int> value) {
+    return client->bulkWriteInteger(fmu_id, vr, value);
+}
+
+Status::type RemoteFmuInstance::writeReal(ValueReference vr, double value) {
+    return client->writeReal(fmu_id, vr, value);
+}
+
+Status::type RemoteFmuInstance::writeString(ValueReference vr, string value) {
+    return client->writeString(fmu_id, vr, value);
+}
+
+Status::type RemoteFmuInstance::writeBoolean(ValueReference vr, bool value) {
+    return client->writeBoolean(fmu_id, vr, value);
 }

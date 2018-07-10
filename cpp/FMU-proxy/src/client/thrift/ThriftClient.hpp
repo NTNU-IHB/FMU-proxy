@@ -30,7 +30,7 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../common/thrift-gen/FmuService.h"
+#include "../../common/thrift-gen/FmuService.h"
 
 using namespace apache::thrift;
 using namespace fmuproxy::thrift;
@@ -68,38 +68,45 @@ namespace fmuproxy {
                 return init(start, 0.0);
             }
 
-            Status::type init(double start, double stop) {
-                return client->init(fmu_id, start, stop);
-            }
+            Status::type init(double start, double stop);
 
-            void step(StepResult& result, double step_size) {
-                client->step(result, fmu_id, step_size);
-                current_time = result.simulationTime;
-            }
+            Status::type step(StepResult& result, double step_size);
 
-            Status::type terminate() {
-                return client->terminate(fmu_id);
-            }
+            Status::type terminate();
 
-            Status::type reset() {
-                return client->reset(fmu_id);
-            }
+            Status::type reset();
 
-            void readInteger(IntegerRead& read, ValueReference vr) {
-                return client->readInteger(read, fmu_id, vr);
-            }
+            void readInteger(IntegerRead& read, ValueReference vr);
 
-            void readReal(RealRead &read, ValueReference vr) {
-                return client->readReal(read, fmu_id, vr);
-            }
+            void readInteger(IntegerArrayRead& read, ValueReferences vr);
 
-            void readString(StringRead &read, ValueReference vr) {
-                return client->readString(read, fmu_id, vr);
-            }
+            void readReal(RealRead &read, ValueReference vr);
 
-            void readBoolean(BooleanRead &read, ValueReference vr) {
-                return client->readBoolean(read, fmu_id, vr);
-            }
+            void readReal(RealArrayRead& read, ValueReferences vr);
+
+            void readString(StringRead &read, ValueReference vr);
+
+            void readString(StringArrayRead &read, ValueReferences vr);
+
+            void readBoolean(BooleanRead &read, ValueReference vr);
+
+            void readBoolean(BooleanArrayRead &read, ValueReferences vr);
+
+            Status::type writeInteger(ValueReference vr, int value);
+
+            Status::type writeInteger(ValueReferences vr, IntArray value);
+
+            Status::type writeReal(ValueReference vr, double value);
+
+            Status::type writeReal(ValueReferences vr, RealArray value);
+
+            Status::type writeString(ValueReference vr, std::string value);
+
+            Status::type writeString(ValueReferences vr, StringArray value);
+
+            Status::type writeBoolean(ValueReference vr, bool value);
+
+            Status::type writeBoolean(ValueReferences vr, BooleanArray value);
 
             ~RemoteFmuInstance() {
                 std::cout << "RemoteFmuInstance destructor called" << std::endl;
@@ -125,6 +132,17 @@ namespace fmuproxy {
 
             void close() {
                 transport->close();
+            }
+
+            int getValueReference(std::string variableName) {
+
+                for (ScalarVariable var : getModelDescription()->modelVariables) {
+                    if (var.name == variableName) {
+                        return var.valueReference;
+                    }
+                }
+                throw std::runtime_error("No such variable: '" + variableName + "'");
+
             }
 
             ~ThriftClient() {

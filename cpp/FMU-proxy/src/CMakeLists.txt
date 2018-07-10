@@ -45,7 +45,7 @@ add_executable(ThriftClientTest
         common/thrift-gen/service_types.h
         common/thrift-gen/FmuService.cpp
         common/thrift-gen/FmuService.h
-        client/ThriftClient.cpp
-        client/ThriftClient.hpp
+        client/thrift/ThriftClient.cpp
+        client/thrift/ThriftClient.hpp
         test/ThriftClientTest.cpp)
 target_link_libraries(ThriftClientTest thrift ${FMILIB_LIBRARIES})

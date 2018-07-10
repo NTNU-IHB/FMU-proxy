@@ -37,7 +37,6 @@ using namespace fmuproxy;
 using namespace boost::filesystem;
 
 
-
 int main(int argc, char **argv) {
 
     string fmu_path = string(string(getenv("TEST_FMUs")))
