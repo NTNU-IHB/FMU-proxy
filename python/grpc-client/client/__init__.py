@@ -18,16 +18,16 @@ class VariableReader:
         self.request.fmu_id = fmu_id
         self.request.value_reference = value_reference
 
-    def read_int(self) -> IntRead:
+    def read_int(self) -> IntegerRead:
         return self.stub.ReadInteger(self.request)
 
     def read_real(self) -> RealRead:
         return self.stub.ReadReal(self.request)
 
-    def read_string(self) -> StrRead:
+    def read_string(self) -> StringRead:
         return self.stub.ReadString(self.request)
 
-    def read_boolean(self) -> BoolRead:
+    def read_boolean(self) -> BooleanRead:
         return self.stub.ReadBoolean(self.request)
 
 
@@ -39,7 +39,7 @@ class VariableWriter:
         self.value_reference = value_reference
 
     def write_int(self, value: int):
-        request = WriteIntRequest()
+        request = WriteIntegerRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
@@ -53,14 +53,14 @@ class VariableWriter:
         return self.stub.WriteReal(request)
 
     def write_string(self, value: str):
-        request = WriteStrRequest()
+        request = WriteStringRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteString(request)
 
     def write_boolean(self, value: bool):
-        request = WriteBoolRequest()
+        request = WriteBooleanRequest()
         request.fmu_id = self.fmu_id
         request.value_reference = self.value_reference
         request.value = value

@@ -35,7 +35,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-
 /**
  *
  * @author Lars Ivar Hatledal
@@ -48,19 +47,19 @@ object ProtoGen {
 
         val instanceServices = StringBuilder().apply {
 
-            modelDescription.modelVariables.forEach({
+            modelDescription.modelVariables.forEach {
                 val isArray = isArray(it.name)
                 if (!isArray) {
 
                     append("""
-    rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it)}Read);
+        rpc Read_${convertName(it.name)} (UInt) returns (${getProtoType(it)}Read);
 
-    rpc Write_${convertName(it.name)} (Instance${getProtoType(it)}Write) returns (StatusResponse);
-                    """)
+        rpc Write_${convertName(it.name)} (Instance${getProtoType(it)}Write) returns (StatusResponse);
+                        """)
 
                 }
 
-            })
+            }
         }.toString()
 
          FileFuture(

@@ -116,11 +116,11 @@ internal fun Int.asProtoInt(): Proto.UInt {
             .build()
 }
 
-internal fun Proto.IntRead.convert(): FmuIntegerRead {
+internal fun Proto.IntegerRead.convert(): FmuIntegerRead {
     return FmuIntegerRead(value, status.convert())
 }
 
-internal fun Proto.IntListRead.convert(): FmuIntegerArrayRead {
+internal fun Proto.BulkIntegerRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(valuesList.toIntArray(), status.convert())
 }
 
@@ -128,23 +128,23 @@ internal fun Proto.RealRead.convert(): FmuRealRead {
     return FmuRealRead(value, status.convert())
 }
 
-internal fun Proto.RealListRead.convert(): FmuRealArrayRead {
+internal fun Proto.BulkRealRead.convert(): FmuRealArrayRead {
     return FmuRealArrayRead(valuesList.toDoubleArray(), status.convert())
 }
 
-internal fun Proto.StrRead.convert(): FmuStringRead {
+internal fun Proto.StringRead.convert(): FmuStringRead {
     return FmuStringRead(value, status.convert())
 }
 
-internal fun Proto.StrListRead.convert(): FmuStringArrayRead {
+internal fun Proto.BulkStringRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(valuesList.toTypedArray(), status.convert())
 }
 
-internal fun Proto.BoolRead.convert(): FmuBooleanRead {
+internal fun Proto.BooleanRead.convert(): FmuBooleanRead {
     return FmuBooleanRead(value, status.convert())
 }
 
-internal fun Proto.BoolListRead.convert(): FmuBooleanArrayRead {
+internal fun Proto.BulkBooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(valuesList.toBooleanArray(), status.convert())
 }
 
@@ -228,11 +228,11 @@ internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
     )
 
     when(attributeCase) {
-        Proto.ScalarVariable.AttributeCase.INTEGERATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.REALATTRIBUTE -> v.realAttribute = realAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.STRINGATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.BOOLEANATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.ENUMERATIONATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> v.realAttribute = realAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
+        Proto.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
         else -> throw AssertionError()
     }
 

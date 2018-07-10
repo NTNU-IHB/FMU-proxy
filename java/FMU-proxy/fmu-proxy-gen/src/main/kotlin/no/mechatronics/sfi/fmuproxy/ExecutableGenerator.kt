@@ -36,7 +36,6 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.nio.file.Files
 
-
 const val PACKAGE_NAME = "no.mechatronics.sfi.fmuproxy"
 const val KOTLIN_SRC_OUTPUT_FOLDER = "src/main/kotlin/"
 const val PROTO_SRC_OUTPUT_FOLDER = "src/main/proto/"
@@ -58,8 +57,7 @@ class ExecutableGenerator(
         @Suppress("NAME_SHADOWING")
         val outDir: File = outDir ?: File(defaultOut)
 
-        val modelDescription = ModelDescriptionParser.parse(modelDescriptionXml)
-        //val tempDir = Files.createTempDirectory("fmuproxy").toFile()
+        val modelDescription= ModelDescriptionParser.parse(modelDescriptionXml)
 
         val baseFile = File(modelDescription.modelName).apply {
             if (!exists() && mkdir()) {
@@ -148,6 +146,7 @@ class ExecutableGenerator(
     }
 
     companion object {
+
         private val LOG: Logger = LoggerFactory.getLogger(ExecutableGenerator::class.java)
 
         private const val defaultOut = "."
