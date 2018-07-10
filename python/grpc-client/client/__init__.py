@@ -1,19 +1,13 @@
 import grpc
 from google.protobuf.empty_pb2 import Empty
-from definitions_pb2 import UInt
-from definitions_pb2 import InitRequest
-from definitions_pb2 import StepRequest
-from definitions_pb2 import ReadRequest
-from definitions_pb2 import IntRead
-from definitions_pb2 import RealRead
-from definitions_pb2 import StrRead
-from definitions_pb2 import BoolRead
-from definitions_pb2 import WriteIntRequest
-from definitions_pb2 import WriteRealRequest
-from definitions_pb2 import WriteStrRequest
-from definitions_pb2 import WriteBoolRequest
-from definitions_pb2 import Status
-from service_pb2_grpc import FmuServiceStub
+from gen.definitions_pb2 import *
+from gen.service_pb2_grpc import FmuServiceStub
+
+
+def uint(value: int) -> UInt:
+    var = UInt()
+    var.value = value
+    return var
 
 
 class VariableReader:
@@ -73,54 +67,50 @@ class VariableWriter:
         return self.stub.WriteBoolean(request)
 
 
-class FmuInstance:
+class RemoteFmuInstance:
 
-    def __init__(self, stub: FmuServiceStub, model_description, integrator=None):
-        self.stub = stub
-        self.model_description = model_description
+    def __init__(self, remote_fmu, solver=None):
+        self.stub = remote_fmu.stub
+        self.remote_fmu = remote_fmu
+        self.model_description = remote_fmu.model_description  # type: ModelDescription
 
-        if integrator is None:
+        self.fmu_id = None  # type: int
+        if solver is None:
             self.fmu_id = self.stub.CreateInstanceFromCS(Empty()).value
         else:
-            self.fmu_id = self.stub.CreateInstanceFromME(integrator).value
+            self.fmu_id = self.stub.CreateInstanceFromME(solver).value
 
-        self.model_variables = dict()
-        for v in self.model_description.model_variables:
-            self.model_variables[v.value_reference] = v
+        self.current_time = self.get_current_time()  # type: float
 
     def get_current_time(self) -> float:
-        ref = UInt()
-        ref.value = self.fmu_id
-        return self.stub.GetCurrentTime(ref).value
+        return self.stub.GetCurrentTime(uint(self.fmu_id)).value
 
-    def init(self, start=0.0, stop=0.0) -> bool:
+    def init(self, start=0.0, stop=0.0) -> Status:
         request = InitRequest()
         request.fmu_id = self.fmu_id
         request.start = start
         request.stop = stop
-        return self.stub.Init(request)
+        return self.stub.Init(request).status
 
     def step(self, step_size) -> Status:
         request = StepRequest()
         request.fmu_id = self.fmu_id
         request.step_size = step_size
-        return self.stub.Step(request)
+        result = self.stub.Step(request)  # type: StepResult
+        self.current_time = result.simulation_time
+        return result.status
 
-    def terminate(self) -> bool:
-        request = UInt()
-        request.value = self.fmu_id
-        return self.stub.Terminate(request)
+    def terminate(self) -> Status:
+        return self.stub.Terminate(uint(self.fmu_id)).status
 
     def reset(self) -> Status:
-        request = UInt()
-        request.value = self.fmu_id
-        self.stub.Reset(request)
+        self.stub.Reset(uint(self.fmu_id))
 
     def get_reader(self, identifier) -> VariableReader:
         if isinstance(identifier, int):
             return VariableReader(self.fmu_id, identifier, self.stub)
         elif isinstance(identifier, str):
-            value_reference = self.get_value_reference(identifier)
+            value_reference = self.remote_fmu.get_value_reference(identifier)
             return VariableReader(self.fmu_id, value_reference, self.stub)
         else:
             raise ValueError('not a valid identifier: ' + identifier)
@@ -129,10 +119,23 @@ class FmuInstance:
         if isinstance(identifier, int):
             return VariableWriter(self.fmu_id, identifier)
         elif isinstance(identifier, str):
-            value_reference = self.get_value_reference(identifier)
+            value_reference = self.remote_fmu.get_value_reference(identifier)
             return VariableWriter(self.fmu_id, value_reference)
         else:
             raise ValueError('not a valid identifier: ' + identifier)
+
+
+class RemoteFmu:
+
+    def __init__(self, host_address, port):
+        self.channel = grpc.insecure_channel(host_address + ':' + str(port))
+        self.stub = FmuServiceStub(self.channel)
+
+        self.model_description = self.stub.GetModelDescription(Empty()) # type: ModelDescription
+
+        self.model_variables = dict()
+        for var in self.model_description.model_variables:
+            self.model_variables[var.value_reference] = var
 
     def get_value_reference(self, var_name) -> int:
         for key in self.model_variables:
@@ -140,22 +143,6 @@ class FmuInstance:
                 return key
         return None
 
-
-class FmuClient:
-
-    def __init__(self, host_address, port):
-        self._channel = grpc.insecure_channel(host_address + ':' + str(port))
-        self._stub = FmuServiceStub(self._channel)
-
-        self.model_description = self._stub.GetModelDescription(Empty())
-
-    def create_instance(self, integrator=None) -> FmuInstance:
-        return FmuInstance(self._stub, self.model_description, integrator)
-
-
-
-
-
-
-
+    def create_instance(self, solver=None) -> RemoteFmuInstance:
+        return RemoteFmuInstance(self, solver)
 
