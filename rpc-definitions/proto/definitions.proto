@@ -24,11 +24,13 @@
 
 syntax = "proto3";
 
-package no.mechatronics.sfi.fmuproxy.grpc;
+package fmuproxy.grpc;
+
+option java_package = "no.mechatronics.sfi.fmuproxy.grpc";
 option java_outer_classname = "Proto";
 
 message ModelDescription {
-    string fmiVersion = 1;
+    string fmi_version = 1;
     string guid = 2;
     string model_name = 3;
     string license = 4;
@@ -37,7 +39,7 @@ message ModelDescription {
     string version = 7;
     string description = 8;
     string generation_tool = 9;
-    string generationDateAndTime = 10;
+    string generation_date_and_time = 10;
     DefaultExperiment default_experiment = 11;
     VariableNamingConvention variable_naming_convention = 12;
     repeated ScalarVariable model_variables = 13;
@@ -81,11 +83,11 @@ message ScalarVariable {
     Causality causality = 6;
     Variability variability = 7;
     oneof attribute {
-        IntegerAttribute integerAttribute = 10;
-        RealAttribute realAttribute = 11;
-        StringAttribute stringAttribute = 12;
-        BooleanAttribute booleanAttribute = 13;
-        EnumerationAttribute enumerationAttribute = 14;
+        IntegerAttribute integer_attribute = 10;
+        RealAttribute real_attribute = 11;
+        StringAttribute string_attribute = 12;
+        BooleanAttribute boolean_attribute = 13;
+        EnumerationAttribute enumeration_attribute = 14;
     }
 }
 
@@ -136,16 +138,12 @@ message Int {
     int32 value = 1;
 }
 
-message IntRead {
+message IntegerRead {
     int32 value = 1;
     Status status = 2;
 }
 
-message IntList {
-    repeated int32 values = 1;
-}
-
-message IntListRead {
+message BulkIntegerRead {
     repeated int32 values = 1;
     Status status = 2;
 }
@@ -159,11 +157,7 @@ message RealRead {
     Status status = 2;
 }
 
-message RealList {
-    repeated double values = 1;
-}
-
-message RealListRead {
+message BulkRealRead {
     repeated double values = 1;
     Status status = 2;
 }
@@ -172,16 +166,12 @@ message Str {
     string value = 1;
 }
 
-message StrRead {
+message StringRead {
     string value = 1;
     Status status = 2;
 }
 
-message StrList {
-    repeated string values = 1;
-}
-
-message StrListRead {
+message BulkStringRead {
     repeated string values = 1;
     Status status = 2;
 }
@@ -190,16 +180,12 @@ message Bool {
     bool value = 1;
 }
 
-message BoolRead {
+message BooleanRead {
     bool value = 1;
     Status status = 2;
 }
 
-message BoolList {
-    repeated bool values = 1;
-}
-
-message BoolListRead {
+message BulkBooleanRead {
     repeated bool values = 1;
     Status status = 2;
 }
@@ -214,13 +200,13 @@ message BulkReadRequest {
     repeated uint32 value_references = 2;
 }
 
-message WriteIntRequest {
+message WriteIntegerRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     int32 value = 3;
 }
 
-message BulkWriteIntRequest {
+message BulkWriteIntegerRequest {
     uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
     repeated int32 values = 3;
@@ -238,48 +224,28 @@ message BulkWriteRealRequest {
     repeated double values = 3;
 }
 
-message WriteStrRequest {
+message WriteStringRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     string value = 3;
 }
 
-message BulkWriteStrRequest {
+message BulkWriteStringRequest {
     uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
     repeated string values = 3;
 }
 
-message WriteBoolRequest {
+message WriteBooleanRequest {
     uint32 fmu_id = 1;
     uint32 value_reference = 2;
     bool value = 3;
 }
 
-message BulkWriteBoolRequest {
+message BulkWriteBooleanRequest {
     uint32 fmu_id = 1;
     repeated uint32 value_references = 2;
     repeated bool values = 3;
-}
-
-message InstanceIntWrite {
-    uint32 fmu_id = 1;
-    int32 value = 2;
-}
-
-message InstanceRealWrite {
-    uint32 fmu_id = 1;
-    double value = 2;
-}
-
-message InstanceStrWrite {
-    uint32 fmu_id = 1;
-    string value = 2;
-}
-
-message InstanceBoolWrite {
-    uint32 fmu_id = 1;
-    bool value = 2;
 }
 
 message Solver {

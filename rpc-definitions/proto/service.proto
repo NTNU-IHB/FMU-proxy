@@ -24,7 +24,9 @@
 
 syntax = "proto3";
 
-package no.mechatronics.sfi.fmuproxy.grpc;
+package fmuproxy.grpc;
+
+option java_package = "no.mechatronics.sfi.fmuproxy.grpc";
 
 import "google/protobuf/empty.proto";
 import "definitions.proto";
@@ -49,24 +51,24 @@ service FmuService {
     rpc Terminate (UInt) returns (StatusResponse);
     rpc Reset(UInt) returns (StatusResponse);
 
-    rpc ReadInteger (ReadRequest) returns (IntRead);
+    rpc ReadInteger (ReadRequest) returns (IntegerRead);
 	rpc ReadReal (ReadRequest) returns (RealRead);
-	rpc ReadString (ReadRequest) returns (StrRead);
-	rpc ReadBoolean (ReadRequest) returns (BoolRead);
+	rpc ReadString (ReadRequest) returns (StringRead);
+	rpc ReadBoolean (ReadRequest) returns (BooleanRead);
 	
-	rpc BulkReadInteger (BulkReadRequest) returns (IntListRead);
-	rpc BulkReadReal (BulkReadRequest) returns (RealListRead);
-	rpc BulkReadString (BulkReadRequest) returns (StrListRead);
-	rpc BulkReadBoolean (BulkReadRequest) returns (BoolListRead);
+	rpc BulkReadInteger (BulkReadRequest) returns (BulkIntegerRead);
+	rpc BulkReadReal (BulkReadRequest) returns (BulkRealRead);
+	rpc BulkReadString (BulkReadRequest) returns (BulkStringRead);
+	rpc BulkReadBoolean (BulkReadRequest) returns (BulkBooleanRead);
 	
-    rpc WriteInteger (WriteIntRequest) returns (StatusResponse);
+    rpc WriteInteger (WriteIntegerRequest) returns (StatusResponse);
 	rpc WriteReal (WriteRealRequest) returns (StatusResponse);
-	rpc WriteString (WriteStrRequest) returns (StatusResponse);
-	rpc WriteBoolean (WriteBoolRequest) returns (StatusResponse);
+	rpc WriteString (WriteStringRequest) returns (StatusResponse);
+	rpc WriteBoolean (WriteBooleanRequest) returns (StatusResponse);
 	
-	rpc BulkWriteInteger (BulkWriteIntRequest) returns (StatusResponse);
+	rpc BulkWriteInteger (BulkWriteIntegerRequest) returns (StatusResponse);
 	rpc BulkWriteReal (BulkWriteRealRequest) returns (StatusResponse);
-	rpc BulkWriteString (BulkWriteStrRequest) returns (StatusResponse);
-	rpc BulkWriteBoolean (BulkWriteBoolRequest) returns (StatusResponse);
+	rpc BulkWriteString (BulkWriteStringRequest) returns (StatusResponse);
+	rpc BulkWriteBoolean (BulkWriteBooleanRequest) returns (StatusResponse);
 
 }
