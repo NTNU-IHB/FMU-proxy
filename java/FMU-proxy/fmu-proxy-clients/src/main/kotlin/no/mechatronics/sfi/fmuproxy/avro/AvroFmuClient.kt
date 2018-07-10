@@ -32,7 +32,6 @@ import org.apache.avro.ipc.NettyTransceiver
 import org.apache.avro.ipc.specific.SpecificRequestor
 import java.net.InetSocketAddress
 
-
 class AvroFmuClient(
         host: String,
         port: Int
