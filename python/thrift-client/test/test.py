@@ -22,7 +22,10 @@ if __name__ == '__main__':
         start = time.time()
 
         while instance.current_time < stop-step_size:
-            instance.step(step_size)
+            status = instance.step(step_size)
+            if status != 0:
+                print("Error: t={}, FMU returned status {}".format(instance.current_time, status))
+                break
             print("t={}, {}={}".format(instance.current_time, variable_name, reader.read_real().value))
 
         end = time.time()

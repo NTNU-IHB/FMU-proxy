@@ -1,5 +1,4 @@
 
-
 from service import FmuService
 from definitions.ttypes import *
 
