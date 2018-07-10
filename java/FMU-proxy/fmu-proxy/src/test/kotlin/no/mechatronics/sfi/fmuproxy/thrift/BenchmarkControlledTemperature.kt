@@ -30,7 +30,6 @@ class BenchmarkControlledTemperature {
 
     private val fmu = Fmu.from(fmuPath)
 
-
     internal fun runInstance(instance: ThriftTestClient.FmuInstance, dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
         instance.init()
@@ -48,22 +47,6 @@ class BenchmarkControlledTemperature {
     fun cleanup() {
         fmu.close()
     }
-
-
-//
-//    @Test
-//    fun runServer() {
-//        val server = ThriftFmuServer(fmu)
-//        val port = server.start()
-//
-//        Scanner(System.`in`).use {
-//            if (it.hasNext()) {
-//                server.close()
-//            }
-//        }
-//
-//    }
-
 
     @Test
     fun benchmark() {
