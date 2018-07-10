@@ -34,7 +34,6 @@ import org.apache.thrift.transport.TServerTransport
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 class ThriftFmuServer(
         fmu: Fmu
 ): FmuProxyServer {

@@ -1324,7 +1324,7 @@ class IntegerRead(object):
         return not (self == other)
 
 
-class IntegerArrayRead(object):
+class BulkIntegerRead(object):
     """
     Attributes:
      - value
@@ -1369,7 +1369,7 @@ class IntegerArrayRead(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('IntegerArrayRead')
+        oprot.writeStructBegin('BulkIntegerRead')
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.I32, len(self.value))
@@ -1466,7 +1466,7 @@ class RealRead(object):
         return not (self == other)
 
 
-class RealArrayRead(object):
+class BulkRealRead(object):
     """
     Attributes:
      - value
@@ -1511,7 +1511,7 @@ class RealArrayRead(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('RealArrayRead')
+        oprot.writeStructBegin('BulkRealRead')
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.value))
@@ -1608,7 +1608,7 @@ class StringRead(object):
         return not (self == other)
 
 
-class StringArrayRead(object):
+class BulkStringRead(object):
     """
     Attributes:
      - value
@@ -1653,7 +1653,7 @@ class StringArrayRead(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('StringArrayRead')
+        oprot.writeStructBegin('BulkStringRead')
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.value))
@@ -1750,7 +1750,7 @@ class BooleanRead(object):
         return not (self == other)
 
 
-class BooleanArrayRead(object):
+class BulkBooleanRead(object):
     """
     Attributes:
      - value
@@ -1795,7 +1795,7 @@ class BooleanArrayRead(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('BooleanArrayRead')
+        oprot.writeStructBegin('BulkBooleanRead')
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.BOOL, len(self.value))
@@ -2223,8 +2223,8 @@ IntegerRead.thrift_spec = (
     (1, TType.I32, 'value', None, None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
 )
-all_structs.append(IntegerArrayRead)
-IntegerArrayRead.thrift_spec = (
+all_structs.append(BulkIntegerRead)
+BulkIntegerRead.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'value', (TType.I32, None, False), None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
@@ -2235,8 +2235,8 @@ RealRead.thrift_spec = (
     (1, TType.DOUBLE, 'value', None, None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
 )
-all_structs.append(RealArrayRead)
-RealArrayRead.thrift_spec = (
+all_structs.append(BulkRealRead)
+BulkRealRead.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'value', (TType.DOUBLE, None, False), None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
@@ -2247,8 +2247,8 @@ StringRead.thrift_spec = (
     (1, TType.STRING, 'value', 'UTF8', None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
 )
-all_structs.append(StringArrayRead)
-StringArrayRead.thrift_spec = (
+all_structs.append(BulkStringRead)
+BulkStringRead.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'value', (TType.STRING, 'UTF8', False), None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
@@ -2259,8 +2259,8 @@ BooleanRead.thrift_spec = (
     (1, TType.BOOL, 'value', None, None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
 )
-all_structs.append(BooleanArrayRead)
-BooleanArrayRead.thrift_spec = (
+all_structs.append(BulkBooleanRead)
+BulkBooleanRead.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'value', (TType.BOOL, None, False), None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2

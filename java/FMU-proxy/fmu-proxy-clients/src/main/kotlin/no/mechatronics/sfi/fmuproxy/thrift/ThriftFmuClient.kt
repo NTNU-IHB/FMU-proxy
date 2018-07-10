@@ -32,7 +32,6 @@ import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
 
-
 class ThriftFmuClient(
         host: String,
         port: Int

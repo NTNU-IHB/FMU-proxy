@@ -41,7 +41,6 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.Solver
 
-
 internal fun Status.convert(): FmiStatus {
     return when(this) {
         Status.OK_STATUS -> FmiStatus.OK
@@ -53,7 +52,6 @@ internal fun Status.convert(): FmiStatus {
     }
 }
 
-
 internal fun no.mechatronics.sfi.fmuproxy.thrift.Causality.convert(): Causality {
     return when(this) {
         no.mechatronics.sfi.fmuproxy.thrift.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
@@ -64,7 +62,6 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.Causality.convert(): Causality 
         no.mechatronics.sfi.fmuproxy.thrift.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
     }
 }
-
 
 internal fun no.mechatronics.sfi.fmuproxy.thrift.Variability.convert(): Variability {
     return when(this) {
@@ -104,7 +101,7 @@ internal fun IntegerRead.convert(): FmuIntegerRead {
     return FmuIntegerRead(value, status.convert())
 }
 
-internal fun IntegerArrayRead.convert(): FmuIntegerArrayRead {
+internal fun BulkIntegerRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(value.toIntArray(), status.convert())
 }
 
@@ -112,7 +109,7 @@ internal fun RealRead.convert(): FmuRealRead {
     return FmuRealRead(value, status.convert())
 }
 
-internal fun RealArrayRead.convert(): FmuRealArrayRead {
+internal fun BulkRealRead.convert(): FmuRealArrayRead {
     return FmuRealArrayRead(value.toDoubleArray(), status.convert())
 }
 
@@ -120,7 +117,7 @@ internal fun StringRead.convert(): FmuStringRead {
     return FmuStringRead(value, status.convert())
 }
 
-internal fun StringArrayRead.convert(): FmuStringArrayRead {
+internal fun BulkStringRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(value.toTypedArray(), status.convert())
 }
 
@@ -128,7 +125,7 @@ internal fun BooleanRead.convert(): FmuBooleanRead {
     return FmuBooleanRead(isValue, status.convert())
 }
 
-internal fun BooleanArrayRead.convert(): FmuBooleanArrayRead {
+internal fun BulkBooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(value.toBooleanArray(), status.convert())
 }
 

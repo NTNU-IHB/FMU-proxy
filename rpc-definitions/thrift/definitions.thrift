@@ -37,7 +37,6 @@ exception UnsupportedOperationException {
     1: string message
 }
 
-
 enum Status {
     OK_STATUS = 0,
     WARNING_STATUS = 1,
@@ -158,7 +157,7 @@ struct IntegerRead {
     2: Status status
 }
 
-struct IntegerArrayRead {
+struct BulkIntegerRead {
     1: list<i32> value,
     2: Status status
 }
@@ -168,7 +167,7 @@ struct RealRead {
     2: Status status
 }
 
-struct RealArrayRead {
+struct BulkRealRead {
     1: list<double> value,
     2: Status status
 }
@@ -178,7 +177,7 @@ struct StringRead {
     2: Status status
 }
 
-struct StringArrayRead {
+struct BulkStringRead {
     1: list<string> value,
     2: Status status
 }
@@ -188,7 +187,7 @@ struct BooleanRead {
     2: Status status
 }
 
-struct BooleanArrayRead {
+struct BulkBooleanRead {
     1: list<bool> value,
     2: Status status
 }
@@ -216,5 +215,3 @@ struct ModelDescription {
     15: bool supportsCoSimulation,
     16: bool supportsModelExchange
 }
-
-
