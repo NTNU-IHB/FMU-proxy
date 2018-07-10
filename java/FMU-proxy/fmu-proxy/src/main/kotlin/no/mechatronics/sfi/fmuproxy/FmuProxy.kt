@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 
-
 package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
@@ -37,7 +36,6 @@ import java.io.Closeable
 import java.net.InetAddress
 import java.net.UnknownHostException
 import java.util.*
-
 
 /**
  * @author Lars Ivar Hatledal
@@ -98,7 +96,7 @@ class FmuProxy(
             }
             LOG.debug("proxy stopped!")
         } else {
-            LOG.warn("Calling stop, but has not started..")
+            LOG.warn("Calling stop, but proxy has not started..")
         }
     }
 

@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-private const val LIFE_TIME = 5000L
+private const val LIFE_TIME = 3500L //consider remote FMU dead after this amount silence
 private const val CONTENT_TYPE_TEXT_HTML = "text/html"
 
 @ManagedBean(eager = true)
@@ -152,7 +152,7 @@ class RegisterFmuServlet: HttpServlet() {
 
             val json = req.inputStream.reader().readText().trim()
             val remoteFmu = Gson().fromJson(json, RemoteFmu::class.java)
-            FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu, System.currentTimeMillis())
+            FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu)
 
             LOG.info("$remoteFmu connected!")
 
@@ -165,7 +165,7 @@ class RegisterFmuServlet: HttpServlet() {
             }
 
         } catch (ex: Exception) {
-
+            LOG.error("$ex")
         }
 
     }
@@ -173,9 +173,10 @@ class RegisterFmuServlet: HttpServlet() {
 }
 
 class FmuTimePair(
-        val remoteFmu: RemoteFmu,
-        private var lastSignOfLife: Long
+        val remoteFmu: RemoteFmu
 ) {
+
+    private var lastSignOfLife = System.currentTimeMillis()
 
     val isDead: Boolean
         get() = (System.currentTimeMillis() - lastSignOfLife) > LIFE_TIME

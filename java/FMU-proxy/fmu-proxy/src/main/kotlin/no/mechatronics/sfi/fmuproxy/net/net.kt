@@ -62,7 +62,8 @@ data class SimpleSocketAddress(
         val port: Int
 ) {
 
-    fun urlString() = "http://$host:$port"
+    val urlString
+        get() = "http://$host:$port"
 
     companion object {
 

@@ -1,3 +1,27 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2017-2018. Norwegian University of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING  FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package no.mechatronics.sfi.fmuproxy.heartbeat
 
 import com.google.gson.GsonBuilder
@@ -38,7 +62,6 @@ internal class Heartbeat(
             return gson.toJson(map)
         }
 
-
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
     }
@@ -51,6 +74,9 @@ internal class Heartbeat(
             }.apply {
                 start()
             }
+            LOG.info("Heartbeat started")
+        } else {
+            LOG.warn("Heartbeat has alread been started..")
         }
 
     }
@@ -63,18 +89,21 @@ internal class Heartbeat(
         thread?.also {
             stop = true
             it.interrupt()
+            it.join(1000)
+            LOG.info("Heartbeat stopped")
+        }
+    }
+
+    private fun sleep(millis: Long) {
+        try {
+            Thread.sleep(millis)
+        } catch (ex: InterruptedException) {
+            // ignore
         }
     }
 
     private fun run() {
 
-        fun sleep(millis: Long) {
-            try {
-                Thread.sleep(millis)
-            } catch (ex: InterruptedException) {
-                // ignore
-            }
-        }
 
         while (!stop && !Thread.currentThread().isInterrupted) {
 
@@ -82,20 +111,23 @@ internal class Heartbeat(
 
                 post("ping", uuid, {
                     connected = it == "success"
-                    sleep(500L)
+                    LOG.trace("pinged remote successfully")
+                    sleep(1000L)
                 }, { ex ->
                     connected = false
-                    LOG.trace("$ex")
+                    LOG.debug("Failed to ping remote: $ex")
                 })
 
             } else {
 
                 post("registerfmu", jsonData, {
                     connected = it == "success"
-                    println("$it == success = $connected")
+                    if (connected) {
+                        LOG.trace("Successfully connected to remote!")
+                    }
                 }, { ex ->
-                    LOG.trace("$ex")
-                    sleep(2500L)
+                    LOG.debug("Failed to connect to remote: $ex")
+                    sleep(5000L)
                 })
 
             }
@@ -104,14 +136,12 @@ internal class Heartbeat(
 
     }
 
-
     private fun post(ctx: String, data: String, responseCallback: (String) -> Unit, onError: (Exception) -> Unit) {
 
         try {
 
-            val urlString = "${remoteAddress.urlString()}/fmu-proxy/$ctx"
-            val url = URL(urlString)
-            (url.openConnection() as HttpURLConnection).apply {
+            val urlString = "${remoteAddress.urlString}/fmu-proxy/$ctx"
+            (URL(urlString).openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
                 doOutput = true
                 setRequestProperty("Content-Type", "application/text")
