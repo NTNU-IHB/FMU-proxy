@@ -24,11 +24,11 @@
 
 #include <iostream>
 
-#include "ThriftHelper.h"
-#include "FmuHelper.h"
-#include "FmuWrapper.h"
+#include "ThriftHelper.hpp"
+#include "FmuHelper.hpp"
+#include "FmuWrapper.hpp"
 
-#define RELTOL 1E-4
+const double RELATIVE_TOLERANCE = 1E-4;
 
 using namespace ::fmuproxy;
 using namespace ::fmuproxy::thrift;
@@ -36,7 +36,7 @@ using namespace ::fmuproxy::thrift_helper;
 using namespace boost::filesystem;
 
 
-FmuWrapper::FmuWrapper (const char* fmu_path) {
+FmuWrapper::FmuWrapper (string fmu_path) {
 
     this->tmp_path = temp_directory_path() /= path(fmu_path).stem();
     create_directories(tmp_path);
@@ -44,7 +44,7 @@ FmuWrapper::FmuWrapper (const char* fmu_path) {
     this->callbacks = create_callbacks(jm_log_level_nothing);
 
     this->ctx = fmi_import_allocate_context(&callbacks);
-    this->version = fmi_import_get_fmi_version(ctx, fmu_path, tmp_path.c_str());
+    this->version = fmi_import_get_fmi_version(ctx, fmu_path.c_str(), tmp_path.c_str());
 
     this->xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
 
@@ -101,7 +101,7 @@ void FmuInstance::init(double start, double stop) {
 
     fmi2_boolean_t stop_time_defined = start < stop;
     fmi2_status_t status = fmi2_import_setup_experiment(instance, fmi2_true,
-                                                        RELTOL, start, stop_time_defined, stop);
+                                                        RELATIVE_TOLERANCE, start, stop_time_defined, stop);
     if(status != fmi2_status_ok) {
         __throw_runtime_error("fmi2_import_setup_experiment failed");
     }
@@ -147,8 +147,8 @@ void FmuInstance::getInteger(unsigned int vr, IntegerRead& read) {
     read.status = thriftType(status);
 }
 
-void FmuInstance::getInteger(const char* name, IntegerRead& read) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name);
+void FmuInstance::getInteger(string name, IntegerRead& read) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     getInteger(vr, read);
 }
@@ -160,8 +160,8 @@ void FmuInstance::getReal(unsigned int vr, RealRead& read) {
     read.status = thriftType(status);
 }
 
-void FmuInstance::getReal(const char* name, RealRead& read) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name);
+void FmuInstance::getReal(string name, RealRead& read) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     getReal(vr, read);
 }
@@ -173,8 +173,8 @@ void FmuInstance::getString(unsigned int vr, StringRead& read) {
     read.status = thriftType(status);
 }
 
-void FmuInstance::getString(const char* name, StringRead& read) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name);
+void FmuInstance::getString(string name, StringRead& read) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     getString(vr, read);
 }
@@ -186,8 +186,8 @@ void FmuInstance::getBoolean(unsigned int vr, BooleanRead& read) {
     read.status = thriftType(status);
 }
 
-void FmuInstance::getBoolean(const char* name, BooleanRead& read) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name);
+void FmuInstance::getBoolean(string name, BooleanRead& read) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     getBoolean(vr, read);
 }

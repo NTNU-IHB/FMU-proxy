@@ -2,8 +2,8 @@
 // Created by laht on 08.06.18.
 //
 
-#include "../common/FmuWrapper.h"
-#include "FmuServiceHandler.h"
+#include "../common/FmuWrapper.hpp"
+#include "FmuServiceHandler.hpp"
 
 int id_gen = 0;
 

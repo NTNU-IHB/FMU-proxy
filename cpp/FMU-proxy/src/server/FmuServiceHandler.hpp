@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "../common/thrift-gen/FmuService.h"
-#include "../common/FmuWrapper.h"
+#include "../common/FmuWrapper.hpp"
 
 
 using namespace std;

@@ -44,7 +44,6 @@ generated/
 
 out/
 
-/**/PumpControlledWinch/
 
 *.log
 **/logs/**
@@ -54,3 +53,4 @@ __pycache__
 /**/web/src/main/webapp/resources/schemas/
 
 /**/cmake-build-debug
+/**/cmake-build-release

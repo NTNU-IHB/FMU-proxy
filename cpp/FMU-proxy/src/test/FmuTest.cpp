@@ -28,8 +28,8 @@
 
 #include <fmilib.h>
 
-#include "../common/Util.h"
-#include "../common/FmuWrapper.h"
+#include "../common/Util.hpp"
+#include "../common/FmuWrapper.hpp"
 #include "../common/thrift-gen/definitions_types.h"
 
 using namespace std;
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     string fmu_path = string(string(getenv("TEST_FMUs")))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
+    FmuWrapper fmu = FmuWrapper(fmu_path);
 
     auto md = fmu.getModelDescription();
     cout << md->defaultExperiment << endl;

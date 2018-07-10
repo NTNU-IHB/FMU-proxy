@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.avro.services
 
 import no.mechatronics.sfi.fmi4j.common.ValueReference
-import no.mechatronics.sfi.fmi4j.fmu.Fmu
+import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.avro.*

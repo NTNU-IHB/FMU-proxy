@@ -49,9 +49,9 @@ namespace fmuproxy {
         return callbacks;
     }
 
-    fmi2_import_t *load_model_description(const char *tmp_path, fmi_xml_context_t *ctx, jm_callbacks callbacks) {
+    fmi2_import_t *load_model_description(string tmp_path, fmi_xml_context_t *ctx, jm_callbacks callbacks) {
 
-        fmi2_import_t *xml = fmi2_import_parse_xml(ctx, tmp_path, nullptr);
+        fmi2_import_t *xml = fmi2_import_parse_xml(ctx, tmp_path.c_str(), nullptr);
 
         if (!xml) {
             __throw_runtime_error("Error parsing XML, exiting");

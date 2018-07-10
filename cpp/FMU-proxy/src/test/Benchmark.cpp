@@ -28,8 +28,8 @@
 
 #include <fmilib.h>
 
-#include "../common/Util.h"
-#include "../common/FmuWrapper.h"
+#include "../common/Util.hpp"
+#include "../common/FmuWrapper.hpp"
 #include "../common/thrift-gen/definitions_types.h"
 
 using namespace std;
