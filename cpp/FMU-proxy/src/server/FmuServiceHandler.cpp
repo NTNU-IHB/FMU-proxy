@@ -77,7 +77,7 @@ void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, co
     instance->getInteger(vr, _return);
 }
 
-void FmuServiceHandler::bulkReadInteger(IntegerArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
+void FmuServiceHandler::bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
 
 }
 
@@ -86,7 +86,7 @@ void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const Va
     instance->getReal(vr, _return);
 }
 
-void FmuServiceHandler::bulkReadReal(RealArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
+void FmuServiceHandler::bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
 
 }
 
@@ -95,7 +95,7 @@ void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, cons
     instance->getString(vr, _return);
 }
 
-void FmuServiceHandler::bulkReadString(StringArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
+void FmuServiceHandler::bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
 
 }
 
@@ -104,7 +104,7 @@ void FmuServiceHandler::readBoolean(BooleanRead &_return, const FmuId fmu_id, co
     instance->getBoolean(vr, _return);
 }
 
-void FmuServiceHandler::bulkReadBoolean(BooleanArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
+void FmuServiceHandler::bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
 
 }
 

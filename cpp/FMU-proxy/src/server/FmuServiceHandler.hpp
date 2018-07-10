@@ -51,19 +51,19 @@ namespace fmuproxy {
 
             void readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadInteger(IntegerArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             void readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadReal(RealArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             void readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadString(StringArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             void readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadBoolean(BooleanArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) override;
 
