@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017. Norwegian University of Technology
+ * Copyright 2017-2018. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,166 +24,214 @@
 
 package no.mechatronics.sfi.fmuproxy.heartbeat
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import no.mechatronics.sfi.fmuproxy.fmu.RemoteFmu
+import com.sun.net.httpserver.HttpHandler
+import com.sun.net.httpserver.HttpServer
+import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
+import no.mechatronics.sfi.fmuproxy.net.findAvailablePort
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.zeromq.ZContext
-import org.zeromq.ZFrame
-import org.zeromq.ZMQ
-import org.zeromq.ZMsg
 import java.io.Closeable
+import java.io.DataOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.*
+import java.net.InetSocketAddress
 
-private const val HEARTBEAT_LIVENESS = 3L      //  3-5 is reasonable
-private const val HEARTBEAT_INTERVAL = 1000L    //  msecs
-private const val INTERVAL_INIT = 1000L   //  Initial reconnect
-private const val INTERVAL_MAX = 32000L   //  After exponential backoff
-
-private const val PPP_READY = "\u0001"//  Signals worker is ready
-private const val PPP_HEARTBEAT = "\u0002"//  Signals worker heartbeat
-
-/**
- *
- * @author Lars Ivar Hatledal
- */
 internal class Heartbeat(
         private val remoteAddress: SimpleSocketAddress,
-        private val remoteFmu: RemoteFmu
+        private val networkInfo: NetworkInfo,
+        private val modelDescriptionXml: String
 ): Closeable {
 
-    private var inner: InnerClass? = null
+    private var thread: Thread? = null
+    private var stop: Boolean = false
 
-    private val isRunning: Boolean
-        get() = inner != null
+    private var connected: Boolean = false
+    private val uuid: String = UUID.randomUUID().toString()
 
-    fun start() {
-       if (!isRunning) {
-           inner = InnerClass()
-           LOG.debug("${javaClass.simpleName} started!")
-       }
+    val jsonData: String
+        get() {
+            val gson = GsonBuilder().create()
+            val map = mapOf(
+                    "uuid" to uuid,
+                    "networkInfo" to networkInfo,
+                    "modelDescriptionXml" to modelDescriptionXml
+            )
+            return gson.toJson(map)
+        }
+
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
     }
 
-    fun stop() {
-        if (isRunning) {
-            inner!!.stop()
-            LOG.debug("${javaClass.simpleName} stopped!")
+    fun start() {
+
+        if (thread == null) {
+            thread = Thread(){
+                run()
+            }.apply {
+                start()
+            }
+            LOG.info("Heartbeat started")
+        } else {
+            LOG.warn("Heartbeat has alread been started..")
         }
+
     }
 
     override fun close() {
         stop()
     }
 
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
+    fun stop() {
+        thread?.also {
+            stop = true
+            it.interrupt()
+            it.join(1000)
+            LOG.info("Heartbeat stopped")
+        }
     }
 
-    private inner class InnerClass : Runnable {
-
-        private val thread: Thread
-        private var stop = false
-        private val ctx: ZContext = ZContext(1)
-        private val gson: Gson = GsonBuilder().create()
-
-        init {
-            thread = Thread(this)
-            thread.start()
+    private fun sleep(millis: Long) {
+        try {
+            Thread.sleep(millis)
+        } catch (ex: InterruptedException) {
+            // ignore
         }
+    }
 
-        fun stop() {
-            stop = true
-            ctx.close()
-            thread.join()
-        }
+    private fun run() {
 
-        private fun workerSocket(ctx: ZContext): ZMQ.Socket {
-            return ctx.createSocket(ZMQ.DEALER).also { worker ->
-                worker.identity = remoteFmu.guid.toByteArray(ZMQ.CHARSET)
-                worker.connect("tcp://${remoteAddress.host}:${remoteAddress.port}")
 
-                ZMsg().apply {
-                    add(PPP_READY)
-                    add(gson.toJson(remoteFmu).toByteArray(ZMQ.CHARSET))
-                    send(worker)
-                }
+        while (!stop && !Thread.currentThread().isInterrupted) {
+
+            if (connected) {
+
+                post("ping", uuid, {
+                    connected = it == "success"
+                    LOG.trace("pinged remote successfully")
+                    sleep(1000L)
+                }, { ex ->
+                    connected = false
+                    LOG.debug("Failed to ping remote: $ex")
+                })
+
+            } else {
+
+                post("registerfmu", jsonData, {
+                    connected = it == "success"
+                    if (connected) {
+                        LOG.trace("Successfully connected to remote!")
+                    }
+                }, { ex ->
+                    LOG.debug("Failed to connect to remote: $ex")
+                    sleep(5000L)
+                })
 
             }
 
         }
 
-        override fun run() {
+    }
 
-            try {
+    private fun post(ctx: String, data: String, responseCallback: (String) -> Unit, onError: (Exception) -> Unit) {
 
-                var worker = workerSocket(ctx)
-                val poller = ctx.createPoller(1).apply {
-                    register(worker, ZMQ.Poller.POLLIN)
+        try {
+
+            val urlString = "${remoteAddress.urlString}/fmu-proxy/$ctx"
+            (URL(urlString).openConnection() as HttpURLConnection).apply {
+                requestMethod = "POST"
+                doOutput = true
+                setRequestProperty("Content-Type", "application/text")
+
+                DataOutputStream(outputStream).use {
+                    it.writeBytes(data)
+                    it.flush()
                 }
 
-                //  If liveness hits zero, queue is considered disconnected
-                var liveness = HEARTBEAT_LIVENESS
-                var interval = INTERVAL_INIT
-
-                //  Send out heartbeats at regular intervals
-                var heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
-
-                while (!stop) {
-
-                    if (poller.poll(HEARTBEAT_INTERVAL) == -1) break //  Interrupted
-
-                    if (poller.pollin(0)) {
-                        val msg = ZMsg.recvMsg(worker) ?: break          //  Interrupted
-                        when (msg.size) {
-                            1 -> {
-                                val frame = msg.first
-                                if (PPP_HEARTBEAT == String(frame.data)) {
-                                    liveness = HEARTBEAT_LIVENESS
-                                } else {
-                                    LOG.warn("E: invalid message\n")
-                                    msg.dump(System.out)
-                                }
-                                msg.destroy()
-                            }
-                            else -> {
-                                LOG.warn("E: invalid message\n")
-                                msg.dump(System.out)
-                            }
-                        }
-                        interval = INTERVAL_INIT
-                    } else if (--liveness == 0L) {
-
-                        LOG.debug("FmuHeartbeat failure, can't reach remote @ $remoteAddress, \n reconnecting in $interval msec")
-
-                        Thread.sleep(interval)
-                        if (interval < INTERVAL_MAX) {
-                            interval *= 2
-                        }
-
-                        poller.unregister(worker)
-                        ctx.destroySocket(worker)
-                        worker = workerSocket(ctx)
-                        poller.register(worker, ZMQ.Poller.POLLIN)
-                        liveness = HEARTBEAT_LIVENESS
-                    }
-
-                    if (System.currentTimeMillis() > heartbeatAt) {
-                        heartbeatAt = System.currentTimeMillis() + HEARTBEAT_INTERVAL
-                        ZFrame(PPP_HEARTBEAT).apply {
-                            send(worker, 0 )
-                        }
-                    }
-
-                }
-
-            } catch (ex: Exception) {
-                LOG.debug("Caught exception", ex)
+                responseCallback(inputStream.reader().readText().trim())
             }
 
+        } catch (ex: Exception) {
+            onError(ex)
         }
+
     }
 
 }
 
+fun main(args: Array<String>) {
 
+    val xml = """
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fmiModelDescription
+  fmiVersion="2.0"
+  modelName="bouncingBall"
+  guid="{8c4e810f-3df3-4a00-8276-176fa3c9f003}"
+  numberOfEventIndicators="1">
+
+<CoSimulation
+  modelIdentifier="bouncingBall"/>
+
+<ModelVariables>
+  <ScalarVariable name="h" valueReference="0" description="height, used as state"
+                  causality="local" variability="continuous" initial="exact">
+    <Real start="1"/>
+  </ScalarVariable>
+  <ScalarVariable name="der(h)" valueReference="1" description="velocity of ball"
+                  causality="local" variability="continuous" initial="calculated">
+    <Real derivative="1"/>
+  </ScalarVariable>
+  <ScalarVariable name="v" valueReference="2" description="velocity of ball, used as state"
+                  causality="local" variability="continuous" initial="exact">
+    <Real start="0" reinit="true"/>
+  </ScalarVariable>
+  <ScalarVariable name="der(v)" valueReference="3" description="acceleration of ball"
+                  causality="local" variability="continuous" initial="calculated">
+    <Real derivative="3"/>
+  </ScalarVariable>
+  <ScalarVariable name="g" valueReference="4" description="acceleration of gravity"
+                  causality="parameter" variability="fixed" initial="exact">
+    <Real start="9.81"/>
+  </ScalarVariable>
+  <ScalarVariable name="e" valueReference="5" description="dimensionless parameter"
+                  causality="parameter" variability="tunable" initial="exact">
+    <Real start="0.7" min="0.5" max="1"/>
+  </ScalarVariable>
+</ModelVariables>
+
+<ModelStructure>
+  <Derivatives>
+    <Unknown index="2" />
+    <Unknown index="4" />
+  </Derivatives>
+  <InitialUnknowns>
+    <Unknown index="2"/>
+    <Unknown index="4"/>
+  </InitialUnknowns>
+</ModelStructure>
+
+</fmiModelDescription>
+    """.trimIndent()
+
+    val beat = Heartbeat(
+            remoteAddress = SimpleSocketAddress("localhost", 8080),
+            networkInfo = NetworkInfo("localhost", mapOf("jsonRpc/http" to 9090)),
+            modelDescriptionXml = xml)
+
+
+    beat.start()
+
+    println("Press any key to quit..")
+    Scanner(System.`in`).apply {
+
+        if (hasNext()) {
+            beat.stop()
+        }
+
+    }
+
+
+}

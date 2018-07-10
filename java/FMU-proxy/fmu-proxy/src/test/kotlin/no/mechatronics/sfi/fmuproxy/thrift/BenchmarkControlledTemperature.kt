@@ -2,6 +2,7 @@ package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.TestUtils
+import org.apache.thrift.transport.TTransportException
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -49,23 +50,6 @@ class BenchmarkControlledTemperature {
     }
 
 
-//    @Test
-//    fun connectRemoteClient() {
-//
-//        for (i in 0..3) {
-//            val client = ThriftTestClient("localhost", 33069)
-//            client.newInstance().use { instance ->
-//                runInstance(instance, dt, stop, {
-//                    val read = instance.readReal(46)
-//                    Assertions.assertTrue(read.value > 0)
-//                }).also {
-//                    LOG.info("Thrift duration=${it}ms")
-//                }
-//            }
-//            client.close()
-//        }
-//
-//    }
 //
 //    @Test
 //    fun runServer() {
@@ -88,20 +72,52 @@ class BenchmarkControlledTemperature {
         val port = server.start()
 
         for (i in 0..2) {
-          val client = ThriftTestClient("localhost", port)
-          client.newInstance().use { instance ->
-              runInstance(instance, dt, stop, {
-                  val read = instance.readReal(46)
-                  Assertions.assertTrue(read.value > 0)
-              }).also {
-                  LOG.info("Thrift duration=${it}ms")
+          ThriftTestClient("localhost", port).use { client ->
+
+              client.newInstance().use { instance ->
+                  runInstance(instance, dt, stop) {
+                      val read = instance.readReal(46)
+                      Assertions.assertTrue(read.value > 0)
+                  }.also {
+                      LOG.info("Thrift duration=${it}ms")
+                  }
               }
+
           }
-            client.close()
         }
 
         server.close()
 
     }
+
+
+    @Test
+    fun benchmarkRemote1() {
+
+
+        for (i in 0..2) {
+            try {
+
+               ThriftTestClient("localhost", 9090).use { client ->
+                   client.newInstance().use { instance ->
+                       runInstance(instance, dt, stop) {
+                           val read = instance.readReal(46)
+                           Assertions.assertTrue(read.value > 0)
+                       }.also {
+                           LOG.info("Thrift duration=${it}ms")
+                       }
+                   }
+               }
+
+            } catch (ex: TTransportException) {
+                LOG.warn("Could not connect to remote server..")
+                break
+            }
+
+        }
+
+
+    }
+
 
 }

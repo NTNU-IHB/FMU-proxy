@@ -72,7 +72,7 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the FMU."], required = true)
     lateinit var fmuPath: String
 
-    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
+    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remoteAddress tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
     var remote: SimpleSocketAddress? = null
 
     @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)."])

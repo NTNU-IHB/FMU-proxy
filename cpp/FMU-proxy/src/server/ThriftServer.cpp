@@ -23,7 +23,7 @@
  */
 
 
-#include "ThriftServer.h"
+#include "ThriftServer.hpp"
 
 using namespace std;
 using namespace fmuproxy;

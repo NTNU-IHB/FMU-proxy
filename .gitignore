@@ -44,7 +44,6 @@ generated/
 
 out/
 
-/**/PumpControlledWinch/
 
 *.log
 **/logs/**

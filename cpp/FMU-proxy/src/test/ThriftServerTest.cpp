@@ -25,9 +25,9 @@
 #include <iostream>
 #include <thread>
 
-#include "../common/Util.h"
-#include "../common/FmuWrapper.h"
-#include "../server/ThriftServer.h"
+#include "../common/Util.hpp"
+#include "../common/FmuWrapper.hpp"
+#include "../server/ThriftServer.hpp"
 
 using namespace std;
 using namespace fmuproxy;
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     string fmu_path = string(string(getenv("TEST_FMUs")))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    shared_ptr<FmuWrapper> fmu(new FmuWrapper(fmu_path.c_str()));
+    shared_ptr<FmuWrapper> fmu(new FmuWrapper(fmu_path));
     ThriftServer server = ThriftServer(fmu, port);
 
     thread t(wait_for_input, &server);

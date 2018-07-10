@@ -24,14 +24,33 @@
 
 package no.mechatronics.sfi.fmuproxy.fmu
 
+import com.google.gson.GsonBuilder
 import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
 
 /**
  * @author Lars Ivar Hatledal
  */
-internal data class RemoteFmu(
+internal class RemoteFmu(
         val guid: String,
         val modelName: String,
         val networkInfo: NetworkInfo,
         val modelDescriptionXml: String
-)
+) {
+
+    fun toJson(): String {
+        return gson.toJson(this)
+    }
+
+    companion object {
+
+        private val gson by lazy {
+            GsonBuilder().create()
+        }
+
+        fun fromJson(json: String): RemoteFmu {
+            return gson.fromJson(json, RemoteFmu::class.java)
+        }
+
+    }
+
+}
