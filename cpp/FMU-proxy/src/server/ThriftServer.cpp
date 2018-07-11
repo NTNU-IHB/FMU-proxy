@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 
-
 #include "ThriftServer.hpp"
 
 using namespace std;

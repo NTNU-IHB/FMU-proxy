@@ -1,16 +1,20 @@
 
+add_library(thrift-gen STATIC
+        thrift-gen/definitions_types.cpp
+        thrift-gen/definitions_types.h
+        thrift-gen/service_types.h
+        thrift-gen/FmuService.h
+        thrift-gen/FmuService.cpp)
+target_link_libraries(thrift-gen thrift)
+
+
 add_library(common STATIC
-        common/thrift-gen/definitions_types.cpp
-        common/thrift-gen/definitions_types.h
-        common/thrift-gen/service_types.h
-        common/thrift-gen/FmuService.h
-        common/thrift-gen/FmuService.cpp
         common/FmuHelper.hpp
         common/FmuWrapper.cpp
         common/FmuWrapper.hpp
         common/ThriftHelper.hpp
         common/Util.hpp)
-target_link_libraries(common thrift ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(common thrift-gen ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
 add_library(server STATIC
         server/FmuServiceHandler.hpp

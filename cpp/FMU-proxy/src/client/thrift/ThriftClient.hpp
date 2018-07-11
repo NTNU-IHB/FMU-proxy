@@ -30,7 +30,7 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../../common/thrift-gen/FmuService.h"
+#include "../../thrift-gen/FmuService.h"
 
 using namespace fmuproxy::thrift;
 
@@ -46,15 +46,11 @@ namespace fmuproxy {
         private:
             FmuId fmu_id;
             double current_time;
-            std::shared_ptr<FmuServiceClient> client;
+            FmuServiceClient &client;
 
         public:
-            RemoteFmuInstance(FmuId fmu_id, std::shared_ptr<FmuServiceClient> client) {
-                this->fmu_id = fmu_id;
-                this->client = client;
-
-                current_time = client->getCurrentTime(fmu_id);
-
+            RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client): fmu_id(fmu_id), client(client) {
+                current_time = client.getCurrentTime(fmu_id);
             }
 
             double getCurrentTime() {
@@ -121,7 +117,7 @@ namespace fmuproxy {
 
             std::shared_ptr<TTransport> transport;
             std::shared_ptr<FmuServiceClient> client;
-            ModelDescription* modelDescription;
+            std::shared_ptr<ModelDescription> modelDescription;
 
         public:
             ThriftClient(std::string host, int port);
@@ -131,7 +127,7 @@ namespace fmuproxy {
             std::unique_ptr<RemoteFmuInstance> newInstance();
 
             void close() {
-                transport->close();
+                this->transport->close();
             }
 
             int getValueReference(std::string variableName) {
@@ -147,7 +143,6 @@ namespace fmuproxy {
 
             ~ThriftClient() {
                 std::cout << "ThriftClient destructor called" << std::endl;
-                delete modelDescription;
             }
 
         };

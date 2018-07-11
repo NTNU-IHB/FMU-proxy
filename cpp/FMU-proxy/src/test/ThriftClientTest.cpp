@@ -29,8 +29,8 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../common/thrift-gen/FmuService.h"
-#include "../common/thrift-gen/definitions_types.h"
+#include "../thrift-gen/FmuService.h"
+#include "../thrift-gen/definitions_types.h"
 
 #include "../client/thrift/ThriftClient.hpp"
 

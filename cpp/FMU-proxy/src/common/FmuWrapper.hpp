@@ -27,7 +27,7 @@
 
 #include <fmilib.h>
 #include <boost/filesystem.hpp>
-#include "thrift-gen/definitions_types.h"
+#include "../thrift-gen/definitions_types.h"
 
 using namespace std;
 using namespace boost::filesystem;
@@ -90,7 +90,7 @@ namespace fmuproxy {
         jm_callbacks callbacks;
         fmi_version_enu_t version;
 
-        ModelDescription* modelDescription;
+        std::shared_ptr<ModelDescription> modelDescription;
 
     public:
         FmuWrapper(string fmu_path);

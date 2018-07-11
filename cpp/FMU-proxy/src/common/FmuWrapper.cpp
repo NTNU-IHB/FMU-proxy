@@ -48,7 +48,7 @@ FmuWrapper::FmuWrapper (string fmu_path) {
 
     this->xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
 
-    this->modelDescription = new ModelDescription();
+    this->modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
     populate_model_description(version, xml, *modelDescription);
 
 }
@@ -87,8 +87,7 @@ unique_ptr<FmuInstance> FmuWrapper::newInstance() {
 FmuWrapper::~FmuWrapper() {
 
     cout << "FmuWrapper destructor called" << endl;
-
-    delete modelDescription;
+    
     fmi_import_free_context(this->ctx);
     remove_all(this->tmp_path);
 

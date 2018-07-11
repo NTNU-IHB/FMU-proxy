@@ -28,25 +28,27 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../../common/thrift-gen/FmuService.h"
-#include "../../common/thrift-gen/definitions_types.h"
+#include "../../thrift-gen/FmuService.h"
+#include "../../thrift-gen/definitions_types.h"
 
 #include "ThriftClient.hpp"
 
 using namespace std;
 using namespace fmuproxy::client;
 
-::ThriftClient::ThriftClient(string host, int port) {
+
+
+ThriftClient::ThriftClient(string host, int port) {
     shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
-    transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
+    this->transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
     this->client = shared_ptr<FmuServiceClient>(new FmuServiceClient(protocol));
-    transport->open();
+    this->transport->open();
 }
 
 ModelDescription &ThriftClient::getModelDescription() {
     if (!modelDescription) {
-        modelDescription = new ModelDescription();
+        modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
         client->getModelDescription(*modelDescription);
     }
     return *modelDescription;
@@ -54,75 +56,79 @@ ModelDescription &ThriftClient::getModelDescription() {
 
 unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     FmuId fmu_id = client->createInstanceFromCS();
-    return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, client));
+    return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client));
 }
 
+
+
+
+
 Status::type RemoteFmuInstance::init(double start, double stop) {
-    return client->init(fmu_id, start, stop);
+    return client.init(fmu_id, start, stop);
 }
 
 Status::type RemoteFmuInstance::step(StepResult& result, double step_size) {
-    client->step(result, fmu_id, step_size);
+    client.step(result, fmu_id, step_size);
     current_time = result.simulationTime;
     return result.status;
 }
 
 Status::type RemoteFmuInstance::terminate() {
-    return client->terminate(fmu_id);
+    return client.terminate(fmu_id);
 }
 
 Status::type RemoteFmuInstance::reset() {
-    return client->reset(fmu_id);
+    return client.reset(fmu_id);
 }
 
 void RemoteFmuInstance::readInteger(IntegerRead& read, ValueReference vr) {
-    return client->readInteger(read, fmu_id, vr);
+    return client.readInteger(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readInteger(BulkIntegerRead& read, ValueReferences vr) {
-    return client->bulkReadInteger(read, fmu_id, vr);
+    return client.bulkReadInteger(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readReal(RealRead &read, ValueReference vr) {
-    return client->readReal(read, fmu_id, vr);
+    return client.readReal(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readReal(BulkRealRead &read, ValueReferences vr) {
-    return client->bulkReadReal(read, fmu_id, vr);
+    return client.bulkReadReal(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readString(StringRead &read, ValueReference vr) {
-    return client->readString(read, fmu_id, vr);
+    return client.readString(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readString(BulkStringRead &read, ValueReferences vr) {
-    return client->bulkReadString(read, fmu_id, vr);
+    return client.bulkReadString(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readBoolean(BooleanRead &read, ValueReference vr) {
-    return client->readBoolean(read, fmu_id, vr);
+    return client.readBoolean(read, fmu_id, vr);
 }
 
 void RemoteFmuInstance::readBoolean(BulkBooleanRead &read, ValueReferences vr) {
-    return client->bulkReadBoolean(read, fmu_id, vr);
+    return client.bulkReadBoolean(read, fmu_id, vr);
 }
 
 Status::type RemoteFmuInstance::writeInteger(ValueReference vr, int value) {
-    return client->writeInteger(fmu_id, vr, value);
+    return client.writeInteger(fmu_id, vr, value);
 }
 
 Status::type RemoteFmuInstance::writeInteger(ValueReferences vr, vector<int> value) {
-    return client->bulkWriteInteger(fmu_id, vr, value);
+    return client.bulkWriteInteger(fmu_id, vr, value);
 }
 
 Status::type RemoteFmuInstance::writeReal(ValueReference vr, double value) {
-    return client->writeReal(fmu_id, vr, value);
+    return client.writeReal(fmu_id, vr, value);
 }
 
 Status::type RemoteFmuInstance::writeString(ValueReference vr, string value) {
-    return client->writeString(fmu_id, vr, value);
+    return client.writeString(fmu_id, vr, value);
 }
 
 Status::type RemoteFmuInstance::writeBoolean(ValueReference vr, bool value) {
-    return client->writeBoolean(fmu_id, vr, value);
+    return client.writeBoolean(fmu_id, vr, value);
 }

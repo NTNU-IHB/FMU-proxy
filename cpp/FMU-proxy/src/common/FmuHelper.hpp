@@ -26,7 +26,7 @@
 #define FMU_PROXY_FMUHELPER_H
 
 #include <fmilib.h>
-#include "thrift-gen/definitions_types.h"
+#include "../thrift-gen/definitions_types.h"
 
 using namespace std;
 
