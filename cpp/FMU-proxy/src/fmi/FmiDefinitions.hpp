@@ -53,7 +53,6 @@ namespace fmi {
     };
 
 
-
     struct ScalarVariable {
         int valueReference;
         std::string name;

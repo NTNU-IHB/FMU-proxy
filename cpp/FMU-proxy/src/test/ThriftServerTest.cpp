@@ -30,6 +30,7 @@
 #include "../thrift/server/ThriftServer.hpp"
 
 using namespace std;
+using namespace fmi;
 using namespace fmuproxy;
 using namespace fmuproxy::server;
 

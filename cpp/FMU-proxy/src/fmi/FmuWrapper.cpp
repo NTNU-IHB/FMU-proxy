@@ -30,6 +30,8 @@ const double RELATIVE_TOLERANCE = 1E-4;
 using namespace std;
 using namespace fmi;
 
+
+
 FmuWrapper::FmuWrapper (string fmu_path) {
 
     this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
@@ -46,7 +48,6 @@ FmuWrapper::FmuWrapper (string fmu_path) {
     populate_model_description(version, xml, *modelDescription);
 
 }
-
 
 ModelDescription &FmuWrapper::getModelDescription() {
     return *modelDescription;
@@ -65,7 +66,7 @@ unique_ptr<FmuInstance> FmuWrapper::newInstance() {
 
     jm_status_enu_t status = fmi2_import_create_dllfmu(fmu, fmi2_fmu_kind_cs, &callBackFunctions);
     if (status == jm_status_error) {
-        string error_msg = "Could not create the DLL loading mechanism(C-API) (error: "  + string(fmi2_import_get_last_error(fmu)) + ")";
+        string error_msg = "Could not create the DLL loading mechanism(C-API) (error: " + string(fmi2_import_get_last_error(fmu)) + ")";
         throw runtime_error(error_msg.c_str());
     }
 
@@ -79,17 +80,10 @@ unique_ptr<FmuInstance> FmuWrapper::newInstance() {
 
 }
 
-FmuWrapper::~FmuWrapper() {
+//###################################################################################################################################
 
-    cout << "FmuWrapper destructor called" << endl;
-
-    fmi_import_free_context(this->ctx);
-    remove_all(this->tmp_path);
-
-}
-
-FmuInstance::FmuInstance(fmi2_import_t *fmu) {
-    this->instance = fmu;
+FmuInstance::FmuInstance(fmi2_import_t *instance) {
+    this->instance = instance;
 }
 
 double FmuInstance::getCurrentTime() {
@@ -99,6 +93,13 @@ double FmuInstance::getCurrentTime() {
 bool FmuInstance::isTerminated() {
     return terminated;
 }
+
+
+fmi2_value_reference_t FmuInstance::get_value_reference(std::string name) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
+    return fmi2_import_get_variable_vr(var);
+}
+
 
 void FmuInstance::init(double start, double stop) {
 
@@ -139,69 +140,62 @@ fmi2_status_t FmuInstance::terminate() {
         terminated = true;
         return fmi2_import_terminate(instance);
     }
-    return fmi2_status_t::fmi2_status_ok;
+    return fmi2_status_ok;
 }
 
-void FmuInstance::getInteger(unsigned int vr, IntegerRead& read) {
-    int value;
-    fmi2_status_t status = fmi2_import_get_integer(instance, &vr, 1, &value);
-    read.value = value;
-    read.status = (status);
+
+fmi2_status_t FmuInstance::getInteger(fmi2_value_reference_t vr, fmi2_integer_t  &ref) {
+    return fmi2_import_get_integer(instance, &vr, 1, &ref);
 }
 
-void FmuInstance::getInteger(string name, IntegerRead& read) {
+fmi2_status_t FmuInstance::getInteger(string name, fmi2_integer_t  &ref) {
+    return getInteger(get_value_reference(name.c_str()), ref);
+}
+
+fmi2_status_t FmuInstance::getReal(fmi2_value_reference_t vr, fmi2_real_t &ref) {
+    return fmi2_import_get_real(instance, &vr, 1, &ref);
+}
+
+fmi2_status_t FmuInstance::getReal(string name, fmi2_real_t &ref) {
+    return getReal(get_value_reference(name.c_str()), ref);
+}
+
+fmi2_status_t FmuInstance::getString(fmi2_value_reference_t vr, fmi2_string_t &ref) {
+    return fmi2_import_get_string(instance, &vr, 1, &ref);
+}
+
+fmi2_status_t FmuInstance::getString(string name, fmi2_string_t &ref) {
+    return getString(get_value_reference(name.c_str()), ref);
+}
+
+fmi2_status_t FmuInstance::getBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
+    return fmi2_import_get_boolean(instance, &vr, 1, &ref);
+}
+
+fmi2_status_t FmuInstance::getBoolean(string name, fmi2_boolean_t &ref) {
+    return getBoolean(get_value_reference(name.c_str()), ref);
+}
+
+VariableReader FmuInstance::getReader(fmi2_value_reference_t vr) {
+    return VariableReader(instance, vr);
+}
+
+VariableReader FmuInstance::getReader(std::string name) {
     fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
-    getInteger(vr, read);
+    return getReader(vr);
 }
 
-void FmuInstance::getReal(unsigned int vr, RealRead& read) {
-    double value;
-    fmi2_status_t status = fmi2_import_get_real(instance, &vr, 1, &value);
-    read.value = value;
-    read.status = (status);
+VariableWriter FmuInstance::getWriter(fmi2_value_reference_t vr) {
+    return VariableWriter(instance, vr);
 }
 
-void FmuInstance::getReal(string name, RealRead& read) {
+VariableWriter FmuInstance::getWriter(std::string name) {
     fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
-    getReal(vr, read);
+    return getWriter(vr);
 }
 
-void FmuInstance::getString(unsigned int vr, StringRead& read) {
-    const char* value;
-    fmi2_status_t status = fmi2_import_get_string(instance, &vr, 1, &value);
-    read.value = value;
-    read.status = (status);
-}
 
-void FmuInstance::getString(string name, StringRead& read) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
-    fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
-    getString(vr, read);
-}
-
-void FmuInstance::getBoolean(unsigned int vr, BooleanRead& read) {
-    int value;
-    fmi2_status_t status = fmi2_import_get_boolean(instance, &vr, 1, &value);
-    read.value == value;
-    read.status = (status);
-}
-
-void FmuInstance::getBoolean(string name, BooleanRead& read) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
-    fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
-    getBoolean(vr, read);
-}
-
-FmuInstance::~FmuInstance() {
-
-    cout << "FmuInstance destructor called" << endl;
-
-    terminate();
-    fmi2_import_destroy_dllfmu(instance);
-    fmi2_import_free(instance);
-
-}
 
 

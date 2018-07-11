@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
+    double step_size = 1.0/100;
     FmuWrapper fmu = FmuWrapper(fmu_path);
 
     const auto md = fmu.getModelDescription();
@@ -51,21 +52,22 @@ int main(int argc, char **argv) {
     instance1->init(0.0, -1);
     instance2->init(0.0, -1);
 
-    RealRead read;
 
-    instance1->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
-    double step_size = 1.0/100;
-    
+    double temperature_room;
+    fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
+
+    instance1->getReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
+
     instance1->step(step_size);
 
-    instance1->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
+    instance1->getReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
 
     instance1->terminate();
 
-    instance2->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
+    instance2->getReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
 
     instance2->terminate();
 

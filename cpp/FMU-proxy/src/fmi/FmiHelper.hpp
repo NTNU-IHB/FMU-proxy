@@ -26,7 +26,7 @@
 #define FMU_PROXY_FMIHELPER_HPP
 
 #include <cfloat>
-#include "FmiStructs.hpp"
+#include "FmiDefinitions.hpp"
 
 namespace fmi {
 

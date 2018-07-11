@@ -32,7 +32,7 @@
 #include "../thrift/thrift-gen/FmuService.h"
 #include "../thrift/thrift-gen/definitions_types.h"
 
-#include "../client/thrift/ThriftClient.hpp"
+#include "../thrift/client/ThriftClient.hpp"
 
 using namespace std;
 using namespace apache::thrift;

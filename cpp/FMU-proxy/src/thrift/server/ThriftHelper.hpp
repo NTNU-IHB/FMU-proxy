@@ -28,9 +28,9 @@
 
 #include <cfloat>
 #include <fmilib.h>
-#include <../../fmi/FmiStructs.hpp>
+#include "../../fmi/FmiDefinitions.hpp"
 #include "../thrift-gen/definitions_types.h"
-#include "../../fmi/FmiStructs.hpp"
+#include "../../fmi/FmiDefinitions.hpp"
 
 
 namespace fmuproxy {
@@ -165,7 +165,7 @@ namespace fmuproxy {
             var.__set_valueReference(v.valueReference);
 
             std::string description = v.description;
-            if (description != nullptr) {
+            if (!description.empty()) {
                 var.__set_description(description);
             }
 
@@ -191,11 +191,6 @@ namespace fmuproxy {
 
             return var;
 
-        }
-        
-        void thriftType(StepResult &result1, fmi::StepResult result2) {
-            result1.simulationTime = result2.simulation_time;
-            result1.status = thriftType(result2.status);
         }
 
         void thriftType(ModelVariables &variables, fmi::ModelVariables &mv) {

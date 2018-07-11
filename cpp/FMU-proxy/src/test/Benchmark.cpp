@@ -48,13 +48,14 @@ int main(int argc, char **argv) {
 
     clock_t begin = clock();
 
-    RealRead read;
+    double temperature_room;
+    VariableReader temperature_reader = instance->getReader("Temperature_Room");
     while (instance->getCurrentTime() <= stop-step_size) {
         fmi2_status_t status = instance->step(step_size);
         if (status != fmi2_status_ok) {
             break;
-        } 
-        instance->getReal("Temperature_Room", read);
+        }
+        temperature_reader.readReal(temperature_room);
     }
 
     clock_t end = clock();

@@ -1,12 +1,11 @@
 
 
 add_library(fmi STATIC
-        fmi/FmiStructs.hpp
+        fmi/FmiDefinitions.hpp
         fmi/FmiHelper.hpp
         fmi/FmuWrapper.cpp
         fmi/FmuWrapper.hpp
-        fmi/ScalarVariableAttribute.hpp
-        )
+        fmi/ScalarVariableAttribute.hpp)
 target_link_libraries(fmi ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
 
@@ -22,7 +21,7 @@ target_link_libraries(thrift-gen thrift)
 add_library(thrift-client STATIC
         thrift/client/ThriftClient.cpp
         thrift/client/ThriftClient.hpp)
-target_link_libraries(thrift-client fmi thrift-gen)
+target_link_libraries(thrift-client thrift-gen)
 
 
 add_library(thrift-server STATIC
@@ -46,11 +45,11 @@ add_executable(FmuTest
 target_link_libraries(FmuTest fmi)
 
 
+add_executable(ThriftClientTest
+        test/ThriftClientTest.cpp)
+target_link_libraries(ThriftClientTest thrift-client)
+
 add_executable(ThriftServerTest
         test/ThriftServerTest.cpp)
 target_link_libraries(ThriftServerTest thrift-server pthread)
 
-
-add_executable(ThriftClientTest
-        test/ThriftClientTest.cpp)
-target_link_libraries(ThriftClientTest thrift-client)
