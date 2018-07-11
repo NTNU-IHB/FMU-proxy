@@ -42,8 +42,8 @@ using namespace apache::thrift::transport;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::client;
 
-const double stop = 10;
-const double step_size = 1E-4;
+const double stop = 2;
+const double step_size = 1E-2;
 
 int main() {
 
@@ -55,6 +55,10 @@ int main() {
         cout << "GUID=" << md.guid << endl;
         cout << "modelName=" << md.modelName << endl;
         cout << "license=" << md.license << endl;
+
+        for (auto var : md.modelVariables) {
+            cout << var.name << ", start=" << var.attribute.realAttribute.start << endl;
+        }
 
         int value_reference = fmu.getValueReference("Temperature_Room");
 
@@ -68,6 +72,7 @@ int main() {
         while (result.simulationTime < stop) {
             instance->step(result, step_size);
             instance->readReal(read, value_reference);
+            cout << read << endl;
         }
 
         clock_t end = clock();

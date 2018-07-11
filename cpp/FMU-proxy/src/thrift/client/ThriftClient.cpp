@@ -61,7 +61,7 @@ unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
 
 
 
-
+//#############################################################################################
 
 Status::type RemoteFmuInstance::init(double start, double stop) {
     return client.init(fmu_id, start, stop);
