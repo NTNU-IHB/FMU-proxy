@@ -155,7 +155,7 @@ protocol AvroFmuService {
     Status status;
   }
 
-  record IntegerArrayRead {
+  record BulkIntegerRead {
     array<int> value;
     Status status;
   }
@@ -165,7 +165,7 @@ protocol AvroFmuService {
     Status status;
   }
 
-  record RealArrayRead {
+  record BulkRealRead {
     array<double> value;
     Status status;
   }
@@ -175,7 +175,7 @@ protocol AvroFmuService {
     Status status;
   }
 
-  record StringArrayRead {
+  record BulkStringRead {
     array<string> value;
     Status status;
   }
@@ -185,7 +185,7 @@ protocol AvroFmuService {
     Status status;
   }
 
-  record BooleanArrayRead {
+  record BulkBooleanRead {
     array<boolean> value;
     Status status;
   }
@@ -224,16 +224,16 @@ protocol AvroFmuService {
   Status reset(int fmu_id) throws NoSuchFmuException;
 
   IntegerRead readInteger(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  IntegerArrayRead bulkReadInteger(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  BulkIntegerRead bulkReadInteger(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
 
   RealRead readReal(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  RealArrayRead bulkReadReal(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  BulkRealRead bulkReadReal(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
 
   StringRead readString(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  StringArrayRead bulkReadString(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  BulkStringRead bulkReadString(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
 
   BooleanRead readBoolean(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  BooleanArrayRead bulkReadBoolean(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  BulkBooleanRead bulkReadBoolean(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
 
   Status writeInteger(int fmu_id, int vr, int value) throws NoSuchFmuException, NoSuchVariableException;
   Status bulkWriteInteger(int fmu_id,  array<int> vr, array<int> value) throws NoSuchFmuException, NoSuchVariableException;

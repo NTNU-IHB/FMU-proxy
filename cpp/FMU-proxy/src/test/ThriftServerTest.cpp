@@ -25,11 +25,12 @@
 #include <iostream>
 #include <thread>
 
-#include "../common/Util.hpp"
-#include "../common/FmuWrapper.hpp"
-#include "../server/ThriftServer.hpp"
+#include "TestUtil.hpp"
+#include "../fmi/FmuWrapper.hpp"
+#include "../thrift/server/ThriftServer.hpp"
 
 using namespace std;
+using namespace fmi;
 using namespace fmuproxy;
 using namespace fmuproxy::server;
 
@@ -44,10 +45,10 @@ void wait_for_input(::ThriftServer* server) {
 int main(int argc, char **argv) {
 
     int port = 9090;
-    string fmu_path = string(string(getenv("TEST_FMUs")))
+    string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    shared_ptr<FmuWrapper> fmu(new FmuWrapper(fmu_path));
+    FmuWrapper fmu = FmuWrapper(fmu_path);
     ThriftServer server = ThriftServer(fmu, port);
 
     thread t(wait_for_input, &server);

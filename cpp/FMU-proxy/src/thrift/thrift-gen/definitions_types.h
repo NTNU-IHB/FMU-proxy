@@ -132,19 +132,19 @@ class StepResult;
 
 class IntegerRead;
 
-class IntegerArrayRead;
+class BulkIntegerRead;
 
 class RealRead;
 
-class RealArrayRead;
+class BulkRealRead;
 
 class StringRead;
 
-class StringArrayRead;
+class BulkStringRead;
 
 class BooleanRead;
 
-class BooleanArrayRead;
+class BulkBooleanRead;
 
 class Solver;
 
@@ -962,31 +962,31 @@ void swap(IntegerRead &a, IntegerRead &b);
 
 std::ostream& operator<<(std::ostream& out, const IntegerRead& obj);
 
-typedef struct _IntegerArrayRead__isset {
-  _IntegerArrayRead__isset() : value(false), status(false) {}
+typedef struct _BulkIntegerRead__isset {
+  _BulkIntegerRead__isset() : value(false), status(false) {}
   bool value :1;
   bool status :1;
-} _IntegerArrayRead__isset;
+} _BulkIntegerRead__isset;
 
-class IntegerArrayRead : public virtual ::apache::thrift::TBase {
+class BulkIntegerRead : public virtual ::apache::thrift::TBase {
  public:
 
-  IntegerArrayRead(const IntegerArrayRead&);
-  IntegerArrayRead& operator=(const IntegerArrayRead&);
-  IntegerArrayRead() : status((Status::type)0) {
+  BulkIntegerRead(const BulkIntegerRead&);
+  BulkIntegerRead& operator=(const BulkIntegerRead&);
+  BulkIntegerRead() : status((Status::type)0) {
   }
 
-  virtual ~IntegerArrayRead() throw();
+  virtual ~BulkIntegerRead() throw();
   std::vector<int32_t>  value;
   Status::type status;
 
-  _IntegerArrayRead__isset __isset;
+  _BulkIntegerRead__isset __isset;
 
   void __set_value(const std::vector<int32_t> & val);
 
   void __set_status(const Status::type val);
 
-  bool operator == (const IntegerArrayRead & rhs) const
+  bool operator == (const BulkIntegerRead & rhs) const
   {
     if (!(value == rhs.value))
       return false;
@@ -994,11 +994,11 @@ class IntegerArrayRead : public virtual ::apache::thrift::TBase {
       return false;
     return true;
   }
-  bool operator != (const IntegerArrayRead &rhs) const {
+  bool operator != (const BulkIntegerRead &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const IntegerArrayRead & ) const;
+  bool operator < (const BulkIntegerRead & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1006,9 +1006,9 @@ class IntegerArrayRead : public virtual ::apache::thrift::TBase {
   virtual void printTo(std::ostream& out) const;
 };
 
-void swap(IntegerArrayRead &a, IntegerArrayRead &b);
+void swap(BulkIntegerRead &a, BulkIntegerRead &b);
 
-std::ostream& operator<<(std::ostream& out, const IntegerArrayRead& obj);
+std::ostream& operator<<(std::ostream& out, const BulkIntegerRead& obj);
 
 typedef struct _RealRead__isset {
   _RealRead__isset() : value(false), status(false) {}
@@ -1058,31 +1058,31 @@ void swap(RealRead &a, RealRead &b);
 
 std::ostream& operator<<(std::ostream& out, const RealRead& obj);
 
-typedef struct _RealArrayRead__isset {
-  _RealArrayRead__isset() : value(false), status(false) {}
+typedef struct _BulkRealRead__isset {
+  _BulkRealRead__isset() : value(false), status(false) {}
   bool value :1;
   bool status :1;
-} _RealArrayRead__isset;
+} _BulkRealRead__isset;
 
-class RealArrayRead : public virtual ::apache::thrift::TBase {
+class BulkRealRead : public virtual ::apache::thrift::TBase {
  public:
 
-  RealArrayRead(const RealArrayRead&);
-  RealArrayRead& operator=(const RealArrayRead&);
-  RealArrayRead() : status((Status::type)0) {
+  BulkRealRead(const BulkRealRead&);
+  BulkRealRead& operator=(const BulkRealRead&);
+  BulkRealRead() : status((Status::type)0) {
   }
 
-  virtual ~RealArrayRead() throw();
+  virtual ~BulkRealRead() throw();
   std::vector<double>  value;
   Status::type status;
 
-  _RealArrayRead__isset __isset;
+  _BulkRealRead__isset __isset;
 
   void __set_value(const std::vector<double> & val);
 
   void __set_status(const Status::type val);
 
-  bool operator == (const RealArrayRead & rhs) const
+  bool operator == (const BulkRealRead & rhs) const
   {
     if (!(value == rhs.value))
       return false;
@@ -1090,11 +1090,11 @@ class RealArrayRead : public virtual ::apache::thrift::TBase {
       return false;
     return true;
   }
-  bool operator != (const RealArrayRead &rhs) const {
+  bool operator != (const BulkRealRead &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const RealArrayRead & ) const;
+  bool operator < (const BulkRealRead & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1102,9 +1102,9 @@ class RealArrayRead : public virtual ::apache::thrift::TBase {
   virtual void printTo(std::ostream& out) const;
 };
 
-void swap(RealArrayRead &a, RealArrayRead &b);
+void swap(BulkRealRead &a, BulkRealRead &b);
 
-std::ostream& operator<<(std::ostream& out, const RealArrayRead& obj);
+std::ostream& operator<<(std::ostream& out, const BulkRealRead& obj);
 
 typedef struct _StringRead__isset {
   _StringRead__isset() : value(false), status(false) {}
@@ -1154,31 +1154,31 @@ void swap(StringRead &a, StringRead &b);
 
 std::ostream& operator<<(std::ostream& out, const StringRead& obj);
 
-typedef struct _StringArrayRead__isset {
-  _StringArrayRead__isset() : value(false), status(false) {}
+typedef struct _BulkStringRead__isset {
+  _BulkStringRead__isset() : value(false), status(false) {}
   bool value :1;
   bool status :1;
-} _StringArrayRead__isset;
+} _BulkStringRead__isset;
 
-class StringArrayRead : public virtual ::apache::thrift::TBase {
+class BulkStringRead : public virtual ::apache::thrift::TBase {
  public:
 
-  StringArrayRead(const StringArrayRead&);
-  StringArrayRead& operator=(const StringArrayRead&);
-  StringArrayRead() : status((Status::type)0) {
+  BulkStringRead(const BulkStringRead&);
+  BulkStringRead& operator=(const BulkStringRead&);
+  BulkStringRead() : status((Status::type)0) {
   }
 
-  virtual ~StringArrayRead() throw();
+  virtual ~BulkStringRead() throw();
   std::vector<std::string>  value;
   Status::type status;
 
-  _StringArrayRead__isset __isset;
+  _BulkStringRead__isset __isset;
 
   void __set_value(const std::vector<std::string> & val);
 
   void __set_status(const Status::type val);
 
-  bool operator == (const StringArrayRead & rhs) const
+  bool operator == (const BulkStringRead & rhs) const
   {
     if (!(value == rhs.value))
       return false;
@@ -1186,11 +1186,11 @@ class StringArrayRead : public virtual ::apache::thrift::TBase {
       return false;
     return true;
   }
-  bool operator != (const StringArrayRead &rhs) const {
+  bool operator != (const BulkStringRead &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const StringArrayRead & ) const;
+  bool operator < (const BulkStringRead & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1198,9 +1198,9 @@ class StringArrayRead : public virtual ::apache::thrift::TBase {
   virtual void printTo(std::ostream& out) const;
 };
 
-void swap(StringArrayRead &a, StringArrayRead &b);
+void swap(BulkStringRead &a, BulkStringRead &b);
 
-std::ostream& operator<<(std::ostream& out, const StringArrayRead& obj);
+std::ostream& operator<<(std::ostream& out, const BulkStringRead& obj);
 
 typedef struct _BooleanRead__isset {
   _BooleanRead__isset() : value(false), status(false) {}
@@ -1250,31 +1250,31 @@ void swap(BooleanRead &a, BooleanRead &b);
 
 std::ostream& operator<<(std::ostream& out, const BooleanRead& obj);
 
-typedef struct _BooleanArrayRead__isset {
-  _BooleanArrayRead__isset() : value(false), status(false) {}
+typedef struct _BulkBooleanRead__isset {
+  _BulkBooleanRead__isset() : value(false), status(false) {}
   bool value :1;
   bool status :1;
-} _BooleanArrayRead__isset;
+} _BulkBooleanRead__isset;
 
-class BooleanArrayRead : public virtual ::apache::thrift::TBase {
+class BulkBooleanRead : public virtual ::apache::thrift::TBase {
  public:
 
-  BooleanArrayRead(const BooleanArrayRead&);
-  BooleanArrayRead& operator=(const BooleanArrayRead&);
-  BooleanArrayRead() : status((Status::type)0) {
+  BulkBooleanRead(const BulkBooleanRead&);
+  BulkBooleanRead& operator=(const BulkBooleanRead&);
+  BulkBooleanRead() : status((Status::type)0) {
   }
 
-  virtual ~BooleanArrayRead() throw();
+  virtual ~BulkBooleanRead() throw();
   std::vector<bool>  value;
   Status::type status;
 
-  _BooleanArrayRead__isset __isset;
+  _BulkBooleanRead__isset __isset;
 
   void __set_value(const std::vector<bool> & val);
 
   void __set_status(const Status::type val);
 
-  bool operator == (const BooleanArrayRead & rhs) const
+  bool operator == (const BulkBooleanRead & rhs) const
   {
     if (!(value == rhs.value))
       return false;
@@ -1282,11 +1282,11 @@ class BooleanArrayRead : public virtual ::apache::thrift::TBase {
       return false;
     return true;
   }
-  bool operator != (const BooleanArrayRead &rhs) const {
+  bool operator != (const BulkBooleanRead &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const BooleanArrayRead & ) const;
+  bool operator < (const BulkBooleanRead & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1294,9 +1294,9 @@ class BooleanArrayRead : public virtual ::apache::thrift::TBase {
   virtual void printTo(std::ostream& out) const;
 };
 
-void swap(BooleanArrayRead &a, BooleanArrayRead &b);
+void swap(BulkBooleanRead &a, BulkBooleanRead &b);
 
-std::ostream& operator<<(std::ostream& out, const BooleanArrayRead& obj);
+std::ostream& operator<<(std::ostream& out, const BulkBooleanRead& obj);
 
 typedef struct _Solver__isset {
   _Solver__isset() : name(false), settings(false) {}

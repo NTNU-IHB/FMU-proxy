@@ -24,56 +24,50 @@
 
 #include <iostream>
 
-#include <boost/filesystem.hpp>
-
-#include <fmilib.h>
-
-#include "../common/Util.hpp"
-#include "../common/FmuWrapper.hpp"
-#include "../common/thrift-gen/definitions_types.h"
+#include "TestUtil.hpp"
+#include "../fmi/FmuWrapper.hpp"
 
 using namespace std;
-using namespace fmuproxy;
-using namespace boost::filesystem;
-
-
+using namespace fmi;
 
 int main(int argc, char **argv) {
 
-    string fmu_path = string(string(getenv("TEST_FMUs")))
+    string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
+    double step_size = 1.0/100;
     FmuWrapper fmu = FmuWrapper(fmu_path);
 
-    auto md = fmu.getModelDescription();
-    cout << md->defaultExperiment << endl;
+    const auto md = fmu.getModelDescription();
+    cout << md.defaultExperiment.stopTime << endl;
 
-    for (auto var : md->modelVariables) {
-        cout << var.attribute.realAttribute << endl;
+    for (auto var : md.modelVariables) {
+        RealAttribute r = var.attribute.getRealAttribute();
+        cout << r << endl;
     }
 
-    shared_ptr<FmuInstance> instance1 = fmu.newInstance();
-    shared_ptr<FmuInstance> instance2 = fmu.newInstance();
+    const auto instance1 = fmu.newInstance();
+    const auto instance2 = fmu.newInstance();
 
     instance1->init(0.0, -1);
     instance2->init(0.0, -1);
 
-    RealRead read;
 
-    instance1->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
-    double dt = 1.0/100;
+    double temperature_room;
+    fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
 
-    StepResult result;
-    instance1->step(dt, result);
+    instance1->getReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
 
-    instance1->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
+    instance1->step(step_size);
+
+    instance1->getReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
 
     instance1->terminate();
 
-    instance2->getReal("Temperature_Room", read);
-    cout << "Temperature_Room=" << read.value << endl;
+    instance2->getReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
 
     instance2->terminate();
 

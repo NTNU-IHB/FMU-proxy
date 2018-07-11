@@ -1,17 +1,36 @@
-//
-// Created by laht on 07.06.18.
-//
+/*
+ * The MIT License
+ *
+ * Copyright 2017-2018 Norwegian University of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING  FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #ifndef FMU_PROXY_FMUSERVICEHANDLER_H
 #define FMU_PROXY_FMUSERVICEHANDLER_H
 
 #include <iostream>
 
-#include "../common/thrift-gen/FmuService.h"
-#include "../common/FmuWrapper.hpp"
+#include "../thrift-gen/FmuService.h"
+#include "../../fmi/FmuWrapper.hpp"
 
 
-using namespace std;
 using namespace ::fmuproxy::thrift;
 
 
@@ -21,11 +40,11 @@ namespace fmuproxy {
         class FmuServiceHandler : virtual public FmuServiceIf {
 
         private:
-            shared_ptr<FmuWrapper> fmu;
-            map<FmuId, shared_ptr<FmuInstance>> fmus;
+            fmi::FmuWrapper& fmu;
+            std::map<FmuId, std::unique_ptr<fmi::FmuInstance>> fmus;
 
         public:
-            FmuServiceHandler(shared_ptr<FmuWrapper> fmu);
+            FmuServiceHandler(fmi::FmuWrapper &fmu);
 
             void getModelDescriptionXml(std::string &_return) override;
 
@@ -51,19 +70,19 @@ namespace fmuproxy {
 
             void readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadInteger(IntegerArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             void readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadReal(RealArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             void readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadString(StringArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             void readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void bulkReadBoolean(BooleanArrayRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+            void bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
             Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) override;
 

@@ -33,13 +33,13 @@ class FmuServiceIf {
   virtual  ::fmuproxy::thrift::Status::type terminate(const FmuId fmu_id) = 0;
   virtual  ::fmuproxy::thrift::Status::type reset(const FmuId fmu_id) = 0;
   virtual void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const FmuId fmu_id, const ValueReference vr) = 0;
-  virtual void bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
+  virtual void bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
   virtual void readReal( ::fmuproxy::thrift::RealRead& _return, const FmuId fmu_id, const ValueReference vr) = 0;
-  virtual void bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
+  virtual void bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
   virtual void readString( ::fmuproxy::thrift::StringRead& _return, const FmuId fmu_id, const ValueReference vr) = 0;
-  virtual void bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
+  virtual void bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
   virtual void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const FmuId fmu_id, const ValueReference vr) = 0;
-  virtual void bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
+  virtual void bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const FmuId fmu_id, const ValueReferences& vr) = 0;
   virtual  ::fmuproxy::thrift::Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) = 0;
   virtual  ::fmuproxy::thrift::Status::type bulkWriteInteger(const FmuId fmu_id, const ValueReferences& vr, const IntArray& value) = 0;
   virtual  ::fmuproxy::thrift::Status::type writeReal(const FmuId fmu_id, const ValueReference vr, const double value) = 0;
@@ -121,25 +121,25 @@ class FmuServiceNull : virtual public FmuServiceIf {
   void readInteger( ::fmuproxy::thrift::IntegerRead& /* _return */, const FmuId /* fmu_id */, const ValueReference /* vr */) {
     return;
   }
-  void bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
+  void bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
     return;
   }
   void readReal( ::fmuproxy::thrift::RealRead& /* _return */, const FmuId /* fmu_id */, const ValueReference /* vr */) {
     return;
   }
-  void bulkReadReal( ::fmuproxy::thrift::RealArrayRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
+  void bulkReadReal( ::fmuproxy::thrift::BulkRealRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
     return;
   }
   void readString( ::fmuproxy::thrift::StringRead& /* _return */, const FmuId /* fmu_id */, const ValueReference /* vr */) {
     return;
   }
-  void bulkReadString( ::fmuproxy::thrift::StringArrayRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
+  void bulkReadString( ::fmuproxy::thrift::BulkStringRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
     return;
   }
   void readBoolean( ::fmuproxy::thrift::BooleanRead& /* _return */, const FmuId /* fmu_id */, const ValueReference /* vr */) {
     return;
   }
-  void bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
+  void bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& /* _return */, const FmuId /* fmu_id */, const ValueReferences& /* vr */) {
     return;
   }
    ::fmuproxy::thrift::Status::type writeInteger(const FmuId /* fmu_id */, const ValueReference /* vr */, const int32_t /* value */) {
@@ -1576,13 +1576,13 @@ class FmuService_bulkReadInteger_result {
   }
 
   virtual ~FmuService_bulkReadInteger_result() throw();
-   ::fmuproxy::thrift::IntegerArrayRead success;
+   ::fmuproxy::thrift::BulkIntegerRead success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
   _FmuService_bulkReadInteger_result__isset __isset;
 
-  void __set_success(const  ::fmuproxy::thrift::IntegerArrayRead& val);
+  void __set_success(const  ::fmuproxy::thrift::BulkIntegerRead& val);
 
   void __set_ex1(const  ::fmuproxy::thrift::NoSuchFmuException& val);
 
@@ -1621,7 +1621,7 @@ class FmuService_bulkReadInteger_presult {
 
 
   virtual ~FmuService_bulkReadInteger_presult() throw();
-   ::fmuproxy::thrift::IntegerArrayRead* success;
+   ::fmuproxy::thrift::BulkIntegerRead* success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
@@ -1830,13 +1830,13 @@ class FmuService_bulkReadReal_result {
   }
 
   virtual ~FmuService_bulkReadReal_result() throw();
-   ::fmuproxy::thrift::RealArrayRead success;
+   ::fmuproxy::thrift::BulkRealRead success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
   _FmuService_bulkReadReal_result__isset __isset;
 
-  void __set_success(const  ::fmuproxy::thrift::RealArrayRead& val);
+  void __set_success(const  ::fmuproxy::thrift::BulkRealRead& val);
 
   void __set_ex1(const  ::fmuproxy::thrift::NoSuchFmuException& val);
 
@@ -1875,7 +1875,7 @@ class FmuService_bulkReadReal_presult {
 
 
   virtual ~FmuService_bulkReadReal_presult() throw();
-   ::fmuproxy::thrift::RealArrayRead* success;
+   ::fmuproxy::thrift::BulkRealRead* success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
@@ -2084,13 +2084,13 @@ class FmuService_bulkReadString_result {
   }
 
   virtual ~FmuService_bulkReadString_result() throw();
-   ::fmuproxy::thrift::StringArrayRead success;
+   ::fmuproxy::thrift::BulkStringRead success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
   _FmuService_bulkReadString_result__isset __isset;
 
-  void __set_success(const  ::fmuproxy::thrift::StringArrayRead& val);
+  void __set_success(const  ::fmuproxy::thrift::BulkStringRead& val);
 
   void __set_ex1(const  ::fmuproxy::thrift::NoSuchFmuException& val);
 
@@ -2129,7 +2129,7 @@ class FmuService_bulkReadString_presult {
 
 
   virtual ~FmuService_bulkReadString_presult() throw();
-   ::fmuproxy::thrift::StringArrayRead* success;
+   ::fmuproxy::thrift::BulkStringRead* success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
@@ -2338,13 +2338,13 @@ class FmuService_bulkReadBoolean_result {
   }
 
   virtual ~FmuService_bulkReadBoolean_result() throw();
-   ::fmuproxy::thrift::BooleanArrayRead success;
+   ::fmuproxy::thrift::BulkBooleanRead success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
   _FmuService_bulkReadBoolean_result__isset __isset;
 
-  void __set_success(const  ::fmuproxy::thrift::BooleanArrayRead& val);
+  void __set_success(const  ::fmuproxy::thrift::BulkBooleanRead& val);
 
   void __set_ex1(const  ::fmuproxy::thrift::NoSuchFmuException& val);
 
@@ -2383,7 +2383,7 @@ class FmuService_bulkReadBoolean_presult {
 
 
   virtual ~FmuService_bulkReadBoolean_presult() throw();
-   ::fmuproxy::thrift::BooleanArrayRead* success;
+   ::fmuproxy::thrift::BulkBooleanRead* success;
    ::fmuproxy::thrift::NoSuchFmuException ex1;
    ::fmuproxy::thrift::NoSuchVariableException ex2;
 
@@ -3526,27 +3526,27 @@ class FmuServiceClient : virtual public FmuServiceIf {
   void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const FmuId fmu_id, const ValueReference vr);
   void send_readInteger(const FmuId fmu_id, const ValueReference vr);
   void recv_readInteger( ::fmuproxy::thrift::IntegerRead& _return);
-  void bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   void send_bulkReadInteger(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return);
+  void recv_bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return);
   void readReal( ::fmuproxy::thrift::RealRead& _return, const FmuId fmu_id, const ValueReference vr);
   void send_readReal(const FmuId fmu_id, const ValueReference vr);
   void recv_readReal( ::fmuproxy::thrift::RealRead& _return);
-  void bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   void send_bulkReadReal(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return);
+  void recv_bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return);
   void readString( ::fmuproxy::thrift::StringRead& _return, const FmuId fmu_id, const ValueReference vr);
   void send_readString(const FmuId fmu_id, const ValueReference vr);
   void recv_readString( ::fmuproxy::thrift::StringRead& _return);
-  void bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   void send_bulkReadString(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return);
+  void recv_bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return);
   void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const FmuId fmu_id, const ValueReference vr);
   void send_readBoolean(const FmuId fmu_id, const ValueReference vr);
   void recv_readBoolean( ::fmuproxy::thrift::BooleanRead& _return);
-  void bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   void send_bulkReadBoolean(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return);
+  void recv_bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return);
    ::fmuproxy::thrift::Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value);
   void send_writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value);
    ::fmuproxy::thrift::Status::type recv_writeInteger();
@@ -3783,7 +3783,7 @@ class FmuServiceMultiface : virtual public FmuServiceIf {
     return;
   }
 
-  void bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
+  void bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -3803,7 +3803,7 @@ class FmuServiceMultiface : virtual public FmuServiceIf {
     return;
   }
 
-  void bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
+  void bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -3823,7 +3823,7 @@ class FmuServiceMultiface : virtual public FmuServiceIf {
     return;
   }
 
-  void bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
+  void bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -3843,7 +3843,7 @@ class FmuServiceMultiface : virtual public FmuServiceIf {
     return;
   }
 
-  void bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
+  void bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const FmuId fmu_id, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
@@ -3991,27 +3991,27 @@ class FmuServiceConcurrentClient : virtual public FmuServiceIf {
   void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const FmuId fmu_id, const ValueReference vr);
   int32_t send_readInteger(const FmuId fmu_id, const ValueReference vr);
   void recv_readInteger( ::fmuproxy::thrift::IntegerRead& _return, const int32_t seqid);
-  void bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   int32_t send_bulkReadInteger(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadInteger( ::fmuproxy::thrift::IntegerArrayRead& _return, const int32_t seqid);
+  void recv_bulkReadInteger( ::fmuproxy::thrift::BulkIntegerRead& _return, const int32_t seqid);
   void readReal( ::fmuproxy::thrift::RealRead& _return, const FmuId fmu_id, const ValueReference vr);
   int32_t send_readReal(const FmuId fmu_id, const ValueReference vr);
   void recv_readReal( ::fmuproxy::thrift::RealRead& _return, const int32_t seqid);
-  void bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   int32_t send_bulkReadReal(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadReal( ::fmuproxy::thrift::RealArrayRead& _return, const int32_t seqid);
+  void recv_bulkReadReal( ::fmuproxy::thrift::BulkRealRead& _return, const int32_t seqid);
   void readString( ::fmuproxy::thrift::StringRead& _return, const FmuId fmu_id, const ValueReference vr);
   int32_t send_readString(const FmuId fmu_id, const ValueReference vr);
   void recv_readString( ::fmuproxy::thrift::StringRead& _return, const int32_t seqid);
-  void bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   int32_t send_bulkReadString(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadString( ::fmuproxy::thrift::StringArrayRead& _return, const int32_t seqid);
+  void recv_bulkReadString( ::fmuproxy::thrift::BulkStringRead& _return, const int32_t seqid);
   void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const FmuId fmu_id, const ValueReference vr);
   int32_t send_readBoolean(const FmuId fmu_id, const ValueReference vr);
   void recv_readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const int32_t seqid);
-  void bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const FmuId fmu_id, const ValueReferences& vr);
+  void bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const FmuId fmu_id, const ValueReferences& vr);
   int32_t send_bulkReadBoolean(const FmuId fmu_id, const ValueReferences& vr);
-  void recv_bulkReadBoolean( ::fmuproxy::thrift::BooleanArrayRead& _return, const int32_t seqid);
+  void recv_bulkReadBoolean( ::fmuproxy::thrift::BulkBooleanRead& _return, const int32_t seqid);
    ::fmuproxy::thrift::Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value);
   int32_t send_writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value);
    ::fmuproxy::thrift::Status::type recv_writeInteger(const int32_t seqid);

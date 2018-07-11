@@ -173,7 +173,7 @@ class ThriftFmuServiceImpl(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadBoolean(fmuId: Int, vr: List<ValueReference>): BooleanArrayRead {
+    override fun bulkReadBoolean(fmuId: Int, vr: List<ValueReference>): BulkBooleanRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readBoolean(vr.toIntArray()).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
@@ -191,19 +191,19 @@ class ThriftFmuServiceImpl(
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadInteger(fmuId: Int, vr: List<ValueReference>): IntegerArrayRead {
+    override fun bulkReadInteger(fmuId: Int, vr: List<ValueReference>): BulkIntegerRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readInteger(vr.toIntArray()).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadReal(fmuId: Int, vr: List<ValueReference>): RealArrayRead {
+    override fun bulkReadReal(fmuId: Int, vr: List<ValueReference>): BulkRealRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readReal(vr.toIntArray()).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
     }
 
-    override fun bulkReadString(fmuId: Int, vr: List<ValueReference>): StringArrayRead {
+    override fun bulkReadString(fmuId: Int, vr: List<ValueReference>): BulkStringRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readString(vr.toIntArray()).thriftType()
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")

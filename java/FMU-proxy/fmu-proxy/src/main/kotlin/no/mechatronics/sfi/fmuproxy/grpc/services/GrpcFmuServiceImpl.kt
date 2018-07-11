@@ -123,13 +123,13 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun readInteger(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.IntRead>) {
+    override fun readInteger(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.IntegerRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
             val valueReference = req.valueReference
             val read = variableAccessor.readInteger(valueReference)
-            responseObserver.onNext(Proto.IntRead.newBuilder()
+            responseObserver.onNext(Proto.IntegerRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(read.status.protoType())
                     .build())
@@ -138,11 +138,11 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkReadInteger(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.IntListRead>) {
+    override fun bulkReadInteger(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.BulkIntegerRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
-            val builder = Proto.IntListRead.newBuilder()
+            val builder = Proto.BulkIntegerRead.newBuilder()
             val read = variableAccessor.readInteger(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -169,11 +169,11 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkReadReal(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.RealListRead>) {
+    override fun bulkReadReal(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.BulkRealRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
-            val builder = Proto.RealListRead.newBuilder()
+            val builder = Proto.BulkRealRead.newBuilder()
             val read = variableAccessor.readReal(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -185,12 +185,12 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun readString(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.StrRead>) {
+    override fun readString(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.StringRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
             val read = variableAccessor.readString(req.valueReference)
-            responseObserver.onNext(Proto.StrRead.newBuilder()
+            responseObserver.onNext(Proto.StringRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(read.status.protoType())
                     .build())
@@ -199,11 +199,11 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkReadString(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.StrListRead>) {
+    override fun bulkReadString(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.BulkStringRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
-            val builder = Proto.StrListRead.newBuilder()
+            val builder = Proto.BulkStringRead.newBuilder()
             val read = variableAccessor.readString(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -215,12 +215,12 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun readBoolean(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.BoolRead>) {
+    override fun readBoolean(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.BooleanRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
             val read = variableAccessor.readBoolean(req.valueReference)
-            responseObserver.onNext(Proto.BoolRead.newBuilder()
+            responseObserver.onNext(Proto.BooleanRead.newBuilder()
                     .setValue(read.value)
                     .setStatus(read.status.protoType())
                     .build())
@@ -229,11 +229,11 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkReadBoolean(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.BoolListRead>) {
+    override fun bulkReadBoolean(req: Proto.BulkReadRequest, responseObserver: StreamObserver<Proto.BulkBooleanRead>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
-            val builder = Proto.BoolListRead.newBuilder()
+            val builder = Proto.BulkBooleanRead.newBuilder()
             val read = variableAccessor.readBoolean(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -246,7 +246,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun writeInteger(req: Proto.WriteIntRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeInteger(req: Proto.WriteIntegerRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
@@ -256,7 +256,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkWriteInteger(req: Proto.BulkWriteIntRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun bulkWriteInteger(req: Proto.BulkWriteIntegerRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
@@ -287,7 +287,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun writeString(req: Proto.WriteStrRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeString(req: Proto.WriteStringRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
@@ -298,7 +298,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkWriteString(req: Proto.BulkWriteStrRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun bulkWriteString(req: Proto.BulkWriteStringRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
 
         val fmuId = req.fmuId
         Fmus.get(req.fmuId)?.apply {
@@ -308,7 +308,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun writeBoolean(req: Proto.WriteBoolRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeBoolean(req: Proto.WriteBooleanRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {
@@ -319,7 +319,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun bulkWriteBoolean(req: Proto.BulkWriteBoolRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun bulkWriteBoolean(req: Proto.BulkWriteBooleanRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
 
         val fmuId = req.fmuId
         Fmus.get(fmuId)?.apply {

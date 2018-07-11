@@ -39,12 +39,12 @@ internal fun isArray(name: String) : Boolean {
 internal fun getProtoType(variable: TypedScalarVariable<*>): String {
 
     return when (variable) {
-        is IntegerVariable -> "Int"
+        is IntegerVariable -> "Integer"
         is RealVariable -> "Real"
-        is StringVariable -> "Str"
-        is BooleanVariable -> "Bool"
-        is EnumerationVariable -> "Int"
-        else ->  throw RuntimeException()
+        is StringVariable -> "String"
+        is BooleanVariable -> "Boolean"
+        is EnumerationVariable -> "Integer"
+        else -> throw RuntimeException()
     }
 
 }

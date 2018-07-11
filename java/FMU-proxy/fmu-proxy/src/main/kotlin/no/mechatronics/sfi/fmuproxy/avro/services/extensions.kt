@@ -26,16 +26,16 @@ internal fun FmuBooleanRead.avroType()
         = BooleanRead(value, status.avroType())
 
 internal fun FmuIntegerArrayRead.avroType()
-        = IntegerArrayRead(value.toList(), status.avroType())
+        = BulkIntegerRead(value.toList(), status.avroType())
 
 internal fun FmuRealArrayRead.avroType()
-        = RealArrayRead(value.toList(), status.avroType())
+        = BulkRealRead(value.toList(), status.avroType())
 
 internal fun FmuStringArrayRead.avroType()
-        = StringArrayRead(value.toList(), status.avroType())
+        = BulkStringRead(value.toList(), status.avroType())
 
 internal fun FmuBooleanArrayRead.avroType()
-        = BooleanArrayRead(value.toList(), status.avroType())
+        = BulkBooleanRead(value.toList(), status.avroType())
 
 internal fun IntegerVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute().also { attribute ->

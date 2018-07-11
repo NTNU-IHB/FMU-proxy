@@ -119,7 +119,6 @@ class RemoteFmu:
         self.model_variables = dict()
         for var in self.model_description.modelVariables:  # type: List<ScalarVariable>
             self.model_variables[var.valueReference] = var
-            print(var)
 
     def get_value_reference(self, var_name) -> int:
         for key in self.model_variables:

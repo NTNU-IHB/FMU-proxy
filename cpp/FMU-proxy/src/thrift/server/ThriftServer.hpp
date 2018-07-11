@@ -22,31 +22,37 @@
  * THE SOFTWARE.
  */
 
-
-#include "ThriftServer.hpp"
-
-using namespace std;
-using namespace fmuproxy;
-using namespace fmuproxy::server;
+#ifndef FMU_PROXY_THRIFTSERVER_H
+#define FMU_PROXY_THRIFTSERVER_H
 
 
-::ThriftServer::ThriftServer(shared_ptr<FmuWrapper> fmu, int port) {
+#include <thrift/server/TSimpleServer.h>
 
-    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
-    shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
-    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+#include "../../fmi/FmuWrapper.hpp"
+#include "FmuServiceHandler.hpp"
 
-    this->server = shared_ptr<TSimpleServer>(new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory));
 
+namespace fmuproxy {
+    
+    namespace server {
+        
+        class ThriftServer {
+
+        private:
+            std::unique_ptr<apache::thrift::server::TSimpleServer> server;
+
+        public:
+            ThriftServer(fmi::FmuWrapper &fmu, int port);
+            
+            void serve();
+            
+            void stop();
+
+        };
+        
+    }
+    
 }
 
-void ::ThriftServer::serve() {
-    server->serve();
-}
 
-void ::ThriftServer::stop() {
-    server->stop();
-}
-
+#endif //FMU_PROXY_THRIFTSERVER_H

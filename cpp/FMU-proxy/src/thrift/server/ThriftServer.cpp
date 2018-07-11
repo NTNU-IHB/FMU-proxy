@@ -22,49 +22,37 @@
  * THE SOFTWARE.
  */
 
-#include <ctime>
-#include <iostream>
+#include "ThriftServer.hpp"
 
-#include "TestUtil.hpp"
-#include "../fmi/FmuWrapper.hpp"
+#include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/TBufferTransports.h>
 
 using namespace std;
-using namespace fmi;
+using namespace fmuproxy;
+using namespace fmuproxy::server;
 
-const double stop = 10;
-const double step_size = 1E-4;
+using namespace ::apache::thrift;
+using namespace ::apache::thrift::server;
+using namespace ::apache::thrift::protocol;
+using namespace ::apache::thrift::transport;
 
-int main(int argc, char **argv) {
+ThriftServer::ThriftServer(fmi::FmuWrapper &fmu, int port) {
 
-    string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() +
-                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
+    shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
-
-    const auto instance = fmu.newInstance();
-
-    instance->init(0.0, 0.0);
-
-    clock_t begin = clock();
-
-    double temperature_room;
-    VariableReader temperature_reader = instance->getReader("Temperature_Room");
-    while (instance->getCurrentTime() <= stop-step_size) {
-        fmi2_status_t status = instance->step(step_size);
-        if (status != fmi2_status_ok) {
-            break;
-        }
-        temperature_reader.readReal(temperature_room);
-    }
-
-    clock_t end = clock();
-
-    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-    cout << "elapsed=" << elapsed_secs << "s" << endl;
-
-    instance->terminate();
-
-    return 0;
+    this->server = unique_ptr<TSimpleServer>(new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory));
 
 }
+
+void ThriftServer::serve() {
+    server->serve();
+}
+
+void ThriftServer::stop() {
+    server->stop();
+}
+

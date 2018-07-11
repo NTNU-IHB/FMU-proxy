@@ -3683,7 +3683,7 @@ class bulkReadInteger_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.IntegerArrayRead()
+                    self.success = definitions.ttypes.BulkIntegerRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3739,7 +3739,7 @@ class bulkReadInteger_result(object):
         return not (self == other)
 all_structs.append(bulkReadInteger_result)
 bulkReadInteger_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.IntegerArrayRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [definitions.ttypes.BulkIntegerRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
 )
@@ -4011,7 +4011,7 @@ class bulkReadReal_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.RealArrayRead()
+                    self.success = definitions.ttypes.BulkRealRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -4067,7 +4067,7 @@ class bulkReadReal_result(object):
         return not (self == other)
 all_structs.append(bulkReadReal_result)
 bulkReadReal_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.RealArrayRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [definitions.ttypes.BulkRealRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
 )
@@ -4339,7 +4339,7 @@ class bulkReadString_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.StringArrayRead()
+                    self.success = definitions.ttypes.BulkStringRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -4395,7 +4395,7 @@ class bulkReadString_result(object):
         return not (self == other)
 all_structs.append(bulkReadString_result)
 bulkReadString_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.StringArrayRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [definitions.ttypes.BulkStringRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
 )
@@ -4667,7 +4667,7 @@ class bulkReadBoolean_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.BooleanArrayRead()
+                    self.success = definitions.ttypes.BulkBooleanRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -4723,7 +4723,7 @@ class bulkReadBoolean_result(object):
         return not (self == other)
 all_structs.append(bulkReadBoolean_result)
 bulkReadBoolean_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.BooleanArrayRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [definitions.ttypes.BulkBooleanRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
 )

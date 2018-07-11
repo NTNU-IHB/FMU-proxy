@@ -132,7 +132,7 @@ class GrpcFmuClient(
     }
 
     override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
-        return Proto.WriteIntRequest.newBuilder()
+        return Proto.WriteIntegerRequest.newBuilder()
                 .setFmuId(fmuId)
                 .setValueReference(vr)
                 .setValue(value)
@@ -142,7 +142,7 @@ class GrpcFmuClient(
     }
 
     override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
-        return Proto.BulkWriteIntRequest.newBuilder()
+        return Proto.BulkWriteIntegerRequest.newBuilder()
                 .setFmuId(fmuId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)
@@ -172,7 +172,7 @@ class GrpcFmuClient(
     }
 
     override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
-        return Proto.WriteStrRequest.newBuilder()
+        return Proto.WriteStringRequest.newBuilder()
                 .setFmuId(fmuId)
                 .setValueReference(vr)
                 .setValue(value)
@@ -182,7 +182,7 @@ class GrpcFmuClient(
     }
 
     override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
-        return Proto.BulkWriteStrRequest.newBuilder()
+        return Proto.BulkWriteStringRequest.newBuilder()
                 .setFmuId(fmuId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)
@@ -192,7 +192,7 @@ class GrpcFmuClient(
     }
 
     override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
-        return Proto.WriteBoolRequest.newBuilder()
+        return Proto.WriteBooleanRequest.newBuilder()
                 .setFmuId(fmuId)
                 .setValueReference(vr)
                 .setValue(value)
@@ -202,7 +202,7 @@ class GrpcFmuClient(
     }
 
     override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
-        return Proto.BulkWriteBoolRequest.newBuilder()
+        return Proto.BulkWriteBooleanRequest.newBuilder()
                 .setFmuId(fmuId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)

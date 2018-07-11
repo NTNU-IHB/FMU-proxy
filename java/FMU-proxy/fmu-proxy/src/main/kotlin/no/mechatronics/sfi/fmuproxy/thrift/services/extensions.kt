@@ -50,16 +50,16 @@ internal fun FmuBooleanRead.thriftType()
         = BooleanRead(value, status.thriftType())
 
 internal fun FmuIntegerArrayRead.thriftType()
-        = IntegerArrayRead(value.toList(), status.thriftType())
+        = BulkIntegerRead(value.toList(), status.thriftType())
 
 internal fun FmuRealArrayRead.thriftType()
-        = RealArrayRead(value.toList(), status.thriftType())
+        = BulkRealRead(value.toList(), status.thriftType())
 
 internal fun FmuStringArrayRead.thriftType()
-        = StringArrayRead(value.toList(), status.thriftType())
+        = BulkStringRead(value.toList(), status.thriftType())
 
 internal fun FmuBooleanArrayRead.thriftType()
-        = BooleanArrayRead(value.toList(), status.thriftType())
+        = BulkBooleanRead(value.toList(), status.thriftType())
 
 internal fun IntegerVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute().also { attribute->

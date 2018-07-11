@@ -29,10 +29,10 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../common/thrift-gen/FmuService.h"
-#include "../common/thrift-gen/definitions_types.h"
+#include "../thrift/thrift-gen/FmuService.h"
+#include "../thrift/thrift-gen/definitions_types.h"
 
-#include "../client/ThriftClient.hpp"
+#include "../thrift/client/ThriftClient.hpp"
 
 using namespace std;
 using namespace apache::thrift;
@@ -42,21 +42,27 @@ using namespace apache::thrift::transport;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::client;
 
-const double stop = 10;
-const double step_size = 1E-4;
+const double stop = 2;
+const double step_size = 1E-2;
 
 int main() {
 
     try {
 
-        ThriftClient client = ThriftClient("localhost", 9090);
+        ThriftClient fmu = ThriftClient("localhost", 9090);
 
-        shared_ptr<ModelDescription> modelDescription = client.getModelDescription();
-        cout << "GUID=" << modelDescription->guid << endl;
-        cout << "modelName=" << modelDescription->modelName << endl;
-        cout << "license=" << modelDescription->license << endl;
+        const auto md = fmu.getModelDescription();
+        cout << "GUID=" << md.guid << endl;
+        cout << "modelName=" << md.modelName << endl;
+        cout << "license=" << md.license << endl;
 
-        shared_ptr<RemoteFmuInstance> instance = client.newInstance();
+        for (auto var : md.modelVariables) {
+            cout << var.name << ", start=" << var.attribute.realAttribute.start << endl;
+        }
+
+        int value_reference = fmu.getValueReference("Temperature_Room");
+
+        const auto instance = fmu.newInstance();
         instance->init(0.0, 0.0);
 
         clock_t begin = clock();
@@ -65,7 +71,8 @@ int main() {
         StepResult result;
         while (result.simulationTime < stop) {
             instance->step(result, step_size);
-            instance->readReal(read, 47);
+            instance->readReal(read, value_reference);
+            cout << read << endl;
         }
 
         clock_t end = clock();
@@ -76,7 +83,7 @@ int main() {
         auto status = instance->terminate();
         cout << "terminated FMU with status " << status << endl;
 
-        client.close();
+        fmu.close();
 
     } catch (TException& tx) {
         cout << "ERROR: " << tx.what() << endl;
