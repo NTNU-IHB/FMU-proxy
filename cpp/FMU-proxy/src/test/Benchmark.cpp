@@ -41,13 +41,13 @@ const double step_size = 1E-4;
 
 int main(int argc, char **argv) {
 
-    string fmu_path = string(string(getenv("TEST_FMUs")))
+    string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
 
-    shared_ptr<FmuInstance> instance = fmu.newInstance();
+    const auto instance = fmu.newInstance();
 
     instance->init(0.0, 0.0);
 
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
 
     RealRead read;
     StepResult result;
-    while (result.simulationTime <= stop) {
+    while (result.simulationTime <= stop-step_size) {
         instance->step(step_size, result);
         instance->getReal("Temperature_Room", read);
     }

@@ -180,7 +180,7 @@ namespace fmuproxy {
 
         }
 
-        void get_model_variables(fmi2_import_t *xml, ModelVariables &modelVariables) {
+        void populate_model_variables(fmi2_import_t *xml, ModelVariables &modelVariables) {
 
             const auto list = fmi2_import_get_variable_list(xml, 0);
             unsigned int size = fmi2_import_get_variable_list_size(list);
@@ -196,7 +196,7 @@ namespace fmuproxy {
 
         }
 
-        void get_model_description(fmi_version_enu_t fmi_version, fmi2_import_t *xml, ModelDescription &md) {
+        void populate_model_description(fmi_version_enu_t fmi_version, fmi2_import_t *xml, ModelDescription &md) {
 
             md.__set_guid(fmi2_import_get_GUID(xml));
             md.__set_version(fmi2_import_get_model_standard_version(xml));
@@ -217,7 +217,7 @@ namespace fmuproxy {
             md.__set_defaultExperiment(ex);
 
             ModelVariables modelVariables;
-            get_model_variables(xml, modelVariables);
+            populate_model_variables(xml, modelVariables);
             md.__set_modelVariables(modelVariables);
 
         }

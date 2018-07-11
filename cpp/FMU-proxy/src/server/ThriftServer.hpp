@@ -32,10 +32,10 @@ namespace fmuproxy {
         class ThriftServer {
 
         private:
-            shared_ptr<TSimpleServer> server;
+            std::unique_ptr<TSimpleServer> server;
 
         public:
-            ThriftServer(std::shared_ptr<FmuWrapper> fmu, int port);
+            ThriftServer(FmuWrapper &fmu, int port);
             
             void serve();
             

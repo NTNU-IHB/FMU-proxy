@@ -39,20 +39,20 @@ using namespace boost::filesystem;
 
 int main(int argc, char **argv) {
 
-    string fmu_path = string(string(getenv("TEST_FMUs")))
+    string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     FmuWrapper fmu = FmuWrapper(fmu_path);
 
-    auto md = fmu.getModelDescription();
-    cout << md->defaultExperiment << endl;
+    const auto md = fmu.getModelDescription();
+    cout << md.defaultExperiment << endl;
 
-    for (auto var : md->modelVariables) {
+    for (auto var : md.modelVariables) {
         cout << var.attribute.realAttribute << endl;
     }
 
-    shared_ptr<FmuInstance> instance1 = fmu.newInstance();
-    shared_ptr<FmuInstance> instance2 = fmu.newInstance();
+    const auto instance1 = fmu.newInstance();
+    const auto instance2 = fmu.newInstance();
 
     instance1->init(0.0, -1);
     instance2->init(0.0, -1);

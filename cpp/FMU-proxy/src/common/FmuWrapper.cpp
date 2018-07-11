@@ -48,16 +48,16 @@ FmuWrapper::FmuWrapper (string fmu_path) {
 
     this->xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
 
-    this->modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
-    get_model_description(version, xml, *modelDescription);
+    this->modelDescription = new ModelDescription();
+    populate_model_description(version, xml, *modelDescription);
 
 }
 
-shared_ptr<ModelDescription> FmuWrapper::getModelDescription() {
-    return modelDescription;
+ModelDescription &FmuWrapper::getModelDescription() {
+    return *modelDescription;
 }
 
-shared_ptr<FmuInstance> FmuWrapper::newInstance() {
+unique_ptr<FmuInstance> FmuWrapper::newInstance() {
 
     fmi2_callback_functions_t callBackFunctions;
     callBackFunctions.logger = fmi2_log_forwarding;
@@ -71,16 +71,16 @@ shared_ptr<FmuInstance> FmuWrapper::newInstance() {
     jm_status_enu_t status = fmi2_import_create_dllfmu(fmu, fmi2_fmu_kind_cs, &callBackFunctions);
     if (status == jm_status_error) {
         string error_msg = "Could not create the DLL loading mechanism(C-API) (error: "  + string(fmi2_import_get_last_error(fmu)) + ")";
-        __throw_runtime_error(error_msg.c_str());
+        throw runtime_error(error_msg.c_str());
     }
 
     jm_status_enu_t jmstatus = fmi2_import_instantiate(
             fmu, model_identifier, fmi2_cosimulation, nullptr, false);
     if (jmstatus == jm_status_error) {
-        __throw_runtime_error("fmi2_import_instantiate failed!");
+        throw runtime_error("fmi2_import_instantiate failed!");
     }
 
-    return shared_ptr<FmuInstance>(new FmuInstance(fmu));
+    return unique_ptr<FmuInstance>(new FmuInstance(fmu));
 
 }
 
@@ -88,6 +88,7 @@ FmuWrapper::~FmuWrapper() {
 
     cout << "FmuWrapper destructor called" << endl;
 
+    delete modelDescription;
     fmi_import_free_context(this->ctx);
     remove_all(this->tmp_path);
 
@@ -103,17 +104,17 @@ void FmuInstance::init(double start, double stop) {
     fmi2_status_t status = fmi2_import_setup_experiment(instance, fmi2_true,
                                                         RELATIVE_TOLERANCE, start, stop_time_defined, stop);
     if(status != fmi2_status_ok) {
-        __throw_runtime_error("fmi2_import_setup_experiment failed");
+        throw runtime_error("fmi2_import_setup_experiment failed");
     }
 
     status = fmi2_import_enter_initialization_mode(instance);
     if(status != fmi2_status_ok) {
-        __throw_runtime_error("fmi2_import_enter_initialization_mode failed");
+        throw runtime_error("fmi2_import_enter_initialization_mode failed");
     }
 
     status = fmi2_import_exit_initialization_mode(instance);
     if(status != fmi2_status_ok) {
-        __throw_runtime_error("fmi2_import_exit_initialization_mode failed");
+        throw runtime_error("fmi2_import_exit_initialization_mode failed");
     }
 
 }
@@ -138,6 +139,7 @@ Status::type FmuInstance::terminate() {
         fmi2_status_t status = fmi2_import_terminate(instance);
         return thriftType(status);
     }
+    return Status::type::OK_STATUS;
 }
 
 void FmuInstance::getInteger(unsigned int vr, IntegerRead& read) {

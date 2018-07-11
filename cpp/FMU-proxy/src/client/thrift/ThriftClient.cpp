@@ -34,14 +34,9 @@
 #include "ThriftClient.hpp"
 
 using namespace std;
-using namespace apache::thrift;
-using namespace apache::thrift::protocol;
-using namespace apache::thrift::transport;
-
-using namespace fmuproxy::thrift;
 using namespace fmuproxy::client;
 
-::ThriftClient::ThriftClient(const char* host, int port) {
+::ThriftClient::ThriftClient(string host, int port) {
     shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
     transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
@@ -49,18 +44,17 @@ using namespace fmuproxy::client;
     transport->open();
 }
 
-shared_ptr<ModelDescription> ThriftClient::getModelDescription() {
+ModelDescription &ThriftClient::getModelDescription() {
     if (!modelDescription) {
-        modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
+        modelDescription = new ModelDescription();
         client->getModelDescription(*modelDescription);
     }
-    return modelDescription;
+    return *modelDescription;
 }
 
-shared_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
+unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     FmuId fmu_id = client->createInstanceFromCS();
-    shared_ptr<RemoteFmuInstance> instance(new RemoteFmuInstance(fmu_id, client));
-    return instance;
+    return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, client));
 }
 
 Status::type RemoteFmuInstance::init(double start, double stop) {

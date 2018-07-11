@@ -51,14 +51,14 @@ int main() {
 
         ThriftClient fmu = ThriftClient("localhost", 9090);
 
-        shared_ptr<ModelDescription> modelDescription = fmu.getModelDescription();
-        cout << "GUID=" << modelDescription->guid << endl;
-        cout << "modelName=" << modelDescription->modelName << endl;
-        cout << "license=" << modelDescription->license << endl;
+        const auto md = fmu.getModelDescription();
+        cout << "GUID=" << md.guid << endl;
+        cout << "modelName=" << md.modelName << endl;
+        cout << "license=" << md.license << endl;
 
         int value_reference = fmu.getValueReference("Temperature_Room");
 
-        shared_ptr<RemoteFmuInstance> instance = fmu.newInstance();
+        const auto instance = fmu.newInstance();
         instance->init(0.0, 0.0);
 
         clock_t begin = clock();

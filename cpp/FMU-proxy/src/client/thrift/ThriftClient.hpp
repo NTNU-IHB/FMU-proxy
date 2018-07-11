@@ -32,8 +32,9 @@
 
 #include "../../common/thrift-gen/FmuService.h"
 
-using namespace apache::thrift;
 using namespace fmuproxy::thrift;
+
+using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
@@ -120,15 +121,14 @@ namespace fmuproxy {
 
             std::shared_ptr<TTransport> transport;
             std::shared_ptr<FmuServiceClient> client;
-
-            std::shared_ptr<ModelDescription> modelDescription;
+            ModelDescription* modelDescription;
 
         public:
-            ThriftClient(const char* host, int port);
+            ThriftClient(std::string host, int port);
 
-            std::shared_ptr<ModelDescription> getModelDescription();
+            ModelDescription &getModelDescription();
 
-            std::shared_ptr<RemoteFmuInstance> newInstance();
+            std::unique_ptr<RemoteFmuInstance> newInstance();
 
             void close() {
                 transport->close();
@@ -136,7 +136,7 @@ namespace fmuproxy {
 
             int getValueReference(std::string variableName) {
 
-                for (ScalarVariable var : getModelDescription()->modelVariables) {
+                for (ScalarVariable var : modelDescription->modelVariables) {
                     if (var.name == variableName) {
                         return var.valueReference;
                     }
@@ -147,6 +147,7 @@ namespace fmuproxy {
 
             ~ThriftClient() {
                 std::cout << "ThriftClient destructor called" << std::endl;
+                delete modelDescription;
             }
 
         };

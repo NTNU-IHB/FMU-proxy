@@ -90,16 +90,16 @@ namespace fmuproxy {
         jm_callbacks callbacks;
         fmi_version_enu_t version;
 
-        shared_ptr<ModelDescription> modelDescription;
+        ModelDescription* modelDescription;
 
     public:
         FmuWrapper(string fmu_path);
 
-        const char* getModelDescriptionXml();
+        string getModelDescriptionXml();
 
-        shared_ptr<ModelDescription> getModelDescription();
+        ModelDescription &getModelDescription();
 
-        shared_ptr<FmuInstance> newInstance();
+        unique_ptr<FmuInstance> newInstance();
 
         ~FmuWrapper();
 
