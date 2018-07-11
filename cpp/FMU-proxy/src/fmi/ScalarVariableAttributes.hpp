@@ -329,7 +329,6 @@ namespace fmi {
 
     };
 
-
 }
 
 #endif //FMU_PROXY_SCALARVARIABLEATTRIBUTES_HPP

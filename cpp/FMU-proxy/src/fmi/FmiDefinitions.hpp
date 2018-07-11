@@ -29,7 +29,7 @@
 #include <vector>
 
 #include <fmilib.h>
-#include "ScalarVariableAttribute.hpp"
+#include "ScalarVariableAttributes.hpp"
 
 namespace fmi {
 
@@ -51,7 +51,6 @@ namespace fmi {
         std::vector<Unknown> derivatives;
         std::vector<Unknown> initialUnknowns;
     };
-
 
     struct ScalarVariable {
         int valueReference;
