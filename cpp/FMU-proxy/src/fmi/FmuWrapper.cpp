@@ -22,23 +22,17 @@
  * THE SOFTWARE.
  */
 
-#include <iostream>
-
-#include "ThriftHelper.hpp"
-#include "FmuHelper.hpp"
 #include "FmuWrapper.hpp"
+#include "FmiHelper.hpp"
 
 const double RELATIVE_TOLERANCE = 1E-4;
 
-using namespace ::fmuproxy;
-using namespace ::fmuproxy::thrift;
-using namespace ::fmuproxy::thrift_helper;
-using namespace boost::filesystem;
-
+using namespace std;
+using namespace fmi;
 
 FmuWrapper::FmuWrapper (string fmu_path) {
 
-    this->tmp_path = temp_directory_path() /= path(fmu_path).stem();
+    this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
     create_directories(tmp_path);
 
     this->callbacks = create_callbacks(jm_log_level_nothing);
@@ -52,6 +46,7 @@ FmuWrapper::FmuWrapper (string fmu_path) {
     populate_model_description(version, xml, *modelDescription);
 
 }
+
 
 ModelDescription &FmuWrapper::getModelDescription() {
     return *modelDescription;
@@ -87,7 +82,7 @@ unique_ptr<FmuInstance> FmuWrapper::newInstance() {
 FmuWrapper::~FmuWrapper() {
 
     cout << "FmuWrapper destructor called" << endl;
-    
+
     fmi_import_free_context(this->ctx);
     remove_all(this->tmp_path);
 
@@ -95,6 +90,14 @@ FmuWrapper::~FmuWrapper() {
 
 FmuInstance::FmuInstance(fmi2_import_t *fmu) {
     this->instance = fmu;
+}
+
+double FmuInstance::getCurrentTime() {
+    return current_time;
+}
+
+bool FmuInstance::isTerminated() {
+    return terminated;
 }
 
 void FmuInstance::init(double start, double stop) {
@@ -118,34 +121,32 @@ void FmuInstance::init(double start, double stop) {
 
 }
 
-void FmuInstance::step(double step_size, StepResult& result) {
+fmi2_status_t FmuInstance::step(double step_size) {
     fmi2_status_t status = fmi2_import_do_step(
             instance, current_time, step_size, fmi2_true);
-    current_time += step_size;
-
-    result.status = thriftType(status);
-    result.simulationTime = current_time;
+    if (status == fmi2_status_ok) {
+        current_time += step_size;
+    }
+    return status;
 }
 
-Status::type FmuInstance::reset() {
-    fmi2_status_t status = fmi2_import_reset(instance);
-    return thriftType(status);
+fmi2_status_t FmuInstance::reset() {
+    return fmi2_import_reset(instance);
 }
 
-Status::type FmuInstance::terminate() {
+fmi2_status_t FmuInstance::terminate() {
     if (!terminated) {
         terminated = true;
-        fmi2_status_t status = fmi2_import_terminate(instance);
-        return thriftType(status);
+        return fmi2_import_terminate(instance);
     }
-    return Status::type::OK_STATUS;
+    return fmi2_status_t::fmi2_status_ok;
 }
 
 void FmuInstance::getInteger(unsigned int vr, IntegerRead& read) {
     int value;
     fmi2_status_t status = fmi2_import_get_integer(instance, &vr, 1, &value);
     read.value = value;
-    read.status = thriftType(status);
+    read.status = (status);
 }
 
 void FmuInstance::getInteger(string name, IntegerRead& read) {
@@ -158,7 +159,7 @@ void FmuInstance::getReal(unsigned int vr, RealRead& read) {
     double value;
     fmi2_status_t status = fmi2_import_get_real(instance, &vr, 1, &value);
     read.value = value;
-    read.status = thriftType(status);
+    read.status = (status);
 }
 
 void FmuInstance::getReal(string name, RealRead& read) {
@@ -171,7 +172,7 @@ void FmuInstance::getString(unsigned int vr, StringRead& read) {
     const char* value;
     fmi2_status_t status = fmi2_import_get_string(instance, &vr, 1, &value);
     read.value = value;
-    read.status = thriftType(status);
+    read.status = (status);
 }
 
 void FmuInstance::getString(string name, StringRead& read) {
@@ -184,7 +185,7 @@ void FmuInstance::getBoolean(unsigned int vr, BooleanRead& read) {
     int value;
     fmi2_status_t status = fmi2_import_get_boolean(instance, &vr, 1, &value);
     read.value == value;
-    read.status = thriftType(status);
+    read.status = (status);
 }
 
 void FmuInstance::getBoolean(string name, BooleanRead& read) {
@@ -202,8 +203,5 @@ FmuInstance::~FmuInstance() {
     fmi2_import_free(instance);
 
 }
-
-
-
 
 

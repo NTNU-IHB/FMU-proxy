@@ -22,23 +22,25 @@
  * THE SOFTWARE.
  */
 
-#include "../common/FmuWrapper.hpp"
+#include "../../fmi/FmuWrapper.hpp"
+#include "ThriftHelper.hpp"
 #include "FmuServiceHandler.hpp"
 
 int id_gen = 0;
 
+using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::server;
 
-::FmuServiceHandler::FmuServiceHandler(FmuWrapper &fmu): fmu(fmu) {}
+::FmuServiceHandler::FmuServiceHandler(fmi::FmuWrapper &fmu): fmu(fmu) {}
 
 void FmuServiceHandler::getModelDescriptionXml(std::string &_return) {
     _return = "XML placeholder";
 }
 
 void FmuServiceHandler::getModelDescription(ModelDescription &_return) {
-    _return = fmu.getModelDescription();
+    thriftType(_return, fmu.getModelDescription());
 }
 
 FmuId FmuServiceHandler::createInstanceFromCS() {
@@ -74,19 +76,21 @@ Status::type FmuServiceHandler::init(const FmuId fmu_id, const double start, con
 
 void FmuServiceHandler::step(StepResult &_return, const FmuId fmu_id, const double step_size) {
     auto& instance = fmus[fmu_id];
-    instance->step(step_size, _return);
+    fmi2_status_t status = instance->step(step_size);
+    _return.simulationTime = instance->getCurrentTime();
+    _return.status = thriftType(status);
 }
 
 Status::type FmuServiceHandler::terminate(const FmuId fmu_id) {
     auto& instance = fmus[fmu_id];
-    Status::type status = instance->terminate();
+    Status::type status = thriftType(instance->terminate());
     fmus.erase(fmu_id);
     return status;
 }
 
 Status::type FmuServiceHandler::reset(const FmuId fmu_id) {
     auto& instance = fmus[fmu_id];
-    return instance->reset();
+    return thriftType(instance->reset());
 }
 
 void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) {

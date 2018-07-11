@@ -22,18 +22,37 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_UTIL_H
-#define FMU_PROXY_UTIL_H
+#include "ThriftServer.hpp"
 
+#include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/TBufferTransports.h>
 
-std::string getOs() {
-#ifdef _WIN32
-    return "win32";
-#ielif _WIN64
-    return "win64";
-#elif __linux__
-    return "linux64";
-#endif
+using namespace std;
+using namespace fmuproxy;
+using namespace fmuproxy::server;
+
+using namespace ::apache::thrift;
+using namespace ::apache::thrift::server;
+using namespace ::apache::thrift::protocol;
+using namespace ::apache::thrift::transport;
+
+ThriftServer::ThriftServer(fmi::FmuWrapper &fmu, int port) {
+
+    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
+    shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
+    shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+
+    this->server = unique_ptr<TSimpleServer>(new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory));
+
 }
 
-#endif //FMU_PROXY_UTIL_H
+void ThriftServer::serve() {
+    server->serve();
+}
+
+void ThriftServer::stop() {
+    server->stop();
+}
+

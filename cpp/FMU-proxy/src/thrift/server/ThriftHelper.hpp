@@ -28,12 +28,13 @@
 
 #include <cfloat>
 #include <fmilib.h>
+#include <../../fmi/FmiStructs.hpp>
 #include "../thrift-gen/definitions_types.h"
+#include "../../fmi/FmiStructs.hpp"
 
-using namespace ::fmuproxy::thrift;
 
 namespace fmuproxy {
-    namespace thrift_helper {
+    namespace thrift {
 
         Status::type thriftType(fmi2_status_t status) {
             switch (status) {
@@ -99,125 +100,132 @@ namespace fmuproxy {
             }
         }
 
-        IntegerAttribute
-        thriftType(fmi2_import_variable_t *variable, fmi2_import_integer_variable_t *integer_variable) {
+        IntegerAttribute thriftType(const fmi::IntegerAttribute &a) {
             IntegerAttribute attribute;
-
-            if (fmi2_import_get_variable_has_start(variable)) {
-                attribute.start = fmi2_import_get_integer_variable_start(integer_variable);
+            if (a.isMax_set()) {
+                attribute.__set_start(a.getStart());
             }
-            const auto min = fmi2_import_get_integer_variable_min(integer_variable);
-            attribute.__set_min(min);
-
-            const auto max = fmi2_import_get_integer_variable_max(integer_variable);
-            attribute.__set_max(max);
-
+            if (a.isMin_set()) {
+                attribute.__set_min(a.getMin());
+            }
+            if (a.isMax_set()) {
+                attribute.__set_max(a.getMax());
+            }
             return attribute;
         }
 
-        RealAttribute thriftType(fmi2_import_variable_t *variable, fmi2_import_real_variable_t *real_variable) {
+        RealAttribute thriftType(const fmi::RealAttribute &a) {
             RealAttribute attribute;
-            if (fmi2_import_get_variable_has_start(variable)) {
-                attribute.__set_start(fmi2_import_get_real_variable_start(real_variable));
+            if (a.isStart_set()) {
+                attribute.__set_start(a.getStart());
             }
-            fmi2_real_t min = fmi2_import_get_real_variable_min(real_variable);
-            if (min != -DBL_MAX) {
-                attribute.__set_min(min);
+            if (a.isMin_set()) {
+                attribute.__set_min(a.getMin());
             }
-            fmi2_real_t max = fmi2_import_get_real_variable_max(real_variable);
-            if (max != DBL_MAX) {
-                attribute.__set_max(max);
+            if (a.isMax_set()) {
+                attribute.__set_max(a.getMax());
             }
             return attribute;
         }
 
-        StringAttribute thriftType(fmi2_import_variable_t *variable, fmi2_import_string_variable_t *string_variable) {
+        StringAttribute thriftType(const fmi::StringAttribute &a) {
             StringAttribute attribute;
-            if (fmi2_import_get_variable_has_start(variable)) {
-                attribute.__set_start(fmi2_import_get_string_variable_start(string_variable));
+            if (a.isStart_set()) {
+                attribute.__set_start(a.getStart());
             }
             return attribute;
         }
 
-        BooleanAttribute thriftType(fmi2_import_variable_t *variable, fmi2_import_bool_variable_t *bool_variable) {
+        BooleanAttribute thriftType(const fmi::BooleanAttribute &a) {
             BooleanAttribute attribute;
-            if (fmi2_import_get_variable_has_start(variable)) {
-                attribute.__set_start(fmi2_import_get_boolean_variable_start(bool_variable));
+            if (a.isStart_set()) {
+                attribute.__set_start(a.getStart());
             }
             return attribute;
         }
 
+        EnumerationAttribute thriftType(const fmi::EnumerationAttribute &a) {
+            EnumerationAttribute attribute;
+            if (a.isMax_set()) {
+                attribute.__set_start(a.getStart());
+            }
+            if (a.isMin_set()) {
+                attribute.__set_min(a.getMin());
+            }
+            if (a.isMax_set()) {
+                attribute.__set_max(a.getMax());
+            }
+            return attribute;
+        }
 
-        void get_scalar_variable(fmi2_import_variable_t *v, ScalarVariable &var) {
+        ScalarVariable thriftType(fmi::ScalarVariable &v) {
 
-            var.__set_name(fmi2_import_get_variable_name(v));
-            var.__set_valueReference(fmi2_import_get_variable_vr(v));
+            ScalarVariable var;
+            var.__set_name(v.name);
+            var.__set_valueReference(v.valueReference);
 
-            const char *description = fmi2_import_get_variable_description(v);
+            std::string description = v.description;
             if (description != nullptr) {
                 var.__set_description(description);
             }
 
-            var.__set_causality(thriftType(fmi2_import_get_causality(v)));
-            var.__set_variability(thriftType(fmi2_import_get_variability(v)));
-            var.__set_initial(thriftType(fmi2_import_get_initial(v)));
+            var.__set_causality(thriftType(v.causality));
+            var.__set_variability(thriftType(v.variability));
+            var.__set_initial(thriftType(v.initial));
 
-            fmi2_base_type_enu_t type = fmi2_import_get_variable_base_type(v);
-            switch (type) {
-                case fmi2_base_type_int:
-                    var.attribute.__set_integerAttribute(thriftType(v, fmi2_import_get_variable_as_integer(v)));
-                    break;
-                case fmi2_base_type_real:
-                    var.attribute.__set_realAttribute(thriftType(v, fmi2_import_get_variable_as_real(v)));
-                    break;
-                case fmi2_base_type_str:
-                    var.attribute.__set_stringAttribute(thriftType(v, fmi2_import_get_variable_as_string(v)));
-                    break;
-                case fmi2_base_type_bool:
-                    var.attribute.__set_booleanAttribute(thriftType(v, fmi2_import_get_variable_as_boolean(v)));
-                    break;
+            auto attribute = v.attribute;
+
+            if (attribute.isIntegerAttribute()) {
+                var.attribute.__set_integerAttribute(thriftType(attribute.getIntegerAttribute()));
+            } else if (attribute.isRealAttribute()) {
+                var.attribute.__set_realAttribute(thriftType(attribute.getRealAttribute()));
+            } else if (attribute.isStringAttribute()) {
+                var.attribute.__set_stringAttribute(thriftType(attribute.getStringAttribute()));
+            } else if (attribute.isBooleanAttribute()) {
+                var.attribute.__set_booleanAttribute(thriftType(attribute.getBooleanAttribute()));
+            } else if (attribute.isEnumerationAttribute()) {
+                var.attribute.__set_enumerationAttribute(thriftType(attribute.getEnumerationAttribute()));
+            } else {
+                throw std::runtime_error("No valid attrribute found..");
             }
 
+            return var;
+
+        }
+        
+        void thriftType(StepResult &result1, fmi::StepResult result2) {
+            result1.simulationTime = result2.simulation_time;
+            result1.status = thriftType(result2.status);
         }
 
-        void populate_model_variables(fmi2_import_t *xml, ModelVariables &modelVariables) {
-
-            const auto list = fmi2_import_get_variable_list(xml, 0);
-            unsigned int size = fmi2_import_get_variable_list_size(list);
-
-            for (unsigned int i = 0; i < size; ++i) {
-                fmi2_import_variable_t *v = fmi2_import_get_variable(list, i);
-                ScalarVariable var;
-                get_scalar_variable(v, var);
-                modelVariables.push_back(var);
+        void thriftType(ModelVariables &variables, fmi::ModelVariables &mv) {
+            for (fmi::ScalarVariable var : mv) {
+                variables.push_back(thriftType(var));
             }
-
-            fmi2_import_free_variable_list(list);
-
         }
 
-        void populate_model_description(fmi_version_enu_t fmi_version, fmi2_import_t *xml, ModelDescription &md) {
+        void thriftType(ModelDescription &md, fmi::ModelDescription &m) {
 
-            md.__set_guid(fmi2_import_get_GUID(xml));
-            md.__set_version(fmi2_import_get_model_standard_version(xml));
-            md.__set_fmiVersion(fmi_version_to_string(fmi_version));
-            md.__set_modelName(fmi2_import_get_model_name(xml));
-            md.__set_author(fmi2_import_get_author(xml));
-            md.__set_copyright(fmi2_import_get_copyright(xml));
-            md.__set_description(fmi2_import_get_description(xml));
-            md.__set_generationTool(fmi2_import_get_generation_tool(xml));
-            md.__set_generationDateAndTime(fmi2_import_get_generation_date_and_time(xml));
-            md.__set_license(fmi2_import_get_license(xml));
+            md.__set_guid(m.guid);
+            md.__set_version(m.version);
+            md.__set_fmiVersion(m.fmiVersion);
+            md.__set_modelName(m.modelName);
+            md.__set_author(m.author);
+            md.__set_copyright(m.copyright);
+            md.__set_description(m.description);
+            md.__set_generationTool(m.generationTool);
+            md.__set_generationDateAndTime(m.generationDateAndTime);
+            md.__set_license(m.license);
 
             DefaultExperiment ex;
-            ex.startTime = fmi2_import_get_default_experiment_start(xml);
-            ex.stopTime = fmi2_import_get_default_experiment_stop(xml);
-            ex.tolerance = fmi2_import_get_default_experiment_tolerance(xml);
-            ex.stepSize = fmi2_import_get_default_experiment_step(xml);
+            ex.startTime = m.defaultExperiment.startTime;
+            ex.stopTime = m.defaultExperiment.stopTime;
+            ex.tolerance = m.defaultExperiment.tolerance;
+            ex.stepSize = m.defaultExperiment.stepSize;
             md.__set_defaultExperiment(ex);
 
             ModelVariables modelVariables;
-            populate_model_variables(xml, modelVariables);
+            thriftType(modelVariables, m.modelVariables);
             md.__set_modelVariables(modelVariables);
 
         }

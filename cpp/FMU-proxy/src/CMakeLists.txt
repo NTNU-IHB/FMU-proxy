@@ -1,47 +1,56 @@
 
+
+add_library(fmi STATIC
+        fmi/FmiStructs.hpp
+        fmi/FmiHelper.hpp
+        fmi/FmuWrapper.cpp
+        fmi/FmuWrapper.hpp
+        fmi/ScalarVariableAttribute.hpp
+        )
+target_link_libraries(fmi ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
+
+
 add_library(thrift-gen STATIC
-        thrift-gen/definitions_types.cpp
-        thrift-gen/definitions_types.h
-        thrift-gen/service_types.h
-        thrift-gen/FmuService.h
-        thrift-gen/FmuService.cpp)
+        thrift/thrift-gen/definitions_types.cpp
+        thrift/thrift-gen/definitions_types.h
+        thrift/thrift-gen/service_types.h
+        thrift/thrift-gen/FmuService.h
+        thrift/thrift-gen/FmuService.cpp)
 target_link_libraries(thrift-gen thrift)
 
 
-add_library(common STATIC
-        common/FmuHelper.hpp
-        common/FmuWrapper.cpp
-        common/FmuWrapper.hpp
-        common/ThriftHelper.hpp
-        common/Util.hpp)
-target_link_libraries(common thrift-gen ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
+add_library(thrift-client STATIC
+        thrift/client/ThriftClient.cpp
+        thrift/client/ThriftClient.hpp)
+target_link_libraries(thrift-client fmi thrift-gen)
 
-add_library(server STATIC
-        server/FmuServiceHandler.hpp
-        server/FmuServiceHandler.cpp
-        server/ThriftServer.hpp
-        server/ThriftServer.cpp)
-target_link_libraries(server common)
 
-add_library(client STATIC
-        client/thrift/ThriftClient.cpp
-        client/thrift/ThriftClient.hpp)
-target_link_libraries(client common)
+add_library(thrift-server STATIC
+        thrift/server/ThriftHelper.hpp
+        thrift/server/FmuServiceHandler.hpp
+        thrift/server/FmuServiceHandler.cpp
+        thrift/server/ThriftServer.hpp
+        thrift/server/ThriftServer.cpp)
+target_link_libraries(thrift-server thrift-gen fmi)
+
 
 add_executable(Benchmark
-        test/Benchmark.cpp)
-target_link_libraries(Benchmark common)
+        test/Benchmark.cpp
+        test/TestUtil.hpp)
+target_link_libraries(Benchmark fmi)
 
 
 add_executable(FmuTest
-        test/FmuTest.cpp)
-target_link_libraries(FmuTest common)
+        test/FmuTest.cpp
+        test/TestUtil.hpp)
+target_link_libraries(FmuTest fmi)
 
 
 add_executable(ThriftServerTest
         test/ThriftServerTest.cpp)
-target_link_libraries(ThriftServerTest common server pthread)
+target_link_libraries(ThriftServerTest thrift-server pthread)
+
 
 add_executable(ThriftClientTest
         test/ThriftClientTest.cpp)
-target_link_libraries(ThriftClientTest common client)
+target_link_libraries(ThriftClientTest thrift-client)

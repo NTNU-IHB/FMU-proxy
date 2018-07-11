@@ -25,9 +25,9 @@
 #include <iostream>
 #include <thread>
 
-#include "../common/Util.hpp"
-#include "../common/FmuWrapper.hpp"
-#include "../server/ThriftServer.hpp"
+#include "TestUtil.hpp"
+#include "../fmi/FmuWrapper.hpp"
+#include "../thrift/server/ThriftServer.hpp"
 
 using namespace std;
 using namespace fmuproxy;

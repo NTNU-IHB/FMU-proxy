@@ -22,19 +22,14 @@
  * THE SOFTWARE.
  */
 
+#include <ctime>
 #include <iostream>
 
-#include <boost/filesystem.hpp>
-
-#include <fmilib.h>
-
-#include "../common/Util.hpp"
-#include "../common/FmuWrapper.hpp"
-#include "../thrift-gen/definitions_types.h"
+#include "TestUtil.hpp"
+#include "../fmi/FmuWrapper.hpp"
 
 using namespace std;
-using namespace fmuproxy;
-using namespace boost::filesystem;
+using namespace fmi;
 
 const double stop = 10;
 const double step_size = 1E-4;
@@ -54,9 +49,11 @@ int main(int argc, char **argv) {
     clock_t begin = clock();
 
     RealRead read;
-    StepResult result;
-    while (result.simulationTime <= stop-step_size) {
-        instance->step(step_size, result);
+    while (instance->getCurrentTime() <= stop-step_size) {
+        fmi2_status_t status = instance->step(step_size);
+        if (status != fmi2_status_ok) {
+            break;
+        } 
         instance->getReal("Temperature_Room", read);
     }
 

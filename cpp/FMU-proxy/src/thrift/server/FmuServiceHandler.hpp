@@ -28,10 +28,9 @@
 #include <iostream>
 
 #include "../thrift-gen/FmuService.h"
-#include "../common/FmuWrapper.hpp"
+#include "../../fmi/FmuWrapper.hpp"
 
 
-using namespace std;
 using namespace ::fmuproxy::thrift;
 
 
@@ -41,11 +40,11 @@ namespace fmuproxy {
         class FmuServiceHandler : virtual public FmuServiceIf {
 
         private:
-            FmuWrapper& fmu;
-            map<FmuId, unique_ptr<FmuInstance>> fmus;
+            fmi::FmuWrapper& fmu;
+            std::map<FmuId, std::unique_ptr<fmi::FmuInstance>> fmus;
 
         public:
-            FmuServiceHandler(FmuWrapper &fmu);
+            FmuServiceHandler(fmi::FmuWrapper &fmu);
 
             void getModelDescriptionXml(std::string &_return) override;
 

@@ -25,15 +25,27 @@
 #ifndef FMU_PROXY_FMUWRAPPER_H
 #define FMU_PROXY_FMUWRAPPER_H
 
-#include <fmilib.h>
+#include <iostream>
+#include <vector>
+
 #include <boost/filesystem.hpp>
-#include "../thrift-gen/definitions_types.h"
 
-using namespace std;
-using namespace boost::filesystem;
-using namespace ::fmuproxy::thrift;
+#include "FmiStructs.hpp"
 
-namespace fmuproxy {
+namespace fs = boost::filesystem;
+
+namespace fmi {
+
+    template <typename T>
+    struct VariableRead {
+        T value;
+        fmi2_status_t status;
+    };
+
+    typedef VariableRead<int> IntegerRead;
+    typedef VariableRead<double> RealRead;
+    typedef VariableRead<std::string> StringRead;
+    typedef VariableRead<bool> BooleanRead;
 
     class FmuInstance {
 
@@ -49,32 +61,28 @@ namespace fmuproxy {
 
         void init(double start, double end);
 
-        void step(double step_size, StepResult& result);
+        fmi2_status_t step(double step_size);
 
-        Status::type reset();
+        fmi2_status_t reset();
 
-        Status::type terminate();
+        fmi2_status_t terminate();
 
-        double getCurrentTime() {
-            return current_time;
-        }
+        double getCurrentTime();
 
-        bool isTerminated() {
-            return terminated;
-        }
+        bool isTerminated();
 
-        void getInteger(unsigned int vr, IntegerRead& read);
-        void getInteger(string name, IntegerRead& read);
+        void getInteger(fmi2_value_reference_t vr, IntegerRead& read);
+        void getInteger(std::string name, IntegerRead& read);
 
-        void getReal(unsigned int vr, RealRead& read);
-        void getReal(string name, RealRead& read);
+        void getReal(fmi2_value_reference_t vr, RealRead& read);
+        void getReal(std::string name, RealRead& read);
 
 
-        void getString(unsigned int vr, StringRead& read);
-        void getString(string name, StringRead& read);
+        void getString(fmi2_value_reference_t vr, StringRead& read);
+        void getString(std::string name, StringRead& read);
 
-        void getBoolean(unsigned int vr, BooleanRead& read);
-        void getBoolean(string name, BooleanRead& read);
+        void getBoolean(fmi2_value_reference_t vr, BooleanRead& read);
+        void getBoolean(std::string name, BooleanRead& read);
 
         ~FmuInstance();
 
@@ -84,7 +92,7 @@ namespace fmuproxy {
 
     private:
 
-        path tmp_path;
+        fs::path tmp_path;
         fmi2_import_t* xml;
         fmi_xml_context_t* ctx;
         jm_callbacks callbacks;
@@ -93,13 +101,13 @@ namespace fmuproxy {
         std::shared_ptr<ModelDescription> modelDescription;
 
     public:
-        FmuWrapper(string fmu_path);
+        FmuWrapper(std::string fmu_path);
 
-        string getModelDescriptionXml();
+        std::string getModelDescriptionXml();
 
         ModelDescription &getModelDescription();
 
-        unique_ptr<FmuInstance> newInstance();
+        std::unique_ptr<FmuInstance> newInstance();
 
         ~FmuWrapper();
 

@@ -24,18 +24,11 @@
 
 #include <iostream>
 
-#include <boost/filesystem.hpp>
-
-#include <fmilib.h>
-
-#include "../common/Util.hpp"
-#include "../common/FmuWrapper.hpp"
-#include "../thrift-gen/definitions_types.h"
+#include "TestUtil.hpp"
+#include "../fmi/FmuWrapper.hpp"
 
 using namespace std;
-using namespace fmuproxy;
-using namespace boost::filesystem;
-
+using namespace fmi;
 
 int main(int argc, char **argv) {
 
@@ -45,10 +38,11 @@ int main(int argc, char **argv) {
     FmuWrapper fmu = FmuWrapper(fmu_path);
 
     const auto md = fmu.getModelDescription();
-    cout << md.defaultExperiment << endl;
+    cout << md.defaultExperiment.stopTime << endl;
 
     for (auto var : md.modelVariables) {
-        cout << var.attribute.realAttribute << endl;
+        RealAttribute r = var.attribute.getRealAttribute();
+        cout << r << endl;
     }
 
     const auto instance1 = fmu.newInstance();
@@ -61,10 +55,9 @@ int main(int argc, char **argv) {
 
     instance1->getReal("Temperature_Room", read);
     cout << "Temperature_Room=" << read.value << endl;
-    double dt = 1.0/100;
-
-    StepResult result;
-    instance1->step(dt, result);
+    double step_size = 1.0/100;
+    
+    instance1->step(step_size);
 
     instance1->getReal("Temperature_Room", read);
     cout << "Temperature_Room=" << read.value << endl;
