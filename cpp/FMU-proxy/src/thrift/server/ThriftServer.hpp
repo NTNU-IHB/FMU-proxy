@@ -32,27 +32,25 @@
 #include "FmuServiceHandler.hpp"
 
 
-namespace fmuproxy {
-    
-    namespace server {
+namespace fmuproxy::thrift::server {
         
-        class ThriftServer {
+    class ThriftServer {
 
-        private:
-            std::unique_ptr<apache::thrift::server::TSimpleServer> server;
+    private:
+        std::unique_ptr<apache::thrift::server::TSimpleServer> server;
 
-        public:
-            ThriftServer(fmi::FmuWrapper &fmu, int port);
-            
-            void serve();
-            
-            void stop();
+    public:
+        ThriftServer(fmuproxy::fmi::FmuWrapper &fmu, int port);
 
-        };
-        
-    }
-    
+        void serve();
+
+        void stop();
+
+    };
+
 }
+    
+
 
 
 #endif //FMU_PROXY_THRIFTSERVER_H

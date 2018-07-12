@@ -28,7 +28,7 @@
 #include "../fmi/FmuWrapper.hpp"
 
 using namespace std;
-using namespace fmi;
+using namespace fmuproxy::fmi;
 
 int main(int argc, char **argv) {
 

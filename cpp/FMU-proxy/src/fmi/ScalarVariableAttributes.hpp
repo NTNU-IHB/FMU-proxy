@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-namespace fmi {
+namespace fmuproxy::fmi {
 
     class IntegerAttribute {
     private:

@@ -31,7 +31,7 @@ int id_gen = 0;
 using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift;
-using namespace fmuproxy::server;
+using namespace fmuproxy::thrift::server;
 
 ::FmuServiceHandler::FmuServiceHandler(fmi::FmuWrapper &fmu): fmu(fmu) {}
 

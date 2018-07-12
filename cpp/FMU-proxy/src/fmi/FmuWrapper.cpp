@@ -27,7 +27,7 @@
 #include "FmuHelper.hpp"
 
 using namespace std;
-using namespace fmi;
+using namespace fmuproxy::fmi;
 
 namespace fs = boost::filesystem;
 
@@ -76,6 +76,17 @@ unique_ptr<FmuInstance> FmuWrapper::newInstance() {
     }
 
     return unique_ptr<FmuInstance>(new FmuInstance(fmu));
+
+}
+
+fmi2_value_reference_t FmuWrapper::get_value_reference(std::string name) {
+
+    for (auto var : modelDescription->modelVariables) {
+        if (var.name == name) {
+            return var.valueReference;
+        }
+    }
+    throw runtime_error("no such variable '" + name + "'");
 
 }
 

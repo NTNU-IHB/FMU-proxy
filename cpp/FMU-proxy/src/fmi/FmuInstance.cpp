@@ -24,8 +24,8 @@
 
 #include "FmuInstance.hpp"
 
-using namespace fmi;
 using namespace std;
+using namespace fmuproxy::fmi;
 
 const double RELATIVE_TOLERANCE = 1E-4;
 
@@ -133,23 +133,23 @@ FmuInstance::~FmuInstance()  {
 
 }
 
-//
-//VariableReader FmuInstance::getReader(fmi2_value_reference_t vr) {
-//    return VariableReader(instance, vr);
-//}
-//
-//VariableReader FmuInstance::getReader(std::string name) {
-//    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
-//    fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
-//    return getReader(vr);
-//}
-//
-//VariableWriter FmuInstance::getWriter(fmi2_value_reference_t vr) {
-//    return VariableWriter(instance, vr);
-//}
-//
-//VariableWriter FmuInstance::getWriter(std::string name) {
-//    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
-//    fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
-//    return getWriter(vr);
-//}
+
+VariableReader FmuInstance::getReader(fmi2_value_reference_t vr) {
+    return VariableReader(instance, vr);
+}
+
+VariableReader FmuInstance::getReader(std::string name) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
+    fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
+    return getReader(vr);
+}
+
+VariableWriter FmuInstance::getWriter(fmi2_value_reference_t vr) {
+    return VariableWriter(instance, vr);
+}
+
+VariableWriter FmuInstance::getWriter(std::string name) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
+    fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
+    return getWriter(vr);
+}

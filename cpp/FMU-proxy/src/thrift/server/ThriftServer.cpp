@@ -28,15 +28,15 @@
 #include <thrift/transport/TBufferTransports.h>
 
 using namespace std;
-using namespace fmuproxy;
-using namespace fmuproxy::server;
+using namespace fmuproxy::fmi;
+using namespace fmuproxy::thrift::server;
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(fmi::FmuWrapper &fmu, int port) {
+ThriftServer::ThriftServer(FmuWrapper &fmu, int port) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));

@@ -7,7 +7,7 @@ add_library(fmi STATIC
         fmi/FmuWrapper.cpp
         fmi/FmuWrapper.hpp
         fmi/FmiDefinitions.hpp
-        fmi/ScalarVariableAttributes.hpp)
+        fmi/ScalarVariableAttributes.hpp fmi/FmiSimulation.hpp)
 target_link_libraries(fmi ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
 
@@ -22,7 +22,7 @@ target_link_libraries(thrift-gen thrift)
 
 add_library(thrift-client STATIC
         thrift/client/ThriftClient.cpp
-        thrift/client/ThriftClient.hpp)
+        thrift/client/ThriftClient.hpp thrift/client/RemoteFmuInstance.hpp thrift/client/RemoteFmuInstance.cpp)
 target_link_libraries(thrift-client thrift-gen)
 
 

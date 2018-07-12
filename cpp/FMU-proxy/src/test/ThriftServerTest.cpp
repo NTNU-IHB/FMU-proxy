@@ -30,9 +30,8 @@
 #include "../thrift/server/ThriftServer.hpp"
 
 using namespace std;
-using namespace fmi;
-using namespace fmuproxy;
-using namespace fmuproxy::server;
+using namespace fmuproxy::fmi;
+using namespace fmuproxy::thrift::server;
 
 void wait_for_input(::ThriftServer* server) {
     do {

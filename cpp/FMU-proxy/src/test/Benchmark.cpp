@@ -29,7 +29,7 @@
 #include "../fmi/FmuWrapper.hpp"
 
 using namespace std;
-using namespace fmi;
+using namespace fmuproxy::fmi;
 
 const double stop = 10;
 const double step_size = 1E-4;

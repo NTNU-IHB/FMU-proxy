@@ -28,7 +28,7 @@
 #include <cfloat>
 #include "FmiDefinitions.hpp"
 
-namespace fmi {
+namespace fmuproxy::fmi {
 
     IntegerAttribute toIntegerAttribute(fmi2_import_variable_t *variable, fmi2_xml_integer_variable_t *integer_variable) {
         IntegerAttribute attribute;

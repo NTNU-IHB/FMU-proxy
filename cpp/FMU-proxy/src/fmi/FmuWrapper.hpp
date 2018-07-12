@@ -35,7 +35,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace fmi {
+namespace fmuproxy::fmi {
 
     class FmuWrapper {
 
@@ -46,7 +46,6 @@ namespace fmi {
         fmi_xml_context_t* ctx;
         jm_callbacks callbacks;
         fmi_version_enu_t version;
-
         std::shared_ptr<ModelDescription> modelDescription;
 
     public:
@@ -57,6 +56,8 @@ namespace fmi {
         ModelDescription &getModelDescription();
 
         std::unique_ptr<FmuInstance> newInstance();
+
+        fmi2_value_reference_t get_value_reference(std::string name);
 
         ~FmuWrapper();
 

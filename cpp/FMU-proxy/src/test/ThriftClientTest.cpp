@@ -40,7 +40,7 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
-using namespace fmuproxy::client;
+using namespace fmuproxy::thrift::client;
 
 const double stop = 2;
 const double step_size = 1E-2;

@@ -30,7 +30,7 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../thrift-gen/FmuService.h"
+#include "RemoteFmuInstance.hpp"
 
 using namespace fmuproxy::thrift;
 
@@ -38,116 +38,33 @@ using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
-namespace fmuproxy {
-    namespace client {
+namespace fmuproxy::thrift::client {
 
-        class RemoteFmuInstance {
+    class ThriftClient {
 
-        private:
-            FmuId fmu_id;
-            double current_time;
-            FmuServiceClient &client;
+    private:
 
-        public:
-            RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client): fmu_id(fmu_id), client(client) {
-                current_time = client.getCurrentTime(fmu_id);
-            }
+        std::shared_ptr<TTransport> transport;
+        std::shared_ptr<FmuServiceClient> client;
+        std::shared_ptr<ModelDescription> modelDescription;
 
-            double getCurrentTime() {
-                return current_time;
-            }
+    public:
+        ThriftClient(std::string host, int port);
 
-            Status::type init() {
-                return init(0.0, 0.0);
-            }
+        ModelDescription &getModelDescription();
 
-            Status::type init(double start) {
-                return init(start, 0.0);
-            }
+        std::unique_ptr<RemoteFmuInstance> newInstance();
 
-            Status::type init(double start, double stop);
+        void close();
 
-            Status::type step(StepResult& result, double step_size);
+        int getValueReference(std::string variableName);
 
-            Status::type terminate();
+        ~ThriftClient() {
+            std::cout << "ThriftClient destructor called" << std::endl;
+        }
 
-            Status::type reset();
+    };
 
-            void readInteger(IntegerRead& read, ValueReference vr);
-
-            void readInteger(BulkIntegerRead& read, ValueReferences vr);
-
-            void readReal(RealRead &read, ValueReference vr);
-
-            void readReal(BulkRealRead& read, ValueReferences vr);
-
-            void readString(StringRead &read, ValueReference vr);
-
-            void readString(BulkStringRead &read, ValueReferences vr);
-
-            void readBoolean(BooleanRead &read, ValueReference vr);
-
-            void readBoolean(BulkBooleanRead &read, ValueReferences vr);
-
-            Status::type writeInteger(ValueReference vr, int value);
-
-            Status::type writeInteger(ValueReferences vr, IntArray value);
-
-            Status::type writeReal(ValueReference vr, double value);
-
-            Status::type writeReal(ValueReferences vr, RealArray value);
-
-            Status::type writeString(ValueReference vr, std::string value);
-
-            Status::type writeString(ValueReferences vr, StringArray value);
-
-            Status::type writeBoolean(ValueReference vr, bool value);
-
-            Status::type writeBoolean(ValueReferences vr, BooleanArray value);
-
-            ~RemoteFmuInstance() {
-                std::cout << "RemoteFmuInstance destructor called" << std::endl;
-            }
-
-        };
-
-        class ThriftClient {
-
-        private:
-
-            std::shared_ptr<TTransport> transport;
-            std::shared_ptr<FmuServiceClient> client;
-            std::shared_ptr<ModelDescription> modelDescription;
-
-        public:
-            ThriftClient(std::string host, int port);
-
-            ModelDescription &getModelDescription();
-
-            std::unique_ptr<RemoteFmuInstance> newInstance();
-
-            void close() {
-                this->transport->close();
-            }
-
-            int getValueReference(std::string variableName) {
-
-                for (ScalarVariable var : modelDescription->modelVariables) {
-                    if (var.name == variableName) {
-                        return var.valueReference;
-                    }
-                }
-                throw std::runtime_error("No such variable: '" + variableName + "'");
-
-            }
-
-            ~ThriftClient() {
-                std::cout << "ThriftClient destructor called" << std::endl;
-            }
-
-        };
-
-    }
 }
 
 #endif //FMU_PROXY_THRIFTCLIENT_H
