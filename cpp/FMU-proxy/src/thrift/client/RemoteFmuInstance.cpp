@@ -23,8 +23,8 @@
  */
 
 #include <vector>
-#include "RemoteFmuInstance.hpp"
 #include "Helper.cpp"
+#include "RemoteFmuInstance.hpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;
@@ -33,26 +33,26 @@ RemoteFmuInstance::RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client): fm
     current_time = client.getCurrentTime(fmu_id);
 }
 
-double RemoteFmuInstance::getCurrentTime() {
+double RemoteFmuInstance::getCurrentTime() const {
     return current_time;
 }
 
-fmi2_status_t RemoteFmuInstance::init() {
-    return init(0.0, 0.0);
+void RemoteFmuInstance::init() {
+    init(0.0, 0.0);
 }
 
-fmi2_status_t RemoteFmuInstance::init(double start) {
-    return init(start, 0.0);
+void RemoteFmuInstance::init(double start) {
+    init(start, 0.0);
 }
 
-fmi2_status_t RemoteFmuInstance::init(double start, double stop) {
-    return convert(client.init(fmu_id, start, stop));
+void RemoteFmuInstance::init(double start, double stop) {
+    convert(client.init(fmu_id, start, stop));
 }
 
-fmi2_status_t RemoteFmuInstance::step(StepResult& result, double step_size) {
-    client.step(result, fmu_id, step_size);
-    current_time = result.simulationTime;
-    return convert(result.status);
+fmi2_status_t RemoteFmuInstance::step(double step_size) {
+    client.step(stepResult, fmu_id, step_size);
+    current_time = stepResult.simulationTime;
+    return convert(stepResult.status);
 }
 
 fmi2_status_t RemoteFmuInstance::terminate() {
@@ -63,54 +63,42 @@ fmi2_status_t RemoteFmuInstance::reset() {
     return convert(client.reset(fmu_id));
 }
 
-void RemoteFmuInstance::readInteger(IntegerRead& read, ValueReference vr) {
-    return client.readInteger(read, fmu_id, vr);
+fmi2_status_t RemoteFmuInstance::readInteger(unsigned int vr, int &ref) {
+    client.readInteger(integerRead, fmu_id, vr);
+    ref = integerRead.value;
+    return convert(integerRead.status);
 }
 
-void RemoteFmuInstance::readInteger(BulkIntegerRead& read, ValueReferences vr) {
-    return client.bulkReadInteger(read, fmu_id, vr);
+fmi2_status_t RemoteFmuInstance::readReal(unsigned int vr, double &ref) {
+    client.readReal(realRead, fmu_id, vr);
+    ref = realRead.value;
+    return convert(realRead.status);
 }
 
-void RemoteFmuInstance::readReal(RealRead &read, ValueReference vr) {
-    return client.readReal(read, fmu_id, vr);
+fmi2_status_t RemoteFmuInstance::readString(unsigned int vr, const char* &ref) {
+    client.readString(stringRead, fmu_id, vr);
+    ref = stringRead.value.c_str();
+    return convert(stringRead.status);
 }
 
-void RemoteFmuInstance::readReal(BulkRealRead &read, ValueReferences vr) {
-    return client.bulkReadReal(read, fmu_id, vr);
+fmi2_status_t RemoteFmuInstance::readBoolean(unsigned int vr, int &ref) {
+    client.readBoolean(booleanRead, fmu_id, vr);
+    ref = booleanRead.value;
+    return convert(booleanRead.status);
 }
 
-void RemoteFmuInstance::readString(StringRead &read, ValueReference vr) {
-    return client.readString(read, fmu_id, vr);
-}
-
-void RemoteFmuInstance::readString(BulkStringRead &read, ValueReferences vr) {
-    return client.bulkReadString(read, fmu_id, vr);
-}
-
-void RemoteFmuInstance::readBoolean(BooleanRead &read, ValueReference vr) {
-    return client.readBoolean(read, fmu_id, vr);
-}
-
-void RemoteFmuInstance::readBoolean(BulkBooleanRead &read, ValueReferences vr) {
-    return client.bulkReadBoolean(read, fmu_id, vr);
-}
-
-fmi2_status_t RemoteFmuInstance::writeInteger(ValueReference vr, int value) {
+fmi2_status_t RemoteFmuInstance::writeInteger(unsigned int vr, int value) {
     return convert(client.writeInteger(fmu_id, vr, value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeInteger(ValueReferences vr, vector<int> value) {
-    return convert(client.bulkWriteInteger(fmu_id, vr, value));
-}
-
-fmi2_status_t RemoteFmuInstance::writeReal(ValueReference vr, double value) {
+fmi2_status_t RemoteFmuInstance::writeReal(unsigned int vr, double value) {
     return convert(client.writeReal(fmu_id, vr, value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeString(ValueReference vr, string value) {
+fmi2_status_t RemoteFmuInstance::writeString(unsigned int vr, const char* value) {
     return convert(client.writeString(fmu_id, vr, value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeBoolean(ValueReference vr, bool value) {
-    return convert(client.writeBoolean(fmu_id, vr, value));
+fmi2_status_t RemoteFmuInstance::writeBoolean(unsigned int vr, int value) {
+    return convert(client.writeBoolean(fmu_id, vr, value == 0 ? false : true));
 }

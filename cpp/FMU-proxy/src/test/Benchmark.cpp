@@ -31,6 +31,7 @@
 using namespace std;
 using namespace fmuproxy::fmi;
 
+const double start = 0;
 const double stop = 10;
 const double step_size = 1E-4;
 

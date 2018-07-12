@@ -33,7 +33,7 @@ FmuInstance::FmuInstance(fmi2_import_t *instance) {
     this->instance = instance;
 }
 
-double FmuInstance::getCurrentTime() {
+double FmuInstance::getCurrentTime() const {
     return current_time;
 }
 
@@ -41,12 +41,13 @@ bool FmuInstance::isTerminated() {
     return terminated;
 }
 
-
-fmi2_value_reference_t FmuInstance::get_value_reference(std::string name) {
-    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
-    return fmi2_import_get_variable_vr(var);
+void FmuInstance::init() {
+    return init(0.0);
 }
 
+void FmuInstance::init(double start) {
+    return init(start, 0.0);
+}
 
 void FmuInstance::init(double start, double stop) {
 
@@ -148,14 +149,9 @@ fmi2_status_t FmuInstance::writeBoolean(fmi2_value_reference_t vr, fmi2_boolean_
 }
 
 
-FmuInstance::~FmuInstance()  {
-
-    std::cout << "FmuInstance destructor called" << std::endl;
-
-    terminate();
-    fmi2_import_destroy_dllfmu(instance);
-    fmi2_import_free(instance);
-
+fmi2_value_reference_t FmuInstance::get_value_reference(std::string name) {
+    fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
+    return fmi2_import_get_variable_vr(var);
 }
 
 
@@ -178,3 +174,16 @@ VariableWriter FmuInstance::getWriter(std::string name) {
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     return getWriter(vr);
 }
+
+
+FmuInstance::~FmuInstance()  {
+
+    std::cout << "FmuInstance destructor called" << std::endl;
+
+    terminate();
+    fmi2_import_destroy_dllfmu(instance);
+    fmi2_import_free(instance);
+
+}
+
+

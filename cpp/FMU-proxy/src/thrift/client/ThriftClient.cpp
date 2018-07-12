@@ -61,7 +61,7 @@ unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client));
 }
 
-int ThriftClient::getValueReference(std::string variableName) {
+unsigned int ThriftClient::getValueReference(std::string variableName) {
 
     for (ScalarVariable var : modelDescription->modelVariables) {
         if (var.name == variableName) {

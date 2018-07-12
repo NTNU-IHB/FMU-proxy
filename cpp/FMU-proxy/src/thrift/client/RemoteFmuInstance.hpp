@@ -30,65 +30,56 @@
 #include "../thrift-gen/FmuService.h"
 #include "../../fmi/FmiSimulation.hpp"
 
+using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift;
 
 namespace fmuproxy::thrift::client {
 
-    class RemoteFmuInstance {
+    class RemoteFmuInstance: public FmiSimulation {
 
     private:
         FmuId fmu_id;
         double current_time;
         FmuServiceClient &client;
 
+        IntegerRead integerRead;
+        RealRead realRead;
+        StringRead stringRead;
+        BooleanRead booleanRead;
+        StepResult stepResult;
+
     public:
         RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client);
 
-        double getCurrentTime();
+        double getCurrentTime() const override;
 
-        fmi2_status_t init();
+        void init() override;
 
-        fmi2_status_t init(double start);
+        void init(double start) override;
 
-        fmi2_status_t init(double start, double stop);
+        void init(double start, double stop) override;
 
-        fmi2_status_t step(StepResult& result, double step_size);
+        fmi2_status_t step(double step_size) override;
 
-        fmi2_status_t terminate();
+        fmi2_status_t terminate() override;
 
-        fmi2_status_t reset();
+        fmi2_status_t reset() override;
 
-        fmi2_status_t readInteger(IntegerRead& read, unsigned int vr);
+        fmi2_status_t readInteger(unsigned int vr, int &ref) override;
 
-        void readInteger(BulkIntegerRead& read, ValueReferences vr);
+        fmi2_status_t readReal(unsigned int vr, double &ref) override;
 
-        void readReal(RealRead &read, ValueReference vr);
+        fmi2_status_t readString(unsigned int vr, const char* &ref) override;
 
-        void readReal(BulkRealRead& read, ValueReferences vr);
+        fmi2_status_t readBoolean(unsigned int vr, int &ref) override;
 
-        void readString(StringRead &read, ValueReference vr);
+        fmi2_status_t writeInteger(unsigned int vr, int value) override;
 
-        void readString(BulkStringRead &read, ValueReferences vr);
+        fmi2_status_t writeReal(unsigned int vr, double value) override;
 
-        void readBoolean(BooleanRead &read, ValueReference vr);
+        fmi2_status_t writeString(unsigned int vr, const char* value) override;
 
-        void readBoolean(BulkBooleanRead &read, ValueReferences vr);
-
-        fmi2_status_t writeInteger(ValueReference vr, int value);
-
-        fmi2_status_t writeInteger(ValueReferences vr, IntArray value);
-
-        fmi2_status_t writeReal(ValueReference vr, double value);
-
-        fmi2_status_t writeReal(ValueReferences vr, RealArray value);
-
-        fmi2_status_t writeString(ValueReference vr, std::string value);
-
-        fmi2_status_t writeString(ValueReferences vr, StringArray value);
-
-        fmi2_status_t writeBoolean(ValueReference vr, bool value);
-
-        fmi2_status_t writeBoolean(ValueReferences vr, BooleanArray value);
+        fmi2_status_t writeBoolean(unsigned int vr, int value) override;
 
         ~RemoteFmuInstance() {
             std::cout << "RemoteFmuInstance destructor called" << std::endl;
@@ -97,6 +88,5 @@ namespace fmuproxy::thrift::client {
     };
 
 }
-
 
 #endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP

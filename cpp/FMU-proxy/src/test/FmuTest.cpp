@@ -49,8 +49,8 @@ int main(int argc, char **argv) {
     const auto instance1 = fmu.newInstance();
     const auto instance2 = fmu.newInstance();
 
-    instance1->init(0.0, -1);
-    instance2->init(0.0, -1);
+    instance1->init();
+    instance2->init();
 
 
     double temperature_room;

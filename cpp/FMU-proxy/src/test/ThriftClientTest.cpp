@@ -60,19 +60,18 @@ int main() {
             cout << var.name << ", start=" << var.attribute.realAttribute.start << endl;
         }
 
-        int value_reference = fmu.getValueReference("Temperature_Room");
-
-        const auto instance = fmu.newInstance();
+        unique_ptr<RemoteFmuInstance> instance = fmu.newInstance();
         instance->init(0.0, 0.0);
 
         clock_t begin = clock();
 
-        RealRead read;
-        StepResult result;
-        while (result.simulationTime < stop) {
-            instance->step(result, step_size);
-            instance->readReal(read, value_reference);
-            cout << read << endl;
+        double temperature_room;
+        unsigned int vr = fmu.getValueReference("Temperature_Room");
+        double t;
+        while ( (t=instance->getCurrentTime()) < stop) {
+            instance->step(step_size);
+            instance->readReal(vr, temperature_room);
+            cout << "t=" << t <<  ", Temperature_Room=" << temperature_room << endl;
         }
 
         clock_t end = clock();

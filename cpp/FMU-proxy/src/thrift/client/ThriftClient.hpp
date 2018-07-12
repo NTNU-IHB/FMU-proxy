@@ -57,7 +57,7 @@ namespace fmuproxy::thrift::client {
 
         void close();
 
-        int getValueReference(std::string variableName);
+        unsigned int getValueReference(std::string variableName);
 
         ~ThriftClient() {
             std::cout << "ThriftClient destructor called" << std::endl;

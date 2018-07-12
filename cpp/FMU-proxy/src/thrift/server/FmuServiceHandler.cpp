@@ -94,7 +94,7 @@ Status::type FmuServiceHandler::reset(const FmuId fmu_id) {
 
 void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) {
     auto& instance = fmus[fmu_id];
-    fmi2_status_t status = instance->getInteger(vr, _return.value);
+    fmi2_status_t status = instance->readInteger(vr, _return.value);
     _return.status = thriftType(status);
 }
 
@@ -104,7 +104,7 @@ void FmuServiceHandler::bulkReadInteger(BulkIntegerRead &_return, const FmuId fm
 
 void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) {
     auto& instance = fmus[fmu_id];
-    fmi2_status_t status = instance->getReal(vr, _return.value);
+    fmi2_status_t status = instance->readReal(vr, _return.value);
     _return.status = thriftType(status);
 }
 
@@ -115,7 +115,7 @@ void FmuServiceHandler::bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, 
 void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) {
     auto& instance = fmus[fmu_id];
     fmi2_string_t str;
-    fmi2_status_t status = instance->getString(vr, str);
+    fmi2_status_t status = instance->readString(vr, str);
     _return.status = thriftType(status);
     _return.value = str;
 }
@@ -127,7 +127,7 @@ void FmuServiceHandler::bulkReadString(BulkStringRead &_return, const FmuId fmu_
 void FmuServiceHandler::readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) {
     auto& instance = fmus[fmu_id];
     fmi2_boolean_t value;
-    fmi2_status_t status = instance->getBoolean(vr, value);
+    fmi2_status_t status = instance->readBoolean(vr, value);
     _return.status = thriftType(status);
     _return.value = value;
 }

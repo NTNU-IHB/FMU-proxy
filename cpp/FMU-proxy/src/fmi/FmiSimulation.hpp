@@ -27,6 +27,7 @@
 
 #include <iostream>
 #include "fmilib.h"
+#include <functional>
 
 namespace fmuproxy::fmi {
 
@@ -34,7 +35,11 @@ namespace fmuproxy::fmi {
 
     public:
 
-        virtual double getCurrentTime() = 0;
+        virtual double getCurrentTime() const = 0;
+
+        virtual void init() = 0;
+
+        virtual void init(double start) = 0;
 
         virtual void init(double start, double stop) = 0;
 
@@ -60,8 +65,10 @@ namespace fmuproxy::fmi {
 
         virtual fmi2_status_t writeBoolean(unsigned int vr, int value) = 0;
 
+        virtual ~FmiSimulation(){}
 
     };
+
 
 }
 

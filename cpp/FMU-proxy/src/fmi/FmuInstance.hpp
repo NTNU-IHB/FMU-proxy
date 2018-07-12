@@ -32,7 +32,7 @@
 
 namespace fmuproxy::fmi {
 
-    class FmuInstance: FmiSimulation {
+    class FmuInstance: public FmiSimulation {
 
     private:
 
@@ -46,7 +46,11 @@ namespace fmuproxy::fmi {
 
         bool isTerminated();
 
-        double getCurrentTime() override;
+        double getCurrentTime() const override;
+
+        void init() override;
+
+        void init(double start) override;
 
         void init(double start, double stop) override;
 
