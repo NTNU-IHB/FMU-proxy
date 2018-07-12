@@ -40,7 +40,7 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
-using namespace fmuproxy::client;
+using namespace fmuproxy::thrift::client;
 
 const double stop = 2;
 const double step_size = 1E-2;
@@ -57,22 +57,21 @@ int main() {
         cout << "license=" << md.license << endl;
 
         for (auto var : md.modelVariables) {
-            cout << var.name << ", start=" << var.attribute.realAttribute.start << endl;
+            cout << var.name << ", start=" << var.attribute << endl;
         }
 
-        int value_reference = fmu.getValueReference("Temperature_Room");
-
-        const auto instance = fmu.newInstance();
-        instance->init(0.0, 0.0);
+        unique_ptr<RemoteFmuInstance> instance = fmu.newInstance();
+        instance->init();
 
         clock_t begin = clock();
 
-        RealRead read;
-        StepResult result;
-        while (result.simulationTime < stop) {
-            instance->step(result, step_size);
-            instance->readReal(read, value_reference);
-            cout << read << endl;
+        double temperature_room;
+        unsigned int vr = fmu.getValueReference("Temperature_Room");
+        double t;
+        while ( (t=instance->getCurrentTime()) < stop) {
+            instance->step(step_size);
+            instance->readReal(vr, temperature_room);
+            cout << "t=" << t <<  ", Temperature_Room=" << temperature_room << endl;
         }
 
         clock_t end = clock();
@@ -81,7 +80,7 @@ int main() {
         cout << "elapsed=" << elapsed_secs << "s" << endl;
 
         auto status = instance->terminate();
-        cout << "terminated FMU with status " << status << endl;
+        cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
 
         fmu.close();
 

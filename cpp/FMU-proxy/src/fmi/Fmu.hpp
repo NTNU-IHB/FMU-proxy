@@ -22,42 +22,48 @@
  * THE SOFTWARE.
  */
 
+#ifndef FMU_PROXY_FMUWRAPPER_H
+#define FMU_PROXY_FMUWRAPPER_H
+
 #include <iostream>
-#include <thread>
+#include <vector>
 
-#include "TestUtil.hpp"
-#include "../fmi/Fmu.hpp"
-#include "../thrift/server/ThriftServer.hpp"
+#include <boost/filesystem.hpp>
 
-using namespace std;
-using namespace fmuproxy::fmi;
-using namespace fmuproxy::thrift::server;
+#include "FmiDefinitions.hpp"
+#include "FmuInstance.hpp"
 
-void wait_for_input(::ThriftServer* server) {
-    do {
-        cout << '\n' << "Press a key to continue...\n";
-    } while (cin.get() != '\n');
-    cout << "Done." << endl;
-    server->stop();
+namespace fs = boost::filesystem;
+
+namespace fmuproxy::fmi {
+
+    class Fmu {
+
+    private:
+
+        fs::path tmp_path;
+        fmi2_import_t* xml;
+        fmi_xml_context_t* ctx;
+        jm_callbacks callbacks;
+        fmi_version_enu_t version;
+        std::shared_ptr<ModelDescription> modelDescription;
+
+    public:
+        Fmu(std::string fmu_path);
+
+        std::string getModelDescriptionXml();
+
+        ModelDescription &getModelDescription();
+
+        std::unique_ptr<FmuInstance> newInstance();
+
+        fmi2_value_reference_t get_value_reference(std::string name);
+
+        ~Fmu();
+
+    };
+
 }
 
-int main(int argc, char **argv) {
-
-    int port = 9090;
-    string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
-
-    Fmu fmu = Fmu(fmu_path);
-    ThriftServer server = ThriftServer(fmu, port);
-
-    thread t(wait_for_input, &server);
-
-    cout << "Starting the server..." << endl;
-    server.serve();
-
-    t.join();
-
-
-    return 0;
-}
+#endif //FMU_PROXY_FMUWRAPPER_H
 

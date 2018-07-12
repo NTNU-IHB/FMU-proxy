@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-namespace fmi {
+namespace fmuproxy::fmi {
 
     class IntegerAttribute {
     private:
@@ -262,24 +262,24 @@ namespace fmi {
 
     public:
 
-        bool isIntegerAttribute() {
+        bool isIntegerAttribute() const {
             return integer_set;
         }
 
-        bool isRealAttribute() {
+        bool isRealAttribute() const {
             return real_set;
         }
 
-        bool isStringAttribute() {
+        bool isStringAttribute() const {
             return string_set;
         }
 
-        bool isBooleanAttribute() {
+        bool isBooleanAttribute() const {
             return boolean_set;
         }
 
-        bool isEnumerationAttribute() {
-            return integer_set;
+        bool isEnumerationAttribute() const {
+            return enumeration_set;
         }
 
         const IntegerAttribute &getIntegerAttribute() const {
@@ -327,8 +327,31 @@ namespace fmi {
             enumeration_set = true;
         }
 
-    };
+        friend std::ostream& operator<<(std::ostream &strm, const ScalarVariableAttribute &a) {
 
+            if (a.isIntegerAttribute()) {
+                auto _a = a.getIntegerAttribute();
+                return strm << "IntegerAttribute(start=" << _a.getStart() << ", min=" << _a.getMin() << ", max=" << _a.getMax() << ")";
+            } else if (a.isRealAttribute()) {
+                auto _a = a.getRealAttribute();
+                return strm << "RealAttribute(start=" << _a.getStart() << ", min=" << _a.getMin() << ", max=" << _a.getMax() << ")";
+            } else if  (a.isStringAttribute()) {
+                auto _a = a.getStringAttribute();
+                return strm << "StringAttribute(start=" << _a.getStart() << ")";
+            } else if (a.isBooleanAttribute()) {
+                auto _a = a.getBooleanAttribute();
+                return strm << "BooleanAttribute(start=" << _a.getStart() << ")";
+            } else if (a.isEnumerationAttribute()) {
+                auto _a = a.getEnumerationAttribute();
+                return strm << "EnumerationAttribute(start=" << _a.getStart() << ", min=" << _a.getMin() << ", max=" << _a.getMax() << ")";
+            } else {
+                throw std::runtime_error("no valid attribute set!");
+            }
+
+
+        }
+
+    };
 
 }
 

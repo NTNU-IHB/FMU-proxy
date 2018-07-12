@@ -25,10 +25,10 @@
 #include <iostream>
 
 #include "TestUtil.hpp"
-#include "../fmi/FmuWrapper.hpp"
+#include "../fmi/Fmu.hpp"
 
 using namespace std;
-using namespace fmi;
+using namespace fmuproxy::fmi;
 
 int main(int argc, char **argv) {
 
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     double step_size = 1.0/100;
-    FmuWrapper fmu = FmuWrapper(fmu_path);
+    Fmu fmu = Fmu(fmu_path);
 
     const auto md = fmu.getModelDescription();
     cout << md.defaultExperiment.stopTime << endl;
@@ -49,24 +49,24 @@ int main(int argc, char **argv) {
     const auto instance1 = fmu.newInstance();
     const auto instance2 = fmu.newInstance();
 
-    instance1->init(0.0, -1);
-    instance2->init(0.0, -1);
+    instance1->init();
+    instance2->init();
 
 
     double temperature_room;
     fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
 
-    instance1->getReal(vr, temperature_room);
+    instance1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
     instance1->step(step_size);
 
-    instance1->getReal(vr, temperature_room);
+    instance1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
     instance1->terminate();
 
-    instance2->getReal(vr, temperature_room);
+    instance2->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
     instance2->terminate();

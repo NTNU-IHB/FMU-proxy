@@ -29,9 +29,9 @@
 #include <vector>
 
 #include <fmilib.h>
-#include "ScalarVariableAttribute.hpp"
+#include "ScalarVariableAttributes.hpp"
 
-namespace fmi {
+namespace fmuproxy::fmi {
 
     struct DefaultExperiment {
         double startTime;
@@ -52,9 +52,8 @@ namespace fmi {
         std::vector<Unknown> initialUnknowns;
     };
 
-
     struct ScalarVariable {
-        int valueReference;
+        fmi2_value_reference_t valueReference;
         std::string name;
         std::string description;
         std::string declaredType;

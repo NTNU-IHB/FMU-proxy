@@ -3,8 +3,6 @@ project(FMU-proxy)
 
 set(CMAKE_CXX_STANDARD 14)
 
-SET(FMILIB_HOME $ENV{FMILIB_HOME})
-
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 find_package(Boost 1.63.0 COMPONENTS system filesystem REQUIRED)

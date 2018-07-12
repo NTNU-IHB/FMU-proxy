@@ -26,11 +26,12 @@
 #include <iostream>
 
 #include "TestUtil.hpp"
-#include "../fmi/FmuWrapper.hpp"
+#include "../fmi/Fmu.hpp"
 
 using namespace std;
-using namespace fmi;
+using namespace fmuproxy::fmi;
 
+const double start = 0;
 const double stop = 10;
 const double step_size = 1E-4;
 
@@ -40,7 +41,7 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
+    Fmu fmu = Fmu(fmu_path.c_str());
 
     const auto instance = fmu.newInstance();
 
@@ -49,13 +50,13 @@ int main(int argc, char **argv) {
     clock_t begin = clock();
 
     double temperature_room;
-    VariableReader temperature_reader = instance->getReader("Temperature_Room");
+    fmi2_value_reference_t vr = instance->get_value_reference("Temperature_Room");
     while (instance->getCurrentTime() <= stop-step_size) {
         fmi2_status_t status = instance->step(step_size);
         if (status != fmi2_status_ok) {
             break;
         }
-        temperature_reader.readReal(temperature_room);
+        instance->readReal(vr, temperature_room);
     }
 
     clock_t end = clock();

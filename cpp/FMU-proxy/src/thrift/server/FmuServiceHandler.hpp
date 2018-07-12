@@ -26,83 +26,78 @@
 #define FMU_PROXY_FMUSERVICEHANDLER_H
 
 #include <iostream>
-
 #include "../thrift-gen/FmuService.h"
-#include "../../fmi/FmuWrapper.hpp"
+#include "../../fmi/Fmu.hpp"
 
+using namespace fmuproxy::thrift;
 
-using namespace ::fmuproxy::thrift;
+namespace fmuproxy::thrift::server {
 
+    class FmuServiceHandler : virtual public FmuServiceIf {
 
-namespace fmuproxy {
-    namespace server {
+    private:
+        fmi::Fmu& fmu;
+        std::map<FmuId, std::unique_ptr<fmi::FmuInstance>> fmus;
 
-        class FmuServiceHandler : virtual public FmuServiceIf {
+    public:
+        FmuServiceHandler(fmi::Fmu &fmu);
+        
+        void getModelDescriptionXml(std::string &_return) override;
 
-        private:
-            fmi::FmuWrapper& fmu;
-            std::map<FmuId, std::unique_ptr<fmi::FmuInstance>> fmus;
+        void getModelDescription(ModelDescription &_return) override;
 
-        public:
-            FmuServiceHandler(fmi::FmuWrapper &fmu);
+        FmuId createInstanceFromCS() override;
 
-            void getModelDescriptionXml(std::string &_return) override;
+        FmuId createInstanceFromME(const Solver &solver) override;
 
-            void getModelDescription(ModelDescription &_return) override;
+        bool canGetAndSetFMUstate(const FmuId fmu_id) override;
 
-            FmuId createInstanceFromCS() override;
+        double getCurrentTime(const FmuId fmu_id) override;
 
-            FmuId createInstanceFromME(const Solver &solver) override;
+        bool isTerminated(const FmuId fmu_id) override;
 
-            bool canGetAndSetFMUstate(const FmuId fmu_id) override;
+        Status::type init(const FmuId fmu_id, const double start, const double stop) override;
 
-            double getCurrentTime(const FmuId fmu_id) override;
+        void step(StepResult &_return, const FmuId fmu_id, const double step_size) override;
 
-            bool isTerminated(const FmuId fmu_id) override;
+        Status::type terminate(const FmuId fmu_id) override;
 
-            Status::type init(const FmuId fmu_id, const double start, const double stop) override;
+        Status::type reset(const FmuId fmu_id) override;
 
-            void step(StepResult &_return, const FmuId fmu_id, const double step_size) override;
+        void readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            Status::type terminate(const FmuId fmu_id) override;
+        void bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
-            Status::type reset(const FmuId fmu_id) override;
+        void readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) override;
+        void bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
-            void bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+        void readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) override;
+        void bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
-            void bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+        void readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) override;
 
-            void readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) override;
+        void bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
 
-            void bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+        Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) override;
 
-            void readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) override;
+        Status::type bulkWriteInteger(const FmuId fmu_id, const ValueReferences &vr, const IntArray &value) override;
 
-            void bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) override;
+        Status::type writeReal(const FmuId fmu_id, const ValueReference vr, const double value) override;
 
-            Status::type writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) override;
+        Status::type bulkWriteReal(const FmuId fmu_id, const ValueReferences &vr, const RealArray &value) override;
 
-            Status::type bulkWriteInteger(const FmuId fmu_id, const ValueReferences &vr, const IntArray &value) override;
+        Status::type writeString(const FmuId fmu_id, const ValueReference vr, const std::string &value) override;
 
-            Status::type writeReal(const FmuId fmu_id, const ValueReference vr, const double value) override;
+        Status::type bulkWriteString(const FmuId fmu_id, const ValueReferences &vr, const StringArray &value) override;
 
-            Status::type bulkWriteReal(const FmuId fmu_id, const ValueReferences &vr, const RealArray &value) override;
+        Status::type writeBoolean(const FmuId fmu_id, const ValueReference vr, const bool value) override;
 
-            Status::type writeString(const FmuId fmu_id, const ValueReference vr, const std::string &value) override;
+        Status::type bulkWriteBoolean(const FmuId fmu_id, const ValueReferences &vr, const BooleanArray &value) override;
 
-            Status::type bulkWriteString(const FmuId fmu_id, const ValueReferences &vr, const StringArray &value) override;
+    };
 
-            Status::type writeBoolean(const FmuId fmu_id, const ValueReference vr, const bool value) override;
-
-            Status::type bulkWriteBoolean(const FmuId fmu_id, const ValueReferences &vr, const BooleanArray &value) override;
-
-        };
-
-    }
 }
 
 #endif //FMU_PROXY_FMUSERVICEHANDLER_H
