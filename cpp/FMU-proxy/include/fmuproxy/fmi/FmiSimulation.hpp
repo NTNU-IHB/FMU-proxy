@@ -27,7 +27,7 @@
 
 #include <iostream>
 #include <fmilib.h>
-#include "FmiDefinitions.hpp"
+#include "fmi_definitions.hpp"
 
 namespace fmuproxy::fmi {
 

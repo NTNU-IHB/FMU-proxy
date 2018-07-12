@@ -23,7 +23,7 @@
  */
 
 #include <cfloat>
-#include <fmuproxy/fmi/FmiDefinitions.hpp>
+#include <fmuproxy/fmi/fmi_definitions.hpp>
 
 using namespace fmuproxy::fmi;
 
