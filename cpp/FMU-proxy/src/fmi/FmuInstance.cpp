@@ -91,37 +91,62 @@ fmi2_status_t FmuInstance::terminate() {
 }
 
 
-fmi2_status_t FmuInstance::getInteger(fmi2_value_reference_t vr, fmi2_integer_t  &ref) {
+fmi2_status_t FmuInstance::readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) {
     return fmi2_import_get_integer(instance, &vr, 1, &ref);
 }
 
-fmi2_status_t FmuInstance::getInteger(string name, fmi2_integer_t  &ref) {
-    return getInteger(get_value_reference(name.c_str()), ref);
+fmi2_status_t FmuInstance::readInteger(string name, fmi2_integer_t &ref) {
+    fmi2_value_reference_t vr = get_value_reference(name);
+    return readInteger(vr, ref);
 }
 
-fmi2_status_t FmuInstance::getReal(fmi2_value_reference_t vr, fmi2_real_t &ref) {
+
+fmi2_status_t FmuInstance::readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) {
     return fmi2_import_get_real(instance, &vr, 1, &ref);
 }
 
-fmi2_status_t FmuInstance::getReal(string name, fmi2_real_t &ref) {
-    return getReal(get_value_reference(name.c_str()), ref);
+fmi2_status_t FmuInstance::readReal(string name, fmi2_real_t &ref) {
+    fmi2_value_reference_t vr = get_value_reference(name);
+    return readReal(vr, ref);
 }
 
-fmi2_status_t FmuInstance::getString(fmi2_value_reference_t vr, fmi2_string_t &ref) {
+
+fmi2_status_t FmuInstance::readString(fmi2_value_reference_t vr, fmi2_string_t &ref) {
     return fmi2_import_get_string(instance, &vr, 1, &ref);
 }
 
-fmi2_status_t FmuInstance::getString(string name, fmi2_string_t &ref) {
-    return getString(get_value_reference(name.c_str()), ref);
+fmi2_status_t FmuInstance::readString(string name, fmi2_string_t &ref) {
+    fmi2_value_reference_t  vr = get_value_reference(name);
+    return readString(vr, ref);
 }
 
-fmi2_status_t FmuInstance::getBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
+
+fmi2_status_t FmuInstance::readBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
     return fmi2_import_get_boolean(instance, &vr, 1, &ref);
 }
 
-fmi2_status_t FmuInstance::getBoolean(string name, fmi2_boolean_t &ref) {
-    return getBoolean(get_value_reference(name.c_str()), ref);
+fmi2_status_t FmuInstance::readBoolean(string name, fmi2_boolean_t &ref) {
+    fmi2_value_reference_t vr = get_value_reference(name);
+    return readBoolean(vr, ref);
 }
+
+
+fmi2_status_t FmuInstance::writeInteger(fmi2_value_reference_t vr, fmi2_integer_t value) {
+    return fmi2_import_set_integer(instance, &vr, 1, &value);
+}
+
+fmi2_status_t FmuInstance::writeReal(fmi2_value_reference_t vr, fmi2_real_t value) {
+    return fmi2_import_set_real(instance, &vr, 1, &value);
+}
+
+fmi2_status_t FmuInstance::writeString(fmi2_value_reference_t vr, fmi2_string_t value) {
+    return fmi2_import_set_string(instance, &vr, 1, &value);
+}
+
+fmi2_status_t FmuInstance::writeBoolean(fmi2_value_reference_t vr, fmi2_boolean_t value) {
+    return fmi2_import_set_boolean(instance, &vr, 1, &value);
+}
+
 
 FmuInstance::~FmuInstance()  {
 

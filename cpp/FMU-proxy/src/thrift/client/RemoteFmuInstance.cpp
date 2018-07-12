@@ -24,26 +24,43 @@
 
 #include <vector>
 #include "RemoteFmuInstance.hpp"
+#include "Helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-Status::type RemoteFmuInstance::init(double start, double stop) {
-    return client.init(fmu_id, start, stop);
+RemoteFmuInstance::RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client): fmu_id(fmu_id), client(client) {
+    current_time = client.getCurrentTime(fmu_id);
 }
 
-Status::type RemoteFmuInstance::step(StepResult& result, double step_size) {
+double RemoteFmuInstance::getCurrentTime() {
+    return current_time;
+}
+
+fmi2_status_t RemoteFmuInstance::init() {
+    return init(0.0, 0.0);
+}
+
+fmi2_status_t RemoteFmuInstance::init(double start) {
+    return init(start, 0.0);
+}
+
+fmi2_status_t RemoteFmuInstance::init(double start, double stop) {
+    return convert(client.init(fmu_id, start, stop));
+}
+
+fmi2_status_t RemoteFmuInstance::step(StepResult& result, double step_size) {
     client.step(result, fmu_id, step_size);
     current_time = result.simulationTime;
-    return result.status;
+    return convert(result.status);
 }
 
-Status::type RemoteFmuInstance::terminate() {
-    return client.terminate(fmu_id);
+fmi2_status_t RemoteFmuInstance::terminate() {
+    return convert(client.terminate(fmu_id));
 }
 
-Status::type RemoteFmuInstance::reset() {
-    return client.reset(fmu_id);
+fmi2_status_t RemoteFmuInstance::reset() {
+    return convert(client.reset(fmu_id));
 }
 
 void RemoteFmuInstance::readInteger(IntegerRead& read, ValueReference vr) {
@@ -78,22 +95,22 @@ void RemoteFmuInstance::readBoolean(BulkBooleanRead &read, ValueReferences vr) {
     return client.bulkReadBoolean(read, fmu_id, vr);
 }
 
-Status::type RemoteFmuInstance::writeInteger(ValueReference vr, int value) {
-    return client.writeInteger(fmu_id, vr, value);
+fmi2_status_t RemoteFmuInstance::writeInteger(ValueReference vr, int value) {
+    return convert(client.writeInteger(fmu_id, vr, value));
 }
 
-Status::type RemoteFmuInstance::writeInteger(ValueReferences vr, vector<int> value) {
-    return client.bulkWriteInteger(fmu_id, vr, value);
+fmi2_status_t RemoteFmuInstance::writeInteger(ValueReferences vr, vector<int> value) {
+    return convert(client.bulkWriteInteger(fmu_id, vr, value));
 }
 
-Status::type RemoteFmuInstance::writeReal(ValueReference vr, double value) {
-    return client.writeReal(fmu_id, vr, value);
+fmi2_status_t RemoteFmuInstance::writeReal(ValueReference vr, double value) {
+    return convert(client.writeReal(fmu_id, vr, value));
 }
 
-Status::type RemoteFmuInstance::writeString(ValueReference vr, string value) {
-    return client.writeString(fmu_id, vr, value);
+fmi2_status_t RemoteFmuInstance::writeString(ValueReference vr, string value) {
+    return convert(client.writeString(fmu_id, vr, value));
 }
 
-Status::type RemoteFmuInstance::writeBoolean(ValueReference vr, bool value) {
-    return client.writeBoolean(fmu_id, vr, value);
+fmi2_status_t RemoteFmuInstance::writeBoolean(ValueReference vr, bool value) {
+    return convert(client.writeBoolean(fmu_id, vr, value));
 }

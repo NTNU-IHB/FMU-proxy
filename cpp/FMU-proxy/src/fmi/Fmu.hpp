@@ -65,6 +65,5 @@ namespace fmuproxy::fmi {
 
 }
 
-
 #endif //FMU_PROXY_FMUWRAPPER_H
 

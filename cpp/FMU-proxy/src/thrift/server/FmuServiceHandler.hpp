@@ -41,7 +41,7 @@ namespace fmuproxy::thrift::server {
 
     public:
         FmuServiceHandler(fmi::Fmu &fmu);
-
+        
         void getModelDescriptionXml(std::string &_return) override;
 
         void getModelDescription(ModelDescription &_return) override;

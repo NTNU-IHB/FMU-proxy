@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
         if (status != fmi2_status_ok) {
             break;
         }
-        instance->getReal(vr, temperature_room);
+        instance->readReal(vr, temperature_room);
     }
 
     clock_t end = clock();

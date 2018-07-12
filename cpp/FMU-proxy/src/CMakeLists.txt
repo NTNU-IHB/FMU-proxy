@@ -1,37 +1,40 @@
 
 
-add_library(fmi STATIC
-        fmi/FmuHelper.hpp
-        fmi/FmuInstance.cpp
-        fmi/FmuInstance.hpp
+add_library(fmi
         fmi/Fmu.cpp
         fmi/Fmu.hpp
+        fmi/FmuHelper.cpp
+        fmi/FmuInstance.cpp
+        fmi/FmuInstance.hpp
+        fmi/FmiSimulation.hpp
         fmi/FmiDefinitions.hpp
-        fmi/ScalarVariableAttributes.hpp fmi/FmiSimulation.hpp)
+        fmi/ScalarVariableAttributes.hpp fmi/FmuVariableAccess.hpp)
 target_link_libraries(fmi ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
 
-add_library(thrift-gen STATIC
-        thrift/thrift-gen/definitions_types.cpp
-        thrift/thrift-gen/definitions_types.h
-        thrift/thrift-gen/service_types.h
+add_library(thrift-gen
         thrift/thrift-gen/FmuService.h
-        thrift/thrift-gen/FmuService.cpp)
+        thrift/thrift-gen/FmuService.cpp
+        thrift/thrift-gen/service_types.h
+        thrift/thrift-gen/definitions_types.cpp
+        thrift/thrift-gen/definitions_types.h)
 target_link_libraries(thrift-gen thrift)
 
 
-add_library(thrift-client STATIC
+add_library(thrift-client
         thrift/client/ThriftClient.cpp
-        thrift/client/ThriftClient.hpp thrift/client/RemoteFmuInstance.hpp thrift/client/RemoteFmuInstance.cpp)
-target_link_libraries(thrift-client thrift-gen)
+        thrift/client/ThriftClient.hpp
+        thrift/client/RemoteFmuInstance.hpp
+        thrift/client/RemoteFmuInstance.cpp thrift/client/Helper.cpp)
+target_link_libraries(thrift-client thrift-gen fmi)
 
 
 add_library(thrift-server STATIC
-        thrift/server/ThriftHelper.hpp
-        thrift/server/FmuServiceHandler.hpp
-        thrift/server/FmuServiceHandler.cpp
+        thrift/server/ThriftHelper.cpp
         thrift/server/ThriftServer.hpp
-        thrift/server/ThriftServer.cpp)
+        thrift/server/ThriftServer.cpp
+        thrift/server/FmuServiceHandler.hpp
+        thrift/server/FmuServiceHandler.cpp)
 target_link_libraries(thrift-server thrift-gen fmi)
 
 

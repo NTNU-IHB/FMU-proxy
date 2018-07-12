@@ -26,7 +26,9 @@
 #define FMU_PROXY_REMOTEFMUINSTANCE_HPP
 
 #include <iostream>
+#include <fmilib.h>
 #include "../thrift-gen/FmuService.h"
+#include "../../fmi/FmiSimulation.hpp"
 
 using namespace fmuproxy::thrift;
 
@@ -40,31 +42,23 @@ namespace fmuproxy::thrift::client {
         FmuServiceClient &client;
 
     public:
-        RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client): fmu_id(fmu_id), client(client) {
-            current_time = client.getCurrentTime(fmu_id);
-        }
+        RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client);
 
-        double getCurrentTime() {
-            return current_time;
-        }
+        double getCurrentTime();
 
-        Status::type init() {
-            return init(0.0, 0.0);
-        }
+        fmi2_status_t init();
 
-        Status::type init(double start) {
-            return init(start, 0.0);
-        }
+        fmi2_status_t init(double start);
 
-        Status::type init(double start, double stop);
+        fmi2_status_t init(double start, double stop);
 
-        Status::type step(StepResult& result, double step_size);
+        fmi2_status_t step(StepResult& result, double step_size);
 
-        Status::type terminate();
+        fmi2_status_t terminate();
 
-        Status::type reset();
+        fmi2_status_t reset();
 
-        void readInteger(IntegerRead& read, ValueReference vr);
+        fmi2_status_t readInteger(IntegerRead& read, unsigned int vr);
 
         void readInteger(BulkIntegerRead& read, ValueReferences vr);
 
@@ -80,21 +74,21 @@ namespace fmuproxy::thrift::client {
 
         void readBoolean(BulkBooleanRead &read, ValueReferences vr);
 
-        Status::type writeInteger(ValueReference vr, int value);
+        fmi2_status_t writeInteger(ValueReference vr, int value);
 
-        Status::type writeInteger(ValueReferences vr, IntArray value);
+        fmi2_status_t writeInteger(ValueReferences vr, IntArray value);
 
-        Status::type writeReal(ValueReference vr, double value);
+        fmi2_status_t writeReal(ValueReference vr, double value);
 
-        Status::type writeReal(ValueReferences vr, RealArray value);
+        fmi2_status_t writeReal(ValueReferences vr, RealArray value);
 
-        Status::type writeString(ValueReference vr, std::string value);
+        fmi2_status_t writeString(ValueReference vr, std::string value);
 
-        Status::type writeString(ValueReferences vr, StringArray value);
+        fmi2_status_t writeString(ValueReferences vr, StringArray value);
 
-        Status::type writeBoolean(ValueReference vr, bool value);
+        fmi2_status_t writeBoolean(ValueReference vr, bool value);
 
-        Status::type writeBoolean(ValueReferences vr, BooleanArray value);
+        fmi2_status_t writeBoolean(ValueReferences vr, BooleanArray value);
 
         ~RemoteFmuInstance() {
             std::cout << "RemoteFmuInstance destructor called" << std::endl;

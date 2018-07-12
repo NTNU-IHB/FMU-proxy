@@ -56,17 +56,17 @@ int main(int argc, char **argv) {
     double temperature_room;
     fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
 
-    instance1->getReal(vr, temperature_room);
+    instance1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
     instance1->step(step_size);
 
-    instance1->getReal(vr, temperature_room);
+    instance1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
     instance1->terminate();
 
-    instance2->getReal(vr, temperature_room);
+    instance2->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
     instance2->terminate();

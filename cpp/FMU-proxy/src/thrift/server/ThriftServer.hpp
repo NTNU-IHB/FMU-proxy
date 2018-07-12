@@ -25,12 +25,10 @@
 #ifndef FMU_PROXY_THRIFTSERVER_H
 #define FMU_PROXY_THRIFTSERVER_H
 
-
 #include <thrift/server/TSimpleServer.h>
 
 #include "../../fmi/Fmu.hpp"
 #include "FmuServiceHandler.hpp"
-
 
 namespace fmuproxy::thrift::server {
         
@@ -49,8 +47,5 @@ namespace fmuproxy::thrift::server {
     };
 
 }
-    
-
-
 
 #endif //FMU_PROXY_THRIFTSERVER_H

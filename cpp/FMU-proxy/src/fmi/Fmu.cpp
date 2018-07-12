@@ -24,7 +24,7 @@
 
 #include <boost/filesystem.hpp>
 #include "Fmu.hpp"
-#include "FmuHelper.hpp"
+#include "FmuHelper.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -90,11 +90,11 @@ fmi2_value_reference_t Fmu::get_value_reference(std::string name) {
 
 }
 
-
 Fmu::~Fmu() {
 
     std::cout << "Fmu destructor called" << std::endl;
 
+    fmi2_import_free(xml);
     fmi_import_free_context(this->ctx);
     remove_all(this->tmp_path);
 

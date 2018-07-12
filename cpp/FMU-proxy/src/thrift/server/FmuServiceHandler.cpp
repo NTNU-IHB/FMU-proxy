@@ -23,17 +23,16 @@
  */
 
 #include "../../fmi/Fmu.hpp"
-#include "ThriftHelper.hpp"
+#include "ThriftHelper.cpp"
 #include "FmuServiceHandler.hpp"
 
 int id_gen = 0;
 
 using namespace std;
 using namespace fmuproxy;
-using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::server;
 
-::FmuServiceHandler::FmuServiceHandler(fmi::Fmu &fmu): fmu(fmu) {}
+FmuServiceHandler::FmuServiceHandler(fmi::Fmu &fmu): fmu(fmu) {}
 
 void FmuServiceHandler::getModelDescriptionXml(std::string &_return) {
     _return = "XML placeholder";
