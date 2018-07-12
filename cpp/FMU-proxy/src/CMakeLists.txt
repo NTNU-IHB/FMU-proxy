@@ -1,61 +1,64 @@
+cmake_minimum_required(VERSION 3.10)
 
 
-add_library(fmi
-        fmi/Fmu.cpp
-        fmi/Fmu.hpp
-        fmi/FmuHelper.cpp
-        fmi/FmuInstance.cpp
-        fmi/FmuInstance.hpp
-        fmi/FmiSimulation.hpp
-        fmi/FmiDefinitions.hpp
-        fmi/ScalarVariableAttributes.hpp fmi/FmuVariableAccess.hpp)
-target_link_libraries(fmi ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
+INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
+
+#set headers
+SET(HEADER_ROOT_PATH ${FMU_PROXY_SOURCE_DIR}/include/fmuproxy)
+SET(FMI_HEADER_DIR ${HEADER_ROOT_PATH}/fmi)
+SET(THRIFT_HEADER_DIR ${HEADER_ROOT_PATH}/thrift)
+
+SET(FMI_HEADERS
+        ${FMI_HEADER_DIR}/FmiDefinitions.hpp
+        ${FMI_HEADER_DIR}/FmiSimulation.hpp
+        ${FMI_HEADER_DIR}/Fmu.hpp
+        ${FMI_HEADER_DIR}/FmuInstance.hpp
+        ${FMI_HEADER_DIR}/FmuVariableAccess.hpp
+        ${FMI_HEADER_DIR}/ScalarVariableAttributes.hpp)
+
+SET(THRIFT_COMMON_HEADERS
+        ${THRIFT_HEADER_DIR}/common/definitions_types.h
+        ${THRIFT_HEADER_DIR}/common/FmuService.h
+        ${THRIFT_HEADER_DIR}/common/service_types.h)
+
+SET(THRIFT_CLIENT_HEADERS
+        ${THRIFT_HEADER_DIR}/client/RemoteFmuInstance.hpp
+        ${THRIFT_HEADER_DIR}/client/ThriftClient.hpp)
+
+SET(THRIFT_SERVER_HEADERS
+        ${THRIFT_HEADER_DIR}/server/FmuServiceHandler.hpp
+        ${THRIFT_HEADER_DIR}/server/ThriftServer.hpp)
 
 
-add_library(thrift-gen
-        thrift/thrift-gen/FmuService.h
-        thrift/thrift-gen/FmuService.cpp
-        thrift/thrift-gen/service_types.h
-        thrift/thrift-gen/definitions_types.cpp
-        thrift/thrift-gen/definitions_types.h)
-target_link_libraries(thrift-gen thrift)
+#set source files
+SET(FMI_SRC
+        fmuproxy/fmi/Fmu.cpp
+        fmuproxy/fmi/FmuHelper.cpp
+        fmuproxy/fmi/FmuInstance.cpp)
 
+SET(THRIFT_COMMON_SRC
+        fmuproxy/thrift/common/definitions_types.cpp
+        fmuproxy/thrift/common/FmuService.cpp)
 
-add_library(thrift-client
-        thrift/client/ThriftClient.cpp
-        thrift/client/ThriftClient.hpp
-        thrift/client/RemoteFmuInstance.hpp
-        thrift/client/RemoteFmuInstance.cpp thrift/client/Helper.cpp)
-target_link_libraries(thrift-client thrift-gen fmi)
+SET(THRIFT_CLIENT_SRC
+        fmuproxy/thrift/client/ThriftClientHelper.cpp
+        fmuproxy/thrift/client/RemoteFmuInstance.cpp
+        fmuproxy/thrift/client/ThriftClient.cpp)
 
+SET(THRIFT_SERVER_SRC
+        fmuproxy/thrift/server/FmuServiceHandler.cpp
+        fmuproxy/thrift/server/ThriftServerHelper.cpp
+        fmuproxy/thrift/server/ThriftServer.cpp)
 
-add_library(thrift-server STATIC
-        thrift/server/ThriftHelper.cpp
-        thrift/server/ThriftServer.hpp
-        thrift/server/ThriftServer.cpp
-        thrift/server/FmuServiceHandler.hpp
-        thrift/server/FmuServiceHandler.cpp)
-target_link_libraries(thrift-server thrift-gen fmi)
+add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
+target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
 
+add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
+target_link_libraries(thrift-common thrift)
 
-add_executable(Benchmark
-        test/Benchmark.cpp
-        test/TestUtil.hpp)
-target_link_libraries(Benchmark fmi)
+add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIENT_SRC})
+target_link_libraries(thrift-client thrift-common fmi)
 
-
-add_executable(FmuTest
-        test/FmuTest.cpp
-        test/TestUtil.hpp)
-target_link_libraries(FmuTest fmi)
-
-
-add_executable(ThriftClientTest
-        test/ThriftClientTest.cpp)
-target_link_libraries(ThriftClientTest thrift-client)
-
-
-add_executable(ThriftServerTest
-        test/ThriftServerTest.cpp)
-target_link_libraries(ThriftServerTest thrift-server pthread)
+add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
+target_link_libraries(thrift-server thrift-common fmi)
 

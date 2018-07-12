@@ -23,8 +23,9 @@
  */
 
 #include <vector>
-#include "Helper.cpp"
-#include "RemoteFmuInstance.hpp"
+#include <fmuproxy/thrift/client/RemoteFmuInstance.hpp>
+
+#include "ThriftClientHelper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;

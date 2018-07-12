@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-#include "ThriftServer.hpp"
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
 
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>

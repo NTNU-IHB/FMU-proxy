@@ -22,8 +22,10 @@
  * THE SOFTWARE.
  */
 
+
+#include <fmuproxy/fmi/Fmu.hpp>
 #include <boost/filesystem.hpp>
-#include "Fmu.hpp"
+
 #include "FmuHelper.cpp"
 
 using namespace std;

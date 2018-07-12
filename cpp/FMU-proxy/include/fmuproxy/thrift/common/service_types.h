@@ -18,7 +18,6 @@
 #include <thrift/stdcxx.h>
 #include "definitions_types.h"
 
-
 namespace fmuproxy { namespace thrift {
 
 typedef int32_t FmuId;

@@ -24,8 +24,8 @@
 
 #include <iostream>
 #include <fmilib.h>
-#include "../../fmi/FmiDefinitions.hpp"
-#include "../thrift-gen/definitions_types.h"
+#include <fmuproxy/fmi/FmiDefinitions.hpp>
+#include <fmuproxy/thrift/common/definitions_types.h>
 
 using namespace fmuproxy::thrift;
 

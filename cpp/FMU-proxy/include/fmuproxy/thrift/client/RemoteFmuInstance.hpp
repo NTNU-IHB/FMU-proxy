@@ -27,7 +27,7 @@
 
 #include <iostream>
 #include <fmilib.h>
-#include "../thrift-gen/FmuService.h"
+#include "../common/FmuService.h"
 #include "../../fmi/FmiSimulation.hpp"
 
 using namespace fmuproxy::thrift;

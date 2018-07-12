@@ -28,11 +28,11 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../thrift-gen/FmuService.h"
-#include "../thrift-gen/definitions_types.h"
+#include <fmuproxy/thrift/common/FmuService.h>
+#include <fmuproxy/thrift/common/definitions_types.h>
+#include <fmuproxy/thrift/client/ThriftClient.hpp>
 
-#include "ThriftClient.hpp"
-#include "Helper.cpp"
+#include "ThriftClientHelper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;

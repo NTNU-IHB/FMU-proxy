@@ -29,10 +29,10 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "../thrift/thrift-gen/FmuService.h"
-#include "../thrift/thrift-gen/definitions_types.h"
+#include <fmuproxy/thrift/common/FmuService.h>
+#include <fmuproxy/thrift/common/definitions_types.h>
 
-#include "../thrift/client/ThriftClient.hpp"
+#include <fmuproxy/thrift/client/ThriftClient.hpp>
 
 using namespace std;
 using namespace apache::thrift;

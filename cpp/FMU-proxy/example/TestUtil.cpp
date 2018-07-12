@@ -21,51 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-#include <ctime>
+ 
 #include <iostream>
 
-#include "TestUtil.hpp"
-#include "../fmi/Fmu.hpp"
+namespace {
 
-using namespace std;
-using namespace fmuproxy::fmi;
-
-const double start = 0;
-const double stop = 10;
-const double step_size = 1E-4;
-
-int main(int argc, char **argv) {
-
-    string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() +
-                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
-
-    Fmu fmu = Fmu(fmu_path.c_str());
-
-    const auto instance = fmu.newInstance();
-
-    instance->init(0.0, 0.0);
-
-    clock_t begin = clock();
-
-    double temperature_room;
-    fmi2_value_reference_t vr = instance->get_value_reference("Temperature_Room");
-    while (instance->getCurrentTime() <= stop-step_size) {
-        fmi2_status_t status = instance->step(step_size);
-        if (status != fmi2_status_ok) {
-            break;
-        }
-        instance->readReal(vr, temperature_room);
+    std::string getOs() {
+    #ifdef _WIN32
+            return "win32";
+    #elif _WIN64
+        return "win64";
+    #elif __linux__
+            return "linux64";
+    #endif
     }
-
-    clock_t end = clock();
-
-    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-    cout << "elapsed=" << elapsed_secs << "s" << endl;
-
-    instance->terminate();
-
-    return 0;
 
 }

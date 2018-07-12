@@ -22,11 +22,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_FMIHELPER_HPP
-#define FMU_PROXY_FMIHELPER_HPP
-
 #include <cfloat>
-#include "FmiDefinitions.hpp"
+#include <fmuproxy/fmi/FmiDefinitions.hpp>
 
 using namespace fmuproxy::fmi;
 
@@ -207,5 +204,3 @@ namespace {
     }
 
 }
-
-#endif //FMU_PROXY_FMIHELPER_HPP
