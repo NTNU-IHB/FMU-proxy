@@ -75,7 +75,7 @@ unique_ptr<FmuInstance> Fmu::newInstance() {
         throw runtime_error("fmi2_import_instantiate failed!");
     }
 
-    return unique_ptr<FmuInstance>(new FmuInstance(fmu));
+    return unique_ptr<FmuInstance>(new FmuInstance(fmu, *modelDescription));
 
 }
 

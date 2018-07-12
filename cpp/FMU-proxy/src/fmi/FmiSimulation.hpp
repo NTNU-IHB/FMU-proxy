@@ -26,8 +26,8 @@
 #define FMU_PROXY_FMISIMULATION_HPP
 
 #include <iostream>
-#include "fmilib.h"
-#include <functional>
+#include <fmilib.h>
+#include "FmiDefinitions.hpp"
 
 namespace fmuproxy::fmi {
 
@@ -36,6 +36,8 @@ namespace fmuproxy::fmi {
     public:
 
         virtual double getCurrentTime() const = 0;
+        
+        virtual ModelDescription &getModelDescription() const = 0;
 
         virtual void init() = 0;
 

@@ -32,9 +32,6 @@
 
 #include "RemoteFmuInstance.hpp"
 
-using namespace fmuproxy::thrift;
-
-using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
@@ -46,12 +43,12 @@ namespace fmuproxy::thrift::client {
 
         std::shared_ptr<TTransport> transport;
         std::shared_ptr<FmuServiceClient> client;
-        std::shared_ptr<ModelDescription> modelDescription;
+        std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription;
 
     public:
-        ThriftClient(std::string host, int port);
+        ThriftClient(const std::string host, const unsigned port);
 
-        ModelDescription &getModelDescription();
+        fmuproxy::fmi::ModelDescription &getModelDescription();
 
         std::unique_ptr<RemoteFmuInstance> newInstance();
 

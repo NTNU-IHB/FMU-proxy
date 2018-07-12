@@ -32,11 +32,12 @@
 #include "../thrift-gen/definitions_types.h"
 
 #include "ThriftClient.hpp"
+#include "Helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-ThriftClient::ThriftClient(string host, int port) {
+ThriftClient::ThriftClient(const string host, const unsigned port) {
     shared_ptr<TTransport> socket(new TSocket("localhost", 9090));
     this->transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
@@ -48,22 +49,25 @@ void ThriftClient::close() {
     this->transport->close();
 }
 
-ModelDescription &ThriftClient::getModelDescription() {
+fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
     if (!modelDescription) {
-        modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
-        client->getModelDescription(*modelDescription);
+        fmuproxy::thrift::ModelDescription md = ModelDescription();
+        client->getModelDescription(md);
+        modelDescription = shared_ptr<fmuproxy::fmi::ModelDescription>(new fmuproxy::fmi::ModelDescription());
+        convert(*modelDescription, md);
+        cout << modelDescription->modelVariables.size() << endl;
     }
     return *modelDescription;
 }
 
 unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     FmuId fmu_id = client->createInstanceFromCS();
-    return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client));
+    return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client, *modelDescription));
 }
 
 unsigned int ThriftClient::getValueReference(std::string variableName) {
 
-    for (ScalarVariable var : modelDescription->modelVariables) {
+    for (fmuproxy::fmi::ScalarVariable var : modelDescription->modelVariables) {
         if (var.name == variableName) {
             return var.valueReference;
         }

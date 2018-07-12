@@ -30,17 +30,17 @@
 #include "../thrift-gen/FmuService.h"
 #include "../../fmi/FmiSimulation.hpp"
 
-using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift;
 
 namespace fmuproxy::thrift::client {
 
-    class RemoteFmuInstance: public FmiSimulation {
+    class RemoteFmuInstance: public fmuproxy::fmi::FmiSimulation {
 
     private:
         FmuId fmu_id;
         double current_time;
         FmuServiceClient &client;
+        fmuproxy::fmi::ModelDescription &modelDescription;
 
         IntegerRead integerRead;
         RealRead realRead;
@@ -49,9 +49,11 @@ namespace fmuproxy::thrift::client {
         StepResult stepResult;
 
     public:
-        RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client);
+        RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &modelDescription);
 
         double getCurrentTime() const override;
+
+        fmuproxy::fmi::ModelDescription &getModelDescription() const override;
 
         void init() override;
 

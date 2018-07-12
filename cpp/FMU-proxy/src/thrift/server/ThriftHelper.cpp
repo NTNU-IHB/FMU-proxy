@@ -80,7 +80,9 @@ namespace {
             case fmi2_variability_enu_discrete:
                 return Variability::type::DISCRETE_VARIABILITY;
             case fmi2_variability_enu_fixed:
-                return Variability::type::FIXED_VARIABILITY;;
+                return Variability::type::FIXED_VARIABILITY;
+            case fmi2_variability_enu_tunable:
+                return Variability::type::TUNABLE_VARIABILITY;;
             case fmi2_variability_enu_unknown:
                 return Variability::type::CONTINUOUS_VARIABILITY;
         }
@@ -101,7 +103,7 @@ namespace {
 
     IntegerAttribute thriftType(const fmuproxy::fmi::IntegerAttribute &a) {
         IntegerAttribute attribute;
-        if (a.isMax_set()) {
+        if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
         }
         if (a.isMin_set()) {
@@ -145,7 +147,7 @@ namespace {
 
     EnumerationAttribute thriftType(const fmuproxy::fmi::EnumerationAttribute &a) {
         EnumerationAttribute attribute;
-        if (a.isMax_set()) {
+        if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
         }
         if (a.isMin_set()) {
@@ -157,7 +159,7 @@ namespace {
         return attribute;
     }
 
-    ScalarVariable thriftType(fmuproxy::fmi::ScalarVariable &v) {
+    ScalarVariable thriftType(const fmuproxy::fmi::ScalarVariable &v) {
 
         ScalarVariable var;
         var.__set_name(v.name);
@@ -185,20 +187,20 @@ namespace {
         } else if (attribute.isEnumerationAttribute()) {
             var.attribute.__set_enumerationAttribute(thriftType(attribute.getEnumerationAttribute()));
         } else {
-            throw std::runtime_error("No valid attrribute found..");
+            throw std::runtime_error("No valid attribute found..");
         }
 
         return var;
 
     }
 
-    void thriftType(ModelVariables &variables, fmuproxy::fmi::ModelVariables &mv) {
+    void thriftType(ModelVariables &variables, const fmuproxy::fmi::ModelVariables &mv) {
         for (fmuproxy::fmi::ScalarVariable var : mv) {
             variables.push_back(thriftType(var));
         }
     }
 
-    void thriftType(ModelDescription &md, fmuproxy::fmi::ModelDescription &m) {
+    void thriftType(ModelDescription &md, const fmuproxy::fmi::ModelDescription &m) {
 
         md.__set_guid(m.guid);
         md.__set_version(m.version);
@@ -210,6 +212,8 @@ namespace {
         md.__set_generationTool(m.generationTool);
         md.__set_generationDateAndTime(m.generationDateAndTime);
         md.__set_license(m.license);
+        md.__set_supportsCoSimulation(true);
+        md.__set_supportsModelExchange(false);
 
         DefaultExperiment ex;
         ex.startTime = m.defaultExperiment.startTime;

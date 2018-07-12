@@ -57,11 +57,11 @@ int main() {
         cout << "license=" << md.license << endl;
 
         for (auto var : md.modelVariables) {
-            cout << var.name << ", start=" << var.attribute.realAttribute.start << endl;
+            cout << var.name << ", start=" << var.attribute << endl;
         }
 
         unique_ptr<RemoteFmuInstance> instance = fmu.newInstance();
-        instance->init(0.0, 0.0);
+        instance->init();
 
         clock_t begin = clock();
 
@@ -80,7 +80,7 @@ int main() {
         cout << "elapsed=" << elapsed_secs << "s" << endl;
 
         auto status = instance->terminate();
-        cout << "terminated FMU with status " << status << endl;
+        cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
 
         fmu.close();
 

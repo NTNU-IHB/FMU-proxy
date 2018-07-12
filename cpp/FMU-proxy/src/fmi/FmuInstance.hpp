@@ -37,16 +37,19 @@ namespace fmuproxy::fmi {
     private:
 
         fmi2_import_t *instance;
+        ModelDescription &modelDescription;
 
         double current_time = 0.0;
         bool terminated = false;
 
     public:
-        FmuInstance(fmi2_import_t* instance);
+        FmuInstance(fmi2_import_t* instance, ModelDescription &md);
 
         bool isTerminated();
 
         double getCurrentTime() const override;
+
+        ModelDescription &getModelDescription() const override;
 
         void init() override;
 
@@ -80,15 +83,15 @@ namespace fmuproxy::fmi {
 
         fmi2_status_t writeBoolean(fmi2_value_reference_t vr, fmi2_boolean_t value) override;
 
-        VariableReader getReader(fmi2_value_reference_t vr);
+        VariableReader getReader(fmi2_value_reference_t vr) const;
 
-        VariableReader getReader(std::string name);
+        VariableReader getReader(std::string name) const;
 
-        VariableWriter getWriter(fmi2_value_reference_t vr);
+        VariableWriter getWriter(fmi2_value_reference_t vr) const;
 
-        VariableWriter getWriter(std::string name);
+        VariableWriter getWriter(std::string name) const;
 
-        fmi2_value_reference_t get_value_reference(std::string name);
+        fmi2_value_reference_t get_value_reference(std::string name) const;
 
         ~FmuInstance();
 

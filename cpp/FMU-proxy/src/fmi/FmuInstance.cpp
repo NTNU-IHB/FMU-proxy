@@ -29,9 +29,8 @@ using namespace fmuproxy::fmi;
 
 const double RELATIVE_TOLERANCE = 1E-4;
 
-FmuInstance::FmuInstance(fmi2_import_t *instance) {
-    this->instance = instance;
-}
+FmuInstance::FmuInstance(fmi2_import_t *instance, ModelDescription &md)
+        : instance(instance), modelDescription(md) {}
 
 double FmuInstance::getCurrentTime() const {
     return current_time;
@@ -149,32 +148,36 @@ fmi2_status_t FmuInstance::writeBoolean(fmi2_value_reference_t vr, fmi2_boolean_
 }
 
 
-fmi2_value_reference_t FmuInstance::get_value_reference(std::string name) {
+fmi2_value_reference_t FmuInstance::get_value_reference(std::string name) const {
     fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     return fmi2_import_get_variable_vr(var);
 }
 
 
-VariableReader FmuInstance::getReader(fmi2_value_reference_t vr) {
+VariableReader FmuInstance::getReader(fmi2_value_reference_t vr) const {
     return VariableReader(instance, vr);
 }
 
-VariableReader FmuInstance::getReader(std::string name) {
+VariableReader FmuInstance::getReader(std::string name) const {
     fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     return getReader(vr);
 }
 
-VariableWriter FmuInstance::getWriter(fmi2_value_reference_t vr) {
+VariableWriter FmuInstance::getWriter(fmi2_value_reference_t vr) const {
     return VariableWriter(instance, vr);
 }
 
-VariableWriter FmuInstance::getWriter(std::string name) {
+VariableWriter FmuInstance::getWriter(std::string name) const {
     fmi2_import_variable_t* var = fmi2_import_get_variable_by_name(instance, name.c_str());
     fmi2_value_reference_t vr = fmi2_import_get_variable_vr(var);
     return getWriter(vr);
 }
 
+
+ModelDescription &FmuInstance::getModelDescription() const {
+    return modelDescription;
+}
 
 FmuInstance::~FmuInstance()  {
 
@@ -185,5 +188,6 @@ FmuInstance::~FmuInstance()  {
     fmi2_import_free(instance);
 
 }
+
 
 

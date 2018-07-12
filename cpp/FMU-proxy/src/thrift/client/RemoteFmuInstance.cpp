@@ -29,7 +29,8 @@
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-RemoteFmuInstance::RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client): fmu_id(fmu_id), client(client) {
+RemoteFmuInstance::RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
+        : fmu_id(fmu_id), client(client), modelDescription(md) {
     current_time = client.getCurrentTime(fmu_id);
 }
 
@@ -101,4 +102,8 @@ fmi2_status_t RemoteFmuInstance::writeString(unsigned int vr, const char* value)
 
 fmi2_status_t RemoteFmuInstance::writeBoolean(unsigned int vr, int value) {
     return convert(client.writeBoolean(fmu_id, vr, value == 0 ? false : true));
+}
+
+fmuproxy::fmi::ModelDescription &RemoteFmuInstance::getModelDescription() const {
+    return modelDescription;
 }
