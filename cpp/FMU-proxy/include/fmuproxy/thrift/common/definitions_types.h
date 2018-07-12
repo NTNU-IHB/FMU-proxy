@@ -17,7 +17,6 @@
 
 #include <thrift/stdcxx.h>
 
-
 namespace fmuproxy { namespace thrift {
 
 struct Status {

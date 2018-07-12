@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-#include "FmuInstance.hpp"
+#include <fmuproxy/fmi/FmuInstance.hpp>
 
 using namespace std;
 using namespace fmuproxy::fmi;

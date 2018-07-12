@@ -25,7 +25,6 @@
 #ifndef FMU_PROXY_THRIFTCLIENT_H
 #define FMU_PROXY_THRIFTCLIENT_H
 
-
 #include <thrift/transport/TSocket.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>

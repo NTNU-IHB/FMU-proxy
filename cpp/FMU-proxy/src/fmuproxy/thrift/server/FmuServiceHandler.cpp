@@ -22,9 +22,10 @@
  * THE SOFTWARE.
  */
 
-#include "../../fmi/Fmu.hpp"
-#include "ThriftHelper.cpp"
-#include "FmuServiceHandler.hpp"
+#include <fmuproxy/fmi/Fmu.hpp>
+#include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
+
+#include "ThriftServerHelper.cpp"
 
 int id_gen = 0;
 

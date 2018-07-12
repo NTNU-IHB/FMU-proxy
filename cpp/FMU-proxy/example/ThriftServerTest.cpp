@@ -25,9 +25,10 @@
 #include <iostream>
 #include <thread>
 
-#include "TestUtil.hpp"
-#include "../fmi/Fmu.hpp"
-#include "../thrift/server/ThriftServer.hpp"
+#include <fmuproxy/fmi/Fmu.hpp>
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
+
+#include "TestUtil.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -56,7 +57,6 @@ int main(int argc, char **argv) {
     server.serve();
 
     t.join();
-
 
     return 0;
 }

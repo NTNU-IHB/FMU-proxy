@@ -26,7 +26,7 @@
 #define FMU_PROXY_FMUSERVICEHANDLER_H
 
 #include <iostream>
-#include "../thrift-gen/FmuService.h"
+#include "../common/FmuService.h"
 #include "../../fmi/Fmu.hpp"
 
 using namespace fmuproxy::thrift;

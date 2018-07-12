@@ -22,14 +22,12 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_THRIFTHELPER_H
-#define FMU_PROXY_THRIFTHELPER_H
-
 #include <cfloat>
 #include <fmilib.h>
-#include "../../fmi/FmiDefinitions.hpp"
-#include "../thrift-gen/definitions_types.h"
-#include "../../fmi/FmiDefinitions.hpp"
+
+#include <fmuproxy/fmi/FmiDefinitions.hpp>
+#include <fmuproxy/fmi/FmiDefinitions.hpp>
+#include <fmuproxy/thrift/common/definitions_types.h>
 
 using namespace fmuproxy::thrift;
 
@@ -241,6 +239,3 @@ namespace {
     }
     
 }
-
-#endif //FMU_PROXY_THRIFTHELPER_H
-
