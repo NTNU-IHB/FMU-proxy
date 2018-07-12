@@ -28,7 +28,7 @@
 
 #include <thrift/server/TSimpleServer.h>
 
-#include "../../fmi/FmuWrapper.hpp"
+#include "../../fmi/Fmu.hpp"
 #include "FmuServiceHandler.hpp"
 
 
@@ -40,7 +40,7 @@ namespace fmuproxy::thrift::server {
         std::unique_ptr<apache::thrift::server::TSimpleServer> server;
 
     public:
-        ThriftServer(fmuproxy::fmi::FmuWrapper &fmu, int port);
+        ThriftServer(fmuproxy::fmi::Fmu &fmu, int port);
 
         void serve();
 

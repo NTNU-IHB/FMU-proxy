@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-#include "../../fmi/FmuWrapper.hpp"
+#include "../../fmi/Fmu.hpp"
 #include "ThriftHelper.hpp"
 #include "FmuServiceHandler.hpp"
 
@@ -33,7 +33,7 @@ using namespace fmuproxy;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::server;
 
-::FmuServiceHandler::FmuServiceHandler(fmi::FmuWrapper &fmu): fmu(fmu) {}
+::FmuServiceHandler::FmuServiceHandler(fmi::Fmu &fmu): fmu(fmu) {}
 
 void FmuServiceHandler::getModelDescriptionXml(std::string &_return) {
     _return = "XML placeholder";

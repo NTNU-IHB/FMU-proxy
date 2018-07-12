@@ -23,7 +23,7 @@
  */
 
 #include <boost/filesystem.hpp>
-#include "FmuWrapper.hpp"
+#include "Fmu.hpp"
 #include "FmuHelper.hpp"
 
 using namespace std;
@@ -31,7 +31,7 @@ using namespace fmuproxy::fmi;
 
 namespace fs = boost::filesystem;
 
-FmuWrapper::FmuWrapper (string fmu_path) {
+Fmu::Fmu (string fmu_path) {
 
     this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
     create_directories(tmp_path);
@@ -48,11 +48,11 @@ FmuWrapper::FmuWrapper (string fmu_path) {
 
 }
 
-ModelDescription &FmuWrapper::getModelDescription() {
+ModelDescription &Fmu::getModelDescription() {
     return *modelDescription;
 }
 
-unique_ptr<FmuInstance> FmuWrapper::newInstance() {
+unique_ptr<FmuInstance> Fmu::newInstance() {
 
     fmi2_callback_functions_t callBackFunctions;
     callBackFunctions.logger = fmi2_log_forwarding;
@@ -79,7 +79,7 @@ unique_ptr<FmuInstance> FmuWrapper::newInstance() {
 
 }
 
-fmi2_value_reference_t FmuWrapper::get_value_reference(std::string name) {
+fmi2_value_reference_t Fmu::get_value_reference(std::string name) {
 
     for (auto var : modelDescription->modelVariables) {
         if (var.name == name) {
@@ -91,9 +91,9 @@ fmi2_value_reference_t FmuWrapper::get_value_reference(std::string name) {
 }
 
 
-FmuWrapper::~FmuWrapper() {
+Fmu::~Fmu() {
 
-    std::cout << "FmuWrapper destructor called" << std::endl;
+    std::cout << "Fmu destructor called" << std::endl;
 
     fmi_import_free_context(this->ctx);
     remove_all(this->tmp_path);

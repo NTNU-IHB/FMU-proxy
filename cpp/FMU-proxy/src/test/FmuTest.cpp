@@ -25,7 +25,7 @@
 #include <iostream>
 
 #include "TestUtil.hpp"
-#include "../fmi/FmuWrapper.hpp"
+#include "../fmi/Fmu.hpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     double step_size = 1.0/100;
-    FmuWrapper fmu = FmuWrapper(fmu_path);
+    Fmu fmu = Fmu(fmu_path);
 
     const auto md = fmu.getModelDescription();
     cout << md.defaultExperiment.stopTime << endl;

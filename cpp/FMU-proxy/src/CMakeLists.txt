@@ -4,8 +4,8 @@ add_library(fmi STATIC
         fmi/FmuHelper.hpp
         fmi/FmuInstance.cpp
         fmi/FmuInstance.hpp
-        fmi/FmuWrapper.cpp
-        fmi/FmuWrapper.hpp
+        fmi/Fmu.cpp
+        fmi/Fmu.hpp
         fmi/FmiDefinitions.hpp
         fmi/ScalarVariableAttributes.hpp fmi/FmiSimulation.hpp)
 target_link_libraries(fmi ${FMILIB_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})

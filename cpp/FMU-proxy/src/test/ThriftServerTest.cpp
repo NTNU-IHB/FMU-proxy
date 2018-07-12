@@ -26,7 +26,7 @@
 #include <thread>
 
 #include "TestUtil.hpp"
-#include "../fmi/FmuWrapper.hpp"
+#include "../fmi/Fmu.hpp"
 #include "../thrift/server/ThriftServer.hpp"
 
 using namespace std;
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    FmuWrapper fmu = FmuWrapper(fmu_path);
+    Fmu fmu = Fmu(fmu_path);
     ThriftServer server = ThriftServer(fmu, port);
 
     thread t(wait_for_input, &server);

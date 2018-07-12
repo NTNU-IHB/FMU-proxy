@@ -37,7 +37,7 @@ namespace fs = boost::filesystem;
 
 namespace fmuproxy::fmi {
 
-    class FmuWrapper {
+    class Fmu {
 
     private:
 
@@ -49,7 +49,7 @@ namespace fmuproxy::fmi {
         std::shared_ptr<ModelDescription> modelDescription;
 
     public:
-        FmuWrapper(std::string fmu_path);
+        Fmu(std::string fmu_path);
 
         std::string getModelDescriptionXml();
 
@@ -59,7 +59,7 @@ namespace fmuproxy::fmi {
 
         fmi2_value_reference_t get_value_reference(std::string name);
 
-        ~FmuWrapper();
+        ~Fmu();
 
     };
 

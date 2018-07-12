@@ -26,7 +26,7 @@
 #include <iostream>
 
 #include "TestUtil.hpp"
-#include "../fmi/FmuWrapper.hpp"
+#include "../fmi/Fmu.hpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    FmuWrapper fmu = FmuWrapper(fmu_path.c_str());
+    Fmu fmu = Fmu(fmu_path.c_str());
 
     const auto instance = fmu.newInstance();
 
