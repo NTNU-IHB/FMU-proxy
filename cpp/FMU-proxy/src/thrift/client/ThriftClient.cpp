@@ -55,7 +55,6 @@ fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
         client->getModelDescription(md);
         modelDescription = shared_ptr<fmuproxy::fmi::ModelDescription>(new fmuproxy::fmi::ModelDescription());
         convert(*modelDescription, md);
-        cout << modelDescription->modelVariables.size() << endl;
     }
     return *modelDescription;
 }
@@ -72,7 +71,7 @@ unsigned int ThriftClient::getValueReference(std::string variableName) {
             return var.valueReference;
         }
     }
-    throw std::runtime_error("No such variable: '" + variableName + "'");
+    throw std::runtime_error("No such variable: '" + variableName + "'!");
 
 }
 

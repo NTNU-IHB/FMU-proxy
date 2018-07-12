@@ -101,6 +101,17 @@ namespace {
         }
     }
 
+    VariableNamingConvention::type thriftType(fmi2_variable_naming_convension_enu_t convention) {
+        switch (convention) {
+            case fmi2_naming_enu_flat:
+                return VariableNamingConvention::FLAT;
+            case fmi2_naming_enu_structured:
+                return VariableNamingConvention::STRUCTURED;
+            case fmi2_naming_enu_unknown:
+               throw std::runtime_error("TODO handle unknown naming convention!");
+        }
+    }
+
     IntegerAttribute thriftType(const fmuproxy::fmi::IntegerAttribute &a) {
         IntegerAttribute attribute;
         if (a.isStart_set()) {
@@ -207,11 +218,12 @@ namespace {
         md.__set_fmiVersion(m.fmiVersion);
         md.__set_modelName(m.modelName);
         md.__set_author(m.author);
+        md.__set_license(m.license);
         md.__set_copyright(m.copyright);
         md.__set_description(m.description);
         md.__set_generationTool(m.generationTool);
         md.__set_generationDateAndTime(m.generationDateAndTime);
-        md.__set_license(m.license);
+        md.__set_variableNamingConvention(thriftType(m.variableNamingConvention));
         md.__set_supportsCoSimulation(true);
         md.__set_supportsModelExchange(false);
 
