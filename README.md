@@ -69,6 +69,8 @@ An object oriented wrapper is avilable making it easier to work with.
 
 A Thrift client is available. It shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code. 
 
+TODO: Create executable server
+
 ### Python
 
 This repository comes with client implementations in Python for gRPC and Thrift.
