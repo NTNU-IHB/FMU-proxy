@@ -1,4 +1,4 @@
-##FMU-proxy
+## FMU-proxy
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SFI-Mechatronics/FMU-proxy/issues)
@@ -18,9 +18,9 @@ Together, they allow FMUs to be invoked from virtually any language on any platf
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
 
 
-##Implementation
+## Implementation
 
-###JVM
+### JVM
 
 The JVM implementaion of FMU-proxy is written in Kotlin and uses the gradle build system. 
 
@@ -35,7 +35,7 @@ The interface is specified by FMI4j, allowing local and remote FMU instances to 
 
 [The directory service](#The directory service) is also implemented in Kotlin.  
 
-####FMU-proxy executable
+#### FMU-proxy executable
 
 ```
 Usage: fmu-proxy [-h] -fmu=<fmuPath> 
@@ -58,7 +58,7 @@ Usage: fmu-proxy [-h] -fmu=<fmuPath>
 You can now connect to the FMU in a language of your choosing using one of the schemas available from the web server or located [here](rpc-definitions). 
 When using JSON-RPC, no schema is required.
 
-###C++
+### C++
 
 It is no suprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented also in C++. 
@@ -69,15 +69,15 @@ An object oriented wrapper is avilable making it easier to work with.
 
 A Thrift client is available. It shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code. 
 
-###Python
+### Python
 
 This repository comes with client implementations in Python for gRPC and Thrift.
 
-###Software architecture
+### Software architecture
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
-####The directory service
+#### The directory service
 
 The directory service is a centralized web service which FMU-proxy servers connects to. 
 As there may be many directory services online (each company could have they own), the IP and Port should be provided the FMU-proxy server on startup.
