@@ -17,7 +17,6 @@ Currently, Apache Thrift (TCP/IP), Apache Avro (TCP/IP), gRPC (HTTP/2) and JSON-
 Together, they allow FMUs to be invoked from virtually any language on any platform.
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
 
-
 ## Implementation
 
 ### JVM
@@ -28,7 +27,7 @@ It features a server implementation that supports Apache Thrift, Apache Avro, gR
 While the former are only available using one network protocol. The JSON-RPC is available using both HTTP, WebSockets, TCP/IP and ZeroMQ.
 
 For interacting with the FMUs on the JVM, [FMI4j](https://sfi-mechatronics.github.io/FMI4j/) is used. 
-The JSON-RPC client and server implementation is found [here].(https://github.com/markaren/YAJ-RPC)
+The JSON-RPC client and server implementation is found [here](https://github.com/markaren/YAJ-RPC).
 
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
 The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangebly in user code. 
@@ -62,12 +61,12 @@ When using JSON-RPC, no schema is required.
 
 It is no suprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented also in C++. 
-The drawback is that it only supports Thrift RPC and is only supported on Linux (although it can theoreticlly also run on Windows). 
+The drawback is that it only supports Thrift RPC and is only supported on Linux (although it can theoretically also run on Windows). 
 
 The implementation uses the C-library [_FMI-Library_](https://jmodelica.org/) for interacting with FMUs. 
 An object oriented wrapper is avilable making it easier to work with.
 
-A Thrift client is available. It shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code. 
+A Thrift client is available. It shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code, similarly to whats available in the JVM implementation. 
 
 TODO: Create executable server
 
