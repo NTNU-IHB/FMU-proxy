@@ -33,9 +33,9 @@ The JSON-RPC client and server implementation is found [here].(https://github.co
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
 The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangebly in user code. 
 
-[The directory service](#The directory service) is also implemented in Kotlin.  
+[The directory service](#the-directory-service) is also implemented in Kotlin.  
 
-#### FMU-proxy executable
+#### FMU-proxy Executable
 
 ```
 Usage: fmu-proxy [-h] -fmu=<fmuPath> 
@@ -73,11 +73,11 @@ A Thrift client is available. It shares a common interface with the FMI wrapper,
 
 This repository comes with client implementations in Python for gRPC and Thrift.
 
-### Software architecture
+### Software Architecture
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
-#### The directory service
+#### [The Directory Service](#the-directory-service)
 
 The directory service is a centralized web service which FMU-proxy servers connects to. 
 As there may be many directory services online (each company could have they own), the IP and Port should be provided the FMU-proxy server on startup.
@@ -86,7 +86,7 @@ The response is a JSON array with the necessary information required to connect 
 
 The service also has a web-based GUI, where users can lookup information retreived from the modelDescription.xml found in the available FMUs.
 
-#### Running tests
+#### Running Tests
 
 In order to run the tests, a system variable named __TEST_FMUs__ must be present on your system. This variable should point to the location of the content found [here](https://github.com/markaren/TEST_FMUs).
 
