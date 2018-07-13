@@ -25,8 +25,8 @@
 #include <cfloat>
 #include <fmilib.h>
 
-#include <fmuproxy/fmi/FmiDefinitions.hpp>
-#include <fmuproxy/fmi/FmiDefinitions.hpp>
+#include <fmuproxy/fmi/fmi_definitions.hpp>
+#include <fmuproxy/fmi/fmi_definitions.hpp>
 #include <fmuproxy/thrift/common/definitions_types.h>
 
 using namespace fmuproxy::thrift;

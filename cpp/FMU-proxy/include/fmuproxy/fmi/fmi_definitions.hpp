@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_FMI_HPP
-#define FMU_PROXY_FMI_HPP
+#ifndef FMU_PROXY_FMI_DEFINITIONS_HPP
+#define FMU_PROXY_FMI_DEFINITIONS_HPP
 
 #include <iostream>
 #include <vector>
@@ -88,4 +88,4 @@ namespace fmuproxy::fmi {
 }
 
 
-#endif //FMU_PROXY_FMI_HPP
+#endif //FMU_PROXY_FMI_DEFINITIONS_HPP

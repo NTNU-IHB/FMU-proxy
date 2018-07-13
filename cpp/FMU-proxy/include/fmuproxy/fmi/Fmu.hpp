@@ -30,7 +30,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include "FmiDefinitions.hpp"
+#include "fmi_definitions.hpp"
 #include "FmuInstance.hpp"
 
 namespace fs = boost::filesystem;
