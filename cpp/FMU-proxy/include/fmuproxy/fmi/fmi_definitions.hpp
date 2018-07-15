@@ -82,6 +82,16 @@ namespace fmuproxy::fmi {
         ModelStructure modelStructure;
         bool supportsCoSimulation;
         bool supportsModelExchange;
+
+        fmi2_value_reference_t get_value_reference(std::string name) {
+            for (auto var : modelVariables) {
+                if (var.name == name) {
+                    return var.valueReference;
+                }
+            }
+            throw std::runtime_error("No such variable: '" + name + "'");
+        }
+
     };
 
 

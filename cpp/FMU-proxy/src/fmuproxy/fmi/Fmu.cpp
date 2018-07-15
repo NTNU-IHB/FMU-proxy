@@ -81,17 +81,6 @@ unique_ptr<FmuInstance> Fmu::newInstance() {
 
 }
 
-fmi2_value_reference_t Fmu::get_value_reference(std::string name) {
-
-    for (auto var : modelDescription->modelVariables) {
-        if (var.name == name) {
-            return var.valueReference;
-        }
-    }
-    throw runtime_error("no such variable '" + name + "'");
-
-}
-
 Fmu::~Fmu() {
 
     std::cout << "Fmu destructor called" << std::endl;

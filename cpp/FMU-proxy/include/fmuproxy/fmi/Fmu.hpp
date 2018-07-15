@@ -50,14 +50,10 @@ namespace fmuproxy::fmi {
 
     public:
         Fmu(std::string fmu_path);
-
-        std::string getModelDescriptionXml();
-
+        
         ModelDescription &getModelDescription();
 
         std::unique_ptr<FmuInstance> newInstance();
-
-        fmi2_value_reference_t get_value_reference(std::string name);
 
         ~Fmu();
 

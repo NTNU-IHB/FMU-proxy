@@ -100,7 +100,11 @@ void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, co
 }
 
 void FmuServiceHandler::bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-
+    auto& instance = fmus[fmu_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    auto _value = vector<fmi2_integer_t >(vr.size());
+    _return.status = thriftType(instance->readInteger(_vr, _value));
+    _return.value = _value;
 }
 
 void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) {
@@ -110,7 +114,11 @@ void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const Va
 }
 
 void FmuServiceHandler::bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-
+    auto& instance = fmus[fmu_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    auto _value = vector<fmi2_real_t >(vr.size());
+    _return.status = thriftType(instance->readReal(_vr, _value));
+    _return.value = _value;
 }
 
 void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) {
