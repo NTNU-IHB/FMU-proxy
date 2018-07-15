@@ -16,8 +16,8 @@ ELSE(FMILIB_FOUND)
     MESSAGE(FATAL_ERROR "FMI library not found but required. Set FMILIB_HOME to the location containing lib and include folder of FMI library.")
 ENDIF(FMILIB_FOUND)
 
-find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIRS})
+#find_package(CURL REQUIRED)
+#include_directories(${CURL_INCLUDE_DIRS})
 
 # add subdiretories
 add_subdirectory(src)

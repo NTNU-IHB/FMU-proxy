@@ -9,7 +9,7 @@ SET(FMI_HEADER_DIR ${HEADER_ROOT_PATH}/fmi)
 SET(THRIFT_HEADER_DIR ${HEADER_ROOT_PATH}/thrift)
 
 SET(FMI_HEADERS
-        ${FMI_HEADER_DIR}/fmi_definitions.hpp
+        ${FMI_HEADER_DIR}/FmiDefinitions.hpp
         ${FMI_HEADER_DIR}/FmiSimulation.hpp
         ${FMI_HEADER_DIR}/Fmu.hpp
         ${FMI_HEADER_DIR}/FmuInstance.hpp
