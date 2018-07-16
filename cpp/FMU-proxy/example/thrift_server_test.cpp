@@ -34,12 +34,11 @@ using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift::server;
 
-void wait_for_input(ThriftServer* server) {
+void wait_for_input() {
     do {
         cout << '\n' << "Press a key to continue...\n";
     } while (cin.get() != '\n');
     cout << "Done." << endl;
-    server->stop();
 }
 
 int main(int argc, char **argv) {
@@ -50,13 +49,12 @@ int main(int argc, char **argv) {
 
     Fmu fmu = Fmu(fmu_path);
     ThriftServer server = ThriftServer(fmu, port);
+    server.start();
 
-    thread t(wait_for_input, &server);
-
-    cout << "Starting the server..." << endl;
-    server.serve();
-
+    thread t(wait_for_input);
     t.join();
+
+    server.stop();
 
     return 0;
 }

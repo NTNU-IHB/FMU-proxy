@@ -35,7 +35,7 @@ Heartbeat::Heartbeat(const string &host, const unsigned int port, const string &
         : host(host), port(port), model_description_xml(escape_json(xml)) {}
 
 void Heartbeat::start() {
-   m_thread = new thread(&Heartbeat::run, this);
+   m_thread = unique_ptr<thread>(new thread(&Heartbeat::run, this));
 }
 
 void Heartbeat::run() {
@@ -67,19 +67,10 @@ void Heartbeat::run() {
             if (m_connected) {
 
                 std::string response;
-
-                string url = "http://" + host + ":" + to_string(port) + "/fmu-proxy/ping";
-                curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-                curl_easy_setopt(curl, CURLOPT_POSTFIELDS, uuid.c_str());
-
-                curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-                curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-                res = curl_easy_perform(curl);
-                /* Check for errors */
+                res = post(host, port, curl, response, "ping", uuid.c_str());
                 if (res != CURLE_OK) {
-                    fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                            curl_easy_strerror(res));
+                    fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                    m_connected = false;
                 } else {
                     trim(response);
                     m_connected = response == "success";
@@ -93,20 +84,9 @@ void Heartbeat::run() {
             } else {
 
                 std::string response;
-
-                string url = "http://" + host + ":" + to_string(port) + "/fmu-proxy/registerfmu";
-                curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-                curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json.c_str());
-
-                curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-                curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-                res = curl_easy_perform(curl);
-
-                /* Check for errors */
+                res = post(host, port, curl, response, "registerfmu", json.c_str());
                 if (res != CURLE_OK) {
-                    fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                            curl_easy_strerror(res));
+                    fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 } else {
                     trim(response);
                     m_connected = response == "success";
@@ -125,8 +105,6 @@ void Heartbeat::run() {
 
     }
 
-
-
     curl_global_cleanup();
 
 }
@@ -136,6 +114,3 @@ void Heartbeat::stop() {
     m_thread->join();
 }
 
-Heartbeat::~Heartbeat() {
-    delete m_thread;
-}

@@ -36,7 +36,7 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port) {
+ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port): port(port) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
@@ -52,7 +52,13 @@ void ThriftServer::serve() {
     server->serve();
 }
 
+void ThriftServer::start() {
+    cout << "Starting the server..." << endl;
+    m_thread = unique_ptr<thread>(new thread(&ThriftServer::serve, this));
+}
+
 void ThriftServer::stop() {
     server->stop();
+    m_thread->join();
 }
 

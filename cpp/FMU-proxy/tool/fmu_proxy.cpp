@@ -24,11 +24,13 @@
 
 #include <iostream>
 #include <fmuproxy/fmi/Fmu.hpp>
+#include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 #include "boost/program_options.hpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
+using namespace fmuproxy::heartbeat;
 using namespace fmuproxy::thrift::server;
 
 namespace {
@@ -48,7 +50,15 @@ namespace {
 
         Fmu fmu(fmu_path);
 
+        ThriftServer server(fmu, 9090);
+        server.start();
+
+        Heartbeat beat("localhost", 8080, fmu.get_model_description_xml());
+        beat.start();
+
         wait_for_input();
+        server.stop();
+        beat.stop();
 
         return 0;
 
@@ -66,7 +76,9 @@ int main(int argc, char** argv) {
         po::options_description desc("Options");
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
-                ("fmu,f", po::value<string>()->required(), "Path to FMU");
+                ("fmu,f", po::value<string>()->required(), "Path to FMU")
+                ("remote,r", po::value<string>(), "IP address of the remote tracking server");
+                ("thriftPort,", po::value<unsigned int>(), "Thrift port");
 
         po::variables_map vm;
         try {
@@ -88,6 +100,12 @@ int main(int argc, char** argv) {
 
         if (vm.count("fmu")) {
             string fmu_path = vm["fmu"].as<string>();
+
+            if (vm.count("remote")) {
+                string address = vm["remote"].as<string>();
+                //TODO split address into host and port
+            }
+
             return run_application(fmu_path);
         }
 

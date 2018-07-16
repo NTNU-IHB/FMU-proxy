@@ -39,7 +39,7 @@ namespace fmuproxy::heartbeat {
         bool m_stop = false;
         bool m_connected = false;
 
-        std::thread* m_thread;
+        std::unique_ptr<std::thread> m_thread;
         const std::string model_description_xml;
 
         void run();
@@ -50,8 +50,6 @@ namespace fmuproxy::heartbeat {
         void start();
 
         void stop();
-
-        ~Heartbeat();
 
     };
 

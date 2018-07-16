@@ -28,6 +28,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <curl/curl.h>
 
 using namespace std;
 using namespace boost::uuids;
@@ -85,6 +86,18 @@ namespace fmuproxy::heartbeat {
         rtrim(s);
     }
 
+    static inline CURLcode post(const string host, const unsigned int port, CURL *curl, string &response, const string &ctx, const string &data) {
+
+        string url = "http://" + host + ":" + to_string(port) + "/fmu-proxy/" + ctx;
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
+
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+        return curl_easy_perform(curl);
+
+    }
 
 
 }
