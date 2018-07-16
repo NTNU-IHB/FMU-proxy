@@ -100,7 +100,11 @@ void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, co
 }
 
 void FmuServiceHandler::bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-
+    auto& instance = fmus[fmu_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    auto _value = vector<fmi2_integer_t >(vr.size());
+    _return.status = thriftType(instance->readInteger(_vr, _value));
+    _return.value = _value;
 }
 
 void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) {
@@ -110,7 +114,11 @@ void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const Va
 }
 
 void FmuServiceHandler::bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-
+    auto& instance = fmus[fmu_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    auto _value = vector<fmi2_real_t >(vr.size());
+    _return.status = thriftType(instance->readReal(_vr, _value));
+    _return.value = _value;
 }
 
 void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) {
@@ -122,7 +130,11 @@ void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, cons
 }
 
 void FmuServiceHandler::bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-
+    auto& instance = fmus[fmu_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    auto _value = vector<fmi2_string_t>(vr.size());
+    _return.status = thriftType(instance->readString(_vr, _value));
+    _return.value = vector<string>(_value.begin(), _value.end());
 }
 
 void FmuServiceHandler::readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) {
@@ -134,7 +146,11 @@ void FmuServiceHandler::readBoolean(BooleanRead &_return, const FmuId fmu_id, co
 }
 
 void FmuServiceHandler::bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-
+    auto& instance = fmus[fmu_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    auto _value = vector<fmi2_boolean_t >(vr.size());
+    _return.status = thriftType(instance->readBoolean(_vr, _value));
+    _return.value = vector<bool>(_value.begin(), _value.end());
 }
 
 Status::type FmuServiceHandler::writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) {

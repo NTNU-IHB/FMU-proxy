@@ -13,7 +13,6 @@ SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/FmiSimulation.hpp
         ${FMI_HEADER_DIR}/Fmu.hpp
         ${FMI_HEADER_DIR}/FmuInstance.hpp
-        ${FMI_HEADER_DIR}/FmuVariableAccess.hpp
         ${FMI_HEADER_DIR}/ScalarVariableAttributes.hpp)
 
 SET(THRIFT_COMMON_HEADERS

@@ -23,6 +23,7 @@
  */
 
 #include <iostream>
+#include <string>
 #include <fmilib.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
 #include <fmuproxy/thrift/common/definitions_types.h>
@@ -30,6 +31,10 @@
 using namespace fmuproxy::thrift;
 
 namespace {
+
+    const char *convert_string(const std::string &str) {
+        return str.c_str();
+    }
 
     fmi2_status_t convert(const Status::type status) {
         switch (status) {

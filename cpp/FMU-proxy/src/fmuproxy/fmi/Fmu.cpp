@@ -33,7 +33,7 @@ using namespace fmuproxy::fmi;
 
 namespace fs = boost::filesystem;
 
-Fmu::Fmu (string fmu_path) {
+Fmu::Fmu (const string fmu_path) {
 
     this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
     create_directories(tmp_path);
@@ -50,7 +50,7 @@ Fmu::Fmu (string fmu_path) {
 
 }
 
-ModelDescription &Fmu::getModelDescription() {
+ModelDescription &Fmu::getModelDescription() const {
     return *modelDescription;
 }
 
@@ -78,17 +78,6 @@ unique_ptr<FmuInstance> Fmu::newInstance() {
     }
 
     return unique_ptr<FmuInstance>(new FmuInstance(fmu, *modelDescription));
-
-}
-
-fmi2_value_reference_t Fmu::get_value_reference(std::string name) {
-
-    for (auto var : modelDescription->modelVariables) {
-        if (var.name == name) {
-            return var.valueReference;
-        }
-    }
-    throw runtime_error("no such variable '" + name + "'");
 
 }
 

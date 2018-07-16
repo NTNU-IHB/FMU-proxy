@@ -23,6 +23,7 @@
  */
 
 #include <ctime>
+#include <vector>
 #include <iostream>
 
 #include "TestUtil.cpp"
@@ -49,14 +50,17 @@ int main(int argc, char **argv) {
 
     clock_t begin = clock();
 
-    double temperature_room;
-    fmi2_value_reference_t vr = instance->get_value_reference("Temperature_Room");
+    vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
+    vector<fmi2_real_t> ref(2);
+
     while (instance->getCurrentTime() <= stop-step_size) {
         fmi2_status_t status = instance->step(step_size);
         if (status != fmi2_status_ok) {
+            cout << "Error! step returned with status: " << fmi2_status_to_string(status) << endl;
             break;
         }
-        instance->readReal(vr, temperature_room);
+        instance->readReal(vr, ref);
+//        cout << "Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
     }
 
     clock_t end = clock();

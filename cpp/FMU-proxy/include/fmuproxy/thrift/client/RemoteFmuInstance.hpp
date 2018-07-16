@@ -37,19 +37,30 @@ namespace fmuproxy::thrift::client {
     class RemoteFmuInstance: public fmuproxy::fmi::FmiSimulation {
 
     private:
-        FmuId fmu_id;
+        
+        const FmuId fmu_id;
         double current_time;
+
         FmuServiceClient &client;
         fmuproxy::fmi::ModelDescription &modelDescription;
 
-        IntegerRead integerRead;
-        RealRead realRead;
-        StringRead stringRead;
-        BooleanRead booleanRead;
         StepResult stepResult;
-
+        
+        IntegerRead integerRead;
+        BulkIntegerRead bulkIntegerRead;
+        
+        RealRead realRead;
+        BulkRealRead bulkRealRead;
+        
+        StringRead stringRead;
+        BulkStringRead bulkStringRead; 
+        
+        BooleanRead booleanRead;
+        BulkBooleanRead bulkBooleanRead;
+        
+       
     public:
-        RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &modelDescription);
+        RemoteFmuInstance(const FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &modelDescription);
 
         double getCurrentTime() const override;
 
@@ -57,31 +68,35 @@ namespace fmuproxy::thrift::client {
 
         void init() override;
 
-        void init(double start) override;
+        void init(const double start) override;
 
-        void init(double start, double stop) override;
+        void init(const double start, const double stop) override;
 
-        fmi2_status_t step(double step_size) override;
+        fmi2_status_t step(const double step_size) override;
 
         fmi2_status_t terminate() override;
 
         fmi2_status_t reset() override;
 
-        fmi2_status_t readInteger(unsigned int vr, int &ref) override;
+        fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) override;
+        fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) override;
+        fmi2_status_t writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) override;
+        fmi2_status_t writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) override;
 
-        fmi2_status_t readReal(unsigned int vr, double &ref) override;
+        fmi2_status_t readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) override;
+        fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) override;
+        fmi2_status_t writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) override;
+        fmi2_status_t writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) override;
 
-        fmi2_status_t readString(unsigned int vr, const char* &ref) override;
+        fmi2_status_t readString(const fmi2_value_reference_t vr, fmi2_string_t &ref) override;
+        fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) override;
+        fmi2_status_t writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) override;
+        fmi2_status_t writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) override;
 
-        fmi2_status_t readBoolean(unsigned int vr, int &ref) override;
-
-        fmi2_status_t writeInteger(unsigned int vr, int value) override;
-
-        fmi2_status_t writeReal(unsigned int vr, double value) override;
-
-        fmi2_status_t writeString(unsigned int vr, const char* value) override;
-
-        fmi2_status_t writeBoolean(unsigned int vr, int value) override;
+        fmi2_status_t readBoolean(const fmi2_value_reference_t vr, fmi2_boolean_t &ref) override;
+        fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) override;
+        fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
+        fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
 
         ~RemoteFmuInstance() {
             std::cout << "RemoteFmuInstance destructor called" << std::endl;

@@ -57,7 +57,7 @@ int main() {
         cout << "license=" << md.license << endl;
 
         for (auto var : md.modelVariables) {
-            cout << var.name << ", start=" << var.attribute << endl;
+            cout << "Name=" << var.name << ", " << var.attribute << endl;
         }
 
         unique_ptr<RemoteFmuInstance> instance = fmu.newInstance();
@@ -65,13 +65,14 @@ int main() {
 
         clock_t begin = clock();
 
-        double temperature_room;
-        unsigned int vr = fmu.getValueReference("Temperature_Room");
+        vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
+        vector<fmi2_real_t> ref(2);
+
         double t;
         while ( (t=instance->getCurrentTime()) < stop) {
             instance->step(step_size);
-            instance->readReal(vr, temperature_room);
-            cout << "t=" << t <<  ", Temperature_Room=" << temperature_room << endl;
+            instance->readReal(vr, ref);
+            cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
         }
 
         clock_t end = clock();
