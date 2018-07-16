@@ -60,7 +60,7 @@ When using JSON-RPC, no schema is required.
 ### C++
 
 It is no suprise that invoking FMUs on the JVM implies a certain performance overhead. 
-That is why a server implementation of FMU-proxy has also been implemented also in C++. 
+That is why a server implementation of FMU-proxy has also been implemented in C++. 
 The drawback is that it only supports Thrift RPC and is only supported on Linux (although it can theoretically also run on Windows). 
 
 The implementation uses the C-library [_FMI-Library_](https://jmodelica.org/) for interacting with FMUs. 
@@ -74,7 +74,7 @@ TODO: Create executable server
 
 This repository comes with client implementations in Python for gRPC and Thrift.
 
-### Software Architecture
+## Software Architecture
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
