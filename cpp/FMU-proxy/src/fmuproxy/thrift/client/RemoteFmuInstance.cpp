@@ -26,7 +26,7 @@
 #include <algorithm>
 #include <fmuproxy/thrift/client/RemoteFmuInstance.hpp>
 
-#include "ThriftClientHelper.cpp"
+#include "thrift_client_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;

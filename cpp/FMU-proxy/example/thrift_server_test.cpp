@@ -28,7 +28,7 @@
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 
-#include "TestUtil.cpp"
+#include "test_util.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;

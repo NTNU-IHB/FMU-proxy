@@ -28,14 +28,14 @@
 #include <boost/filesystem.hpp>
 
 
-#include "FmuHelper.cpp"
+#include "fmu_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
 
 namespace fs = boost::filesystem;
 
-Fmu::Fmu (const string fmu_path) {
+Fmu::Fmu (const string &fmu_path) {
 
     this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
     create_directories(tmp_path);

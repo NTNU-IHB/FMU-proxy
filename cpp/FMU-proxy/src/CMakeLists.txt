@@ -36,24 +36,25 @@ SET(THRIFT_SERVER_HEADERS
 #set source files
 SET(FMI_SRC
         fmuproxy/fmi/Fmu.cpp
-        fmuproxy/fmi/FmuHelper.cpp
+        fmuproxy/fmi/fmu_helper.cpp
         fmuproxy/fmi/FmuInstance.cpp)
 
 SET(HEARTBEAT_SRC
-        fmuproxy/heartbeat/Heartbeat.cpp)
+        fmuproxy/heartbeat/Heartbeat.cpp
+        fmuproxy/heartbeat/heartbeat_helper.cpp)
 
 SET(THRIFT_COMMON_SRC
         fmuproxy/thrift/common/definitions_types.cpp
         fmuproxy/thrift/common/FmuService.cpp)
 
 SET(THRIFT_CLIENT_SRC
-        fmuproxy/thrift/client/ThriftClientHelper.cpp
+        fmuproxy/thrift/client/thrift_client_helper.cpp
         fmuproxy/thrift/client/RemoteFmuInstance.cpp
         fmuproxy/thrift/client/ThriftClient.cpp)
 
 SET(THRIFT_SERVER_SRC
         fmuproxy/thrift/server/FmuServiceHandler.cpp
-        fmuproxy/thrift/server/ThriftServerHelper.cpp
+        fmuproxy/thrift/server/thrift_server_helper.cpp
         fmuproxy/thrift/server/ThriftServer.cpp)
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})

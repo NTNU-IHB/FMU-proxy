@@ -25,7 +25,7 @@
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
 
-#include "ThriftServerHelper.cpp"
+#include "thrift_server_helper.cpp"
 
 int id_gen = 0;
 

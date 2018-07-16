@@ -51,7 +51,7 @@ namespace fmuproxy::fmi {
         std::shared_ptr<ModelDescription> modelDescription;
 
     public:
-        Fmu(const std::string fmu_path);
+        Fmu(const std::string &fmu_path);
 
         const std::string &get_model_description_xml();
 

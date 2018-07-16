@@ -83,7 +83,7 @@ namespace fmuproxy::fmi {
         bool supportsCoSimulation;
         bool supportsModelExchange;
 
-        fmi2_value_reference_t get_value_reference(std::string name) {
+        fmi2_value_reference_t get_value_reference(const std::string name) {
             for (auto var : modelVariables) {
                 if (var.name == name) {
                     return var.valueReference;

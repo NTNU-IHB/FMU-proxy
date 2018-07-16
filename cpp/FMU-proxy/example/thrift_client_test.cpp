@@ -25,10 +25,6 @@
 #include <iostream>
 #include <ctime>
 
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/transport/TSocket.h>
-#include <thrift/transport/TTransportUtils.h>
-
 #include <fmuproxy/thrift/common/FmuService.h>
 #include <fmuproxy/thrift/common/definitions_types.h>
 
@@ -36,8 +32,6 @@
 
 using namespace std;
 using namespace apache::thrift;
-using namespace apache::thrift::protocol;
-using namespace apache::thrift::transport;
 
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::client;
@@ -73,7 +67,7 @@ int main() {
         vector<fmi2_real_t> ref(2);
 
         double t;
-        while ( (t=instance->getCurrentTime()) < stop) {
+        while ( (t=instance->getCurrentTime() ) < stop) {
             instance->step(step_size);
             instance->readReal(vr, ref);
             cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
