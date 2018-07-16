@@ -12,6 +12,10 @@ add_executable(FmuTest
         TestUtil.cpp)
 target_link_libraries(FmuTest fmi)
 
+add_executable(HeartBeatTest
+        HeartBeatTest.cpp
+        TestUtil.cpp)
+target_link_libraries(HeartBeatTest heartbeat fmi pthread)
 
 add_executable(ThriftClientTest
         ThriftClientTest.cpp)

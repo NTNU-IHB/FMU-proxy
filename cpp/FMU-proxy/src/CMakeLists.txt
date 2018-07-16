@@ -7,6 +7,7 @@ INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 SET(HEADER_ROOT_PATH ${FMU_PROXY_SOURCE_DIR}/include/fmuproxy)
 SET(FMI_HEADER_DIR ${HEADER_ROOT_PATH}/fmi)
 SET(THRIFT_HEADER_DIR ${HEADER_ROOT_PATH}/thrift)
+SET(HEARTBEAT_HEADER_DIR ${HEADER_ROOT_PATH}/heartbeat)
 
 SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/fmi_definitions.hpp
@@ -14,6 +15,9 @@ SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/Fmu.hpp
         ${FMI_HEADER_DIR}/FmuInstance.hpp
         ${FMI_HEADER_DIR}/ScalarVariableAttributes.hpp)
+
+SET(HEARTBEAT_HEADERS
+        ${HEARTBEAT_HEADER_DIR}/Heartbeat.hpp)
 
 SET(THRIFT_COMMON_HEADERS
         ${THRIFT_HEADER_DIR}/common/definitions_types.h
@@ -35,6 +39,9 @@ SET(FMI_SRC
         fmuproxy/fmi/FmuHelper.cpp
         fmuproxy/fmi/FmuInstance.cpp)
 
+SET(HEARTBEAT_SRC
+        fmuproxy/heartbeat/Heartbeat.cpp)
+
 SET(THRIFT_COMMON_SRC
         fmuproxy/thrift/common/definitions_types.cpp
         fmuproxy/thrift/common/FmuService.cpp)
@@ -51,6 +58,9 @@ SET(THRIFT_SERVER_SRC
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
+
+add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
+target_link_libraries(heartbeat curl Boost::system)
 
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
 target_link_libraries(thrift-common thrift)

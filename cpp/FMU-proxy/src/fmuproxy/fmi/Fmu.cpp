@@ -50,8 +50,6 @@ Fmu::Fmu (const string fmu_path) {
     this->modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
     populate_model_description(version, xml, *modelDescription);
 
-    cout << tmp_path.string() + "/modelDescription.xml" << endl;
-
     std::ifstream t(tmp_path.string() + "/modelDescription.xml");
     model_description_xml = string((istreambuf_iterator<char>(t)),
                     istreambuf_iterator<char>());
