@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-
 INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 
 #set headers
@@ -71,4 +70,3 @@ target_link_libraries(thrift-client thrift-common fmi)
 
 add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
 target_link_libraries(thrift-server thrift-common fmi)
-

@@ -21,10 +21,5 @@ include_directories(${CURL_INCLUDE_DIRS})
 
 # add subdiretories
 add_subdirectory(src)
+add_subdirectory(tool)
 add_subdirectory(example)
-
-
-
-
-
-
