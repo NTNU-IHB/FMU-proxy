@@ -22,48 +22,39 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_FMUWRAPPER_H
-#define FMU_PROXY_FMUWRAPPER_H
+#ifndef FMU_PROXY_HEARTBEAT_HPP
+#define FMU_PROXY_HEARTBEAT_HPP
 
-#include <iostream>
-#include <vector>
+#include <string>
+#include <thread>
 
-#include <boost/filesystem.hpp>
+namespace fmuproxy::heartbeat {
 
-#include "fmi_definitions.hpp"
-#include "FmuInstance.hpp"
-
-namespace fs = boost::filesystem;
-
-namespace fmuproxy::fmi {
-
-    class Fmu {
+    class Heartbeat {
 
     private:
+        const std::string host;
+        const unsigned int port;
 
-        fs::path tmp_path;
-        fmi2_import_t* xml;
-        fmi_xml_context_t* ctx;
-        jm_callbacks callbacks;
-        fmi_version_enu_t version;
+        bool m_stop = false;
+        bool m_connected = false;
 
-        std::string model_description_xml;
-        std::shared_ptr<ModelDescription> modelDescription;
+        std::thread* m_thread;
+        const std::string model_description_xml;
+
+        void run();
 
     public:
-        Fmu(const std::string fmu_path);
+        Heartbeat(const std::string &host, const unsigned int port, const std::string &xml);
 
-        const std::string &get_model_description_xml();
+        void start();
 
-        const ModelDescription &get_model_description() const;
+        void stop();
 
-        std::unique_ptr<FmuInstance> new_instance();
-
-        ~Fmu();
+        ~Heartbeat();
 
     };
 
 }
 
-#endif //FMU_PROXY_FMUWRAPPER_H
-
+#endif //FMU_PROXY_HEARTBEAT_HPP

@@ -22,9 +22,11 @@
  * THE SOFTWARE.
  */
 
-
+#include <fstream>
+#include <streambuf>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <boost/filesystem.hpp>
+
 
 #include "FmuHelper.cpp"
 
@@ -48,13 +50,21 @@ Fmu::Fmu (const string fmu_path) {
     this->modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
     populate_model_description(version, xml, *modelDescription);
 
+    std::ifstream t(tmp_path.string() + "/modelDescription.xml");
+    model_description_xml = string((istreambuf_iterator<char>(t)),
+                    istreambuf_iterator<char>());
+
 }
 
-ModelDescription &Fmu::getModelDescription() const {
+const ModelDescription &Fmu::get_model_description() const {
     return *modelDescription;
 }
 
-unique_ptr<FmuInstance> Fmu::newInstance() {
+const std::string &Fmu::get_model_description_xml() {
+    return model_description_xml;
+}
+
+unique_ptr<FmuInstance> Fmu::new_instance() {
 
     fmi2_callback_functions_t callBackFunctions;
     callBackFunctions.logger = fmi2_log_forwarding;

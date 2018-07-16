@@ -51,7 +51,11 @@ int main() {
 
         ThriftClient fmu = ThriftClient("localhost", 9090);
 
-        const auto md = fmu.getModelDescription();
+        string xml;
+        fmu.get_model_description_xml(xml);
+        cout << xml << endl;
+
+        const auto md = fmu.get_model_description();
         cout << "GUID=" << md.guid << endl;
         cout << "modelName=" << md.modelName << endl;
         cout << "license=" << md.license << endl;
@@ -60,7 +64,7 @@ int main() {
             cout << "Name=" << var.name << ", " << var.attribute << endl;
         }
 
-        unique_ptr<RemoteFmuInstance> instance = fmu.newInstance();
+        unique_ptr<RemoteFmuInstance> instance = fmu.new_instance();
         instance->init();
 
         clock_t begin = clock();

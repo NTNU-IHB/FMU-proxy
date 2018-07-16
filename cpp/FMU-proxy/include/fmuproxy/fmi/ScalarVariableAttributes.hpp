@@ -184,7 +184,7 @@ namespace fmuproxy::fmi {
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const BooleanAttribute &a) {
-            return strm << "BooleanAttribute(start=" << a.getStart() << ")";
+            return strm << "BooleanAttribute(start=" << (a.getStart() == 0 ? false : true) << ")";
         }
 
 

@@ -119,21 +119,34 @@ class AvailableFmuServlet: HttpServlet() {
 @WebServlet(urlPatterns = ["/ping"])
 class KeepAlive: HttpServlet() {
 
+    companion object {
+        val LOG: Logger = LoggerFactory.getLogger(KeepAlive::class.java)
+    }
+
     override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
 
         val uuid = req.inputStream.reader().readText()
+        LOG.trace("Received ping from FMU with uuid=$uuid")
+
         FmuService.map[uuid]?.apply {
 
             update()
 
             with(resp) {
+                contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("success")
                     it.flush()
                 }
             }
 
-        }
+        } ?: with(resp) {
+                contentType = CONTENT_TYPE_TEXT_HTML
+                writer.use {
+                    it.println("fail")
+                    it.flush()
+                }
+            }
 
     }
 
@@ -165,6 +178,15 @@ class RegisterFmuServlet: HttpServlet() {
             }
 
         } catch (ex: Exception) {
+
+            with(resp) {
+                contentType = CONTENT_TYPE_TEXT_HTML
+                writer.use {
+                    it.println("error")
+                    it.flush()
+                }
+            }
+
             LOG.error("$ex")
         }
 
@@ -187,14 +209,14 @@ class FmuTimePair(
 
     companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(FmuTimePair::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(FmuTimePair::class.java)
 
         fun purge(map: MutableMap<String, FmuTimePair>) {
             val it = map.iterator()
             for (entry in it) {
                 if (entry.value.isDead) {
                     it.remove()
-                    LOG.debug("Purged RemoteFmu with uuid=${entry.value.remoteFmu.uuid} due to inactivity..")
+                    LOG.info("Purged RemoteFmu with uuid=${entry.value.remoteFmu.uuid} due to inactivity..")
                 }
             }
         }
