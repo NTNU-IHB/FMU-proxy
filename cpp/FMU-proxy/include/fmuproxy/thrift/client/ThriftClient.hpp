@@ -47,9 +47,11 @@ namespace fmuproxy::thrift::client {
     public:
         ThriftClient(const std::string host, const unsigned int port);
 
-        fmuproxy::fmi::ModelDescription &getModelDescription();
+        fmuproxy::fmi::ModelDescription &get_model_description();
 
-        std::unique_ptr<RemoteFmuInstance> newInstance();
+        void get_model_description_xml(std::string &_return);
+
+        std::unique_ptr<RemoteFmuInstance> new_instance();
 
         void close();
 
