@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 
     Fmu fmu = Fmu(fmu_path.c_str());
 
-    const auto instance = fmu.newInstance();
+    const auto instance = fmu.new_instance();
 
     instance->init();
 

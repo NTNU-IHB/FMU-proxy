@@ -35,19 +35,18 @@ int main(int argc, char **argv) {
     string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    double step_size = 1.0/100;
+    const double step_size = 1.0/100;
     Fmu fmu = Fmu(fmu_path);
 
-    const auto md = fmu.getModelDescription();
-    cout << md.defaultExperiment.stopTime << endl;
+    cout << fmu.get_model_description_xml() << endl;
 
+    const auto md = fmu.get_model_description();
     for (auto var : md.modelVariables) {
-        RealAttribute r = var.attribute.getRealAttribute();
-        cout << r << endl;
+        cout << var.attribute << endl;
     }
 
-    const auto instance1 = fmu.newInstance();
-    const auto instance2 = fmu.newInstance();
+    const auto instance1 = fmu.new_instance();
+    const auto instance2 = fmu.new_instance();
 
     instance1->init();
     instance2->init();

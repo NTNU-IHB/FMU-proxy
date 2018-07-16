@@ -46,14 +46,18 @@ namespace fmuproxy::fmi {
         fmi_xml_context_t* ctx;
         jm_callbacks callbacks;
         fmi_version_enu_t version;
+
+        std::string model_description_xml;
         std::shared_ptr<ModelDescription> modelDescription;
 
     public:
         Fmu(const std::string fmu_path);
-        
-        ModelDescription &getModelDescription() const;
 
-        std::unique_ptr<FmuInstance> newInstance();
+        const std::string &get_model_description_xml();
+
+        const ModelDescription &get_model_description() const;
+
+        std::unique_ptr<FmuInstance> new_instance();
 
         ~Fmu();
 

@@ -36,17 +36,17 @@ using namespace fmuproxy::thrift::server;
 FmuServiceHandler::FmuServiceHandler(fmi::Fmu &fmu): fmu(fmu) {}
 
 void FmuServiceHandler::getModelDescriptionXml(std::string &_return) {
-    _return = "XML placeholder";
+    _return = fmu.get_model_description_xml();
 }
 
 void FmuServiceHandler::getModelDescription(ModelDescription &_return) {
-    thriftType(_return, fmu.getModelDescription());
+    thriftType(_return, fmu.get_model_description());
 }
 
 FmuId FmuServiceHandler::createInstanceFromCS() {
     FmuId my_id = id_gen++;
-    fmus[my_id] = fmu.newInstance();
-    cout << "create instance with id=" << my_id << endl;
+    fmus[my_id] = fmu.new_instance();
+    cout << "created new FMU instance with id=" << my_id << endl;
     return my_id;
 }
 
