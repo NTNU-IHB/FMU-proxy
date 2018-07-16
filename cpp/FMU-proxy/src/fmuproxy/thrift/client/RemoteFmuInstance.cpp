@@ -31,13 +31,17 @@
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-RemoteFmuInstance::RemoteFmuInstance(FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
+RemoteFmuInstance::RemoteFmuInstance(const FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
         : fmu_id(fmu_id), client(client), modelDescription(md) {
     current_time = client.getCurrentTime(fmu_id);
 }
 
 double RemoteFmuInstance::getCurrentTime() const {
     return current_time;
+}
+
+fmuproxy::fmi::ModelDescription &RemoteFmuInstance::getModelDescription() const {
+    return modelDescription;
 }
 
 void RemoteFmuInstance::init() {
@@ -102,7 +106,7 @@ fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_referen
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
     client.bulkReadString(bulkStringRead, fmu_id, _vr);
     const vector<string> read = bulkStringRead.value;
-    std::transform(read.begin(), read.end(), std::back_inserter(ref), convertString);
+    std::transform(read.begin(), read.end(), std::back_inserter(ref), convert_string);
     return convert(bulkStringRead.status);
 }
 
@@ -120,7 +124,7 @@ fmi2_status_t RemoteFmuInstance::readBoolean(const std::vector<fmi2_value_refere
     return convert(bulkBooleanRead.status);
 }
 
-fmi2_status_t RemoteFmuInstance::writeInteger(fmi2_value_reference_t vr, fmi2_integer_t value) {
+fmi2_status_t RemoteFmuInstance::writeInteger(fmi2_value_reference_t vr, const fmi2_integer_t value) {
     return convert(client.writeInteger(fmu_id, vr, value));
 }
 
@@ -129,7 +133,7 @@ fmi2_status_t RemoteFmuInstance::writeInteger(const std::vector<fmi2_value_refer
     return convert(client.bulkWriteInteger(fmu_id, _vr, value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeReal(fmi2_value_reference_t vr, fmi2_real_t value) {
+fmi2_status_t RemoteFmuInstance::writeReal(fmi2_value_reference_t vr, const fmi2_real_t value) {
     return convert(client.writeReal(fmu_id, vr, value));
 }
 
@@ -138,7 +142,7 @@ fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_referenc
     return convert(client.bulkWriteReal(fmu_id, _vr, value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeString(fmi2_value_reference_t vr, fmi2_string_t value) {
+fmi2_status_t RemoteFmuInstance::writeString(fmi2_value_reference_t vr, const fmi2_string_t value) {
     return convert(client.writeString(fmu_id, vr, value));
 }
 
@@ -148,7 +152,7 @@ fmi2_status_t RemoteFmuInstance::writeString(const std::vector<fmi2_value_refere
     return convert(client.bulkWriteString(fmu_id, _vr, _value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeBoolean(fmi2_value_reference_t vr, fmi2_boolean_t value) {
+fmi2_status_t RemoteFmuInstance::writeBoolean(fmi2_value_reference_t vr, const fmi2_boolean_t value) {
     return convert(client.writeBoolean(fmu_id, vr, value == 0 ? false : true));
 }
 
@@ -158,10 +162,4 @@ fmi2_status_t RemoteFmuInstance::writeBoolean(const std::vector<fmi2_value_refer
     return convert(client.bulkWriteBoolean(fmu_id, _vr, _value));
 }
 
-fmuproxy::fmi::ModelDescription &RemoteFmuInstance::getModelDescription() const {
-    return modelDescription;
-}
 
-fmi2_value_reference_t RemoteFmuInstance::get_value_reference(std::string name) const {
-    return modelDescription.get_value_reference(name);
-}

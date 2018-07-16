@@ -33,7 +33,7 @@ using namespace fmuproxy::fmi;
 
 namespace fs = boost::filesystem;
 
-Fmu::Fmu (string fmu_path) {
+Fmu::Fmu (const string fmu_path) {
 
     this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
     create_directories(tmp_path);
@@ -50,7 +50,7 @@ Fmu::Fmu (string fmu_path) {
 
 }
 
-ModelDescription &Fmu::getModelDescription() {
+ModelDescription &Fmu::getModelDescription() const {
     return *modelDescription;
 }
 

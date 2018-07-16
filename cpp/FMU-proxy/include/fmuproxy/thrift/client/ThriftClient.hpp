@@ -45,15 +45,13 @@ namespace fmuproxy::thrift::client {
         std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription;
 
     public:
-        ThriftClient(const std::string host, const unsigned port);
+        ThriftClient(const std::string host, const unsigned int port);
 
         fmuproxy::fmi::ModelDescription &getModelDescription();
 
         std::unique_ptr<RemoteFmuInstance> newInstance();
 
         void close();
-
-        unsigned int getValueReference(std::string variableName);
 
         ~ThriftClient() {
             std::cout << "ThriftClient destructor called" << std::endl;

@@ -42,17 +42,19 @@ namespace fmuproxy::fmi {
 
         virtual void init() = 0;
 
-        virtual void init(double start) = 0;
+        virtual void init(const double start) = 0;
 
-        virtual void init(double start, double stop) = 0;
+        virtual void init(const double start, const double stop) = 0;
 
-        virtual fmi2_status_t step(double step_size) = 0;
+        virtual fmi2_status_t step(const double step_size) = 0;
 
         virtual fmi2_status_t reset() = 0;
 
         virtual fmi2_status_t terminate() = 0;
 
-        virtual fmi2_value_reference_t get_value_reference(std::string name) const = 0;
+        virtual fmi2_value_reference_t get_value_reference(const std::string name) {
+            return getModelDescription().get_value_reference(name);
+        }
 
         virtual fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) = 0;
         virtual fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t > &ref) = 0;

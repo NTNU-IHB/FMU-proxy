@@ -38,7 +38,7 @@ namespace fmuproxy::thrift::server {
         std::unique_ptr<apache::thrift::server::TSimpleServer> server;
 
     public:
-        ThriftServer(fmuproxy::fmi::Fmu &fmu, int port);
+        ThriftServer(fmuproxy::fmi::Fmu &fmu, const unsigned  int port);
 
         void serve();
 

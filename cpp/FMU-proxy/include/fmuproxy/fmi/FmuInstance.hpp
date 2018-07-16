@@ -44,7 +44,7 @@ namespace fmuproxy::fmi {
     public:
         FmuInstance(fmi2_import_t* instance, ModelDescription &md);
 
-        bool isTerminated();
+        bool isTerminated() const;
 
         double getCurrentTime() const override;
 
@@ -52,11 +52,11 @@ namespace fmuproxy::fmi {
 
         void init() override;
 
-        void init(double start) override;
+        void init(const double start) override;
 
-        void init(double start, double stop) override;
+        void init(const double start, const double stop) override;
 
-        fmi2_status_t step(double step_size) override;
+        fmi2_status_t step(const double step_size) override;
 
         fmi2_status_t reset() override;
 
@@ -81,9 +81,7 @@ namespace fmuproxy::fmi {
         fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) override;
         fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
-
-        fmi2_value_reference_t get_value_reference(std::string name) const override;
-
+        
         ~FmuInstance();
 
     };

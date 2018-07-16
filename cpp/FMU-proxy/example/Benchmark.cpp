@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
             break;
         }
         instance->readReal(vr, ref);
-        cout << "Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
+//        cout << "Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
     }
 
     clock_t end = clock();

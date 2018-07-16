@@ -32,7 +32,7 @@ using namespace fmuproxy::thrift;
 
 namespace {
 
-    const char *convertString(const std::string &str) {
+    const char *convert_string(const std::string &str) {
         return str.c_str();
     }
 

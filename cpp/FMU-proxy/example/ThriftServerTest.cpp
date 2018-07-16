@@ -34,7 +34,7 @@ using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift::server;
 
-void wait_for_input(::ThriftServer* server) {
+void wait_for_input(ThriftServer* server) {
     do {
         cout << '\n' << "Press a key to continue...\n";
     } while (cin.get() != '\n');

@@ -37,7 +37,7 @@
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-ThriftClient::ThriftClient(const string host, const unsigned port) {
+ThriftClient::ThriftClient(const string host, const unsigned int port) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
     this->transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
@@ -64,14 +64,4 @@ unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
     return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client, *modelDescription));
 }
 
-unsigned int ThriftClient::getValueReference(std::string variableName) {
-
-    for (fmuproxy::fmi::ScalarVariable var : modelDescription->modelVariables) {
-        if (var.name == variableName) {
-            return var.valueReference;
-        }
-    }
-    throw std::runtime_error("No such variable: '" + variableName + "'!");
-
-}
 
