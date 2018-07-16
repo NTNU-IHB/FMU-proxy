@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(Boost 1.63.0 COMPONENTS system filesystem REQUIRED)
+find_package(Boost 1.63.0 COMPONENTS system filesystem program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 set(FMILIB_USE_SHARED_LIB true)
