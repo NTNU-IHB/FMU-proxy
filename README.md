@@ -34,7 +34,7 @@ The interface is specified by FMI4j, allowing local and remote FMU instances to 
 
 [The directory service](#the-directory-service) is also implemented in Kotlin.  
 
-#### FMU-proxy Executable
+#### FMU-proxy executable
 
 ```
 Usage: fmu-proxy [-h] -fmu=<fmuPath> 
@@ -68,7 +68,17 @@ An object oriented wrapper is avilable making it easier to work with.
 
 A Thrift client is available. It shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code, similarly to whats available in the JVM implementation. 
 
-TODO: Create executable server
+
+#### FMU-proxy executable
+
+```
+FMU-proxy
+Options:
+  -h [ --help ]            Print this help message and quits.
+  -f [ --fmu ] arg         Path to FMU
+  -r [ --remote ] arg      IP address of the remote tracking server
+  -t [ --thrift_port ] arg Specify the network port to be used by the Thrift server
+```
 
 ### Python
 
