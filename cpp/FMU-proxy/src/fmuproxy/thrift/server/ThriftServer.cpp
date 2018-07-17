@@ -53,7 +53,7 @@ void ThriftServer::serve() {
 }
 
 void ThriftServer::start() {
-    cout << "Starting the server..." << endl;
+    cout << "Thrift server listening to connections on port: " << port << endl;
     m_thread = unique_ptr<thread>(new thread(&ThriftServer::serve, this));
 }
 
