@@ -14,20 +14,28 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = "no.mechatronics.sfi.fmuproxy.FmuProxy"
 
-def snapshot = true
-def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
+def fmi4j_snapshot = true
+def fmi4j_version = fmi4j_snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
+
+def slf4j_version = '1.7.25'
+def yajrpc_version = '0.8-SNAPSHOT'
 
 dependencies {
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.13.1'
     implementation group: 'info.picocli', name: 'picocli', version: '3.1.0'
-    implementation group: 'info.laht', name: 'YAJ-RPC', version: '0.7.2-SNAPSHOT', changing: true
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: snapshot
+    implementation group: 'info.laht', name: 'yaj-rpc', version: yajrpc_version, changing: true
+    implementation group: 'info.laht', name: 'yaj-rpc-ws', version: yajrpc_version, changing: true
+    implementation group: 'info.laht', name: 'yaj-rpc-tcp', version: yajrpc_version, changing: true
+    implementation group: 'info.laht', name: 'yaj-rpc-zmq', version: yajrpc_version, changing: true
+    implementation group: 'info.laht', name: 'yaj-rpc-http', version: yajrpc_version, changing: true
+
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
     compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
     testImplementation project(':fmu-proxy-clients')
 
