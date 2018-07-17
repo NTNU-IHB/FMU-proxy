@@ -129,6 +129,7 @@ class FmuProxy(
 
         @JvmStatic
         fun main(args: Array<String>) {
+
             CommandLineParser.parse(args).also {
                 it?.apply {
                     start()

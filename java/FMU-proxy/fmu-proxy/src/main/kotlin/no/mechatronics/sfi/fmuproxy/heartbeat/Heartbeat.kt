@@ -51,18 +51,17 @@ internal class Heartbeat(
     private var connected: Boolean = false
     private val uuid: String = UUID.randomUUID().toString()
 
-    val jsonData: String
-        get() {
-            val gson = GsonBuilder().create()
-            val map = mapOf(
-                    "uuid" to uuid,
-                    "networkInfo" to networkInfo,
-                    "modelDescriptionXml" to modelDescriptionXml
-            )
-            return gson.toJson(map)
-        }
+    val jsonData: String by lazy {
+        val gson = GsonBuilder().create()
+        val map = mapOf(
+                "uuid" to uuid,
+                "networkInfo" to networkInfo,
+                "modelDescriptionXml" to modelDescriptionXml
+        )
+        gson.toJson(map)
+    }
 
-    companion object {
+    private companion object {
         val LOG: Logger = LoggerFactory.getLogger(Heartbeat::class.java)
     }
 
@@ -74,9 +73,9 @@ internal class Heartbeat(
             }.apply {
                 start()
             }
-            LOG.info("Heartbeat started")
+            LOG.info("Heartbeat started. Connecting to remote @${remoteAddress.host}:${remoteAddress.port}")
         } else {
-            LOG.warn("Heartbeat has alread been started..")
+            LOG.warn("Heartbeat has already been started..")
         }
 
     }
@@ -90,7 +89,7 @@ internal class Heartbeat(
             stop = true
             it.interrupt()
             it.join(1000)
-            LOG.info("Heartbeat stopped")
+            LOG.info("Heartbeat stopped!")
         }
     }
 
@@ -110,8 +109,12 @@ internal class Heartbeat(
             if (connected) {
 
                 post("ping", uuid, {
-                    connected = it == "success"
-                    LOG.trace("pinged remote successfully")
+                    connected = (it == "success")
+                    if (connected) {
+                        LOG.trace("Remote pinged successfully!")
+                    } else {
+                        LOG.debug("Failed to ping remote!")
+                    }
                     sleep(1000L)
                 }, { ex ->
                     connected = false
@@ -121,12 +124,12 @@ internal class Heartbeat(
             } else {
 
                 post("registerfmu", jsonData, {
-                    connected = it == "success"
+                    connected = (it == "success")
                     if (connected) {
-                        LOG.trace("Successfully connected to remote!")
+                        LOG.info("Successfully connected to remote!")
                     }
                 }, { ex ->
-                    LOG.debug("Failed to connect to remote: $ex")
+                    LOG.info("Failed to connect to remote: $ex")
                     sleep(5000L)
                 })
 

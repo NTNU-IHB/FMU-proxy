@@ -9,10 +9,10 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-group = 'no.mechatronics.sfi.fmuproxy'
-version = '0.1-SNAPSHOT'
+mainClassName = "no.mechatronics.sfi.fmuproxy.FmuProxy"
 
 def snapshot = true
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
@@ -33,6 +33,13 @@ dependencies {
 
 }
 
+run {
+    if (project.hasProperty("appArgs")) {
+        args appArgs.split(" ")
+    }
+    standardInput = System.in
+}
+
 jar {
     manifest {
         attributes 'Main-Class': "no.mechatronics.sfi.fmuproxy.FmuProxy"
@@ -46,6 +53,9 @@ shadowJar {
 }
 
 if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
+
+    group = 'no.mechatronics.sfi.fmuproxy'
+    version = '0.1-SNAPSHOT'
 
     apply plugin: 'maven'
     apply plugin: 'signing'

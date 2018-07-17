@@ -45,7 +45,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.concurrent.Callable
 
-val LOG: Logger = LoggerFactory.getLogger(CommandLineParser::class.java)
+private val LOG: Logger = LoggerFactory.getLogger(CommandLineParser::class.java)
 
 object CommandLineParser {
 
@@ -54,7 +54,6 @@ object CommandLineParser {
     }
 
 }
-
 
 internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
     override fun convert(value: String): SimpleSocketAddress {
@@ -69,7 +68,7 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
     var showHelp = false
 
-    @CommandLine.Option(names = ["-fmu", "--fmuPath"], description = ["Path to the FMU."], required = true)
+    @CommandLine.Option(names = ["-f", "--fmu"], description = ["Path to the FMU."], required = true)
     lateinit var fmuPath: String
 
     @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remoteAddress tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
@@ -110,7 +109,7 @@ class Args: Callable<FmuProxy> {
                     val url = URL(fmuPath)
                     Fmu.from(url)
                 } catch (ex: MalformedURLException) {
-                    LOG.error("Interpreted fmuPath as an URL, but an MalformedURLException was thrown", ex)
+                    LOG.error("Interpreted fmuPath: '$fmuPath' as an URL, but an MalformedURLException was thrown!")
                     null
                 }
             }
