@@ -32,7 +32,7 @@
 #include <fmuproxy/thrift/common/definitions_types.h>
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
 
-#include "ThriftClientHelper.cpp"
+#include "thrift_client_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;
@@ -45,11 +45,11 @@ ThriftClient::ThriftClient(const string host, const unsigned int port) {
     this->transport->open();
 }
 
-void ThriftClient::close() {
-    this->transport->close();
+void ThriftClient::get_model_description_xml(std::string &_return) {
+    client->getModelDescriptionXml(_return);
 }
 
-fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
+fmuproxy::fmi::ModelDescription &ThriftClient::get_model_description() {
     if (!modelDescription) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
         client->getModelDescription(md);
@@ -59,9 +59,15 @@ fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
     return *modelDescription;
 }
 
-unique_ptr<RemoteFmuInstance> ThriftClient::newInstance() {
+unique_ptr<RemoteFmuInstance> ThriftClient::new_instance() {
     FmuId fmu_id = client->createInstanceFromCS();
     return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client, *modelDescription));
 }
+
+
+void ThriftClient::close() {
+    this->transport->close();
+}
+
 
 

@@ -58,7 +58,7 @@ data class RemoteFmu(
         get() = modelDescription.modelVariables.getVariables()
 
     override fun toString(): String {
-        return "RemoteFmu(guid='${modelDescription.guid}', modelName='${modelDescription.modelName}', networkInfo=$networkInfo)"
+        return "RemoteFmu(uuid='$uuid', modelName='${modelDescription.modelName}', networkInfo=$networkInfo)"
     }
 
 }

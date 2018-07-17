@@ -22,53 +22,53 @@
  * THE SOFTWARE.
  */
 
-#include <ctime>
-#include <vector>
 #include <iostream>
+#include <fmuproxy/fmi/Fmu.hpp>
 
-#include "TestUtil.cpp"
-#include "fmuproxy/fmi/Fmu.hpp"
+#include "test_util.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
 
-const double start = 0;
-const double stop = 10;
-const double step_size = 1E-4;
-
 int main(int argc, char **argv) {
 
     string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() +
-                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path.c_str());
+    const double step_size = 1.0/100;
+    Fmu fmu = Fmu(fmu_path);
 
-    const auto instance = fmu.newInstance();
+    cout << fmu.get_model_description_xml() << endl;
 
-    instance->init();
-
-    clock_t begin = clock();
-
-    vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
-    vector<fmi2_real_t> ref(2);
-
-    while (instance->getCurrentTime() <= stop-step_size) {
-        fmi2_status_t status = instance->step(step_size);
-        if (status != fmi2_status_ok) {
-            cout << "Error! step returned with status: " << fmi2_status_to_string(status) << endl;
-            break;
-        }
-        instance->readReal(vr, ref);
-//        cout << "Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
+    const auto md = fmu.get_model_description();
+    for (auto var : md.modelVariables) {
+        cout << var.attribute << endl;
     }
 
-    clock_t end = clock();
+    const auto instance1 = fmu.new_instance();
+    const auto instance2 = fmu.new_instance();
 
-    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-    cout << "elapsed=" << elapsed_secs << "s" << endl;
+    instance1->init();
+    instance2->init();
 
-    instance->terminate();
+
+    double temperature_room;
+    fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
+
+    instance1->readReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
+
+    instance1->step(step_size);
+
+    instance1->readReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
+
+    instance1->terminate();
+
+    instance2->readReal(vr, temperature_room);
+    cout << "Temperature_Room=" << temperature_room << endl;
+
+    instance2->terminate();
 
     return 0;
 

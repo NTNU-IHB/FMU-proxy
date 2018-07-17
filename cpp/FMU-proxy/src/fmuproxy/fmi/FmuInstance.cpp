@@ -48,7 +48,6 @@ bool FmuInstance::isTerminated() const {
     return terminated;
 }
 
-
 ModelDescription &FmuInstance::getModelDescription() const {
     return modelDescription;
 }

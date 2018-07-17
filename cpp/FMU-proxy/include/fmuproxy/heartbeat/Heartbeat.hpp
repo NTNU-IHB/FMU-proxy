@@ -22,42 +22,37 @@
  * THE SOFTWARE.
  */
 
-#include <iostream>
+#ifndef FMU_PROXY_HEARTBEAT_HPP
+#define FMU_PROXY_HEARTBEAT_HPP
+
+#include <string>
 #include <thread>
 
-#include <fmuproxy/fmi/Fmu.hpp>
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
+namespace fmuproxy::heartbeat {
 
-#include "TestUtil.cpp"
+    class Heartbeat {
 
-using namespace std;
-using namespace fmuproxy::fmi;
-using namespace fmuproxy::thrift::server;
+    private:
+        const std::string host;
+        const unsigned int port;
 
-void wait_for_input(ThriftServer* server) {
-    do {
-        cout << '\n' << "Press a key to continue...\n";
-    } while (cin.get() != '\n');
-    cout << "Done." << endl;
-    server->stop();
+        bool m_stop = false;
+        bool m_connected = false;
+
+        std::unique_ptr<std::thread> m_thread;
+        const std::string model_description_xml;
+
+        void run();
+
+    public:
+        Heartbeat(const std::string &host, const unsigned int port, const std::string &xml);
+
+        void start();
+
+        void stop();
+
+    };
+
 }
 
-int main(int argc, char **argv) {
-
-    int port = 9090;
-    string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
-
-    Fmu fmu = Fmu(fmu_path);
-    ThriftServer server = ThriftServer(fmu, port);
-
-    thread t(wait_for_input, &server);
-
-    cout << "Starting the server..." << endl;
-    server.serve();
-
-    t.join();
-
-    return 0;
-}
-
+#endif //FMU_PROXY_HEARTBEAT_HPP

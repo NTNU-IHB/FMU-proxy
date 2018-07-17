@@ -22,45 +22,36 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_THRIFTCLIENT_H
-#define FMU_PROXY_THRIFTCLIENT_H
+#ifndef FMU_PROXY_REMOTEADDRESS_HPP
+#define FMU_PROXY_REMOTEADDRESS_HPP
 
-#include <thrift/transport/TSocket.h>
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/transport/TTransportUtils.h>
+#include <string>
+#include <vector>
+#include <boost/algorithm/string.hpp>
+#include <ostream>
 
-#include "RemoteFmuInstance.hpp"
+class RemoteAddress {
 
-using namespace apache::thrift::protocol;
-using namespace apache::thrift::transport;
+public:
 
-namespace fmuproxy::thrift::client {
+    const std::string host;
+    const unsigned int port;
 
-    class ThriftClient {
+    RemoteAddress(const std::string &host, const unsigned int port)
+            : host(host), port(port) {}
 
-    private:
+    static RemoteAddress parse(std::string &address) {
+        std::vector<std::string> split;
+        boost::split(split, address, boost::is_any_of(":"));
+        const std::string host = split[0];
+        const int port = std::stoi(split[1]);
+        return RemoteAddress(host, port);
+    }
 
-        std::shared_ptr<TTransport> transport;
-        std::shared_ptr<FmuServiceClient> client;
-        std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription;
+    friend std::ostream& operator<<(std::ostream &strm, const RemoteAddress &a) {
+        return strm << "RemoteAddress(" << a.host << ":" << a.port << ")";
+    }
 
-    public:
-        ThriftClient(const std::string host, const unsigned int port);
+};
 
-        fmuproxy::fmi::ModelDescription &get_model_description();
-
-        void get_model_description_xml(std::string &_return);
-
-        std::unique_ptr<RemoteFmuInstance> new_instance();
-
-        void close();
-
-        ~ThriftClient() {
-            std::cout << "ThriftClient destructor called" << std::endl;
-        }
-
-    };
-
-}
-
-#endif //FMU_PROXY_THRIFTCLIENT_H
+#endif //FMU_PROXY_REMOTEADDRESS_HPP

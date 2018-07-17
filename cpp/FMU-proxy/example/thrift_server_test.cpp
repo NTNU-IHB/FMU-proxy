@@ -23,54 +23,39 @@
  */
 
 #include <iostream>
-#include <fmuproxy/fmi/Fmu.hpp>
+#include <thread>
 
-#include "TestUtil.cpp"
+#include <fmuproxy/fmi/Fmu.hpp>
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
+
+#include "test_util.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
+using namespace fmuproxy::thrift::server;
+
+void wait_for_input() {
+    do {
+        cout << '\n' << "Press a key to continue...\n";
+    } while (cin.get() != '\n');
+    cout << "Done." << endl;
+}
 
 int main(int argc, char **argv) {
 
+    int port = 9090;
     string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    double step_size = 1.0/100;
     Fmu fmu = Fmu(fmu_path);
+    ThriftServer server = ThriftServer(fmu, port);
+    server.start();
 
-    const auto md = fmu.getModelDescription();
-    cout << md.defaultExperiment.stopTime << endl;
+    thread t(wait_for_input);
+    t.join();
 
-    for (auto var : md.modelVariables) {
-        RealAttribute r = var.attribute.getRealAttribute();
-        cout << r << endl;
-    }
-
-    const auto instance1 = fmu.newInstance();
-    const auto instance2 = fmu.newInstance();
-
-    instance1->init();
-    instance2->init();
-
-
-    double temperature_room;
-    fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
-
-    instance1->readReal(vr, temperature_room);
-    cout << "Temperature_Room=" << temperature_room << endl;
-
-    instance1->step(step_size);
-
-    instance1->readReal(vr, temperature_room);
-    cout << "Temperature_Room=" << temperature_room << endl;
-
-    instance1->terminate();
-
-    instance2->readReal(vr, temperature_room);
-    cout << "Temperature_Room=" << temperature_room << endl;
-
-    instance2->terminate();
+    server.stop();
 
     return 0;
-
 }
+
