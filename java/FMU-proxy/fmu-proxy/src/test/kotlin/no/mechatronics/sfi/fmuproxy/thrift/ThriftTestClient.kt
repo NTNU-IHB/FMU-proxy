@@ -31,21 +31,15 @@ import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
 import java.io.Closeable
 
-
 class ThriftTestClient(
         host: String,
         port: Int
 ): Closeable {
 
-
-    private companion object {
-
-        internal object FmuInstances: ArrayList<FmuInstance>() {
-            internal fun terminateAll() {
-                forEach{ it.terminate() }
-            }
+    internal object FmuInstances: ArrayList<FmuInstance>() {
+        internal fun terminateAll() {
+            forEach{ it.terminate() }
         }
-
     }
 
     private val transport: TTransport
@@ -139,7 +133,6 @@ class ThriftTestClient(
                 FmuInstances.remove(this)
             }
         }
-
 
        override fun close() {
             terminate()

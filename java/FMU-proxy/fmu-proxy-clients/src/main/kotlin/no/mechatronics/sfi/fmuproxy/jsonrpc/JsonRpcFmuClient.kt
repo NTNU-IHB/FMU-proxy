@@ -188,7 +188,7 @@ class JsonRpcFmuClient(
     }
 
     override fun createInstanceFromCS(): ValueReference {
-        return client.write("$SERVICE.createInstanceFromCS")
+        return client.write("$SERVICE.createInstanceFromCS", RpcParams.noParams(), 2500L)
                 .getResult<ValueReference>()!!
     }
 

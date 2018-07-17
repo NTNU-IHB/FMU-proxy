@@ -30,10 +30,11 @@ class TestProxy {
 
     companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(TestProxy::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestProxy::class.java)
 
         private const val stepSize: Double = 1.0 / 100
         private const val stopTime: Double = 5.0
+        private const val host = "localhost"
 
 //        private const val httpPort: Int = 8003
         private const val wsPort: Int = 8004
@@ -100,7 +101,7 @@ class TestProxy {
 
         proxy.getPortFor<GrpcFmuServer>()?.also { port ->
 
-            GrpcFmuClient("localhost", port).use { client ->
+            GrpcFmuClient(host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -125,7 +126,7 @@ class TestProxy {
     fun testThrift() {
 
         proxy.getPortFor<ThriftFmuServer>()?.also { port ->
-            ThriftFmuClient("localhost", port).use { client ->
+            ThriftFmuClient(host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -150,7 +151,7 @@ class TestProxy {
     fun testAvro() {
 
         proxy.getPortFor<AvroFmuServer>()?.also { port ->
-            AvroFmuClient("localhost", port).use { client ->
+            AvroFmuClient(host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -174,7 +175,6 @@ class TestProxy {
     @Test
     fun testJsonRpc() {
 
-        val host = "localhost"
         val clients = listOf(
 //                RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!)
                 RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!),
@@ -182,25 +182,28 @@ class TestProxy {
                 RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
         ).map { JsonRpcFmuClient(it) }
 
-
         val mdLocal = fmu.modelDescription
 
-        clients.forEach { client ->
+        try {
 
-            LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
+            clients.forEach { client ->
 
-            Assertions.assertEquals(mdLocal.guid, client.guid)
-            Assertions.assertEquals(mdLocal.modelName, client.modelName)
-            Assertions.assertEquals(mdLocal.fmiVersion, client.fmiVersion)
+                LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
 
-            client.newInstance().use { instance ->
+                Assertions.assertEquals(mdLocal.guid, client.guid)
+                Assertions.assertEquals(mdLocal.modelName, client.modelName)
+                Assertions.assertEquals(mdLocal.fmiVersion, client.fmiVersion)
 
-                runInstance(instance, stepSize, stopTime).also {
-                    LOG.info("${client.client.javaClass.simpleName} duration: ${it}ms")
+                client.newInstance().use { instance ->
+                    runInstance(instance, stepSize, stopTime).also {
+                        LOG.info("${client.client.javaClass.simpleName} duration: ${it}ms")
+                    }
                 }
 
             }
 
+        } finally {
+            clients.forEach { it.close() }
         }
 
     }

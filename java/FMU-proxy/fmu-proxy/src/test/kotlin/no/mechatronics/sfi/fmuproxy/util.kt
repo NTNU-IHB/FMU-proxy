@@ -5,7 +5,6 @@ import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import org.junit.jupiter.api.Assertions
 import kotlin.system.measureTimeMillis
 
-
 internal inline fun runInstance(instance: FmiSimulation, dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
     instance.init()

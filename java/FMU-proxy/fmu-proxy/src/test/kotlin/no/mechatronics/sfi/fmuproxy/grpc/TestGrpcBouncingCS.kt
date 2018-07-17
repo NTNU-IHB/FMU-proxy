@@ -44,27 +44,15 @@ import java.io.File
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestGrpcBouncingCS {
 
-    companion object {
+    private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(TestGrpcBouncingCS::class.java)
     }
 
-    private val fmu: Fmu
-    private val server: GrpcFmuServer
-    private val client: GrpcFmuClient
-    private val modelDescription: CommonModelDescription
-
-    init {
-
-        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-        modelDescription = fmu.modelDescription
-
-        server = GrpcFmuServer(fmu)
-        val port = server.start()
-
-        client = GrpcFmuClient("localhost", port)
-
-    }
+    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+    private val modelDescription: CommonModelDescription = fmu.modelDescription
+    private val server: GrpcFmuServer = GrpcFmuServer(fmu)
+    private val client: GrpcFmuClient = GrpcFmuClient("localhost", server.start())
 
     @AfterAll
     fun tearDown() {
@@ -90,7 +78,7 @@ class TestGrpcBouncingCS {
 
         client.newInstance().use { instance ->
 
-            val h = client.modelDescription.modelVariables
+            val h = instance.modelVariables
                     .getByName("h").asRealVariable()
 
             val dt = 1.0/100

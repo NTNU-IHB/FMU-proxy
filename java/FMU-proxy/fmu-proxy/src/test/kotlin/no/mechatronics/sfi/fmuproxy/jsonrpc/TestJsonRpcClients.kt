@@ -1,6 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.jsonrpc
 
 import info.laht.yajrpc.RpcHandler
+import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
@@ -29,9 +30,9 @@ import java.io.File
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestJsonRpcClients {
 
-    companion object {
+    private companion object {
 
-        val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
 
         private const val wsPort = 8001
         private const val tcpPort = 8002
@@ -40,15 +41,12 @@ class TestJsonRpcClients {
 
     }
 
-    private val fmu: Fmu
     private var proxy: FmuProxy
-    private var modelDescription: CommonModelDescription
+    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+    private var modelDescription: CommonModelDescription = fmu.modelDescription
 
     init {
-
-        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-        modelDescription = fmu.modelDescription
 
         val handler = RpcHandler(RpcFmuService(fmu))
         proxy = FmuProxyBuilder(fmu).apply {
@@ -76,28 +74,34 @@ class TestJsonRpcClients {
                 RpcZmqClient("localhost", zmqPort)
         ).map { JsonRpcFmuClient(it) }
 
-        clients.forEach { client ->
+        try {
 
-            LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
-            Assertions.assertEquals(modelDescription.modelName, client.modelName)
-            Assertions.assertEquals(modelDescription.guid, client.guid)
+            clients.forEach { client ->
 
-            client.newInstance().use { instance ->
+                LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
+                Assertions.assertEquals(modelDescription.modelName, client.modelName)
+                Assertions.assertEquals(modelDescription.guid, client.guid)
 
-                instance.init()
-                Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
+                client.newInstance().use { instance ->
 
-                val h = client.modelDescription.modelVariables
-                        .getByName("h").asRealVariable()
+                    instance.init()
+                    Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
 
-                val dt = 1.0/100
-                val stop = 10.0
-                runInstance(instance, dt, stop) {
-                    h.read()
-                }.also { LOG.info("Duration: ${it}ms") }
+                    val h = client.modelDescription.modelVariables
+                            .getByName("h").asRealVariable()
+
+                    val dt = 1.0/100
+                    val stop = 10.0
+                    runInstance(instance, dt, stop) {
+                        h.read()
+                    }.also { LOG.info("Duration: ${it}ms") }
+
+                }
 
             }
 
+        } finally {
+            clients.forEach {it.close()}
         }
 
     }

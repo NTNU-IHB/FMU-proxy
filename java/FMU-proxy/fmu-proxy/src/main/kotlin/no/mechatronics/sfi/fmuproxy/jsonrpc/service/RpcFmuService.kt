@@ -24,7 +24,6 @@
 
 package no.mechatronics.sfi.fmuproxy.jsonrpc.service
 
-import com.google.gson.Gson
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
@@ -36,7 +35,6 @@ import org.apache.commons.math3.ode.FirstOrderIntegrator
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 private fun getFmu(id: Int): FmiSimulation {
     val fmu = Fmus.get(id)
     if (fmu != null) {
@@ -44,7 +42,6 @@ private fun getFmu(id: Int): FmiSimulation {
     }
     throw IllegalArgumentException("No fmu with id=$id")
 }
-
 
 /**
  * @author Lars Ivar Hatledal

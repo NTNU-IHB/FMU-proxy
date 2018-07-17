@@ -23,7 +23,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class Benchmark {
@@ -34,6 +33,7 @@ class Benchmark {
 
         private const val dt = 1E-4
         private const val stop = 1.0
+        private const val host = "localhost"
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
                 "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
@@ -64,63 +64,57 @@ class Benchmark {
     @Test
     fun measureTimeThrift() {
 
-        val server = ThriftFmuServer(fmu)
-        val port = server.start()
-
-        val client = ThriftFmuClient("localhost", port)
-        client.newInstance().use { instance ->
-            runInstance(instance, dt, stop) {
-                val read = instance.readReal("Temperature_Room")
-                Assertions.assertTrue(read.value > 0)
-            }.also {
-                LOG.info("Thrift duration=${it}ms")
+        ThriftFmuServer(fmu).use { server ->
+            val port = server.start()
+            val client = ThriftFmuClient(host, port)
+            client.newInstance().use { instance ->
+                runInstance(instance, dt, stop) {
+                    val read = instance.readReal("Temperature_Room")
+                    Assertions.assertTrue(read.value > 0)
+                }.also {
+                    LOG.info("Thrift duration=${it}ms")
+                }
             }
+            client.close()
         }
-
-        client.close()
-        server.close()
 
     }
 
     @Test
     fun measureTimeAvro() {
 
-        val server = AvroFmuServer(fmu)
-        val port = server.start()
-
-        val client = AvroFmuClient("localhost", port)
-        client.newInstance().use { instance ->
-            runInstance(instance, dt, stop) {
-                val read = instance.readReal("Temperature_Room")
-                Assertions.assertTrue(read.value > 0)
-            }.also {
-                LOG.info("Avro duration=${it}ms")
+        AvroFmuServer(fmu).use { server ->
+            val port = server.start()
+            val client = AvroFmuClient(host, port)
+            client.newInstance().use { instance ->
+                runInstance(instance, dt, stop) {
+                    val read = instance.readReal("Temperature_Room")
+                    Assertions.assertTrue(read.value > 0)
+                }.also {
+                    LOG.info("Avro duration=${it}ms")
+                }
             }
+            client.close()
         }
-
-        client.close()
-        server.close()
 
     }
 
     @Test
     fun measureTimeGrpc() {
 
-        val server = GrpcFmuServer(fmu)
-        val port = server.start()
-
-        val client = GrpcFmuClient("localhost", port)
-        client.newInstance().use { instance ->
-            runInstance(instance, dt, stop) {
-                val read = instance.readReal("Temperature_Room")
-                Assertions.assertTrue(read.value > 0)
-            }.also {
-                LOG.info("gRPC duration=${it}ms")
+        GrpcFmuServer(fmu).use { server ->
+            val port = server.start()
+            val client = GrpcFmuClient(host, port)
+            client.newInstance().use { instance ->
+                runInstance(instance, dt, stop) {
+                    val read = instance.readReal("Temperature_Room")
+                    Assertions.assertTrue(read.value > 0)
+                }.also {
+                    LOG.info("gRPC duration=${it}ms")
+                }
             }
+            client.close()
         }
-
-        client.close()
-        server.close()
 
     }
 
@@ -137,34 +131,35 @@ class Benchmark {
         val servers = listOf(
 //                FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
                 FmuProxyJsonWsServer(handler).apply { start(wsPort) },
-                FmuProxyJsonTcpServer(handler).apply { start(tcpPort) }
-//                FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
+                FmuProxyJsonTcpServer(handler).apply { start(tcpPort) },
+                FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
         )
 
-        val host = "localhost"
-        val clients = listOf(
+        try {
+            val clients = listOf(
 //                RpcHttpClient(host, httpPort),
-                RpcWebSocketClient(host, wsPort),
-                RpcTcpClient(host, tcpPort),
-                RpcZmqClient(host, zmqPort)
-        ).map { JsonRpcFmuClient(it) }
+                    RpcWebSocketClient(host, wsPort),
+                    RpcTcpClient(host, tcpPort),
+                    RpcZmqClient(host, zmqPort)
+            ).map { JsonRpcFmuClient(it) }
 
-        clients.forEach { client ->
+            clients.forEach { client ->
 
-            client.newInstance().use { instance ->
-                runInstance(instance, dt, stop) {
-                    val read = instance.readReal("Temperature_Room")
-                    Assertions.assertTrue(read.value > 0)
-                }.also {
-                    LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
+                client.newInstance().use { instance ->
+                    runInstance(instance, dt, stop) {
+                        val read = instance.readReal("Temperature_Room")
+                        Assertions.assertTrue(read.value > 0)
+                    }.also {
+                        LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
+                    }
                 }
+
+                client.close()
+
             }
-
-            client.close()
-
+        } finally {
+            servers.forEach { it.close() }
         }
-
-        servers.forEach { it.close() }
 
     }
 

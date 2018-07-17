@@ -94,9 +94,9 @@ class FmuProxy(
             servers.forEach {
                 it.key.stop()
             }
-            LOG.debug("proxy stopped!")
+            LOG.debug("FMU-proxy stopped!")
         } else {
-            LOG.warn("Calling stop, but proxy has not started..")
+            LOG.warn("Calling stop, but FMU-proxy has not started..")
         }
     }
 

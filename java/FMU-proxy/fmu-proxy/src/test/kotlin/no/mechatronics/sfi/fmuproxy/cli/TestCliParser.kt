@@ -1,38 +1,20 @@
 package no.mechatronics.sfi.fmuproxy.cli
 
-import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.net.MalformedURLException
-import java.net.URL
 
-private const val fmuPath = "jar:file:../../../test/HydraulicCylinder.jar!/HydraulicCylinder.fmu"
-
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestCliParser {
 
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
-    }
+    private companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
 
-    @Test
-    fun testPath() {
-
-        File(fmuPath).let { file ->
-
-            if (file.exists()) {
-                Fmu.from(file)
-            } else {
-                try {
-                    Fmu.from(URL(fmuPath))
-                } catch (ex: MalformedURLException) {
-                    LOG.error("Interpreted fmuPath as an URL, but an MalformedURLException was thrown", ex)
-                    null
-                }
-            }
-
-        }?.close()
+        private val fmuPath = File(TestUtils.getTEST_FMUs(),
+                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     }
 
@@ -43,7 +25,7 @@ class TestCliParser {
                 "--remote", "127.0.0.1:8888",
                 "-grpc", "8000")
 
-        args1 += arrayOf("-fmu", "$fmuPath")
+        args1 += arrayOf("--fmu", "${fmuPath.absolutePath}")
         CommandLineParser.parse(args1)?.use { proxy ->
 
             proxy.start()

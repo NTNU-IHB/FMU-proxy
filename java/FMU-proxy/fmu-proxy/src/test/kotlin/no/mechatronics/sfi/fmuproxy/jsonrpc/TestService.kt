@@ -24,8 +24,8 @@ import java.io.File
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestService {
 
-    companion object {
-       val LOG: Logger = LoggerFactory.getLogger(TestService::class.java)
+    private companion object {
+       private val LOG: Logger = LoggerFactory.getLogger(TestService::class.java)
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),

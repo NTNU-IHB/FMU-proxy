@@ -8,37 +8,22 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.condition.EnabledOnOs
-import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestAvroBouncing {
+class TestAvroTemperature {
 
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(TestAvroBouncing::class.java)
+    private companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(TestAvroTemperature::class.java)
     }
 
-    private val fmu: Fmu
-    private val server: AvroFmuServer
-    private val client: AvroFmuClient
-    private val modelDescription: CommonModelDescription
-
-    init {
-
-        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
-        modelDescription = fmu.modelDescription
-
-        server = AvroFmuServer(fmu)
-        val port = server.start()
-
-        client = AvroFmuClient("localhost", port)
-
-    }
+    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+    private val modelDescription: CommonModelDescription = fmu.modelDescription
+    private val server: AvroFmuServer = AvroFmuServer(fmu)
+    private val client: AvroFmuClient = AvroFmuClient("localhost", server.start())
 
     @AfterAll
     fun tearDown() {
@@ -64,13 +49,13 @@ class TestAvroBouncing {
 
         client.newInstance().use { instance ->
 
-            val h = client.modelDescription.modelVariables
-                    .getByName("h").asRealVariable()
+            val temp = client.modelDescription.modelVariables
+                    .getByName("Temperature_Room").asRealVariable()
 
-            val dt = 1.0/100
-            val stop = 100.0
+            val dt = 1E-4
+            val stop = 2.0
             runInstance(instance, dt, stop) {
-                h.read()
+                temp.read()
             }.also {
                 LOG.info("Duration=${it}ms")
             }

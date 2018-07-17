@@ -15,34 +15,22 @@ import java.io.File
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
-class TestThriftTorsionBar {
+class TestThriftTemperature {
 
-    companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(TestThriftTorsionBar::class.java)
+    private companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(TestThriftTemperature::class.java)
     }
 
-    private val fmu: Fmu
-    private val server: ThriftFmuServer
-    private val client: ThriftFmuClient
-    private val modelDescription: CommonModelDescription
-
-    init {
-
-        fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/TorsionBar/TorsionBar.fmu"))
-        modelDescription = fmu.modelDescription
-
-        server = ThriftFmuServer(fmu)
-        val port = server.start()
-
-        client = ThriftFmuClient("localhost", port)
-
-    }
+    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+    private val modelDescription: CommonModelDescription = fmu.modelDescription
+    private val server: ThriftFmuServer = ThriftFmuServer(fmu)
+    private val client: ThriftFmuClient = ThriftFmuClient("localhost", server.start())
 
     @AfterAll
     fun tearDown() {
         client.close()
-        server.close()
+        server.stop()
         fmu.close()
     }
 
@@ -59,25 +47,21 @@ class TestThriftTorsionBar {
     }
 
     @Test
-    fun testGetVariable() {
-        val motorDiskRev = client.modelDescription.modelVariables
-                .getByName("MotorDiskRev").asRealVariable()
-        Assertions.assertEquals(105, motorDiskRev.valueReference)
-    }
-
-    @Test
     fun testInstance() {
 
         client.newInstance().use { instance ->
-            val dt = 1E-5
-            val stop = 0.1
-            val motorDiskRev = client.modelDescription.modelVariables
-                    .getByName("MotorDiskRev").asRealVariable()
+
+            val temp = client.modelDescription.modelVariables
+                    .getByName("Temperature_Room").asRealVariable()
+
+            val dt = 1E-4
+            val stop = 2.0
             runInstance(instance, dt, stop) {
-                motorDiskRev.read()
+                temp.read()
             }.also {
-                LOG.info("Duration=${it}ms")
+                LOG.info("Duration: ${it}ms")
             }
+
         }
 
     }
