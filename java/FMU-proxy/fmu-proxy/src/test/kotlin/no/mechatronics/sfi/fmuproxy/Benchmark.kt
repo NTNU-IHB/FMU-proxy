@@ -130,20 +130,20 @@ class Benchmark {
         val wsPort = 8001
         val tcpPort = 8002
         val zmqPort = 8003
-        val httpPort = 8004
+//        val httpPort = 8004
 
         val handler = RpcHandler(RpcFmuService(fmu))
 
         val servers = listOf(
-                FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
+//                FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
                 FmuProxyJsonWsServer(handler).apply { start(wsPort) },
-                FmuProxyJsonTcpServer(handler).apply { start(tcpPort) },
-                FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
+                FmuProxyJsonTcpServer(handler).apply { start(tcpPort) }
+//                FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
         )
 
         val host = "localhost"
         val clients = listOf(
-                RpcHttpClient(host, httpPort),
+//                RpcHttpClient(host, httpPort),
                 RpcWebSocketClient(host, wsPort),
                 RpcTcpClient(host, tcpPort),
                 RpcZmqClient(host, zmqPort)
