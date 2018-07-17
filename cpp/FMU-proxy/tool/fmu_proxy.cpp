@@ -27,6 +27,7 @@
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 #include "boost/program_options.hpp"
+#include "RemoteAddress.hpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -46,19 +47,27 @@ namespace {
         cout << "Done." << endl;
     }
 
-    int run_application(string &fmu_path) {
+    int run_application(string &fmu_path, shared_ptr<RemoteAddress> remote) {
+
+        bool has_remote = remote != nullptr;
 
         Fmu fmu(fmu_path);
 
         ThriftServer server(fmu, 9090);
         server.start();
 
-        Heartbeat beat("localhost", 8080, fmu.get_model_description_xml());
-        beat.start();
+        unique_ptr<Heartbeat> beat = nullptr;
+        if (has_remote) {
+            beat = make_unique<Heartbeat>(remote->host, remote->port, fmu.get_model_description_xml());
+            beat->start();
+        }
 
         wait_for_input();
         server.stop();
-        beat.stop();
+
+        if (has_remote) {
+            beat->stop();
+        }
 
         return 0;
 
@@ -101,12 +110,14 @@ int main(int argc, char** argv) {
         if (vm.count("fmu")) {
             string fmu_path = vm["fmu"].as<string>();
 
+            shared_ptr<RemoteAddress> address = nullptr;
             if (vm.count("remote")) {
-                string address = vm["remote"].as<string>();
-                //TODO split address into host and port
+                string str = vm["remote"].as<string>();
+                auto parse = RemoteAddress::parse (str);
+                address = shared_ptr<RemoteAddress>(&parse);
             }
 
-            return run_application(fmu_path);
+            return run_application(fmu_path, address);
         }
 
 
