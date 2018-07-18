@@ -5,16 +5,11 @@ set(CMAKE_CXX_STANDARD 14)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(Boost 1.63.0 COMPONENTS system filesystem program_options REQUIRED)
+find_package(Boost 1.65.0 COMPONENTS system filesystem program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-set(FMILIB_USE_SHARED_LIB true)
 find_package(FMILIB REQUIRED)
-IF(FMILIB_FOUND)
-    MESSAGE(STATUS "FMI library found")
-ELSE(FMILIB_FOUND)
-    MESSAGE(FATAL_ERROR "FMI library not found but required. Set FMILIB_HOME to the location containing lib and include folder of FMI library.")
-ENDIF(FMILIB_FOUND)
+include_directories(${FMILIB_INCLUDE_DIRS})
 
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
