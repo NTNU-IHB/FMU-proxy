@@ -14,7 +14,7 @@ find_path(CURL_INCLUDE_DIR NAMES
         ${CURL_HOME}/include)
 mark_as_advanced(CURL_INCLUDE_DIR)
 
-find_library(CURL_LIBRARY NAMES curl curllib libcurl_imp PATHS ${CURL_HOME}/lib)
+find_library(CURL_LIBRARY NAMES curl libcurl libcurl_imp libcurl_a PATHS ${CURL_HOME}/lib)
 mark_as_advanced(CURL_LIBRARY)
 
 if(CURL_INCLUDE_DIR)
