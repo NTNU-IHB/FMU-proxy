@@ -24,4 +24,4 @@ target_link_libraries(ThriftClientTest thrift-client)
 
 add_executable(ThriftServerTest
         thrift_server_test.cpp)
-target_link_libraries(ThriftServerTest thrift-server pthread)
+target_link_libraries(ThriftServerTest thrift-server)
