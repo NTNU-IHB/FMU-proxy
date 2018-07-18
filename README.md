@@ -71,10 +71,10 @@ A Thrift client is available. It shares a common interface with the FMI wrapper,
 
 #### Dependencies
 
-[FMI Library](https://jmodelica.org/) 
-[Thrift](https://thrift.apache.org/)
-[libcurl](https://curl.haxx.se/libcurl/)
-[Boost](https://www.boost.org/)
+* [FMI Library](https://jmodelica.org/) 
+* [Thrift](https://thrift.apache.org/)
+* [libcurl](https://curl.haxx.se/libcurl/)
+* [Boost](https://www.boost.org/)
 
 #### FMU-proxy executable
 
