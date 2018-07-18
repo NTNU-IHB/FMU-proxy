@@ -23,7 +23,7 @@
  */
 
 #include <fstream>
-#include <memory> #include <memory> #include <streambuf>
+#include <memory>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <boost/filesystem.hpp>
 
