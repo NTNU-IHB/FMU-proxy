@@ -26,6 +26,7 @@
 #define FMU_PROXY_SCALARVARIABLEATTRIBUTES_HPP
 
 #include <iostream>
+#include <string>
 
 namespace fmuproxy::fmi {
 
@@ -184,7 +185,7 @@ namespace fmuproxy::fmi {
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const BooleanAttribute &a) {
-            return strm << "BooleanAttribute(start=" << (a.getStart() == 0 ? false : true) << ")";
+            return strm << "BooleanAttribute(start=" << (a.getStart() != 0) << ")";
         }
 
 
@@ -336,7 +337,7 @@ namespace fmuproxy::fmi {
                 auto _a = a.getRealAttribute();
                 return strm << "RealAttribute(start=" << _a.getStart() << ", min=" << _a.getMin() << ", max=" << _a.getMax() << ")";
             } else if  (a.isStringAttribute()) {
-                auto _a = a.getStringAttribute();
+                const auto &_a = a.getStringAttribute();
                 return strm << "StringAttribute(start=" << _a.getStart() << ")";
             } else if (a.isBooleanAttribute()) {
                 auto _a = a.getBooleanAttribute();

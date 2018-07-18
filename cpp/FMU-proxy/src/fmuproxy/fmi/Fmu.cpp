@@ -23,7 +23,7 @@
  */
 
 #include <fstream>
-#include <streambuf>
+#include <memory> #include <memory> #include <streambuf>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <boost/filesystem.hpp>
 
@@ -43,11 +43,11 @@ Fmu::Fmu (const string &fmu_path) {
     this->callbacks = create_callbacks(jm_log_level_nothing);
 
     this->ctx = fmi_import_allocate_context(&callbacks);
-    this->version = fmi_import_get_fmi_version(ctx, fmu_path.c_str(), tmp_path.c_str());
+    this->version = fmi_import_get_fmi_version(ctx, fmu_path.c_str(), tmp_path.string().c_str());
 
-    this->xml = load_model_description(tmp_path.c_str(), ctx, callbacks);
+    this->xml = load_model_description(tmp_path.string(), ctx, callbacks);
 
-    this->modelDescription = shared_ptr<ModelDescription>(new ModelDescription());
+    this->modelDescription = std::make_shared<ModelDescription>();
     populate_model_description(version, xml, *modelDescription);
 
     std::ifstream t(tmp_path.string() + "/modelDescription.xml");
@@ -73,7 +73,7 @@ unique_ptr<FmuInstance> Fmu::new_instance() {
     callBackFunctions.componentEnvironment = nullptr;
 
     const char* model_identifier = fmi2_import_get_model_identifier_CS(xml);
-    fmi2_import_t* fmu = load_model_description(tmp_path.c_str(), ctx, callbacks);
+    fmi2_import_t* fmu = load_model_description(tmp_path.string(), ctx, callbacks);
 
     jm_status_enu_t status = fmi2_import_create_dllfmu(fmu, fmi2_fmu_kind_cs, &callBackFunctions);
     if (status == jm_status_error) {
@@ -87,7 +87,7 @@ unique_ptr<FmuInstance> Fmu::new_instance() {
         throw runtime_error("fmi2_import_instantiate failed!");
     }
 
-    return unique_ptr<FmuInstance>(new FmuInstance(fmu, *modelDescription));
+    return make_unique<FmuInstance>(fmu, *modelDescription);
 
 }
 
