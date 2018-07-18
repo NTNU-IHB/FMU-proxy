@@ -19,6 +19,9 @@ include_directories(${FMILIB_INCLUDE_DIRS})
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})
 
+find_package(THRIFT REQUIRED)
+include_directories(${THRIFT_INCLUDE_DIRS})
+
 # add subdiretories
 add_subdirectory(src)
 add_subdirectory(tool)

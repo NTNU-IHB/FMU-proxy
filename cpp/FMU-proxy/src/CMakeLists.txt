@@ -68,7 +68,7 @@ elseif(MSVC)
 endif()
 
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
-target_link_libraries(thrift-common thrift)
+target_link_libraries(thrift-common ${THRIFT_LIBRARIES})
 
 add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIENT_SRC})
 target_link_libraries(thrift-client thrift-common fmi)
