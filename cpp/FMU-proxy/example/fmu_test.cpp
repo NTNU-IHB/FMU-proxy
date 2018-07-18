@@ -51,7 +51,6 @@ int main(int argc, char **argv) {
     instance1->init();
     instance2->init();
 
-
     double temperature_room;
     fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
 

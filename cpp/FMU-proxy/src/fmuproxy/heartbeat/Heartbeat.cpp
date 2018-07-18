@@ -24,7 +24,7 @@
 
 #include <iostream>
 #include <chrono>
-#include <memory> #include <thread>
+#include <memory>
 #include <curl/curl.h>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 

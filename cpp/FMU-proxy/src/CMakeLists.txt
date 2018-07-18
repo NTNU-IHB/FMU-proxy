@@ -60,7 +60,7 @@ add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
 
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
-target_link_libraries(heartbeat curl Boost::system)
+target_link_libraries(heartbeat curl Boost::system pthread)
 
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
 target_link_libraries(thrift-common thrift)
@@ -69,4 +69,4 @@ add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIEN
 target_link_libraries(thrift-client thrift-common fmi)
 
 add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
-target_link_libraries(thrift-server thrift-common fmi)
+target_link_libraries(thrift-server thrift-common fmi pthread)
