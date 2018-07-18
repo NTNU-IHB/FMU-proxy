@@ -22,18 +22,13 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_FMUWRAPPER_H
-#define FMU_PROXY_FMUWRAPPER_H
-
-#include <iostream>
-#include <vector>
+#ifndef FMU_PROXY_FMU_H
+#define FMU_PROXY_FMU_H
 
 #include <boost/filesystem.hpp>
 
 #include "fmi_definitions.hpp"
 #include "FmuInstance.hpp"
-
-namespace fs = boost::filesystem;
 
 namespace fmuproxy::fmi {
 
@@ -41,17 +36,17 @@ namespace fmuproxy::fmi {
 
     private:
 
-        fs::path tmp_path;
         fmi2_import_t* xml;
         fmi_xml_context_t* ctx;
         jm_callbacks callbacks;
         fmi_version_enu_t version;
 
+        boost::filesystem::path tmp_path;
         std::string model_description_xml;
         std::shared_ptr<ModelDescription> modelDescription;
 
     public:
-        Fmu(const std::string &fmu_path);
+        explicit Fmu(const std::string &fmu_path);
 
         const std::string &get_model_description_xml();
 
@@ -65,5 +60,5 @@ namespace fmuproxy::fmi {
 
 }
 
-#endif //FMU_PROXY_FMUWRAPPER_H
+#endif //FMU_PROXY_FMU_H
 

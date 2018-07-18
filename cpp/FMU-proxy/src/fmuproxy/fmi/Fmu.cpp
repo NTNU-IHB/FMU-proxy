@@ -22,12 +22,7 @@
  * THE SOFTWARE.
  */
 
-#include <fstream>
-#include <memory>
 #include <fmuproxy/fmi/Fmu.hpp>
-#include <boost/filesystem.hpp>
-
-
 #include "fmu_helper.cpp"
 
 using namespace std;
@@ -93,7 +88,7 @@ unique_ptr<FmuInstance> Fmu::new_instance() {
 
 Fmu::~Fmu() {
 
-    std::cout << "Fmu destructor called" << std::endl;
+    cout << "Fmu destructor called" << endl;
 
     fmi2_import_free(xml);
     fmi_import_free_context(this->ctx);

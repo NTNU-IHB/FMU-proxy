@@ -8,30 +8,32 @@
 
 cmake_minimum_required (VERSION 3.10)
 
-find_path(FMILIB_INCLUDE_DIR NAMES
-        fmilib.h
-        PATHS
-        ${FMILIB_HOME}/include)
+find_path(FMILIB_INCLUDE_DIR NAMES fmilib.h PATHS ${FMILIB_HOME}/include)
 mark_as_advanced(FMILIB_INCLUDE_DIR)
 
 if (FMILIB_USE_SHARED_LIB)
     find_library(FMILIB_LIBRARY NAMES fmilib_shared PATHS ${FMILIB_HOME}/lib)
-    else()
+    if (WIN32)
+        find_file (FMILIB_DLL fmilib_shared.dll PATHS ${FMILIB_HOME}/lib)
+        mark_as_advanced (FMILIB_DLL)
+    endif ()
+else()
     find_library(FMILIB_LIBRARY NAMES fmilib PATHS ${FMILIB_HOME}/lib)
 endif()
 mark_as_advanced(FMILIB_LIBRARY)
 
-include(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(FMILIB
-        REQUIRED_VARS FMILIB_LIBRARY FMILIB_INCLUDE_DIR)
-
-if(FMILIB_FOUND)
-    set(FMILIB_LIBRARIES ${FMILIB_LIBRARY})
-    set(FMILIB_INCLUDE_DIRS ${FMILIB_INCLUDE_DIR})
-endif()
+set(FMILIB_INCLUDE_DIRS ${FMILIB_INCLUDE_DIR})
+set(FMILIB_LIBRARIES ${FMILIB_LIBRARY})
 
 if (FMILIB_PRINT_VARS)
     message ("FMILIB find script variables:")
     message ("  FMILIB_INCLUDE_DIRS   = ${FMILIB_INCLUDE_DIRS}")
     message ("  FMILIB_LIBRARIES      = ${FMILIB_LIBRARIES}")
-endif ()
+    if (WIN32)
+        message ("  FMILIB_DLL            = ${FMILIB_DLL}")
+    endif()
+endif()
+
+include(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(FMILIB
+        REQUIRED_VARS FMILIB_LIBRARIES FMILIB_INCLUDE_DIR)

@@ -5,13 +5,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+if(WIN32)
+    set(Boost_USE_STATIC_LIBS ON)
+endif()
 find_package(Boost 1.65.1 COMPONENTS system filesystem program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
-link_directories(${Boost_LIBRARY_DIRS})
 
 find_package(FMILIB REQUIRED)
 include_directories(${FMILIB_INCLUDE_DIRS})
-link_libraries(${FMILIB_LIBRARIES})
 
 find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIRS})

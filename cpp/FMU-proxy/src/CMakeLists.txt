@@ -9,10 +9,10 @@ SET(THRIFT_HEADER_DIR ${HEADER_ROOT_PATH}/thrift)
 SET(HEARTBEAT_HEADER_DIR ${HEADER_ROOT_PATH}/heartbeat)
 
 SET(FMI_HEADERS
-        ${FMI_HEADER_DIR}/fmi_definitions.hpp
-        ${FMI_HEADER_DIR}/FmiSimulation.hpp
         ${FMI_HEADER_DIR}/Fmu.hpp
         ${FMI_HEADER_DIR}/FmuInstance.hpp
+        ${FMI_HEADER_DIR}/FmiSimulation.hpp
+        ${FMI_HEADER_DIR}/fmi_definitions.hpp
         ${FMI_HEADER_DIR}/ScalarVariableAttributes.hpp)
 
 SET(HEARTBEAT_HEADERS
