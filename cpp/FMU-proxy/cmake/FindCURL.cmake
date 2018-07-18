@@ -3,8 +3,8 @@
 # Find the native Curl headers and libraries.
 #
 #   CURL_INCLUDE_DIRS   - where to find curl/curl.h
-#   CURL_LIBRARIES      - List of libraries when using FMI Library.
-#   CURL_FOUND          - True if FMI Library found.
+#   CURL_LIBRARIES      - List of libraries when using Curl.
+#   CURL_FOUND          - True if Curl found.
 
 cmake_minimum_required (VERSION 3.10)
 

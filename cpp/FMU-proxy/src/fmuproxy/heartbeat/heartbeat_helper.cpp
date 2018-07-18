@@ -25,6 +25,8 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cctype>
+#include <algorithm>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -58,7 +60,7 @@ namespace fmuproxy::heartbeat {
     // https://stackoverflow.com/questions/44994203/how-to-get-the-http-response-string-using-curl-in-c
     size_t write_callback(char *contents, size_t size, size_t nmemb, void *userp)
     {
-        ((std::string*)userp)->append((char*)contents, size * nmemb);
+        ((std::string*)userp)->append(contents, size * nmemb);
         return size * nmemb;
     }
 
@@ -86,7 +88,7 @@ namespace fmuproxy::heartbeat {
         rtrim(s);
     }
 
-    static inline CURLcode post(const string host, const unsigned int port, CURL *curl, string &response, const string &ctx, const string &data) {
+    static inline CURLcode post(const string &host, const unsigned int port, CURL *curl, string &response, const string &ctx, const string &data) {
 
         string url = "http://" + host + ":" + to_string(port) + "/fmu-proxy/" + ctx;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());

@@ -23,6 +23,8 @@
  */
 
 #include <iostream>
+#include <chrono>
+#include <memory> #include <thread>
 #include <curl/curl.h>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 
@@ -35,7 +37,7 @@ Heartbeat::Heartbeat(const string &host, const unsigned int port, const string &
         : host(host), port(port), model_description_xml(escape_json(xml)) {}
 
 void Heartbeat::start() {
-   m_thread = unique_ptr<thread>(new thread(&Heartbeat::run, this));
+   m_thread = make_unique<thread>(&Heartbeat::run, this);
 }
 
 void Heartbeat::run() {
@@ -67,7 +69,7 @@ void Heartbeat::run() {
             if (m_connected) {
 
                 std::string response;
-                res = post(host, port, curl, response, "ping", uuid.c_str());
+                res = post(host, port, curl, response, "ping", uuid);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                     m_connected = false;
@@ -79,12 +81,12 @@ void Heartbeat::run() {
                     }
                 }
 
-                usleep(1 * 100000); // 100msec
+                this_thread::sleep_for(chrono::milliseconds(1000));
 
             } else {
 
                 std::string response;
-                res = post(host, port, curl, response, "registerfmu", json.c_str());
+                res = post(host, port, curl, response, "registerfmu", json);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 } else {
@@ -96,7 +98,7 @@ void Heartbeat::run() {
                     }
                 }
 
-                usleep(1 * 1000000); // 1000msec
+                this_thread::sleep_for(chrono::milliseconds(2500));
 
             }
         }
