@@ -16,15 +16,12 @@ wrapper {
     gradleVersion = '4.9'
 }
 
-ext.fmi4j_stable_version = '0.7.2'
-ext.fmi4j_snapshot_version = '0.7.3-SNAPSHOT'
+ext.fmi4j_stable_version = '0.7.3'
+ext.fmi4j_snapshot_version = '0.7.4-SNAPSHOT'
 
 subprojects { sub ->
 
     apply plugin: 'java'
-
-    sourceCompatibility = 1.8
-    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
     repositories {
         mavenCentral()
