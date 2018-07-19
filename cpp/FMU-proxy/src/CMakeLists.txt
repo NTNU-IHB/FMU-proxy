@@ -58,6 +58,7 @@ SET(THRIFT_SERVER_SRC
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
+
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
 target_link_libraries(heartbeat ${CURL_LIBRARIES} Boost::system)
 if(UNIX)
