@@ -28,7 +28,7 @@
 #include <string>
 #include <thread>
 
-namespace fmuproxy::heartbeat {
+namespace fmuproxy { namespace heartbeat {
 
     class Heartbeat {
 
@@ -53,6 +53,6 @@ namespace fmuproxy::heartbeat {
 
     };
 
-}
+}}
 
 #endif //FMU_PROXY_HEARTBEAT_HPP

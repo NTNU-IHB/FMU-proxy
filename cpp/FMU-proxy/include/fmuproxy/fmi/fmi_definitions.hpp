@@ -31,7 +31,7 @@
 #include <fmilib.h>
 #include "ScalarVariableAttributes.hpp"
 
-namespace fmuproxy::fmi {
+namespace fmuproxy { namespace fmi {
 
     struct DefaultExperiment {
         double startTime;
@@ -94,8 +94,7 @@ namespace fmuproxy::fmi {
 
     };
 
-
-}
+}}
 
 
 #endif //FMU_PROXY_FMI_DEFINITIONS_HPP

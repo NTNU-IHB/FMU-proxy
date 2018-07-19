@@ -30,7 +30,7 @@
 #include "fmi_definitions.hpp"
 #include "FmuInstance.hpp"
 
-namespace fmuproxy::fmi {
+namespace fmuproxy { namespace fmi {
 
     class Fmu {
 
@@ -58,7 +58,7 @@ namespace fmuproxy::fmi {
 
     };
 
-}
+}}
 
 #endif //FMU_PROXY_FMU_H
 

@@ -28,7 +28,7 @@
 #include <iostream>
 #include <string>
 
-namespace fmuproxy::fmi {
+namespace fmuproxy { namespace fmi {
 
     class IntegerAttribute {
     private:
@@ -349,11 +349,10 @@ namespace fmuproxy::fmi {
                 throw std::runtime_error("no valid attribute set!");
             }
 
-
         }
 
     };
 
-}
+}}
 
 #endif //FMU_PROXY_SCALARVARIABLEATTRIBUTES_HPP
