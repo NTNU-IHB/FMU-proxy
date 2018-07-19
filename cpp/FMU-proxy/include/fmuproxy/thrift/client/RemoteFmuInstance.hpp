@@ -32,7 +32,7 @@
 
 using namespace fmuproxy::thrift;
 
-namespace fmuproxy::thrift::client {
+namespace fmuproxy { namespace  thrift { namespace  client {
 
     class RemoteFmuInstance: public fmuproxy::fmi::FmiSimulation {
 
@@ -104,6 +104,6 @@ namespace fmuproxy::thrift::client {
 
     };
 
-}
+}}}
 
 #endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP

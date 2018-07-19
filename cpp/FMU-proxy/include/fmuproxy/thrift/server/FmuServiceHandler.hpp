@@ -31,7 +31,7 @@
 
 using namespace fmuproxy::thrift;
 
-namespace fmuproxy {namespace  thrift { namespace  server {
+namespace fmuproxy { namespace  thrift { namespace  server {
 
     class FmuServiceHandler : virtual public FmuServiceIf {
 

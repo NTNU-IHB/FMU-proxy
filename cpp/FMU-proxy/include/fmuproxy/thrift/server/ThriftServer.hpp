@@ -31,7 +31,7 @@
 #include "../../fmi/Fmu.hpp"
 #include "FmuServiceHandler.hpp"
 
-namespace fmuproxy {namespace  thrift { namespace  server {
+namespace fmuproxy { namespace  thrift { namespace  server {
         
     class ThriftServer {
 
