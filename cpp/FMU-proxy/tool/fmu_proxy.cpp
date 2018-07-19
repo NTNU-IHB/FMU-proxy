@@ -37,8 +37,8 @@ using namespace fmuproxy::thrift::server;
 namespace {
 
     const int SUCCESS = 0;
-    const int ERROR_IN_COMMAND_LINE = 1;
-    const int ERROR_UNHANDLED_EXCEPTION = 2;
+    const int COMMANDLINE_ERROR = 1;
+    const int UNHANDLED_ERROR = 2;
 
     void wait_for_input() {
         do {
@@ -104,9 +104,8 @@ int main(int argc, char** argv) {
         } catch(po::error& e) {
             std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
             std::cerr << desc << std::endl;
-            return ERROR_IN_COMMAND_LINE;
+            return COMMANDLINE_ERROR;
         }
-
 
         string fmu_path = vm["fmu"].as<string>();
         unsigned int thrift_port = vm["thrift_port"].as<unsigned int>();
@@ -121,10 +120,9 @@ int main(int argc, char** argv) {
         return run_application(fmu_path, thrift_port, remote);
 
 
-
     } catch(std::exception& e) {
         std::cerr << "Unhandled Exception reached the top of main: " << e.what() << ", application will now exit" << std::endl;
-        return ERROR_UNHANDLED_EXCEPTION;
+        return UNHANDLED_ERROR;
     }
 
 }
