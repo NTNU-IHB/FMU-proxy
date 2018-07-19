@@ -8,7 +8,10 @@
 
 cmake_minimum_required (VERSION 3.10)
 
-find_path(FMILIB_INCLUDE_DIR NAMES fmilib.h PATHS ${FMILIB_HOME}/include)
+find_path(FMILIB_INCLUDE_DIR NAMES
+        fmilib.h
+        PATHS
+        ${FMILIB_HOME}/include)
 mark_as_advanced(FMILIB_INCLUDE_DIR)
 
 if (FMILIB_USE_SHARED_LIB)
