@@ -58,7 +58,6 @@ SET(THRIFT_SERVER_SRC
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
-
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
 target_link_libraries(heartbeat ${CURL_LIBRARIES} Boost::system)
 if(UNIX)
@@ -71,7 +70,7 @@ add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
 target_link_libraries(thrift-common ${THRIFT_LIBRARIES})
 
 add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIENT_SRC})
-target_link_libraries(thrift-client thrift-common fmi)
+target_link_libraries(thrift-client thrift-common fmi Boost::atomic)
 
 add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
 target_link_libraries(thrift-server thrift-common fmi)

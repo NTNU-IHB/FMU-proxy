@@ -11,7 +11,6 @@ cmake_minimum_required (VERSION 3.10)
 find_path(THRIFT_INCLUDE_DIR NAMES
         thrift/Thrift.h
         PATHS
-        ${THRIFT_HOME}/src
         ${THRIFT_HOME}/include)
 mark_as_advanced(THRIFT_INCLUDE_DIR)
 
