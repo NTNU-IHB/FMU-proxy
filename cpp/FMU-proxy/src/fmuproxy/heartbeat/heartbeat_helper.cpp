@@ -35,7 +35,7 @@
 using namespace std;
 using namespace boost::uuids;
 
-namespace fmuproxy::heartbeat {
+namespace fmuproxy { namespace  heartbeat {
 
     const string generate_uuid() {
         random_generator generator;
@@ -101,5 +101,4 @@ namespace fmuproxy::heartbeat {
 
     }
 
-
-}
+}}
