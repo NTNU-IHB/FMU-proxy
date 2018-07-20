@@ -23,7 +23,6 @@
  */
 
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
-
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
@@ -44,7 +43,7 @@ ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port): port(port) {
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    this->server = unique_ptr<TSimpleServer>(new TSimpleServer(processor, serverTransport, transportFactory, protocolFactory));
+    this->server = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
 
 }
 
@@ -54,7 +53,7 @@ void ThriftServer::serve() {
 
 void ThriftServer::start() {
     cout << "Thrift server listening to connections on port: " << port << endl;
-    m_thread = unique_ptr<thread>(new thread(&ThriftServer::serve, this));
+    m_thread = std::make_unique<thread>(&ThriftServer::serve, this);
 }
 
 void ThriftServer::stop() {

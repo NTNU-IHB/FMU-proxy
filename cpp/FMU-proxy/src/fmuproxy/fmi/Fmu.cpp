@@ -40,7 +40,7 @@ Fmu::Fmu (const string &fmu_path) {
     this->ctx = fmi_import_allocate_context(&callbacks);
     this->version = fmi_import_get_fmi_version(ctx, fmu_path.c_str(), tmp_path.string().c_str());
 
-    this->xml = load_model_description(tmp_path.string(), ctx, callbacks);
+    this->xml = load_model_description(tmp_path.string(), ctx);
 
     this->modelDescription = std::make_shared<ModelDescription>();
     populate_model_description(version, xml, *modelDescription);
@@ -68,7 +68,7 @@ unique_ptr<FmuInstance> Fmu::new_instance() {
     callBackFunctions.componentEnvironment = nullptr;
 
     const char* model_identifier = fmi2_import_get_model_identifier_CS(xml);
-    fmi2_import_t* fmu = load_model_description(tmp_path.string(), ctx, callbacks);
+    fmi2_import_t *fmu = load_model_description(tmp_path.string(), ctx);
 
     jm_status_enu_t status = fmi2_import_create_dllfmu(fmu, fmi2_fmu_kind_cs, &callBackFunctions);
     if (status == jm_status_error) {

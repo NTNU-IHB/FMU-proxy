@@ -23,7 +23,6 @@
  */
 
 #include <iostream>
-#include <string>
 #include <fmilib.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
 #include <fmuproxy/thrift/common/definitions_types.h>
@@ -210,7 +209,7 @@ namespace {
     }
 
     void convert(fmuproxy::fmi::ModelVariables &m0, const fmuproxy::thrift::ModelVariables &m1) {
-        for (fmuproxy::thrift::ScalarVariable var : m1) {
+        for (const fmuproxy::thrift::ScalarVariable &var : m1) {
             m0.push_back(convert(var));
         }
     }

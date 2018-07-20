@@ -29,9 +29,7 @@
 #include <thrift/transport/TTransportUtils.h>
 
 #include <fmuproxy/thrift/common/FmuService.h>
-#include <fmuproxy/thrift/common/definitions_types.h>
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
-
 #include "thrift_client_helper.cpp"
 
 using namespace std;
@@ -39,9 +37,9 @@ using namespace fmuproxy::thrift::client;
 
 ThriftClient::ThriftClient(const string host, const unsigned int port) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
-    this->transport = shared_ptr<TBufferedTransport>(new TBufferedTransport(socket));
+    this->transport = std::make_shared<TBufferedTransport>(socket);
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-    this->client = shared_ptr<FmuServiceClient>(new FmuServiceClient(protocol));
+    this->client = std::make_shared<FmuServiceClient>(protocol);
     this->transport->open();
 }
 
@@ -53,7 +51,7 @@ fmuproxy::fmi::ModelDescription &ThriftClient::get_model_description() {
     if (!modelDescription) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
         client->getModelDescription(md);
-        modelDescription = shared_ptr<fmuproxy::fmi::ModelDescription>(new fmuproxy::fmi::ModelDescription());
+        modelDescription = std::make_shared<fmuproxy::fmi::ModelDescription>();
         convert(*modelDescription, md);
     }
     return *modelDescription;
@@ -61,7 +59,7 @@ fmuproxy::fmi::ModelDescription &ThriftClient::get_model_description() {
 
 unique_ptr<RemoteFmuInstance> ThriftClient::new_instance() {
     FmuId fmu_id = client->createInstanceFromCS();
-    return unique_ptr<RemoteFmuInstance>(new RemoteFmuInstance(fmu_id, *client, *modelDescription));
+    return std::make_unique<RemoteFmuInstance>(fmu_id, *client, *modelDescription);
 }
 
 

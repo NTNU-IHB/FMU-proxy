@@ -47,7 +47,8 @@ namespace {
         cout << "Done." << endl;
     }
 
-    int run_application(string &fmu_path, const unsigned int thrift_port, shared_ptr<RemoteAddress> remote) {
+    int
+    run_application(const string &fmu_path, const unsigned int thrift_port, const shared_ptr<RemoteAddress> &remote) {
 
         bool has_remote = remote != nullptr;
 

@@ -45,7 +45,7 @@ namespace fmuproxy { namespace  thrift { namespace  client {
         std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription;
 
     public:
-        ThriftClient(const std::string host, const unsigned int port);
+        ThriftClient(std::string host, unsigned int port);
 
         fmuproxy::fmi::ModelDescription &get_model_description();
 

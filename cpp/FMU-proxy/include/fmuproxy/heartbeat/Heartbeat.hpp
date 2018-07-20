@@ -45,7 +45,7 @@ namespace fmuproxy { namespace heartbeat {
         void run();
 
     public:
-        Heartbeat(const std::string &host, const unsigned int port, const std::string &xml);
+        Heartbeat(const std::string &host, unsigned int port, const std::string &xml);
 
         void start();
 

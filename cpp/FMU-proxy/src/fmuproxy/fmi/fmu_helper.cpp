@@ -158,7 +158,7 @@ namespace {
         md.generationDateAndTime = (fmi2_import_get_generation_date_and_time(xml));
         md.license = (fmi2_import_get_license(xml));
 
-        DefaultExperiment ex;
+        DefaultExperiment ex{};
         ex.startTime = fmi2_import_get_default_experiment_start(xml);
         ex.stopTime = fmi2_import_get_default_experiment_stop(xml);
         ex.tolerance = fmi2_import_get_default_experiment_tolerance(xml);
@@ -187,7 +187,7 @@ namespace {
         return callbacks;
     }
 
-    fmi2_import_t *load_model_description(std::string tmp_path, fmi_xml_context_t *ctx, jm_callbacks callbacks) {
+    fmi2_import_t *load_model_description(const std::string &tmp_path, fmi_xml_context_t *ctx) {
 
         fmi2_import_t *xml = fmi2_import_parse_xml(ctx, tmp_path.c_str(), nullptr);
 

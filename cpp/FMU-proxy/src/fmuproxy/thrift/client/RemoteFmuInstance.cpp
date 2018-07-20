@@ -153,7 +153,7 @@ fmi2_status_t RemoteFmuInstance::writeString(const std::vector<fmi2_value_refere
 }
 
 fmi2_status_t RemoteFmuInstance::writeBoolean(fmi2_value_reference_t vr, const fmi2_boolean_t value) {
-    return convert(client.writeBoolean(fmu_id, vr, value == 0 ? false : true));
+    return convert(client.writeBoolean(fmu_id, vr, value != 0));
 }
 
 fmi2_status_t RemoteFmuInstance::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {

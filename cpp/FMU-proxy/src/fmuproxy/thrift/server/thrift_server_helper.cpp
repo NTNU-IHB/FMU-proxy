@@ -202,7 +202,7 @@ namespace {
     }
 
     void thriftType(ModelVariables &variables, const fmuproxy::fmi::ModelVariables &mv) {
-        for (fmuproxy::fmi::ScalarVariable var : mv) {
+        for (const fmuproxy::fmi::ScalarVariable &var : mv) {
             variables.push_back(thriftType(var));
         }
     }

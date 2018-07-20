@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path.c_str());
+    Fmu fmu = Fmu(fmu_path);
 
     const auto instance = fmu.new_instance();
 
