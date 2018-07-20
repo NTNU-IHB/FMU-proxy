@@ -4,10 +4,18 @@ apply plugin: 'kotlin'
 def snapshot = true
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
+def yajrpc_version = '0.8'
+
 dependencies {
 
-    implementation group: 'info.laht', name: 'YAJ-RPC', version: '0.7.1'
     implementation group: 'io.grpc', name: 'grpc-netty', version: '1.13.1'
+
+    implementation group: 'info.laht', name: 'yaj-rpc', version: yajrpc_version
+    implementation group: 'info.laht', name: 'yaj-rpc-ws', version: yajrpc_version
+    implementation group: 'info.laht', name: 'yaj-rpc-tcp', version: yajrpc_version
+    implementation group: 'info.laht', name: 'yaj-rpc-zmq', version: yajrpc_version
+    implementation group: 'info.laht', name: 'yaj-rpc-http', version: yajrpc_version
+
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
     implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
