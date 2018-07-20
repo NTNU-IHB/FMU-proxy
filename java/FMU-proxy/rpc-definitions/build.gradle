@@ -1,9 +1,36 @@
 
-plugins {
-    id "com.google.protobuf" version "0.8.6"
-    id "org.jruyi.thrift" version "0.4.0"
-    id "com.commercehub.gradle.plugin.avro-base" version "0.14.2"
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
+    }
 }
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.0"
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:0.14.2"
+    }
+}
+
+apply plugin: "org.jruyi.thrift"
+apply plugin: 'com.google.protobuf'
+apply plugin: "com.commercehub.gradle.plugin.avro-base"
 
 def avro_version = '1.8.2'
 def grpc_version = '1.13.1'
