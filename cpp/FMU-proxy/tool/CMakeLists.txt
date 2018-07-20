@@ -9,3 +9,5 @@ target_link_libraries(fmu_proxy fmi heartbeat thrift-server Boost::program_optio
 if (UNIX)
     target_link_libraries(fmu_proxy pthread)
 endif()
+
+install(TARGETS fmu_proxy DESTINATION "${tool_dest}")
