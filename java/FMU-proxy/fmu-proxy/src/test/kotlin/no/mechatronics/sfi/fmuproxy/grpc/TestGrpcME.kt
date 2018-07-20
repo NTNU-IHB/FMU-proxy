@@ -71,9 +71,10 @@ class TestGrpcME {
                 Assertions.assertEquals(2.0, it.value)
             }
 
-            val dt = 1.0/100
-            while (instance.currentTime < 2) {
-                val step = instance.doStep(dt)
+            val stop = 2.0
+            val stepSize = 1E-2
+            while (instance.currentTime < stop) {
+                val step = instance.doStep(stepSize)
                 Assertions.assertTrue(step)
 
                 LOG.info("$variableName=${variable.read()}")

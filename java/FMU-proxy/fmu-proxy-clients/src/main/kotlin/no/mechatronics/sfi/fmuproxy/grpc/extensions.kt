@@ -240,17 +240,20 @@ internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
 
 }
 
-private var variables: List<TypedScalarVariable<*>>? = null
+class MyModelVariables(
+        vars: List<Proto.ScalarVariable>
+) : ModelVariables {
+
+    private val variables = vars.map { it.convert() }
+
+    override fun getVariables(): List<TypedScalarVariable<*>> {
+        return variables
+    }
+
+}
 
 internal fun List<Proto.ScalarVariable>.convert(): ModelVariables {
-    return object : ModelVariables {
-        override fun getVariables(): List<TypedScalarVariable<*>> {
-            if (variables == null) {
-                variables = this@convert.map { it.convert() }
-            }
-            return variables!!
-        }
-    }
+    return MyModelVariables(this)
 }
 
 internal fun Proto.ModelDescription.convert(): CommonModelDescription {

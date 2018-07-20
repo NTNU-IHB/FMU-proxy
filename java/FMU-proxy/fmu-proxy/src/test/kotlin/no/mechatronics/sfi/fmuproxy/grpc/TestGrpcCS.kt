@@ -82,9 +82,9 @@ class TestGrpcCS {
             val variable = instance.modelVariables
                     .getByName(variableName).asRealVariable()
 
-            val dt = modelDescription.defaultExperiment?.stepSize ?: 1E-3
-            val stop = 100.0
-            runInstance(instance, dt, stop) {
+            val stop = 2.0
+            val stepSize = 1E-2
+            runInstance(instance, stepSize, stop) {
                 variable.read()
             }.also {
                 LOG.info("Duration: ${it}ms")

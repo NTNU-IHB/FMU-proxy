@@ -96,31 +96,31 @@ class TestProxy {
         Assertions.assertEquals(thriftServer, proxy.getServer<ThriftFmuServer>())
     }
 
-    @Test
-    fun testGrpc() {
-
-        proxy.getPortFor<GrpcFmuServer>()?.also { port ->
-
-            GrpcFmuClient(host, port).use { client ->
-
-                val mdLocal = fmu.modelDescription
-                val mdRemote = client.modelDescription
-
-                Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-                Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-                Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
-
-                client.newInstance().use { instance ->
-
-                    runInstance(instance, stepSize, stopTime).also {
-                        LOG.info("gRPC duration: ${it}ms")
-                    }
-
-                }
-            }
-        }
-
-    }
+//    @Test
+//    fun testGrpc() {
+//
+//        proxy.getPortFor<GrpcFmuServer>()?.also { port ->
+//
+//            GrpcFmuClient(host, port).use { client ->
+//
+//                val mdLocal = fmu.modelDescription
+//                val mdRemote = client.modelDescription
+//
+//                Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
+//                Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
+//                Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
+//
+//                client.newInstance().use { instance ->
+//
+//                    runInstance(instance, stepSize, stopTime).also {
+//                        LOG.info("gRPC duration: ${it}ms")
+//                    }
+//
+//                }
+//            }
+//        }
+//
+//    }
 
     @Test
     fun testThrift() {

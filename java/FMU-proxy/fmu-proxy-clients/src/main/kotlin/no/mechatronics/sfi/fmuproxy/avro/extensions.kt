@@ -229,17 +229,22 @@ internal fun no.mechatronics.sfi.fmuproxy.avro.ScalarVariable.convert(): TypedSc
 
 }
 
-private var variables: List<TypedScalarVariable<*>>? = null
+
+
+class MyModelVariables(
+        vars: List<no.mechatronics.sfi.fmuproxy.avro.ScalarVariable>
+) : ModelVariables {
+
+    private val variables = vars.map { it.convert() }
+
+    override fun getVariables(): List<TypedScalarVariable<*>> {
+        return variables
+    }
+
+}
 
 internal fun List<no.mechatronics.sfi.fmuproxy.avro.ScalarVariable>.convert(): ModelVariables {
-    return object : ModelVariables {
-        override fun getVariables(): List<TypedScalarVariable<*>> {
-            if (variables == null) {
-                variables = this@convert.map { it.convert() }
-            }
-            return variables!!
-        }
-    }
+    return MyModelVariables(this)
 }
 
 internal fun ModelDescription.convert(): CommonModelDescription {
