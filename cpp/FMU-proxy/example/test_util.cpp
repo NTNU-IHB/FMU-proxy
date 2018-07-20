@@ -24,6 +24,8 @@
  
 #include <iostream>
 
+using namespace std;
+
 namespace {
 
     std::string getOs() {
@@ -35,5 +37,13 @@ namespace {
             return "linux64";
     #endif
     }
+
+    void wait_for_input() {
+        do {
+            cout << '\n' << "Press a key to continue...\n";
+        } while (cin.get() != '\n');
+        cout << "Done." << endl;
+    }
+    
 
 }

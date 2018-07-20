@@ -23,8 +23,6 @@
  */
 
 #include <iostream>
-#include <chrono>
-#include <thread>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include "test_util.cpp"
@@ -48,8 +46,7 @@ int main() {
     auto beat = Heartbeat(host, port, xml);
     beat.start();
 
-    this_thread::sleep_for(chrono::milliseconds(5000));
-
+    wait_for_input();
     beat.stop();
 
     return 0;

@@ -32,12 +32,7 @@ using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift::server;
 
-void wait_for_input() {
-    do {
-        cout << '\n' << "Press a key to continue...\n";
-    } while (cin.get() != '\n');
-    cout << "Done." << endl;
-}
+
 
 int main(int argc, char **argv) {
 
