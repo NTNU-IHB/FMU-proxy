@@ -392,7 +392,7 @@ class GrpcFmuServiceImpl(
 
     override fun createInstanceFromCS(req: Empty, responseObserver: StreamObserver<Proto.UInt>) {
 
-        Fmus.put(fmu.asCoSimulationFmu().newInstance(loggingOn = true)).also { id ->
+        Fmus.put(fmu.asCoSimulationFmu().newInstance()).also { id ->
             Proto.UInt.newBuilder().setValue(id).build().also {
                 responseObserver.onNext(it)
                 responseObserver.onCompleted()
