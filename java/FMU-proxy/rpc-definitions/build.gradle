@@ -33,7 +33,6 @@ apply plugin: 'com.google.protobuf'
 apply plugin: "com.commercehub.gradle.plugin.avro-base"
 
 def avro_version = '1.8.2'
-def grpc_version = '1.13.1'
 def definitions = "../../../rpc-definitions"
 
 dependencies {

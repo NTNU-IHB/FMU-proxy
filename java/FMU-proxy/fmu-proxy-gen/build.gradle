@@ -20,12 +20,12 @@ dependencies {
     compile group: 'org.jtwig', name: 'jtwig-core', version: '5.87.0.RELEASE'
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
 
-    testCompile group: 'io.grpc', name: 'grpc-stub', version: '1.13.1'
-    testCompile group: 'io.grpc', name: 'grpc-netty', version: '1.13.1'
-    testCompile group: 'io.grpc', name: 'grpc-protobuf', version: '1.13.1'
+    testCompile group: 'io.grpc', name: 'grpc-stub', version: grpc_version
+    testCompile group: 'io.grpc', name: 'grpc-netty', version: grpc_version
+    testCompile group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
 
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
     testCompile group: 'no.mechatronics.sfi.fmuproxy', name: 'fmu-proxy', version: '0.1-SNAPSHOT', changing: true
 

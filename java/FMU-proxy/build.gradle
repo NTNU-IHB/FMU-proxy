@@ -19,6 +19,10 @@ wrapper {
 ext.fmi4j_stable_version = '0.7.3'
 ext.fmi4j_snapshot_version = '0.7.4-SNAPSHOT'
 
+ext.grpc_version = '1.13.2'
+ext.yajrpc_version = '0.8'
+ext.slf4j_version = '1.7.25'
+
 subprojects { sub ->
 
     apply plugin: 'java'
