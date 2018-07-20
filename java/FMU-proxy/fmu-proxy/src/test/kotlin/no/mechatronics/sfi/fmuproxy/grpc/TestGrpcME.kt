@@ -19,14 +19,14 @@ import java.io.File
 @EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
-class TestGrpcBouncingME {
+class TestGrpcME {
 
     private companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcBouncingME::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcME::class.java)
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-    "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+    "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
     private val modelDescription: CommonModelDescription = fmu.modelDescription
     private val server: GrpcFmuServer = GrpcFmuServer(fmu)
     private val client: GrpcFmuClient = GrpcFmuClient("127.0.0.1", server.start())
@@ -54,7 +54,7 @@ class TestGrpcBouncingME {
     fun testInstance() {
 
         val solver = Solver("Euler").apply {
-            addProperty("step_size", 1E-3)
+            addProperty("step_size", modelDescription.defaultExperiment?.stepSize ?: 1E-3)
         }
 
         client.newInstance(solver).use { instance ->
@@ -62,12 +62,13 @@ class TestGrpcBouncingME {
             instance.init()
             Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
 
-            val h = instance
-                    .getVariableByName("h").asRealVariable()
+            val variableName = "x0"
+            val variable = instance
+                    .getVariableByName(variableName).asRealVariable()
 
-            h.read().also {
-                LOG.info("h=${it.value}")
-                Assertions.assertEquals(1.0, it.value)
+            variable.read().also {
+                LOG.info("$variableName=${it.value}")
+                Assertions.assertEquals(2.0, it.value)
             }
 
             val dt = 1.0/100
@@ -75,7 +76,7 @@ class TestGrpcBouncingME {
                 val step = instance.doStep(dt)
                 Assertions.assertTrue(step)
 
-                LOG.info("h=${h.read()}")
+                LOG.info("$variableName=${variable.read()}")
 
             }
 

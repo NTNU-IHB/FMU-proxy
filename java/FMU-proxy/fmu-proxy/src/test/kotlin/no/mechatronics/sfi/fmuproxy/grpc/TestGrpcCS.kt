@@ -42,14 +42,14 @@ import java.io.File
 @EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
-class TestGrpcBouncingCS {
+class TestGrpcCS {
 
     private companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcBouncingCS::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestGrpcCS::class.java)
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
     private val modelDescription: CommonModelDescription = fmu.modelDescription
     private val server: GrpcFmuServer = GrpcFmuServer(fmu)
     private val client: GrpcFmuClient = GrpcFmuClient("localhost", server.start())
@@ -78,13 +78,14 @@ class TestGrpcBouncingCS {
 
         client.newInstance().use { instance ->
 
-            val h = instance.modelVariables
-                    .getByName("h").asRealVariable()
+            val variableName = "x0"
+            val variable = instance.modelVariables
+                    .getByName(variableName).asRealVariable()
 
-            val dt = 1.0/100
+            val dt = modelDescription.defaultExperiment?.stepSize ?: 1E-3
             val stop = 100.0
             runInstance(instance, dt, stop) {
-                h.read()
+                variable.read()
             }.also {
                 LOG.info("Duration: ${it}ms")
             }
