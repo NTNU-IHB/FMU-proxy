@@ -23,8 +23,6 @@
  */
 
 #include <iostream>
-#include <thread>
-
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 
@@ -43,7 +41,7 @@ void wait_for_input() {
 
 int main(int argc, char **argv) {
 
-    int port = 9090;
+    const unsigned int port = 9090;
     string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
@@ -51,8 +49,7 @@ int main(int argc, char **argv) {
     ThriftServer server = ThriftServer(fmu, port);
     server.start();
 
-    thread t(wait_for_input);
-    t.join();
+    wait_for_input();
 
     server.stop();
 
