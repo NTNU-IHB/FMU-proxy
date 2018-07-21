@@ -26,6 +26,7 @@ SET(GRPC_COMMON_HEADERS
         ${GRPC_HEADER_DIR}/common/service.grpc_pb.h)
 
 SET(GRPC_COMMON_HEADERS
+        ${GRPC_HEADER_DIR}/server/GrpcServer.hpp
         ${GRPC_HEADER_DIR}/server/FmuServiceImpl.hpp)
 
 SET(THRIFT_COMMON_HEADERS
@@ -58,6 +59,7 @@ SET(GRPC_COMMON_SRC
         fmuproxy/grpc/common/service.grpc.pb.cc)
 
 SET(GRPC_SERVER_SRC
+        fmuproxy/grpc/server/GrpcServer.cpp
         fmuproxy/grpc/server/FmuServiceImpl.cpp)
 
 SET(THRIFT_COMMON_SRC
