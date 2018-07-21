@@ -21,11 +21,11 @@ SET(HEARTBEAT_HEADERS
 
 SET(GRPC_COMMON_HEADERS
         ${GRPC_HEADER_DIR}/common/definitions.pb.h
-        ${GRPC_HEADER_DIR}/common/definitions.grpc_pb.h
+        ${GRPC_HEADER_DIR}/common/definitions.grpc.pb.h
         ${GRPC_HEADER_DIR}/common/service.pb.h
-        ${GRPC_HEADER_DIR}/common/service.grpc_pb.h)
+        ${GRPC_HEADER_DIR}/common/service.grpc.pb.h)
 
-SET(GRPC_COMMON_HEADERS
+SET(GRPC_SERVER_HEADERS
         ${GRPC_HEADER_DIR}/server/GrpcServer.hpp
         ${GRPC_HEADER_DIR}/server/FmuServiceImpl.hpp)
 
@@ -87,8 +87,6 @@ elseif(MSVC)
     target_link_libraries(heartbeat wldap32 crypt32 Ws2_32 Normaliz)
 endif()
 
-add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
-
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
 target_link_libraries(thrift-common ${THRIFT_LIBRARIES})
 
@@ -100,3 +98,12 @@ target_link_libraries(thrift-server thrift-common fmi)
 if(UNIX)
     target_link_libraries(thrift-server pthread)
 endif()
+
+add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
+target_link_libraries(grpc-common ${GRPC_LIBRARIES})
+
+add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_HEADERS} ${GRPC_SERVER_SRC})
+target_link_libraries(grpc-server grpc-common fmi)
+if (UNIX)
+    target_link_libraries(grpc-server pthread)
+endif ()

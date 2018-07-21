@@ -11,8 +11,8 @@
 #include "../../fmi/Fmu.hpp"
 
 namespace fmuproxy {
-    namespace server {
-        namespace grpc {
+    namespace grpc {
+        namespace server {
 
             class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
 
@@ -23,8 +23,6 @@ namespace fmuproxy {
 
                 FmuServiceImpl(fmuproxy::fmi::Fmu &fmu);
 
-                FmuServiceImpl(fmi::Fmu &fmu);
-
                 ::grpc::Status
                 GetModelDescriptionXml(::grpc::ServerContext *context, const ::google::protobuf::Empty *request,
                                        ::fmuproxy::grpc::Str *response) override;
@@ -34,6 +32,5 @@ namespace fmuproxy {
         }
     }
 }
-
 
 #endif //FMU_PROXY_FMUSERVICEIMPL_HPP

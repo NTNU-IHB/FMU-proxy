@@ -22,16 +22,39 @@
  * THE SOFTWARE.
  */
 
+#include <grpcpp/grpcpp.h>
+
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
 
-using namespace std;
+using grpc::Server;
+using grpc::ServerBuilder;
 
-GrpcServer::GrpcServer(const unsigned int port) : port(port) {}
+using namespace std;
+using namespace fmuproxy::grpc::server;
+
+GrpcServer::GrpcServer(fmuproxy::fmi::Fmu &fmu, const unsigned int port)
+        : fmu(fmu), port(port) {
+
+    service = shared_ptr<FmuServiceImpl>(new FmuServiceImpl(fmu));
+}
+
+void GrpcServer::wait() {
+    server->Wait();
+}
 
 void GrpcServer::start() {
 
+    string address = "127.0.0.1:" + to_string(port);
+
+    cout << "Grpc server listening to connections on port: " << port << endl;
+    ServerBuilder builder;
+    builder.AddListeningPort(address, ::grpc::InsecureServerCredentials());
+    builder.RegisterService(service.get());
+    server = move(builder.BuildAndStart());
+    m_thread = make_unique<thread>(&GrpcServer::wait, this);
 }
 
 void GrpcServer::stop() {
+    server->Shutdown();
     m_thread->join();
 }

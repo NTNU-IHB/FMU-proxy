@@ -26,22 +26,40 @@
 #define FMU_PROXY_GRPCSERVER_HPP
 
 #include <thread>
+#include <memory>
+
 #include "../../fmi/Fmu.hpp"
+#include "../common/service.grpc.pb.h"
+#include "FmuServiceImpl.hpp"
 
-class GrpcServer {
+using grpc::Server;
 
-    const unsigned int port;
-    std::unique_ptr<std::thread> m_thread;
+namespace fmuproxy {
+    namespace grpc {
+        namespace server {
 
-public:
-    GrpcServer(fmuproxy::fmi::Fmu &fmu, unsigned int port);
+            class GrpcServer {
 
-    GrpcServer(const unsigned int port);
+            private:
+                const unsigned int port;
+                fmuproxy::fmi::Fmu &fmu;
+                std::unique_ptr<std::thread> m_thread = nullptr;
+                std::shared_ptr<Server> server = nullptr;
+                std::shared_ptr<FmuServiceImpl> service;
 
-    void start();
+                void wait();
 
-    void stop();
+            public:
+                GrpcServer(fmuproxy::fmi::Fmu &fmu, unsigned int port);
 
-};
+                void start();
+
+                void stop();
+
+            };
+
+        }
+    }
+}
 
 #endif //FMU_PROXY_GRPCSERVER_HPP
