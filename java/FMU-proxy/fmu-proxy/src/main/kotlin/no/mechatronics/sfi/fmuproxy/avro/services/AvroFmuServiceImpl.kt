@@ -30,8 +30,8 @@ import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
-import no.mechatronics.sfi.fmuproxy.solver.parseIntegrator
-import org.apache.commons.math3.ode.FirstOrderIntegrator
+import no.mechatronics.sfi.fmuproxy.solver.parseSolver
+import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -54,13 +54,13 @@ class AvroFmuServiceImpl(
 
     override fun createInstanceFromME(solver: Solver): Int {
 
-        fun selectDefaultIntegrator(): FirstOrderIntegrator {
+        fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.importer.me.Solver {
             val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
             LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
-            return org.apache.commons.math3.ode.nonstiff.EulerIntegrator(stepSize)
+            return ApacheSolvers.euler(stepSize)
         }
 
-        val integrator = parseIntegrator(solver.name, solver.settings) ?: selectDefaultIntegrator()
+        val integrator = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
         return Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator))
 
     }
