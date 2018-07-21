@@ -32,8 +32,6 @@ using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift::server;
 
-
-
 int main(int argc, char **argv) {
 
     const unsigned int port = 9090;
