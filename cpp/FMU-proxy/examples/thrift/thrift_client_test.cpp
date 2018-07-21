@@ -26,7 +26,6 @@
 #include <ctime>
 
 #include <fmuproxy/thrift/common/FmuService.h>
-#include <fmuproxy/thrift/common/definitions_types.h>
 
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
 

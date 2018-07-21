@@ -21,33 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+ 
 #include <iostream>
-#include <fmuproxy/fmi/Fmu.hpp>
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
-
-#include "test_util.cpp"
 
 using namespace std;
-using namespace fmuproxy::fmi;
-using namespace fmuproxy::thrift::server;
 
+namespace {
 
+    std::string getOs() {
+    #ifdef _WIN32
+            return "win32";
+    #elif _WIN64
+        return "win64";
+    #elif __linux__
+            return "linux64";
+    #endif
+    }
 
-int main(int argc, char **argv) {
+    void wait_for_input() {
+        do {
+            cout << '\n' << "Press a key to continue...\n";
+        } while (cin.get() != '\n');
+        cout << "Done." << endl;
+    }
 
-    const unsigned int port = 9090;
-    string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
-
-    Fmu fmu = Fmu(fmu_path);
-    ThriftServer server = ThriftServer(fmu, port);
-    server.start();
-
-    wait_for_input();
-
-    server.stop();
-
-    return 0;
 }
-
