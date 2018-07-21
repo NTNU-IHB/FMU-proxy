@@ -30,6 +30,9 @@ include_directories(${CURL_INCLUDE_DIRS})
 find_package(THRIFT REQUIRED)
 include_directories(${THRIFT_INCLUDE_DIRS})
 
+find_package(GRPC REQUIRED)
+include_directories(${GRPC_INCLUDE_DIRS})
+
 set(tool_dest "bin")
 
 # add subdiretories

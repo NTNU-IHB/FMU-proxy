@@ -5,6 +5,7 @@ INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 #set headers
 SET(HEADER_ROOT_PATH ${FMU_PROXY_SOURCE_DIR}/include/fmuproxy)
 SET(FMI_HEADER_DIR ${HEADER_ROOT_PATH}/fmi)
+SET(GRPC_HEADER_DIR ${HEADER_ROOT_PATH}/grpc)
 SET(THRIFT_HEADER_DIR ${HEADER_ROOT_PATH}/thrift)
 SET(HEARTBEAT_HEADER_DIR ${HEADER_ROOT_PATH}/heartbeat)
 
@@ -17,6 +18,15 @@ SET(FMI_HEADERS
 
 SET(HEARTBEAT_HEADERS
         ${HEARTBEAT_HEADER_DIR}/Heartbeat.hpp)
+
+SET(GRPC_COMMON_HEADERS
+        ${GRPC_HEADER_DIR}/common/definitions.pb.h
+        ${GRPC_HEADER_DIR}/common/definitions.grpc_pb.h
+        ${GRPC_HEADER_DIR}/common/service.pb.h
+        ${GRPC_HEADER_DIR}/common/service.grpc_pb.h)
+
+SET(GRPC_COMMON_HEADERS
+        ${GRPC_HEADER_DIR}/server/FmuServiceImpl.hpp)
 
 SET(THRIFT_COMMON_HEADERS
         ${THRIFT_HEADER_DIR}/common/definitions_types.h
@@ -42,6 +52,14 @@ SET(HEARTBEAT_SRC
         fmuproxy/heartbeat/Heartbeat.cpp
         fmuproxy/heartbeat/heartbeat_helper.cpp)
 
+SET(GRPC_COMMON_SRC
+        fmuproxy/grpc/common/definitions.pb.cc
+        fmuproxy/grpc/common/service.pb.cc
+        fmuproxy/grpc/common/service.grpc.pb.cc)
+
+SET(GRPC_SERVER_SRC
+        fmuproxy/grpc/server/FmuServiceImpl.cpp)
+
 SET(THRIFT_COMMON_SRC
         fmuproxy/thrift/common/definitions_types.cpp
         fmuproxy/thrift/common/FmuService.cpp)
@@ -66,6 +84,8 @@ if(UNIX)
 elseif(MSVC)
     target_link_libraries(heartbeat wldap32 crypt32 Ws2_32 Normaliz)
 endif()
+
+add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
 
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
 target_link_libraries(thrift-common ${THRIFT_LIBRARIES})
