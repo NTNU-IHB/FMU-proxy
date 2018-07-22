@@ -42,7 +42,6 @@ int main(int argc, char **argv) {
     server.start();
 
     wait_for_input();
-
     server.stop();
 
     return 0;

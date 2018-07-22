@@ -40,11 +40,6 @@ namespace fmuproxy { namespace  grpc { namespace  client {
         fmuproxy::grpc::FmuService::Stub &stub;
         fmuproxy::fmi::ModelDescription &modelDescription;
 
-        fmuproxy::grpc::IntegerRead integerRead;
-        fmuproxy::grpc::RealRead realRead;
-        fmuproxy::grpc::StringRead stringRead;
-        fmuproxy::grpc::BooleanRead booleanRead;
-
     public:
         RemoteFmuInstance(unsigned int fmu_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
 
