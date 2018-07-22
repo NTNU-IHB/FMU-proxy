@@ -61,21 +61,22 @@ When using JSON-RPC, no schema is required.
 
 It is no suprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented in C++. 
-The implementations supports Thrift and gRPC. 
-While the project builds on Windows, building the dependencies are not straightforward..
 
 The implementation uses the C-library [_FMI-Library_](https://jmodelica.org/) for interacting with FMUs. 
-An object oriented wrapper is avilable making it easier to work with.
+An object oriented wrapper is available making it easier to work with.
 
-Both Thrift and gRPC clients are available. They shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
+The implementation supports Thrift and gRPC. Both servers and clients are available. 
+The clients share a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
+While the project builds on Windows, building the dependencies are not straightforward on that platform. 
+For your convenience, you should consider using Linux if you want to build the project yourself.
 
 #### Dependencies
 
-* [FMI Library](https://jmodelica.org/) 
-* [Thrift](https://github.com/apache/thrift)
-* [GRPC](https://github.com/grpc/grpc)
-* [libcurl](https://curl.haxx.se/libcurl/)
-* [Boost](https://www.boost.org/)
+* [FMI Library 2.0.3](https://jmodelica.org/) 
+* [Thrift 0.11.0](https://github.com/apache/thrift)
+* [gRPC 1.13.1](https://github.com/grpc/grpc)
+* [libcurl 7.61.0](https://curl.haxx.se/libcurl/)
+* [Boost 1.65.1](https://www.boost.org/)
 
 #### FMU-proxy executable
 
@@ -85,6 +86,7 @@ Options:
   -h [ --help ]            Print this help message and quits.
   -f [ --fmu ] arg         Path to FMU
   -r [ --remote ] arg      IP address of the remote tracking server
+  -g [ --grpc_port ] arg   Specify the network port to be used by the gRPC server
   -t [ --thrift_port ] arg Specify the network port to be used by the Thrift server
 ```
 
@@ -103,7 +105,7 @@ As there may be many directory services online (each company could have they own
 The service has a HTTP API that allows clients to query for available FMUs. 
 The response is a JSON array with the necessary information required to connect to the FMUs directly. 
 
-The service also has a web-based GUI, where users can lookup information retreived from the modelDescription.xml found in the available FMUs.
+The service features a web-based GUI, where users can lookup information retreived from the FMUs modelDescription.xml.
 
 #### Running Tests
 
