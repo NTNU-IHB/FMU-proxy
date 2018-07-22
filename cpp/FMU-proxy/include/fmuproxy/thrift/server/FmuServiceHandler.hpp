@@ -25,7 +25,7 @@
 #ifndef FMU_PROXY_FMUSERVICEHANDLER_H
 #define FMU_PROXY_FMUSERVICEHANDLER_H
 
-#include <iostream>
+#include <map>
 #include "../common/FmuService.h"
 #include "../../fmi/Fmu.hpp"
 

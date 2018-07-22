@@ -25,6 +25,7 @@
 #ifndef FMU_PROXY_FMUSERVICEIMPL_HPP
 #define FMU_PROXY_FMUSERVICEIMPL_HPP
 
+#include <map>
 #include "../common/definitions.pb.h"
 #include "../common/service.grpc.pb.h"
 

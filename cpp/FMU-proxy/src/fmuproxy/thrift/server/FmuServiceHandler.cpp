@@ -27,7 +27,6 @@
 
 #include "thrift_server_helper.cpp"
 
-
 using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift::server;
