@@ -21,29 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
- 
-#include <iostream>
 
-using namespace std;
+#ifndef FMU_PROXY_GRPCCLIENT_HPP
+#define FMU_PROXY_GRPCCLIENT_HPP
 
-namespace {
+#include <memory>
+#include <string>
+#include <grpcpp/grpcpp.h>
+#include <fmuproxy/grpc/common/service.grpc.pb.h>
+#include "RemoteFmuInstance.hpp"
 
-    std::string getOs() {
-    #ifdef _WIN32
-            return "win32";
-    #elif _WIN64
-        return "win64";
-    #elif __linux__
-            return "linux64";
-    #endif
-    }
+namespace fmuproxy { namespace grpc { namespace client {
 
-    void wait_for_input() {
-        do {
-            cout << '\n' << "Press a key to continue...\n";
-        } while (cin.get() != '\n');
-        cout << "Done." << endl;
-    }
-    
+    class GrpcClient {
 
-}
+    private:
+
+        std::shared_ptr<fmuproxy::grpc::FmuService::Stub> m_stub;
+        std::shared_ptr<fmuproxy::fmi::ModelDescription> m_modelDescription;
+
+    public:
+        GrpcClient(std::string host, unsigned int port);
+
+        fmuproxy::fmi::ModelDescription &get_model_description();
+
+        void get_model_description_xml(std::string &_return);
+
+        std::unique_ptr<RemoteFmuInstance> new_instance();
+
+        void close();
+
+        ~GrpcClient() {
+            std::cout << "GrpcClient destructor called" << std::endl;
+        }
+
+    };
+
+}}}
+
+#endif //FMU_PROXY_GRPCCLIENT_HPP

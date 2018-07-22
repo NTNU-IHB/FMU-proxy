@@ -48,15 +48,15 @@ void RemoteFmuInstance::init() {
     init(0.0, 0.0);
 }
 
-void RemoteFmuInstance::init(double start) {
+void RemoteFmuInstance::init(const double start) {
     init(start, 0.0);
 }
 
-void RemoteFmuInstance::init(double start, double stop) {
+void RemoteFmuInstance::init(const double start, const double stop) {
     convert(client.init(fmu_id, start, stop));
 }
 
-fmi2_status_t RemoteFmuInstance::step(double step_size) {
+fmi2_status_t RemoteFmuInstance::step(const double step_size) {
     client.step(stepResult, fmu_id, step_size);
     current_time = stepResult.simulationTime;
     return convert(stepResult.status);

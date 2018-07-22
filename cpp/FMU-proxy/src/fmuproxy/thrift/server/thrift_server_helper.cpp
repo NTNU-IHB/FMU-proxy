@@ -31,6 +31,8 @@ using namespace fmuproxy::thrift;
 
 namespace {
 
+    int ID_GEN = 0;
+
     Status::type thriftType(fmi2_status_t status) {
         switch (status) {
             case fmi2_status_ok:

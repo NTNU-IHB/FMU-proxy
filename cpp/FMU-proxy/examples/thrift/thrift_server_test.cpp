@@ -24,31 +24,28 @@
 
 #include <iostream>
 #include <fmuproxy/fmi/Fmu.hpp>
-#include <fmuproxy/heartbeat/Heartbeat.hpp>
-#include "test_util.cpp"
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
+
+#include "../test_util.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
-using namespace fmuproxy::heartbeat;
+using namespace fmuproxy::thrift::server;
 
-int main() {
+int main(int argc, char **argv) {
 
-    const unsigned int port = 8080;
-    const string host = "localhost";
-
+    const unsigned int port = 9090;
     string fmu_path = string(getenv("TEST_FMUs"))
-                          + "/FMI_2.0/CoSimulation/" + getOs() +
-                          "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu = Fmu(fmu_path);
-    string xml = fmu.get_model_description_xml();
-
-    auto beat = Heartbeat(host, port, xml);
-    beat.start();
+    ThriftServer server = ThriftServer(fmu, port);
+    server.start();
 
     wait_for_input();
-    beat.stop();
+
+    server.stop();
 
     return 0;
-
 }
+
