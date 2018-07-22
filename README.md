@@ -61,18 +61,19 @@ When using JSON-RPC, no schema is required.
 
 It is no suprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented in C++. 
-The drawback is that it only supports Thrift RPC. 
-While the project compiles on Windows, building the dependencies are not straightforward.. Be warned..
+The implementations supports Thrift and gRPC. 
+While the project builds on Windows, building the dependencies are not straightforward..
 
 The implementation uses the C-library [_FMI-Library_](https://jmodelica.org/) for interacting with FMUs. 
 An object oriented wrapper is avilable making it easier to work with.
 
-A Thrift client is available. It shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code, similarly to whats available in the JVM implementation. 
+Both Thrift and gRPC clients are available. They shares a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
 
 #### Dependencies
 
 * [FMI Library](https://jmodelica.org/) 
-* [Thrift](https://thrift.apache.org/)
+* [Thrift](https://github.com/apache/thrift)
+* [GRPC](https://github.com/grpc/grpc)
 * [libcurl](https://curl.haxx.se/libcurl/)
 * [Boost](https://www.boost.org/)
 
