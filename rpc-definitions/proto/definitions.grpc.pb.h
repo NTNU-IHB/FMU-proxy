@@ -41,19 +41,16 @@
 #include <grpcpp/impl/codegen/sync_stream.h>
 
 namespace grpc {
-    class CompletionQueue;
-
-    class Channel;
-
-    class ServerCompletionQueue;
-
-    class ServerContext;
+class CompletionQueue;
+class Channel;
+class ServerCompletionQueue;
+class ServerContext;
 }  // namespace grpc
 
 namespace fmuproxy {
-    namespace grpc {
+namespace grpc {
 
-    }  // namespace grpc
+}  // namespace grpc
 }  // namespace fmuproxy
 
 
