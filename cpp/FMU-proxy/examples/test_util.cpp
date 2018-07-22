@@ -29,13 +29,13 @@ using namespace std;
 namespace {
 
     std::string getOs() {
-    #ifdef _WIN32
+#ifdef _WIN32
             return "win32";
-    #elif _WIN64
+#elif _WIN64
         return "win64";
-    #elif __linux__
-            return "linux64";
-    #endif
+#elif __linux__
+        return "linux64";
+#endif
     }
 
     void wait_for_input() {
