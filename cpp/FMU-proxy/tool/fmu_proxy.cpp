@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <map>
 #include <iostream>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
@@ -36,7 +37,7 @@ using namespace fmuproxy::thrift::server;
 #endif
 
 #if GRPC_FOUND
-#include <fmuproxy/thrift/server/GrpcServer.hpp>
+#include <fmuproxy/grpc/server/GrpcServer.hpp>
 using namespace fmuproxy::grpc::server;
 #endif
 
@@ -62,18 +63,18 @@ namespace {
 
     int run_application(
             const string &fmu_path,
-            const unsigned int thrift_port,
+            std::map<string, unsigned int> ports,
             const shared_ptr<RemoteAddress> &remote) {
 
         Fmu fmu(fmu_path);
 
 #if THRIFT_FOUND
-        ThriftServer thrift_server(fmu, thrift_port);
+        ThriftServer thrift_server(fmu, ports["thrift"]);
         thrift_server.start();
 #endif
 
 #if GRPC_FOUND
-        GrpcServer grpc_server(fmu, thrift_port);
+        GrpcServer grpc_server(fmu, ports["grpc"]);
         grpc_server.start();
 #endif
 
@@ -86,6 +87,10 @@ namespace {
 
         wait_for_input();
 
+        if (has_remote) {
+            beat->stop();
+        }
+
 #if THRIFT_FOUND
         thrift_server.stop();
 #endif
@@ -93,10 +98,6 @@ namespace {
 #if GRPC_FOUND
         grpc_server.stop();
 #endif
-
-        if (has_remote) {
-            beat->stop();
-        }
 
         return 0;
 
@@ -111,14 +112,14 @@ int main(int argc, char** argv) {
         po::options_description desc("Options");
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
-                ("fmu,f", po::value<string>()->required(), "Path to FMU")
-                ("remote,r", po::value<string>(), "IP address of the remote tracking server")
+                ("fmu,f", po::value<string>()->required(), "Path to FMU.")
+                ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
 #if THRIFT_FOUND
                 ("thrift_port,t", po::value<unsigned int>()->required(),
                  "Specify the network port to be used by the Thrift server")
 #endif
 #if GRPC_FOUND
-            ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server")
+            ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server.")
 #endif
                 ; //<- keep it there
 
@@ -140,8 +141,15 @@ int main(int argc, char** argv) {
             return COMMANDLINE_ERROR;
         }
 
-        string fmu_path = vm["fmu"].as<string>();
-        unsigned int thrift_port = vm["thrift_port"].as<unsigned int>();
+        const string fmu_path = vm["fmu"].as<string>();
+
+        auto ports = std::map<string, unsigned int>();
+#if THRIFT_FOUND
+        ports["thrift"] = vm["thrift_port"].as<unsigned int>();
+#endif
+#if GRPC_FOUND
+        ports["grpc"] = vm["grpc_port"].as<unsigned int>();
+#endif
 
         shared_ptr<RemoteAddress> remote = nullptr;
         if (vm.count("remote")) {
@@ -150,7 +158,7 @@ int main(int argc, char** argv) {
             remote = shared_ptr<RemoteAddress>(&parse);
         }
 
-        return run_application(fmu_path, thrift_port, remote);
+        return run_application(fmu_path, ports, remote);
 
     } catch(std::exception& e) {
         std::cerr << "Unhandled Exception reached the top of main: " << e.what() << ", application will now exit" << std::endl;
