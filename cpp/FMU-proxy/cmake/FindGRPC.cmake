@@ -2,9 +2,9 @@
 #
 # Find the native Thrift headers and libraries.
 #
-#   GRPC_INCLUDE_DIRS   - where to find thrift/thrift.h
-#   GRPC_LIBRARIES      - List of libraries when using Thrift.
-#   GRPC_FOUND          - True if Thrift found.
+#   GRPC_INCLUDE_DIRS   - where to find grpc/grpc.h etc..
+#   GRPC_LIBRARIES      - List of libraries when using GRPC.
+#   GRPC_FOUND          - True if GRPC found.
 
 cmake_minimum_required(VERSION 3.10)
 
@@ -25,8 +25,6 @@ mark_as_advanced(PROTOBUF_LIBRARY)
 
 find_library(GRPC_LIBRARY NAMES grpc++_unsecure PATHS ${GRPC_HOME}/lib)
 mark_as_advanced(GRPC_LIBRARY)
-
-message(${GRPC_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(GRPC

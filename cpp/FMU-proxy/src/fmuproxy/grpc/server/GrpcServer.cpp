@@ -33,28 +33,28 @@ using namespace std;
 using namespace fmuproxy::grpc::server;
 
 GrpcServer::GrpcServer(fmuproxy::fmi::Fmu &fmu, const unsigned int port)
-        : fmu(fmu), port(port) {
+        : m_port(port) {
 
-    service = shared_ptr<FmuServiceImpl>(new FmuServiceImpl(fmu));
+    m_service = shared_ptr<FmuServiceImpl>(new FmuServiceImpl(fmu));
 }
 
 void GrpcServer::wait() {
-    server->Wait();
+    m_server->Wait();
 }
 
 void GrpcServer::start() {
 
-    string address = "127.0.0.1:" + to_string(port);
+    string address = "localhost:" + to_string(m_port);
 
-    cout << "Grpc server listening to connections on port: " << port << endl;
+    cout << "Grpc server listening to connections on port: " << m_port << endl;
     ServerBuilder builder;
     builder.AddListeningPort(address, ::grpc::InsecureServerCredentials());
-    builder.RegisterService(service.get());
-    server = move(builder.BuildAndStart());
+    builder.RegisterService(m_service.get());
+    m_server = move(builder.BuildAndStart());
     m_thread = make_unique<thread>(&GrpcServer::wait, this);
 }
 
 void GrpcServer::stop() {
-    server->Shutdown();
+    m_server->Shutdown();
     m_thread->join();
 }

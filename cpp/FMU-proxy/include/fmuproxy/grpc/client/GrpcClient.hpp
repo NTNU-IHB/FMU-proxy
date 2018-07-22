@@ -21,21 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
 
-using namespace std;
-using namespace fmuproxy::grpc;
-using namespace fmuproxy::grpc::server;
+#ifndef FMU_PROXY_GRPCCLIENT_HPP
+#define FMU_PROXY_GRPCCLIENT_HPP
 
-using google::protobuf::Empty;
+#include <memory>
+#include <string>
+#include <grpcpp/grpcpp.h>
+#include <fmuproxy/grpc/common/service.grpc.pb.h>
+#include "RemoteFmuInstance.hpp"
 
-FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : m_fmu(fmu) {}
+namespace fmuproxy { namespace grpc { namespace client {
 
-::grpc::Status FmuServiceImpl::GetModelDescriptionXml(::grpc::ServerContext *context, const Empty *request, Str *response) {
-    response->set_value(m_fmu.get_model_description_xml());
-    return ::grpc::Status::OK;
-}
+    class GrpcClient {
 
-//::grpc::Status FmuServiceImpl::GetModelDescription(::grpc::ServerContext *context, const Empty *request, ModelDescription *response) {
-//    return Service::GetModelDescription(context, request, response);
-//}
+    private:
+
+        std::shared_ptr<fmuproxy::grpc::FmuService::Stub> m_stub;
+        std::shared_ptr<fmuproxy::fmi::ModelDescription> m_modelDescription;
+
+    public:
+        GrpcClient(std::string host, unsigned int port);
+
+        fmuproxy::fmi::ModelDescription &get_model_description();
+
+        void get_model_description_xml(std::string &_return);
+
+        std::unique_ptr<RemoteFmuInstance> new_instance();
+
+        void close();
+
+        ~GrpcClient() {
+            std::cout << "GrpcClient destructor called" << std::endl;
+        }
+
+    };
+
+}}}
+
+#endif //FMU_PROXY_GRPCCLIENT_HPP

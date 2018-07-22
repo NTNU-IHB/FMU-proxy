@@ -41,11 +41,10 @@ namespace fmuproxy {
             class GrpcServer {
 
             private:
-                const unsigned int port;
-                fmuproxy::fmi::Fmu &fmu;
-                std::unique_ptr<std::thread> m_thread = nullptr;
-                std::shared_ptr<Server> server = nullptr;
-                std::shared_ptr<FmuServiceImpl> service;
+                const unsigned int m_port;
+                std::shared_ptr<Server> m_server;
+                std::unique_ptr<std::thread> m_thread;
+                std::shared_ptr<FmuServiceImpl> m_service;
 
                 void wait();
 

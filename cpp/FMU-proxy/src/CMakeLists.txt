@@ -16,18 +16,24 @@ SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/fmi_definitions.hpp
         ${FMI_HEADER_DIR}/ScalarVariableAttributes.hpp)
 
+
 SET(HEARTBEAT_HEADERS
         ${HEARTBEAT_HEADER_DIR}/Heartbeat.hpp)
 
+
 SET(GRPC_COMMON_HEADERS
         ${GRPC_HEADER_DIR}/common/definitions.pb.h
-        ${GRPC_HEADER_DIR}/common/definitions.grpc.pb.h
         ${GRPC_HEADER_DIR}/common/service.pb.h
         ${GRPC_HEADER_DIR}/common/service.grpc.pb.h)
+
+SET(GRPC_CLIENT_HEADERS
+        ${GRPC_HEADER_DIR}/client/GrpcClient.hpp
+        ${GRPC_HEADER_DIR}/client/RemoteFmuInstance.hpp)
 
 SET(GRPC_SERVER_HEADERS
         ${GRPC_HEADER_DIR}/server/GrpcServer.hpp
         ${GRPC_HEADER_DIR}/server/FmuServiceImpl.hpp)
+
 
 SET(THRIFT_COMMON_HEADERS
         ${THRIFT_HEADER_DIR}/common/definitions_types.h
@@ -58,9 +64,15 @@ SET(GRPC_COMMON_SRC
         fmuproxy/grpc/common/service.pb.cc
         fmuproxy/grpc/common/service.grpc.pb.cc)
 
+SET(GRPC_CLIENT_SRC
+        fmuproxy/grpc/client/GrpcClient.cpp
+        fmuproxy/grpc/client/RemoteFmuInstance.cpp
+        fmuproxy/grpc/client/grpc_client_helper.cpp)
+
 SET(GRPC_SERVER_SRC
         fmuproxy/grpc/server/GrpcServer.cpp
-        fmuproxy/grpc/server/FmuServiceImpl.cpp)
+        fmuproxy/grpc/server/FmuServiceImpl.cpp
+        fmuproxy/grpc/server/grpc_server_helper.cpp)
 
 SET(THRIFT_COMMON_SRC
         fmuproxy/thrift/common/definitions_types.cpp
@@ -101,6 +113,9 @@ endif()
 
 add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
 target_link_libraries(grpc-common ${GRPC_LIBRARIES})
+
+add_library(grpc-client ${GRPC_CLIENT_HEADERS} ${GRPC_CLIENT_SRC})
+target_link_libraries(grpc-client grpc-common fmi)
 
 add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_HEADERS} ${GRPC_SERVER_SRC})
 target_link_libraries(grpc-server grpc-common fmi)

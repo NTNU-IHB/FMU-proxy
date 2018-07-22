@@ -25,6 +25,9 @@ add_executable(ThriftServerTest
         thrift/thrift_server_test.cpp)
 target_link_libraries(ThriftServerTest thrift-server)
 
+add_executable(GrpcClientTest
+        grpc/grpc_client_test.cpp)
+target_link_libraries(GrpcClientTest grpc-client)
 
 add_executable(GrpcServerTest
         grpc/grpc_server_test.cpp)
