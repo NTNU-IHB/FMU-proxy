@@ -25,14 +25,27 @@
 #include <iostream>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
 #include "boost/program_options.hpp"
-#include "RemoteAddress.hpp"
+#include "extra/RemoteAddress.hpp"
+
+#if THRIFT_FOUND
+
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
+
+using namespace fmuproxy::thrift::server;
+#endif
+
+#if GRPC_FOUND
+#include <fmuproxy/thrift/server/GrpcServer.hpp>
+using namespace fmuproxy::grpc::server;
+#endif
+
 
 using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::heartbeat;
-using namespace fmuproxy::thrift::server;
+
+namespace po = boost::program_options;
 
 namespace {
 
@@ -47,16 +60,24 @@ namespace {
         cout << "Done." << endl;
     }
 
-    int
-    run_application(const string &fmu_path, const unsigned int thrift_port, const shared_ptr<RemoteAddress> &remote) {
-
-        bool has_remote = remote != nullptr;
+    int run_application(
+            const string &fmu_path,
+            const unsigned int thrift_port,
+            const shared_ptr<RemoteAddress> &remote) {
 
         Fmu fmu(fmu_path);
 
-        ThriftServer server(fmu, thrift_port);
-        server.start();
+#if THRIFT_FOUND
+        ThriftServer thrift_server(fmu, thrift_port);
+        thrift_server.start();
+#endif
 
+#if GRPC_FOUND
+        GrpcServer grpc_server(fmu, thrift_port);
+        grpc_server.start();
+#endif
+
+        bool has_remote = remote != nullptr;
         unique_ptr<Heartbeat> beat = nullptr;
         if (has_remote) {
             beat = make_unique<Heartbeat>(remote->host, remote->port, fmu.get_model_description_xml());
@@ -64,7 +85,14 @@ namespace {
         }
 
         wait_for_input();
-        server.stop();
+
+#if THRIFT_FOUND
+        thrift_server.stop();
+#endif
+
+#if GRPC_FOUND
+        grpc_server.stop();
+#endif
 
         if (has_remote) {
             beat->stop();
@@ -76,19 +104,23 @@ namespace {
 
 }
 
-
 int main(int argc, char** argv) {
 
     try {
-
-        namespace po = boost::program_options;
 
         po::options_description desc("Options");
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
                 ("fmu,f", po::value<string>()->required(), "Path to FMU")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server")
-                ("thrift_port,t", po::value<unsigned int>()->required(), "Specify the network port to be used by the Thrift server");
+#if THRIFT_FOUND
+                ("thrift_port,t", po::value<unsigned int>()->required(),
+                 "Specify the network port to be used by the Thrift server")
+#endif
+#if GRPC_FOUND
+            ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server")
+#endif
+                ; //<- keep it there
 
         po::variables_map vm;
         try {
@@ -119,7 +151,6 @@ int main(int argc, char** argv) {
         }
 
         return run_application(fmu_path, thrift_port, remote);
-
 
     } catch(std::exception& e) {
         std::cerr << "Unhandled Exception reached the top of main: " << e.what() << ", application will now exit" << std::endl;
