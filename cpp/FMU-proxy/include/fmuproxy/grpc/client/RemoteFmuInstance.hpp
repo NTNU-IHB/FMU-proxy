@@ -35,13 +35,18 @@ namespace fmuproxy { namespace  grpc { namespace  client {
 
     private:
 
-        int fmu_id;
-        double current_time;
+        unsigned int fmu_id;
+        double current_time = 0;
         fmuproxy::grpc::FmuService::Stub &stub;
         fmuproxy::fmi::ModelDescription &modelDescription;
 
+        fmuproxy::grpc::IntegerRead integerRead;
+        fmuproxy::grpc::RealRead realRead;
+        fmuproxy::grpc::StringRead stringRead;
+        fmuproxy::grpc::BooleanRead booleanRead;
+
     public:
-        RemoteFmuInstance(int fmu_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
+        RemoteFmuInstance(unsigned int fmu_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
 
         double getCurrentTime() const override;
 

@@ -27,7 +27,6 @@
 
 #include "thrift_server_helper.cpp"
 
-int id_gen = 0;
 
 using namespace std;
 using namespace fmuproxy;
@@ -44,9 +43,9 @@ void FmuServiceHandler::getModelDescription(ModelDescription &_return) {
 }
 
 FmuId FmuServiceHandler::createInstanceFromCS() {
-    FmuId my_id = id_gen++;
+    FmuId my_id = ID_GEN++;
     fmus[my_id] = fmu.new_instance();
-    cout << "created new FMU instance with id=" << my_id << endl;
+    cout << "Created new FMU instance with id=" << my_id << endl;
     return my_id;
 }
 

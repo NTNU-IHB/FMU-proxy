@@ -79,6 +79,8 @@ void FmuInstance::init(double start, double stop) {
         throw runtime_error("fmi2_import_exit_initialization_mode failed");
     }
 
+    current_time = start;
+
 }
 
 fmi2_status_t FmuInstance::step(double step_size) {

@@ -27,96 +27,87 @@
 #include <fmuproxy/fmi/fmi_definitions.hpp>
 #include <google/protobuf/empty.pb.h>
 
-using namespace fmuproxy::grpc;
-
 namespace {
 
     google::protobuf::Empty empty{};
 
-    fmi2_status_t convert(const Status status) {
+    fmi2_status_t convert(const fmuproxy::grpc::Status status) {
         switch (status) {
-            case Status::OK_STATUS:
+            case fmuproxy::grpc::Status::OK_STATUS:
                 return fmi2_status_ok;
-            case Status::WARNING_STATUS:
+            case fmuproxy::grpc::Status::WARNING_STATUS:
                 return fmi2_status_warning;
-            case Status::DISCARD_STATUS:
+            case fmuproxy::grpc::Status::DISCARD_STATUS:
                 return fmi2_status_discard;
-            case Status::ERROR_STATUS:
+            case fmuproxy::grpc::Status::ERROR_STATUS:
                 return fmi2_status_error;
-            case Status::FATAL_STATUS:
+            case fmuproxy::grpc::Status::FATAL_STATUS:
                 return fmi2_status_fatal;
-            case Status::PENDING_STATUS:
+            case fmuproxy::grpc::Status::PENDING_STATUS:
                 return fmi2_status_pending;
             default:
                 throw std::runtime_error("not a valid status: " + status);
         }
     }
 
-    fmi2_causality_enu_t convert(const Causality causality) {
+    fmi2_causality_enu_t convert(const fmuproxy::grpc::Causality causality) {
         switch (causality) {
-            case Causality::LOCAL_CAUSALITY:
+            case fmuproxy::grpc::Causality::LOCAL_CAUSALITY:
                 return fmi2_causality_enu_local;
-            case Causality::INDEPENDENT_CAUSALITY:
+            case fmuproxy::grpc::Causality::INDEPENDENT_CAUSALITY:
                 return fmi2_causality_enu_independent;
-            case Causality::INPUT_CAUSALITY:
+            case fmuproxy::grpc::Causality::INPUT_CAUSALITY:
                 return fmi2_causality_enu_input;
-            case Causality::OUTPUT_CAUSALITY:
+            case fmuproxy::grpc::Causality::OUTPUT_CAUSALITY:
                 return fmi2_causality_enu_output;
-            case Causality::CALCULATED_PARAMETER_CAUSALITY:
+            case fmuproxy::grpc::Causality::CALCULATED_PARAMETER_CAUSALITY:
                 return fmi2_causality_enu_calculated_parameter;
-            case Causality::PARAMETER_CAUSALITY:
+            case fmuproxy::grpc::Causality::PARAMETER_CAUSALITY:
                 return fmi2_causality_enu_parameter;
             default:
                 return fmi2_causality_enu_unknown;
         }
     }
 
-    fmi2_variability_enu_t convert(const Variability variability) {
+    fmi2_variability_enu_t convert(const fmuproxy::grpc::Variability variability) {
         switch (variability) {
-            case Variability::CONSTANT_VARIABILITY:
+            case fmuproxy::grpc::Variability::CONSTANT_VARIABILITY:
                 return fmi2_variability_enu_constant;
-            case Variability::CONTINUOUS_VARIABILITY:
+            case fmuproxy::grpc::Variability::CONTINUOUS_VARIABILITY:
                 return fmi2_variability_enu_continuous;
-            case Variability::FIXED_VARIABILITY:
+            case fmuproxy::grpc::Variability::FIXED_VARIABILITY:
                 return fmi2_variability_enu_fixed;
-            case Variability::DISCRETE_VARIABILITY:
+            case fmuproxy::grpc::Variability::DISCRETE_VARIABILITY:
                 return fmi2_variability_enu_discrete;
-            case Variability::TUNABLE_VARIABILITY:
+            case fmuproxy::grpc::Variability::TUNABLE_VARIABILITY:
                 return fmi2_variability_enu_tunable;
             default:
                 return fmi2_variability_enu_unknown;
         }
     }
 
-    fmi2_initial_enu_t convert(const Initial initial) {
+    fmi2_initial_enu_t convert(const fmuproxy::grpc::Initial initial) {
         switch (initial) {
-            case Initial::APPROX_INITIAL:
+            case fmuproxy::grpc::Initial::APPROX_INITIAL:
                 return fmi2_initial_enu_approx;
-            case Initial::CALCULATED_INITIAL:
+            case fmuproxy::grpc::Initial::CALCULATED_INITIAL:
                 return fmi2_initial_enu_calculated;
-            case Initial::EXACT_INITIAL:
+            case fmuproxy::grpc::Initial::EXACT_INITIAL:
                 return fmi2_initial_enu_exact;
             default:
                 return fmi2_initial_enu_unknown;
         }
     }
 
-    fmi2_variable_naming_convension_enu_t convert(const VariableNamingConvention convention) {
+    fmi2_variable_naming_convension_enu_t convert(const fmuproxy::grpc::VariableNamingConvention convention) {
         switch (convention) {
-            case VariableNamingConvention::FLAT:
+            case fmuproxy::grpc::VariableNamingConvention::FLAT:
                 return fmi2_naming_enu_flat;
-            case VariableNamingConvention::STRUCTURED:
+            case fmuproxy::grpc::VariableNamingConvention::STRUCTURED:
                 return fmi2_naming_enu_structured;
             default:
                 throw std::runtime_error("not a valid convention: " + convention);
         }
-    }
-
-    void convert(fmuproxy::fmi::DefaultExperiment &d0, const fmuproxy::grpc::DefaultExperiment &d1) {
-        d0.startTime = d1.start_time();
-        d0.stopTime = d1.stop_time();
-        d0.tolerance = d1.tolerance();
-        d0.stepSize = d1.step_size();
     }
 
     fmuproxy::fmi::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a1) {
@@ -187,19 +178,19 @@ namespace {
         v0.causality = convert(v1.causality());
         v0.initial = convert(v1.initial());
         switch (v1.attribute_case()) {
-            case ScalarVariable::AttributeCase::kIntegerAttribute:
+            case fmuproxy::grpc::ScalarVariable::AttributeCase::kIntegerAttribute:
                 v0.attribute.setIntegerAttribute(convert(v1.integer_attribute()));
                 break;
-            case ScalarVariable::AttributeCase::kRealAttribute:
+            case fmuproxy::grpc::ScalarVariable::AttributeCase::kRealAttribute:
                 v0.attribute.setRealAttribute(convert(v1.real_attribute()));
                 break;
-            case ScalarVariable::AttributeCase::kStringAttribute:
+            case fmuproxy::grpc::ScalarVariable::AttributeCase::kStringAttribute:
                 v0.attribute.setStringAttribute(convert(v1.string_attribute()));
                 break;
-            case ScalarVariable::AttributeCase::kBooleanAttribute:
+            case fmuproxy::grpc::ScalarVariable::AttributeCase::kBooleanAttribute:
                 v0.attribute.setBooleanAttribute(convert(v1.boolean_attribute()));
                 break;
-            case ScalarVariable::AttributeCase::kEnumerationAttribute:
+            case fmuproxy::grpc::ScalarVariable::AttributeCase::kEnumerationAttribute:
                 v0.attribute.setEnumerationAttribute(convert(v1.enumeration_attribute()));
                 break;
             default:
@@ -207,12 +198,6 @@ namespace {
         }
 
         return v0;
-    }
-
-    void convert(fmuproxy::fmi::ModelVariables &m0, const google::protobuf::RepeatedPtrField<ScalarVariable> &m1) {
-        for (const fmuproxy::grpc::ScalarVariable &var : m1) {
-            m0.push_back(convert(var));
-        }
     }
 
     void convert(fmuproxy::fmi::ModelDescription &m0, const fmuproxy::grpc::ModelDescription &m1) {
@@ -225,8 +210,16 @@ namespace {
         m0.generationTool = m1.generation_tool();
         m0.generationDateAndTime = m1.generation_date_and_time();
         m0.variableNamingConvention = convert(m1.variable_naming_convention());
-        convert(m0.modelVariables, m1.model_variables());
-        convert(m0.defaultExperiment, m1.default_experiment());
+
+        m0.defaultExperiment.startTime = m1.default_experiment().start_time();
+        m0.defaultExperiment.stopTime = m1.default_experiment().stop_time();
+        m0.defaultExperiment.tolerance = m1.default_experiment().tolerance();
+        m0.defaultExperiment.stepSize = m1.default_experiment().step_size();
+
+        for (const fmuproxy::grpc::ScalarVariable &var : m1.model_variables()) {
+            m0.modelVariables.push_back(convert(var));
+        }
+
     }
     
     

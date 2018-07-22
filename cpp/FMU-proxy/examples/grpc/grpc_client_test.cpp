@@ -35,42 +35,42 @@ int main() {
 
     GrpcClient fmu = GrpcClient("localhost", 9090);
 
-    string xml;
-    fmu.get_model_description_xml(xml);
-    cout << xml << endl;
+//    string xml;
+//    fmu.get_model_description_xml(xml);
+//    cout << xml << endl;
 
-//    const auto md = fmu.get_model_description();
-//    cout << "GUID=" << md.guid << endl;
-//    cout << "modelName=" << md.modelName << endl;
-//    cout << "license=" << md.license << endl;
-//
-//    for (auto var : md.modelVariables) {
-//        cout << "Name=" << var.name << ", " << var.attribute << endl;
-//    }
-//
-//    unique_ptr<RemoteFmuInstance> instance = fmu.new_instance();
-//    instance->init();
-//
-//    clock_t begin = clock();
-//
-//    vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
-//    vector<fmi2_real_t> ref(2);
-//
-//    double t;
-//    while ( (t=instance->getCurrentTime() ) < stop) {
-//        instance->step(step_size);
-//        instance->readReal(vr, ref);
-//        cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
-//    }
-//
-//    clock_t end = clock();
-//
-//    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-//    cout << "elapsed=" << elapsed_secs << "s" << endl;
-//
-//    auto status = instance->terminate();
-//    cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
-//
+    const auto md = fmu.get_model_description();
+    cout << "GUID=" << md.guid << endl;
+    cout << "modelName=" << md.modelName << endl;
+    cout << "license=" << md.license << endl;
+
+    for (auto var : md.modelVariables) {
+        cout << "Name=" << var.name << ", " << var.attribute << endl;
+    }
+
+    unique_ptr<RemoteFmuInstance> instance = fmu.new_instance();
+    instance->init();
+
+    clock_t begin = clock();
+
+    vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
+    vector<fmi2_real_t> ref(vr.size());
+
+    double t;
+    while ( (t=instance->getCurrentTime() ) < stop) {
+        instance->step(step_size);
+        instance->readReal(vr, ref);
+        cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
+    }
+
+    clock_t end = clock();
+
+    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
+    cout << "elapsed=" << elapsed_secs << "s" << endl;
+
+    auto status = instance->terminate();
+    cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
+
     fmu.close();
 
 

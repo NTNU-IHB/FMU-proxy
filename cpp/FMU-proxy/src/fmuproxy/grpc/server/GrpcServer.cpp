@@ -25,6 +25,7 @@
 #include <grpcpp/grpcpp.h>
 
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
+#include <memory>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -35,7 +36,7 @@ using namespace fmuproxy::grpc::server;
 GrpcServer::GrpcServer(fmuproxy::fmi::Fmu &fmu, const unsigned int port)
         : m_port(port) {
 
-    m_service = shared_ptr<FmuServiceImpl>(new FmuServiceImpl(fmu));
+    m_service = make_shared<FmuServiceImpl>(fmu);
 }
 
 void GrpcServer::wait() {
@@ -44,11 +45,9 @@ void GrpcServer::wait() {
 
 void GrpcServer::start() {
 
-    string address = "localhost:" + to_string(m_port);
-
     cout << "Grpc server listening to connections on port: " << m_port << endl;
     ServerBuilder builder;
-    builder.AddListeningPort(address, ::grpc::InsecureServerCredentials());
+    builder.AddListeningPort("localhost:" + to_string(m_port), ::grpc::InsecureServerCredentials());
     builder.RegisterService(m_service.get());
     m_server = move(builder.BuildAndStart());
     m_thread = make_unique<thread>(&GrpcServer::wait, this);
