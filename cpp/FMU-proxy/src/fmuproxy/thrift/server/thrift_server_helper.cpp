@@ -48,6 +48,7 @@ namespace {
             case fmi2_status_fatal:
                 return Status::type::FATAL_STATUS;
         }
+        throw std::runtime_error("");
     }
 
     Causality::type thriftType(fmi2_causality_enu_t causality) {
@@ -67,6 +68,7 @@ namespace {
             case fmi2_causality_enu_unknown:
                 return Causality::type::LOCAL_CAUSALITY;
         }
+        throw std::runtime_error("");
     }
 
     Variability::type thriftType(fmi2_variability_enu_t variability) {
@@ -84,6 +86,7 @@ namespace {
             case fmi2_variability_enu_unknown:
                 return Variability::type::CONTINUOUS_VARIABILITY;
         }
+        throw std::runtime_error("");
     }
 
     Initial::type thriftType(fmi2_initial_enu_t initial) {
@@ -97,6 +100,7 @@ namespace {
             case fmi2_initial_enu_unknown:
                 return Initial::type::APPROX_INITIAL;
         }
+        throw std::runtime_error("");
     }
 
     VariableNamingConvention::type thriftType(fmi2_variable_naming_convension_enu_t convention) {
@@ -108,6 +112,7 @@ namespace {
             case fmi2_naming_enu_unknown:
                throw std::runtime_error("TODO handle unknown naming convention!");
         }
+        throw std::runtime_error("");
     }
 
     IntegerAttribute thriftType(const fmuproxy::fmi::IntegerAttribute &a) {
