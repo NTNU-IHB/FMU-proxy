@@ -28,23 +28,14 @@
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include "boost/program_options.hpp"
 #include "extra/RemoteAddress.hpp"
-
-#if THRIFT_FOUND
-
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
-
-using namespace fmuproxy::thrift::server;
-#endif
-
-#if GRPC_FOUND
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
-using namespace fmuproxy::grpc::server;
-#endif
-
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
 
 using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::heartbeat;
+using namespace fmuproxy::grpc::server;
+using namespace fmuproxy::thrift::server;
 
 namespace po = boost::program_options;
 
@@ -68,15 +59,11 @@ namespace {
 
         Fmu fmu(fmu_path);
 
-#if THRIFT_FOUND
         ThriftServer thrift_server(fmu, ports["thrift"]);
         thrift_server.start();
-#endif
 
-#if GRPC_FOUND
         GrpcServer grpc_server(fmu, ports["grpc"]);
         grpc_server.start();
-#endif
 
         bool has_remote = remote != nullptr;
         unique_ptr<Heartbeat> beat = nullptr;
@@ -91,13 +78,8 @@ namespace {
             beat->stop();
         }
 
-#if THRIFT_FOUND
         thrift_server.stop();
-#endif
-
-#if GRPC_FOUND
         grpc_server.stop();
-#endif
 
         return 0;
 
@@ -149,7 +131,6 @@ int main(int argc, char** argv) {
 #endif
 #if GRPC_FOUND
         ports["grpc"] = vm["grpc_port"].as<unsigned int>();
-#endif
 
         shared_ptr<RemoteAddress> remote = nullptr;
         if (vm.count("remote")) {
