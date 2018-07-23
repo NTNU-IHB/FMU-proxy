@@ -11,9 +11,2309 @@ from thrift.protocol.TProtocol import TProtocolException
 from thrift.TRecursive import fix_spec
 
 import sys
-import definitions.ttypes
 
 from thrift.transport import TTransport
 all_structs = []
+
+
+class Status(object):
+    OK_STATUS = 0
+    WARNING_STATUS = 1
+    DISCARD_STATUS = 2
+    ERROR_STATUS = 3
+    FATAL_STATUS = 4
+    PENDING_STATUS = 5
+
+    _VALUES_TO_NAMES = {
+        0: "OK_STATUS",
+        1: "WARNING_STATUS",
+        2: "DISCARD_STATUS",
+        3: "ERROR_STATUS",
+        4: "FATAL_STATUS",
+        5: "PENDING_STATUS",
+    }
+
+    _NAMES_TO_VALUES = {
+        "OK_STATUS": 0,
+        "WARNING_STATUS": 1,
+        "DISCARD_STATUS": 2,
+        "ERROR_STATUS": 3,
+        "FATAL_STATUS": 4,
+        "PENDING_STATUS": 5,
+    }
+
+
+class Causality(object):
+    INPUT_CAUSALITY = 0
+    OUTPUT_CAUSALITY = 1
+    PARAMETER_CAUSALITY = 2
+    CALCULATED_PARAMETER_CAUSALITY = 3
+    LOCAL_CAUSALITY = 4
+    INDEPENDENT_CAUSALITY = 5
+
+    _VALUES_TO_NAMES = {
+        0: "INPUT_CAUSALITY",
+        1: "OUTPUT_CAUSALITY",
+        2: "PARAMETER_CAUSALITY",
+        3: "CALCULATED_PARAMETER_CAUSALITY",
+        4: "LOCAL_CAUSALITY",
+        5: "INDEPENDENT_CAUSALITY",
+    }
+
+    _NAMES_TO_VALUES = {
+        "INPUT_CAUSALITY": 0,
+        "OUTPUT_CAUSALITY": 1,
+        "PARAMETER_CAUSALITY": 2,
+        "CALCULATED_PARAMETER_CAUSALITY": 3,
+        "LOCAL_CAUSALITY": 4,
+        "INDEPENDENT_CAUSALITY": 5,
+    }
+
+
+class Variability(object):
+    CONSTANT_VARIABILITY = 0
+    FIXED_VARIABILITY = 1
+    CONTINUOUS_VARIABILITY = 2
+    DISCRETE_VARIABILITY = 3
+    TUNABLE_VARIABILITY = 4
+
+    _VALUES_TO_NAMES = {
+        0: "CONSTANT_VARIABILITY",
+        1: "FIXED_VARIABILITY",
+        2: "CONTINUOUS_VARIABILITY",
+        3: "DISCRETE_VARIABILITY",
+        4: "TUNABLE_VARIABILITY",
+    }
+
+    _NAMES_TO_VALUES = {
+        "CONSTANT_VARIABILITY": 0,
+        "FIXED_VARIABILITY": 1,
+        "CONTINUOUS_VARIABILITY": 2,
+        "DISCRETE_VARIABILITY": 3,
+        "TUNABLE_VARIABILITY": 4,
+    }
+
+
+class Initial(object):
+    EXACT_INITIAL = 0
+    APPROX_INITIAL = 1
+    CALCULATED_INITIAL = 2
+
+    _VALUES_TO_NAMES = {
+        0: "EXACT_INITIAL",
+        1: "APPROX_INITIAL",
+        2: "CALCULATED_INITIAL",
+    }
+
+    _NAMES_TO_VALUES = {
+        "EXACT_INITIAL": 0,
+        "APPROX_INITIAL": 1,
+        "CALCULATED_INITIAL": 2,
+    }
+
+
+class DependenciesKind(object):
+    DEPENDENT_KIND = 0
+    CONSTANT_KIND = 1
+    TUNABLE_KIND = 2
+    DISCRETE_KIND = 3
+
+    _VALUES_TO_NAMES = {
+        0: "DEPENDENT_KIND",
+        1: "CONSTANT_KIND",
+        2: "TUNABLE_KIND",
+        3: "DISCRETE_KIND",
+    }
+
+    _NAMES_TO_VALUES = {
+        "DEPENDENT_KIND": 0,
+        "CONSTANT_KIND": 1,
+        "TUNABLE_KIND": 2,
+        "DISCRETE_KIND": 3,
+    }
+
+
+class VariableNamingConvention(object):
+    FLAT = 0
+    STRUCTURED = 1
+
+    _VALUES_TO_NAMES = {
+        0: "FLAT",
+        1: "STRUCTURED",
+    }
+
+    _NAMES_TO_VALUES = {
+        "FLAT": 0,
+        "STRUCTURED": 1,
+    }
+
+
+class NoSuchFmuException(TException):
+    """
+    Attributes:
+     - message
+
+    """
+
+
+    def __init__(self, message=None,):
+        self.message = message
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.message = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('NoSuchFmuException')
+        if self.message is not None:
+            oprot.writeFieldBegin('message', TType.STRING, 1)
+            oprot.writeString(self.message.encode('utf-8') if sys.version_info[0] == 2 else self.message)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class NoSuchVariableException(TException):
+    """
+    Attributes:
+     - message
+
+    """
+
+
+    def __init__(self, message=None,):
+        self.message = message
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.message = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('NoSuchVariableException')
+        if self.message is not None:
+            oprot.writeFieldBegin('message', TType.STRING, 1)
+            oprot.writeString(self.message.encode('utf-8') if sys.version_info[0] == 2 else self.message)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class UnsupportedOperationException(TException):
+    """
+    Attributes:
+     - message
+
+    """
+
+
+    def __init__(self, message=None,):
+        self.message = message
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.message = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('UnsupportedOperationException')
+        if self.message is not None:
+            oprot.writeFieldBegin('message', TType.STRING, 1)
+            oprot.writeString(self.message.encode('utf-8') if sys.version_info[0] == 2 else self.message)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class IntegerAttribute(object):
+    """
+    Attributes:
+     - min
+     - max
+     - start
+
+    """
+
+
+    def __init__(self, min=None, max=None, start=None,):
+        self.min = min
+        self.max = max
+        self.start = start
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.min = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.max = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I32:
+                    self.start = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('IntegerAttribute')
+        if self.min is not None:
+            oprot.writeFieldBegin('min', TType.I32, 1)
+            oprot.writeI32(self.min)
+            oprot.writeFieldEnd()
+        if self.max is not None:
+            oprot.writeFieldBegin('max', TType.I32, 2)
+            oprot.writeI32(self.max)
+            oprot.writeFieldEnd()
+        if self.start is not None:
+            oprot.writeFieldBegin('start', TType.I32, 3)
+            oprot.writeI32(self.start)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class RealAttribute(object):
+    """
+    Attributes:
+     - min
+     - max
+     - start
+
+    """
+
+
+    def __init__(self, min=None, max=None, start=None,):
+        self.min = min
+        self.max = max
+        self.start = start
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.DOUBLE:
+                    self.min = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.DOUBLE:
+                    self.max = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.DOUBLE:
+                    self.start = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('RealAttribute')
+        if self.min is not None:
+            oprot.writeFieldBegin('min', TType.DOUBLE, 1)
+            oprot.writeDouble(self.min)
+            oprot.writeFieldEnd()
+        if self.max is not None:
+            oprot.writeFieldBegin('max', TType.DOUBLE, 2)
+            oprot.writeDouble(self.max)
+            oprot.writeFieldEnd()
+        if self.start is not None:
+            oprot.writeFieldBegin('start', TType.DOUBLE, 3)
+            oprot.writeDouble(self.start)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class StringAttribute(object):
+    """
+    Attributes:
+     - start
+
+    """
+
+
+    def __init__(self, start=None,):
+        self.start = start
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.start = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('StringAttribute')
+        if self.start is not None:
+            oprot.writeFieldBegin('start', TType.STRING, 1)
+            oprot.writeString(self.start.encode('utf-8') if sys.version_info[0] == 2 else self.start)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class BooleanAttribute(object):
+    """
+    Attributes:
+     - start
+
+    """
+
+
+    def __init__(self, start=None,):
+        self.start = start
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.BOOL:
+                    self.start = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('BooleanAttribute')
+        if self.start is not None:
+            oprot.writeFieldBegin('start', TType.BOOL, 1)
+            oprot.writeBool(self.start)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class EnumerationAttribute(object):
+    """
+    Attributes:
+     - min
+     - max
+     - start
+
+    """
+
+
+    def __init__(self, min=None, max=None, start=None,):
+        self.min = min
+        self.max = max
+        self.start = start
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.min = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.max = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I32:
+                    self.start = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('EnumerationAttribute')
+        if self.min is not None:
+            oprot.writeFieldBegin('min', TType.I32, 1)
+            oprot.writeI32(self.min)
+            oprot.writeFieldEnd()
+        if self.max is not None:
+            oprot.writeFieldBegin('max', TType.I32, 2)
+            oprot.writeI32(self.max)
+            oprot.writeFieldEnd()
+        if self.start is not None:
+            oprot.writeFieldBegin('start', TType.I32, 3)
+            oprot.writeI32(self.start)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ScalarVariableAttribute(object):
+    """
+    Attributes:
+     - integerAttribute
+     - realAttribute
+     - stringAttribute
+     - booleanAttribute
+     - enumerationAttribute
+
+    """
+
+
+    def __init__(self, integerAttribute=None, realAttribute=None, stringAttribute=None, booleanAttribute=None, enumerationAttribute=None,):
+        self.integerAttribute = integerAttribute
+        self.realAttribute = realAttribute
+        self.stringAttribute = stringAttribute
+        self.booleanAttribute = booleanAttribute
+        self.enumerationAttribute = enumerationAttribute
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.integerAttribute = IntegerAttribute()
+                    self.integerAttribute.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.realAttribute = RealAttribute()
+                    self.realAttribute.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRUCT:
+                    self.stringAttribute = StringAttribute()
+                    self.stringAttribute.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRUCT:
+                    self.booleanAttribute = BooleanAttribute()
+                    self.booleanAttribute.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.STRUCT:
+                    self.enumerationAttribute = EnumerationAttribute()
+                    self.enumerationAttribute.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('ScalarVariableAttribute')
+        if self.integerAttribute is not None:
+            oprot.writeFieldBegin('integerAttribute', TType.STRUCT, 1)
+            self.integerAttribute.write(oprot)
+            oprot.writeFieldEnd()
+        if self.realAttribute is not None:
+            oprot.writeFieldBegin('realAttribute', TType.STRUCT, 2)
+            self.realAttribute.write(oprot)
+            oprot.writeFieldEnd()
+        if self.stringAttribute is not None:
+            oprot.writeFieldBegin('stringAttribute', TType.STRUCT, 3)
+            self.stringAttribute.write(oprot)
+            oprot.writeFieldEnd()
+        if self.booleanAttribute is not None:
+            oprot.writeFieldBegin('booleanAttribute', TType.STRUCT, 4)
+            self.booleanAttribute.write(oprot)
+            oprot.writeFieldEnd()
+        if self.enumerationAttribute is not None:
+            oprot.writeFieldBegin('enumerationAttribute', TType.STRUCT, 5)
+            self.enumerationAttribute.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ScalarVariable(object):
+    """
+    Attributes:
+     - valueReference
+     - name
+     - description
+     - declaredType
+     - initial
+     - causality
+     - variability
+     - attribute
+
+    """
+
+
+    def __init__(self, valueReference=None, name=None, description=None, declaredType=None, initial=None, causality=None, variability=None, attribute=None,):
+        self.valueReference = valueReference
+        self.name = name
+        self.description = description
+        self.declaredType = declaredType
+        self.initial = initial
+        self.causality = causality
+        self.variability = variability
+        self.attribute = attribute
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.valueReference = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.description = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.declaredType = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I32:
+                    self.initial = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I32:
+                    self.causality = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.I32:
+                    self.variability = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 8:
+                if ftype == TType.STRUCT:
+                    self.attribute = ScalarVariableAttribute()
+                    self.attribute.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('ScalarVariable')
+        if self.valueReference is not None:
+            oprot.writeFieldBegin('valueReference', TType.I32, 1)
+            oprot.writeI32(self.valueReference)
+            oprot.writeFieldEnd()
+        if self.name is not None:
+            oprot.writeFieldBegin('name', TType.STRING, 2)
+            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
+            oprot.writeFieldEnd()
+        if self.description is not None:
+            oprot.writeFieldBegin('description', TType.STRING, 3)
+            oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
+            oprot.writeFieldEnd()
+        if self.declaredType is not None:
+            oprot.writeFieldBegin('declaredType', TType.STRING, 4)
+            oprot.writeString(self.declaredType.encode('utf-8') if sys.version_info[0] == 2 else self.declaredType)
+            oprot.writeFieldEnd()
+        if self.initial is not None:
+            oprot.writeFieldBegin('initial', TType.I32, 5)
+            oprot.writeI32(self.initial)
+            oprot.writeFieldEnd()
+        if self.causality is not None:
+            oprot.writeFieldBegin('causality', TType.I32, 6)
+            oprot.writeI32(self.causality)
+            oprot.writeFieldEnd()
+        if self.variability is not None:
+            oprot.writeFieldBegin('variability', TType.I32, 7)
+            oprot.writeI32(self.variability)
+            oprot.writeFieldEnd()
+        if self.attribute is not None:
+            oprot.writeFieldBegin('attribute', TType.STRUCT, 8)
+            self.attribute.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class Unknown(object):
+    """
+    Attributes:
+     - index
+     - dependencies
+     - dependenciesKind
+
+    """
+
+
+    def __init__(self, index=None, dependencies=None, dependenciesKind=None,):
+        self.index = index
+        self.dependencies = dependencies
+        self.dependenciesKind = dependenciesKind
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.index = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.dependencies = []
+                    (_etype3, _size0) = iprot.readListBegin()
+                    for _i4 in range(_size0):
+                        _elem5 = iprot.readI32()
+                        self.dependencies.append(_elem5)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I32:
+                    self.dependenciesKind = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('Unknown')
+        if self.index is not None:
+            oprot.writeFieldBegin('index', TType.I32, 1)
+            oprot.writeI32(self.index)
+            oprot.writeFieldEnd()
+        if self.dependencies is not None:
+            oprot.writeFieldBegin('dependencies', TType.LIST, 2)
+            oprot.writeListBegin(TType.I32, len(self.dependencies))
+            for iter6 in self.dependencies:
+                oprot.writeI32(iter6)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.dependenciesKind is not None:
+            oprot.writeFieldBegin('dependenciesKind', TType.I32, 3)
+            oprot.writeI32(self.dependenciesKind)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ModelStructure(object):
+    """
+    Attributes:
+     - outputs
+     - derivatives
+     - initialUnknowns
+
+    """
+
+
+    def __init__(self, outputs=None, derivatives=None, initialUnknowns=None,):
+        self.outputs = outputs
+        self.derivatives = derivatives
+        self.initialUnknowns = initialUnknowns
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.outputs = []
+                    (_etype10, _size7) = iprot.readListBegin()
+                    for _i11 in range(_size7):
+                        _elem12 = Unknown()
+                        _elem12.read(iprot)
+                        self.outputs.append(_elem12)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.derivatives = []
+                    (_etype16, _size13) = iprot.readListBegin()
+                    for _i17 in range(_size13):
+                        _elem18 = Unknown()
+                        _elem18.read(iprot)
+                        self.derivatives.append(_elem18)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.LIST:
+                    self.initialUnknowns = []
+                    (_etype22, _size19) = iprot.readListBegin()
+                    for _i23 in range(_size19):
+                        _elem24 = Unknown()
+                        _elem24.read(iprot)
+                        self.initialUnknowns.append(_elem24)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('ModelStructure')
+        if self.outputs is not None:
+            oprot.writeFieldBegin('outputs', TType.LIST, 1)
+            oprot.writeListBegin(TType.STRUCT, len(self.outputs))
+            for iter25 in self.outputs:
+                iter25.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.derivatives is not None:
+            oprot.writeFieldBegin('derivatives', TType.LIST, 2)
+            oprot.writeListBegin(TType.STRUCT, len(self.derivatives))
+            for iter26 in self.derivatives:
+                iter26.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.initialUnknowns is not None:
+            oprot.writeFieldBegin('initialUnknowns', TType.LIST, 3)
+            oprot.writeListBegin(TType.STRUCT, len(self.initialUnknowns))
+            for iter27 in self.initialUnknowns:
+                iter27.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class DefaultExperiment(object):
+    """
+    Attributes:
+     - startTime
+     - stopTime
+     - tolerance
+     - stepSize
+
+    """
+
+
+    def __init__(self, startTime=None, stopTime=None, tolerance=None, stepSize=None,):
+        self.startTime = startTime
+        self.stopTime = stopTime
+        self.tolerance = tolerance
+        self.stepSize = stepSize
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.DOUBLE:
+                    self.startTime = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.DOUBLE:
+                    self.stopTime = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.DOUBLE:
+                    self.tolerance = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.DOUBLE:
+                    self.stepSize = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('DefaultExperiment')
+        if self.startTime is not None:
+            oprot.writeFieldBegin('startTime', TType.DOUBLE, 1)
+            oprot.writeDouble(self.startTime)
+            oprot.writeFieldEnd()
+        if self.stopTime is not None:
+            oprot.writeFieldBegin('stopTime', TType.DOUBLE, 2)
+            oprot.writeDouble(self.stopTime)
+            oprot.writeFieldEnd()
+        if self.tolerance is not None:
+            oprot.writeFieldBegin('tolerance', TType.DOUBLE, 3)
+            oprot.writeDouble(self.tolerance)
+            oprot.writeFieldEnd()
+        if self.stepSize is not None:
+            oprot.writeFieldBegin('stepSize', TType.DOUBLE, 4)
+            oprot.writeDouble(self.stepSize)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class StepResult(object):
+    """
+    Attributes:
+     - status
+     - simulationTime
+
+    """
+
+
+    def __init__(self, status=None, simulationTime=None,):
+        self.status = status
+        self.simulationTime = simulationTime
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.DOUBLE:
+                    self.simulationTime = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('StepResult')
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 1)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        if self.simulationTime is not None:
+            oprot.writeFieldBegin('simulationTime', TType.DOUBLE, 2)
+            oprot.writeDouble(self.simulationTime)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class IntegerRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.value = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('IntegerRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.I32, 1)
+            oprot.writeI32(self.value)
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class BulkIntegerRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.value = []
+                    (_etype31, _size28) = iprot.readListBegin()
+                    for _i32 in range(_size28):
+                        _elem33 = iprot.readI32()
+                        self.value.append(_elem33)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('BulkIntegerRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.LIST, 1)
+            oprot.writeListBegin(TType.I32, len(self.value))
+            for iter34 in self.value:
+                oprot.writeI32(iter34)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class RealRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.DOUBLE:
+                    self.value = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('RealRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.DOUBLE, 1)
+            oprot.writeDouble(self.value)
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class BulkRealRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.value = []
+                    (_etype38, _size35) = iprot.readListBegin()
+                    for _i39 in range(_size35):
+                        _elem40 = iprot.readDouble()
+                        self.value.append(_elem40)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('BulkRealRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.LIST, 1)
+            oprot.writeListBegin(TType.DOUBLE, len(self.value))
+            for iter41 in self.value:
+                oprot.writeDouble(iter41)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class StringRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.value = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('StringRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.STRING, 1)
+            oprot.writeString(self.value.encode('utf-8') if sys.version_info[0] == 2 else self.value)
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class BulkStringRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.value = []
+                    (_etype45, _size42) = iprot.readListBegin()
+                    for _i46 in range(_size42):
+                        _elem47 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.value.append(_elem47)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('BulkStringRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.LIST, 1)
+            oprot.writeListBegin(TType.STRING, len(self.value))
+            for iter48 in self.value:
+                oprot.writeString(iter48.encode('utf-8') if sys.version_info[0] == 2 else iter48)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class BooleanRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.BOOL:
+                    self.value = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('BooleanRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.BOOL, 1)
+            oprot.writeBool(self.value)
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class BulkBooleanRead(object):
+    """
+    Attributes:
+     - value
+     - status
+
+    """
+
+
+    def __init__(self, value=None, status=None,):
+        self.value = value
+        self.status = status
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.value = []
+                    (_etype52, _size49) = iprot.readListBegin()
+                    for _i53 in range(_size49):
+                        _elem54 = iprot.readBool()
+                        self.value.append(_elem54)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('BulkBooleanRead')
+        if self.value is not None:
+            oprot.writeFieldBegin('value', TType.LIST, 1)
+            oprot.writeListBegin(TType.BOOL, len(self.value))
+            for iter55 in self.value:
+                oprot.writeBool(iter55)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.status is not None:
+            oprot.writeFieldBegin('status', TType.I32, 2)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class Solver(object):
+    """
+    Attributes:
+     - name
+     - settings
+
+    """
+
+
+    def __init__(self, name=None, settings=None,):
+        self.name = name
+        self.settings = settings
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.settings = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('Solver')
+        if self.name is not None:
+            oprot.writeFieldBegin('name', TType.STRING, 1)
+            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
+            oprot.writeFieldEnd()
+        if self.settings is not None:
+            oprot.writeFieldBegin('settings', TType.STRING, 2)
+            oprot.writeString(self.settings.encode('utf-8') if sys.version_info[0] == 2 else self.settings)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ModelDescription(object):
+    """
+    Attributes:
+     - fmiVersion
+     - modelName
+     - guid
+     - license
+     - copyright
+     - author
+     - version
+     - description
+     - generationTool
+     - generationDateAndTime
+     - defaultExperiment
+     - variableNamingConvention
+     - modelVariables
+     - modelStructure
+     - supportsCoSimulation
+     - supportsModelExchange
+
+    """
+
+
+    def __init__(self, fmiVersion=None, modelName=None, guid=None, license=None, copyright=None, author=None, version=None, description=None, generationTool=None, generationDateAndTime=None, defaultExperiment=None, variableNamingConvention=None, modelVariables=None, modelStructure=None, supportsCoSimulation=None, supportsModelExchange=None,):
+        self.fmiVersion = fmiVersion
+        self.modelName = modelName
+        self.guid = guid
+        self.license = license
+        self.copyright = copyright
+        self.author = author
+        self.version = version
+        self.description = description
+        self.generationTool = generationTool
+        self.generationDateAndTime = generationDateAndTime
+        self.defaultExperiment = defaultExperiment
+        self.variableNamingConvention = variableNamingConvention
+        self.modelVariables = modelVariables
+        self.modelStructure = modelStructure
+        self.supportsCoSimulation = supportsCoSimulation
+        self.supportsModelExchange = supportsModelExchange
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.fmiVersion = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.modelName = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.guid = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.license = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.STRING:
+                    self.copyright = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.STRING:
+                    self.author = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.STRING:
+                    self.version = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 8:
+                if ftype == TType.STRING:
+                    self.description = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 9:
+                if ftype == TType.STRING:
+                    self.generationTool = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 10:
+                if ftype == TType.STRING:
+                    self.generationDateAndTime = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 11:
+                if ftype == TType.STRUCT:
+                    self.defaultExperiment = DefaultExperiment()
+                    self.defaultExperiment.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 12:
+                if ftype == TType.I32:
+                    self.variableNamingConvention = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 13:
+                if ftype == TType.LIST:
+                    self.modelVariables = []
+                    (_etype59, _size56) = iprot.readListBegin()
+                    for _i60 in range(_size56):
+                        _elem61 = ScalarVariable()
+                        _elem61.read(iprot)
+                        self.modelVariables.append(_elem61)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 14:
+                if ftype == TType.STRUCT:
+                    self.modelStructure = ModelStructure()
+                    self.modelStructure.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 15:
+                if ftype == TType.BOOL:
+                    self.supportsCoSimulation = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 16:
+                if ftype == TType.BOOL:
+                    self.supportsModelExchange = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('ModelDescription')
+        if self.fmiVersion is not None:
+            oprot.writeFieldBegin('fmiVersion', TType.STRING, 1)
+            oprot.writeString(self.fmiVersion.encode('utf-8') if sys.version_info[0] == 2 else self.fmiVersion)
+            oprot.writeFieldEnd()
+        if self.modelName is not None:
+            oprot.writeFieldBegin('modelName', TType.STRING, 2)
+            oprot.writeString(self.modelName.encode('utf-8') if sys.version_info[0] == 2 else self.modelName)
+            oprot.writeFieldEnd()
+        if self.guid is not None:
+            oprot.writeFieldBegin('guid', TType.STRING, 3)
+            oprot.writeString(self.guid.encode('utf-8') if sys.version_info[0] == 2 else self.guid)
+            oprot.writeFieldEnd()
+        if self.license is not None:
+            oprot.writeFieldBegin('license', TType.STRING, 4)
+            oprot.writeString(self.license.encode('utf-8') if sys.version_info[0] == 2 else self.license)
+            oprot.writeFieldEnd()
+        if self.copyright is not None:
+            oprot.writeFieldBegin('copyright', TType.STRING, 5)
+            oprot.writeString(self.copyright.encode('utf-8') if sys.version_info[0] == 2 else self.copyright)
+            oprot.writeFieldEnd()
+        if self.author is not None:
+            oprot.writeFieldBegin('author', TType.STRING, 6)
+            oprot.writeString(self.author.encode('utf-8') if sys.version_info[0] == 2 else self.author)
+            oprot.writeFieldEnd()
+        if self.version is not None:
+            oprot.writeFieldBegin('version', TType.STRING, 7)
+            oprot.writeString(self.version.encode('utf-8') if sys.version_info[0] == 2 else self.version)
+            oprot.writeFieldEnd()
+        if self.description is not None:
+            oprot.writeFieldBegin('description', TType.STRING, 8)
+            oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
+            oprot.writeFieldEnd()
+        if self.generationTool is not None:
+            oprot.writeFieldBegin('generationTool', TType.STRING, 9)
+            oprot.writeString(self.generationTool.encode('utf-8') if sys.version_info[0] == 2 else self.generationTool)
+            oprot.writeFieldEnd()
+        if self.generationDateAndTime is not None:
+            oprot.writeFieldBegin('generationDateAndTime', TType.STRING, 10)
+            oprot.writeString(self.generationDateAndTime.encode('utf-8') if sys.version_info[0] == 2 else self.generationDateAndTime)
+            oprot.writeFieldEnd()
+        if self.defaultExperiment is not None:
+            oprot.writeFieldBegin('defaultExperiment', TType.STRUCT, 11)
+            self.defaultExperiment.write(oprot)
+            oprot.writeFieldEnd()
+        if self.variableNamingConvention is not None:
+            oprot.writeFieldBegin('variableNamingConvention', TType.I32, 12)
+            oprot.writeI32(self.variableNamingConvention)
+            oprot.writeFieldEnd()
+        if self.modelVariables is not None:
+            oprot.writeFieldBegin('modelVariables', TType.LIST, 13)
+            oprot.writeListBegin(TType.STRUCT, len(self.modelVariables))
+            for iter62 in self.modelVariables:
+                iter62.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.modelStructure is not None:
+            oprot.writeFieldBegin('modelStructure', TType.STRUCT, 14)
+            self.modelStructure.write(oprot)
+            oprot.writeFieldEnd()
+        if self.supportsCoSimulation is not None:
+            oprot.writeFieldBegin('supportsCoSimulation', TType.BOOL, 15)
+            oprot.writeBool(self.supportsCoSimulation)
+            oprot.writeFieldEnd()
+        if self.supportsModelExchange is not None:
+            oprot.writeFieldBegin('supportsModelExchange', TType.BOOL, 16)
+            oprot.writeBool(self.supportsModelExchange)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(NoSuchFmuException)
+NoSuchFmuException.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'message', 'UTF8', None, ),  # 1
+)
+all_structs.append(NoSuchVariableException)
+NoSuchVariableException.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'message', 'UTF8', None, ),  # 1
+)
+all_structs.append(UnsupportedOperationException)
+UnsupportedOperationException.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'message', 'UTF8', None, ),  # 1
+)
+all_structs.append(IntegerAttribute)
+IntegerAttribute.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'min', None, None, ),  # 1
+    (2, TType.I32, 'max', None, None, ),  # 2
+    (3, TType.I32, 'start', None, None, ),  # 3
+)
+all_structs.append(RealAttribute)
+RealAttribute.thrift_spec = (
+    None,  # 0
+    (1, TType.DOUBLE, 'min', None, None, ),  # 1
+    (2, TType.DOUBLE, 'max', None, None, ),  # 2
+    (3, TType.DOUBLE, 'start', None, None, ),  # 3
+)
+all_structs.append(StringAttribute)
+StringAttribute.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'start', 'UTF8', None, ),  # 1
+)
+all_structs.append(BooleanAttribute)
+BooleanAttribute.thrift_spec = (
+    None,  # 0
+    (1, TType.BOOL, 'start', None, None, ),  # 1
+)
+all_structs.append(EnumerationAttribute)
+EnumerationAttribute.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'min', None, None, ),  # 1
+    (2, TType.I32, 'max', None, None, ),  # 2
+    (3, TType.I32, 'start', None, None, ),  # 3
+)
+all_structs.append(ScalarVariableAttribute)
+ScalarVariableAttribute.thrift_spec = (
+    None,  # 0
+    (1, TType.STRUCT, 'integerAttribute', [IntegerAttribute, None], None, ),  # 1
+    (2, TType.STRUCT, 'realAttribute', [RealAttribute, None], None, ),  # 2
+    (3, TType.STRUCT, 'stringAttribute', [StringAttribute, None], None, ),  # 3
+    (4, TType.STRUCT, 'booleanAttribute', [BooleanAttribute, None], None, ),  # 4
+    (5, TType.STRUCT, 'enumerationAttribute', [EnumerationAttribute, None], None, ),  # 5
+)
+all_structs.append(ScalarVariable)
+ScalarVariable.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'valueReference', None, None, ),  # 1
+    (2, TType.STRING, 'name', 'UTF8', None, ),  # 2
+    (3, TType.STRING, 'description', 'UTF8', None, ),  # 3
+    (4, TType.STRING, 'declaredType', 'UTF8', None, ),  # 4
+    (5, TType.I32, 'initial', None, None, ),  # 5
+    (6, TType.I32, 'causality', None, None, ),  # 6
+    (7, TType.I32, 'variability', None, None, ),  # 7
+    (8, TType.STRUCT, 'attribute', [ScalarVariableAttribute, None], None, ),  # 8
+)
+all_structs.append(Unknown)
+Unknown.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'index', None, None, ),  # 1
+    (2, TType.LIST, 'dependencies', (TType.I32, None, False), None, ),  # 2
+    (3, TType.I32, 'dependenciesKind', None, None, ),  # 3
+)
+all_structs.append(ModelStructure)
+ModelStructure.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'outputs', (TType.STRUCT, [Unknown, None], False), None, ),  # 1
+    (2, TType.LIST, 'derivatives', (TType.STRUCT, [Unknown, None], False), None, ),  # 2
+    (3, TType.LIST, 'initialUnknowns', (TType.STRUCT, [Unknown, None], False), None, ),  # 3
+)
+all_structs.append(DefaultExperiment)
+DefaultExperiment.thrift_spec = (
+    None,  # 0
+    (1, TType.DOUBLE, 'startTime', None, None, ),  # 1
+    (2, TType.DOUBLE, 'stopTime', None, None, ),  # 2
+    (3, TType.DOUBLE, 'tolerance', None, None, ),  # 3
+    (4, TType.DOUBLE, 'stepSize', None, None, ),  # 4
+)
+all_structs.append(StepResult)
+StepResult.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'status', None, None, ),  # 1
+    (2, TType.DOUBLE, 'simulationTime', None, None, ),  # 2
+)
+all_structs.append(IntegerRead)
+IntegerRead.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'value', None, None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(BulkIntegerRead)
+BulkIntegerRead.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'value', (TType.I32, None, False), None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(RealRead)
+RealRead.thrift_spec = (
+    None,  # 0
+    (1, TType.DOUBLE, 'value', None, None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(BulkRealRead)
+BulkRealRead.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'value', (TType.DOUBLE, None, False), None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(StringRead)
+StringRead.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'value', 'UTF8', None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(BulkStringRead)
+BulkStringRead.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'value', (TType.STRING, 'UTF8', False), None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(BooleanRead)
+BooleanRead.thrift_spec = (
+    None,  # 0
+    (1, TType.BOOL, 'value', None, None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(BulkBooleanRead)
+BulkBooleanRead.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'value', (TType.BOOL, None, False), None, ),  # 1
+    (2, TType.I32, 'status', None, None, ),  # 2
+)
+all_structs.append(Solver)
+Solver.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
+    (2, TType.STRING, 'settings', 'UTF8', None, ),  # 2
+)
+all_structs.append(ModelDescription)
+ModelDescription.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'fmiVersion', 'UTF8', None, ),  # 1
+    (2, TType.STRING, 'modelName', 'UTF8', None, ),  # 2
+    (3, TType.STRING, 'guid', 'UTF8', None, ),  # 3
+    (4, TType.STRING, 'license', 'UTF8', None, ),  # 4
+    (5, TType.STRING, 'copyright', 'UTF8', None, ),  # 5
+    (6, TType.STRING, 'author', 'UTF8', None, ),  # 6
+    (7, TType.STRING, 'version', 'UTF8', None, ),  # 7
+    (8, TType.STRING, 'description', 'UTF8', None, ),  # 8
+    (9, TType.STRING, 'generationTool', 'UTF8', None, ),  # 9
+    (10, TType.STRING, 'generationDateAndTime', 'UTF8', None, ),  # 10
+    (11, TType.STRUCT, 'defaultExperiment', [DefaultExperiment, None], None, ),  # 11
+    (12, TType.I32, 'variableNamingConvention', None, None, ),  # 12
+    (13, TType.LIST, 'modelVariables', (TType.STRUCT, [ScalarVariable, None], False), None, ),  # 13
+    (14, TType.STRUCT, 'modelStructure', [ModelStructure, None], None, ),  # 14
+    (15, TType.BOOL, 'supportsCoSimulation', None, None, ),  # 15
+    (16, TType.BOOL, 'supportsModelExchange', None, None, ),  # 16
+)
 fix_spec(all_structs)
 del all_structs

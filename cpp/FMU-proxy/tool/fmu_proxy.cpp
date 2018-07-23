@@ -96,14 +96,9 @@ int main(int argc, char** argv) {
                 ("help,h", "Print this help message and quits.")
                 ("fmu,f", po::value<string>()->required(), "Path to FMU.")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
-#if THRIFT_FOUND
-                ("thrift_port,t", po::value<unsigned int>()->required(),
-                 "Specify the network port to be used by the Thrift server")
-#endif
-#if GRPC_FOUND
-            ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server.")
-#endif
-                ; //<- keep it there
+
+                ("thrift_port,t", po::value<unsigned int>()->required(), "Specify the network port to be used by the Thrift server")
+                ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server.");
 
         po::variables_map vm;
         try {
@@ -126,10 +121,7 @@ int main(int argc, char** argv) {
         const string fmu_path = vm["fmu"].as<string>();
 
         auto ports = std::map<string, unsigned int>();
-#if THRIFT_FOUND
         ports["thrift"] = vm["thrift_port"].as<unsigned int>();
-#endif
-#if GRPC_FOUND
         ports["grpc"] = vm["grpc_port"].as<unsigned int>();
 
         shared_ptr<RemoteAddress> remote = nullptr;
