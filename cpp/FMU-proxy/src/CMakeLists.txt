@@ -82,8 +82,14 @@ SET(GRPC_SERVER_SRC
         fmuproxy/grpc/server/grpc_server_helper.cpp)
 
 add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
-target_link_libraries(grpc-common PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc_cronet ${Protobuf_LIBRARIES})
-target_include_directories(grpc-common PRIVATE ${Protobuf_INCLUDE_DIRS})
+if (WIN32)
+    target_link_libraries(grpc-common PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc_cronet ${Protobuf_LIBRARIES})
+    target_include_directories(grpc-common PRIVATE ${Protobuf_INCLUDE_DIRS})
+else()
+    target_link_libraries(grpc-common PRIVATE ${GRPC_LIBRARIES})
+    target_include_directories(grpc-common PRIVATE ${GRPC_INCLUDE_DIRS})
+endif()
+
 
 add_library(grpc-client ${GRPC_CLIENT_HEADERS} ${GRPC_CLIENT_SRC})
 target_link_libraries(grpc-client grpc-common fmi)

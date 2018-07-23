@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
-    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-            CACHE STRING "")
+if (WIN32)
+    if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+        SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
+        set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                CACHE STRING "")
+    endif()
 endif()
 
 project(FMU_PROXY)
@@ -31,8 +33,13 @@ find_package(FMILIB REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Thrift REQUIRED)
+
 find_package(Protobuf REQUIRED)
-find_package(gRPC CONFIG REQUIRED)
+if (WIN32)
+    find_package(gRPC CONFIG REQUIRED)
+else()
+    find_package(gRPC REQUIRED)
+endif()
 
 set(tool_dest "bin")
 
