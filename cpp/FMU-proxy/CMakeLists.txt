@@ -1,11 +1,16 @@
-cmake_minimum_required(VERSION 3.10)
 
 if (WIN32)
+
+    cmake_minimum_required(VERSION 3.11)
+
     if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
         SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
         set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
                 CACHE STRING "")
     endif()
+
+else()
+    cmake_minimum_required(VERSION 3.10)
 endif()
 
 project(FMU_PROXY)
