@@ -7,7 +7,7 @@ Create an environmental variable that points to the installation root named VCPK
 
 **Boost:**
 ```
-sudo apt-get install boost
+./vcpkg install boost
 ```
 **Curl:**
 ```

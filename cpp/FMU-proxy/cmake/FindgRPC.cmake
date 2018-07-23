@@ -1,6 +1,6 @@
 # Find gRPC
 #
-# Find the native Thrift headers and libraries.
+# Find the native gRPC headers and libraries.
 #
 #   GRPC_INCLUDE_DIRS   - where to find grpc/grpc.h etc..
 #   GRPC_LIBRARIES      - List of libraries when using GRPC.
