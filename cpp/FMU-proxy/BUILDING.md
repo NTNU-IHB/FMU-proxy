@@ -1,7 +1,12 @@
 
+## Building
+
+See below for notes on building the project for both Windows and Unix.
+
+
 ### Windows
 
-Download and install [vcpkg](https://github.com/Microsoft/vcpkg)
+Download and install [vcpkg](https://github.com/Microsoft/vcpkg) package system.
 
 Create an environmental variable that points to the installation root named VCPKG_ROOT or pass it in as a option to Cmake (-DCPKG_ROOT=...)
 
@@ -9,6 +14,8 @@ Create an environmental variable that points to the installation root named VCPK
 ```
 ./vcpkg install boost
 ```
+NOTE: _Because vcpkg bundles the latest Boost version you will need CMake 3.11+ in order to have an up to date FindBoost module._
+
 **Curl:**
 ```
 ./vcpkg install curl
@@ -30,8 +37,9 @@ Create a environmental variable named FMILIB_HOME pointing to it's content.
 NOTE: The _fmilib_shared.dll_ must also be added to the **PATH** system variable. 
 
 
-### UNIX
+### Unix
 
+_Note that you may also use vcpkp here, but you will need CMake 3.11+ in order for it to work._
 
 **Boost:**
 ```
@@ -63,4 +71,5 @@ sudo make install
 
 Download the sources from [here]( https://jmodelica.org/) and follow the instructions.
 If the library does not get added to the path, you can create an environment variable as for Windows.
+
 
