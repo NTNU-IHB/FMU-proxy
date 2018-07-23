@@ -21,6 +21,9 @@ SET(FMI_SRC
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
+if (UNIX)
+    target_link_libraries(fmi dl)
+endif()
 
 ##################################################################
 #########################HEARTBEATING############################
