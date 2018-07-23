@@ -63,7 +63,7 @@ class RemoteFmuInstance:
         else:
             self.fmu_id = self.client.createInstanceFromME(solver)
 
-        self.current_time = self.client.getCurrentTime(self.fmu_id)
+        self.current_time = self.client.getSimulationTime(self.fmu_id)
 
     def init(self, start: float = 0.0, stop: float = 0.0) -> Status:
         return self.client.init(self.fmu_id, start, stop)
