@@ -14,7 +14,11 @@ find_path(THRIFT_INCLUDE_DIR NAMES
         ${THRIFT_HOME}/include)
 mark_as_advanced(THRIFT_INCLUDE_DIR)
 
-find_library(THRIFT_LIBRARY NAMES THRIFT thrift thriftmd PATHS ${THRIFT_HOME}/lib)
+if (MSVC AND CMAKE_BUILD_TYPE MATCHES Debug)
+    find_library(THRIFT_LIBRARY NAMES THRIFT thriftd thriftmdd PATHS ${THRIFT_HOME}/lib)
+else()
+    find_library(THRIFT_LIBRARY NAMES THRIFT thrift thriftmd PATHS ${THRIFT_HOME}/lib)
+endif()
 mark_as_advanced(THRIFT_LIBRARY)
 
 include(FindPackageHandleStandardArgs)
