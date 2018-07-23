@@ -27,11 +27,11 @@ endif()
 find_package(Boost 1.67 COMPONENTS system filesystem program_options atomic REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-find_package(Protobuf REQUIRED)
 find_package(FMILIB REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(THRIFT REQUIRED)
+find_package(Protobuf REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 set(tool_dest "bin")

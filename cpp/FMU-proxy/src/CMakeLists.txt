@@ -54,9 +54,9 @@ endif()
 SET(GRPC_HEADER_DIR ${HEADER_ROOT_PATH}/grpc)
 
 SET(GRPC_COMMON_HEADERS
-        fmuproxy/grpc/common/definitions.pb.h
-        fmuproxy/grpc/common/service.pb.h
-        fmuproxy/grpc/common/service.grpc.pb.h)
+        ${GRPC_HEADER_DIR}/common/definitions.pb.h
+        ${GRPC_HEADER_DIR}/common/service.pb.h
+        ${GRPC_HEADER_DIR}/common/service.grpc.pb.h)
 
 SET(GRPC_CLIENT_HEADERS
         ${GRPC_HEADER_DIR}/client/GrpcClient.hpp
