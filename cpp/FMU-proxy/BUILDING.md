@@ -5,6 +5,10 @@ Download and install [vcpkg](https://github.com/Microsoft/vcpkg)
 
 Create an environmental variable that points to the installation root named VCPKG_ROOT or pass it in as a option to Cmake (-DCPKG_ROOT=...)
 
+**Boost:**
+```
+sudo apt-get install boost
+```
 **Curl:**
 ```
 ./vcpkg install curl
@@ -57,5 +61,6 @@ sudo make install
 
 **FMI Library**
 
-Download the sources from [here] https://jmodelica.org/ and follow the instructions.
+Download the sources from [here]( https://jmodelica.org/) and follow the instructions.
+If the library does not get added to the path, you can create an environment variable as for Windows.
 
