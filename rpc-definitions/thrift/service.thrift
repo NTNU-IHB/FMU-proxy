@@ -45,7 +45,7 @@ service FmuService {
 
     bool canGetAndSetFMUstate(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 
-    double getCurrentTime(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
+    double getSimulationTime(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
     bool isTerminated(1: FmuId fmu_id) throws (1: definitions.NoSuchFmuException ex)
 
     definitions.Status init(1: FmuId fmu_id, 2: double start, 3: double stop) throws (1: definitions.NoSuchFmuException ex)
