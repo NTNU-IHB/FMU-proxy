@@ -29,7 +29,7 @@
 #include <memory>
 
 #include "../../fmi/Fmu.hpp"
-#include "../../../../src/fmuproxy/grpc/common/service.grpc.pb.h"
+#include "../common/service.grpc.pb.h"
 #include "FmuServiceImpl.hpp"
 
 using grpc::Server;

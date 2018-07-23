@@ -23,7 +23,7 @@
  */
 
 #include <fmilib.h>
-#include "../common/definitions.pb.h"
+#include <fmuproxy/grpc/common/definitions.pb.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
 
 

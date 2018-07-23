@@ -26,7 +26,7 @@
 #define FMU_PROXY_REMOTEFMUINSTANCE_HPP
 
 #include <fmilib.h>
-#include "../../../../src/fmuproxy/grpc/common/service.grpc.pb.h"
+#include "../common/service.grpc.pb.h"
 #include "../../fmi/FmuInstance.hpp"
 
 namespace fmuproxy { namespace  grpc { namespace  client {

@@ -26,8 +26,8 @@
 #define FMU_PROXY_FMUSERVICEIMPL_HPP
 
 #include <map>
-#include "../../../../src/fmuproxy/grpc/common/definitions.pb.h"
-#include "../../../../src/fmuproxy/grpc/common/service.grpc.pb.h"
+#include "../common/definitions.pb.h"
+#include "../common/service.grpc.pb.h"
 
 #include "../../fmi/Fmu.hpp"
 

@@ -52,7 +52,7 @@ namespace fmuproxy { namespace  thrift { namespace  server {
 
         bool canGetAndSetFMUstate(FmuId fmu_id) override;
 
-        double getCurrentTime(FmuId fmu_id) override;
+        double getSimulationTime(FmuId fmu_id) override;
 
         bool isTerminated(FmuId fmu_id) override;
 
