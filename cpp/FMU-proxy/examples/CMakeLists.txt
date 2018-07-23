@@ -12,18 +12,23 @@ add_executable(FmuTest
         test_util.cpp)
 target_link_libraries(FmuTest fmi)
 
-add_executable(HeartBeatTest
-        heartbeat/heartbeat_test.cpp
-        test_util.cpp)
-target_link_libraries(HeartBeatTest heartbeat fmi)
+if (CURL_FOUND)
+    add_executable(HeartBeatTest
+            heartbeat/heartbeat_test.cpp
+            test_util.cpp)
+    target_link_libraries(HeartBeatTest heartbeat fmi)
+endif()
 
-add_executable(ThriftClientTest
-        thrift/thrift_client_test.cpp)
-target_link_libraries(ThriftClientTest thrift-client)
+IF (THRIFT_FOUND)
+    add_executable(ThriftClientTest
+            thrift/thrift_client_test.cpp)
+    target_link_libraries(ThriftClientTest thrift-client)
 
-add_executable(ThriftServerTest
-        thrift/thrift_server_test.cpp)
-target_link_libraries(ThriftServerTest thrift-server)
+    add_executable(ThriftServerTest
+            thrift/thrift_server_test.cpp)
+    target_link_libraries(ThriftServerTest thrift-server)
+
+endif()
 
 if (GRPC_FOUND)
     add_executable(GrpcClientTest
