@@ -101,7 +101,7 @@ class GrpcFmuServiceImpl(
 
     }
 
-    override fun getCurrentTime(req: Proto.UInt, responseObserver: StreamObserver<Proto.Real>) {
+    override fun getSimulationTime(req: Proto.UInt, responseObserver: StreamObserver<Proto.Real>) {
 
         val fmuId = req.value
         Fmus.get(fmuId)?.apply {

@@ -39,7 +39,7 @@ class AvroFmuServiceImpl(
         private val fmu: Fmu
 ): AvroFmuService {
 
-    override fun getCurrentTime(fmuId: Int): Double {
+    override fun getSimulationTime(fmuId: Int): Double {
         return Fmus.get(fmuId)?.let {
             it.currentTime
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")

@@ -41,11 +41,10 @@ class AvroFmuServer(
         private val fmu: Fmu
 ): FmuProxyServer {
 
+    override var port: Int? = null
     private var server: Server? = null
 
     override val simpleName = "avro/tcp"
-
-    override var port: Int? = null
 
     val isRunning: Boolean
         get() = server != null

@@ -64,7 +64,7 @@ class ThriftFmuServiceImpl(
 
     }
 
-    override fun getCurrentTime(fmuId: Int): Double {
+    override fun getSimulationTime(fmuId: Int): Double {
         return Fmus.get(fmuId)?.let {
             it.currentTime
         } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
