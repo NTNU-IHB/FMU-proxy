@@ -24,13 +24,13 @@ if(MSVC)
     set(Boost_USE_STATIC_LIBS ON)
 endif()
 
-find_package(Boost 1.67 COMPONENTS system filesystem program_options atomic REQUIRED)
+find_package(Boost 1.65.1 COMPONENTS system filesystem program_options atomic REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(FMILIB REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(THRIFT REQUIRED)
+find_package(Thrift REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
