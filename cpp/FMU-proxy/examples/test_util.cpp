@@ -30,7 +30,7 @@ namespace {
 
     std::string getOs() {
 #ifdef _WIN32
-            return "win32";
+        return "win32";
 #elif _WIN64
         return "win64";
 #elif __linux__

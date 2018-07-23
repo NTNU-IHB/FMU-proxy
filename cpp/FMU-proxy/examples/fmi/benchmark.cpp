@@ -43,9 +43,7 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu = Fmu(fmu_path);
-
     const auto instance = fmu.new_instance();
-
     instance->init();
 
     clock_t begin = clock();

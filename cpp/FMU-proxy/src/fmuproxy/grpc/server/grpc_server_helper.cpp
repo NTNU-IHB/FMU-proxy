@@ -24,7 +24,7 @@
 
 #include <grpcpp/grpcpp.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
-#include <fmuproxy/grpc/common/definitions.pb.h>
+#include "../common/definitions.pb.h"
 #include <fmuproxy/thrift/common/definitions_types.h>
 
 using namespace fmuproxy::grpc;

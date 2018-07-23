@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <vector>
 #include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
 #include "grpc_server_helper.cpp"
 
@@ -56,7 +57,7 @@ FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : m_fmu(fmu) {}
     return ::grpc::Status::CANCELLED;
 }
 
-::grpc::Status FmuServiceImpl::GetCurrentTime(ServerContext *context, const UInt *request, Real *response) {
+::grpc::Status FmuServiceImpl::GetSimulationTime(ServerContext *context, const UInt *request, Real *response) {
     auto& fmu = fmus[request->value()];
     response->set_value(fmu->getCurrentTime());
     return ::grpc::Status::OK;

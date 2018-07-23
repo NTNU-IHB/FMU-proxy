@@ -88,12 +88,12 @@ class FmuService final {
     }
     // instance methods
     //
-    virtual ::grpc::Status GetCurrentTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Real* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>> AsyncGetCurrentTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>>(AsyncGetCurrentTimeRaw(context, request, cq));
+    virtual ::grpc::Status GetSimulationTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Real* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>> AsyncGetSimulationTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>>(AsyncGetSimulationTimeRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>> PrepareAsyncGetCurrentTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>>(PrepareAsyncGetCurrentTimeRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>> PrepareAsyncGetSimulationTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>>(PrepareAsyncGetSimulationTimeRaw(context, request, cq));
     }
     virtual ::grpc::Status IsTerminated(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Bool* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> AsyncIsTerminated(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
@@ -258,8 +258,8 @@ class FmuService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::UInt>* PrepareAsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::UInt>* AsyncCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Solver& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::UInt>* PrepareAsyncCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Solver& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>* AsyncGetCurrentTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>* PrepareAsyncGetCurrentTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>* AsyncGetSimulationTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Real>* PrepareAsyncGetSimulationTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* AsyncIsTerminatedRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* PrepareAsyncIsTerminatedRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* AsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) = 0;
@@ -336,12 +336,12 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>> PrepareAsyncCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::Solver& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>>(PrepareAsyncCreateInstanceFromMERaw(context, request, cq));
     }
-    ::grpc::Status GetCurrentTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Real* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>> AsyncGetCurrentTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>>(AsyncGetCurrentTimeRaw(context, request, cq));
+    ::grpc::Status GetSimulationTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Real* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>> AsyncGetSimulationTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>>(AsyncGetSimulationTimeRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>> PrepareAsyncGetCurrentTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>>(PrepareAsyncGetCurrentTimeRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>> PrepareAsyncGetSimulationTime(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>>(PrepareAsyncGetSimulationTimeRaw(context, request, cq));
     }
     ::grpc::Status IsTerminated(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Bool* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> AsyncIsTerminated(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
@@ -508,8 +508,8 @@ class FmuService final {
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* PrepareAsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* AsyncCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Solver& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* PrepareAsyncCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Solver& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>* AsyncGetCurrentTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>* PrepareAsyncGetCurrentTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>* AsyncGetSimulationTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Real>* PrepareAsyncGetSimulationTimeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* AsyncIsTerminatedRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* PrepareAsyncIsTerminatedRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* AsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) override;
@@ -558,7 +558,7 @@ class FmuService final {
     const ::grpc::internal::RpcMethod rpcmethod_GetModelDescription_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateInstanceFromCS_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateInstanceFromME_;
-    const ::grpc::internal::RpcMethod rpcmethod_GetCurrentTime_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetSimulationTime_;
     const ::grpc::internal::RpcMethod rpcmethod_IsTerminated_;
     const ::grpc::internal::RpcMethod rpcmethod_CanGetAndSetFMUstate_;
     const ::grpc::internal::RpcMethod rpcmethod_Init_;
@@ -594,7 +594,7 @@ class FmuService final {
     virtual ::grpc::Status CreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::Solver* request, ::fmuproxy::grpc::UInt* response);
     // instance methods
     //
-    virtual ::grpc::Status GetCurrentTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response);
+    virtual ::grpc::Status GetSimulationTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response);
     virtual ::grpc::Status IsTerminated(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Bool* response);
     virtual ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Bool* response);
     virtual ::grpc::Status Init(::grpc::ServerContext* context, const ::fmuproxy::grpc::InitRequest* request, ::fmuproxy::grpc::StatusResponse* response);
@@ -699,22 +699,22 @@ class FmuService final {
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_GetCurrentTime : public BaseClass {
+  class WithAsyncMethod_GetSimulationTime : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_GetCurrentTime() {
+    WithAsyncMethod_GetSimulationTime() {
       ::grpc::Service::MarkMethodAsync(4);
     }
-    ~WithAsyncMethod_GetCurrentTime() override {
+    ~WithAsyncMethod_GetSimulationTime() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetCurrentTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response) final override {
+    ::grpc::Status GetSimulationTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response) final override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestGetCurrentTime(::grpc::ServerContext* context, ::fmuproxy::grpc::UInt* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::Real>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestGetSimulationTime(::grpc::ServerContext* context, ::fmuproxy::grpc::UInt* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::Real>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -1158,7 +1158,7 @@ class FmuService final {
       ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetModelDescriptionXml<WithAsyncMethod_GetModelDescription<WithAsyncMethod_CreateInstanceFromCS<WithAsyncMethod_CreateInstanceFromME<WithAsyncMethod_GetCurrentTime<WithAsyncMethod_IsTerminated<WithAsyncMethod_CanGetAndSetFMUstate<WithAsyncMethod_Init<WithAsyncMethod_Step<WithAsyncMethod_Terminate<WithAsyncMethod_Reset<WithAsyncMethod_ReadInteger<WithAsyncMethod_ReadReal<WithAsyncMethod_ReadString<WithAsyncMethod_ReadBoolean<WithAsyncMethod_BulkReadInteger<WithAsyncMethod_BulkReadReal<WithAsyncMethod_BulkReadString<WithAsyncMethod_BulkReadBoolean<WithAsyncMethod_WriteInteger<WithAsyncMethod_WriteReal<WithAsyncMethod_WriteString<WithAsyncMethod_WriteBoolean<WithAsyncMethod_BulkWriteInteger<WithAsyncMethod_BulkWriteReal<WithAsyncMethod_BulkWriteString<WithAsyncMethod_BulkWriteBoolean<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_GetModelDescriptionXml<WithAsyncMethod_GetModelDescription<WithAsyncMethod_CreateInstanceFromCS<WithAsyncMethod_CreateInstanceFromME<WithAsyncMethod_GetSimulationTime<WithAsyncMethod_IsTerminated<WithAsyncMethod_CanGetAndSetFMUstate<WithAsyncMethod_Init<WithAsyncMethod_Step<WithAsyncMethod_Terminate<WithAsyncMethod_Reset<WithAsyncMethod_ReadInteger<WithAsyncMethod_ReadReal<WithAsyncMethod_ReadString<WithAsyncMethod_ReadBoolean<WithAsyncMethod_BulkReadInteger<WithAsyncMethod_BulkReadReal<WithAsyncMethod_BulkReadString<WithAsyncMethod_BulkReadBoolean<WithAsyncMethod_WriteInteger<WithAsyncMethod_WriteReal<WithAsyncMethod_WriteString<WithAsyncMethod_WriteBoolean<WithAsyncMethod_BulkWriteInteger<WithAsyncMethod_BulkWriteReal<WithAsyncMethod_BulkWriteString<WithAsyncMethod_BulkWriteBoolean<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_GetModelDescriptionXml : public BaseClass {
    private:
@@ -1228,18 +1228,18 @@ class FmuService final {
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_GetCurrentTime : public BaseClass {
+  class WithGenericMethod_GetSimulationTime : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_GetCurrentTime() {
+    WithGenericMethod_GetSimulationTime() {
       ::grpc::Service::MarkMethodGeneric(4);
     }
-    ~WithGenericMethod_GetCurrentTime() override {
+    ~WithGenericMethod_GetSimulationTime() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetCurrentTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response) final override {
+    ::grpc::Status GetSimulationTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response) final override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1699,24 +1699,24 @@ class FmuService final {
     virtual ::grpc::Status StreamedCreateInstanceFromME(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::Solver,::fmuproxy::grpc::UInt>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_GetCurrentTime : public BaseClass {
+  class WithStreamedUnaryMethod_GetSimulationTime : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithStreamedUnaryMethod_GetCurrentTime() {
+    WithStreamedUnaryMethod_GetSimulationTime() {
       ::grpc::Service::MarkMethodStreamed(4,
-        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::UInt, ::fmuproxy::grpc::Real>(std::bind(&WithStreamedUnaryMethod_GetCurrentTime<BaseClass>::StreamedGetCurrentTime, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::UInt, ::fmuproxy::grpc::Real>(std::bind(&WithStreamedUnaryMethod_GetSimulationTime<BaseClass>::StreamedGetSimulationTime, this, std::placeholders::_1, std::placeholders::_2)));
     }
-    ~WithStreamedUnaryMethod_GetCurrentTime() override {
+    ~WithStreamedUnaryMethod_GetSimulationTime() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status GetCurrentTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response) final override {
+    ::grpc::Status GetSimulationTime(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Real* response) final override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedGetCurrentTime(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::UInt,::fmuproxy::grpc::Real>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedGetSimulationTime(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::UInt,::fmuproxy::grpc::Real>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_IsTerminated : public BaseClass {
@@ -2158,9 +2158,9 @@ class FmuService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedBulkWriteBoolean(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::BulkWriteBooleanRequest,::fmuproxy::grpc::StatusResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetModelDescriptionXml<WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_GetCurrentTime<WithStreamedUnaryMethod_IsTerminated<WithStreamedUnaryMethod_CanGetAndSetFMUstate<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_BulkReadInteger<WithStreamedUnaryMethod_BulkReadReal<WithStreamedUnaryMethod_BulkReadString<WithStreamedUnaryMethod_BulkReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_BulkWriteInteger<WithStreamedUnaryMethod_BulkWriteReal<WithStreamedUnaryMethod_BulkWriteString<WithStreamedUnaryMethod_BulkWriteBoolean<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_GetModelDescriptionXml<WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_GetSimulationTime<WithStreamedUnaryMethod_IsTerminated<WithStreamedUnaryMethod_CanGetAndSetFMUstate<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_BulkReadInteger<WithStreamedUnaryMethod_BulkReadReal<WithStreamedUnaryMethod_BulkReadString<WithStreamedUnaryMethod_BulkReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_BulkWriteInteger<WithStreamedUnaryMethod_BulkWriteReal<WithStreamedUnaryMethod_BulkWriteString<WithStreamedUnaryMethod_BulkWriteBoolean<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetModelDescriptionXml<WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_GetCurrentTime<WithStreamedUnaryMethod_IsTerminated<WithStreamedUnaryMethod_CanGetAndSetFMUstate<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_BulkReadInteger<WithStreamedUnaryMethod_BulkReadReal<WithStreamedUnaryMethod_BulkReadString<WithStreamedUnaryMethod_BulkReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_BulkWriteInteger<WithStreamedUnaryMethod_BulkWriteReal<WithStreamedUnaryMethod_BulkWriteString<WithStreamedUnaryMethod_BulkWriteBoolean<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_GetModelDescriptionXml<WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_GetSimulationTime<WithStreamedUnaryMethod_IsTerminated<WithStreamedUnaryMethod_CanGetAndSetFMUstate<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_BulkReadInteger<WithStreamedUnaryMethod_BulkReadReal<WithStreamedUnaryMethod_BulkReadString<WithStreamedUnaryMethod_BulkReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_BulkWriteInteger<WithStreamedUnaryMethod_BulkWriteReal<WithStreamedUnaryMethod_BulkWriteString<WithStreamedUnaryMethod_BulkWriteBoolean<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace grpc
