@@ -52,7 +52,8 @@ class GrpcFmuClient(
             .directExecutor()
             .build()
 
-    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub = FmuServiceGrpc.newBlockingStub(channel)
+    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
+            = FmuServiceGrpc.newBlockingStub(channel)
 
     override val modelDescription: CommonModelDescription by lazy {
         blockingStub.getModelDescription(EMPTY).convert()

@@ -8,14 +8,15 @@ import java.util.*
 object RunServer {
 
     private val fmuPath = File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
+                    "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     @JvmStatic
     fun main(args: Array<String>) {
 
         Fmu.from(fmuPath).use { fmu ->
             val server = GrpcFmuServer(fmu).apply {
-                start(9090)
+                start(9080)
             }
 
             println("Press any key to quit..")
@@ -25,7 +26,6 @@ object RunServer {
                 }
             }
         }
-
 
     }
 

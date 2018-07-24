@@ -15,7 +15,6 @@ import java.util.*
 import kotlin.system.measureTimeMillis
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class BenchmarkControlledTemperature {
 
     private companion object {
@@ -25,12 +24,7 @@ class BenchmarkControlledTemperature {
         private const val dt = 1E-4
         private const val stop = 1.0
 
-        private val fmuPath = File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
-
     }
-
-    private val fmu = Fmu.from(fmuPath)
 
     private fun runInstance(instance: ThriftTestClient.FmuInstance,
                             dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
@@ -46,36 +40,41 @@ class BenchmarkControlledTemperature {
 
     }
 
-    @AfterAll
-    fun cleanup() {
-        fmu.close()
-    }
-
     @Test
+    @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
     fun benchmark() {
 
-        ThriftFmuServer(fmu).use { server ->
-            val port = server.start()
-            for (i in 0..2) {
-                ThriftTestClient("localhost", port).use { client ->
+        val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+                "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
+                        "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+       try {
 
-                    client.newInstance().use { instance ->
-                        runInstance(instance, dt, stop) {
-                            val read = instance.readReal(46)
-                            Assertions.assertTrue(read.value > 0)
-                        }.also {
-                            LOG.info("Thrift duration=${it}ms")
-                        }
-                    }
+           ThriftFmuServer(fmu).use { server ->
+               val port = server.start()
+               for (i in 0..2) {
+                   ThriftTestClient("localhost", port).use { client ->
 
-                }
-            }
-        }
+                       client.newInstance().use { instance ->
+                           runInstance(instance, dt, stop) {
+                               val read = instance.readReal(46)
+                               Assertions.assertTrue(read.value > 0)
+                           }.also {
+                               LOG.info("Thrift duration=${it}ms")
+                           }
+                       }
+
+                   }
+               }
+           }
+
+       } finally {
+           fmu.close()
+       }
 
     }
 
     @Test
-    fun benchmarkRemote1() {
+    fun benchmarkRemote() {
 
         for (i in 0..2) {
             try {
@@ -86,7 +85,7 @@ class BenchmarkControlledTemperature {
                            val read = instance.readReal(46)
                            Assertions.assertTrue(read.value > 0)
                        }.also {
-                           LOG.info("Thrift duration=${it}ms")
+                           LOG.info("Thrift remote duration=${it}ms")
                        }
                    }
                }
@@ -98,8 +97,6 @@ class BenchmarkControlledTemperature {
 
         }
 
-
     }
-
 
 }
