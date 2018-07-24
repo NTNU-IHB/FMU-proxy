@@ -56,7 +56,7 @@ bool FmuServiceHandler::canGetAndSetFMUstate(const FmuId fmu_id) {
     return false;
 }
 
-double FmuServiceHandler::getCurrentTime(const FmuId fmu_id) {
+double FmuServiceHandler::getSimulationTime(const FmuId fmu_id) {
     auto& instance = fmus[fmu_id];
     return instance->getCurrentTime();
 }

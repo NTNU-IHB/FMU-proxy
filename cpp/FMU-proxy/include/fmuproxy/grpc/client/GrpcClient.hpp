@@ -28,7 +28,7 @@
 #include <memory>
 #include <string>
 #include <grpcpp/grpcpp.h>
-#include <fmuproxy/grpc/common/service.grpc.pb.h>
+#include "../common/service.grpc.pb.h"
 #include "RemoteFmuInstance.hpp"
 
 namespace fmuproxy { namespace grpc { namespace client {

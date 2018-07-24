@@ -1,8 +1,7 @@
 import grpc
 from google.protobuf.empty_pb2 import Empty
-from gen.definitions_pb2 import *
-from gen.service_pb2_grpc import FmuServiceStub
-
+from definitions.definitions_pb2 import *
+from definitions.service_pb2_grpc import FmuServiceStub
 
 def uint(value: int) -> UInt:
     var = UInt()
@@ -80,10 +79,10 @@ class RemoteFmuInstance:
         else:
             self.fmu_id = self.stub.CreateInstanceFromME(solver).value
 
-        self.current_time = self.get_current_time()  # type: float
+        self.current_time = self.get_simulation_time()  # type: float
 
-    def get_current_time(self) -> float:
-        return self.stub.GetCurrentTime(uint(self.fmu_id)).value
+    def get_simulation_time(self) -> float:
+        return self.stub.GetSimulationTime(uint(self.fmu_id)).value
 
     def init(self, start=0.0, stop=0.0) -> Status:
         request = InitRequest()

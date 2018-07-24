@@ -127,9 +127,9 @@ protocol AvroFmuService {
   }
 
   record ModelDescription {
-    string fmiVersion;
-    string modelName;
     string guid;
+    string fmi_version;
+    string model_name;
     union {null, string} license;
     union {null, string} copyright;
     union {null, string} author;
@@ -215,7 +215,7 @@ protocol AvroFmuService {
 
   boolean canGetAndSetFMUstate(int fmu_id);
 
-  double getCurrentTime(int fmu_id) throws NoSuchFmuException;
+  double getSimulationTime(int fmu_id) throws NoSuchFmuException;
   boolean isTerminated(int fmu_id) throws NoSuchFmuException;
 
   Status init(int fmu_id, double start, double stop) throws NoSuchFmuException;

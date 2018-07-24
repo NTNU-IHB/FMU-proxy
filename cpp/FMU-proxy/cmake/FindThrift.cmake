@@ -6,15 +6,15 @@
 #   THRIFT_LIBRARIES      - List of libraries when using Thrift.
 #   THRIFT_FOUND          - True if Thrift found.
 
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION ${CMAKE_MINIMUM_REQUIRED_VERSION})
 
-find_path(THRIFT_INCLUDE_DIR NAMES
-        thrift/Thrift.h
-        PATHS
-        ${THRIFT_HOME}/include)
+find_path(THRIFT_INCLUDE_DIR NAMES thrift/Thrift.h)
 mark_as_advanced(THRIFT_INCLUDE_DIR)
 
-find_library(THRIFT_LIBRARY NAMES THRIFT thrift thriftmd PATHS ${THRIFT_HOME}/lib)
+find_library(THRIFT_LIBRARY NAMES thrift thriftmd)
+mark_as_advanced(THRIFT_LIBRARY)
+
+find_library(THRIFT_LIBRARY NAMES thrift thriftmd)
 mark_as_advanced(THRIFT_LIBRARY)
 
 include(FindPackageHandleStandardArgs)

@@ -23,9 +23,7 @@
  */
 
 #include <grpcpp/grpcpp.h>
-
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
-#include <memory>
 
 using grpc::Server;
 using grpc::ServerBuilder;

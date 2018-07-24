@@ -1,36 +1,49 @@
-cmake_minimum_required(VERSION 3.10)
+
+cmake_minimum_required(VERSION ${CMAKE_MINIMUM_REQUIRED_VERSION})
 
 include_directories(${FMU_PROXY_SOURCE_DIR}/include)
 
-add_executable(Benchmark
+##########################################################
+#########################FMI##############################
+
+add_executable(benchmark
         fmi/benchmark.cpp
         test_util.cpp)
-target_link_libraries(Benchmark fmi)
+target_link_libraries(benchmark fmi)
 
-add_executable(FmuTest
+add_executable(fmu_test
         fmi/fmu_test.cpp
         test_util.cpp)
-target_link_libraries(FmuTest fmi)
+target_link_libraries(fmu_test fmi)
 
-add_executable(HeartBeatTest
+###########################################################
+#########################Heartbetaing######################
+
+add_executable(heartbeat_test
         heartbeat/heartbeat_test.cpp
         test_util.cpp)
-target_link_libraries(HeartBeatTest heartbeat fmi)
+target_link_libraries(heartbeat_test heartbeat fmi)
 
-add_executable(ThriftClientTest
+###########################################################
+#########################Thrift############################
+
+add_executable(thrift_client_test
         thrift/thrift_client_test.cpp)
-target_link_libraries(ThriftClientTest thrift-client)
+target_link_libraries(thrift_client_test thrift-client)
 
-add_executable(ThriftServerTest
+add_executable(thrift_server_test
         thrift/thrift_server_test.cpp)
-target_link_libraries(ThriftServerTest thrift-server)
+target_link_libraries(thrift_server_test thrift-server)
 
-if (GRPC_FOUND)
-    add_executable(GrpcClientTest
-            grpc/grpc_client_test.cpp)
-    target_link_libraries(GrpcClientTest grpc-client)
+###########################################################
+#########################gRPC##############################
 
-    add_executable(GrpcServerTest
-            grpc/grpc_server_test.cpp)
-    target_link_libraries(GrpcServerTest grpc-server)
-endif()
+add_executable(grpc_client_test
+        grpc/grpc_client_test.cpp)
+target_link_libraries(grpc_client_test grpc-client)
+
+add_executable(grpc_server_test
+        grpc/grpc_server_test.cpp)
+target_link_libraries(grpc_server_test grpc-server)
+
+###########################################################

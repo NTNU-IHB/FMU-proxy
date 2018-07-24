@@ -28,23 +28,14 @@
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include "boost/program_options.hpp"
 #include "extra/RemoteAddress.hpp"
-
-#if THRIFT_FOUND
-
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
-
-using namespace fmuproxy::thrift::server;
-#endif
-
-#if GRPC_FOUND
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
-using namespace fmuproxy::grpc::server;
-#endif
-
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
 
 using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::heartbeat;
+using namespace fmuproxy::grpc::server;
+using namespace fmuproxy::thrift::server;
 
 namespace po = boost::program_options;
 
@@ -68,15 +59,11 @@ namespace {
 
         Fmu fmu(fmu_path);
 
-#if THRIFT_FOUND
         ThriftServer thrift_server(fmu, ports["thrift"]);
         thrift_server.start();
-#endif
 
-#if GRPC_FOUND
         GrpcServer grpc_server(fmu, ports["grpc"]);
         grpc_server.start();
-#endif
 
         bool has_remote = remote != nullptr;
         unique_ptr<Heartbeat> beat = nullptr;
@@ -91,13 +78,8 @@ namespace {
             beat->stop();
         }
 
-#if THRIFT_FOUND
         thrift_server.stop();
-#endif
-
-#if GRPC_FOUND
         grpc_server.stop();
-#endif
 
         return 0;
 
@@ -114,14 +96,9 @@ int main(int argc, char** argv) {
                 ("help,h", "Print this help message and quits.")
                 ("fmu,f", po::value<string>()->required(), "Path to FMU.")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
-#if THRIFT_FOUND
-                ("thrift_port,t", po::value<unsigned int>()->required(),
-                 "Specify the network port to be used by the Thrift server")
-#endif
-#if GRPC_FOUND
-            ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server.")
-#endif
-                ; //<- keep it there
+
+                ("thrift_port,t", po::value<unsigned int>()->required(), "Specify the network port to be used by the Thrift server")
+                ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server.");
 
         po::variables_map vm;
         try {
@@ -144,12 +121,8 @@ int main(int argc, char** argv) {
         const string fmu_path = vm["fmu"].as<string>();
 
         auto ports = std::map<string, unsigned int>();
-#if THRIFT_FOUND
         ports["thrift"] = vm["thrift_port"].as<unsigned int>();
-#endif
-#if GRPC_FOUND
         ports["grpc"] = vm["grpc_port"].as<unsigned int>();
-#endif
 
         shared_ptr<RemoteAddress> remote = nullptr;
         if (vm.count("remote")) {

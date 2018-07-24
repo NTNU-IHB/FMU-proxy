@@ -67,16 +67,8 @@ An object oriented wrapper is available making it easier to work with.
 
 The implementation supports Thrift and gRPC. Both servers and clients are available. 
 The clients share a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
-While the project builds on Windows, building the dependencies are not straightforward on that platform. 
-For your convenience, you should consider using Linux if you want to build the project yourself.
 
-#### Dependencies
-
-* [FMI Library 2.0.3](https://jmodelica.org/) 
-* [Thrift 0.11.0](https://github.com/apache/thrift)
-* [gRPC 1.13.1](https://github.com/grpc/grpc)
-* [libcurl 7.61.0](https://curl.haxx.se/libcurl/)
-* [Boost 1.65.1](https://www.boost.org/)
+See [BUILDING.md](cpp/FMU-proxy/BUILDING.md) for notes on how to build the project for both Windows and Linux systems.
 
 #### FMU-proxy executable
 

@@ -47,6 +47,8 @@ namespace {
                 return Status::ERROR_STATUS;
             case fmi2_status_fatal:
                 return Status::FATAL_STATUS;
+            default:
+                throw std::runtime_error("Invalid status: " + status);
         }
     }
 
@@ -66,6 +68,8 @@ namespace {
                 return Causality::CALCULATED_PARAMETER_CAUSALITY;
             case fmi2_causality_enu_unknown:
                 return Causality::LOCAL_CAUSALITY;
+            default:
+                throw std::runtime_error("Invalid status: " + causality);
         }
     }
 
@@ -83,6 +87,8 @@ namespace {
                 return Variability::TUNABLE_VARIABILITY;;
             case fmi2_variability_enu_unknown:
                 return Variability::CONTINUOUS_VARIABILITY;
+            default:
+                throw std::runtime_error("Invalid status: " + variability);
         }
     }
 
@@ -96,6 +102,8 @@ namespace {
                 return Initial::EXACT_INITIAL;
             case fmi2_initial_enu_unknown:
                 return Initial::APPROX_INITIAL;
+            default:
+                throw std::runtime_error("Invalid status: " + initial);
         }
     }
 
@@ -107,6 +115,8 @@ namespace {
                 return VariableNamingConvention::STRUCTURED;
             case fmi2_naming_enu_unknown:
                 throw std::runtime_error("TODO handle unknown naming convention!");
+            default:
+                throw std::runtime_error("Invalid status: " + convention);
         }
     }
 

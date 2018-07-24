@@ -63,7 +63,7 @@ class GrpcFmuClient(
     }
     
     override fun getCurrentTime(fmuId: Int): Double {
-        return blockingStub.getCurrentTime(fmuId.asProtoUInt()).value
+        return blockingStub.getSimulationTime(fmuId.asProtoUInt()).value
     }
 
     override fun isTerminated(fmuId: Int): Boolean {

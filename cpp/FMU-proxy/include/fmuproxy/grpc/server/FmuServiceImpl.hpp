@@ -61,7 +61,7 @@ namespace fmuproxy {
                 CreateInstanceFromME(::grpc::ServerContext *context, const ::fmuproxy::grpc::Solver *request,
                                      ::fmuproxy::grpc::UInt *response) override;
 
-                ::grpc::Status GetCurrentTime(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
+                ::grpc::Status GetSimulationTime(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
                                             ::fmuproxy::grpc::Real *response) override;
 
                 ::grpc::Status IsTerminated(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,

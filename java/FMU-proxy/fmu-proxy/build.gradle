@@ -28,9 +28,9 @@ dependencies {
     implementation group: 'info.laht', name: 'yaj-rpc-zmq', version: yajrpc_version
     implementation group: 'info.laht', name: 'yaj-rpc-http', version: yajrpc_version
 
+    compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import-solvers-apache-math3', version: fmi4j_version, changing: fmi4j_snapshot
-    compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version

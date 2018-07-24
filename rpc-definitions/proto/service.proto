@@ -41,7 +41,7 @@ service FmuService {
 
     //instance methods
 
-    rpc GetCurrentTime (UInt) returns (Real);
+    rpc GetSimulationTime (UInt) returns (Real);
     rpc IsTerminated (UInt) returns (Bool);
 
     rpc CanGetAndSetFMUstate(UInt) returns (Bool);
