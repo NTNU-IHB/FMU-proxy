@@ -55,7 +55,7 @@ class ThriftFmuClient(
         client.modelDescriptionXml
     }
 
-    override fun getCurrentTime(fmuId: Int): Double {
+    override fun getSimulationTime(fmuId: Int): Double {
         return client.getSimulationTime(fmuId)
     }
 

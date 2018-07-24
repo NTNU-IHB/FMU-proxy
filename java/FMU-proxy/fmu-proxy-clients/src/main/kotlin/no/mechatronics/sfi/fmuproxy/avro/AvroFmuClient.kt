@@ -48,7 +48,7 @@ class AvroFmuClient(
         service.modelDescriptionXml
     }
 
-    override fun getCurrentTime(fmuId: Int): Double {
+    override fun getSimulationTime(fmuId: Int): Double {
         return service.getSimulationTime(fmuId)
     }
 

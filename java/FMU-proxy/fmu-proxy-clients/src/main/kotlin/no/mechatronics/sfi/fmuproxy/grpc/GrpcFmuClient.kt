@@ -62,7 +62,7 @@ class GrpcFmuClient(
         blockingStub.getModelDescriptionXml(EMPTY).value
     }
     
-    override fun getCurrentTime(fmuId: Int): Double {
+    override fun getSimulationTime(fmuId: Int): Double {
         return blockingStub.getSimulationTime(fmuId.asProtoUInt()).value
     }
 

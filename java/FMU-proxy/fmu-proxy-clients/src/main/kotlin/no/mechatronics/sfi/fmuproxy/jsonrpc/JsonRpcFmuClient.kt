@@ -156,8 +156,8 @@ class JsonRpcFmuClient(
                 .getResult<FmiStatus>()!!
     }
 
-    override fun getCurrentTime(fmuId: Int): Double {
-        return client.write("$SERVICE.getCurrentTime", RpcParams.listParams(fmuId))
+    override fun getSimulationTime(fmuId: Int): Double {
+        return client.write("$SERVICE.getSimulationTime", RpcParams.listParams(fmuId))
                 .getResult<Double>()!!
     }
 

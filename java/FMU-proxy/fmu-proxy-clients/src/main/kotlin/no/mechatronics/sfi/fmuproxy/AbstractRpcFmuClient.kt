@@ -50,7 +50,7 @@ abstract class AbstractRpcFmuClient: Closeable {
     abstract val modelDescriptionXml: String
     abstract val modelDescription: CommonModelDescription
 
-    protected abstract fun getCurrentTime(fmuId: Int): Double
+    protected abstract fun getSimulationTime(fmuId: Int): Double
     protected abstract fun isTerminated(fmuId: Int): Boolean
     protected abstract fun init(fmuId: Int, start: Double, stop: Double): FmiStatus
     protected abstract fun terminate(fmuId: Int): FmiStatus
@@ -130,7 +130,7 @@ abstract class AbstractRpcFmuClient: Closeable {
             get() = this@AbstractRpcFmuClient.modelDescription
 
         init {
-            currentTime = getCurrentTime(fmuId)
+            currentTime = getSimulationTime(fmuId)
             modelDescription.modelVariables.forEach { variable ->
                 if (variable is AbstractTypedScalarVariable<*>) {
                     variable::class.java.getField("accessor").also { field ->

@@ -57,7 +57,7 @@ class ThriftTestClient(
     }
 
     fun getCurrentTime(fmuId: Int): Double {
-        return client.getCurrentTime(fmuId)
+        return client.getSimulationTime(fmuId)
     }
 
     fun isTerminated(fmuId: Int): Boolean {

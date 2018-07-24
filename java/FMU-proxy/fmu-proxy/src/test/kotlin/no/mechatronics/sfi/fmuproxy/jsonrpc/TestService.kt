@@ -109,7 +109,7 @@ class TestService {
         Assertions.assertEquals(FmiStatus.OK, init)
 
         val currentTimeMsg = RpcRequestOut(
-                methodName = "FmuService.getCurrentTime",
+                methodName = "FmuService.getSimulationTime",
                 params = RpcParams.listParams(fmuId)
         ).toJson()
 
