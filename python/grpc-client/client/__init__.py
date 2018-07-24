@@ -81,8 +81,8 @@ class RemoteFmuInstance:
 
         self.current_time = self.get_simulation_time()  # type: float
 
-    def get_current_time(self) -> float:
-        return self.stub.GetCurrentTime(uint(self.fmu_id)).value
+    def get_simulation_time(self) -> float:
+        return self.stub.GetSimulationTime(uint(self.fmu_id)).value
 
     def init(self, start=0.0, stop=0.0) -> Status:
         request = InitRequest()
