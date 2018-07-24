@@ -43,7 +43,7 @@ void GrpcServer::wait() {
 
 void GrpcServer::start() {
 
-    cout << "Grpc server listening to connections on port: " << m_port << endl;
+    cout << "gRPC server listening to connections on port: " << m_port << endl;
     ServerBuilder builder;
     builder.AddListeningPort("localhost:" + to_string(m_port), ::grpc::InsecureServerCredentials());
     builder.RegisterService(m_service.get());
@@ -54,4 +54,5 @@ void GrpcServer::start() {
 void GrpcServer::stop() {
     m_server->Shutdown();
     m_thread->join();
+    cout << "gRPC server stopped.." << endl;
 }

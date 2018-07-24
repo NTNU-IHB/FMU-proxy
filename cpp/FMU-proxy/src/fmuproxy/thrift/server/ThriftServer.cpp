@@ -59,5 +59,6 @@ void ThriftServer::start() {
 void ThriftServer::stop() {
     server->stop();
     m_thread->join();
+    cout << "Thrift server stopped.." << endl;
 }
 
