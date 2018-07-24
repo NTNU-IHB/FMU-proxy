@@ -49,7 +49,7 @@ class AvroFmuClient(
     }
 
     override fun getCurrentTime(fmuId: Int): Double {
-        return service.getCurrentTime(fmuId)
+        return service.getSimulationTime(fmuId)
     }
 
     override fun isTerminated(fmuId: Int): Boolean {

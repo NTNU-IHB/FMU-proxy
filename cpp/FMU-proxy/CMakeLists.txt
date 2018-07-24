@@ -1,7 +1,21 @@
-cmake_minimum_required(VERSION 3.10)
+
+if (WIN32)
+
+    cmake_minimum_required(VERSION 3.11)
+
+    if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+        SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
+        set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                CACHE STRING "")
+    endif()
+
+else()
+    cmake_minimum_required(VERSION 3.10)
+endif()
+
 project(FMU_PROXY)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 option(BUILD_EXAMPLES "Build examples" ON)
@@ -9,13 +23,11 @@ option(BUILD_TESTS "Build tests" ON)
 option(FMILIB_USE_SHARED_LIB "Use shared fmilib" ON)
 
 set(FMILIB_HOME $ENV{FMILIB_HOME} CACHE STRING "FMI Library home")
-set(CURL_HOME $ENV{CURL_HOME} CACHE STRING "Curl home")
-set(THRIFT_HOME $ENV{THRIFT_HOME} CACHE STRING "Thrift home")
-set(GRPC_HOME $ENV{GRPC_HOME} CACHE STRING "Grpc home")
 
 if(MSVC)
     add_definitions(-DNOMINMAX)
     add_definitions(-DCURL_STATICLIB)
+    add_definitions(-D_WIN32_WINNT=0x600)
     set(Boost_USE_STATIC_LIBS ON)
 endif()
 
@@ -23,21 +35,15 @@ find_package(Boost 1.65.1 COMPONENTS system filesystem program_options atomic RE
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(FMILIB REQUIRED)
-include_directories(${FMILIB_INCLUDE_DIRS})
+find_package(CURL REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(Thrift REQUIRED)
 
-find_package(CURL)
-if (CURL_FOUND)
-    include_directories(${CURL_INCLUDE_DIRS})
-endif ()
-
-find_package(THRIFT)
-if (THRIFT_FOUND)
-    include_directories(${THRIFT_INCLUDE_DIRS})
-endif ()
-
-find_package(GRPC)
-if (GRPC_FOUND)
-    include_directories(${GRPC_INCLUDE_DIRS})
+find_package(Protobuf REQUIRED)
+if (WIN32)
+    find_package(gRPC CONFIG REQUIRED)
+else()
+    find_package(gRPC REQUIRED)
 endif()
 
 set(tool_dest "bin")

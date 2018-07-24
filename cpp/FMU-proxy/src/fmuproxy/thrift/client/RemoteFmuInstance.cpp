@@ -33,7 +33,7 @@ using namespace fmuproxy::thrift::client;
 
 RemoteFmuInstance::RemoteFmuInstance(const FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
         : fmu_id(fmu_id), client(client), modelDescription(md) {
-    current_time = client.getCurrentTime(fmu_id);
+    current_time = client.getSimulationTime(fmu_id);
 }
 
 double RemoteFmuInstance::getCurrentTime() const {

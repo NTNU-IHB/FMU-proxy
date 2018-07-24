@@ -25,11 +25,9 @@
 #include <fmilib.h>
 #include <fmuproxy/grpc/common/definitions.pb.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
-#include <google/protobuf/empty.pb.h>
+
 
 namespace {
-
-    google::protobuf::Empty empty{};
 
     fmi2_status_t convert(const fmuproxy::grpc::Status status) {
         switch (status) {

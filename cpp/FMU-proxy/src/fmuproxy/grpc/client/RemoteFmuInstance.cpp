@@ -37,7 +37,7 @@ RemoteFmuInstance::RemoteFmuInstance(const unsigned int fmu_id, fmuproxy::grpc::
     UInt ref;
     ref.set_value(fmu_id);
     ClientContext ctx;
-    stub.GetCurrentTime(&ctx, ref, &r);
+    stub.GetSimulationTime(&ctx, ref, &r);
     current_time = r.value();
 }
 

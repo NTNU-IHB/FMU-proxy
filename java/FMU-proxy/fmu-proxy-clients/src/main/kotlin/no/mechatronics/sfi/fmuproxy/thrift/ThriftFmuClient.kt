@@ -56,7 +56,7 @@ class ThriftFmuClient(
     }
 
     override fun getCurrentTime(fmuId: Int): Double {
-        return client.getCurrentTime(fmuId)
+        return client.getSimulationTime(fmuId)
     }
 
     override fun isTerminated(fmuId: Int): Boolean {
