@@ -117,7 +117,8 @@ internal class Heartbeat(
                     sleep(1000L)
                 }, { ex ->
                     connected = false
-                    LOG.debug("Failed to ping remote: $ex")
+                    LOG.info("Failed to ping remote..")
+                    LOG.debug(".. due to caught Exception:", ex)
                 })
 
             } else {
@@ -128,8 +129,9 @@ internal class Heartbeat(
                         LOG.info("Successfully connected to remote!")
                     }
                 }, { ex ->
-                    LOG.info("Failed to connect to remote: $ex")
-                    sleep(5000L)
+                    LOG.info("Failed to connect to remote..")
+                    LOG.debug(".. due to caught Exception:", ex)
+                    sleep(3500L)
                 })
 
             }
@@ -163,75 +165,3 @@ internal class Heartbeat(
     }
 
 }
-
-//fun main(args: Array<String>) {
-//
-//    val xml = """
-//<?xml version="1.0" encoding="ISO-8859-1"?>
-//<fmiModelDescription
-//  fmiVersion="2.0"
-//  modelName="bouncingBall"
-//  guid="{8c4e810f-3df3-4a00-8276-176fa3c9f003}"
-//  numberOfEventIndicators="1">
-//
-//<CoSimulation
-//  modelIdentifier="bouncingBall"/>
-//
-//<ModelVariables>
-//  <ScalarVariable name="h" valueReference="0" description="height, used as state"
-//                  causality="local" variability="continuous" initial="exact">
-//    <Real start="1"/>
-//  </ScalarVariable>
-//  <ScalarVariable name="der(h)" valueReference="1" description="velocity of ball"
-//                  causality="local" variability="continuous" initial="calculated">
-//    <Real derivative="1"/>
-//  </ScalarVariable>
-//  <ScalarVariable name="v" valueReference="2" description="velocity of ball, used as state"
-//                  causality="local" variability="continuous" initial="exact">
-//    <Real start="0" reinit="true"/>
-//  </ScalarVariable>
-//  <ScalarVariable name="der(v)" valueReference="3" description="acceleration of ball"
-//                  causality="local" variability="continuous" initial="calculated">
-//    <Real derivative="3"/>
-//  </ScalarVariable>
-//  <ScalarVariable name="g" valueReference="4" description="acceleration of gravity"
-//                  causality="parameter" variability="fixed" initial="exact">
-//    <Real start="9.81"/>
-//  </ScalarVariable>
-//  <ScalarVariable name="e" valueReference="5" description="dimensionless parameter"
-//                  causality="parameter" variability="tunable" initial="exact">
-//    <Real start="0.7" min="0.5" max="1"/>
-//  </ScalarVariable>
-//</ModelVariables>
-//
-//<ModelStructure>
-//  <Derivatives>
-//    <Unknown index="2" />
-//    <Unknown index="4" />
-//  </Derivatives>
-//  <InitialUnknowns>
-//    <Unknown index="2"/>
-//    <Unknown index="4"/>
-//  </InitialUnknowns>
-//</ModelStructure>
-//
-//</fmiModelDescription>
-//    """.trimIndent()
-//
-//    val beat = Heartbeat(
-//            remoteAddress = SimpleSocketAddress("localhost", 8080),
-//            networkInfo = NetworkInfo("localhost", mapOf("jsonRpc/http" to 9090)),
-//            modelDescriptionXml = xml)
-//
-//    beat.start()
-//
-//    println("Press any key to quit..")
-//    Scanner(System.`in`).apply {
-//
-//        if (hasNext()) {
-//            beat.stop()
-//        }
-//
-//    }
-//
-//}
