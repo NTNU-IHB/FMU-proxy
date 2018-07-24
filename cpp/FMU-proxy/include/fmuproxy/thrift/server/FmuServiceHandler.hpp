@@ -29,9 +29,7 @@
 #include "../common/FmuService.h"
 #include "../../fmi/Fmu.hpp"
 
-using namespace fmuproxy::thrift;
-
-namespace fmuproxy { namespace  thrift { namespace  server {
+namespace fmuproxy::thrift::server {
 
     class FmuServiceHandler : virtual public FmuServiceIf {
 
@@ -98,6 +96,6 @@ namespace fmuproxy { namespace  thrift { namespace  server {
 
     };
 
-}}}
+}
 
 #endif //FMU_PROXY_FMUSERVICEHANDLER_H

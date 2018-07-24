@@ -29,7 +29,7 @@
 #include <fmilib.h>
 #include "FmiSimulation.hpp"
 
-namespace fmuproxy { namespace fmi {
+namespace fmuproxy::fmi {
 
     class FmuInstance: public FmiSimulation {
 
@@ -90,6 +90,6 @@ namespace fmuproxy { namespace fmi {
 
     };
 
-}}
+}
 
 #endif //FMU_PROXY_FMUINSTANCE_HPP

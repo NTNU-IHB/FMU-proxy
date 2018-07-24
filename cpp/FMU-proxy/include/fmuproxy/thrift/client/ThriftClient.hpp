@@ -34,7 +34,7 @@
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
-namespace fmuproxy { namespace  thrift { namespace  client {
+namespace fmuproxy::thrift::client {
 
     class ThriftClient {
 
@@ -61,6 +61,6 @@ namespace fmuproxy { namespace  thrift { namespace  client {
 
     };
 
-}}}
+}
 
 #endif //FMU_PROXY_THRIFTCLIENT_H

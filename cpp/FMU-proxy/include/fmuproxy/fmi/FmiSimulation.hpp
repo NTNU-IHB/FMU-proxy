@@ -30,7 +30,7 @@
 #include <fmilib.h>
 #include "fmi_definitions.hpp"
 
-namespace fmuproxy { namespace fmi {
+namespace fmuproxy::fmi {
 
     class FmiSimulation {
 
@@ -84,6 +84,6 @@ namespace fmuproxy { namespace fmi {
 
     };
 
-}}
+}
 
 #endif //FMU_PROXY_FMISIMULATION_HPP
