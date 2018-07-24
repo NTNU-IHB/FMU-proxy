@@ -30,28 +30,32 @@
 #include <boost/algorithm/string.hpp>
 #include <ostream>
 
-class RemoteAddress {
+namespace fmuproxy {
 
-public:
+    class RemoteAddress {
 
-    const std::string host;
-    const unsigned int port;
+    public:
 
-    RemoteAddress(const std::string &host, const unsigned int port)
-            : host(host), port(port) {}
+        const std::string host;
+        const unsigned int port;
 
-    static RemoteAddress parse(std::string &address) {
-        std::vector<std::string> split;
-        boost::split(split, address, boost::is_any_of(":"));
-        const std::string host = split[0];
-        const int port = std::stoi(split[1]);
-        return RemoteAddress(host, port);
-    }
+        RemoteAddress(const std::string &host, const unsigned int port)
+                : host(host), port(port) {}
 
-    friend std::ostream& operator<<(std::ostream &strm, const RemoteAddress &a) {
-        return strm << "RemoteAddress(" << a.host << ":" << a.port << ")";
-    }
+        static RemoteAddress parse(std::string &address) {
+            std::vector<std::string> split;
+            boost::split(split, address, boost::is_any_of(":"));
+            const std::string host = split[0];
+            const int port = std::stoi(split[1]);
+            return RemoteAddress(host, port);
+        }
 
-};
+        friend std::ostream& operator<<(std::ostream &strm, const RemoteAddress &a) {
+            return strm << "RemoteAddress(" << a.host << ":" << a.port << ")";
+        }
+
+    };
+
+}
 
 #endif //FMU_PROXY_REMOTEADDRESS_HPP

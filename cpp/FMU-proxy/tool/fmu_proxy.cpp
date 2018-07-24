@@ -26,18 +26,19 @@
 #include <iostream>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
-#include "boost/program_options.hpp"
-#include "extra/RemoteAddress.hpp"
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
+
+#include "boost/program_options.hpp"
+#include "extra/RemoteAddress.hpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::heartbeat;
-using namespace fmuproxy::grpc::server;
-using namespace fmuproxy::thrift::server;
 
-namespace po = boost::program_options;
+using fmuproxy::RemoteAddress;
+using fmuproxy::grpc::server::GrpcServer;
+using fmuproxy::thrift::server::ThriftServer;
 
 namespace {
 
@@ -59,13 +60,22 @@ namespace {
 
         Fmu fmu(fmu_path);
 
-        ThriftServer thrift_server(fmu, ports["thrift"]);
-        thrift_server.start();
-
-        GrpcServer grpc_server(fmu, ports["grpc"]);
-        grpc_server.start();
-
         bool has_remote = remote != nullptr;
+        bool enable_grpc = ports.count("grpc");
+        bool enable_thrift = ports.count("thrift");
+
+        unique_ptr<ThriftServer> thrift_server = nullptr;
+        if (enable_thrift) {
+            thrift_server = make_unique<ThriftServer>(fmu, ports["thrift"]);
+            thrift_server->start();
+        }
+
+        unique_ptr<GrpcServer> grpc_server = nullptr;
+        if (enable_grpc) {
+            grpc_server = make_unique<GrpcServer>(fmu, ports["grpc"]);
+            grpc_server->start();
+        }
+
         unique_ptr<Heartbeat> beat = nullptr;
         if (has_remote) {
             beat = make_unique<Heartbeat>(remote->host, remote->port, fmu.get_model_description_xml());
@@ -78,8 +88,13 @@ namespace {
             beat->stop();
         }
 
-        thrift_server.stop();
-        grpc_server.stop();
+        if (enable_grpc) {
+            grpc_server->stop();
+        }
+        if (enable_thrift) {
+            thrift_server->stop();
+        }
+
 
         return 0;
 
@@ -91,14 +106,16 @@ int main(int argc, char** argv) {
 
     try {
 
+        namespace po = boost::program_options;
+
         po::options_description desc("Options");
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
                 ("fmu,f", po::value<string>()->required(), "Path to FMU.")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
 
-                ("thrift_port,t", po::value<unsigned int>()->required(), "Specify the network port to be used by the Thrift server")
-                ("grpc_port,g", po::value<unsigned int>()->required(), "Specify the network port to be used by the gRPC server.");
+                ("thrift_port,t", po::value<unsigned int>(), "Specify the network port to be used by the Thrift server.")
+                ("grpc_port,g", po::value<unsigned int>(), "Specify the network port to be used by the gRPC server.");
 
         po::variables_map vm;
         try {
@@ -121,10 +138,14 @@ int main(int argc, char** argv) {
         const string fmu_path = vm["fmu"].as<string>();
 
         auto ports = std::map<string, unsigned int>();
-        ports["thrift"] = vm["thrift_port"].as<unsigned int>();
-        ports["grpc"] = vm["grpc_port"].as<unsigned int>();
+        if (vm.count("thrift_port")) {
+            ports["thrift"] = vm["thrift_port"].as<unsigned int>();
+        }
+        if (vm.count("grpc_port")) {
+            ports["grpc"] = vm["grpc_port"].as<unsigned int>();
+        }
 
-        shared_ptr<RemoteAddress> remote = nullptr;
+        shared_ptr<fmuproxy::RemoteAddress> remote = nullptr;
         if (vm.count("remote")) {
             string str = vm["remote"].as<string>();
             auto parse = RemoteAddress::parse (str);
