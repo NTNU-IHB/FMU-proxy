@@ -13,7 +13,7 @@ SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/FmuInstance.hpp
         ${FMI_HEADER_DIR}/FmiSimulation.hpp
         ${FMI_HEADER_DIR}/fmi_definitions.hpp
-        ${FMI_HEADER_DIR}/ScalarVariableAttributes.hpp)
+        ${FMI_HEADER_DIR}/scalar_variable_attributes.hpp)
 
 SET(FMI_SRC
         fmuproxy/fmi/Fmu.cpp

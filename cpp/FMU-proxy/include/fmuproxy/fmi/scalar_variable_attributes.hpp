@@ -28,7 +28,7 @@
 #include <iostream>
 #include <string>
 
-namespace fmuproxy { namespace fmi {
+namespace fmuproxy::fmi {
 
     class IntegerAttribute {
     private:
@@ -353,6 +353,6 @@ namespace fmuproxy { namespace fmi {
 
     };
 
-}}
+}
 
 #endif //FMU_PROXY_SCALARVARIABLEATTRIBUTES_HPP
