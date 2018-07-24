@@ -97,7 +97,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun getCurrentTime(fmuId: Int): Double {
+    fun getSimulationTime(fmuId: Int): Double {
         return getFmu(fmuId).currentTime
     }
 
