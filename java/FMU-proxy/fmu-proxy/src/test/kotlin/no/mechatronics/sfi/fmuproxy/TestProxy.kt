@@ -8,7 +8,6 @@ import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
-import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
@@ -20,6 +19,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -175,20 +175,23 @@ class TestProxy {
     @Test
     fun testJsonRpc() {
 
-        val clients = listOf(
-//                RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!)
+        val clients = mutableListOf(
                 RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!),
                 RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
                 RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
-        ).map { JsonRpcFmuClient(it) }
+        ).apply {
+            if (!OS.LINUX.isCurrentOs) {
+                add(RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
+            }
+        }.map { JsonRpcFmuClient(it) }
 
         val mdLocal = fmu.modelDescription
 
-        try {
+        clients.forEach {
 
-            clients.forEach { client ->
+            it.use { client ->
 
-                LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
+                LOG.info("Testing client of type ${client.implementationName}")
 
                 Assertions.assertEquals(mdLocal.guid, client.guid)
                 Assertions.assertEquals(mdLocal.modelName, client.modelName)
@@ -196,14 +199,12 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
                     runInstance(instance, stepSize, stopTime).also {
-                        LOG.info("${client.client.javaClass.simpleName} duration: ${it}ms")
+                        LOG.info("${client.implementationName} duration: ${it}ms")
                     }
                 }
 
             }
 
-        } finally {
-            clients.forEach { it.close() }
         }
 
     }

@@ -34,9 +34,14 @@ import no.mechatronics.sfi.fmuproxy.Solver
 
 private const val SERVICE = "FmuService"
 
+/**
+ * @author Lars Ivar Hatledal
+ */
 class JsonRpcFmuClient(
-        val client: RpcClient
+        private val client: RpcClient
 ): AbstractRpcFmuClient() {
+
+    val implementationName: String = client::class.java.simpleName
 
     val fmiVersion: String by lazy {
         client.write("$SERVICE.getFmiVersion")

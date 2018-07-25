@@ -14,13 +14,10 @@ import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.condition.EnabledOnOs
-import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestService {
 
@@ -29,7 +26,9 @@ class TestService {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/BouncingBall/bouncingBall.fmu"))
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+                    "ControlledTemperature/ControlledTemperature.fmu"))
+
     private val handler = RpcHandler(RpcFmuService(fmu))
     
     @Test
@@ -108,18 +107,18 @@ class TestService {
 
         Assertions.assertEquals(FmiStatus.OK, init)
 
-        val currentTimeMsg = RpcRequestOut(
+        val simulationTimeMsg = RpcRequestOut(
                 methodName = "FmuService.getSimulationTime",
                 params = RpcParams.listParams(fmuId)
         ).toJson()
 
-        fun currentTime() = currentTimeMsg
+        fun simulationTime() = simulationTimeMsg
                 .let{ RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(Double::class.java)!!
 
-        val currentTime = currentTime()
-        LOG.info("currentTime=$currentTime")
-        Assertions.assertEquals(0.0, currentTime)
+        val simulationTime = simulationTime()
+        LOG.info("simulationTime=$simulationTime")
+        Assertions.assertEquals(0.0, simulationTime)
 
         val h = RpcRequestOut(
                 methodName = "FmuService.readReal",
@@ -127,8 +126,7 @@ class TestService {
         ).toJson().let{ RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult(FmuRealRead::class.java)!!
 
-        LOG.info("h=$h")
-        Assertions.assertEquals(1.0, h.value)
+        Assertions.assertEquals(0.1, h.value)
 
         val stepMsg = RpcRequestOut(
                 methodName = "FmuService.step",
@@ -141,7 +139,7 @@ class TestService {
                     .getResult(StepResult::class.java)!!
             Assertions.assertEquals(FmiStatus.OK, stepResult.status)
 
-            LOG.info("currentTime=${currentTime()}")
+            LOG.info("simulationTime=${simulationTime()}")
 
         }
 

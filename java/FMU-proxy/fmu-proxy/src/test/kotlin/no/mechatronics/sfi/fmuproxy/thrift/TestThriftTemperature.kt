@@ -22,8 +22,8 @@ class TestThriftTemperature {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
-    private val modelDescription: CommonModelDescription = fmu.modelDescription
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+                    "ControlledTemperature/ControlledTemperature.fmu"))
     private val server: ThriftFmuServer = ThriftFmuServer(fmu)
     private val client: ThriftFmuClient = ThriftFmuClient("localhost", server.start())
 
@@ -37,13 +37,13 @@ class TestThriftTemperature {
     @Test
     fun testGuid() {
         val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
-        Assertions.assertEquals(modelDescription.guid, guid)
+        Assertions.assertEquals(fmu.modelDescription.guid, guid)
     }
 
     @Test
     fun testModelName() {
         val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
-        Assertions.assertEquals(modelDescription.modelName, modelName)
+        Assertions.assertEquals(fmu.modelDescription.modelName, modelName)
     }
 
     @Test

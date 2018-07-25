@@ -5,7 +5,6 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.FmuProxy
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -30,29 +30,25 @@ class TestJsonRpcClients {
 
         private val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
 
-        private const val wsPort = 8001
-        private const val tcpPort = 8002
-        private const val zmqPort = 8003
-        private const val httpPort = 8004
-
     }
 
-    private var proxy: FmuProxy
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
-    private var modelDescription: CommonModelDescription = fmu.modelDescription
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+                    "ControlledTemperature/ControlledTemperature.fmu"))
 
-    init {
+    private  val handler = RpcHandler(RpcFmuService(fmu))
 
-        val handler = RpcHandler(RpcFmuService(fmu))
-        proxy = FmuProxyBuilder(fmu).apply {
-            addServer(FmuProxyJsonHttpServer(handler), httpPort)
-            addServer(FmuProxyJsonWsServer(handler), wsPort)
-            addServer(FmuProxyJsonTcpServer(handler), tcpPort)
-            addServer(FmuProxyJsonZmqServer(handler), zmqPort)
+    private var proxy = FmuProxyBuilder(fmu).apply {
+            if (!OS.LINUX.isCurrentOs) {
+                addServer(FmuProxyJsonHttpServer(handler))
+            } else {
+                LOG.warn("HTTP is disabled on Linux due to performance issues!")
+            }
+            addServer(FmuProxyJsonWsServer(handler))
+            addServer(FmuProxyJsonTcpServer(handler))
+            addServer(FmuProxyJsonZmqServer(handler))
         }.build().also { it.start() }
 
-    }
 
     @AfterAll
     fun tearDown() {
@@ -63,25 +59,25 @@ class TestJsonRpcClients {
     @Test
     fun testClients() {
 
-        val clients = listOf(
-                RpcWebSocketClient("localhost", wsPort),
-                RpcTcpClient("localhost", tcpPort),
-                RpcHttpClient("localhost", httpPort),
-                RpcZmqClient("localhost", zmqPort)
-        ).map { JsonRpcFmuClient(it) }
+        val clients = mutableListOf(
+                RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
+                RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
+                RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
+        ).apply {
+            if (!OS.LINUX.isCurrentOs) {
+                add(RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
+            }
+        }.map { JsonRpcFmuClient(it) }
 
-        try {
 
-            clients.forEach { client ->
+        clients.forEach {
 
-                LOG.info("Testing client of type ${client.client.javaClass.simpleName}")
-                Assertions.assertEquals(modelDescription.modelName, client.modelName)
-                Assertions.assertEquals(modelDescription.guid, client.guid)
+            it.use { client ->
+                LOG.info("Testing client of type ${client.implementationName}")
+                Assertions.assertEquals(fmu.modelDescription.modelName, client.modelName)
+                Assertions.assertEquals(fmu.modelDescription.guid, client.guid)
 
                 client.newInstance().use { instance ->
-
-                    instance.init()
-                    Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
 
                     val temp = client.modelDescription.modelVariables
                             .getByName("Temperature_Room").asRealVariable()
@@ -90,15 +86,13 @@ class TestJsonRpcClients {
                     val stop = 1.0
                     runInstance(instance, dt, stop) {
                         temp.read()
-                    }.also { LOG.info("Duration: ${it}ms") }
+                    }.also { LOG.info(" ${client.implementationName} duration: ${it}ms") }
 
                 }
-
             }
 
-        } finally {
-            clients.forEach {it.close()}
         }
+
 
     }
 

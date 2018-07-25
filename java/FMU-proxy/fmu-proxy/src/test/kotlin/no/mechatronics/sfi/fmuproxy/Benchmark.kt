@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
+import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -38,7 +39,8 @@ class Benchmark {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+                    "ControlledTemperature/ControlledTemperature.fmu"))
 
     @AfterAll
     fun tearDown() {
@@ -119,45 +121,50 @@ class Benchmark {
     @Test
     fun measureTimeJson() {
 
-        val wsPort = 8001
-        val tcpPort = 8002
-        val zmqPort = 8003
-//        val httpPort = 8004
-
+        var httpPort: Int = -1
+        var wsPort: Int = -1
+        var tcpPort: Int = -1
+        var zmqPort: Int = -1
         val handler = RpcHandler(RpcFmuService(fmu))
 
-        val servers = listOf(
-//                FmuProxyJsonHttpServer(handler).apply { start(httpPort) },
-                FmuProxyJsonWsServer(handler).apply { start(wsPort) },
-                FmuProxyJsonTcpServer(handler).apply { start(tcpPort) },
-                FmuProxyJsonZmqServer(handler).apply { start(zmqPort) }
-        )
+        val servers = mutableListOf(
+                FmuProxyJsonWsServer(handler).apply { wsPort = start() },
+                FmuProxyJsonTcpServer(handler).apply { tcpPort = start() },
+                FmuProxyJsonZmqServer(handler).apply { zmqPort = start() }
+        ).apply {
+            if (!OS.LINUX.isCurrentOs) {
+                add(FmuProxyJsonHttpServer(handler).apply { httpPort = start() })
+            } else {
+                LOG.warn("HTTP is disabled on Linux due to performance reasons..")
+            }
+        }
 
-        try {
-            val clients = listOf(
-//                RpcHttpClient(host, httpPort),
-                    RpcWebSocketClient(host, wsPort),
-                    RpcTcpClient(host, tcpPort),
-                    RpcZmqClient(host, zmqPort)
-            ).map { JsonRpcFmuClient(it) }
+        val clients = mutableListOf(
+                RpcWebSocketClient(host, wsPort),
+                RpcTcpClient(host, tcpPort),
+                RpcZmqClient(host, zmqPort)
+        ).apply {
+            if (!OS.LINUX.isCurrentOs) {
+                add(RpcHttpClient(host, httpPort))
+            }
+        }.map { JsonRpcFmuClient(it) }
 
-            clients.forEach { client ->
+        clients.forEach {
 
+            it.use { client ->
                 client.newInstance().use { instance ->
                     runInstance(instance, dt, stop) {
                         val read = instance.readReal("Temperature_Room")
                         Assertions.assertTrue(read.value > 0)
                     }.also {
-                        LOG.info("${client.client.javaClass.simpleName} duration=${it}ms")
+                        LOG.info("${client.implementationName} duration=${it}ms")
                     }
                 }
-
-                client.close()
-
             }
-        } finally {
-            servers.forEach { it.close() }
+
         }
+
+        servers.forEach { it.close() }
 
     }
 

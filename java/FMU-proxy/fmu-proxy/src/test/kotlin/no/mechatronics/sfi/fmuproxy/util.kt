@@ -7,11 +7,13 @@ import kotlin.system.measureTimeMillis
 
 internal inline fun runInstance(instance: FmiSimulation, dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
-    instance.init()
-    Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
+    if (!instance.isInitialized) {
+        instance.init()
+        Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
+    }
 
     return measureTimeMillis {
-        while (instance.currentTime < stop) {
+        while (instance.currentTime <= stop) {
             val status = instance.doStep(dt)
             Assertions.assertTrue(status)
             callback()
