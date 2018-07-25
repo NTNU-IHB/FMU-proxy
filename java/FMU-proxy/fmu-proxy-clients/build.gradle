@@ -26,13 +26,13 @@ dependencies {
 
 if (hasProperty("ossrhUsername") && hasProperty("ossrhPassword")) {
 
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     apply plugin: 'signing'
 
     group = 'no.mechatronics.sfi.fmuproxy'
     version = '0.1-SNAPSHOT'
 
-    task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates a jar from the source files.') {
+    task sourcesJar(type: Jar) {
         classifier = 'sources'
         from sourceSets.main.allSource
     }
@@ -42,58 +42,57 @@ if (hasProperty("ossrhUsername") && hasProperty("ossrhPassword")) {
         from javadoc.destinationDir
     }
 
-    artifacts {
-        archives javadocJar, sourcesJar
-    }
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
 
-    signing {
-        sign configurations.archives
-    }
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                pom.project {
-                    name archivesBaseName
-                    packaging 'jar'
-                    // optionally artifactId can be defined here
-                    description 'A collection of clients for talking to FMU-proxy servers'
-                    url 'https://github.com/SFI-Mechatronics/FMU-proxy'
+                pom {
+                    name = archivesBaseName
+                    description = 'A collection of clients for talking to FMU-proxy servers'
+                    url = 'https://github.com/SFI-Mechatronics/FMU-proxy'
 
                     scm {
-                        connection 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
-                        developerConnection 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
-                        url 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
+                        connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
+                        developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
+                        url = 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
                     }
 
                     licenses {
                         license {
-                            name 'The MIT License'
-                            url 'https://opensource.org/licenses/mit-license.php'
+                            name = 'The MIT License'
+                            url = 'https://opensource.org/licenses/mit-license.php'
                         }
                     }
 
                     developers {
                         developer {
-                            id 'laht'
-                            name 'Lars Ivar Hatledal'
-                            email 'laht@ntnu.no'
+                            id = 'laht'
+                            name = 'Lars Ivar Hatledal'
+                            email = 'laht@ntnu.no'
                         }
                     }
-
                 }
             }
         }
+        repositories {
+            maven {
+                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+                url version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.mavenJava
     }
 
 }
