@@ -63,23 +63,13 @@ sourceSets {
     }
 }
 
-import org.apache.tools.ant.taskdefs.condition.Os
 
-def thriftPath = System.getenv("THRIFT_COMPILER")
-if (thriftPath != null && Os.isFamily(Os.FAMILY_WINDOWS)) {
-    compileThrift {
-        thriftExecutable "$thriftPath/thrift.exe"
-        createGenFolder false
-        generator 'java', 'private-members'
-        sourceItems "${definitions}/thrift"
-    }
-} else {
-    compileThrift {
-        createGenFolder false
-        generator 'java', 'private-members'
-        sourceItems "${definitions}/thrift"
-    }
+compileThrift {
+    createGenFolder false
+    generator 'java', 'private-members'
+    sourceItems "${definitions}/thrift"
 }
+
 
 if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
 
