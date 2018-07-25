@@ -7,6 +7,7 @@ println "Gradle version is ${GradleVersion.current().version}"
 
 wrapper {
     gradleVersion = '4.9'
+    distributionType = "all"
 }
 
 ext.fmi4j_stable_version = '0.7.4'
