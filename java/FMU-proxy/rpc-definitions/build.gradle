@@ -96,7 +96,7 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
                     scm {
                         connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
                         developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
-                        url = 'https://github.com/SFI-Mechatronics/gRPC-FMU/tree/master'
+                        url = 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
                     }
 
                     licenses {
