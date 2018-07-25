@@ -1,8 +1,8 @@
 
 if (WIN32)
-    OPTION(USE_VCPKG "per" ON)
+    OPTION(USE_VCPKG "Whether to use the vcpkg package system or not" ON)
 else()
-    OPTION(USE_VCPKG "per" OFF)
+    OPTION(USE_VCPKG "Whether to use the vcpkg package system or not" OFF)
 endif()
 
 if (USE_VCPKG)
