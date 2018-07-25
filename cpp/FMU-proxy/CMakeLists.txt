@@ -1,10 +1,20 @@
 
 if (WIN32)
+    OPTION(USE_VCPKG "per" ON)
+else()
+    OPTION(USE_VCPKG "per" OFF)
+endif()
+
+if (USE_VCPKG)
 
     cmake_minimum_required(VERSION 3.11)
 
-    if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-        SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
+    SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
+    if(NOT DEFINED VCPKG_ROOT)
+            message(FATAL_ERROR "USE_VCPKG=ON, but VCPKG_ROOT is not set!")
+    endif()
+
+    if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
         set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
                 CACHE STRING "")
     endif()
@@ -38,9 +48,8 @@ find_package(FMILIB REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Thrift REQUIRED)
-
 find_package(Protobuf REQUIRED)
-if (WIN32)
+if (USE_VCPKG)
     find_package(gRPC CONFIG REQUIRED)
 else()
     find_package(gRPC REQUIRED)
@@ -53,7 +62,7 @@ add_subdirectory(src)
 add_subdirectory(tool)
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
-endif ()
+endif()
 if (BUILD_TESTS)
     add_subdirectory(test)
-endif ()
+endif()
