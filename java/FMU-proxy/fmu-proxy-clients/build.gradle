@@ -3,6 +3,12 @@ plugins {
     id "kotlin"
 }
 
+apply from: rootProject.file('publisher.gradle')
+
+pomDescription {
+    description 'A collection of clients for talking to FMU-proxy servers'
+}
+
 def snapshot = true
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
@@ -21,78 +27,5 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
-
-}
-
-if (hasProperty("ossrhUsername") && hasProperty("ossrhPassword")) {
-
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
-
-    group = 'no.mechatronics.sfi.fmuproxy'
-    version = '0.1-SNAPSHOT'
-
-    task sourcesJar(type: Jar) {
-        from sourceSets.main.allSource
-        classifier = 'sources'
-    }
-
-    task javadocJar (type: Jar, dependsOn: javadoc) {
-        from javadoc.destinationDir
-        classifier = 'javadoc'
-    }
-
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-
-                from components.java
-                artifact sourcesJar
-                artifact javadocJar
-
-                pom {
-                    name = archivesBaseName
-                    description = 'A collection of clients for talking to FMU-proxy servers'
-                    url = 'https://github.com/SFI-Mechatronics/FMU-proxy'
-
-                    scm {
-                        connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
-                        developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
-                        url = 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
-                    }
-
-                    licenses {
-                        license {
-                            name = 'The MIT License'
-                            url = 'https://opensource.org/licenses/mit-license.php'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id = 'laht'
-                            name = 'Lars Ivar Hatledal'
-                            email = 'laht@ntnu.no'
-                        }
-                    }
-                }
-            }
-        }
-        repositories {
-            maven {
-                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-                url version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-        }
-    }
-
-    signing {
-        sign publishing.publications.mavenJava
-    }
 
 }

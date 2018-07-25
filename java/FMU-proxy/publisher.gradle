@@ -1,0 +1,94 @@
+
+class PublishPluginExtension {
+    String description = ""
+}
+
+class PublishPlugin implements Plugin<Project>{
+
+    protected Jar sourcesJar(Project project) {
+        Jar task = project.tasks.create("sourcesJar", Jar.class)
+        task.from project.sourceSets.main.allSource
+        task.classifier = 'sources'
+        return task
+    }
+
+    protected Jar javadocJar(Project project) {
+        Jar task = project.tasks.create("javadocJar", Jar.class)
+        task.from project.javadoc.destinationDir
+        task.classifier = 'javadoc'
+        return task
+    }
+
+    void apply(Project project) {
+        if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+
+            project.apply(plugin: MavenPublishPlugin)
+            project.apply(plugin: SigningPlugin)
+
+
+            project.group = 'no.mechatronics.sfi.fmuproxy'
+            project.version = '0.1-SNAPSHOT'
+
+            println("maven version for ${project.archivesBaseName} is: ${project.version}")
+
+            def extension = project.extensions.create('pomDescription', PublishPluginExtension)
+
+            project.publishing {
+                publications {
+                    mavenJava(MavenPublication) {
+
+                        from project.components.java
+                        artifact sourcesJar(project)
+                        artifact javadocJar(project)
+
+                        pom {
+                            name = project.archivesBaseName
+                            description = extension.description
+                            url = 'https://github.com/SFI-Mechatronics/FMU-proxy'
+
+                            scm {
+                                connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
+                                developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
+                                url = 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
+                            }
+
+                            licenses {
+                                license {
+                                    name = 'The MIT License'
+                                    url = 'https://opensource.org/licenses/mit-license.php'
+                                }
+                            }
+
+                            developers {
+                                developer {
+                                    id = 'laht'
+                                    name = 'Lars Ivar Hatledal'
+                                    email = 'laht@ntnu.no'
+                                }
+                            }
+                        }
+                    }
+                }
+                repositories {
+                    maven {
+                        def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                        def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+                        url project.version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                        credentials {
+                            username = project.ossrhUsername
+                            password = project.ossrhPassword
+                        }
+                    }
+                }
+            }
+
+            project.signing {
+                sign project.publishing.publications.mavenJava
+            }
+
+        }
+    }
+
+}
+
+apply plugin: PublishPlugin
