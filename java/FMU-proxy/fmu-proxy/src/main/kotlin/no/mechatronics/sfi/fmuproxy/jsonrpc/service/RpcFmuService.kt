@@ -246,16 +246,4 @@ class StepResult(
 class Solver(
         val name: String,
         val settings: String
-) {
-
-//    private val properties = Gson().fromJson(json, Map::class.java) as Map<String, *>
-//
-//    fun <T> getProperty(name: String, type: Class<T>): T? {
-//        return properties[name] as T
-//    }
-//
-//    inline fun <reified T> getProperty(name: String): T? {
-//        return getProperty(name, T::class.java)
-//    }
-
-}
+)
