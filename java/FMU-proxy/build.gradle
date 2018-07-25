@@ -1,16 +1,9 @@
 
-println "Gradle version is ${GradleVersion.current().version}"
-
-buildscript {
-    ext.kotlin_version = '1.2.51'
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.51" apply false //apply in sub-projects
 }
+
+println "Gradle version is ${GradleVersion.current().version}"
 
 wrapper {
     gradleVersion = '4.9'
@@ -43,7 +36,7 @@ subprojects { sub ->
     dependencies {
 
         sub.plugins.withId('kotlin') {
-            compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+            compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
         }
 
         testImplementation("org.junit.jupiter:junit-jupiter-api:${junit_version}")

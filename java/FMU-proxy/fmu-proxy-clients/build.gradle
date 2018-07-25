@@ -1,5 +1,7 @@
 
-apply plugin: 'kotlin'
+plugins {
+    id "kotlin"
+}
 
 def snapshot = true
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version

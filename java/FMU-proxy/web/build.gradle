@@ -1,19 +1,11 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
 
-    dependencies {
-        classpath 'org.akhikhl.gretty:gretty:2.0.0'
-    }
+plugins {
+    id "war"
+    id "kotlin"
+    id "org.akhikhl.gretty" version "2.0.0"
 }
 
 ext.jetty94Version = '9.4.9.v20180320'
-
-apply plugin: 'kotlin'
-apply plugin: 'war'
-apply plugin: 'org.akhikhl.gretty'
-
 
 def snapshot = true
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
