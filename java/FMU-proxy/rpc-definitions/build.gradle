@@ -77,8 +77,8 @@ if (hasProperty("ossrhUsername")  && hasProperty("ossrhPassword")) {
     version = '0.1-SNAPSHOT'
 
     task sourcesJar(type: Jar) {
-        classifier = 'sources'
         from sourceSets.main.allSource
+        classifier = 'sources'
     }
 
     publishing {
