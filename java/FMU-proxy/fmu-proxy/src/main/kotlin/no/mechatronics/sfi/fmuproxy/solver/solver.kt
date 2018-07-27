@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.solver
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import no.mechatronics.sfi.fmi4j.importer.me.Solver
+import no.mechatronics.sfi.fmi4j.solvers.Solver
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
 
 private const val STEP_SIZE = "step_size"
@@ -39,6 +39,8 @@ fun parseSolver(name: String, json: String): Solver? {
     return when(name.toLowerCase()) {
         "euler" -> json.parseStepSize()?.let { ApacheSolvers.euler(it) }
         "rk4" -> json.parseStepSize()?.let { ApacheSolvers.rk4(it) }
+        "gill" -> json.parseStepSize()?.let { ApacheSolvers.gill(it) }
+        "luther" -> json.parseStepSize()?.let { ApacheSolvers.luther(it) }
         else -> null
     }
 }

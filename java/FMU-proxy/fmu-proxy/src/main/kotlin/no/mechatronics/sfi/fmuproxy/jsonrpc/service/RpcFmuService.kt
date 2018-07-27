@@ -81,7 +81,7 @@ class RpcFmuService(
     @RpcMethod
     fun createInstanceFromME(solver: Solver): Int {
 
-        fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.importer.me.Solver {
+        fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
             val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
             LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
             return ApacheSolvers.euler(stepSize)

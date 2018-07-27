@@ -388,7 +388,6 @@ class GrpcFmuServiceImpl(
 
     }
 
-
     override fun createInstanceFromCS(req: Empty, responseObserver: StreamObserver<Proto.UInt>) {
 
         Fmus.put(fmu.asCoSimulationFmu().newInstance()).also { id ->
@@ -402,7 +401,7 @@ class GrpcFmuServiceImpl(
 
     override fun createInstanceFromME(req: Proto.Solver, responseObserver: StreamObserver<Proto.UInt>) {
 
-        fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.importer.me.Solver {
+        fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
             val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
             LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
             return ApacheSolvers.euler(stepSize)

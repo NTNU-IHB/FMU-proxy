@@ -5,6 +5,8 @@ plugins {
     id "com.commercehub.gradle.plugin.avro-base" version "0.14.2"
 }
 
+apply from: rootProject.file('publisher.gradle')
+
 def avro_version = '1.8.2'
 def definitions = "../../../rpc-definitions"
 
