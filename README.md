@@ -19,6 +19,20 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 
 ## Implementation
 
+This repository comes bundled with server implementations written in Kotlin and C++. 
+
+The available client implementaions are given in the table below:
+
+|    RPC   	| JVM 	| C++ 	| Python 	|
+|:--------:	|:---:	|:---:	|:------:	|
+|   gRPC   	|  x  	|  x  	|    x   	|
+|  Thrift  	|  x  	|  x  	|    x   	|
+|   Avro   	|  x  	|     	|        	|
+| JSON-RPC 	|  x  	|     	|        	|
+
+
+NOTE: Becouse of the language inependent nature of the RPC technologies and network protocols used, servers and client can be implemented in virtually any other language as well. 
+
 ### JVM
 
 The JVM implementaion of FMU-proxy is written in Kotlin and uses the gradle build system. 
@@ -32,7 +46,7 @@ The JSON-RPC client and server implementation is found [here](https://github.com
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
 The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangebly in user code. 
 
-[The directory service](#the-directory-service) is also implemented in Kotlin.  
+[The directory service](#directory_service) is also implemented in Kotlin.  
 
 #### FMU-proxy executable
 
@@ -90,7 +104,7 @@ This repository comes with client implementations in Python for gRPC and Thrift.
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
-#### [The Directory Service](#the-directory-service)
+#### <a name="directory_service"></a> The Directory Service
 
 The directory service is a centralized web service which FMU-proxy servers connects to. 
 As there may be many directory services online (each company could have they own), the IP and Port should be provided the FMU-proxy server on startup.
