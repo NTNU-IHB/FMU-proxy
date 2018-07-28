@@ -19,9 +19,9 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 
 ## Implementation
 
-This repository comes bundled with *server* implementations written in Kotlin(JVM) and C++. 
+This repository comes bundled with **server** implementations written in Kotlin(JVM) and C++. 
 
-The available *client* implementaions are given in the table below:
+The available **client** implementaions are given in the table below:
 
 |    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	|
 |:--------:	|:---:	|:---:	|:------:	|
@@ -31,7 +31,7 @@ The available *client* implementaions are given in the table below:
 | JSON-RPC 	|  x  	|     	|        	|
 
 
-*NOTE:* Becouse of the language inependent nature of the RPC technologies and network protocols used, servers and client can be implemented in virtually any other language as well. 
+**NOTE:** Becouse of the language inependent nature of the RPC technologies and network protocols used, servers and client can be implemented in virtually any other language as well. 
 
 ### <a name="jvm"></a> JVM
 
