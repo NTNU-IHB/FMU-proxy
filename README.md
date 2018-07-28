@@ -21,7 +21,7 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 
 This repository comes bundled with **server** implementations written in Kotlin(JVM) and C++. 
 
-The available **client** implementaions are given in the table below:
+The available **client** implementations are given in the table below:
 
 |    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	|
 |:--------:	|:---:	|:---:	|:------:	|
