@@ -19,11 +19,11 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 
 ## Implementation
 
-This repository comes bundled with server implementations written in Kotlin and C++. 
+This repository comes bundled with *server* implementations written in Kotlin(JVM) and C++. 
 
-The available client implementaions are given in the table below:
+The available *client* implementaions are given in the table below:
 
-|    RPC   	| JVM 	| C++ 	| Python 	|
+|    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	|
 |:--------:	|:---:	|:---:	|:------:	|
 |   gRPC   	|  x  	|  x  	|    x   	|
 |  Thrift  	|  x  	|  x  	|    x   	|
@@ -31,9 +31,9 @@ The available client implementaions are given in the table below:
 | JSON-RPC 	|  x  	|     	|        	|
 
 
-NOTE: Becouse of the language inependent nature of the RPC technologies and network protocols used, servers and client can be implemented in virtually any other language as well. 
+*NOTE:* Becouse of the language inependent nature of the RPC technologies and network protocols used, servers and client can be implemented in virtually any other language as well. 
 
-### JVM
+### <a name="jvm"></a> JVM
 
 The JVM implementaion of FMU-proxy is written in Kotlin and uses the gradle build system. 
 
@@ -71,7 +71,7 @@ Usage: fmu-proxy [-h] -fmu=<fmuPath>
 You can now connect to the FMU in a language of your choosing using one of the schemas available from the web server or located [here](rpc-definitions). 
 When using JSON-RPC, no schema is required.
 
-### C++
+### <a name="cpp"></a> C++
 
 It is no suprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented in C++. 
@@ -96,7 +96,7 @@ Options:
   -t [ --thrift_port ] arg Specify the network port to be used by the Thrift server
 ```
 
-### Python
+### <a name="python"></a> Python
 
 This repository comes with client implementations in Python for gRPC and Thrift.
 
