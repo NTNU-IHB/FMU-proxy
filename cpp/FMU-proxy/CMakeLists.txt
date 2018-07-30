@@ -1,26 +1,14 @@
 
-if (WIN32)
-    OPTION(USE_VCPKG "Whether to use the vcpkg package system or not" ON)
-else()
-    OPTION(USE_VCPKG "Whether to use the vcpkg package system or not" OFF)
+cmake_minimum_required(VERSION 3.12)
+
+SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
+if(NOT DEFINED VCPKG_ROOT)
+    message(VCPKG_ROOT is not set!)
 endif()
 
-if (USE_VCPKG)
-
-    cmake_minimum_required(VERSION 3.11)
-
-    SET(VCPKG_ROOT $ENV{VCPKG_ROOT} CACHE STRING "VCPKG_ROOT")
-    if(NOT DEFINED VCPKG_ROOT)
-            message(FATAL_ERROR "USE_VCPKG=ON, but VCPKG_ROOT is not set!")
-    endif()
-
-    if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-        set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-                CACHE STRING "")
-    endif()
-
-else()
-    cmake_minimum_required(VERSION 3.10)
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            CACHE STRING "")
 endif()
 
 project(FMU_PROXY)
@@ -41,7 +29,7 @@ if(MSVC)
     set(Boost_USE_STATIC_LIBS ON)
 endif()
 
-find_package(Boost 1.65.1 COMPONENTS system filesystem program_options atomic REQUIRED)
+find_package(Boost 1.67 COMPONENTS system filesystem program_options atomic REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(FMILIB REQUIRED)
@@ -49,11 +37,7 @@ find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Thrift REQUIRED)
 find_package(Protobuf REQUIRED)
-if (USE_VCPKG)
-    find_package(gRPC CONFIG REQUIRED)
-else()
-    find_package(gRPC REQUIRED)
-endif()
+find_package(gRPC CONFIG REQUIRED)
 
 set(tool_dest "bin")
 
