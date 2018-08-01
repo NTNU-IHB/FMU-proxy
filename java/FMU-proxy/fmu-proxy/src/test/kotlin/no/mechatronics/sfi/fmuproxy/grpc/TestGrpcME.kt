@@ -26,7 +26,7 @@ class TestGrpcME {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-        "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+            "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
     private val modelDescription: CommonModelDescription = fmu.modelDescription
     private val server: GrpcFmuServer = GrpcFmuServer(fmu)
     private val client: GrpcFmuClient = GrpcFmuClient("localhost", server.start())

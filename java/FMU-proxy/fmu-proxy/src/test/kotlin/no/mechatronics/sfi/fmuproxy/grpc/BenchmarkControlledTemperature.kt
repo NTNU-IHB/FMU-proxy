@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 import kotlin.system.measureTimeMillis
 import java.io.File
 
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
+
 class BenchmarkControlledTemperature {
 
     private companion object {
@@ -45,11 +45,10 @@ class BenchmarkControlledTemperature {
     @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
     fun benchmark() {
 
-        val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+        Fmu.from(File(TestUtils.getTEST_FMUs(),
                 "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
-                        "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+                        "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
-        try {
 
             GrpcFmuServer(fmu).use { server ->
                 val port = server.start()
@@ -69,8 +68,6 @@ class BenchmarkControlledTemperature {
                 }
             }
 
-        } finally {
-            fmu.close()
         }
 
     }
