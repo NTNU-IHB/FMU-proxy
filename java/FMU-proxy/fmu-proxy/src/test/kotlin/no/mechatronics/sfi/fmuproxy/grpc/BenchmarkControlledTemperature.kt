@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory
 import kotlin.system.measureTimeMillis
 import java.io.File
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class BenchmarkControlledTemperature {
 
     private companion object {
