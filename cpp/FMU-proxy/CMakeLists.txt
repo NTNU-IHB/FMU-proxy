@@ -18,9 +18,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 option(BUILD_EXAMPLES "Build examples" ON)
 option(BUILD_TESTS "Build tests" ON)
-option(FMILIB_USE_SHARED_LIB "Use shared fmilib" ON)
-
-set(FMILIB_HOME $ENV{FMILIB_HOME} CACHE STRING "FMI Library home")
 
 if(MSVC)
     add_definitions(-DNOMINMAX)
