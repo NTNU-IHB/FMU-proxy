@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.cli
 
+import com.sun.jna.Platform
 import info.laht.yajrpc.RpcHandler
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.FmuProxy
@@ -134,9 +135,14 @@ class Args: Callable<FmuProxy> {
                 addServer(this, avroPort)
             }
 
+
+
             val handler = RpcHandler(RpcFmuService(fmu))
-            FmuProxyJsonHttpServer(handler).apply {
-                addServer(this, jsonHttpPort)
+
+            if (Platform.isWindows()) {
+                FmuProxyJsonHttpServer(handler).apply {
+                    addServer(this, jsonHttpPort)
+                }
             }
 
             FmuProxyJsonWsServer(handler).apply {
