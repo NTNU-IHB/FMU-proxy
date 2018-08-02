@@ -16,18 +16,13 @@ project(FMU_PROXY)
 set(CMAKE_CXX_STANDARD 17)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-
 option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_EXAMPLES "Build examples" ON)
 
-
 if(MSVC)
     add_definitions(-DNOMINMAX)
-    add_definitions(-DCURL_STATICLIB)
     add_definitions(-D_WIN32_WINNT=0x600)
-    set(Boost_USE_STATIC_LIBS ON)
 endif()
-
 
 SET(BOOST_COMPONENTS atomic system filesystem program_options)
 if (BUILD_TESTS)
