@@ -45,7 +45,7 @@ target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS})
 if (UNIX)
     target_link_libraries(heartbeat pthread)
 elseif (MSVC)
-    target_link_libraries(heartbeat bcrypt) #wldap32 crypt32 Ws2_32 Normaliz
+    target_link_libraries(heartbeat bcrypt)
 endif()
 
 ##################################################################
