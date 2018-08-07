@@ -40,8 +40,8 @@ inline void checkSize(vector<A> v1, vector<B> v2) {
 FmuInstance::FmuInstance(fmi2_import_t *instance, ModelDescription &md)
         : instance(instance), modelDescription(md) {}
 
-double FmuInstance::getCurrentTime() const {
-    return current_time;
+double FmuInstance::getSimulationTime() const {
+    return simulation_time;
 }
 
 bool FmuInstance::isTerminated() const {
@@ -71,15 +71,15 @@ void FmuInstance::init(double start, double stop) {
         throw runtime_error("fmi2_import_exit_initialization_mode failed");
     }
 
-    current_time = start;
+    simulation_time = start;
 
 }
 
 fmi2_status_t FmuInstance::step(double step_size) {
     fmi2_status_t status = fmi2_import_do_step(
-            instance, current_time, step_size, fmi2_true);
+            instance, simulation_time, step_size, fmi2_true);
     if (status == fmi2_status_ok) {
-        current_time += step_size;
+        simulation_time += step_size;
     }
     return status;
 }
@@ -97,9 +97,9 @@ fmi2_status_t FmuInstance::terminate() {
 }
 
 
-//fmi2_status_t FmuInstance::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
-//    return fmi2_import_get_integer(instance, &vr, 1, &ref);
-//}
+fmi2_status_t FmuInstance::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
+    return fmi2_import_get_integer(instance, &vr, 1, &ref);
+}
 
 fmi2_status_t FmuInstance::readInteger(const vector<fmi2_value_reference_t> &vr, vector<fmi2_integer_t> &ref) {
     if (vr.size() != ref.size()) {
@@ -108,10 +108,9 @@ fmi2_status_t FmuInstance::readInteger(const vector<fmi2_value_reference_t> &vr,
     return fmi2_import_get_integer(instance, vr.data(), vr.size(), ref.data());
 }
 
-
-//fmi2_status_t FmuInstance::readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) {
-//    return fmi2_import_get_real(instance, &vr, 1, &ref);
-//}
+fmi2_status_t FmuInstance::readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) {
+    return fmi2_import_get_real(instance, &vr, 1, &ref);
+}
 
 fmi2_status_t FmuInstance::readReal(const vector<fmi2_value_reference_t> &vr, vector<fmi2_real_t> &ref) {
     checkSize(vr, ref);

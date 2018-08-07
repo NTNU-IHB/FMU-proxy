@@ -1,4 +1,6 @@
 
+REM - Script not finished.. Consider using the Unix version
+
 if not exist "gen" mkdir gen
 
 thrift -r -out gen --gen cpp ../../rpc-definitions/thrift/service.thrift

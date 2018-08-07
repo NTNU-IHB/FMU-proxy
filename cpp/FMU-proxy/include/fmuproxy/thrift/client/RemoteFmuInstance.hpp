@@ -38,8 +38,8 @@ namespace fmuproxy::thrift::client {
 
     private:
         
-        const InstanceId fmu_id;
-        double current_time;
+        const InstanceId instance_id;
+        double simulation_time;
 
         FmuServiceClient &client;
         fmuproxy::fmi::ModelDescription &modelDescription;
@@ -47,7 +47,7 @@ namespace fmuproxy::thrift::client {
     public:
         RemoteFmuInstance(InstanceId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &modelDescription);
 
-        double getCurrentTime() const override;
+        double getSimulationTime() const override;
 
         fmuproxy::fmi::ModelDescription &getModelDescription() const override;
 
@@ -59,8 +59,10 @@ namespace fmuproxy::thrift::client {
 
         fmi2_status_t reset() override;
 
-
+        fmi2_status_t readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) override;
         fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) override;
+
+        fmi2_status_t readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) override;
         fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) override;
         fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) override;
         fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) override;

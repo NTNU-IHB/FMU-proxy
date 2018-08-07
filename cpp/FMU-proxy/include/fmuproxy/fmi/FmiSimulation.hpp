@@ -36,7 +36,7 @@ namespace fmuproxy::fmi {
 
     public:
 
-        virtual double getCurrentTime() const = 0;
+        virtual double getSimulationTime() const = 0;
         
         virtual ModelDescription &getModelDescription() const = 0;
         
@@ -52,7 +52,9 @@ namespace fmuproxy::fmi {
             return getModelDescription().get_value_reference(name);
         }
 
+        virtual fmi2_status_t readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) = 0;
         virtual fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t > &ref) = 0;
+        virtual fmi2_status_t readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) = 0;
         virtual fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t > &ref) = 0;
         virtual fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t > &ref) = 0;
         virtual fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t > &ref) = 0;

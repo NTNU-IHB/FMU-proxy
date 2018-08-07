@@ -1,4 +1,6 @@
 
+REM - Script not finished.. Consider using the Unix version
+
 if not exist "gen" mkdir gen
 protoc -I="../../rpc-definitions/proto" --plugin=protoc-gen-grpc=grpc_cpp_plugin --cpp_out="gen" --grpc_out="gen" definitions.proto service.proto
 

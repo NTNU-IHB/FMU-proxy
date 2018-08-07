@@ -66,9 +66,9 @@ namespace fmuproxy::fmi {
     typedef std::vector<ScalarVariable> ModelVariables;
 
     struct ModelDescription {
+        std::string guid;
         std::string fmiVersion;
         std::string modelName;
-        std::string guid;
         std::string license;
         std::string copyright;
         std::string author;
