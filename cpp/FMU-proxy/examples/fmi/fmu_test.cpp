@@ -33,7 +33,8 @@ using namespace fmuproxy::fmi;
 int main(int argc, char **argv) {
 
     string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() + "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+                      + "/FMI_2.0/CoSimulation/" + getOs() +
+                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     const double step_size = 1.0/100;
     Fmu fmu = Fmu(fmu_path);

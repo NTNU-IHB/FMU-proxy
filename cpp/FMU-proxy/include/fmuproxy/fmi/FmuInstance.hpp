@@ -60,9 +60,14 @@ namespace fmuproxy::fmi {
 
         fmi2_status_t readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) override;
         fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) override;
+
         fmi2_status_t readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) override;
         fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) override;
+
+        fmi2_status_t readString(fmi2_value_reference_t vr, fmi2_string_t &ref) override;
         fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) override;
+
+        fmi2_status_t readBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) override;
         fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) override;
 
         fmi2_status_t writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) override;

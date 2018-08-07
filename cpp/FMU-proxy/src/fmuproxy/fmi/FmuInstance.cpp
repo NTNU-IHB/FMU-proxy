@@ -117,9 +117,17 @@ fmi2_status_t FmuInstance::readReal(const vector<fmi2_value_reference_t> &vr, ve
     return fmi2_import_get_real(instance, vr.data(), vr.size(), ref.data());
 }
 
+fmi2_status_t FmuInstance::readString(const fmi2_value_reference_t vr, fmi2_string_t &ref) {
+    return fmi2_import_get_string(instance, &vr, 1, &ref);
+}
+
 fmi2_status_t FmuInstance::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) {
     checkSize(vr, ref);
     return fmi2_import_get_string(instance, vr.data(), vr.size(), ref.data());
+}
+
+fmi2_status_t FmuInstance::readBoolean(const fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
+    return fmi2_import_get_boolean(instance, &vr, 1, &ref);
 }
 
 fmi2_status_t FmuInstance::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {

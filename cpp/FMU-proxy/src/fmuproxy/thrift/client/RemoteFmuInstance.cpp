@@ -95,6 +95,14 @@ fmi2_status_t RemoteFmuInstance::readReal(const std::vector<fmi2_value_reference
     return convert(realRead.status);
 }
 
+fmi2_status_t RemoteFmuInstance::readString(fmi2_value_reference_t vr, fmi2_string_t &ref) {
+    vector<fmi2_value_reference_t > _vr = {vr};
+    vector<fmi2_string_t > _ref(1);
+    const auto status = this->readString(_vr, _ref);
+    ref = _ref[0];
+    return status;
+}
+
 fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t > &ref) {
     StringRead stringRead;
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
@@ -104,6 +112,13 @@ fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_referen
     return convert(stringRead.status);
 }
 
+fmi2_status_t RemoteFmuInstance::readBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
+    vector<fmi2_value_reference_t > _vr = {vr};
+    vector<fmi2_boolean_t > _ref(1);
+    const auto status = this->readBoolean(_vr, _ref);
+    ref = _ref[0];
+    return status;
+}
 
 fmi2_status_t RemoteFmuInstance::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {
     BooleanRead booleanRead;
@@ -118,7 +133,6 @@ fmi2_status_t RemoteFmuInstance::writeInteger(const std::vector<fmi2_value_refer
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
     return convert(client.writeInteger(instance_id, _vr, value));
 }
-
 
 fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
