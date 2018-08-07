@@ -2,7 +2,6 @@ import time
 from definitions.ttypes import *
 from client import RemoteFmu
 
-
 if __name__ == '__main__':
 
     client = RemoteFmu("localhost", 9090)
@@ -21,12 +20,12 @@ if __name__ == '__main__':
 
         start = time.time()
 
-        while instance.current_time < stop-step_size:
+        while instance.simulation_time < (stop-step_size):
             status = instance.step(step_size)
             if status != 0:
-                print("Error: t={}, FMU returned status {}".format(instance.current_time, status))
+                print("Error: t={}, FMU returned status {}".format(instance.simulation_time, status))
                 break
-            print("t={}, {}={}".format(instance.current_time, variable_name, reader.read_real().value))
+            print("t={}, {}={}".format(instance.simulation_time, variable_name, reader.read_real().value[0]))
 
         end = time.time()
 

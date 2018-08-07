@@ -3,6 +3,7 @@ from google.protobuf.empty_pb2 import Empty
 from definitions.definitions_pb2 import *
 from definitions.service_pb2_grpc import FmuServiceStub
 
+
 def uint(value: int) -> UInt:
     var = UInt()
     var.value = value
@@ -11,11 +12,11 @@ def uint(value: int) -> UInt:
 
 class VariableReader:
 
-    def __init__(self, fmu_id, value_reference, stub):
-        self.stub = stub
+    def __init__(self, instance_id: int, value_reference: int, stub: FmuServiceStub):
+        self.stub = stub  # type: FmuServiceStub
         self.request = ReadRequest()
-        self.request.fmu_id = fmu_id
-        self.request.value_reference = value_reference
+        self.request.instance_id = instance_id  # type: int
+        self.request.value_references.append(value_reference)  # type [int]
 
     def read_int(self) -> IntegerRead:
         return self.stub.ReadInteger(self.request)
@@ -32,35 +33,35 @@ class VariableReader:
 
 class VariableWriter:
 
-    def __init__(self, fmu_id, value_reference, stub):
-        self.stub = stub
-        self.fmu_id = fmu_id
-        self.value_reference = value_reference
+    def __init__(self, instance_id, value_reference, stub: FmuServiceStub):
+        self.stub = stub  # type: FmuServiceStub
+        self.instance_id = instance_id  # type: int
+        self.value_references.append(value_reference)  # type: [int]
 
     def write_int(self, value: int):
         request = WriteIntegerRequest()
-        request.fmu_id = self.fmu_id
+        request.instance_id = self.instance_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteInt(request)
 
     def write_real(self, value: float):
         request = WriteRealRequest()
-        request.fmu_id = self.fmu_id
+        request.instance_id = self.instance_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteReal(request)
 
     def write_string(self, value: str):
         request = WriteStringRequest()
-        request.fmu_id = self.fmu_id
+        request.instance_id = self.instance_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteString(request)
 
     def write_boolean(self, value: bool):
         request = WriteBooleanRequest()
-        request.fmu_id = self.fmu_id
+        request.instance_id = self.instance_id
         request.value_reference = self.value_reference
         request.value = value
         return self.stub.WriteBoolean(request)
@@ -73,53 +74,53 @@ class RemoteFmuInstance:
         self.remote_fmu = remote_fmu
         self.model_description = remote_fmu.model_description  # type: ModelDescription
 
-        self.fmu_id = None  # type: int
+        self.instance_id = None  # type: int
         if solver is None:
-            self.fmu_id = self.stub.CreateInstanceFromCS(Empty()).value
+            self.instance_id = self.stub.CreateInstanceFromCS(Empty()).value
         else:
-            self.fmu_id = self.stub.CreateInstanceFromME(solver).value
+            self.instance_id = self.stub.CreateInstanceFromME(solver).value
 
         self.current_time = self.get_simulation_time()  # type: float
 
     def get_simulation_time(self) -> float:
-        return self.stub.GetSimulationTime(uint(self.fmu_id)).value
+        return self.stub.GetSimulationTime(uint(self.instance_id)).value
 
     def init(self, start=0.0, stop=0.0) -> Status:
         request = InitRequest()
-        request.fmu_id = self.fmu_id
+        request.instance_id = self.instance_id
         request.start = start
         request.stop = stop
         return self.stub.Init(request).status
 
     def step(self, step_size) -> Status:
         request = StepRequest()
-        request.fmu_id = self.fmu_id
+        request.instance_id = self.instance_id
         request.step_size = step_size
         result = self.stub.Step(request)  # type: StepResult
         self.current_time = result.simulation_time
         return result.status
 
     def terminate(self) -> Status:
-        return self.stub.Terminate(uint(self.fmu_id)).status
+        return self.stub.Terminate(uint(self.instance_id)).status
 
     def reset(self) -> Status:
-        self.stub.Reset(uint(self.fmu_id))
+        self.stub.Reset(uint(self.instance_id))
 
     def get_reader(self, identifier) -> VariableReader:
         if isinstance(identifier, int):
-            return VariableReader(self.fmu_id, identifier, self.stub)
+            return VariableReader(self.instance_id, identifier, self.stub)
         elif isinstance(identifier, str):
             value_reference = self.remote_fmu.get_value_reference(identifier)
-            return VariableReader(self.fmu_id, value_reference, self.stub)
+            return VariableReader(self.instance_id, value_reference, self.stub)
         else:
             raise ValueError('not a valid identifier: ' + identifier)
 
     def get_writer(self, identifier) -> VariableWriter:
         if isinstance(identifier, int):
-            return VariableWriter(self.fmu_id, identifier)
+            return VariableWriter(self.instance_id, identifier)
         elif isinstance(identifier, str):
             value_reference = self.remote_fmu.get_value_reference(identifier)
-            return VariableWriter(self.fmu_id, value_reference)
+            return VariableWriter(self.instance_id, value_reference)
         else:
             raise ValueError('not a valid identifier: ' + identifier)
 

@@ -11,9 +11,4 @@ from thrift.protocol.TProtocol import TProtocolException
 from thrift.TRecursive import fix_spec
 
 import sys
-import definitions.ttypes
-
-from thrift.transport import TTransport
-all_structs = []
-fix_spec(all_structs)
-del all_structs
+from .ttypes import *

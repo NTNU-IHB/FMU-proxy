@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='definitions.proto',
   package='fmuproxy.grpc',
   syntax='proto3',
-  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\rfmuproxy.grpc\"\x9a\x04\n\x10ModelDescription\x12\x13\n\x0b\x66mi_version\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12 \n\x18generation_date_and_time\x18\n \x01(\t\x12<\n\x12\x64\x65\x66\x61ult_experiment\x18\x0b \x01(\x0b\x32 .fmuproxy.grpc.DefaultExperiment\x12K\n\x1avariable_naming_convention\x18\x0c \x01(\x0e\x32\'.fmuproxy.grpc.VariableNamingConvention\x12\x36\n\x0fmodel_variables\x18\r \x03(\x0b\x32\x1d.fmuproxy.grpc.ScalarVariable\x12\x36\n\x0fmodel_structure\x18\x0e \x01(\x0b\x32\x1d.fmuproxy.grpc.ModelStructure\x12\x1e\n\x16supports_co_simulation\x18\x0f \x01(\x08\x12\x1f\n\x17supports_model_exchange\x18\x10 \x01(\x08\";\n\x10IntegerAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\"8\n\rRealAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x01\x12\x0b\n\x03max\x18\x02 \x01(\x01\x12\r\n\x05start\x18\x03 \x01(\x01\" \n\x0fStringAttribute\x12\r\n\x05start\x18\x01 \x01(\t\"!\n\x10\x42ooleanAttribute\x12\r\n\x05start\x18\x01 \x01(\x08\"?\n\x14\x45numerationAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\"\xad\x04\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x15\n\rdeclared_type\x18\x04 \x01(\t\x12\'\n\x07initial\x18\x05 \x01(\x0e\x32\x16.fmuproxy.grpc.Initial\x12+\n\tcausality\x18\x06 \x01(\x0e\x32\x18.fmuproxy.grpc.Causality\x12/\n\x0bvariability\x18\x07 \x01(\x0e\x32\x1a.fmuproxy.grpc.Variability\x12<\n\x11integer_attribute\x18\n \x01(\x0b\x32\x1f.fmuproxy.grpc.IntegerAttributeH\x00\x12\x36\n\x0ereal_attribute\x18\x0b \x01(\x0b\x32\x1c.fmuproxy.grpc.RealAttributeH\x00\x12:\n\x10string_attribute\x18\x0c \x01(\x0b\x32\x1e.fmuproxy.grpc.StringAttributeH\x00\x12<\n\x11\x62oolean_attribute\x18\r \x01(\x0b\x32\x1f.fmuproxy.grpc.BooleanAttributeH\x00\x12\x44\n\x15\x65numeration_attribute\x18\x0e \x01(\x0b\x32#.fmuproxy.grpc.EnumerationAttributeH\x00\x42\x0b\n\tattribute\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"j\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12:\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\x0e\x32\x1f.fmuproxy.grpc.DependenciesKind\"\x98\x01\n\x0eModelStructure\x12\'\n\x07outputs\x18\x01 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12+\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12\x30\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\"7\n\x0eStatusResponse\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\":\n\x0bInitRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\"0\n\x0bStepRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"L\n\nStepResult\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\x12\x17\n\x0fsimulation_time\x18\x02 \x01(\x01\"\x15\n\x04UInt\x12\r\n\x05value\x18\x01 \x01(\r\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"C\n\x0bIntegerRead\x12\r\n\x05value\x18\x01 \x01(\x05\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"H\n\x0f\x42ulkIntegerRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"\x15\n\x04Real\x12\r\n\x05value\x18\x01 \x01(\x01\"@\n\x08RealRead\x12\r\n\x05value\x18\x01 \x01(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"E\n\x0c\x42ulkRealRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"\x14\n\x03Str\x12\r\n\x05value\x18\x01 \x01(\t\"B\n\nStringRead\x12\r\n\x05value\x18\x01 \x01(\t\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"G\n\x0e\x42ulkStringRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\"C\n\x0b\x42ooleanRead\x12\r\n\x05value\x18\x01 \x01(\x08\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"H\n\x0f\x42ulkBooleanRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"6\n\x0bReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\";\n\x0f\x42ulkReadRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\"M\n\x13WriteIntegerRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x05\"S\n\x17\x42ulkWriteIntegerRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x05\"J\n\x10WriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x01\"P\n\x14\x42ulkWriteRealRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x01\"L\n\x12WriteStringRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\t\"R\n\x16\x42ulkWriteStringRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\t\"M\n\x13WriteBooleanRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x17\n\x0fvalue_reference\x18\x02 \x01(\r\x12\r\n\x05value\x18\x03 \x01(\x08\"S\n\x17\x42ulkWriteBooleanRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x08\"(\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08settings\x18\x02 \x01(\t*\xa3\x01\n\tCausality\x12\x13\n\x0fINPUT_CAUSALITY\x10\x00\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x01\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x02\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x03\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x04\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x05*\x8d\x01\n\x0bVariability\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x00\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x01\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x02\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x03\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x04*H\n\x07Initial\x12\x11\n\rEXACT_INITIAL\x10\x00\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x01\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x02*w\n\x06Status\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05*^\n\x10\x44\x65pendenciesKind\x12\x12\n\x0e\x44\x45PENDENT_KIND\x10\x00\x12\x11\n\rCONSTANT_KIND\x10\x01\x12\x10\n\x0cTUNABLE_KIND\x10\x02\x12\x11\n\rDISCRETE_KIND\x10\x04*4\n\x18VariableNamingConvention\x12\x08\n\x04\x46LAT\x10\x00\x12\x0e\n\nSTRUCTURED\x10\x01\x42*\n!no.mechatronics.sfi.fmuproxy.grpcB\x05Protob\x06proto3')
+  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\rfmuproxy.grpc\"\x9a\x04\n\x10ModelDescription\x12\x13\n\x0b\x66mi_version\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12 \n\x18generation_date_and_time\x18\n \x01(\t\x12<\n\x12\x64\x65\x66\x61ult_experiment\x18\x0b \x01(\x0b\x32 .fmuproxy.grpc.DefaultExperiment\x12K\n\x1avariable_naming_convention\x18\x0c \x01(\x0e\x32\'.fmuproxy.grpc.VariableNamingConvention\x12\x36\n\x0fmodel_variables\x18\r \x03(\x0b\x32\x1d.fmuproxy.grpc.ScalarVariable\x12\x36\n\x0fmodel_structure\x18\x0e \x01(\x0b\x32\x1d.fmuproxy.grpc.ModelStructure\x12\x1e\n\x16supports_co_simulation\x18\x0f \x01(\x08\x12\x1f\n\x17supports_model_exchange\x18\x10 \x01(\x08\";\n\x10IntegerAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\"8\n\rRealAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x01\x12\x0b\n\x03max\x18\x02 \x01(\x01\x12\r\n\x05start\x18\x03 \x01(\x01\" \n\x0fStringAttribute\x12\r\n\x05start\x18\x01 \x01(\t\"!\n\x10\x42ooleanAttribute\x12\r\n\x05start\x18\x01 \x01(\x08\"?\n\x14\x45numerationAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\"\xad\x04\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x15\n\rdeclared_type\x18\x04 \x01(\t\x12\'\n\x07initial\x18\x05 \x01(\x0e\x32\x16.fmuproxy.grpc.Initial\x12+\n\tcausality\x18\x06 \x01(\x0e\x32\x18.fmuproxy.grpc.Causality\x12/\n\x0bvariability\x18\x07 \x01(\x0e\x32\x1a.fmuproxy.grpc.Variability\x12<\n\x11integer_attribute\x18\n \x01(\x0b\x32\x1f.fmuproxy.grpc.IntegerAttributeH\x00\x12\x36\n\x0ereal_attribute\x18\x0b \x01(\x0b\x32\x1c.fmuproxy.grpc.RealAttributeH\x00\x12:\n\x10string_attribute\x18\x0c \x01(\x0b\x32\x1e.fmuproxy.grpc.StringAttributeH\x00\x12<\n\x11\x62oolean_attribute\x18\r \x01(\x0b\x32\x1f.fmuproxy.grpc.BooleanAttributeH\x00\x12\x44\n\x15\x65numeration_attribute\x18\x0e \x01(\x0b\x32#.fmuproxy.grpc.EnumerationAttributeH\x00\x42\x0b\n\tattribute\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"j\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12:\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\x0e\x32\x1f.fmuproxy.grpc.DependenciesKind\"\x98\x01\n\x0eModelStructure\x12\'\n\x07outputs\x18\x01 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12+\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12\x30\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\"7\n\x0eStatusResponse\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"?\n\x0bInitRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\"5\n\x0bStepRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"L\n\nStepResult\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\x12\x17\n\x0fsimulation_time\x18\x02 \x01(\x01\"\x15\n\x04UInt\x12\r\n\x05value\x18\x01 \x01(\r\"\x14\n\x03Int\x12\r\n\x05value\x18\x01 \x01(\x05\"\x15\n\x04Real\x12\r\n\x05value\x18\x01 \x01(\x01\"\x14\n\x03Str\x12\r\n\x05value\x18\x01 \x01(\t\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\"D\n\x0bIntegerRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"A\n\x08RealRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"C\n\nStringRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"D\n\x0b\x42ooleanRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"<\n\x0bReadRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\"T\n\x13WriteIntegerRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x05\"Q\n\x10WriteRealRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x01\"S\n\x12WriteStringRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\t\"T\n\x13WriteBooleanRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\r\x12\x18\n\x10value_references\x18\x02 \x03(\r\x12\x0e\n\x06values\x18\x03 \x03(\x08\"(\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08settings\x18\x02 \x01(\t\"\x06\n\x04Void*\xa3\x01\n\tCausality\x12\x13\n\x0fINPUT_CAUSALITY\x10\x00\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x01\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x02\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x03\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x04\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x05*\x8d\x01\n\x0bVariability\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x00\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x01\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x02\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x03\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x04*H\n\x07Initial\x12\x11\n\rEXACT_INITIAL\x10\x00\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x01\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x02*w\n\x06Status\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05*^\n\x10\x44\x65pendenciesKind\x12\x12\n\x0e\x44\x45PENDENT_KIND\x10\x00\x12\x11\n\rCONSTANT_KIND\x10\x01\x12\x10\n\x0cTUNABLE_KIND\x10\x02\x12\x11\n\rDISCRETE_KIND\x10\x04*4\n\x18VariableNamingConvention\x12\x08\n\x04\x46LAT\x10\x00\x12\x0e\n\nSTRUCTURED\x10\x01\x42*\n!no.mechatronics.sfi.fmuproxy.grpcB\x05Protob\x06proto3')
 )
 
 _CAUSALITY = _descriptor.EnumDescriptor(
@@ -56,8 +56,8 @@ _CAUSALITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3481,
-  serialized_end=3644,
+  serialized_start=2848,
+  serialized_end=3011,
 )
 _sym_db.RegisterEnumDescriptor(_CAUSALITY)
 
@@ -91,8 +91,8 @@ _VARIABILITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3647,
-  serialized_end=3788,
+  serialized_start=3014,
+  serialized_end=3155,
 )
 _sym_db.RegisterEnumDescriptor(_VARIABILITY)
 
@@ -118,8 +118,8 @@ _INITIAL = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3790,
-  serialized_end=3862,
+  serialized_start=3157,
+  serialized_end=3229,
 )
 _sym_db.RegisterEnumDescriptor(_INITIAL)
 
@@ -157,8 +157,8 @@ _STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3864,
-  serialized_end=3983,
+  serialized_start=3231,
+  serialized_end=3350,
 )
 _sym_db.RegisterEnumDescriptor(_STATUS)
 
@@ -188,8 +188,8 @@ _DEPENDENCIESKIND = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=3985,
-  serialized_end=4079,
+  serialized_start=3352,
+  serialized_end=3446,
 )
 _sym_db.RegisterEnumDescriptor(_DEPENDENCIESKIND)
 
@@ -211,8 +211,8 @@ _VARIABLENAMINGCONVENTION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4081,
-  serialized_end=4133,
+  serialized_start=3448,
+  serialized_end=3500,
 )
 _sym_db.RegisterEnumDescriptor(_VARIABLENAMINGCONVENTION)
 
@@ -871,7 +871,7 @@ _INITREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.InitRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.InitRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -904,7 +904,7 @@ _INITREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1808,
-  serialized_end=1866,
+  serialized_end=1871,
 )
 
 
@@ -916,7 +916,7 @@ _STEPREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.StepRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.StepRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -941,8 +941,8 @@ _STEPREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1868,
-  serialized_end=1916,
+  serialized_start=1873,
+  serialized_end=1926,
 )
 
 
@@ -979,8 +979,8 @@ _STEPRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1918,
-  serialized_end=1994,
+  serialized_start=1928,
+  serialized_end=2004,
 )
 
 
@@ -1010,8 +1010,8 @@ _UINT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1996,
-  serialized_end=2017,
+  serialized_start=2006,
+  serialized_end=2027,
 )
 
 
@@ -1041,84 +1041,8 @@ _INT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2019,
-  serialized_end=2039,
-)
-
-
-_INTEGERREAD = _descriptor.Descriptor(
-  name='IntegerRead',
-  full_name='fmuproxy.grpc.IntegerRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.IntegerRead.value', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.IntegerRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2041,
-  serialized_end=2108,
-)
-
-
-_BULKINTEGERREAD = _descriptor.Descriptor(
-  name='BulkIntegerRead',
-  full_name='fmuproxy.grpc.BulkIntegerRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkIntegerRead.values', index=0,
-      number=1, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.BulkIntegerRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2110,
-  serialized_end=2182,
+  serialized_start=2029,
+  serialized_end=2049,
 )
 
 
@@ -1148,84 +1072,8 @@ _REAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2184,
-  serialized_end=2205,
-)
-
-
-_REALREAD = _descriptor.Descriptor(
-  name='RealRead',
-  full_name='fmuproxy.grpc.RealRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.RealRead.value', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.RealRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2207,
-  serialized_end=2271,
-)
-
-
-_BULKREALREAD = _descriptor.Descriptor(
-  name='BulkRealRead',
-  full_name='fmuproxy.grpc.BulkRealRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkRealRead.values', index=0,
-      number=1, type=1, cpp_type=5, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.BulkRealRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2273,
-  serialized_end=2342,
+  serialized_start=2051,
+  serialized_end=2072,
 )
 
 
@@ -1255,84 +1103,8 @@ _STR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2344,
-  serialized_end=2364,
-)
-
-
-_STRINGREAD = _descriptor.Descriptor(
-  name='StringRead',
-  full_name='fmuproxy.grpc.StringRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.StringRead.value', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.StringRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2366,
-  serialized_end=2432,
-)
-
-
-_BULKSTRINGREAD = _descriptor.Descriptor(
-  name='BulkStringRead',
-  full_name='fmuproxy.grpc.BulkStringRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkStringRead.values', index=0,
-      number=1, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.BulkStringRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2434,
-  serialized_end=2505,
+  serialized_start=2074,
+  serialized_end=2094,
 )
 
 
@@ -1362,8 +1134,122 @@ _BOOL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2507,
-  serialized_end=2528,
+  serialized_start=2096,
+  serialized_end=2117,
+)
+
+
+_INTEGERREAD = _descriptor.Descriptor(
+  name='IntegerRead',
+  full_name='fmuproxy.grpc.IntegerRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='fmuproxy.grpc.IntegerRead.values', index=0,
+      number=1, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='fmuproxy.grpc.IntegerRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2119,
+  serialized_end=2187,
+)
+
+
+_REALREAD = _descriptor.Descriptor(
+  name='RealRead',
+  full_name='fmuproxy.grpc.RealRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='fmuproxy.grpc.RealRead.values', index=0,
+      number=1, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='fmuproxy.grpc.RealRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2189,
+  serialized_end=2254,
+)
+
+
+_STRINGREAD = _descriptor.Descriptor(
+  name='StringRead',
+  full_name='fmuproxy.grpc.StringRead',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='values', full_name='fmuproxy.grpc.StringRead.values', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='fmuproxy.grpc.StringRead.status', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2256,
+  serialized_end=2323,
 )
 
 
@@ -1375,9 +1261,9 @@ _BOOLEANREAD = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.BooleanRead.value', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
+      name='values', full_name='fmuproxy.grpc.BooleanRead.values', index=0,
+      number=1, type=8, cpp_type=7, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -1400,46 +1286,8 @@ _BOOLEANREAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2530,
-  serialized_end=2597,
-)
-
-
-_BULKBOOLEANREAD = _descriptor.Descriptor(
-  name='BulkBooleanRead',
-  full_name='fmuproxy.grpc.BulkBooleanRead',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkBooleanRead.values', index=0,
-      number=1, type=8, cpp_type=7, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='status', full_name='fmuproxy.grpc.BulkBooleanRead.status', index=1,
-      number=2, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2599,
-  serialized_end=2671,
+  serialized_start=2325,
+  serialized_end=2393,
 )
 
 
@@ -1451,52 +1299,14 @@ _READREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.ReadRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.ReadRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value_reference', full_name='fmuproxy.grpc.ReadRequest.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2673,
-  serialized_end=2727,
-)
-
-
-_BULKREADREQUEST = _descriptor.Descriptor(
-  name='BulkReadRequest',
-  full_name='fmuproxy.grpc.BulkReadRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.BulkReadRequest.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='fmuproxy.grpc.BulkReadRequest.value_references', index=1,
+      name='value_references', full_name='fmuproxy.grpc.ReadRequest.value_references', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1514,8 +1324,8 @@ _BULKREADREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2729,
-  serialized_end=2788,
+  serialized_start=2395,
+  serialized_end=2455,
 )
 
 
@@ -1527,66 +1337,21 @@ _WRITEINTEGERREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.WriteIntegerRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.WriteIntegerRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value_reference', full_name='fmuproxy.grpc.WriteIntegerRequest.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.WriteIntegerRequest.value', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2790,
-  serialized_end=2867,
-)
-
-
-_BULKWRITEINTEGERREQUEST = _descriptor.Descriptor(
-  name='BulkWriteIntegerRequest',
-  full_name='fmuproxy.grpc.BulkWriteIntegerRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.BulkWriteIntegerRequest.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='fmuproxy.grpc.BulkWriteIntegerRequest.value_references', index=1,
+      name='value_references', full_name='fmuproxy.grpc.WriteIntegerRequest.value_references', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkWriteIntegerRequest.values', index=2,
+      name='values', full_name='fmuproxy.grpc.WriteIntegerRequest.values', index=2,
       number=3, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1604,8 +1369,8 @@ _BULKWRITEINTEGERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2869,
-  serialized_end=2952,
+  serialized_start=2457,
+  serialized_end=2541,
 )
 
 
@@ -1617,66 +1382,21 @@ _WRITEREALREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.WriteRealRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.WriteRealRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value_reference', full_name='fmuproxy.grpc.WriteRealRequest.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.WriteRealRequest.value', index=2,
-      number=3, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2954,
-  serialized_end=3028,
-)
-
-
-_BULKWRITEREALREQUEST = _descriptor.Descriptor(
-  name='BulkWriteRealRequest',
-  full_name='fmuproxy.grpc.BulkWriteRealRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.BulkWriteRealRequest.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='fmuproxy.grpc.BulkWriteRealRequest.value_references', index=1,
+      name='value_references', full_name='fmuproxy.grpc.WriteRealRequest.value_references', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkWriteRealRequest.values', index=2,
+      name='values', full_name='fmuproxy.grpc.WriteRealRequest.values', index=2,
       number=3, type=1, cpp_type=5, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1694,8 +1414,8 @@ _BULKWRITEREALREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3030,
-  serialized_end=3110,
+  serialized_start=2543,
+  serialized_end=2624,
 )
 
 
@@ -1707,66 +1427,21 @@ _WRITESTRINGREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.WriteStringRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.WriteStringRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value_reference', full_name='fmuproxy.grpc.WriteStringRequest.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.WriteStringRequest.value', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3112,
-  serialized_end=3188,
-)
-
-
-_BULKWRITESTRINGREQUEST = _descriptor.Descriptor(
-  name='BulkWriteStringRequest',
-  full_name='fmuproxy.grpc.BulkWriteStringRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.BulkWriteStringRequest.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='fmuproxy.grpc.BulkWriteStringRequest.value_references', index=1,
+      name='value_references', full_name='fmuproxy.grpc.WriteStringRequest.value_references', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkWriteStringRequest.values', index=2,
+      name='values', full_name='fmuproxy.grpc.WriteStringRequest.values', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1784,8 +1459,8 @@ _BULKWRITESTRINGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3190,
-  serialized_end=3272,
+  serialized_start=2626,
+  serialized_end=2709,
 )
 
 
@@ -1797,66 +1472,21 @@ _WRITEBOOLEANREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.WriteBooleanRequest.fmu_id', index=0,
+      name='instance_id', full_name='fmuproxy.grpc.WriteBooleanRequest.instance_id', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value_reference', full_name='fmuproxy.grpc.WriteBooleanRequest.value_reference', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='fmuproxy.grpc.WriteBooleanRequest.value', index=2,
-      number=3, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=3274,
-  serialized_end=3351,
-)
-
-
-_BULKWRITEBOOLEANREQUEST = _descriptor.Descriptor(
-  name='BulkWriteBooleanRequest',
-  full_name='fmuproxy.grpc.BulkWriteBooleanRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fmu_id', full_name='fmuproxy.grpc.BulkWriteBooleanRequest.fmu_id', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='value_references', full_name='fmuproxy.grpc.BulkWriteBooleanRequest.value_references', index=1,
+      name='value_references', full_name='fmuproxy.grpc.WriteBooleanRequest.value_references', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='values', full_name='fmuproxy.grpc.BulkWriteBooleanRequest.values', index=2,
+      name='values', full_name='fmuproxy.grpc.WriteBooleanRequest.values', index=2,
       number=3, type=8, cpp_type=7, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -1874,8 +1504,8 @@ _BULKWRITEBOOLEANREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3353,
-  serialized_end=3436,
+  serialized_start=2711,
+  serialized_end=2795,
 )
 
 
@@ -1912,8 +1542,32 @@ _SOLVER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3438,
-  serialized_end=3478,
+  serialized_start=2797,
+  serialized_end=2837,
+)
+
+
+_VOID = _descriptor.Descriptor(
+  name='Void',
+  full_name='fmuproxy.grpc.Void',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2839,
+  serialized_end=2845,
 )
 
 _MODELDESCRIPTION.fields_by_name['default_experiment'].message_type = _DEFAULTEXPERIMENT
@@ -1950,13 +1604,9 @@ _MODELSTRUCTURE.fields_by_name['initial_unknowns'].message_type = _UNKNOWN
 _STATUSRESPONSE.fields_by_name['status'].enum_type = _STATUS
 _STEPRESULT.fields_by_name['status'].enum_type = _STATUS
 _INTEGERREAD.fields_by_name['status'].enum_type = _STATUS
-_BULKINTEGERREAD.fields_by_name['status'].enum_type = _STATUS
 _REALREAD.fields_by_name['status'].enum_type = _STATUS
-_BULKREALREAD.fields_by_name['status'].enum_type = _STATUS
 _STRINGREAD.fields_by_name['status'].enum_type = _STATUS
-_BULKSTRINGREAD.fields_by_name['status'].enum_type = _STATUS
 _BOOLEANREAD.fields_by_name['status'].enum_type = _STATUS
-_BULKBOOLEANREAD.fields_by_name['status'].enum_type = _STATUS
 DESCRIPTOR.message_types_by_name['ModelDescription'] = _MODELDESCRIPTION
 DESCRIPTOR.message_types_by_name['IntegerAttribute'] = _INTEGERATTRIBUTE
 DESCRIPTOR.message_types_by_name['RealAttribute'] = _REALATTRIBUTE
@@ -1973,28 +1623,20 @@ DESCRIPTOR.message_types_by_name['StepRequest'] = _STEPREQUEST
 DESCRIPTOR.message_types_by_name['StepResult'] = _STEPRESULT
 DESCRIPTOR.message_types_by_name['UInt'] = _UINT
 DESCRIPTOR.message_types_by_name['Int'] = _INT
-DESCRIPTOR.message_types_by_name['IntegerRead'] = _INTEGERREAD
-DESCRIPTOR.message_types_by_name['BulkIntegerRead'] = _BULKINTEGERREAD
 DESCRIPTOR.message_types_by_name['Real'] = _REAL
-DESCRIPTOR.message_types_by_name['RealRead'] = _REALREAD
-DESCRIPTOR.message_types_by_name['BulkRealRead'] = _BULKREALREAD
 DESCRIPTOR.message_types_by_name['Str'] = _STR
-DESCRIPTOR.message_types_by_name['StringRead'] = _STRINGREAD
-DESCRIPTOR.message_types_by_name['BulkStringRead'] = _BULKSTRINGREAD
 DESCRIPTOR.message_types_by_name['Bool'] = _BOOL
+DESCRIPTOR.message_types_by_name['IntegerRead'] = _INTEGERREAD
+DESCRIPTOR.message_types_by_name['RealRead'] = _REALREAD
+DESCRIPTOR.message_types_by_name['StringRead'] = _STRINGREAD
 DESCRIPTOR.message_types_by_name['BooleanRead'] = _BOOLEANREAD
-DESCRIPTOR.message_types_by_name['BulkBooleanRead'] = _BULKBOOLEANREAD
 DESCRIPTOR.message_types_by_name['ReadRequest'] = _READREQUEST
-DESCRIPTOR.message_types_by_name['BulkReadRequest'] = _BULKREADREQUEST
 DESCRIPTOR.message_types_by_name['WriteIntegerRequest'] = _WRITEINTEGERREQUEST
-DESCRIPTOR.message_types_by_name['BulkWriteIntegerRequest'] = _BULKWRITEINTEGERREQUEST
 DESCRIPTOR.message_types_by_name['WriteRealRequest'] = _WRITEREALREQUEST
-DESCRIPTOR.message_types_by_name['BulkWriteRealRequest'] = _BULKWRITEREALREQUEST
 DESCRIPTOR.message_types_by_name['WriteStringRequest'] = _WRITESTRINGREQUEST
-DESCRIPTOR.message_types_by_name['BulkWriteStringRequest'] = _BULKWRITESTRINGREQUEST
 DESCRIPTOR.message_types_by_name['WriteBooleanRequest'] = _WRITEBOOLEANREQUEST
-DESCRIPTOR.message_types_by_name['BulkWriteBooleanRequest'] = _BULKWRITEBOOLEANREQUEST
 DESCRIPTOR.message_types_by_name['Solver'] = _SOLVER
+DESCRIPTOR.message_types_by_name['Void'] = _VOID
 DESCRIPTOR.enum_types_by_name['Causality'] = _CAUSALITY
 DESCRIPTOR.enum_types_by_name['Variability'] = _VARIABILITY
 DESCRIPTOR.enum_types_by_name['Initial'] = _INITIAL
@@ -2115,40 +1757,12 @@ Int = _reflection.GeneratedProtocolMessageType('Int', (_message.Message,), dict(
   ))
 _sym_db.RegisterMessage(Int)
 
-IntegerRead = _reflection.GeneratedProtocolMessageType('IntegerRead', (_message.Message,), dict(
-  DESCRIPTOR = _INTEGERREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.IntegerRead)
-  ))
-_sym_db.RegisterMessage(IntegerRead)
-
-BulkIntegerRead = _reflection.GeneratedProtocolMessageType('BulkIntegerRead', (_message.Message,), dict(
-  DESCRIPTOR = _BULKINTEGERREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkIntegerRead)
-  ))
-_sym_db.RegisterMessage(BulkIntegerRead)
-
 Real = _reflection.GeneratedProtocolMessageType('Real', (_message.Message,), dict(
   DESCRIPTOR = _REAL,
   __module__ = 'definitions_pb2'
   # @@protoc_insertion_point(class_scope:fmuproxy.grpc.Real)
   ))
 _sym_db.RegisterMessage(Real)
-
-RealRead = _reflection.GeneratedProtocolMessageType('RealRead', (_message.Message,), dict(
-  DESCRIPTOR = _REALREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.RealRead)
-  ))
-_sym_db.RegisterMessage(RealRead)
-
-BulkRealRead = _reflection.GeneratedProtocolMessageType('BulkRealRead', (_message.Message,), dict(
-  DESCRIPTOR = _BULKREALREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkRealRead)
-  ))
-_sym_db.RegisterMessage(BulkRealRead)
 
 Str = _reflection.GeneratedProtocolMessageType('Str', (_message.Message,), dict(
   DESCRIPTOR = _STR,
@@ -2157,26 +1771,33 @@ Str = _reflection.GeneratedProtocolMessageType('Str', (_message.Message,), dict(
   ))
 _sym_db.RegisterMessage(Str)
 
-StringRead = _reflection.GeneratedProtocolMessageType('StringRead', (_message.Message,), dict(
-  DESCRIPTOR = _STRINGREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.StringRead)
-  ))
-_sym_db.RegisterMessage(StringRead)
-
-BulkStringRead = _reflection.GeneratedProtocolMessageType('BulkStringRead', (_message.Message,), dict(
-  DESCRIPTOR = _BULKSTRINGREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkStringRead)
-  ))
-_sym_db.RegisterMessage(BulkStringRead)
-
 Bool = _reflection.GeneratedProtocolMessageType('Bool', (_message.Message,), dict(
   DESCRIPTOR = _BOOL,
   __module__ = 'definitions_pb2'
   # @@protoc_insertion_point(class_scope:fmuproxy.grpc.Bool)
   ))
 _sym_db.RegisterMessage(Bool)
+
+IntegerRead = _reflection.GeneratedProtocolMessageType('IntegerRead', (_message.Message,), dict(
+  DESCRIPTOR = _INTEGERREAD,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.IntegerRead)
+  ))
+_sym_db.RegisterMessage(IntegerRead)
+
+RealRead = _reflection.GeneratedProtocolMessageType('RealRead', (_message.Message,), dict(
+  DESCRIPTOR = _REALREAD,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.RealRead)
+  ))
+_sym_db.RegisterMessage(RealRead)
+
+StringRead = _reflection.GeneratedProtocolMessageType('StringRead', (_message.Message,), dict(
+  DESCRIPTOR = _STRINGREAD,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.StringRead)
+  ))
+_sym_db.RegisterMessage(StringRead)
 
 BooleanRead = _reflection.GeneratedProtocolMessageType('BooleanRead', (_message.Message,), dict(
   DESCRIPTOR = _BOOLEANREAD,
@@ -2185,26 +1806,12 @@ BooleanRead = _reflection.GeneratedProtocolMessageType('BooleanRead', (_message.
   ))
 _sym_db.RegisterMessage(BooleanRead)
 
-BulkBooleanRead = _reflection.GeneratedProtocolMessageType('BulkBooleanRead', (_message.Message,), dict(
-  DESCRIPTOR = _BULKBOOLEANREAD,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkBooleanRead)
-  ))
-_sym_db.RegisterMessage(BulkBooleanRead)
-
 ReadRequest = _reflection.GeneratedProtocolMessageType('ReadRequest', (_message.Message,), dict(
   DESCRIPTOR = _READREQUEST,
   __module__ = 'definitions_pb2'
   # @@protoc_insertion_point(class_scope:fmuproxy.grpc.ReadRequest)
   ))
 _sym_db.RegisterMessage(ReadRequest)
-
-BulkReadRequest = _reflection.GeneratedProtocolMessageType('BulkReadRequest', (_message.Message,), dict(
-  DESCRIPTOR = _BULKREADREQUEST,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkReadRequest)
-  ))
-_sym_db.RegisterMessage(BulkReadRequest)
 
 WriteIntegerRequest = _reflection.GeneratedProtocolMessageType('WriteIntegerRequest', (_message.Message,), dict(
   DESCRIPTOR = _WRITEINTEGERREQUEST,
@@ -2213,26 +1820,12 @@ WriteIntegerRequest = _reflection.GeneratedProtocolMessageType('WriteIntegerRequ
   ))
 _sym_db.RegisterMessage(WriteIntegerRequest)
 
-BulkWriteIntegerRequest = _reflection.GeneratedProtocolMessageType('BulkWriteIntegerRequest', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITEINTEGERREQUEST,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteIntegerRequest)
-  ))
-_sym_db.RegisterMessage(BulkWriteIntegerRequest)
-
 WriteRealRequest = _reflection.GeneratedProtocolMessageType('WriteRealRequest', (_message.Message,), dict(
   DESCRIPTOR = _WRITEREALREQUEST,
   __module__ = 'definitions_pb2'
   # @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteRealRequest)
   ))
 _sym_db.RegisterMessage(WriteRealRequest)
-
-BulkWriteRealRequest = _reflection.GeneratedProtocolMessageType('BulkWriteRealRequest', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITEREALREQUEST,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteRealRequest)
-  ))
-_sym_db.RegisterMessage(BulkWriteRealRequest)
 
 WriteStringRequest = _reflection.GeneratedProtocolMessageType('WriteStringRequest', (_message.Message,), dict(
   DESCRIPTOR = _WRITESTRINGREQUEST,
@@ -2241,13 +1834,6 @@ WriteStringRequest = _reflection.GeneratedProtocolMessageType('WriteStringReques
   ))
 _sym_db.RegisterMessage(WriteStringRequest)
 
-BulkWriteStringRequest = _reflection.GeneratedProtocolMessageType('BulkWriteStringRequest', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITESTRINGREQUEST,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteStringRequest)
-  ))
-_sym_db.RegisterMessage(BulkWriteStringRequest)
-
 WriteBooleanRequest = _reflection.GeneratedProtocolMessageType('WriteBooleanRequest', (_message.Message,), dict(
   DESCRIPTOR = _WRITEBOOLEANREQUEST,
   __module__ = 'definitions_pb2'
@@ -2255,19 +1841,19 @@ WriteBooleanRequest = _reflection.GeneratedProtocolMessageType('WriteBooleanRequ
   ))
 _sym_db.RegisterMessage(WriteBooleanRequest)
 
-BulkWriteBooleanRequest = _reflection.GeneratedProtocolMessageType('BulkWriteBooleanRequest', (_message.Message,), dict(
-  DESCRIPTOR = _BULKWRITEBOOLEANREQUEST,
-  __module__ = 'definitions_pb2'
-  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteBooleanRequest)
-  ))
-_sym_db.RegisterMessage(BulkWriteBooleanRequest)
-
 Solver = _reflection.GeneratedProtocolMessageType('Solver', (_message.Message,), dict(
   DESCRIPTOR = _SOLVER,
   __module__ = 'definitions_pb2'
   # @@protoc_insertion_point(class_scope:fmuproxy.grpc.Solver)
   ))
 _sym_db.RegisterMessage(Solver)
+
+Void = _reflection.GeneratedProtocolMessageType('Void', (_message.Message,), dict(
+  DESCRIPTOR = _VOID,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.Void)
+  ))
+_sym_db.RegisterMessage(Void)
 
 
 DESCRIPTOR.has_options = True

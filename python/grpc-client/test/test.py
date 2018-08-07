@@ -4,7 +4,7 @@ from client import RemoteFmu
 
 if __name__ == '__main__':
 
-    client = RemoteFmu("localhost", 9090)
+    client = RemoteFmu("localhost", 9080)
 
     step_size = 1.0/100
     stop = 10
@@ -24,8 +24,8 @@ if __name__ == '__main__':
             status = instance.step(step_size)
             if status != 0:
                 print("Error: t={}, FMU returned status {}".format(instance.current_time, status))
-                break
-            print("t={}, {}={}".format(instance.current_time, variable_name, reader.read_real().value))
+            else:
+                print("t={}, {}={}".format(instance.current_time, variable_name, reader.read_real().values[0]))
 
         end = time.time()
 
@@ -33,6 +33,4 @@ if __name__ == '__main__':
 
     status = instance.terminate()
     print("Terminated with success: {}".format(status))
-
-
 
