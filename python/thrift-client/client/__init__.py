@@ -35,16 +35,16 @@ class VariableWriter:
         self.value_reference = [value_reference]  # type: [int]
 
     def write_int(self, value: int) -> Status:
-        return self.client.writeInteger(self.instance_id, self.value_reference, value)
+        return self.client.writeInteger(self.instance_id, self.value_reference, [value])
 
     def write_real(self, value: float) -> Status:
-        return self.client.writeReal(self.instance_id, self.value_reference, value)
+        return self.client.writeReal(self.instance_id, self.value_reference, [value])
 
     def write_string(self, value: str) -> Status:
-        return self.client.writeString(self.instance_id, self.value_reference, value)
+        return self.client.writeString(self.instance_id, self.value_reference, [value])
 
     def write_boolean(self, value: bool) -> Status:
-        return self.client.writeBoolean(self.instance_id, self.value_reference, value)
+        return self.client.writeBoolean(self.instance_id, self.value_reference, [value])
 
 
 class RemoteFmuInstance:

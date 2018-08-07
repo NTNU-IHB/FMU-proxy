@@ -36,34 +36,34 @@ class VariableWriter:
     def __init__(self, instance_id, value_reference, stub: FmuServiceStub):
         self.stub = stub  # type: FmuServiceStub
         self.instance_id = instance_id  # type: int
-        self.value_references.append(value_reference)  # type: [int]
+        self.value_reference = value_reference  # type: int
 
     def write_int(self, value: int):
         request = WriteIntegerRequest()
         request.instance_id = self.instance_id
-        request.value_reference = self.value_reference
-        request.value = value
+        request.value_references.append(self.value_reference)
+        request.values.append(value)
         return self.stub.WriteInt(request)
 
     def write_real(self, value: float):
         request = WriteRealRequest()
         request.instance_id = self.instance_id
-        request.value_reference = self.value_reference
-        request.value = value
+        request.value_references.append(self.value_reference)
+        request.values.append(value)
         return self.stub.WriteReal(request)
 
     def write_string(self, value: str):
         request = WriteStringRequest()
         request.instance_id = self.instance_id
-        request.value_reference = self.value_reference
-        request.value = value
+        request.value_references.append(self.value_reference)
+        request.values.append(value)
         return self.stub.WriteString(request)
 
     def write_boolean(self, value: bool):
         request = WriteBooleanRequest()
         request.instance_id = self.instance_id
-        request.value_reference = self.value_reference
-        request.value = value
+        request.value_references.append(self.value_reference)
+        request.values.append(value)
         return self.stub.WriteBoolean(request)
 
 
