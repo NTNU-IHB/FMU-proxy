@@ -97,35 +97,20 @@ internal fun VariableNamingConvention.convert(): no.mechatronics.sfi.fmi4j.model
     }
 }
 
-internal fun IntegerRead.convert(): FmuIntegerRead {
-    return FmuIntegerRead(value, status.convert())
-}
-
-internal fun BulkIntegerRead.convert(): FmuIntegerArrayRead {
+internal fun IntegerRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(value.toIntArray(), status.convert())
 }
 
-internal fun RealRead.convert(): FmuRealRead {
-    return FmuRealRead(value, status.convert())
-}
-
-internal fun BulkRealRead.convert(): FmuRealArrayRead {
+internal fun RealRead.convert(): FmuRealArrayRead {
     return FmuRealArrayRead(value.toDoubleArray(), status.convert())
 }
 
-internal fun StringRead.convert(): FmuStringRead {
-    return FmuStringRead(value, status.convert())
-}
-
-internal fun BulkStringRead.convert(): FmuStringArrayRead {
+internal fun StringRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(value.toTypedArray(), status.convert())
 }
 
-internal fun BooleanRead.convert(): FmuBooleanRead {
-    return FmuBooleanRead(isValue, status.convert())
-}
 
-internal fun BulkBooleanRead.convert(): FmuBooleanArrayRead {
+internal fun BooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(value.toBooleanArray(), status.convert())
 }
 

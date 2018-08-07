@@ -92,42 +92,42 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun isTerminated(fmuId: Int): Boolean {
-        return getFmu(fmuId).isTerminated
+    fun isTerminated(instanceId: Int): Boolean {
+        return getFmu(instanceId).isTerminated
     }
 
     @RpcMethod
-    fun getSimulationTime(fmuId: Int): Double {
-        return getFmu(fmuId).currentTime
+    fun getSimulationTime(instanceId: Int): Double {
+        return getFmu(instanceId).currentTime
     }
 
     @RpcMethod
-    fun init(fmuId: Int): FmiStatus {
-        return getFmu(fmuId).let {
+    fun init(instanceId: Int): FmiStatus {
+        return getFmu(instanceId).let {
             it.init()
             it.lastStatus
         }
     }
 
     @RpcMethod
-    fun init(fmuId: Int, startTime: Double): FmiStatus {
-        return getFmu(fmuId).let {
+    fun init(instanceId: Int, startTime: Double): FmiStatus {
+        return getFmu(instanceId).let {
             it.init(startTime)
             it.lastStatus
         }
     }
 
     @RpcMethod
-    fun init(fmuId: Int, startTime: Double, stopTime: Double): FmiStatus {
-        return getFmu(fmuId).let {
+    fun init(instanceId: Int, startTime: Double, stopTime: Double): FmiStatus {
+        return getFmu(instanceId).let {
             it.init(startTime, stopTime)
             it.lastStatus
         }
     }
 
     @RpcMethod
-    fun step(fmuId: Int, stepSize: Double): StepResult {
-        return getFmu(fmuId).let {
+    fun step(instanceId: Int, stepSize: Double): StepResult {
+        return getFmu(instanceId).let {
             it.doStep(stepSize)
             StepResult(
                     simulationTime = it.currentTime,
@@ -137,99 +137,99 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun terminate(fmuId: Int): FmiStatus {
-        return getFmu(fmuId).let {
+    fun terminate(instanceId: Int): FmiStatus {
+        return getFmu(instanceId).let {
             it.terminate()
             it.lastStatus
         }
     }
 
     @RpcMethod
-    fun reset(fmuId: Int): FmiStatus {
-        return getFmu(fmuId).let {
+    fun reset(instanceId: Int): FmiStatus {
+        return getFmu(instanceId).let {
             it.reset()
             it.lastStatus
         }
     }
 
     @RpcMethod
-    fun readInteger(fmuId: Int, vr: ValueReference): FmuIntegerRead {
-        return getFmu(fmuId).variableAccessor.readInteger(vr)
+    fun readInteger(instanceId: Int, vr: ValueReference): FmuIntegerRead {
+        return getFmu(instanceId).variableAccessor.readInteger(vr)
     }
 
     @RpcMethod
-    fun bulkReadInteger(fmuId: Int, vr: ValueReferences): FmuIntegerArrayRead {
-        return getFmu(fmuId).variableAccessor.readInteger(vr)
+    fun bulkReadInteger(instanceId: Int, vr: ValueReferences): FmuIntegerArrayRead {
+        return getFmu(instanceId).variableAccessor.readInteger(vr)
     }
 
     @RpcMethod
-    fun readReal(fmuId: Int, vr: ValueReference): FmuRealRead {
-        return getFmu(fmuId).variableAccessor.readReal(vr)
+    fun readReal(instanceId: Int, vr: ValueReference): FmuRealRead {
+        return getFmu(instanceId).variableAccessor.readReal(vr)
     }
 
     @RpcMethod
-    fun bulkReadReal(fmuId: Int, vr: ValueReferences): FmuRealArrayRead {
-        return getFmu(fmuId).variableAccessor.readReal(vr)
+    fun bulkReadReal(instanceId: Int, vr: ValueReferences): FmuRealArrayRead {
+        return getFmu(instanceId).variableAccessor.readReal(vr)
     }
 
     @RpcMethod
-    fun readString(fmuId: Int, vr: ValueReference): FmuStringRead {
-        return getFmu(fmuId).variableAccessor.readString(vr)
+    fun readString(instanceId: Int, vr: ValueReference): FmuStringRead {
+        return getFmu(instanceId).variableAccessor.readString(vr)
     }
 
     @RpcMethod
-    fun bulkReadString(fmuId: Int, vr: ValueReferences): FmuStringArrayRead {
-        return getFmu(fmuId).variableAccessor.readString(vr)
+    fun bulkReadString(instanceId: Int, vr: ValueReferences): FmuStringArrayRead {
+        return getFmu(instanceId).variableAccessor.readString(vr)
     }
 
     @RpcMethod
-    fun readBoolean(fmuId: Int, vr: ValueReference): FmuBooleanRead {
-        return getFmu(fmuId).variableAccessor.readBoolean(vr)
+    fun readBoolean(instanceId: Int, vr: ValueReference): FmuBooleanRead {
+        return getFmu(instanceId).variableAccessor.readBoolean(vr)
     }
 
     @RpcMethod
-    fun bulkReadBoolean(fmuId: Int, vr: ValueReferences): FmuBooleanArrayRead {
-        return getFmu(fmuId).variableAccessor.readBoolean(vr)
+    fun bulkReadBoolean(instanceId: Int, vr: ValueReferences): FmuBooleanArrayRead {
+        return getFmu(instanceId).variableAccessor.readBoolean(vr)
     }
 
     @RpcMethod
-    fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeInteger(vr, value)
+    fun writeInteger(instanceId: Int, vr: ValueReference, value: Int): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeInteger(vr, value)
     }
 
     @RpcMethod
-    fun bulkWriteInteger(fmuId: Int, vr: ValueReferences, value: IntArray): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeInteger(vr, value)
+    fun bulkWriteInteger(instanceId: Int, vr: ValueReferences, value: IntArray): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeInteger(vr, value)
     }
 
     @RpcMethod
-    fun writeReal(fmuId: Int, vr: ValueReference, value: Double): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeReal(vr, value)
+    fun writeReal(instanceId: Int, vr: ValueReference, value: Double): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeReal(vr, value)
     }
 
     @RpcMethod
-    fun bulkWriteReal(fmuId: Int, vr: ValueReferences, value: DoubleArray): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeReal(vr, value)
+    fun bulkWriteReal(instanceId: Int, vr: ValueReferences, value: DoubleArray): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeReal(vr, value)
     }
 
     @RpcMethod
-    fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeString(vr, value)
+    fun writeString(instanceId: Int, vr: ValueReference, value: String): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeString(vr, value)
     }
 
     @RpcMethod
-    fun bulkWriteString(fmuId: Int, vr: ValueReferences, value: StringArray): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeString(vr, value)
+    fun bulkWriteString(instanceId: Int, vr: ValueReferences, value: StringArray): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeString(vr, value)
     }
 
     @RpcMethod
-    fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
+    fun writeBoolean(instanceId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 
     @RpcMethod
-    fun bulkWriteBoolean(fmuId: Int, vr: ValueReferences, value: BooleanArray): FmiStatus {
-        return getFmu(fmuId).variableAccessor.writeBoolean(vr, value)
+    fun bulkWriteBoolean(instanceId: Int, vr: ValueReferences, value: BooleanArray): FmiStatus {
+        return getFmu(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 
     private companion object {

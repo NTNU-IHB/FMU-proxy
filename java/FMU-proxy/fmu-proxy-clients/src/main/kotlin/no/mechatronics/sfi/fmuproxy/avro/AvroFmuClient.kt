@@ -48,94 +48,63 @@ class AvroFmuClient(
         service.modelDescriptionXml
     }
 
-    override fun getSimulationTime(fmuId: Int): Double {
-        return service.getSimulationTime(fmuId)
+    override fun getSimulationTime(instanceId: Int): Double {
+        return service.getSimulationTime(instanceId)
     }
 
-    override fun isTerminated(fmuId: Int): Boolean {
-        return service.isTerminated(fmuId)
+    override fun isTerminated(instanceId: Int): Boolean {
+        return service.isTerminated(instanceId)
     }
 
-    override fun init(fmuId: Int, start: Double, stop: Double): FmiStatus {
-        return service.init(fmuId, start, stop).convert()
+    override fun init(instanceId: Int, start: Double, stop: Double): FmiStatus {
+        return service.init(instanceId, start, stop).convert()
     }
 
-    override fun terminate(fmuId: Int): FmiStatus {
-        return service.terminate(fmuId).convert()
+    override fun terminate(instanceId: Int): FmiStatus {
+        return service.terminate(instanceId).convert()
     }
 
-    override fun step(fmuId: Int, stepSize: Double): Pair<Double, FmiStatus> {
-        return service.step(fmuId, stepSize).let {
+    override fun step(instanceId: Int, stepSize: Double): Pair<Double, FmiStatus> {
+        return service.step(instanceId, stepSize).let {
             it.simulationTime to it.status.convert()
         }
     }
 
-    override fun reset(fmuId: Int): FmiStatus {
-        return service.reset(fmuId).convert()
+    override fun reset(instanceId: Int): FmiStatus {
+        return service.reset(instanceId).convert()
+    }
+    
+    override fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead {
+        return service.readInteger(instanceId, vr).convert()
+    }
+    
+    override fun readReal(instanceId: Int, vr: List<ValueReference>): FmuRealArrayRead {
+        return service.readReal(instanceId, vr).convert()
+    }
+    
+    override fun readString(instanceId: Int, vr: List<ValueReference>): FmuStringArrayRead {
+        return service.readString(instanceId, vr).convert()
     }
 
-    override fun readInteger(fmuId: Int, vr: Int): FmuIntegerRead {
-        return service.readInteger(fmuId, vr).convert()
+    override fun readBoolean(instanceId: Int, vr: List<ValueReference>): FmuBooleanArrayRead {
+        return service.readBoolean(instanceId, vr).convert()
     }
 
-    override fun bulkReadInteger(fmuId: Int, vr: List<Int>): FmuIntegerArrayRead {
-        return service.bulkReadInteger(fmuId, vr).convert()
+    override fun writeInteger(instanceId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
+        return service.writeInteger(instanceId, vr, value).convert()
     }
 
-    override fun readReal(fmuId: Int, vr: Int): FmuRealRead {
-        return service.readReal(fmuId, vr).convert()
+    override fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+        return service.writeReal(instanceId, vr, value).convert()
     }
 
-    override fun bulkReadReal(fmuId: Int, vr: List<Int>): FmuRealArrayRead {
-        return service.bulkReadReal(fmuId, vr).convert()
+
+    override fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): FmiStatus {
+        return service.writeString(instanceId, vr, value).convert()
     }
 
-    override fun readString(fmuId: Int, vr: Int): FmuStringRead {
-        return service.readString(fmuId, vr).convert()
-    }
-
-    override fun bulkReadString(fmuId: Int, vr: List<Int>): FmuStringArrayRead {
-        return service.bulkReadString(fmuId, vr).convert()
-    }
-
-    override fun readBoolean(fmuId: Int, vr: Int): FmuBooleanRead {
-        return service.readBoolean(fmuId, vr).convert()
-    }
-
-    override fun bulkReadBoolean(fmuId: Int, vr: List<Int>): FmuBooleanArrayRead {
-        return service.bulkReadBoolean(fmuId, vr).convert()
-    }
-
-    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): FmiStatus {
-        return service.writeInteger(fmuId, vr, value).convert()
-    }
-
-    override fun bulkWriteInteger(fmuId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
-        return service.bulkWriteInteger(fmuId, vr, value).convert()
-    }
-
-    override fun writeReal(fmuId: Int, vr: ValueReference, value: Real): FmiStatus {
-        return service.writeReal(fmuId, vr, value).convert()
-    }
-
-    override fun bulkWriteReal(fmuId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
-        return service.bulkWriteReal(fmuId, vr, value).convert()
-    }
-
-    override fun writeString(fmuId: Int, vr: ValueReference, value: String): FmiStatus {
-        return service.writeString(fmuId, vr, value).convert()
-    }
-
-    override fun bulkWriteString(fmuId: Int, vr: List<Int>, value: List<String>): FmiStatus {
-        return service.bulkWriteString(fmuId, vr, value).convert()
-    }
-
-    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): FmiStatus {
-        return service.writeBoolean(fmuId, vr, value).convert()
-    }
-
-    override fun bulkWriteBoolean(fmuId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
-        return service.bulkWriteBoolean(fmuId, vr, value).convert()
+    override fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+        return service.writeBoolean(instanceId, vr, value).convert()
     }
 
     override fun createInstanceFromCS(): Int {

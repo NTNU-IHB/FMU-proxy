@@ -38,33 +38,27 @@ import org.slf4j.LoggerFactory
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        fmu: Fmu
+        private val fmu: Fmu
 ): FmuProxyServer {
+
+    private companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
+    }
 
     override var port: Int? = null
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
 
-    private val services: MutableList<GrpcFmuService>
-        = mutableListOf(GrpcFmuServiceImpl(fmu))
-
     val isRunning: Boolean
         get() = server != null
-
-    fun addService(service: GrpcFmuService) {
-        if (isRunning) {
-            error("Cannot add service while running!")
-        }
-        services.add(service)
-    }
 
     override fun start(port: Int) {
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
                 directExecutor()
-                services.forEach { addService(it) }
+               addService(GrpcFmuServiceImpl(fmu))
             }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")
@@ -75,7 +69,7 @@ class GrpcFmuServer(
 
     override fun stop() {
         if (isRunning) {
-            server!!.apply {
+            server?.apply {
                 shutdownNow()
                 awaitTermination()
             }
@@ -86,18 +80,6 @@ class GrpcFmuServer(
 
     override fun close() {
         stop()
-    }
-
-    /**
-     * Await termination on the main thread since the grpc library uses daemon
-     * threads.
-     */
-    fun blockUntilShutdown() {
-        server?.awaitTermination()
-    }
-
-    private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
     }
 
 }

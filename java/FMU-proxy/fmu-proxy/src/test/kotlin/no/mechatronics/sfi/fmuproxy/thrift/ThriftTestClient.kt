@@ -56,24 +56,24 @@ class ThriftTestClient(
         client.modelDescriptionXml
     }
 
-    fun getCurrentTime(fmuId: Int): Double {
-        return client.getSimulationTime(fmuId)
+    fun getCurrentTime(instanceId: Int): Double {
+        return client.getSimulationTime(instanceId)
     }
 
-    fun isTerminated(fmuId: Int): Boolean {
-        return client.isTerminated(fmuId)
+    fun isTerminated(instanceId: Int): Boolean {
+        return client.isTerminated(instanceId)
     }
 
-    fun init(fmuId: Int, start: Double, stop: Double): Status {
-        return client.init(fmuId, start, stop)
+    fun init(instanceId: Int, start: Double, stop: Double): Status {
+        return client.init(instanceId, start, stop)
     }
 
-    fun terminate(fmuId: Int): Status {
-        return client.terminate(fmuId)
+    fun terminate(instanceId: Int): Status {
+        return client.terminate(instanceId)
     }
 
-    fun step(fmuId: Int, stepSize: Double): Pair<Double, Status> {
-        return client.step(fmuId, stepSize).let {
+    fun step(instanceId: Int, stepSize: Double): Pair<Double, Status> {
+        return client.step(instanceId, stepSize).let {
             it.simulationTime to it.status
         }
     }
@@ -83,52 +83,45 @@ class ThriftTestClient(
         FmuInstances.terminateAll()
     }
 
-    protected fun readReal(fmuId: Int, vr: Int): RealRead {
-        return client.readReal(fmuId, vr)
+    private fun readReal(instanceId: Int, vr: List<ValueReference>): RealRead {
+        return client.readReal(instanceId, vr)
     }
 
     fun newInstance(solver: Solver? = null): FmuInstance {
-        val fmuId = if (solver == null) client.createInstanceFromCS() else client.createInstanceFromME(solver.thriftType())
-        return FmuInstance(fmuId).also {
+        val instanceId = if (solver == null) client.createInstanceFromCS() else client.createInstanceFromME(solver.thriftType())
+        return FmuInstance(instanceId).also {
             FmuInstances.add(it)
         }
     }
 
     inner class FmuInstance(
-            private val fmuId: Int
+            private val instanceId: Int
     ): Closeable {
 
        val isTerminated: Boolean
-            get() = isTerminated(fmuId)
-
-       val variableAccessor = this
-
-       var isInitialized = false
-            private set
+            get() = isTerminated(instanceId)
 
        var currentTime: Double = 0.0
 
         init {
-            currentTime = getCurrentTime(fmuId)
+            currentTime = getCurrentTime(instanceId)
         }
 
        fun init() = init(0.0)
        fun init(start: Double) = init(start, 0.0)
        fun init(start: Double, stop: Double) {
-            init(fmuId, start, stop).also {
-                isInitialized = true
-            }
+            init(instanceId, start, stop)
         }
 
        fun doStep(stepSize: Double): Boolean {
-            val stepResult = step(fmuId, stepSize)
+            val stepResult = step(instanceId, stepSize)
             currentTime = stepResult.first
             return stepResult.second == Status.OK_STATUS
         }
 
        fun terminate(): Boolean {
             return try {
-                terminate(fmuId) == Status.OK_STATUS
+                terminate(instanceId) == Status.OK_STATUS
             } finally {
                 FmuInstances.remove(this)
             }
@@ -137,8 +130,8 @@ class ThriftTestClient(
        override fun close() {
             terminate()
         }
-        
-       fun readReal(vr: ValueReference) = readReal(fmuId, vr)
+
+        fun readReal(vr: List<ValueReference>) = readReal(instanceId, vr)
 
     }
 

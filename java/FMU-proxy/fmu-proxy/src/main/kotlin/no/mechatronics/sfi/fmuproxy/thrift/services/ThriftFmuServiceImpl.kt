@@ -39,6 +39,10 @@ class ThriftFmuServiceImpl(
         private val fmu: Fmu
 ): FmuService.Iface {
 
+    private companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
+    }
+    
     override fun getModelDescriptionXml(): String {
         return fmu.modelDescriptionXml
     }
@@ -64,161 +68,107 @@ class ThriftFmuServiceImpl(
 
     }
 
-    override fun getSimulationTime(fmuId: Int): Double {
-        return Fmus.get(fmuId)?.let {
+    override fun getSimulationTime(instanceId: Int): Double {
+        return Fmus.get(instanceId)?.let {
             it.currentTime
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun isTerminated(fmuId: Int): Boolean {
-        return Fmus.get(fmuId)?.let {
+    override fun isTerminated(instanceId: Int): Boolean {
+        return Fmus.get(instanceId)?.let {
             it.isTerminated
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun canGetAndSetFMUstate(fmuId: Int): Boolean {
-        return Fmus.get(fmuId)?.let {
-            val md = it.modelDescription
-            when (md) {
-                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
-                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
-                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
-            }
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun init(fmuId: Int, startTime: Double, endTime: Double): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun init(instanceId: Int, startTime: Double, endTime: Double): Status {
+        return Fmus.get(instanceId)?.let {
             it.init()
             it.lastStatus.thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun step(fmuId: Int, vr: Double): StepResult {
-        return Fmus.get(fmuId)?.let {
+    override fun step(instanceId: Int, vr: Double): StepResult {
+        return Fmus.get(instanceId)?.let {
             it.doStep(vr)
             StepResult().apply {
                 simulationTime = it.currentTime
                 status = it.lastStatus.thriftType()
             }
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun terminate(fmuId: Int): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun terminate(instanceId: Int): Status {
+        return Fmus.get(instanceId)?.let {
             it.terminate()
             it.lastStatus.thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun reset(fmuId: Int): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun reset(instanceId: Int): Status {
+        return Fmus.get(instanceId)?.let {
             it.reset()
             it.lastStatus.thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun readInteger(fmuId: Int, vr: Int): IntegerRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readInteger(vr).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun readReal(fmuId: Int, vr: Int): RealRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readReal(vr).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun readString(fmuId: Int, vr: Int): StringRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readString(vr).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun readBoolean(fmuId: Int, vr: Int): BooleanRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readBoolean(vr).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun writeInteger(fmuId: Int, vr: Int, value: Int): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeInteger(vr, value).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun writeReal(fmuId: Int, vr: Int, value: Double): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeReal(vr, value).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun writeString(fmuId: Int, vr: Int, value: String): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeString(vr, value).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-
-    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeBoolean(vr, value).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
-    }
-
-    override fun bulkWriteReal(fmuId: Int, vr: List<ValueReference>, value: List<Double>): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Double>): Status {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.writeReal(vr.toIntArray(), value.toDoubleArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkReadBoolean(fmuId: Int, vr: List<ValueReference>): BulkBooleanRead {
-        return Fmus.get(fmuId)?.let {
+    override fun readBoolean(instanceId: Int, vr: List<ValueReference>): BooleanRead {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.readBoolean(vr.toIntArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkWriteString(fmuId: Int, vr: List<ValueReference>, value: List<String>): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): Status {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.writeString(vr.toIntArray(), value.toTypedArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkWriteInteger(fmuId: Int, vr: List<ValueReference>, value: List<Int>): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun writeInteger(instanceId: Int, vr: List<ValueReference>, value: List<Int>): Status {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.writeInteger(vr.toIntArray(), value.toIntArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkReadInteger(fmuId: Int, vr: List<ValueReference>): BulkIntegerRead {
-        return Fmus.get(fmuId)?.let {
+    override fun readInteger(instanceId: Int, vr: List<ValueReference>): IntegerRead {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.readInteger(vr.toIntArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkReadReal(fmuId: Int, vr: List<ValueReference>): BulkRealRead {
-        return Fmus.get(fmuId)?.let {
+    override fun readReal(instanceId: Int, vr: List<ValueReference>): RealRead {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.readReal(vr.toIntArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkReadString(fmuId: Int, vr: List<ValueReference>): BulkStringRead {
-        return Fmus.get(fmuId)?.let {
+    override fun readString(instanceId: Int, vr: List<ValueReference>): StringRead {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.readString(vr.toIntArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
 
-    override fun bulkWriteBoolean(fmuId: Int, vr: List<ValueReference>, value: List<Boolean>): Status {
-        return Fmus.get(fmuId)?.let {
+    override fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): Status {
+        return Fmus.get(instanceId)?.let {
             it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).thriftType()
-        } ?: throw NoSuchFmuException("No such FMU with id=$fmuId")
+        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
     }
-
-    private companion object {
-
-        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
-    }
-
+    
+//    override fun canGetAndSetFMUstate(instanceId: Int): Boolean {
+//        return Fmus.get(instanceId)?.let {
+//            val md = it.modelDescription
+//            when (md) {
+//                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
+//                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
+//                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
+//            }
+//        } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")
+//    }
+    
 }
 

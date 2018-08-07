@@ -26,8 +26,6 @@ package no.mechatronics.sfi.fmuproxy.avro.services
 
 import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.Fmus
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
@@ -38,6 +36,10 @@ import org.slf4j.LoggerFactory
 class AvroFmuServiceImpl(
         private val fmu: Fmu
 ): AvroFmuService {
+
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(AvroFmuServiceImpl::class.java)
+    }
 
     override fun getSimulationTime(fmuId: Int): Double {
         return Fmus.get(fmuId)?.let {
@@ -106,119 +108,67 @@ class AvroFmuServiceImpl(
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun canGetAndSetFMUstate(fmuId: Int): Boolean {
-        return Fmus.get(fmuId)?.let {
-            val md = it.modelDescription
-            when (md) {
-                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
-                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
-                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
-            }
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
     override fun getModelDescription(): ModelDescription {
         return fmu.modelDescription.avroType()
     }
 
-    override fun readInteger(fmuId: Int, vr: ValueReference): IntegerRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readInteger(vr).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun readReal(fmuId: Int, vr: ValueReference): RealRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readReal(vr).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun readString(fmuId: Int, vr: ValueReference): StringRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readString(vr).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun readBoolean(fmuId: Int, vr: ValueReference): BooleanRead {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.readBoolean(vr).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun writeInteger(fmuId: Int, vr: ValueReference, value: Int): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeInteger(vr, value).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun writeReal(fmuId: Int, vr: ValueReference, value: Double): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeReal(vr, value).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun writeString(fmuId: Int, vr: ValueReference, value: String): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeString(vr, value).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun writeBoolean(fmuId: Int, vr: ValueReference, value: Boolean): Status {
-        return Fmus.get(fmuId)?.let {
-            it.variableAccessor.writeBoolean(vr, value).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
-    }
-
-    override fun bulkReadInteger(fmuId: Int, vr: List<ValueReference>): BulkIntegerRead {
+    override fun readInteger(fmuId: Int, vr: List<ValueReference>): IntegerRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readInteger(vr.toIntArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadReal(fmuId: Int, vr: List<ValueReference>): BulkRealRead {
+    override fun readReal(fmuId: Int, vr: List<ValueReference>): RealRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readReal(vr.toIntArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadString(fmuId: Int, vr: List<ValueReference>): BulkStringRead {
+    override fun readString(fmuId: Int, vr: List<ValueReference>): StringRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readString(vr.toIntArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkReadBoolean(fmuId: Int, vr: List<ValueReference>): BulkBooleanRead {
+    override fun readBoolean(fmuId: Int, vr: List<ValueReference>): BooleanRead {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.readBoolean(vr.toIntArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteInteger(fmuId: Int, vr: List<ValueReference>, value: List<Int>): Status {
+    override fun writeInteger(fmuId: Int, vr: List<ValueReference>, value: List<Int>): Status {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.writeInteger(vr.toIntArray(), value.toIntArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteReal(fmuId: Int, vr: List<ValueReference>, value: List<Double>): Status {
+    override fun writeReal(fmuId: Int, vr: List<ValueReference>, value: List<Double>): Status {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.writeReal(vr.toIntArray(), value.toDoubleArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteString(fmuId: Int, vr: List<ValueReference>, value: List<String>): Status {
+    override fun writeString(fmuId: Int, vr: List<ValueReference>, value: List<String>): Status {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.writeString(vr.toIntArray(), value.toTypedArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    override fun bulkWriteBoolean(fmuId: Int, vr: List<ValueReference>, value: List<Boolean>): Status {
+    override fun writeBoolean(fmuId: Int, vr: List<ValueReference>, value: List<Boolean>): Status {
         return Fmus.get(fmuId)?.let {
             it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).avroType()
         } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
     }
 
-    private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(AvroFmuServiceImpl::class.java)
-    }
+    //    override fun canGetAndSetFMUstate(fmuId: Int): Boolean {
+//        return Fmus.get(fmuId)?.let {
+//            val md = it.modelDescription
+//            when (md) {
+//                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
+//                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
+//                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
+//            }
+//        } ?: throw NoSuchFmuException("No fmu with id=$fmuId")
+//    }
 
 }

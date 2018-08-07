@@ -37,29 +37,17 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.avro.*
 import no.mechatronics.sfi.fmuproxy.avro.ScalarVariable
 
-internal fun FmuIntegerRead.avroType()
-        = IntegerRead(value, status.avroType())
-
-internal fun FmuRealRead.avroType()
-        = RealRead(value, status.avroType())
-
-internal fun FmuStringRead.avroType()
-        = StringRead(value, status.avroType())
-
-internal fun FmuBooleanRead.avroType()
-        = BooleanRead(value, status.avroType())
-
 internal fun FmuIntegerArrayRead.avroType()
-        = BulkIntegerRead(value.toList(), status.avroType())
+        = IntegerRead(value.toList(), status.avroType())
 
 internal fun FmuRealArrayRead.avroType()
-        = BulkRealRead(value.toList(), status.avroType())
+        = RealRead(value.toList(), status.avroType())
 
 internal fun FmuStringArrayRead.avroType()
-        = BulkStringRead(value.toList(), status.avroType())
+        = StringRead(value.toList(), status.avroType())
 
 internal fun FmuBooleanArrayRead.avroType()
-        = BulkBooleanRead(value.toList(), status.avroType())
+        = BooleanRead(value.toList(), status.avroType())
 
 internal fun IntegerVariable.avroType(): no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.avro.IntegerAttribute().also { attribute ->

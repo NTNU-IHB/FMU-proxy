@@ -54,8 +54,8 @@ class BenchmarkControlledTemperature {
 
                        client.newInstance().use { instance ->
                            runInstance(instance, dt, stop) {
-                               val read = instance.readReal(46)
-                               Assertions.assertTrue(read.value > 0)
+                               val read = instance.readReal(listOf(46))
+                               Assertions.assertTrue(read.value[0] > 0)
                            }.also {
                                LOG.info("Thrift duration=${it}ms")
                            }
@@ -78,8 +78,8 @@ class BenchmarkControlledTemperature {
                ThriftTestClient("localhost", 9090).use { client ->
                    client.newInstance().use { instance ->
                        runInstance(instance, dt, stop) {
-                           val read = instance.readReal(46)
-                           Assertions.assertTrue(read.value > 0)
+                           val read = instance.readReal(listOf(46))
+                           Assertions.assertTrue(read.value[0] > 0)
                        }.also {
                            LOG.info("Thrift remote duration=${it}ms")
                        }

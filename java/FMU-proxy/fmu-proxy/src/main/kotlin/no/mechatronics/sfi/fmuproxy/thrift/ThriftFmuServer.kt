@@ -71,7 +71,7 @@ class ThriftFmuServer(
     }
 
     private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
     }
 
 }

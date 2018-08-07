@@ -116,35 +116,19 @@ internal fun Int.asProtoInt(): Proto.UInt {
             .build()
 }
 
-internal fun Proto.IntegerRead.convert(): FmuIntegerRead {
-    return FmuIntegerRead(value, status.convert())
-}
-
-internal fun Proto.BulkIntegerRead.convert(): FmuIntegerArrayRead {
+internal fun Proto.IntegerRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(valuesList.toIntArray(), status.convert())
 }
 
-internal fun Proto.RealRead.convert(): FmuRealRead {
-    return FmuRealRead(value, status.convert())
-}
-
-internal fun Proto.BulkRealRead.convert(): FmuRealArrayRead {
+internal fun Proto.RealRead.convert(): FmuRealArrayRead {
     return FmuRealArrayRead(valuesList.toDoubleArray(), status.convert())
 }
 
-internal fun Proto.StringRead.convert(): FmuStringRead {
-    return FmuStringRead(value, status.convert())
-}
-
-internal fun Proto.BulkStringRead.convert(): FmuStringArrayRead {
+internal fun Proto.StringRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(valuesList.toTypedArray(), status.convert())
 }
 
-internal fun Proto.BooleanRead.convert(): FmuBooleanRead {
-    return FmuBooleanRead(value, status.convert())
-}
-
-internal fun Proto.BulkBooleanRead.convert(): FmuBooleanArrayRead {
+internal fun Proto.BooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(valuesList.toBooleanArray(), status.convert())
 }
 

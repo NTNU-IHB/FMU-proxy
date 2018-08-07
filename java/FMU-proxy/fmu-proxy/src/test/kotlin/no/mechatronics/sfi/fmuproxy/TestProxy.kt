@@ -8,6 +8,7 @@ import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
+import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
@@ -36,7 +37,7 @@ class TestProxy {
         private const val stopTime: Double = 5.0
         private const val host = "localhost"
 
-//        private const val httpPort: Int = 8003
+        private const val httpPort: Int = 8003
         private const val wsPort: Int = 8004
         private const val tcpPort: Int = 8005
         private const val zmqPort: Int = 8006
@@ -62,10 +63,12 @@ class TestProxy {
             addServer(thriftServer)
             addServer(avroServer)
             RpcHandler(RpcFmuService(fmu)).also { handler ->
-//                addServer(FmuProxyJsonHttpServer(handler), httpPort)
                 addServer(FmuProxyJsonWsServer(handler), wsPort)
                 addServer(FmuProxyJsonTcpServer(handler), tcpPort)
                 addServer(FmuProxyJsonZmqServer(handler), zmqPort)
+                if (!OS.LINUX.isCurrentOs) {
+                    addServer(FmuProxyJsonHttpServer(handler), httpPort)
+                }
             }
 
         }.build()
@@ -83,7 +86,9 @@ class TestProxy {
 
     @Test
     fun testGetPort() {
-//        Assertions.assertEquals(httpPort, proxy.getPortFor<FmuProxyJsonHttpServer>())
+        if (!OS.LINUX.isCurrentOs) {
+            Assertions.assertEquals(httpPort, proxy.getPortFor<FmuProxyJsonHttpServer>())
+        }
         Assertions.assertEquals(wsPort, proxy.getPortFor<FmuProxyJsonWsServer>())
         Assertions.assertEquals(tcpPort, proxy.getPortFor<FmuProxyJsonTcpServer>())
         Assertions.assertEquals(zmqPort, proxy.getPortFor<FmuProxyJsonZmqServer>())
@@ -96,31 +101,31 @@ class TestProxy {
         Assertions.assertEquals(thriftServer, proxy.getServer<ThriftFmuServer>())
     }
 
-//    @Test
-//    fun testGrpc() {
-//
-//        proxy.getPortFor<GrpcFmuServer>()?.also { port ->
-//
-//            GrpcFmuClient(host, port).use { client ->
-//
-//                val mdLocal = fmu.modelDescription
-//                val mdRemote = client.modelDescription
-//
-//                Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-//                Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-//                Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
-//
-//                client.newInstance().use { instance ->
-//
-//                    runInstance(instance, stepSize, stopTime).also {
-//                        LOG.info("gRPC duration: ${it}ms")
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//    }
+    @Test
+    fun testGrpc() {
+
+        proxy.getPortFor<GrpcFmuServer>()?.also { port ->
+
+            GrpcFmuClient(host, port).use { client ->
+
+                val mdLocal = fmu.modelDescription
+                val mdRemote = client.modelDescription
+
+                Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
+                Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
+                Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
+
+                client.newInstance().use { instance ->
+
+                    runInstance(instance, stepSize, stopTime).also {
+                        LOG.info("gRPC duration: ${it}ms")
+                    }
+
+                }
+            }
+        }
+
+    }
 
     @Test
     fun testThrift() {

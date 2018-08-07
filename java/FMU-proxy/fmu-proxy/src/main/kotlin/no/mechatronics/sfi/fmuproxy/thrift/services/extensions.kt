@@ -37,29 +37,18 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.thrift.*
 import no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable
 
-internal fun FmuIntegerRead.thriftType()
-        = IntegerRead(value, status.thriftType())
-
-internal fun FmuRealRead.thriftType()
-        = RealRead(value, status.thriftType())
-
-internal fun FmuStringRead.thriftType()
-        = StringRead(value, status.thriftType())
-
-internal fun FmuBooleanRead.thriftType()
-        = BooleanRead(value, status.thriftType())
 
 internal fun FmuIntegerArrayRead.thriftType()
-        = BulkIntegerRead(value.toList(), status.thriftType())
+        = IntegerRead(value.toList(), status.thriftType())
 
 internal fun FmuRealArrayRead.thriftType()
-        = BulkRealRead(value.toList(), status.thriftType())
+        = RealRead(value.toList(), status.thriftType())
 
 internal fun FmuStringArrayRead.thriftType()
-        = BulkStringRead(value.toList(), status.thriftType())
+        = StringRead(value.toList(), status.thriftType())
 
 internal fun FmuBooleanArrayRead.thriftType()
-        = BulkBooleanRead(value.toList(), status.thriftType())
+        = BooleanRead(value.toList(), status.thriftType())
 
 internal fun IntegerVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute().also { attribute->
