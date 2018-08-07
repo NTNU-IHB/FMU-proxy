@@ -29,7 +29,6 @@
 using namespace std;
 using namespace grpc;
 using namespace fmuproxy::grpc;
-using namespace google::protobuf;
 using namespace fmuproxy::grpc::client;
 
 GrpcClient::GrpcClient(std::string host, unsigned int port) {
@@ -41,7 +40,7 @@ fmuproxy::fmi::ModelDescription &GrpcClient::get_model_description() {
     
     if(!m_modelDescription) {
         ClientContext ctx;
-        Empty empty;
+        Void empty;
         fmuproxy::grpc::ModelDescription md;
         m_stub->GetModelDescription(&ctx, empty, &md);
         m_modelDescription = std::make_shared<fmuproxy::fmi::ModelDescription>();
@@ -54,19 +53,19 @@ fmuproxy::fmi::ModelDescription &GrpcClient::get_model_description() {
 void GrpcClient::get_model_description_xml(std::string &_return) {
     Str response;
     ClientContext ctx;
-    Empty empty;
+    Void empty;
     ::grpc::Status status = m_stub->GetModelDescriptionXml(&ctx, empty, &response);
     _return = response.value();
 }
 
 unique_ptr<RemoteFmuInstance> GrpcClient::new_instance() {
-    UInt fmu_id;
+    UInt instance_id;
     ClientContext ctx;
-    Empty empty;
-    m_stub->CreateInstanceFromCS(&ctx, empty, &fmu_id);
-    return make_unique<RemoteFmuInstance>(fmu_id.value(), *m_stub, get_model_description());
+    Void empty;
+    m_stub->CreateInstanceFromCS(&ctx, empty, &instance_id);
+    return make_unique<RemoteFmuInstance>(instance_id.value(), *m_stub, get_model_description());
 }
 
 void GrpcClient::close() {
-    
+    //nothing to do?
 }

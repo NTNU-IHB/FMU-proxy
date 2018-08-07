@@ -35,7 +35,7 @@ namespace fmuproxy::thrift::server {
 
     private:
         fmi::Fmu& fmu;
-        std::map<FmuId, std::unique_ptr<fmi::FmuInstance>> fmus;
+        std::map<InstanceId, std::unique_ptr<fmi::FmuInstance>> instances;
 
     public:
         explicit FmuServiceHandler(fmi::Fmu &fmu);
@@ -44,55 +44,37 @@ namespace fmuproxy::thrift::server {
 
         void getModelDescription(ModelDescription &_return) override;
 
-        FmuId createInstanceFromCS() override;
+        InstanceId createInstanceFromCS() override;
 
-        FmuId createInstanceFromME(const Solver &solver) override;
+        InstanceId createInstanceFromME(const Solver &solver) override;
+        
+        double getSimulationTime(InstanceId instance_id) override;
 
-        bool canGetAndSetFMUstate(FmuId fmu_id) override;
+        bool isTerminated(InstanceId instance_id) override;
 
-        double getSimulationTime(FmuId fmu_id) override;
+        Status::type init(InstanceId instance_id, double start, double stop) override;
 
-        bool isTerminated(FmuId fmu_id) override;
+        void step(StepResult &_return, InstanceId instance_id, double step_size) override;
 
-        Status::type init(FmuId fmu_id, double start, double stop) override;
+        Status::type terminate(InstanceId instance_id) override;
 
-        void step(StepResult &_return, FmuId fmu_id, double step_size) override;
+        Status::type reset(InstanceId instance_id) override;
+        
+        void readInteger(IntegerRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
+        
+        void readReal(RealRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
+        
+        void readString(StringRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
+        
+        void readBoolean(BooleanRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
+        
+        Status::type writeInteger(InstanceId instance_id, const ValueReferences &vr, const IntArray &value) override;
+        
+        Status::type writeReal(InstanceId instance_id, const ValueReferences &vr, const RealArray &value) override;
 
-        Status::type terminate(FmuId fmu_id) override;
-
-        Status::type reset(FmuId fmu_id) override;
-
-        void readInteger(IntegerRead &_return, FmuId fmu_id, ValueReference vr) override;
-
-        void bulkReadInteger(BulkIntegerRead &_return, FmuId fmu_id, const ValueReferences &vr) override;
-
-        void readReal(RealRead &_return, FmuId fmu_id, ValueReference vr) override;
-
-        void bulkReadReal(BulkRealRead &_return, FmuId fmu_id, const ValueReferences &vr) override;
-
-        void readString(StringRead &_return, FmuId fmu_id, ValueReference vr) override;
-
-        void bulkReadString(BulkStringRead &_return, FmuId fmu_id, const ValueReferences &vr) override;
-
-        void readBoolean(BooleanRead &_return, FmuId fmu_id, ValueReference vr) override;
-
-        void bulkReadBoolean(BulkBooleanRead &_return, FmuId fmu_id, const ValueReferences &vr) override;
-
-        Status::type writeInteger(FmuId fmu_id, ValueReference vr, int32_t value) override;
-
-        Status::type bulkWriteInteger(FmuId fmu_id, const ValueReferences &vr, const IntArray &value) override;
-
-        Status::type writeReal(FmuId fmu_id, ValueReference vr, double value) override;
-
-        Status::type bulkWriteReal(FmuId fmu_id, const ValueReferences &vr, const RealArray &value) override;
-
-        Status::type writeString(FmuId fmu_id, ValueReference vr, const std::string &value) override;
-
-        Status::type bulkWriteString(FmuId fmu_id, const ValueReferences &vr, const StringArray &value) override;
-
-        Status::type writeBoolean(FmuId fmu_id, ValueReference vr, bool value) override;
-
-        Status::type bulkWriteBoolean(FmuId fmu_id, const ValueReferences &vr, const BooleanArray &value) override;
+        Status::type writeString(InstanceId instance_id, const ValueReferences &vr, const StringArray &value) override;
+        
+        Status::type writeBoolean(InstanceId instance_id, const ValueReferences &vr, const BooleanArray &value) override;
 
     };
 

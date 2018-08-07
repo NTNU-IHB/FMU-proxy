@@ -41,144 +41,110 @@ void FmuServiceHandler::getModelDescription(ModelDescription &_return) {
     thriftType(_return, fmu.get_model_description());
 }
 
-FmuId FmuServiceHandler::createInstanceFromCS() {
-    FmuId my_id = ID_GEN++;
-    fmus[my_id] = fmu.new_instance();
+InstanceId FmuServiceHandler::createInstanceFromCS() {
+    InstanceId my_id = ID_GEN++;
+    instances[my_id] = fmu.new_instance();
     cout << "Created new FMU instance with id=" << my_id << endl;
     return my_id;
 }
 
-FmuId FmuServiceHandler::createInstanceFromME(const Solver &solver) {
+InstanceId FmuServiceHandler::createInstanceFromME(const Solver &solver) {
     return 0;
 }
 
-bool FmuServiceHandler::canGetAndSetFMUstate(const FmuId fmu_id) {
-    return false;
-}
-
-double FmuServiceHandler::getSimulationTime(const FmuId fmu_id) {
-    auto& instance = fmus[fmu_id];
+double FmuServiceHandler::getSimulationTime(const InstanceId instance_id) {
+    auto& instance = instances[instance_id];
     return instance->getCurrentTime();
 }
 
-bool FmuServiceHandler::isTerminated(const FmuId fmu_id) {
-    auto& instance = fmus[fmu_id];
+bool FmuServiceHandler::isTerminated(const InstanceId instance_id) {
+    auto& instance = instances[instance_id];
     return instance->isTerminated();
 }
 
-Status::type FmuServiceHandler::init(const FmuId fmu_id, const double start, const double stop) {
-    auto& instance = fmus[fmu_id];
+Status::type FmuServiceHandler::init(const InstanceId instance_id, const double start, const double stop) {
+    auto& instance = instances[instance_id];
     instance->init(start, stop);
     return ::Status::OK_STATUS;
 }
 
-void FmuServiceHandler::step(StepResult &_return, const FmuId fmu_id, const double step_size) {
-    auto& instance = fmus[fmu_id];
+void FmuServiceHandler::step(StepResult &_return, const InstanceId instance_id, const double step_size) {
+    auto& instance = instances[instance_id];
     fmi2_status_t status = instance->step(step_size);
     _return.simulationTime = instance->getCurrentTime();
     _return.status = thriftType(status);
 }
 
-Status::type FmuServiceHandler::terminate(const FmuId fmu_id) {
-    auto& instance = fmus[fmu_id];
+Status::type FmuServiceHandler::terminate(const InstanceId instance_id) {
+    auto& instance = instances[instance_id];
     Status::type status = thriftType(instance->terminate());
-    fmus.erase(fmu_id);
+    instances.erase(instance_id);
     return status;
 }
 
-Status::type FmuServiceHandler::reset(const FmuId fmu_id) {
-    auto& instance = fmus[fmu_id];
+Status::type FmuServiceHandler::reset(const InstanceId instance_id) {
+    auto& instance = instances[instance_id];
     return thriftType(instance->reset());
 }
 
-void FmuServiceHandler::readInteger(IntegerRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    auto& instance = fmus[fmu_id];
-    fmi2_status_t status = instance->readInteger(vr, _return.value);
-    _return.status = thriftType(status);
-}
-
-void FmuServiceHandler::bulkReadInteger(BulkIntegerRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-    auto& instance = fmus[fmu_id];
+void FmuServiceHandler::readInteger(IntegerRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
+    auto& instance = instances[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_integer_t >(vr.size());
     _return.status = thriftType(instance->readInteger(_vr, _value));
     _return.value = _value;
 }
 
-void FmuServiceHandler::readReal(RealRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    auto& instance = fmus[fmu_id];
-    fmi2_status_t status = instance->readReal(vr, _return.value);
-    _return.status = thriftType(status);
-}
-
-void FmuServiceHandler::bulkReadReal(BulkRealRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-    auto& instance = fmus[fmu_id];
+void FmuServiceHandler::readReal(RealRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
+    auto& instance = instances[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_real_t >(vr.size());
     _return.status = thriftType(instance->readReal(_vr, _value));
     _return.value = _value;
 }
 
-void FmuServiceHandler::readString(StringRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    auto& instance = fmus[fmu_id];
-    fmi2_string_t str;
-    fmi2_status_t status = instance->readString(vr, str);
-    _return.status = thriftType(status);
-    _return.value = str;
-}
 
-void FmuServiceHandler::bulkReadString(BulkStringRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-    auto& instance = fmus[fmu_id];
+void FmuServiceHandler::readString(StringRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
+    auto& instance = instances[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_string_t>(vr.size());
     _return.status = thriftType(instance->readString(_vr, _value));
     _return.value = vector<string>(_value.begin(), _value.end());
 }
 
-void FmuServiceHandler::readBoolean(BooleanRead &_return, const FmuId fmu_id, const ValueReference vr) {
-    auto& instance = fmus[fmu_id];
-    fmi2_boolean_t value;
-    fmi2_status_t status = instance->readBoolean(vr, value);
-    _return.status = thriftType(status);
-    _return.value = value;
-}
-
-void FmuServiceHandler::bulkReadBoolean(BulkBooleanRead &_return, const FmuId fmu_id, const ValueReferences &vr) {
-    auto& instance = fmus[fmu_id];
+void FmuServiceHandler::readBoolean(BooleanRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
+    auto& instance = instances[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_boolean_t >(vr.size());
     _return.status = thriftType(instance->readBoolean(_vr, _value));
     _return.value = vector<bool>(_value.begin(), _value.end());
 }
 
-Status::type FmuServiceHandler::writeInteger(const FmuId fmu_id, const ValueReference vr, const int32_t value) {
+Status::type FmuServiceHandler::writeInteger(const InstanceId instance_id, const ValueReferences &vr, const IntArray &value) {
+    auto& instance = instances[instance_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    const auto status = instance->writeInteger(_vr, value);
+    return thriftType(status);
+}
+
+
+Status::type FmuServiceHandler::writeReal(const InstanceId instance_id, const ValueReferences &vr, const RealArray &value) {
+    auto& instance = instances[instance_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
+    const auto status = instance->writeReal(_vr, value);
+    return thriftType(status);
+}
+
+
+Status::type FmuServiceHandler::writeString(const InstanceId instance_id, const ValueReferences &vr, const StringArray &value) {
+    auto& instance = instances[instance_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     return Status::type::DISCARD_STATUS;
 }
 
-Status::type FmuServiceHandler::bulkWriteInteger(const FmuId fmu_id, const ValueReferences &vr, const IntArray &value) {
-    return Status::type::DISCARD_STATUS;
-}
 
-Status::type FmuServiceHandler::writeReal(const FmuId fmu_id, const ValueReference vr, const double value) {
-    return Status::type::DISCARD_STATUS;
-}
-
-Status::type FmuServiceHandler::bulkWriteReal(const FmuId fmu_id, const ValueReferences &vr, const RealArray &value) {
-    return Status::type::DISCARD_STATUS;
-}
-
-Status::type FmuServiceHandler::writeString(const FmuId fmu_id, const ValueReference vr, const std::string &value) {
-    return Status::type::DISCARD_STATUS;
-}
-
-Status::type FmuServiceHandler::bulkWriteString(const FmuId fmu_id, const ValueReferences &vr, const StringArray &value) {
-    return Status::type::DISCARD_STATUS;
-}
-
-Status::type FmuServiceHandler::writeBoolean(const FmuId fmu_id, const ValueReference vr, const bool value) {
-    return Status::type::DISCARD_STATUS;
-}
-
-Status::type FmuServiceHandler::bulkWriteBoolean(const FmuId fmu_id, const ValueReferences &vr, const BooleanArray &value) {
+Status::type FmuServiceHandler::writeBoolean(const InstanceId instance_id, const ValueReferences &vr, const BooleanArray &value) {
+    auto& instance = instances[instance_id];
+    const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     return Status::type::DISCARD_STATUS;
 }

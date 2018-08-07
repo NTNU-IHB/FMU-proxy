@@ -30,26 +30,25 @@ using namespace std;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::server;
 
-using google::protobuf::Empty;
 using grpc::ServerContext;
 
 FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : m_fmu(fmu) {}
 
-::grpc::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const Empty *request, Str *response) {
+::grpc::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const Void *request, Str *response) {
     response->set_value(m_fmu.get_model_description_xml());
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const Empty *request, ModelDescription *response) {
+::grpc::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const Void *request, ModelDescription *response) {
     grpcType(*response, m_fmu.get_model_description());
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::CreateInstanceFromCS(ServerContext *context, const Empty *request, UInt *response) {
-    int fmu_id = ID_GEN++;
-    fmus[fmu_id] = m_fmu.new_instance();
-    response->set_value(fmu_id);
-    cout << "Created new FMU instance with id=" << fmu_id << endl;
+::grpc::Status FmuServiceImpl::CreateInstanceFromCS(ServerContext *context, const Void *request, UInt *response) {
+    int instance_id = ID_GEN++;
+    instances[instance_id] = m_fmu.new_instance();
+    response->set_value(instance_id);
+    cout << "Created new FMU instance with id=" << instance_id << endl;
     return ::grpc::Status::OK;
 }
 
@@ -58,155 +57,107 @@ FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : m_fmu(fmu) {}
 }
 
 ::grpc::Status FmuServiceImpl::GetSimulationTime(ServerContext *context, const UInt *request, Real *response) {
-    auto& fmu = fmus[request->value()];
+    auto& fmu = instances[request->value()];
     response->set_value(fmu->getCurrentTime());
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::IsTerminated(ServerContext *context, const UInt *request, Bool *response) {
-    auto& fmu = fmus[request->value()];
+    auto& fmu = instances[request->value()];
     response->set_value(fmu->isTerminated());
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::CanGetAndSetFMUstate(ServerContext *context, const UInt *request, Bool *response) {
-    auto& fmu = fmus[request->value()];
-    response->set_value(false);
-    return ::grpc::Status::OK;
-}
-
 ::grpc::Status FmuServiceImpl::Init(ServerContext *context, const InitRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    fmu->init(request->start(), request->stop());
+    auto& instance = instances[request->instance_id()];
+    instance->init(request->start(), request->stop());
     response->set_status(Status::OK_STATUS);
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::Step(ServerContext *context, const StepRequest *request, StepResult *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    response->set_status(grpcType(fmu->step(request->step_size())));
-    response->set_simulation_time(fmu->getCurrentTime());
+    auto& instance = instances[request->instance_id()];
+    response->set_status(grpcType(instance->step(request->step_size())));
+    response->set_simulation_time(instance->getCurrentTime());
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::Terminate(ServerContext *context, const UInt *request, StatusResponse *response) {
-    int fmu_id = request->value();
-    auto& fmu = fmus[fmu_id];
+    int instance_id = request->value();
+    auto& fmu = instances[instance_id];
     response->set_status(grpcType(fmu->terminate()));
-    fmus.erase(fmu_id);
+    instances.erase(instance_id);
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::Reset(ServerContext *context, const UInt *request, StatusResponse *response) {
-    auto& fmu = fmus[request->value()];
-    response->set_status(grpcType(fmu->reset()));
+    auto& instance = instances[request->value()];
+    response->set_status(grpcType(instance->reset()));
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::ReadInteger(ServerContext *context, const ReadRequest *request, IntegerRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    int value;
-    response->set_status(grpcType(fmu->readInteger(request->value_reference(), value)));
-    response->set_value(value);
+    auto& instance = instances[request->instance_id()];
+    auto _vr = vector<fmi2_value_reference_t>(request->value_references().begin(), request->value_references().end());
+    auto read = vector<fmi2_integer_t >(_vr.size());
+    response->set_status(grpcType(instance->readInteger(_vr, read)));
+    auto values = response->mutable_values();
+    for (const auto value : read) {
+        values->Add(value);
+    }
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::ReadReal(ServerContext *context, const ReadRequest *request, RealRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    double value;
-    response->set_status(grpcType(fmu->readReal(request->value_reference(), value)));
-    response->set_value(value);
+    auto& instance = instances[request->instance_id()];
+    auto _vr = vector<fmi2_value_reference_t>(request->value_references().begin(), request->value_references().end());
+    auto read = vector<fmi2_real_t >(_vr.size());
+    response->set_status(grpcType(instance->readReal(_vr, read)));
+    auto values = response->mutable_values();
+    for (const auto value : read) {
+        values->Add(value);
+    }
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::ReadString(ServerContext *context, const ReadRequest *request, StringRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    const char* value;
-    response->set_status(grpcType(fmu->readString(request->value_reference(), value)));
-    response->set_value(value);
+    auto& instance = instances[request->instance_id()];
+    //TODO
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::ReadBoolean(ServerContext *context, const ReadRequest *request, BooleanRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    int value;
-    response->set_status(grpcType(fmu->readBoolean(request->value_reference(), value)));
-    response->set_value(value != 0);
+    auto& instance = instances[request->instance_id()];
+    //TODO
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::BulkReadInteger(ServerContext *context, const BulkReadRequest *request, BulkIntegerRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    auto _vr = vector<fmi2_value_reference_t>(request->value_references().begin(), request->value_references().end());
-    auto read = vector<fmi2_integer_t >(_vr.size());
-    response->set_status(grpcType(fmu->readInteger(_vr, read)));
-    auto values = response->mutable_values();
-    for (const auto value : read) {
-        values->Add(value);
-    }
-    return ::grpc::Status::OK;
-}
 
-::grpc::Status FmuServiceImpl::BulkReadReal(ServerContext *context, const BulkReadRequest *request, BulkRealRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    auto _vr = vector<fmi2_value_reference_t>(request->value_references().begin(), request->value_references().end());
-    auto read = vector<fmi2_real_t >(_vr.size());
-    response->set_status(grpcType(fmu->readReal(_vr, read)));
-    auto values = response->mutable_values();
-    for (const auto value : read) {
-        values->Add(value);
-    }
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::BulkReadString(ServerContext *context, const BulkReadRequest *request, BulkStringRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::BulkReadBoolean(ServerContext *context, const BulkReadRequest *request, BulkBooleanRead *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    return ::grpc::Status::OK;
-}
 
 ::grpc::Status FmuServiceImpl::WriteInteger(ServerContext *context, const WriteIntegerRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    response->set_status(grpcType(fmu->writeInteger(request->value_reference(), request->value())));
+    auto& instance = instances[request->instance_id()];
+    auto _vr = vector<fmi2_value_reference_t>(request->value_references().begin(), request->value_references().end());
+    auto _values = vector<fmi2_integer_t >(request->values().begin(), request->values().end());
+    response->set_status(grpcType(instance->writeInteger(_vr, _values)));
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::WriteReal(ServerContext *context, const WriteRealRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    response->set_status(grpcType(fmu->writeReal(request->value_reference(), request->value())));
+    auto& fmu = instances[request->instance_id()];
+    auto _vr = vector<fmi2_value_reference_t>(request->value_references().begin(), request->value_references().end());
+    auto _values = vector<fmi2_real_t >(request->values().begin(), request->values().end());
+    response->set_status(grpcType(fmu->writeReal(_vr, _values)));
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::WriteString(ServerContext *context, const WriteStringRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
+    auto& instance = instances[request->instance_id()];
+    //TODO
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::WriteBoolean(ServerContext *context, const WriteBooleanRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::BulkWriteInteger(ServerContext *context, const BulkWriteIntegerRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::BulkWriteReal(ServerContext *context, const BulkWriteRealRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::BulkWriteString(ServerContext *context, const BulkWriteStringRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::BulkWriteBoolean(ServerContext *context, const BulkWriteBooleanRequest *request, StatusResponse *response) {
-    auto& fmu = fmus[request->fmu_id()];
+    auto& instance = instances[request->instance_id()];
+    //TODO
     return ::grpc::Status::OK;
 }

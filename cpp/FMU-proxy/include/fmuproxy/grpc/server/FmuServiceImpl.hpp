@@ -39,22 +39,22 @@ namespace fmuproxy {
 
             private:
                 fmuproxy::fmi::Fmu &m_fmu;
-                std::map<int, std::unique_ptr<fmi::FmuInstance>> fmus;
+                std::map<int, std::unique_ptr<fmi::FmuInstance>> instances;
 
             public:
 
                 explicit FmuServiceImpl(fmuproxy::fmi::Fmu &fmu);
 
                 ::grpc::Status
-                GetModelDescriptionXml(::grpc::ServerContext *context, const ::google::protobuf::Empty *request,
+                GetModelDescriptionXml(::grpc::ServerContext *context, const ::fmuproxy::grpc::Void *request,
                                        ::fmuproxy::grpc::Str *response) override;
 
                 ::grpc::Status
-                GetModelDescription(::grpc::ServerContext *context, const ::google::protobuf::Empty *request,
+                GetModelDescription(::grpc::ServerContext *context, const ::fmuproxy::grpc::Void *request,
                                     ::fmuproxy::grpc::ModelDescription *response) override;
 
                 ::grpc::Status
-                CreateInstanceFromCS(::grpc::ServerContext *context, const ::google::protobuf::Empty *request,
+                CreateInstanceFromCS(::grpc::ServerContext *context, const ::fmuproxy::grpc::Void *request,
                                      ::fmuproxy::grpc::UInt *response) override;
 
                 ::grpc::Status
@@ -67,8 +67,6 @@ namespace fmuproxy {
                 ::grpc::Status IsTerminated(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
                                           ::fmuproxy::grpc::Bool *response) override;
 
-                ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
-                                                  ::fmuproxy::grpc::Bool *response) override;
 
                 ::grpc::Status Init(::grpc::ServerContext *context, const ::fmuproxy::grpc::InitRequest *request,
                                   ::fmuproxy::grpc::StatusResponse *response) override;
@@ -80,6 +78,8 @@ namespace fmuproxy {
 
                 ::grpc::Status Reset(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
                                    ::fmuproxy::grpc::StatusResponse *response) override;
+
+
 
                 ::grpc::Status ReadInteger(::grpc::ServerContext *context, const ::fmuproxy::grpc::ReadRequest *request,
                                          ::fmuproxy::grpc::IntegerRead *response) override;
@@ -93,21 +93,6 @@ namespace fmuproxy {
                 ::grpc::Status ReadBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::ReadRequest *request,
                                          ::fmuproxy::grpc::BooleanRead *response) override;
 
-                ::grpc::Status
-                BulkReadInteger(::grpc::ServerContext *context, const ::fmuproxy::grpc::BulkReadRequest *request,
-                                ::fmuproxy::grpc::BulkIntegerRead *response) override;
-
-                ::grpc::Status
-                BulkReadReal(::grpc::ServerContext *context, const ::fmuproxy::grpc::BulkReadRequest *request,
-                             ::fmuproxy::grpc::BulkRealRead *response) override;
-
-                ::grpc::Status
-                BulkReadString(::grpc::ServerContext *context, const ::fmuproxy::grpc::BulkReadRequest *request,
-                               ::fmuproxy::grpc::BulkStringRead *response) override;
-
-                ::grpc::Status
-                BulkReadBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::BulkReadRequest *request,
-                                ::fmuproxy::grpc::BulkBooleanRead *response) override;
 
                 ::grpc::Status
                 WriteInteger(::grpc::ServerContext *context, const ::fmuproxy::grpc::WriteIntegerRequest *request,
@@ -124,22 +109,6 @@ namespace fmuproxy {
                 ::grpc::Status
                 WriteBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::WriteBooleanRequest *request,
                              ::fmuproxy::grpc::StatusResponse *response) override;
-
-                ::grpc::Status BulkWriteInteger(::grpc::ServerContext *context,
-                                              const ::fmuproxy::grpc::BulkWriteIntegerRequest *request,
-                                              ::fmuproxy::grpc::StatusResponse *response) override;
-
-                ::grpc::Status
-                BulkWriteReal(::grpc::ServerContext *context, const ::fmuproxy::grpc::BulkWriteRealRequest *request,
-                              ::fmuproxy::grpc::StatusResponse *response) override;
-
-                ::grpc::Status
-                BulkWriteString(::grpc::ServerContext *context, const ::fmuproxy::grpc::BulkWriteStringRequest *request,
-                                ::fmuproxy::grpc::StatusResponse *response) override;
-
-                ::grpc::Status BulkWriteBoolean(::grpc::ServerContext *context,
-                                              const ::fmuproxy::grpc::BulkWriteBooleanRequest *request,
-                                              ::fmuproxy::grpc::StatusResponse *response) override;
 
 
             };

@@ -52,14 +52,6 @@ ModelDescription &FmuInstance::getModelDescription() const {
     return modelDescription;
 }
 
-void FmuInstance::init() {
-    return init(0.0);
-}
-
-void FmuInstance::init(double start) {
-    return init(start, 0.0);
-}
-
 void FmuInstance::init(double start, double stop) {
 
     fmi2_boolean_t stop_time_defined = start < stop;
@@ -105,9 +97,9 @@ fmi2_status_t FmuInstance::terminate() {
 }
 
 
-fmi2_status_t FmuInstance::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
-    return fmi2_import_get_integer(instance, &vr, 1, &ref);
-}
+//fmi2_status_t FmuInstance::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
+//    return fmi2_import_get_integer(instance, &vr, 1, &ref);
+//}
 
 fmi2_status_t FmuInstance::readInteger(const vector<fmi2_value_reference_t> &vr, vector<fmi2_integer_t> &ref) {
     if (vr.size() != ref.size()) {
@@ -117,17 +109,13 @@ fmi2_status_t FmuInstance::readInteger(const vector<fmi2_value_reference_t> &vr,
 }
 
 
-fmi2_status_t FmuInstance::readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) {
-    return fmi2_import_get_real(instance, &vr, 1, &ref);
-}
+//fmi2_status_t FmuInstance::readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) {
+//    return fmi2_import_get_real(instance, &vr, 1, &ref);
+//}
 
 fmi2_status_t FmuInstance::readReal(const vector<fmi2_value_reference_t> &vr, vector<fmi2_real_t> &ref) {
     checkSize(vr, ref);
     return fmi2_import_get_real(instance, vr.data(), vr.size(), ref.data());
-}
-
-fmi2_status_t FmuInstance::readString(const fmi2_value_reference_t vr, fmi2_string_t &ref) {
-    return fmi2_import_get_string(instance, &vr, 1, &ref);
 }
 
 fmi2_status_t FmuInstance::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) {
@@ -135,45 +123,41 @@ fmi2_status_t FmuInstance::readString(const std::vector<fmi2_value_reference_t> 
     return fmi2_import_get_string(instance, vr.data(), vr.size(), ref.data());
 }
 
-fmi2_status_t FmuInstance::readBoolean(const fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
-    return fmi2_import_get_boolean(instance, &vr, 1, &ref);
-}
-
 fmi2_status_t FmuInstance::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {
     checkSize(vr, ref);
     return fmi2_import_get_boolean(instance, vr.data(), vr.size(), ref.data());
 }
 
-fmi2_status_t FmuInstance::writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) {
-    return fmi2_import_set_integer(instance, &vr, 1, &value);
-}
+//fmi2_status_t FmuInstance::writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) {
+//    return fmi2_import_set_integer(instance, &vr, 1, &value);
+//}
 
 fmi2_status_t FmuInstance::writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_integer(instance, vr.data(), vr.size(), value.data());
 }
 
-fmi2_status_t FmuInstance::writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) {
-    return fmi2_import_set_real(instance, &vr, 1, &value);
-}
+//fmi2_status_t FmuInstance::writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) {
+//    return fmi2_import_set_real(instance, &vr, 1, &value);
+//}
 
 fmi2_status_t FmuInstance::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_real(instance, vr.data(), vr.size(), value.data());
 }
 
-fmi2_status_t FmuInstance::writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) {
-    return fmi2_import_set_string(instance, &vr, 1, &value);
-}
+//fmi2_status_t FmuInstance::writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) {
+//    return fmi2_import_set_string(instance, &vr, 1, &value);
+//}
 
 fmi2_status_t FmuInstance::writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_string(instance, vr.data(), vr.size(), value.data());
 }
 
-fmi2_status_t FmuInstance::writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) {
-    return fmi2_import_set_boolean(instance, &vr, 1, &value);
-}
+//fmi2_status_t FmuInstance::writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) {
+//    return fmi2_import_set_boolean(instance, &vr, 1, &value);
+//}
 
 fmi2_status_t FmuInstance::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {
     checkSize(vr, value);

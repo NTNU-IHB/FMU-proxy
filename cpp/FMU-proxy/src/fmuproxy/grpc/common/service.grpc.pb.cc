@@ -5,8 +5,14 @@
 #include <fmuproxy/grpc/common/service.pb.h>
 #include <fmuproxy/grpc/common/service.grpc.pb.h>
 
+#include <grpcpp/impl/codegen/async_stream.h>
+#include <grpcpp/impl/codegen/async_unary_call.h>
+#include <grpcpp/impl/codegen/channel_interface.h>
 #include <grpcpp/impl/codegen/client_unary_call.h>
-
+#include <grpcpp/impl/codegen/method_handler_impl.h>
+#include <grpcpp/impl/codegen/rpc_service_method.h>
+#include <grpcpp/impl/codegen/service_type.h>
+#include <grpcpp/impl/codegen/sync_stream.h>
 namespace fmuproxy {
 namespace grpc {
 
@@ -17,7 +23,6 @@ static const char* FmuService_method_names[] = {
   "/fmuproxy.grpc.FmuService/CreateInstanceFromME",
   "/fmuproxy.grpc.FmuService/GetSimulationTime",
   "/fmuproxy.grpc.FmuService/IsTerminated",
-  "/fmuproxy.grpc.FmuService/CanGetAndSetFMUstate",
   "/fmuproxy.grpc.FmuService/Init",
   "/fmuproxy.grpc.FmuService/Step",
   "/fmuproxy.grpc.FmuService/Terminate",
@@ -26,18 +31,10 @@ static const char* FmuService_method_names[] = {
   "/fmuproxy.grpc.FmuService/ReadReal",
   "/fmuproxy.grpc.FmuService/ReadString",
   "/fmuproxy.grpc.FmuService/ReadBoolean",
-  "/fmuproxy.grpc.FmuService/BulkReadInteger",
-  "/fmuproxy.grpc.FmuService/BulkReadReal",
-  "/fmuproxy.grpc.FmuService/BulkReadString",
-  "/fmuproxy.grpc.FmuService/BulkReadBoolean",
   "/fmuproxy.grpc.FmuService/WriteInteger",
   "/fmuproxy.grpc.FmuService/WriteReal",
   "/fmuproxy.grpc.FmuService/WriteString",
   "/fmuproxy.grpc.FmuService/WriteBoolean",
-  "/fmuproxy.grpc.FmuService/BulkWriteInteger",
-  "/fmuproxy.grpc.FmuService/BulkWriteReal",
-  "/fmuproxy.grpc.FmuService/BulkWriteString",
-  "/fmuproxy.grpc.FmuService/BulkWriteBoolean",
 };
 
 std::unique_ptr< FmuService::Stub> FmuService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -53,62 +50,53 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   , rpcmethod_CreateInstanceFromME_(FmuService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GetSimulationTime_(FmuService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_IsTerminated_(FmuService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CanGetAndSetFMUstate_(FmuService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Init_(FmuService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Step_(FmuService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Terminate_(FmuService_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Reset_(FmuService_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadInteger_(FmuService_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadReal_(FmuService_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadString_(FmuService_method_names[13], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadBoolean_(FmuService_method_names[14], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkReadInteger_(FmuService_method_names[15], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkReadReal_(FmuService_method_names[16], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkReadString_(FmuService_method_names[17], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkReadBoolean_(FmuService_method_names[18], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteInteger_(FmuService_method_names[19], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteReal_(FmuService_method_names[20], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteString_(FmuService_method_names[21], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteBoolean_(FmuService_method_names[22], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkWriteInteger_(FmuService_method_names[23], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkWriteReal_(FmuService_method_names[24], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkWriteString_(FmuService_method_names[25], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_BulkWriteBoolean_(FmuService_method_names[26], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Init_(FmuService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Step_(FmuService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Terminate_(FmuService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Reset_(FmuService_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadInteger_(FmuService_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadReal_(FmuService_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadString_(FmuService_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadBoolean_(FmuService_method_names[13], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteInteger_(FmuService_method_names[14], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteReal_(FmuService_method_names[15], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteString_(FmuService_method_names[16], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteBoolean_(FmuService_method_names[17], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status FmuService::Stub::GetModelDescriptionXml(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::fmuproxy::grpc::Str* response) {
+::grpc::Status FmuService::Stub::GetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::fmuproxy::grpc::Str* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetModelDescriptionXml_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Str>* FmuService::Stub::AsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Str>* FmuService::Stub::AsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::Str>::Create(channel_.get(), cq, rpcmethod_GetModelDescriptionXml_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Str>* FmuService::Stub::PrepareAsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Str>* FmuService::Stub::PrepareAsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::Str>::Create(channel_.get(), cq, rpcmethod_GetModelDescriptionXml_, context, request, false);
 }
 
-::grpc::Status FmuService::Stub::GetModelDescription(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::fmuproxy::grpc::ModelDescription* response) {
+::grpc::Status FmuService::Stub::GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::fmuproxy::grpc::ModelDescription* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetModelDescription_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>* FmuService::Stub::AsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>* FmuService::Stub::AsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::ModelDescription>::Create(channel_.get(), cq, rpcmethod_GetModelDescription_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>* FmuService::Stub::PrepareAsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>* FmuService::Stub::PrepareAsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::ModelDescription>::Create(channel_.get(), cq, rpcmethod_GetModelDescription_, context, request, false);
 }
 
-::grpc::Status FmuService::Stub::CreateInstanceFromCS(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::fmuproxy::grpc::UInt* response) {
+::grpc::Status FmuService::Stub::CreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::fmuproxy::grpc::UInt* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_CreateInstanceFromCS_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* FmuService::Stub::AsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* FmuService::Stub::AsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::UInt>::Create(channel_.get(), cq, rpcmethod_CreateInstanceFromCS_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* FmuService::Stub::PrepareAsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::UInt>* FmuService::Stub::PrepareAsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Void& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::UInt>::Create(channel_.get(), cq, rpcmethod_CreateInstanceFromCS_, context, request, false);
 }
 
@@ -146,18 +134,6 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
 
 ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* FmuService::Stub::PrepareAsyncIsTerminatedRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::Bool>::Create(channel_.get(), cq, rpcmethod_IsTerminated_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::CanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::fmuproxy::grpc::Bool* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_CanGetAndSetFMUstate_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* FmuService::Stub::AsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::Bool>::Create(channel_.get(), cq, rpcmethod_CanGetAndSetFMUstate_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* FmuService::Stub::PrepareAsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::UInt& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::Bool>::Create(channel_.get(), cq, rpcmethod_CanGetAndSetFMUstate_, context, request, false);
 }
 
 ::grpc::Status FmuService::Stub::Init(::grpc::ClientContext* context, const ::fmuproxy::grpc::InitRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
@@ -256,54 +232,6 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BooleanRead>::Create(channel_.get(), cq, rpcmethod_ReadBoolean_, context, request, false);
 }
 
-::grpc::Status FmuService::Stub::BulkReadInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::fmuproxy::grpc::BulkIntegerRead* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkReadInteger_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkIntegerRead>* FmuService::Stub::AsyncBulkReadIntegerRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkIntegerRead>::Create(channel_.get(), cq, rpcmethod_BulkReadInteger_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkIntegerRead>* FmuService::Stub::PrepareAsyncBulkReadIntegerRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkIntegerRead>::Create(channel_.get(), cq, rpcmethod_BulkReadInteger_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::BulkReadReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::fmuproxy::grpc::BulkRealRead* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkReadReal_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkRealRead>* FmuService::Stub::AsyncBulkReadRealRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkRealRead>::Create(channel_.get(), cq, rpcmethod_BulkReadReal_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkRealRead>* FmuService::Stub::PrepareAsyncBulkReadRealRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkRealRead>::Create(channel_.get(), cq, rpcmethod_BulkReadReal_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::BulkReadString(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::fmuproxy::grpc::BulkStringRead* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkReadString_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkStringRead>* FmuService::Stub::AsyncBulkReadStringRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkStringRead>::Create(channel_.get(), cq, rpcmethod_BulkReadString_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkStringRead>* FmuService::Stub::PrepareAsyncBulkReadStringRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkStringRead>::Create(channel_.get(), cq, rpcmethod_BulkReadString_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::BulkReadBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::fmuproxy::grpc::BulkBooleanRead* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkReadBoolean_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkBooleanRead>* FmuService::Stub::AsyncBulkReadBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkBooleanRead>::Create(channel_.get(), cq, rpcmethod_BulkReadBoolean_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::BulkBooleanRead>* FmuService::Stub::PrepareAsyncBulkReadBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkReadRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::BulkBooleanRead>::Create(channel_.get(), cq, rpcmethod_BulkReadBoolean_, context, request, false);
-}
-
 ::grpc::Status FmuService::Stub::WriteInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteIntegerRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_WriteInteger_, context, request, response);
 }
@@ -352,69 +280,21 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_WriteBoolean_, context, request, false);
 }
 
-::grpc::Status FmuService::Stub::BulkWriteInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteIntegerRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkWriteInteger_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::AsyncBulkWriteIntegerRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteIntegerRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteInteger_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::PrepareAsyncBulkWriteIntegerRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteIntegerRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteInteger_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::BulkWriteReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteRealRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkWriteReal_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::AsyncBulkWriteRealRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteRealRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteReal_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::PrepareAsyncBulkWriteRealRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteRealRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteReal_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::BulkWriteString(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteStringRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkWriteString_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::AsyncBulkWriteStringRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteStringRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteString_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::PrepareAsyncBulkWriteStringRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteStringRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteString_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::BulkWriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteBooleanRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BulkWriteBoolean_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::AsyncBulkWriteBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteBooleanRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteBoolean_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::PrepareAsyncBulkWriteBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::BulkWriteBooleanRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_BulkWriteBoolean_, context, request, false);
-}
-
 FmuService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::google::protobuf::Empty, ::fmuproxy::grpc::Str>(
+      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::Void, ::fmuproxy::grpc::Str>(
           std::mem_fn(&FmuService::Service::GetModelDescriptionXml), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::google::protobuf::Empty, ::fmuproxy::grpc::ModelDescription>(
+      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::Void, ::fmuproxy::grpc::ModelDescription>(
           std::mem_fn(&FmuService::Service::GetModelDescription), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::google::protobuf::Empty, ::fmuproxy::grpc::UInt>(
+      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::Void, ::fmuproxy::grpc::UInt>(
           std::mem_fn(&FmuService::Service::CreateInstanceFromCS), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[3],
@@ -434,128 +314,83 @@ FmuService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::UInt, ::fmuproxy::grpc::Bool>(
-          std::mem_fn(&FmuService::Service::CanGetAndSetFMUstate), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[7],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::InitRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::Init), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[8],
+      FmuService_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResult>(
           std::mem_fn(&FmuService::Service::Step), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[9],
+      FmuService_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::UInt, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::Terminate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[10],
+      FmuService_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::UInt, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::Reset), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[11],
+      FmuService_method_names[10],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>(
           std::mem_fn(&FmuService::Service::ReadInteger), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[12],
+      FmuService_method_names[11],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>(
           std::mem_fn(&FmuService::Service::ReadReal), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[13],
+      FmuService_method_names[12],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>(
           std::mem_fn(&FmuService::Service::ReadString), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[14],
+      FmuService_method_names[13],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>(
           std::mem_fn(&FmuService::Service::ReadBoolean), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[15],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkReadRequest, ::fmuproxy::grpc::BulkIntegerRead>(
-          std::mem_fn(&FmuService::Service::BulkReadInteger), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[16],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkReadRequest, ::fmuproxy::grpc::BulkRealRead>(
-          std::mem_fn(&FmuService::Service::BulkReadReal), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[17],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkReadRequest, ::fmuproxy::grpc::BulkStringRead>(
-          std::mem_fn(&FmuService::Service::BulkReadString), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[18],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkReadRequest, ::fmuproxy::grpc::BulkBooleanRead>(
-          std::mem_fn(&FmuService::Service::BulkReadBoolean), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[19],
+      FmuService_method_names[14],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteInteger), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[20],
+      FmuService_method_names[15],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteReal), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[21],
+      FmuService_method_names[16],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteString), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[22],
+      FmuService_method_names[17],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteBoolean), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[23],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkWriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>(
-          std::mem_fn(&FmuService::Service::BulkWriteInteger), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[24],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkWriteRealRequest, ::fmuproxy::grpc::StatusResponse>(
-          std::mem_fn(&FmuService::Service::BulkWriteReal), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[25],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkWriteStringRequest, ::fmuproxy::grpc::StatusResponse>(
-          std::mem_fn(&FmuService::Service::BulkWriteString), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[26],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::BulkWriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>(
-          std::mem_fn(&FmuService::Service::BulkWriteBoolean), this)));
 }
 
 FmuService::Service::~Service() {
 }
 
-::grpc::Status FmuService::Service::GetModelDescriptionXml(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::fmuproxy::grpc::Str* response) {
+::grpc::Status FmuService::Service::GetModelDescriptionXml(::grpc::ServerContext* context, const ::fmuproxy::grpc::Void* request, ::fmuproxy::grpc::Str* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status FmuService::Service::GetModelDescription(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::fmuproxy::grpc::ModelDescription* response) {
+::grpc::Status FmuService::Service::GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::Void* request, ::fmuproxy::grpc::ModelDescription* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status FmuService::Service::CreateInstanceFromCS(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::fmuproxy::grpc::UInt* response) {
+::grpc::Status FmuService::Service::CreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::Void* request, ::fmuproxy::grpc::UInt* response) {
   (void) context;
   (void) request;
   (void) response;
@@ -577,13 +412,6 @@ FmuService::Service::~Service() {
 }
 
 ::grpc::Status FmuService::Service::IsTerminated(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Bool* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::UInt* request, ::fmuproxy::grpc::Bool* response) {
   (void) context;
   (void) request;
   (void) response;
@@ -646,34 +474,6 @@ FmuService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status FmuService::Service::BulkReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkReadRequest* request, ::fmuproxy::grpc::BulkIntegerRead* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkReadRequest* request, ::fmuproxy::grpc::BulkRealRead* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkReadRequest* request, ::fmuproxy::grpc::BulkStringRead* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkReadRequest* request, ::fmuproxy::grpc::BulkBooleanRead* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
 ::grpc::Status FmuService::Service::WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
   (void) context;
   (void) request;
@@ -696,34 +496,6 @@ FmuService::Service::~Service() {
 }
 
 ::grpc::Status FmuService::Service::WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkWriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkWriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkWriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkWriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkWriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkWriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::BulkWriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::BulkWriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
   (void) context;
   (void) request;
   (void) response;

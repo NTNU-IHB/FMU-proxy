@@ -33,18 +33,14 @@ int main() {
     const double stop = 2;
     const double step_size = 1E-2;
 
-    GrpcClient fmu = GrpcClient("localhost", 9090);
-
-//    string xml;
-//    fmu.get_model_description_xml(xml);
-//    cout << xml << endl;
+    GrpcClient fmu = GrpcClient("localhost", 9080);
 
     const auto md = fmu.get_model_description();
     cout << "GUID=" << md.guid << endl;
     cout << "modelName=" << md.modelName << endl;
     cout << "license=" << md.license << endl;
 
-    for (auto var : md.modelVariables) {
+    for (const auto var : md.modelVariables) {
         cout << "Name=" << var.name << ", " << var.attribute << endl;
     }
 

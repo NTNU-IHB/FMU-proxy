@@ -32,7 +32,7 @@ using namespace fmuproxy::grpc::server;
 
 int main(int argc, char **argv) {
 
-    const unsigned int port = 9090;
+    const unsigned int port = 9080;
     string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";

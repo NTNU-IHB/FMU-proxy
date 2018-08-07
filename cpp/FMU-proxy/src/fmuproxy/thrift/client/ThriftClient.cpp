@@ -58,8 +58,8 @@ fmuproxy::fmi::ModelDescription &ThriftClient::get_model_description() {
 }
 
 unique_ptr<RemoteFmuInstance> ThriftClient::new_instance() {
-    FmuId fmu_id = client->createInstanceFromCS();
-    return std::make_unique<RemoteFmuInstance>(fmu_id, *client, *modelDescription);
+    InstanceId instance_id = client->createInstanceFromCS();
+    return std::make_unique<RemoteFmuInstance>(instance_id, *client, *modelDescription);
 }
 
 

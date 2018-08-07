@@ -39,7 +39,7 @@ namespace protobuf_definitions_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[38];
+  static const ::google::protobuf::internal::ParseTable schema[30];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -57,33 +57,6 @@ extern BooleanAttributeDefaultTypeInternal _BooleanAttribute_default_instance_;
 class BooleanRead;
 class BooleanReadDefaultTypeInternal;
 extern BooleanReadDefaultTypeInternal _BooleanRead_default_instance_;
-class BulkBooleanRead;
-class BulkBooleanReadDefaultTypeInternal;
-extern BulkBooleanReadDefaultTypeInternal _BulkBooleanRead_default_instance_;
-class BulkIntegerRead;
-class BulkIntegerReadDefaultTypeInternal;
-extern BulkIntegerReadDefaultTypeInternal _BulkIntegerRead_default_instance_;
-class BulkReadRequest;
-class BulkReadRequestDefaultTypeInternal;
-extern BulkReadRequestDefaultTypeInternal _BulkReadRequest_default_instance_;
-class BulkRealRead;
-class BulkRealReadDefaultTypeInternal;
-extern BulkRealReadDefaultTypeInternal _BulkRealRead_default_instance_;
-class BulkStringRead;
-class BulkStringReadDefaultTypeInternal;
-extern BulkStringReadDefaultTypeInternal _BulkStringRead_default_instance_;
-class BulkWriteBooleanRequest;
-class BulkWriteBooleanRequestDefaultTypeInternal;
-extern BulkWriteBooleanRequestDefaultTypeInternal _BulkWriteBooleanRequest_default_instance_;
-class BulkWriteIntegerRequest;
-class BulkWriteIntegerRequestDefaultTypeInternal;
-extern BulkWriteIntegerRequestDefaultTypeInternal _BulkWriteIntegerRequest_default_instance_;
-class BulkWriteRealRequest;
-class BulkWriteRealRequestDefaultTypeInternal;
-extern BulkWriteRealRequestDefaultTypeInternal _BulkWriteRealRequest_default_instance_;
-class BulkWriteStringRequest;
-class BulkWriteStringRequestDefaultTypeInternal;
-extern BulkWriteStringRequestDefaultTypeInternal _BulkWriteStringRequest_default_instance_;
 class DefaultExperiment;
 class DefaultExperimentDefaultTypeInternal;
 extern DefaultExperimentDefaultTypeInternal _DefaultExperiment_default_instance_;
@@ -150,6 +123,9 @@ extern UIntDefaultTypeInternal _UInt_default_instance_;
 class Unknown;
 class UnknownDefaultTypeInternal;
 extern UnknownDefaultTypeInternal _Unknown_default_instance_;
+class Void;
+class VoidDefaultTypeInternal;
+extern VoidDefaultTypeInternal _Void_default_instance_;
 class WriteBooleanRequest;
 class WriteBooleanRequestDefaultTypeInternal;
 extern WriteBooleanRequestDefaultTypeInternal _WriteBooleanRequest_default_instance_;
@@ -169,15 +145,6 @@ namespace protobuf {
 template<> ::fmuproxy::grpc::Bool* Arena::CreateMaybeMessage<::fmuproxy::grpc::Bool>(Arena*);
 template<> ::fmuproxy::grpc::BooleanAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::BooleanAttribute>(Arena*);
 template<> ::fmuproxy::grpc::BooleanRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::BooleanRead>(Arena*);
-template<> ::fmuproxy::grpc::BulkBooleanRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkBooleanRead>(Arena*);
-template<> ::fmuproxy::grpc::BulkIntegerRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkIntegerRead>(Arena*);
-template<> ::fmuproxy::grpc::BulkReadRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkReadRequest>(Arena*);
-template<> ::fmuproxy::grpc::BulkRealRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkRealRead>(Arena*);
-template<> ::fmuproxy::grpc::BulkStringRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkStringRead>(Arena*);
-template<> ::fmuproxy::grpc::BulkWriteBooleanRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkWriteBooleanRequest>(Arena*);
-template<> ::fmuproxy::grpc::BulkWriteIntegerRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkWriteIntegerRequest>(Arena*);
-template<> ::fmuproxy::grpc::BulkWriteRealRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkWriteRealRequest>(Arena*);
-template<> ::fmuproxy::grpc::BulkWriteStringRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::BulkWriteStringRequest>(Arena*);
 template<> ::fmuproxy::grpc::DefaultExperiment* Arena::CreateMaybeMessage<::fmuproxy::grpc::DefaultExperiment>(Arena*);
 template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnumerationAttribute>(Arena*);
 template<> ::fmuproxy::grpc::InitRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::InitRequest>(Arena*);
@@ -200,6 +167,7 @@ template<> ::fmuproxy::grpc::StringAttribute* Arena::CreateMaybeMessage<::fmupro
 template<> ::fmuproxy::grpc::StringRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::StringRead>(Arena*);
 template<> ::fmuproxy::grpc::UInt* Arena::CreateMaybeMessage<::fmuproxy::grpc::UInt>(Arena*);
 template<> ::fmuproxy::grpc::Unknown* Arena::CreateMaybeMessage<::fmuproxy::grpc::Unknown>(Arena*);
+template<> ::fmuproxy::grpc::Void* Arena::CreateMaybeMessage<::fmuproxy::grpc::Void>(Arena*);
 template<> ::fmuproxy::grpc::WriteBooleanRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteBooleanRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteIntegerRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteIntegerRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteRealRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteRealRequest>(Arena*);
@@ -2065,11 +2033,11 @@ class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   double stop() const;
   void set_stop(double value);
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:fmuproxy.grpc.InitRequest)
  private:
@@ -2077,7 +2045,7 @@ class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   double start_;
   double stop_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -2176,18 +2144,18 @@ class StepRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   double step_size() const;
   void set_step_size(double value);
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:fmuproxy.grpc.StepRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   double step_size_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -2509,233 +2477,6 @@ class Int : public ::google::protobuf::Message /* @@protoc_insertion_point(class
 };
 // -------------------------------------------------------------------
 
-class IntegerRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.IntegerRead) */ {
- public:
-  IntegerRead();
-  virtual ~IntegerRead();
-
-  IntegerRead(const IntegerRead& from);
-
-  inline IntegerRead& operator=(const IntegerRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  IntegerRead(IntegerRead&& from) noexcept
-    : IntegerRead() {
-    *this = ::std::move(from);
-  }
-
-  inline IntegerRead& operator=(IntegerRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const IntegerRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const IntegerRead* internal_default_instance() {
-    return reinterpret_cast<const IntegerRead*>(
-               &_IntegerRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    16;
-
-  void Swap(IntegerRead* other);
-  friend void swap(IntegerRead& a, IntegerRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline IntegerRead* New() const final {
-    return CreateMaybeMessage<IntegerRead>(NULL);
-  }
-
-  IntegerRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<IntegerRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const IntegerRead& from);
-  void MergeFrom(const IntegerRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(IntegerRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int32 value = 1;
-  void clear_value();
-  static const int kValueFieldNumber = 1;
-  ::google::protobuf::int32 value() const;
-  void set_value(::google::protobuf::int32 value);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.IntegerRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 value_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkIntegerRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkIntegerRead) */ {
- public:
-  BulkIntegerRead();
-  virtual ~BulkIntegerRead();
-
-  BulkIntegerRead(const BulkIntegerRead& from);
-
-  inline BulkIntegerRead& operator=(const BulkIntegerRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkIntegerRead(BulkIntegerRead&& from) noexcept
-    : BulkIntegerRead() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkIntegerRead& operator=(BulkIntegerRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkIntegerRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkIntegerRead* internal_default_instance() {
-    return reinterpret_cast<const BulkIntegerRead*>(
-               &_BulkIntegerRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    17;
-
-  void Swap(BulkIntegerRead* other);
-  friend void swap(BulkIntegerRead& a, BulkIntegerRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkIntegerRead* New() const final {
-    return CreateMaybeMessage<BulkIntegerRead>(NULL);
-  }
-
-  BulkIntegerRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkIntegerRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkIntegerRead& from);
-  void MergeFrom(const BulkIntegerRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkIntegerRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated int32 values = 1;
-  int values_size() const;
-  void clear_values();
-  static const int kValuesFieldNumber = 1;
-  ::google::protobuf::int32 values(int index) const;
-  void set_values(int index, ::google::protobuf::int32 value);
-  void add_values(::google::protobuf::int32 value);
-  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      values() const;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_values();
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkIntegerRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > values_;
-  mutable int _values_cached_byte_size_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class Real : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Real) */ {
  public:
   Real();
@@ -2771,7 +2512,7 @@ class Real : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
                &_Real_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    16;
 
   void Swap(Real* other);
   friend void swap(Real& a, Real& b) {
@@ -2839,233 +2580,6 @@ class Real : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 };
 // -------------------------------------------------------------------
 
-class RealRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.RealRead) */ {
- public:
-  RealRead();
-  virtual ~RealRead();
-
-  RealRead(const RealRead& from);
-
-  inline RealRead& operator=(const RealRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  RealRead(RealRead&& from) noexcept
-    : RealRead() {
-    *this = ::std::move(from);
-  }
-
-  inline RealRead& operator=(RealRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const RealRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const RealRead* internal_default_instance() {
-    return reinterpret_cast<const RealRead*>(
-               &_RealRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    19;
-
-  void Swap(RealRead* other);
-  friend void swap(RealRead& a, RealRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline RealRead* New() const final {
-    return CreateMaybeMessage<RealRead>(NULL);
-  }
-
-  RealRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<RealRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const RealRead& from);
-  void MergeFrom(const RealRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(RealRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // double value = 1;
-  void clear_value();
-  static const int kValueFieldNumber = 1;
-  double value() const;
-  void set_value(double value);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.RealRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  double value_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkRealRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkRealRead) */ {
- public:
-  BulkRealRead();
-  virtual ~BulkRealRead();
-
-  BulkRealRead(const BulkRealRead& from);
-
-  inline BulkRealRead& operator=(const BulkRealRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkRealRead(BulkRealRead&& from) noexcept
-    : BulkRealRead() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkRealRead& operator=(BulkRealRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkRealRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkRealRead* internal_default_instance() {
-    return reinterpret_cast<const BulkRealRead*>(
-               &_BulkRealRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    20;
-
-  void Swap(BulkRealRead* other);
-  friend void swap(BulkRealRead& a, BulkRealRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkRealRead* New() const final {
-    return CreateMaybeMessage<BulkRealRead>(NULL);
-  }
-
-  BulkRealRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkRealRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkRealRead& from);
-  void MergeFrom(const BulkRealRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkRealRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated double values = 1;
-  int values_size() const;
-  void clear_values();
-  static const int kValuesFieldNumber = 1;
-  double values(int index) const;
-  void set_values(int index, double value);
-  void add_values(double value);
-  const ::google::protobuf::RepeatedField< double >&
-      values() const;
-  ::google::protobuf::RepeatedField< double >*
-      mutable_values();
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkRealRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedField< double > values_;
-  mutable int _values_cached_byte_size_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class Str : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Str) */ {
  public:
   Str();
@@ -3101,7 +2615,7 @@ class Str : public ::google::protobuf::Message /* @@protoc_insertion_point(class
                &_Str_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    17;
 
   void Swap(Str* other);
   friend void swap(Str& a, Str& b) {
@@ -3177,250 +2691,6 @@ class Str : public ::google::protobuf::Message /* @@protoc_insertion_point(class
 };
 // -------------------------------------------------------------------
 
-class StringRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.StringRead) */ {
- public:
-  StringRead();
-  virtual ~StringRead();
-
-  StringRead(const StringRead& from);
-
-  inline StringRead& operator=(const StringRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  StringRead(StringRead&& from) noexcept
-    : StringRead() {
-    *this = ::std::move(from);
-  }
-
-  inline StringRead& operator=(StringRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const StringRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const StringRead* internal_default_instance() {
-    return reinterpret_cast<const StringRead*>(
-               &_StringRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    22;
-
-  void Swap(StringRead* other);
-  friend void swap(StringRead& a, StringRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline StringRead* New() const final {
-    return CreateMaybeMessage<StringRead>(NULL);
-  }
-
-  StringRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<StringRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const StringRead& from);
-  void MergeFrom(const StringRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(StringRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string value = 1;
-  void clear_value();
-  static const int kValueFieldNumber = 1;
-  const ::std::string& value() const;
-  void set_value(const ::std::string& value);
-  #if LANG_CXX11
-  void set_value(::std::string&& value);
-  #endif
-  void set_value(const char* value);
-  void set_value(const char* value, size_t size);
-  ::std::string* mutable_value();
-  ::std::string* release_value();
-  void set_allocated_value(::std::string* value);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.StringRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr value_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkStringRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkStringRead) */ {
- public:
-  BulkStringRead();
-  virtual ~BulkStringRead();
-
-  BulkStringRead(const BulkStringRead& from);
-
-  inline BulkStringRead& operator=(const BulkStringRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkStringRead(BulkStringRead&& from) noexcept
-    : BulkStringRead() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkStringRead& operator=(BulkStringRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkStringRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkStringRead* internal_default_instance() {
-    return reinterpret_cast<const BulkStringRead*>(
-               &_BulkStringRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    23;
-
-  void Swap(BulkStringRead* other);
-  friend void swap(BulkStringRead& a, BulkStringRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkStringRead* New() const final {
-    return CreateMaybeMessage<BulkStringRead>(NULL);
-  }
-
-  BulkStringRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkStringRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkStringRead& from);
-  void MergeFrom(const BulkStringRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkStringRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated string values = 1;
-  int values_size() const;
-  void clear_values();
-  static const int kValuesFieldNumber = 1;
-  const ::std::string& values(int index) const;
-  ::std::string* mutable_values(int index);
-  void set_values(int index, const ::std::string& value);
-  #if LANG_CXX11
-  void set_values(int index, ::std::string&& value);
-  #endif
-  void set_values(int index, const char* value);
-  void set_values(int index, const char* value, size_t size);
-  ::std::string* add_values();
-  void add_values(const ::std::string& value);
-  #if LANG_CXX11
-  void add_values(::std::string&& value);
-  #endif
-  void add_values(const char* value);
-  void add_values(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& values() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_values();
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkStringRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> values_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class Bool : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Bool) */ {
  public:
   Bool();
@@ -3456,7 +2726,7 @@ class Bool : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
                &_Bool_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    18;
 
   void Swap(Bool* other);
   friend void swap(Bool& a, Bool& b) {
@@ -3524,6 +2794,366 @@ class Bool : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 };
 // -------------------------------------------------------------------
 
+class IntegerRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.IntegerRead) */ {
+ public:
+  IntegerRead();
+  virtual ~IntegerRead();
+
+  IntegerRead(const IntegerRead& from);
+
+  inline IntegerRead& operator=(const IntegerRead& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  IntegerRead(IntegerRead&& from) noexcept
+    : IntegerRead() {
+    *this = ::std::move(from);
+  }
+
+  inline IntegerRead& operator=(IntegerRead&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const IntegerRead& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const IntegerRead* internal_default_instance() {
+    return reinterpret_cast<const IntegerRead*>(
+               &_IntegerRead_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    19;
+
+  void Swap(IntegerRead* other);
+  friend void swap(IntegerRead& a, IntegerRead& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline IntegerRead* New() const final {
+    return CreateMaybeMessage<IntegerRead>(NULL);
+  }
+
+  IntegerRead* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<IntegerRead>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const IntegerRead& from);
+  void MergeFrom(const IntegerRead& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(IntegerRead* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated int32 values = 1;
+  int values_size() const;
+  void clear_values();
+  static const int kValuesFieldNumber = 1;
+  ::google::protobuf::int32 values(int index) const;
+  void set_values(int index, ::google::protobuf::int32 value);
+  void add_values(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      values() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_values();
+
+  // .fmuproxy.grpc.Status status = 2;
+  void clear_status();
+  static const int kStatusFieldNumber = 2;
+  ::fmuproxy::grpc::Status status() const;
+  void set_status(::fmuproxy::grpc::Status value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.IntegerRead)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > values_;
+  mutable int _values_cached_byte_size_;
+  int status_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_definitions_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class RealRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.RealRead) */ {
+ public:
+  RealRead();
+  virtual ~RealRead();
+
+  RealRead(const RealRead& from);
+
+  inline RealRead& operator=(const RealRead& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RealRead(RealRead&& from) noexcept
+    : RealRead() {
+    *this = ::std::move(from);
+  }
+
+  inline RealRead& operator=(RealRead&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RealRead& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RealRead* internal_default_instance() {
+    return reinterpret_cast<const RealRead*>(
+               &_RealRead_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  void Swap(RealRead* other);
+  friend void swap(RealRead& a, RealRead& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RealRead* New() const final {
+    return CreateMaybeMessage<RealRead>(NULL);
+  }
+
+  RealRead* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<RealRead>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const RealRead& from);
+  void MergeFrom(const RealRead& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RealRead* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated double values = 1;
+  int values_size() const;
+  void clear_values();
+  static const int kValuesFieldNumber = 1;
+  double values(int index) const;
+  void set_values(int index, double value);
+  void add_values(double value);
+  const ::google::protobuf::RepeatedField< double >&
+      values() const;
+  ::google::protobuf::RepeatedField< double >*
+      mutable_values();
+
+  // .fmuproxy.grpc.Status status = 2;
+  void clear_status();
+  static const int kStatusFieldNumber = 2;
+  ::fmuproxy::grpc::Status status() const;
+  void set_status(::fmuproxy::grpc::Status value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.RealRead)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< double > values_;
+  mutable int _values_cached_byte_size_;
+  int status_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_definitions_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class StringRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.StringRead) */ {
+ public:
+  StringRead();
+  virtual ~StringRead();
+
+  StringRead(const StringRead& from);
+
+  inline StringRead& operator=(const StringRead& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  StringRead(StringRead&& from) noexcept
+    : StringRead() {
+    *this = ::std::move(from);
+  }
+
+  inline StringRead& operator=(StringRead&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const StringRead& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const StringRead* internal_default_instance() {
+    return reinterpret_cast<const StringRead*>(
+               &_StringRead_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    21;
+
+  void Swap(StringRead* other);
+  friend void swap(StringRead& a, StringRead& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline StringRead* New() const final {
+    return CreateMaybeMessage<StringRead>(NULL);
+  }
+
+  StringRead* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<StringRead>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const StringRead& from);
+  void MergeFrom(const StringRead& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(StringRead* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated string values = 1;
+  int values_size() const;
+  void clear_values();
+  static const int kValuesFieldNumber = 1;
+  const ::std::string& values(int index) const;
+  ::std::string* mutable_values(int index);
+  void set_values(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_values(int index, ::std::string&& value);
+  #endif
+  void set_values(int index, const char* value);
+  void set_values(int index, const char* value, size_t size);
+  ::std::string* add_values();
+  void add_values(const ::std::string& value);
+  #if LANG_CXX11
+  void add_values(::std::string&& value);
+  #endif
+  void add_values(const char* value);
+  void add_values(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& values() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_values();
+
+  // .fmuproxy.grpc.Status status = 2;
+  void clear_status();
+  static const int kStatusFieldNumber = 2;
+  ::fmuproxy::grpc::Status status() const;
+  void set_status(::fmuproxy::grpc::Status value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.StringRead)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> values_;
+  int status_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_definitions_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class BooleanRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BooleanRead) */ {
  public:
   BooleanRead();
@@ -3559,7 +3189,7 @@ class BooleanRead : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_BooleanRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    22;
 
   void Swap(BooleanRead* other);
   friend void swap(BooleanRead& a, BooleanRead& b) {
@@ -3611,116 +3241,6 @@ class BooleanRead : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // bool value = 1;
-  void clear_value();
-  static const int kValueFieldNumber = 1;
-  bool value() const;
-  void set_value(bool value);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BooleanRead)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool value_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkBooleanRead : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkBooleanRead) */ {
- public:
-  BulkBooleanRead();
-  virtual ~BulkBooleanRead();
-
-  BulkBooleanRead(const BulkBooleanRead& from);
-
-  inline BulkBooleanRead& operator=(const BulkBooleanRead& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkBooleanRead(BulkBooleanRead&& from) noexcept
-    : BulkBooleanRead() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkBooleanRead& operator=(BulkBooleanRead&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkBooleanRead& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkBooleanRead* internal_default_instance() {
-    return reinterpret_cast<const BulkBooleanRead*>(
-               &_BulkBooleanRead_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    26;
-
-  void Swap(BulkBooleanRead* other);
-  friend void swap(BulkBooleanRead& a, BulkBooleanRead& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkBooleanRead* New() const final {
-    return CreateMaybeMessage<BulkBooleanRead>(NULL);
-  }
-
-  BulkBooleanRead* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkBooleanRead>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkBooleanRead& from);
-  void MergeFrom(const BulkBooleanRead& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkBooleanRead* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
   // repeated bool values = 1;
   int values_size() const;
   void clear_values();
@@ -3739,7 +3259,7 @@ class BulkBooleanRead : public ::google::protobuf::Message /* @@protoc_insertion
   ::fmuproxy::grpc::Status status() const;
   void set_status(::fmuproxy::grpc::Status value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkBooleanRead)
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BooleanRead)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -3786,7 +3306,7 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ReadRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    23;
 
   void Swap(ReadRequest* other);
   friend void swap(ReadRequest& a, ReadRequest& b) {
@@ -3838,116 +3358,6 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
 
   // accessors -------------------------------------------------------
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
-
-  // uint32 value_reference = 2;
-  void clear_value_reference();
-  static const int kValueReferenceFieldNumber = 2;
-  ::google::protobuf::uint32 value_reference() const;
-  void set_value_reference(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ReadRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 fmu_id_;
-  ::google::protobuf::uint32 value_reference_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkReadRequest) */ {
- public:
-  BulkReadRequest();
-  virtual ~BulkReadRequest();
-
-  BulkReadRequest(const BulkReadRequest& from);
-
-  inline BulkReadRequest& operator=(const BulkReadRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkReadRequest(BulkReadRequest&& from) noexcept
-    : BulkReadRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkReadRequest& operator=(BulkReadRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkReadRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkReadRequest* internal_default_instance() {
-    return reinterpret_cast<const BulkReadRequest*>(
-               &_BulkReadRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    28;
-
-  void Swap(BulkReadRequest* other);
-  friend void swap(BulkReadRequest& a, BulkReadRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkReadRequest* New() const final {
-    return CreateMaybeMessage<BulkReadRequest>(NULL);
-  }
-
-  BulkReadRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkReadRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkReadRequest& from);
-  void MergeFrom(const BulkReadRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkReadRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
   // repeated uint32 value_references = 2;
   int value_references_size() const;
   void clear_value_references();
@@ -3960,19 +3370,19 @@ class BulkReadRequest : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_value_references();
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkReadRequest)
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ReadRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > value_references_;
   mutable int _value_references_cached_byte_size_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -4013,7 +3423,7 @@ class WriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_WriteIntegerRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    24;
 
   void Swap(WriteIntegerRequest* other);
   friend void swap(WriteIntegerRequest& a, WriteIntegerRequest& b) {
@@ -4065,123 +3475,6 @@ class WriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_inser
 
   // accessors -------------------------------------------------------
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
-
-  // uint32 value_reference = 2;
-  void clear_value_reference();
-  static const int kValueReferenceFieldNumber = 2;
-  ::google::protobuf::uint32 value_reference() const;
-  void set_value_reference(::google::protobuf::uint32 value);
-
-  // int32 value = 3;
-  void clear_value();
-  static const int kValueFieldNumber = 3;
-  ::google::protobuf::int32 value() const;
-  void set_value(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteIntegerRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 fmu_id_;
-  ::google::protobuf::uint32 value_reference_;
-  ::google::protobuf::int32 value_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkWriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkWriteIntegerRequest) */ {
- public:
-  BulkWriteIntegerRequest();
-  virtual ~BulkWriteIntegerRequest();
-
-  BulkWriteIntegerRequest(const BulkWriteIntegerRequest& from);
-
-  inline BulkWriteIntegerRequest& operator=(const BulkWriteIntegerRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkWriteIntegerRequest(BulkWriteIntegerRequest&& from) noexcept
-    : BulkWriteIntegerRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkWriteIntegerRequest& operator=(BulkWriteIntegerRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkWriteIntegerRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkWriteIntegerRequest* internal_default_instance() {
-    return reinterpret_cast<const BulkWriteIntegerRequest*>(
-               &_BulkWriteIntegerRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    30;
-
-  void Swap(BulkWriteIntegerRequest* other);
-  friend void swap(BulkWriteIntegerRequest& a, BulkWriteIntegerRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkWriteIntegerRequest* New() const final {
-    return CreateMaybeMessage<BulkWriteIntegerRequest>(NULL);
-  }
-
-  BulkWriteIntegerRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkWriteIntegerRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkWriteIntegerRequest& from);
-  void MergeFrom(const BulkWriteIntegerRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkWriteIntegerRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
   // repeated uint32 value_references = 2;
   int value_references_size() const;
   void clear_value_references();
@@ -4206,13 +3499,13 @@ class BulkWriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_i
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_values();
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteIntegerRequest)
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteIntegerRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -4220,7 +3513,7 @@ class BulkWriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_i
   mutable int _value_references_cached_byte_size_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > values_;
   mutable int _values_cached_byte_size_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -4261,7 +3554,7 @@ class WriteRealRequest : public ::google::protobuf::Message /* @@protoc_insertio
                &_WriteRealRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    25;
 
   void Swap(WriteRealRequest* other);
   friend void swap(WriteRealRequest& a, WriteRealRequest& b) {
@@ -4313,123 +3606,6 @@ class WriteRealRequest : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
-
-  // uint32 value_reference = 2;
-  void clear_value_reference();
-  static const int kValueReferenceFieldNumber = 2;
-  ::google::protobuf::uint32 value_reference() const;
-  void set_value_reference(::google::protobuf::uint32 value);
-
-  // double value = 3;
-  void clear_value();
-  static const int kValueFieldNumber = 3;
-  double value() const;
-  void set_value(double value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteRealRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 fmu_id_;
-  ::google::protobuf::uint32 value_reference_;
-  double value_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkWriteRealRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkWriteRealRequest) */ {
- public:
-  BulkWriteRealRequest();
-  virtual ~BulkWriteRealRequest();
-
-  BulkWriteRealRequest(const BulkWriteRealRequest& from);
-
-  inline BulkWriteRealRequest& operator=(const BulkWriteRealRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkWriteRealRequest(BulkWriteRealRequest&& from) noexcept
-    : BulkWriteRealRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkWriteRealRequest& operator=(BulkWriteRealRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkWriteRealRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkWriteRealRequest* internal_default_instance() {
-    return reinterpret_cast<const BulkWriteRealRequest*>(
-               &_BulkWriteRealRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    32;
-
-  void Swap(BulkWriteRealRequest* other);
-  friend void swap(BulkWriteRealRequest& a, BulkWriteRealRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkWriteRealRequest* New() const final {
-    return CreateMaybeMessage<BulkWriteRealRequest>(NULL);
-  }
-
-  BulkWriteRealRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkWriteRealRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkWriteRealRequest& from);
-  void MergeFrom(const BulkWriteRealRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkWriteRealRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
   // repeated uint32 value_references = 2;
   int value_references_size() const;
   void clear_value_references();
@@ -4454,13 +3630,13 @@ class BulkWriteRealRequest : public ::google::protobuf::Message /* @@protoc_inse
   ::google::protobuf::RepeatedField< double >*
       mutable_values();
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteRealRequest)
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteRealRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -4468,7 +3644,7 @@ class BulkWriteRealRequest : public ::google::protobuf::Message /* @@protoc_inse
   mutable int _value_references_cached_byte_size_;
   ::google::protobuf::RepeatedField< double > values_;
   mutable int _values_cached_byte_size_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -4509,7 +3685,7 @@ class WriteStringRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_WriteStringRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    26;
 
   void Swap(WriteStringRequest* other);
   friend void swap(WriteStringRequest& a, WriteStringRequest& b) {
@@ -4561,131 +3737,6 @@ class WriteStringRequest : public ::google::protobuf::Message /* @@protoc_insert
 
   // accessors -------------------------------------------------------
 
-  // string value = 3;
-  void clear_value();
-  static const int kValueFieldNumber = 3;
-  const ::std::string& value() const;
-  void set_value(const ::std::string& value);
-  #if LANG_CXX11
-  void set_value(::std::string&& value);
-  #endif
-  void set_value(const char* value);
-  void set_value(const char* value, size_t size);
-  ::std::string* mutable_value();
-  ::std::string* release_value();
-  void set_allocated_value(::std::string* value);
-
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
-
-  // uint32 value_reference = 2;
-  void clear_value_reference();
-  static const int kValueReferenceFieldNumber = 2;
-  ::google::protobuf::uint32 value_reference() const;
-  void set_value_reference(::google::protobuf::uint32 value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteStringRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr value_;
-  ::google::protobuf::uint32 fmu_id_;
-  ::google::protobuf::uint32 value_reference_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkWriteStringRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkWriteStringRequest) */ {
- public:
-  BulkWriteStringRequest();
-  virtual ~BulkWriteStringRequest();
-
-  BulkWriteStringRequest(const BulkWriteStringRequest& from);
-
-  inline BulkWriteStringRequest& operator=(const BulkWriteStringRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkWriteStringRequest(BulkWriteStringRequest&& from) noexcept
-    : BulkWriteStringRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkWriteStringRequest& operator=(BulkWriteStringRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkWriteStringRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkWriteStringRequest* internal_default_instance() {
-    return reinterpret_cast<const BulkWriteStringRequest*>(
-               &_BulkWriteStringRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    34;
-
-  void Swap(BulkWriteStringRequest* other);
-  friend void swap(BulkWriteStringRequest& a, BulkWriteStringRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkWriteStringRequest* New() const final {
-    return CreateMaybeMessage<BulkWriteStringRequest>(NULL);
-  }
-
-  BulkWriteStringRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkWriteStringRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkWriteStringRequest& from);
-  void MergeFrom(const BulkWriteStringRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkWriteStringRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
   // repeated uint32 value_references = 2;
   int value_references_size() const;
   void clear_value_references();
@@ -4720,20 +3771,20 @@ class BulkWriteStringRequest : public ::google::protobuf::Message /* @@protoc_in
   const ::google::protobuf::RepeatedPtrField< ::std::string>& values() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_values();
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteStringRequest)
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteStringRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > value_references_;
   mutable int _value_references_cached_byte_size_;
   ::google::protobuf::RepeatedPtrField< ::std::string> values_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -4774,7 +3825,7 @@ class WriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_WriteBooleanRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    27;
 
   void Swap(WriteBooleanRequest* other);
   friend void swap(WriteBooleanRequest& a, WriteBooleanRequest& b) {
@@ -4826,123 +3877,6 @@ class WriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_inser
 
   // accessors -------------------------------------------------------
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
-
-  // uint32 value_reference = 2;
-  void clear_value_reference();
-  static const int kValueReferenceFieldNumber = 2;
-  ::google::protobuf::uint32 value_reference() const;
-  void set_value_reference(::google::protobuf::uint32 value);
-
-  // bool value = 3;
-  void clear_value();
-  static const int kValueFieldNumber = 3;
-  bool value() const;
-  void set_value(bool value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteBooleanRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint32 fmu_id_;
-  ::google::protobuf::uint32 value_reference_;
-  bool value_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_definitions_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class BulkWriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BulkWriteBooleanRequest) */ {
- public:
-  BulkWriteBooleanRequest();
-  virtual ~BulkWriteBooleanRequest();
-
-  BulkWriteBooleanRequest(const BulkWriteBooleanRequest& from);
-
-  inline BulkWriteBooleanRequest& operator=(const BulkWriteBooleanRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  BulkWriteBooleanRequest(BulkWriteBooleanRequest&& from) noexcept
-    : BulkWriteBooleanRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline BulkWriteBooleanRequest& operator=(BulkWriteBooleanRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const BulkWriteBooleanRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const BulkWriteBooleanRequest* internal_default_instance() {
-    return reinterpret_cast<const BulkWriteBooleanRequest*>(
-               &_BulkWriteBooleanRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    36;
-
-  void Swap(BulkWriteBooleanRequest* other);
-  friend void swap(BulkWriteBooleanRequest& a, BulkWriteBooleanRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline BulkWriteBooleanRequest* New() const final {
-    return CreateMaybeMessage<BulkWriteBooleanRequest>(NULL);
-  }
-
-  BulkWriteBooleanRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<BulkWriteBooleanRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const BulkWriteBooleanRequest& from);
-  void MergeFrom(const BulkWriteBooleanRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(BulkWriteBooleanRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
   // repeated uint32 value_references = 2;
   int value_references_size() const;
   void clear_value_references();
@@ -4967,13 +3901,13 @@ class BulkWriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_i
   ::google::protobuf::RepeatedField< bool >*
       mutable_values();
 
-  // uint32 fmu_id = 1;
-  void clear_fmu_id();
-  static const int kFmuIdFieldNumber = 1;
-  ::google::protobuf::uint32 fmu_id() const;
-  void set_fmu_id(::google::protobuf::uint32 value);
+  // uint32 instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  ::google::protobuf::uint32 instance_id() const;
+  void set_instance_id(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BulkWriteBooleanRequest)
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.WriteBooleanRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -4981,7 +3915,7 @@ class BulkWriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_i
   mutable int _value_references_cached_byte_size_;
   ::google::protobuf::RepeatedField< bool > values_;
   mutable int _values_cached_byte_size_;
-  ::google::protobuf::uint32 fmu_id_;
+  ::google::protobuf::uint32 instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -5022,7 +3956,7 @@ class Solver : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Solver_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    28;
 
   void Swap(Solver* other);
   friend void swap(Solver& a, Solver& b) {
@@ -5108,6 +4042,102 @@ class Solver : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr settings_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_definitions_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class Void : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Void) */ {
+ public:
+  Void();
+  virtual ~Void();
+
+  Void(const Void& from);
+
+  inline Void& operator=(const Void& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Void(Void&& from) noexcept
+    : Void() {
+    *this = ::std::move(from);
+  }
+
+  inline Void& operator=(Void&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Void& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Void* internal_default_instance() {
+    return reinterpret_cast<const Void*>(
+               &_Void_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    29;
+
+  void Swap(Void* other);
+  friend void swap(Void& a, Void& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Void* New() const final {
+    return CreateMaybeMessage<Void>(NULL);
+  }
+
+  Void* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Void>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const Void& from);
+  void MergeFrom(const Void& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Void* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Void)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -6731,18 +5761,18 @@ inline void StatusResponse::set_status(::fmuproxy::grpc::Status value) {
 
 // InitRequest
 
-// uint32 fmu_id = 1;
-inline void InitRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void InitRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 InitRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.InitRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 InitRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.InitRequest.instance_id)
+  return instance_id_;
 }
-inline void InitRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void InitRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.InitRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.InitRequest.instance_id)
 }
 
 // double start = 2;
@@ -6777,18 +5807,18 @@ inline void InitRequest::set_stop(double value) {
 
 // StepRequest
 
-// uint32 fmu_id = 1;
-inline void StepRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void StepRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 StepRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StepRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 StepRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StepRequest.instance_id)
+  return instance_id_;
 }
-inline void StepRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void StepRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StepRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StepRequest.instance_id)
 }
 
 // double step_size = 2;
@@ -6875,86 +5905,6 @@ inline void Int::set_value(::google::protobuf::int32 value) {
 
 // -------------------------------------------------------------------
 
-// IntegerRead
-
-// int32 value = 1;
-inline void IntegerRead::clear_value() {
-  value_ = 0;
-}
-inline ::google::protobuf::int32 IntegerRead::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerRead.value)
-  return value_;
-}
-inline void IntegerRead::set_value(::google::protobuf::int32 value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerRead.value)
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void IntegerRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status IntegerRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void IntegerRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerRead.status)
-}
-
-// -------------------------------------------------------------------
-
-// BulkIntegerRead
-
-// repeated int32 values = 1;
-inline int BulkIntegerRead::values_size() const {
-  return values_.size();
-}
-inline void BulkIntegerRead::clear_values() {
-  values_.Clear();
-}
-inline ::google::protobuf::int32 BulkIntegerRead::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkIntegerRead.values)
-  return values_.Get(index);
-}
-inline void BulkIntegerRead::set_values(int index, ::google::protobuf::int32 value) {
-  values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkIntegerRead.values)
-}
-inline void BulkIntegerRead::add_values(::google::protobuf::int32 value) {
-  values_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkIntegerRead.values)
-}
-inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-BulkIntegerRead::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkIntegerRead.values)
-  return values_;
-}
-inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-BulkIntegerRead::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkIntegerRead.values)
-  return &values_;
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void BulkIntegerRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status BulkIntegerRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkIntegerRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void BulkIntegerRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkIntegerRead.status)
-}
-
-// -------------------------------------------------------------------
-
 // Real
 
 // double value = 1;
@@ -6969,86 +5919,6 @@ inline void Real::set_value(double value) {
   
   value_ = value;
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.Real.value)
-}
-
-// -------------------------------------------------------------------
-
-// RealRead
-
-// double value = 1;
-inline void RealRead::clear_value() {
-  value_ = 0;
-}
-inline double RealRead::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealRead.value)
-  return value_;
-}
-inline void RealRead::set_value(double value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealRead.value)
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void RealRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status RealRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void RealRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealRead.status)
-}
-
-// -------------------------------------------------------------------
-
-// BulkRealRead
-
-// repeated double values = 1;
-inline int BulkRealRead::values_size() const {
-  return values_.size();
-}
-inline void BulkRealRead::clear_values() {
-  values_.Clear();
-}
-inline double BulkRealRead::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkRealRead.values)
-  return values_.Get(index);
-}
-inline void BulkRealRead::set_values(int index, double value) {
-  values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkRealRead.values)
-}
-inline void BulkRealRead::add_values(double value) {
-  values_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkRealRead.values)
-}
-inline const ::google::protobuf::RepeatedField< double >&
-BulkRealRead::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkRealRead.values)
-  return values_;
-}
-inline ::google::protobuf::RepeatedField< double >*
-BulkRealRead::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkRealRead.values)
-  return &values_;
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void BulkRealRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status BulkRealRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkRealRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void BulkRealRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkRealRead.status)
 }
 
 // -------------------------------------------------------------------
@@ -7110,164 +5980,6 @@ inline void Str::set_allocated_value(::std::string* value) {
 
 // -------------------------------------------------------------------
 
-// StringRead
-
-// string value = 1;
-inline void StringRead::clear_value() {
-  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& StringRead::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StringRead.value)
-  return value_.GetNoArena();
-}
-inline void StringRead::set_value(const ::std::string& value) {
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StringRead.value)
-}
-#if LANG_CXX11
-inline void StringRead::set_value(::std::string&& value) {
-  
-  value_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.StringRead.value)
-}
-#endif
-inline void StringRead::set_value(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.StringRead.value)
-}
-inline void StringRead::set_value(const char* value, size_t size) {
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.StringRead.value)
-}
-inline ::std::string* StringRead::mutable_value() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.StringRead.value)
-  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* StringRead::release_value() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.StringRead.value)
-  
-  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void StringRead::set_allocated_value(::std::string* value) {
-  if (value != NULL) {
-    
-  } else {
-    
-  }
-  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.StringRead.value)
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void StringRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status StringRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StringRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void StringRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StringRead.status)
-}
-
-// -------------------------------------------------------------------
-
-// BulkStringRead
-
-// repeated string values = 1;
-inline int BulkStringRead::values_size() const {
-  return values_.size();
-}
-inline void BulkStringRead::clear_values() {
-  values_.Clear();
-}
-inline const ::std::string& BulkStringRead::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkStringRead.values)
-  return values_.Get(index);
-}
-inline ::std::string* BulkStringRead::mutable_values(int index) {
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.BulkStringRead.values)
-  return values_.Mutable(index);
-}
-inline void BulkStringRead::set_values(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkStringRead.values)
-  values_.Mutable(index)->assign(value);
-}
-#if LANG_CXX11
-inline void BulkStringRead::set_values(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkStringRead.values)
-  values_.Mutable(index)->assign(std::move(value));
-}
-#endif
-inline void BulkStringRead::set_values(int index, const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  values_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.BulkStringRead.values)
-}
-inline void BulkStringRead::set_values(int index, const char* value, size_t size) {
-  values_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.BulkStringRead.values)
-}
-inline ::std::string* BulkStringRead::add_values() {
-  // @@protoc_insertion_point(field_add_mutable:fmuproxy.grpc.BulkStringRead.values)
-  return values_.Add();
-}
-inline void BulkStringRead::add_values(const ::std::string& value) {
-  values_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkStringRead.values)
-}
-#if LANG_CXX11
-inline void BulkStringRead::add_values(::std::string&& value) {
-  values_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkStringRead.values)
-}
-#endif
-inline void BulkStringRead::add_values(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  values_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:fmuproxy.grpc.BulkStringRead.values)
-}
-inline void BulkStringRead::add_values(const char* value, size_t size) {
-  values_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:fmuproxy.grpc.BulkStringRead.values)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-BulkStringRead::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkStringRead.values)
-  return values_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-BulkStringRead::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkStringRead.values)
-  return &values_;
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void BulkStringRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status BulkStringRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkStringRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void BulkStringRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkStringRead.status)
-}
-
-// -------------------------------------------------------------------
-
 // Bool
 
 // bool value = 1;
@@ -7286,20 +5998,219 @@ inline void Bool::set_value(bool value) {
 
 // -------------------------------------------------------------------
 
+// IntegerRead
+
+// repeated int32 values = 1;
+inline int IntegerRead::values_size() const {
+  return values_.size();
+}
+inline void IntegerRead::clear_values() {
+  values_.Clear();
+}
+inline ::google::protobuf::int32 IntegerRead::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerRead.values)
+  return values_.Get(index);
+}
+inline void IntegerRead::set_values(int index, ::google::protobuf::int32 value) {
+  values_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerRead.values)
+}
+inline void IntegerRead::add_values(::google::protobuf::int32 value) {
+  values_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.IntegerRead.values)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+IntegerRead::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.IntegerRead.values)
+  return values_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+IntegerRead::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.IntegerRead.values)
+  return &values_;
+}
+
+// .fmuproxy.grpc.Status status = 2;
+inline void IntegerRead::clear_status() {
+  status_ = 0;
+}
+inline ::fmuproxy::grpc::Status IntegerRead::status() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerRead.status)
+  return static_cast< ::fmuproxy::grpc::Status >(status_);
+}
+inline void IntegerRead::set_status(::fmuproxy::grpc::Status value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerRead.status)
+}
+
+// -------------------------------------------------------------------
+
+// RealRead
+
+// repeated double values = 1;
+inline int RealRead::values_size() const {
+  return values_.size();
+}
+inline void RealRead::clear_values() {
+  values_.Clear();
+}
+inline double RealRead::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealRead.values)
+  return values_.Get(index);
+}
+inline void RealRead::set_values(int index, double value) {
+  values_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealRead.values)
+}
+inline void RealRead::add_values(double value) {
+  values_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.RealRead.values)
+}
+inline const ::google::protobuf::RepeatedField< double >&
+RealRead::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.RealRead.values)
+  return values_;
+}
+inline ::google::protobuf::RepeatedField< double >*
+RealRead::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.RealRead.values)
+  return &values_;
+}
+
+// .fmuproxy.grpc.Status status = 2;
+inline void RealRead::clear_status() {
+  status_ = 0;
+}
+inline ::fmuproxy::grpc::Status RealRead::status() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealRead.status)
+  return static_cast< ::fmuproxy::grpc::Status >(status_);
+}
+inline void RealRead::set_status(::fmuproxy::grpc::Status value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealRead.status)
+}
+
+// -------------------------------------------------------------------
+
+// StringRead
+
+// repeated string values = 1;
+inline int StringRead::values_size() const {
+  return values_.size();
+}
+inline void StringRead::clear_values() {
+  values_.Clear();
+}
+inline const ::std::string& StringRead::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StringRead.values)
+  return values_.Get(index);
+}
+inline ::std::string* StringRead::mutable_values(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.StringRead.values)
+  return values_.Mutable(index);
+}
+inline void StringRead::set_values(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StringRead.values)
+  values_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void StringRead::set_values(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StringRead.values)
+  values_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void StringRead::set_values(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  values_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.StringRead.values)
+}
+inline void StringRead::set_values(int index, const char* value, size_t size) {
+  values_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.StringRead.values)
+}
+inline ::std::string* StringRead::add_values() {
+  // @@protoc_insertion_point(field_add_mutable:fmuproxy.grpc.StringRead.values)
+  return values_.Add();
+}
+inline void StringRead::add_values(const ::std::string& value) {
+  values_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.StringRead.values)
+}
+#if LANG_CXX11
+inline void StringRead::add_values(::std::string&& value) {
+  values_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.StringRead.values)
+}
+#endif
+inline void StringRead::add_values(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  values_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:fmuproxy.grpc.StringRead.values)
+}
+inline void StringRead::add_values(const char* value, size_t size) {
+  values_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:fmuproxy.grpc.StringRead.values)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+StringRead::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.StringRead.values)
+  return values_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+StringRead::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.StringRead.values)
+  return &values_;
+}
+
+// .fmuproxy.grpc.Status status = 2;
+inline void StringRead::clear_status() {
+  status_ = 0;
+}
+inline ::fmuproxy::grpc::Status StringRead::status() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StringRead.status)
+  return static_cast< ::fmuproxy::grpc::Status >(status_);
+}
+inline void StringRead::set_status(::fmuproxy::grpc::Status value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StringRead.status)
+}
+
+// -------------------------------------------------------------------
+
 // BooleanRead
 
-// bool value = 1;
-inline void BooleanRead::clear_value() {
-  value_ = false;
+// repeated bool values = 1;
+inline int BooleanRead::values_size() const {
+  return values_.size();
 }
-inline bool BooleanRead::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BooleanRead.value)
-  return value_;
+inline void BooleanRead::clear_values() {
+  values_.Clear();
 }
-inline void BooleanRead::set_value(bool value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BooleanRead.value)
+inline bool BooleanRead::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BooleanRead.values)
+  return values_.Get(index);
+}
+inline void BooleanRead::set_values(int index, bool value) {
+  values_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BooleanRead.values)
+}
+inline void BooleanRead::add_values(bool value) {
+  values_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BooleanRead.values)
+}
+inline const ::google::protobuf::RepeatedField< bool >&
+BooleanRead::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BooleanRead.values)
+  return values_;
+}
+inline ::google::protobuf::RepeatedField< bool >*
+BooleanRead::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BooleanRead.values)
+  return &values_;
 }
 
 // .fmuproxy.grpc.Status status = 2;
@@ -7318,129 +6229,49 @@ inline void BooleanRead::set_status(::fmuproxy::grpc::Status value) {
 
 // -------------------------------------------------------------------
 
-// BulkBooleanRead
-
-// repeated bool values = 1;
-inline int BulkBooleanRead::values_size() const {
-  return values_.size();
-}
-inline void BulkBooleanRead::clear_values() {
-  values_.Clear();
-}
-inline bool BulkBooleanRead::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkBooleanRead.values)
-  return values_.Get(index);
-}
-inline void BulkBooleanRead::set_values(int index, bool value) {
-  values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkBooleanRead.values)
-}
-inline void BulkBooleanRead::add_values(bool value) {
-  values_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkBooleanRead.values)
-}
-inline const ::google::protobuf::RepeatedField< bool >&
-BulkBooleanRead::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkBooleanRead.values)
-  return values_;
-}
-inline ::google::protobuf::RepeatedField< bool >*
-BulkBooleanRead::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkBooleanRead.values)
-  return &values_;
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void BulkBooleanRead::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status BulkBooleanRead::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkBooleanRead.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void BulkBooleanRead::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkBooleanRead.status)
-}
-
-// -------------------------------------------------------------------
-
 // ReadRequest
 
-// uint32 fmu_id = 1;
-inline void ReadRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void ReadRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 ReadRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ReadRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 ReadRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ReadRequest.instance_id)
+  return instance_id_;
 }
-inline void ReadRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void ReadRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ReadRequest.fmu_id)
-}
-
-// uint32 value_reference = 2;
-inline void ReadRequest::clear_value_reference() {
-  value_reference_ = 0u;
-}
-inline ::google::protobuf::uint32 ReadRequest::value_reference() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ReadRequest.value_reference)
-  return value_reference_;
-}
-inline void ReadRequest::set_value_reference(::google::protobuf::uint32 value) {
-  
-  value_reference_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ReadRequest.value_reference)
-}
-
-// -------------------------------------------------------------------
-
-// BulkReadRequest
-
-// uint32 fmu_id = 1;
-inline void BulkReadRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
-}
-inline ::google::protobuf::uint32 BulkReadRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkReadRequest.fmu_id)
-  return fmu_id_;
-}
-inline void BulkReadRequest::set_fmu_id(::google::protobuf::uint32 value) {
-  
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkReadRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ReadRequest.instance_id)
 }
 
 // repeated uint32 value_references = 2;
-inline int BulkReadRequest::value_references_size() const {
+inline int ReadRequest::value_references_size() const {
   return value_references_.size();
 }
-inline void BulkReadRequest::clear_value_references() {
+inline void ReadRequest::clear_value_references() {
   value_references_.Clear();
 }
-inline ::google::protobuf::uint32 BulkReadRequest::value_references(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkReadRequest.value_references)
+inline ::google::protobuf::uint32 ReadRequest::value_references(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ReadRequest.value_references)
   return value_references_.Get(index);
 }
-inline void BulkReadRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
+inline void ReadRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
   value_references_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkReadRequest.value_references)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ReadRequest.value_references)
 }
-inline void BulkReadRequest::add_value_references(::google::protobuf::uint32 value) {
+inline void ReadRequest::add_value_references(::google::protobuf::uint32 value) {
   value_references_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkReadRequest.value_references)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.ReadRequest.value_references)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-BulkReadRequest::value_references() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkReadRequest.value_references)
+ReadRequest::value_references() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.ReadRequest.value_references)
   return value_references_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-BulkReadRequest::mutable_value_references() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkReadRequest.value_references)
+ReadRequest::mutable_value_references() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.ReadRequest.value_references)
   return &value_references_;
 }
 
@@ -7448,123 +6279,77 @@ BulkReadRequest::mutable_value_references() {
 
 // WriteIntegerRequest
 
-// uint32 fmu_id = 1;
-inline void WriteIntegerRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void WriteIntegerRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 WriteIntegerRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteIntegerRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 WriteIntegerRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteIntegerRequest.instance_id)
+  return instance_id_;
 }
-inline void WriteIntegerRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void WriteIntegerRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteIntegerRequest.fmu_id)
-}
-
-// uint32 value_reference = 2;
-inline void WriteIntegerRequest::clear_value_reference() {
-  value_reference_ = 0u;
-}
-inline ::google::protobuf::uint32 WriteIntegerRequest::value_reference() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteIntegerRequest.value_reference)
-  return value_reference_;
-}
-inline void WriteIntegerRequest::set_value_reference(::google::protobuf::uint32 value) {
-  
-  value_reference_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteIntegerRequest.value_reference)
-}
-
-// int32 value = 3;
-inline void WriteIntegerRequest::clear_value() {
-  value_ = 0;
-}
-inline ::google::protobuf::int32 WriteIntegerRequest::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteIntegerRequest.value)
-  return value_;
-}
-inline void WriteIntegerRequest::set_value(::google::protobuf::int32 value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteIntegerRequest.value)
-}
-
-// -------------------------------------------------------------------
-
-// BulkWriteIntegerRequest
-
-// uint32 fmu_id = 1;
-inline void BulkWriteIntegerRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
-}
-inline ::google::protobuf::uint32 BulkWriteIntegerRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteIntegerRequest.fmu_id)
-  return fmu_id_;
-}
-inline void BulkWriteIntegerRequest::set_fmu_id(::google::protobuf::uint32 value) {
-  
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteIntegerRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteIntegerRequest.instance_id)
 }
 
 // repeated uint32 value_references = 2;
-inline int BulkWriteIntegerRequest::value_references_size() const {
+inline int WriteIntegerRequest::value_references_size() const {
   return value_references_.size();
 }
-inline void BulkWriteIntegerRequest::clear_value_references() {
+inline void WriteIntegerRequest::clear_value_references() {
   value_references_.Clear();
 }
-inline ::google::protobuf::uint32 BulkWriteIntegerRequest::value_references(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteIntegerRequest.value_references)
+inline ::google::protobuf::uint32 WriteIntegerRequest::value_references(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteIntegerRequest.value_references)
   return value_references_.Get(index);
 }
-inline void BulkWriteIntegerRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
+inline void WriteIntegerRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
   value_references_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteIntegerRequest.value_references)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteIntegerRequest.value_references)
 }
-inline void BulkWriteIntegerRequest::add_value_references(::google::protobuf::uint32 value) {
+inline void WriteIntegerRequest::add_value_references(::google::protobuf::uint32 value) {
   value_references_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteIntegerRequest.value_references)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteIntegerRequest.value_references)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-BulkWriteIntegerRequest::value_references() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteIntegerRequest.value_references)
+WriteIntegerRequest::value_references() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteIntegerRequest.value_references)
   return value_references_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-BulkWriteIntegerRequest::mutable_value_references() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteIntegerRequest.value_references)
+WriteIntegerRequest::mutable_value_references() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteIntegerRequest.value_references)
   return &value_references_;
 }
 
 // repeated int32 values = 3;
-inline int BulkWriteIntegerRequest::values_size() const {
+inline int WriteIntegerRequest::values_size() const {
   return values_.size();
 }
-inline void BulkWriteIntegerRequest::clear_values() {
+inline void WriteIntegerRequest::clear_values() {
   values_.Clear();
 }
-inline ::google::protobuf::int32 BulkWriteIntegerRequest::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteIntegerRequest.values)
+inline ::google::protobuf::int32 WriteIntegerRequest::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteIntegerRequest.values)
   return values_.Get(index);
 }
-inline void BulkWriteIntegerRequest::set_values(int index, ::google::protobuf::int32 value) {
+inline void WriteIntegerRequest::set_values(int index, ::google::protobuf::int32 value) {
   values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteIntegerRequest.values)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteIntegerRequest.values)
 }
-inline void BulkWriteIntegerRequest::add_values(::google::protobuf::int32 value) {
+inline void WriteIntegerRequest::add_values(::google::protobuf::int32 value) {
   values_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteIntegerRequest.values)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteIntegerRequest.values)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-BulkWriteIntegerRequest::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteIntegerRequest.values)
+WriteIntegerRequest::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteIntegerRequest.values)
   return values_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-BulkWriteIntegerRequest::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteIntegerRequest.values)
+WriteIntegerRequest::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteIntegerRequest.values)
   return &values_;
 }
 
@@ -7572,123 +6357,77 @@ BulkWriteIntegerRequest::mutable_values() {
 
 // WriteRealRequest
 
-// uint32 fmu_id = 1;
-inline void WriteRealRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void WriteRealRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 WriteRealRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteRealRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 WriteRealRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteRealRequest.instance_id)
+  return instance_id_;
 }
-inline void WriteRealRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void WriteRealRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteRealRequest.fmu_id)
-}
-
-// uint32 value_reference = 2;
-inline void WriteRealRequest::clear_value_reference() {
-  value_reference_ = 0u;
-}
-inline ::google::protobuf::uint32 WriteRealRequest::value_reference() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteRealRequest.value_reference)
-  return value_reference_;
-}
-inline void WriteRealRequest::set_value_reference(::google::protobuf::uint32 value) {
-  
-  value_reference_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteRealRequest.value_reference)
-}
-
-// double value = 3;
-inline void WriteRealRequest::clear_value() {
-  value_ = 0;
-}
-inline double WriteRealRequest::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteRealRequest.value)
-  return value_;
-}
-inline void WriteRealRequest::set_value(double value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteRealRequest.value)
-}
-
-// -------------------------------------------------------------------
-
-// BulkWriteRealRequest
-
-// uint32 fmu_id = 1;
-inline void BulkWriteRealRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
-}
-inline ::google::protobuf::uint32 BulkWriteRealRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteRealRequest.fmu_id)
-  return fmu_id_;
-}
-inline void BulkWriteRealRequest::set_fmu_id(::google::protobuf::uint32 value) {
-  
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteRealRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteRealRequest.instance_id)
 }
 
 // repeated uint32 value_references = 2;
-inline int BulkWriteRealRequest::value_references_size() const {
+inline int WriteRealRequest::value_references_size() const {
   return value_references_.size();
 }
-inline void BulkWriteRealRequest::clear_value_references() {
+inline void WriteRealRequest::clear_value_references() {
   value_references_.Clear();
 }
-inline ::google::protobuf::uint32 BulkWriteRealRequest::value_references(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteRealRequest.value_references)
+inline ::google::protobuf::uint32 WriteRealRequest::value_references(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteRealRequest.value_references)
   return value_references_.Get(index);
 }
-inline void BulkWriteRealRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
+inline void WriteRealRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
   value_references_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteRealRequest.value_references)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteRealRequest.value_references)
 }
-inline void BulkWriteRealRequest::add_value_references(::google::protobuf::uint32 value) {
+inline void WriteRealRequest::add_value_references(::google::protobuf::uint32 value) {
   value_references_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteRealRequest.value_references)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteRealRequest.value_references)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-BulkWriteRealRequest::value_references() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteRealRequest.value_references)
+WriteRealRequest::value_references() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteRealRequest.value_references)
   return value_references_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-BulkWriteRealRequest::mutable_value_references() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteRealRequest.value_references)
+WriteRealRequest::mutable_value_references() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteRealRequest.value_references)
   return &value_references_;
 }
 
 // repeated double values = 3;
-inline int BulkWriteRealRequest::values_size() const {
+inline int WriteRealRequest::values_size() const {
   return values_.size();
 }
-inline void BulkWriteRealRequest::clear_values() {
+inline void WriteRealRequest::clear_values() {
   values_.Clear();
 }
-inline double BulkWriteRealRequest::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteRealRequest.values)
+inline double WriteRealRequest::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteRealRequest.values)
   return values_.Get(index);
 }
-inline void BulkWriteRealRequest::set_values(int index, double value) {
+inline void WriteRealRequest::set_values(int index, double value) {
   values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteRealRequest.values)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteRealRequest.values)
 }
-inline void BulkWriteRealRequest::add_values(double value) {
+inline void WriteRealRequest::add_values(double value) {
   values_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteRealRequest.values)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteRealRequest.values)
 }
 inline const ::google::protobuf::RepeatedField< double >&
-BulkWriteRealRequest::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteRealRequest.values)
+WriteRealRequest::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteRealRequest.values)
   return values_;
 }
 inline ::google::protobuf::RepeatedField< double >*
-BulkWriteRealRequest::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteRealRequest.values)
+WriteRealRequest::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteRealRequest.values)
   return &values_;
 }
 
@@ -7696,201 +6435,116 @@ BulkWriteRealRequest::mutable_values() {
 
 // WriteStringRequest
 
-// uint32 fmu_id = 1;
-inline void WriteStringRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void WriteStringRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 WriteStringRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteStringRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 WriteStringRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteStringRequest.instance_id)
+  return instance_id_;
 }
-inline void WriteStringRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void WriteStringRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.fmu_id)
-}
-
-// uint32 value_reference = 2;
-inline void WriteStringRequest::clear_value_reference() {
-  value_reference_ = 0u;
-}
-inline ::google::protobuf::uint32 WriteStringRequest::value_reference() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteStringRequest.value_reference)
-  return value_reference_;
-}
-inline void WriteStringRequest::set_value_reference(::google::protobuf::uint32 value) {
-  
-  value_reference_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.value_reference)
-}
-
-// string value = 3;
-inline void WriteStringRequest::clear_value() {
-  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& WriteStringRequest::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteStringRequest.value)
-  return value_.GetNoArena();
-}
-inline void WriteStringRequest::set_value(const ::std::string& value) {
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.value)
-}
-#if LANG_CXX11
-inline void WriteStringRequest::set_value(::std::string&& value) {
-  
-  value_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.WriteStringRequest.value)
-}
-#endif
-inline void WriteStringRequest::set_value(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.WriteStringRequest.value)
-}
-inline void WriteStringRequest::set_value(const char* value, size_t size) {
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.WriteStringRequest.value)
-}
-inline ::std::string* WriteStringRequest::mutable_value() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.WriteStringRequest.value)
-  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* WriteStringRequest::release_value() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.WriteStringRequest.value)
-  
-  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void WriteStringRequest::set_allocated_value(::std::string* value) {
-  if (value != NULL) {
-    
-  } else {
-    
-  }
-  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.WriteStringRequest.value)
-}
-
-// -------------------------------------------------------------------
-
-// BulkWriteStringRequest
-
-// uint32 fmu_id = 1;
-inline void BulkWriteStringRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
-}
-inline ::google::protobuf::uint32 BulkWriteStringRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteStringRequest.fmu_id)
-  return fmu_id_;
-}
-inline void BulkWriteStringRequest::set_fmu_id(::google::protobuf::uint32 value) {
-  
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteStringRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.instance_id)
 }
 
 // repeated uint32 value_references = 2;
-inline int BulkWriteStringRequest::value_references_size() const {
+inline int WriteStringRequest::value_references_size() const {
   return value_references_.size();
 }
-inline void BulkWriteStringRequest::clear_value_references() {
+inline void WriteStringRequest::clear_value_references() {
   value_references_.Clear();
 }
-inline ::google::protobuf::uint32 BulkWriteStringRequest::value_references(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteStringRequest.value_references)
+inline ::google::protobuf::uint32 WriteStringRequest::value_references(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteStringRequest.value_references)
   return value_references_.Get(index);
 }
-inline void BulkWriteStringRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
+inline void WriteStringRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
   value_references_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteStringRequest.value_references)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.value_references)
 }
-inline void BulkWriteStringRequest::add_value_references(::google::protobuf::uint32 value) {
+inline void WriteStringRequest::add_value_references(::google::protobuf::uint32 value) {
   value_references_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteStringRequest.value_references)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteStringRequest.value_references)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-BulkWriteStringRequest::value_references() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteStringRequest.value_references)
+WriteStringRequest::value_references() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteStringRequest.value_references)
   return value_references_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-BulkWriteStringRequest::mutable_value_references() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteStringRequest.value_references)
+WriteStringRequest::mutable_value_references() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteStringRequest.value_references)
   return &value_references_;
 }
 
 // repeated string values = 3;
-inline int BulkWriteStringRequest::values_size() const {
+inline int WriteStringRequest::values_size() const {
   return values_.size();
 }
-inline void BulkWriteStringRequest::clear_values() {
+inline void WriteStringRequest::clear_values() {
   values_.Clear();
 }
-inline const ::std::string& BulkWriteStringRequest::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteStringRequest.values)
+inline const ::std::string& WriteStringRequest::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteStringRequest.values)
   return values_.Get(index);
 }
-inline ::std::string* BulkWriteStringRequest::mutable_values(int index) {
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.BulkWriteStringRequest.values)
+inline ::std::string* WriteStringRequest::mutable_values(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.WriteStringRequest.values)
   return values_.Mutable(index);
 }
-inline void BulkWriteStringRequest::set_values(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteStringRequest.values)
+inline void WriteStringRequest::set_values(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.values)
   values_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void BulkWriteStringRequest::set_values(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteStringRequest.values)
+inline void WriteStringRequest::set_values(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteStringRequest.values)
   values_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void BulkWriteStringRequest::set_values(int index, const char* value) {
+inline void WriteStringRequest::set_values(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
   values_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.BulkWriteStringRequest.values)
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.WriteStringRequest.values)
 }
-inline void BulkWriteStringRequest::set_values(int index, const char* value, size_t size) {
+inline void WriteStringRequest::set_values(int index, const char* value, size_t size) {
   values_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.BulkWriteStringRequest.values)
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.WriteStringRequest.values)
 }
-inline ::std::string* BulkWriteStringRequest::add_values() {
-  // @@protoc_insertion_point(field_add_mutable:fmuproxy.grpc.BulkWriteStringRequest.values)
+inline ::std::string* WriteStringRequest::add_values() {
+  // @@protoc_insertion_point(field_add_mutable:fmuproxy.grpc.WriteStringRequest.values)
   return values_.Add();
 }
-inline void BulkWriteStringRequest::add_values(const ::std::string& value) {
+inline void WriteStringRequest::add_values(const ::std::string& value) {
   values_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteStringRequest.values)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteStringRequest.values)
 }
 #if LANG_CXX11
-inline void BulkWriteStringRequest::add_values(::std::string&& value) {
+inline void WriteStringRequest::add_values(::std::string&& value) {
   values_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteStringRequest.values)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteStringRequest.values)
 }
 #endif
-inline void BulkWriteStringRequest::add_values(const char* value) {
+inline void WriteStringRequest::add_values(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   values_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:fmuproxy.grpc.BulkWriteStringRequest.values)
+  // @@protoc_insertion_point(field_add_char:fmuproxy.grpc.WriteStringRequest.values)
 }
-inline void BulkWriteStringRequest::add_values(const char* value, size_t size) {
+inline void WriteStringRequest::add_values(const char* value, size_t size) {
   values_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:fmuproxy.grpc.BulkWriteStringRequest.values)
+  // @@protoc_insertion_point(field_add_pointer:fmuproxy.grpc.WriteStringRequest.values)
 }
 inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-BulkWriteStringRequest::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteStringRequest.values)
+WriteStringRequest::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteStringRequest.values)
   return values_;
 }
 inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-BulkWriteStringRequest::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteStringRequest.values)
+WriteStringRequest::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteStringRequest.values)
   return &values_;
 }
 
@@ -7898,123 +6552,77 @@ BulkWriteStringRequest::mutable_values() {
 
 // WriteBooleanRequest
 
-// uint32 fmu_id = 1;
-inline void WriteBooleanRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
+// uint32 instance_id = 1;
+inline void WriteBooleanRequest::clear_instance_id() {
+  instance_id_ = 0u;
 }
-inline ::google::protobuf::uint32 WriteBooleanRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteBooleanRequest.fmu_id)
-  return fmu_id_;
+inline ::google::protobuf::uint32 WriteBooleanRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteBooleanRequest.instance_id)
+  return instance_id_;
 }
-inline void WriteBooleanRequest::set_fmu_id(::google::protobuf::uint32 value) {
+inline void WriteBooleanRequest::set_instance_id(::google::protobuf::uint32 value) {
   
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteBooleanRequest.fmu_id)
-}
-
-// uint32 value_reference = 2;
-inline void WriteBooleanRequest::clear_value_reference() {
-  value_reference_ = 0u;
-}
-inline ::google::protobuf::uint32 WriteBooleanRequest::value_reference() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteBooleanRequest.value_reference)
-  return value_reference_;
-}
-inline void WriteBooleanRequest::set_value_reference(::google::protobuf::uint32 value) {
-  
-  value_reference_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteBooleanRequest.value_reference)
-}
-
-// bool value = 3;
-inline void WriteBooleanRequest::clear_value() {
-  value_ = false;
-}
-inline bool WriteBooleanRequest::value() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteBooleanRequest.value)
-  return value_;
-}
-inline void WriteBooleanRequest::set_value(bool value) {
-  
-  value_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteBooleanRequest.value)
-}
-
-// -------------------------------------------------------------------
-
-// BulkWriteBooleanRequest
-
-// uint32 fmu_id = 1;
-inline void BulkWriteBooleanRequest::clear_fmu_id() {
-  fmu_id_ = 0u;
-}
-inline ::google::protobuf::uint32 BulkWriteBooleanRequest::fmu_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteBooleanRequest.fmu_id)
-  return fmu_id_;
-}
-inline void BulkWriteBooleanRequest::set_fmu_id(::google::protobuf::uint32 value) {
-  
-  fmu_id_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteBooleanRequest.fmu_id)
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteBooleanRequest.instance_id)
 }
 
 // repeated uint32 value_references = 2;
-inline int BulkWriteBooleanRequest::value_references_size() const {
+inline int WriteBooleanRequest::value_references_size() const {
   return value_references_.size();
 }
-inline void BulkWriteBooleanRequest::clear_value_references() {
+inline void WriteBooleanRequest::clear_value_references() {
   value_references_.Clear();
 }
-inline ::google::protobuf::uint32 BulkWriteBooleanRequest::value_references(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteBooleanRequest.value_references)
+inline ::google::protobuf::uint32 WriteBooleanRequest::value_references(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteBooleanRequest.value_references)
   return value_references_.Get(index);
 }
-inline void BulkWriteBooleanRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
+inline void WriteBooleanRequest::set_value_references(int index, ::google::protobuf::uint32 value) {
   value_references_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteBooleanRequest.value_references)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteBooleanRequest.value_references)
 }
-inline void BulkWriteBooleanRequest::add_value_references(::google::protobuf::uint32 value) {
+inline void WriteBooleanRequest::add_value_references(::google::protobuf::uint32 value) {
   value_references_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteBooleanRequest.value_references)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteBooleanRequest.value_references)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
-BulkWriteBooleanRequest::value_references() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteBooleanRequest.value_references)
+WriteBooleanRequest::value_references() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteBooleanRequest.value_references)
   return value_references_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
-BulkWriteBooleanRequest::mutable_value_references() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteBooleanRequest.value_references)
+WriteBooleanRequest::mutable_value_references() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteBooleanRequest.value_references)
   return &value_references_;
 }
 
 // repeated bool values = 3;
-inline int BulkWriteBooleanRequest::values_size() const {
+inline int WriteBooleanRequest::values_size() const {
   return values_.size();
 }
-inline void BulkWriteBooleanRequest::clear_values() {
+inline void WriteBooleanRequest::clear_values() {
   values_.Clear();
 }
-inline bool BulkWriteBooleanRequest::values(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BulkWriteBooleanRequest.values)
+inline bool WriteBooleanRequest::values(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.WriteBooleanRequest.values)
   return values_.Get(index);
 }
-inline void BulkWriteBooleanRequest::set_values(int index, bool value) {
+inline void WriteBooleanRequest::set_values(int index, bool value) {
   values_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BulkWriteBooleanRequest.values)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.WriteBooleanRequest.values)
 }
-inline void BulkWriteBooleanRequest::add_values(bool value) {
+inline void WriteBooleanRequest::add_values(bool value) {
   values_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.BulkWriteBooleanRequest.values)
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.WriteBooleanRequest.values)
 }
 inline const ::google::protobuf::RepeatedField< bool >&
-BulkWriteBooleanRequest::values() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.BulkWriteBooleanRequest.values)
+WriteBooleanRequest::values() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.WriteBooleanRequest.values)
   return values_;
 }
 inline ::google::protobuf::RepeatedField< bool >*
-BulkWriteBooleanRequest::mutable_values() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.BulkWriteBooleanRequest.values)
+WriteBooleanRequest::mutable_values() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.WriteBooleanRequest.values)
   return &values_;
 }
 
@@ -8128,25 +6736,13 @@ inline void Solver::set_allocated_settings(::std::string* settings) {
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.Solver.settings)
 }
 
+// -------------------------------------------------------------------
+
+// Void
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

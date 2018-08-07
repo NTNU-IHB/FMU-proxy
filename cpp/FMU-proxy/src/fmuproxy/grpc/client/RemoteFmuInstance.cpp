@@ -30,12 +30,12 @@ using namespace grpc;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::grpc::client;
 
-RemoteFmuInstance::RemoteFmuInstance(const unsigned int fmu_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription)
-        : fmu_id(fmu_id), stub(stub), modelDescription(modelDescription) {
+RemoteFmuInstance::RemoteFmuInstance(const unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription)
+        : instance_id(instance_id), stub(stub), modelDescription(modelDescription) {
 
     Real r;
     UInt ref;
-    ref.set_value(fmu_id);
+    ref.set_value(instance_id);
     ClientContext ctx;
     stub.GetSimulationTime(&ctx, ref, &r);
     current_time = r.value();
@@ -49,17 +49,9 @@ fmuproxy::fmi::ModelDescription &RemoteFmuInstance::getModelDescription() const 
     return modelDescription;
 }
 
-void RemoteFmuInstance::init() {
-    init(0.0);
-}
-
-void RemoteFmuInstance::init(const double start) {
-    init(start, 0.0);
-}
-
 void RemoteFmuInstance::init(const double start, const double stop) {
     InitRequest req;
-    req.set_fmu_id(fmu_id);
+    req.set_instance_id(instance_id);
     req.set_start(start);
     req.set_stop(stop);
     StatusResponse response;
@@ -69,7 +61,7 @@ void RemoteFmuInstance::init(const double start, const double stop) {
 
 fmi2_status_t RemoteFmuInstance::step(const double step_size) {
     StepRequest req;
-    req.set_fmu_id(fmu_id);
+    req.set_instance_id(instance_id);
     req.set_step_size(step_size);
     StepResult resp;
     ClientContext ctx;
@@ -80,7 +72,7 @@ fmi2_status_t RemoteFmuInstance::step(const double step_size) {
 
 fmi2_status_t RemoteFmuInstance::terminate() {
     UInt req;
-    req.set_value(fmu_id);
+    req.set_value(instance_id);
     ClientContext ctx;
     StatusResponse resp;
     stub.Terminate(&ctx, req, &resp);
@@ -89,42 +81,20 @@ fmi2_status_t RemoteFmuInstance::terminate() {
 
 fmi2_status_t RemoteFmuInstance::reset() {
     UInt req;
-    req.set_value(fmu_id);
+    req.set_value(instance_id);
     ClientContext ctx;
     StatusResponse resp;
     stub.Reset(&ctx, req, &resp);
     return convert(resp.status());
 }
 
-fmi2_status_t RemoteFmuInstance::readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) {
-    ReadRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    ClientContext ctx;
-    IntegerRead read;
-    stub.ReadInteger(&ctx, req, &read);
-    ref = read.value();
-    return convert(read.status());
-}
-
 fmi2_status_t RemoteFmuInstance::readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) {
     return fmi2_status_error;
 }
 
-fmi2_status_t RemoteFmuInstance::writeInteger(fmi2_value_reference_t vr, fmi2_integer_t value) {
-    WriteIntegerRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    req.set_value(value);
-    ClientContext ctx;
-    StatusResponse resp;
-    stub.WriteInteger(&ctx, req, &resp);
-    return convert(resp.status());
-}
-
 fmi2_status_t RemoteFmuInstance::writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) {
-    BulkWriteIntegerRequest req;
-    req.set_fmu_id(fmu_id);
+    WriteIntegerRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
@@ -135,31 +105,20 @@ fmi2_status_t RemoteFmuInstance::writeInteger(const std::vector<fmi2_value_refer
     }
     ClientContext ctx;
     StatusResponse resp;
-    stub.BulkWriteInteger(&ctx, req, &resp);
+    stub.WriteInteger(&ctx, req, &resp);
     return convert(resp.status());
 }
 
-fmi2_status_t RemoteFmuInstance::readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) {
-    ReadRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    ClientContext ctx;
-    RealRead read;
-    stub.ReadReal(&ctx, req, &read);
-    ref = read.value();
-    return convert(read.status());
-}
-
 fmi2_status_t RemoteFmuInstance::readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) {
-    BulkReadRequest req;
-    req.set_fmu_id(fmu_id);
+    ReadRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
        _vr->Add(v);
     }
     ClientContext ctx;
-    BulkRealRead resp;
-    stub.BulkReadReal(&ctx, req, &resp);
+    RealRead resp;
+    stub.ReadReal(&ctx, req, &resp);
     ref.clear();
     for (const auto v : resp.values()) {
         ref.push_back(v);
@@ -167,20 +126,9 @@ fmi2_status_t RemoteFmuInstance::readReal(const std::vector<fmi2_value_reference
     return convert(resp.status());
 }
 
-fmi2_status_t RemoteFmuInstance::writeReal(fmi2_value_reference_t vr, fmi2_real_t value) {
-    WriteRealRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    req.set_value(value);
-    ClientContext ctx;
-    StatusResponse resp;
-    stub.WriteReal(&ctx, req, &resp);
-    return convert(resp.status());
-}
-
 fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
-    BulkWriteRealRequest req;
-    req.set_fmu_id(fmu_id);
+    WriteRealRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
@@ -191,31 +139,20 @@ fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_referenc
     }
     ClientContext ctx;
     StatusResponse resp;
-    stub.BulkWriteReal(&ctx, req, &resp);
-    return convert(resp.status());
-}
-
-fmi2_status_t RemoteFmuInstance::readString(fmi2_value_reference_t vr, fmi2_string_t &ref) {
-    ReadRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    ClientContext ctx;
-    StringRead resp;
-    stub.ReadString(&ctx, req, &resp);
-    ref = resp.value().c_str();
+    stub.WriteReal(&ctx, req, &resp);
     return convert(resp.status());
 }
 
 fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) {
-    BulkReadRequest req;
-    req.set_fmu_id(fmu_id);
+    ReadRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
     ClientContext ctx;
-    BulkStringRead resp;
-    stub.BulkReadString(&ctx, req, &resp);
+    StringRead resp;
+    stub.ReadString(&ctx, req, &resp);
     ref.clear();
     for (const auto v : resp.values()) {
         ref.push_back(v.c_str());
@@ -223,20 +160,9 @@ fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_referen
     return convert(resp.status());
 }
 
-fmi2_status_t RemoteFmuInstance::writeString(fmi2_value_reference_t vr, fmi2_string_t value) {
-    WriteStringRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    req.set_value(value);
-    ClientContext ctx;
-    StatusResponse resp;
-    stub.WriteString(&ctx, req, &resp);
-    return convert(resp.status());
-}
-
 fmi2_status_t RemoteFmuInstance::writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) {
-    BulkWriteStringRequest req;
-    req.set_fmu_id(fmu_id);
+    WriteStringRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
@@ -247,32 +173,20 @@ fmi2_status_t RemoteFmuInstance::writeString(const std::vector<fmi2_value_refere
     }
     ClientContext ctx;
     StatusResponse resp;
-    stub.BulkWriteString(&ctx, req, &resp);
+    stub.WriteString(&ctx, req, &resp);
     return convert(resp.status());
-}
-
-fmi2_status_t RemoteFmuInstance::readBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
-    ReadRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    ClientContext ctx;
-    BooleanRead resp;
-    stub.ReadBoolean(&ctx, req, &resp);
-    ref = resp.value() ? 1 : 0;
-    return convert(resp.status());
-
 }
 
 fmi2_status_t RemoteFmuInstance::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {
-    BulkReadRequest req;
-    req.set_fmu_id(fmu_id);
+    ReadRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
     ClientContext ctx;
-    BulkBooleanRead resp;
-    stub.BulkReadBoolean(&ctx, req, &resp);
+    BooleanRead resp;
+    stub.ReadBoolean(&ctx, req, &resp);
     ref.clear();
     for (const auto v : resp.values()) {
         ref.push_back(v ? 1 : 0);
@@ -280,20 +194,9 @@ fmi2_status_t RemoteFmuInstance::readBoolean(const std::vector<fmi2_value_refere
     return convert(resp.status());
 }
 
-fmi2_status_t RemoteFmuInstance::writeBoolean(fmi2_value_reference_t vr, fmi2_boolean_t value) {
-    WriteBooleanRequest req;
-    req.set_fmu_id(fmu_id);
-    req.set_value_reference(vr);
-    req.set_value(value != 0);
-    ClientContext ctx;
-    StatusResponse resp;
-    stub.WriteBoolean(&ctx, req, &resp);
-    return convert(resp.status());
-}
-
 fmi2_status_t RemoteFmuInstance::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {
-    BulkWriteBooleanRequest req;
-    req.set_fmu_id(fmu_id);
+    WriteBooleanRequest req;
+    req.set_instance_id(instance_id);
     auto _vr = req.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
@@ -304,6 +207,6 @@ fmi2_status_t RemoteFmuInstance::writeBoolean(const std::vector<fmi2_value_refer
     }
     ClientContext ctx;
     StatusResponse resp;
-    stub.BulkWriteBoolean(&ctx, req, &resp);
+    stub.WriteBoolean(&ctx, req, &resp);
     return convert(resp.status());
 }

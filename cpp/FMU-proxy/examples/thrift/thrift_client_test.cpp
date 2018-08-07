@@ -44,16 +44,12 @@ int main() {
 
         ThriftClient fmu = ThriftClient("localhost", 9090);
 
-        string xml;
-        fmu.get_model_description_xml(xml);
-        cout << xml << endl;
-
         const auto md = fmu.get_model_description();
         cout << "GUID=" << md.guid << endl;
         cout << "modelName=" << md.modelName << endl;
         cout << "license=" << md.license << endl;
 
-        for (auto var : md.modelVariables) {
+        for (const auto var : md.modelVariables) {
             cout << "Name=" << var.name << ", " << var.attribute << endl;
         }
 
@@ -62,8 +58,8 @@ int main() {
 
         clock_t begin = clock();
 
-        vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
         vector<fmi2_real_t> ref(2);
+        vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
 
         double t;
         while ( (t=instance->getCurrentTime() ) < stop) {

@@ -31,7 +31,7 @@
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-RemoteFmuInstance::RemoteFmuInstance(const FmuId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
+RemoteFmuInstance::RemoteFmuInstance(const InstanceId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
         : fmu_id(fmu_id), client(client), modelDescription(md) {
     current_time = client.getSimulationTime(fmu_id);
 }
@@ -44,19 +44,12 @@ fmuproxy::fmi::ModelDescription &RemoteFmuInstance::getModelDescription() const 
     return modelDescription;
 }
 
-void RemoteFmuInstance::init() {
-    init(0.0, 0.0);
-}
-
-void RemoteFmuInstance::init(const double start) {
-    init(start, 0.0);
-}
-
 void RemoteFmuInstance::init(const double start, const double stop) {
     convert(client.init(fmu_id, start, stop));
 }
 
 fmi2_status_t RemoteFmuInstance::step(const double step_size) {
+    StepResult stepResult;
     client.step(stepResult, fmu_id, step_size);
     current_time = stepResult.simulationTime;
     return convert(stepResult.status);
@@ -70,96 +63,62 @@ fmi2_status_t RemoteFmuInstance::reset() {
     return convert(client.reset(fmu_id));
 }
 
-fmi2_status_t RemoteFmuInstance::readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) {
-    client.readInteger(integerRead, fmu_id, vr);
+fmi2_status_t RemoteFmuInstance::readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) {
+    IntegerRead integerRead;
+    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    client.readInteger(integerRead, fmu_id, _vr);
     ref = integerRead.value;
     return convert(integerRead.status);
 }
 
-fmi2_status_t RemoteFmuInstance::readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) {
+fmi2_status_t RemoteFmuInstance::readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) {
+    RealRead realRead;
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
-    client.bulkReadInteger(bulkIntegerRead, fmu_id, _vr);
-    ref = bulkIntegerRead.value;
-    return convert(bulkIntegerRead.status);
-}
-
-fmi2_status_t RemoteFmuInstance::readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) {
-    client.readReal(realRead, fmu_id, vr);
+    client.readReal(realRead, fmu_id, _vr);
     ref = realRead.value;
     return convert(realRead.status);
 }
 
-fmi2_status_t RemoteFmuInstance::readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) {
+fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t > &ref) {
+    StringRead stringRead;
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
-    client.bulkReadReal(bulkRealRead, fmu_id, _vr);
-    ref = bulkRealRead.value;
-    return convert(bulkRealRead.status);
-}
-
-fmi2_status_t RemoteFmuInstance::readString(fmi2_value_reference_t vr, fmi2_string_t &ref) {
-    client.readString(stringRead, fmu_id, vr);
-    ref = stringRead.value.c_str();
+    client.readString(stringRead, fmu_id, _vr);
+    const vector<string> read = stringRead.value;
+    std::transform(read.begin(), read.end(), std::back_inserter(ref), convert_string);
     return convert(stringRead.status);
 }
 
-fmi2_status_t RemoteFmuInstance::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t > &ref) {
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
-    client.bulkReadString(bulkStringRead, fmu_id, _vr);
-    const vector<string> read = bulkStringRead.value;
-    std::transform(read.begin(), read.end(), std::back_inserter(ref), convert_string);
-    return convert(bulkStringRead.status);
-}
-
-fmi2_status_t RemoteFmuInstance::readBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref){
-    client.readBoolean(booleanRead, fmu_id, vr);
-    ref = booleanRead.value;
-    return convert(booleanRead.status);
-}
 
 fmi2_status_t RemoteFmuInstance::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {
+    BooleanRead booleanRead;
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
-    client.bulkReadBoolean(bulkBooleanRead, fmu_id, _vr);
-    const vector<bool> read = bulkBooleanRead.value;
+    client.readBoolean(booleanRead, fmu_id, _vr);
+    const vector<bool> read = booleanRead.value;
     ref = vector<fmi2_boolean_t>(read.begin(), read.end());
-    return convert(bulkBooleanRead.status);
-}
-
-fmi2_status_t RemoteFmuInstance::writeInteger(fmi2_value_reference_t vr, const fmi2_integer_t value) {
-    return convert(client.writeInteger(fmu_id, vr, value));
+    return convert(booleanRead.status);
 }
 
 fmi2_status_t RemoteFmuInstance::writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
-    return convert(client.bulkWriteInteger(fmu_id, _vr, value));
+    return convert(client.writeInteger(fmu_id, _vr, value));
 }
 
-fmi2_status_t RemoteFmuInstance::writeReal(fmi2_value_reference_t vr, const fmi2_real_t value) {
-    return convert(client.writeReal(fmu_id, vr, value));
-}
 
 fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
-    return convert(client.bulkWriteReal(fmu_id, _vr, value));
-}
-
-fmi2_status_t RemoteFmuInstance::writeString(fmi2_value_reference_t vr, const fmi2_string_t value) {
-    return convert(client.writeString(fmu_id, vr, value));
+    return convert(client.writeReal(fmu_id, _vr, value));
 }
 
 fmi2_status_t RemoteFmuInstance::writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
     const StringArray _value = vector<string>(value.begin(), value.end());
-    return convert(client.bulkWriteString(fmu_id, _vr, _value));
-}
-
-fmi2_status_t RemoteFmuInstance::writeBoolean(fmi2_value_reference_t vr, const fmi2_boolean_t value) {
-    return convert(client.writeBoolean(fmu_id, vr, value != 0));
+    return convert(client.writeString(fmu_id, _vr, _value));
 }
 
 fmi2_status_t RemoteFmuInstance::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
     const BooleanArray _value = vector<bool>(value.begin(), value.end());
-    return convert(client.bulkWriteBoolean(fmu_id, _vr, _value));
+    return convert(client.writeBoolean(fmu_id, _vr, _value));
 }
 
 

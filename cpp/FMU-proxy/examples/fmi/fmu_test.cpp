@@ -51,21 +51,21 @@ int main(int argc, char **argv) {
     instance1->init();
     instance2->init();
 
-    double temperature_room;
-    fmi2_value_reference_t vr = instance1->get_value_reference("Temperature_Room");
+    auto temperature_room = vector<fmi2_real_t> (1);
+    vector<fmi2_value_reference_t > vr = {instance1->get_value_reference("Temperature_Room")};
 
     instance1->readReal(vr, temperature_room);
-    cout << "Temperature_Room=" << temperature_room << endl;
+    cout << "Temperature_Room=" << temperature_room[0] << endl;
 
     instance1->step(step_size);
 
     instance1->readReal(vr, temperature_room);
-    cout << "Temperature_Room=" << temperature_room << endl;
+    cout << "Temperature_Room=" << temperature_room[0] << endl;
 
     instance1->terminate();
 
     instance2->readReal(vr, temperature_room);
-    cout << "Temperature_Room=" << temperature_room << endl;
+    cout << "Temperature_Room=" << temperature_room[0] << endl;
 
     instance2->terminate();
 
