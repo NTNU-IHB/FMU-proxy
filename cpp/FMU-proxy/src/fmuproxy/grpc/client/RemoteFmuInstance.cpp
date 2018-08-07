@@ -41,7 +41,7 @@ RemoteFmuInstance::RemoteFmuInstance(const unsigned int instance_id, fmuproxy::g
     simulation_time = r.value();
 }
 
-double RemoteFmuInstance::getCurrentTime() const {
+double RemoteFmuInstance::getSimulationTime() const {
     return simulation_time;
 }
 

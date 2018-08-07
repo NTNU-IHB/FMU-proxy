@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     
 
     double t;
-    while ( (t = instance->getCurrentTime() ) <= stop-step_size) {
+    while ( (t = instance->getSimulationTime() ) <= stop-step_size) {
         fmi2_status_t status = instance->step(step_size);
         if (status != fmi2_status_ok) {
             cout << "Error! step returned with status: " << fmi2_status_to_string(status) << endl;

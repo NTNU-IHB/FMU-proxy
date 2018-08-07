@@ -43,7 +43,7 @@ namespace fmuproxy { namespace  grpc { namespace  client {
     public:
         RemoteFmuInstance(unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
 
-        double getCurrentTime() const override;
+        double getSimulationTime() const override;
 
         fmuproxy::fmi::ModelDescription &getModelDescription() const override;
 

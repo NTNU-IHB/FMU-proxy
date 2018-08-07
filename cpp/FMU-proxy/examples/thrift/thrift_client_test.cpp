@@ -62,7 +62,7 @@ int main() {
         vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
 
         double t;
-        while ( (t=instance->getCurrentTime() ) < stop) {
+        while ( (t=instance->getSimulationTime() ) < stop) {
             instance->step(step_size);
             instance->readReal(vr, ref);
             cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;

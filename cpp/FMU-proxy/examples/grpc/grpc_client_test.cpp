@@ -53,7 +53,7 @@ int main() {
     vector<fmi2_real_t> ref(vr.size());
 
     double t;
-    while ( (t=instance->getCurrentTime() ) < stop) {
+    while ( (t=instance->getSimulationTime() ) < stop) {
         instance->step(step_size);
         instance->readReal(vr, ref);
         cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;

@@ -53,12 +53,13 @@ FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : m_fmu(fmu) {}
 }
 
 ::grpc::Status FmuServiceImpl::CreateInstanceFromME(ServerContext *context, const Solver *request, UInt *response) {
+    //TODO implement from Model Exchange
     return ::grpc::Status::CANCELLED;
 }
 
 ::grpc::Status FmuServiceImpl::GetSimulationTime(ServerContext *context, const UInt *request, Real *response) {
     auto& fmu = instances[request->value()];
-    response->set_value(fmu->getCurrentTime());
+    response->set_value(fmu->getSimulationTime());
     return ::grpc::Status::OK;
 }
 
@@ -78,7 +79,7 @@ FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : m_fmu(fmu) {}
 ::grpc::Status FmuServiceImpl::Step(ServerContext *context, const StepRequest *request, StepResult *response) {
     auto& instance = instances[request->instance_id()];
     response->set_status(grpcType(instance->step(request->step_size())));
-    response->set_simulation_time(instance->getCurrentTime());
+    response->set_simulation_time(instance->getSimulationTime());
     return ::grpc::Status::OK;
 }
 

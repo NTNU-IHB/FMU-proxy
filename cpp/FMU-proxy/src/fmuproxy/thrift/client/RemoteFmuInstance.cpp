@@ -36,7 +36,7 @@ RemoteFmuInstance::RemoteFmuInstance(const InstanceId fmu_id, FmuServiceClient &
     simulation_time = client.getSimulationTime(fmu_id);
 }
 
-double RemoteFmuInstance::getCurrentTime() const {
+double RemoteFmuInstance::getSimulationTime() const {
     return simulation_time;
 }
 

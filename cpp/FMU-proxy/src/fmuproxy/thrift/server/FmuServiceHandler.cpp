@@ -54,7 +54,7 @@ InstanceId FmuServiceHandler::createInstanceFromME(const Solver &solver) {
 
 double FmuServiceHandler::getSimulationTime(const InstanceId instance_id) {
     auto& instance = instances[instance_id];
-    return instance->getCurrentTime();
+    return instance->getSimulationTime();
 }
 
 bool FmuServiceHandler::isTerminated(const InstanceId instance_id) {
@@ -71,7 +71,7 @@ Status::type FmuServiceHandler::init(const InstanceId instance_id, const double 
 void FmuServiceHandler::step(StepResult &_return, const InstanceId instance_id, const double step_size) {
     auto& instance = instances[instance_id];
     fmi2_status_t status = instance->step(step_size);
-    _return.simulationTime = instance->getCurrentTime();
+    _return.simulationTime = instance->getSimulationTime();
     _return.status = thriftType(status);
 }
 
