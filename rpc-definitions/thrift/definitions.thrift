@@ -153,41 +153,21 @@ struct StepResult {
 }
 
 struct IntegerRead {
-    1: i32 value,
-    2: Status status
-}
-
-struct BulkIntegerRead {
     1: list<i32> value,
     2: Status status
 }
 
 struct RealRead {
-    1: double value,
-    2: Status status
-}
-
-struct BulkRealRead {
     1: list<double> value,
     2: Status status
 }
 
 struct StringRead {
-    1: string value,
-    2: Status status
-}
-
-struct BulkStringRead {
     1: list<string> value,
     2: Status status
 }
 
 struct BooleanRead {
-    1: bool value,
-    2: Status status
-}
-
-struct BulkBooleanRead {
     1: list<bool> value,
     2: Status status
 }
@@ -198,9 +178,9 @@ struct Solver {
 }
 
 struct ModelDescription {
-    1: string fmiVersion,
-    2: string modelName,
-    3: string guid,
+    1: string guid,
+    2: string fmiVersion,
+    3: string modelName,
     4: optional string license,
     5: optional string copyright,
     6: optional string author,

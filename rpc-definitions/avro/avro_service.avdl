@@ -151,41 +151,21 @@ protocol AvroFmuService {
   }
 
   record IntegerRead {
-    int value;
-    Status status;
-  }
-
-  record BulkIntegerRead {
     array<int> value;
     Status status;
   }
 
   record RealRead {
-    double value;
-    Status status;
-  }
-
-  record BulkRealRead {
     array<double> value;
     Status status;
   }
 
   record StringRead {
-    string value;
-    Status status;
-  }
-
-  record BulkStringRead {
     array<string> value;
     Status status;
   }
 
   record BooleanRead {
-    boolean value;
-    Status status;
-  }
-
-  record BulkBooleanRead {
     array<boolean> value;
     Status status;
   }
@@ -213,38 +193,22 @@ protocol AvroFmuService {
   int createInstanceFromCS() throws UnsupportedOperationException;
   int createInstanceFromME(Solver solver) throws UnsupportedOperationException;
 
-  boolean canGetAndSetFMUstate(int fmu_id);
+  double getSimulationTime(int instance_id) throws NoSuchFmuException;
+  boolean isTerminated(int instance_id) throws NoSuchFmuException;
 
-  double getSimulationTime(int fmu_id) throws NoSuchFmuException;
-  boolean isTerminated(int fmu_id) throws NoSuchFmuException;
+  Status init(int instance_id, double start, double stop) throws NoSuchFmuException;
+  StepResult step(int instance_id, double step_size) throws NoSuchFmuException;
+  Status terminate(int instance_id) throws NoSuchFmuException;
+  Status reset(int instance_id) throws NoSuchFmuException;
 
-  Status init(int fmu_id, double start, double stop) throws NoSuchFmuException;
-  StepResult step(int fmu_id, double step_size) throws NoSuchFmuException;
-  Status terminate(int fmu_id) throws NoSuchFmuException;
-  Status reset(int fmu_id) throws NoSuchFmuException;
+  IntegerRead readInteger(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  RealRead readReal(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  StringRead readString(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
+  BooleanRead readBoolean(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
 
-  IntegerRead readInteger(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  BulkIntegerRead bulkReadInteger(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-
-  RealRead readReal(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  BulkRealRead bulkReadReal(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-
-  StringRead readString(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  BulkStringRead bulkReadString(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-
-  BooleanRead readBoolean(int fmu_id, int vr) throws NoSuchFmuException, NoSuchVariableException;
-  BulkBooleanRead bulkReadBoolean(int fmu_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-
-  Status writeInteger(int fmu_id, int vr, int value) throws NoSuchFmuException, NoSuchVariableException;
-  Status bulkWriteInteger(int fmu_id,  array<int> vr, array<int> value) throws NoSuchFmuException, NoSuchVariableException;
-
-  Status writeReal(int fmu_id, int vr, double value) throws NoSuchFmuException, NoSuchVariableException;
-  Status bulkWriteReal(int fmu_id, array<int> vr, array<double> value) throws NoSuchFmuException, NoSuchVariableException;
-
-  Status writeString(int fmu_id, int vr, string value) throws NoSuchFmuException, NoSuchVariableException;
-  Status bulkWriteString(int fmu_id, array<int> vr, array<string> value) throws NoSuchFmuException, NoSuchVariableException;
-
-  Status writeBoolean(int fmu_id, int vr, boolean value) throws NoSuchFmuException, NoSuchVariableException;
-  Status bulkWriteBoolean(int fmu_id, array<int> vr, array<boolean> value) throws NoSuchFmuException, NoSuchVariableException;
+  Status writeInteger(int instance_id,  array<int> vr, array<int> value) throws NoSuchFmuException, NoSuchVariableException;
+  Status writeReal(int instance_id, array<int> vr, array<double> value) throws NoSuchFmuException, NoSuchVariableException;
+  Status writeString(int instance_id, array<int> vr, array<string> value) throws NoSuchFmuException, NoSuchVariableException;
+  Status writeBoolean(int instance_id, array<int> vr, array<boolean> value) throws NoSuchFmuException, NoSuchVariableException;
 
 }

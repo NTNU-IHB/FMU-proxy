@@ -115,13 +115,13 @@ message StatusResponse {
 }
 
 message InitRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     double start = 2;
     double stop = 3;
 }
 
 message StepRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     double step_size = 2;
 }
 
@@ -138,112 +138,63 @@ message Int {
     int32 value = 1;
 }
 
-message IntegerRead {
-    int32 value = 1;
-    Status status = 2;
-}
-
-message BulkIntegerRead {
-    repeated int32 values = 1;
-    Status status = 2;
-}
-
 message Real {
     double value = 1;
-}
-
-message RealRead {
-    double value = 1;
-    Status status = 2;
-}
-
-message BulkRealRead {
-    repeated double values = 1;
-    Status status = 2;
 }
 
 message Str {
     string value = 1;
 }
 
-message StringRead {
-    string value = 1;
-    Status status = 2;
-}
-
-message BulkStringRead {
-    repeated string values = 1;
-    Status status = 2;
-}
-
 message Bool {
     bool value = 1;
 }
 
-message BooleanRead {
-    bool value = 1;
+message IntegerRead {
+    repeated int32 values = 1;
     Status status = 2;
 }
 
-message BulkBooleanRead {
+message RealRead {
+    repeated double values = 1;
+    Status status = 2;
+}
+
+message StringRead {
+    repeated string values = 1;
+    Status status = 2;
+}
+
+message BooleanRead {
     repeated bool values = 1;
     Status status = 2;
 }
 
 message ReadRequest {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-}
-
-message BulkReadRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     repeated uint32 value_references = 2;
 }
 
 message WriteIntegerRequest {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    int32 value = 3;
-}
-
-message BulkWriteIntegerRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     repeated uint32 value_references = 2;
     repeated int32 values = 3;
 }
 
 message WriteRealRequest {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    double value = 3;
-}
-
-message BulkWriteRealRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     repeated uint32 value_references = 2;
     repeated double values = 3;
 }
 
 message WriteStringRequest {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    string value = 3;
-}
-
-message BulkWriteStringRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     repeated uint32 value_references = 2;
     repeated string values = 3;
 }
 
 message WriteBooleanRequest {
-    uint32 fmu_id = 1;
-    uint32 value_reference = 2;
-    bool value = 3;
-}
-
-message BulkWriteBooleanRequest {
-    uint32 fmu_id = 1;
+    uint32 instance_id = 1;
     repeated uint32 value_references = 2;
     repeated bool values = 3;
 }
@@ -251,6 +202,10 @@ message BulkWriteBooleanRequest {
 message Solver {
     string name = 1;
     string settings = 2;
+}
+
+message Void {
+    //empty message
 }
 
 enum Causality {
@@ -296,13 +251,3 @@ enum VariableNamingConvention {
     FLAT = 0;
     STRUCTURED = 1;
 }
-
-
-
-
-    
-
-
-
-
-

@@ -28,23 +28,20 @@ package fmuproxy.grpc;
 
 option java_package = "no.mechatronics.sfi.fmuproxy.grpc";
 
-import "google/protobuf/empty.proto";
 import "definitions.proto";
 
 service FmuService {
 
-    rpc GetModelDescriptionXml(google.protobuf.Empty) returns (Str);
-    rpc GetModelDescription(google.protobuf.Empty) returns (ModelDescription);
+    rpc GetModelDescriptionXml(Void) returns (Str);
+    rpc GetModelDescription(Void) returns (ModelDescription);
 
-    rpc CreateInstanceFromCS (google.protobuf.Empty) returns (UInt);
+    rpc CreateInstanceFromCS (Void) returns (UInt);
     rpc CreateInstanceFromME (Solver) returns (UInt);
 
     //instance methods
 
     rpc GetSimulationTime (UInt) returns (Real);
     rpc IsTerminated (UInt) returns (Bool);
-
-    rpc CanGetAndSetFMUstate(UInt) returns (Bool);
 
     rpc Init (InitRequest) returns (StatusResponse);
     rpc Step (StepRequest) returns (StepResult);
@@ -56,19 +53,9 @@ service FmuService {
     rpc ReadString (ReadRequest) returns (StringRead);
     rpc ReadBoolean (ReadRequest) returns (BooleanRead);
 
-    rpc BulkReadInteger (BulkReadRequest) returns (BulkIntegerRead);
-    rpc BulkReadReal (BulkReadRequest) returns (BulkRealRead);
-    rpc BulkReadString (BulkReadRequest) returns (BulkStringRead);
-    rpc BulkReadBoolean (BulkReadRequest) returns (BulkBooleanRead);
-
     rpc WriteInteger (WriteIntegerRequest) returns (StatusResponse);
     rpc WriteReal (WriteRealRequest) returns (StatusResponse);
     rpc WriteString (WriteStringRequest) returns (StatusResponse);
     rpc WriteBoolean (WriteBooleanRequest) returns (StatusResponse);
-
-    rpc BulkWriteInteger (BulkWriteIntegerRequest) returns (StatusResponse);
-    rpc BulkWriteReal (BulkWriteRealRequest) returns (StatusResponse);
-    rpc BulkWriteString (BulkWriteStringRequest) returns (StatusResponse);
-    rpc BulkWriteBoolean (BulkWriteBooleanRequest) returns (StatusResponse);
 
 }
