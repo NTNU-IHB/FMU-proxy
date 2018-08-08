@@ -129,9 +129,21 @@ fmi2_status_t RemoteFmuInstance::readBoolean(const std::vector<fmi2_value_refere
     return convert(booleanRead.status);
 }
 
+fmi2_status_t RemoteFmuInstance::writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) {
+    vector<fmi2_value_reference_t > _vr = {vr};
+    vector<fmi2_integer_t > _value = {value};
+    return writeInteger(_vr, _value);
+}
+
 fmi2_status_t RemoteFmuInstance::writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
     return convert(client.writeInteger(instance_id, _vr, value));
+}
+
+fmi2_status_t RemoteFmuInstance::writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) {
+    vector<fmi2_value_reference_t > _vr = {vr};
+    vector<fmi2_real_t > _value = {value};
+    return writeReal(_vr, _value);
 }
 
 fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
@@ -139,10 +151,22 @@ fmi2_status_t RemoteFmuInstance::writeReal(const std::vector<fmi2_value_referenc
     return convert(client.writeReal(instance_id, _vr, value));
 }
 
+fmi2_status_t RemoteFmuInstance::writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) {
+    vector<fmi2_value_reference_t > _vr = {vr};
+    vector<fmi2_string_t > _value = {value};
+    return writeString(_vr, _value);
+}
+
 fmi2_status_t RemoteFmuInstance::writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) {
     const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
     const StringArray _value = vector<string>(value.begin(), value.end());
     return convert(client.writeString(instance_id, _vr, _value));
+}
+
+fmi2_status_t RemoteFmuInstance::writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) {
+    vector<fmi2_value_reference_t > _vr = {vr};
+    vector<fmi2_boolean_t > _value = {value};
+    return writeBoolean(_vr, _value);
 }
 
 fmi2_status_t RemoteFmuInstance::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {

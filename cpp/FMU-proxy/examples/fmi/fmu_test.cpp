@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     cout << fmu.get_model_description_xml() << endl;
 
     const auto md = fmu.get_model_description();
-    for (auto var : md.modelVariables) {
+    for (const auto var : md.modelVariables) {
         cout << var.attribute << endl;
     }
 

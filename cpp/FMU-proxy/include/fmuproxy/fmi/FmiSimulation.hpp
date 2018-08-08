@@ -54,19 +54,26 @@ namespace fmuproxy::fmi {
 
         virtual fmi2_status_t readInteger(fmi2_value_reference_t vr, fmi2_integer_t &ref) = 0;
         virtual fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t > &ref) = 0;
-        
+
         virtual fmi2_status_t readReal(fmi2_value_reference_t vr, fmi2_real_t &ref) = 0;
         virtual fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t > &ref) = 0;
-        
+
         virtual fmi2_status_t readString(fmi2_value_reference_t vr, fmi2_string_t &ref) = 0;
         virtual fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t > &ref) = 0;
-        
+
         virtual fmi2_status_t readBoolean(fmi2_value_reference_t vr, fmi2_boolean_t &ref) = 0;
         virtual fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t > &ref) = 0;
 
+        virtual fmi2_status_t writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) = 0;
         virtual fmi2_status_t writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) = 0;
+
+        virtual fmi2_status_t writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) = 0;
         virtual fmi2_status_t writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) = 0;
+
+        virtual fmi2_status_t writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) = 0;
         virtual fmi2_status_t writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) = 0;
+
+        virtual fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) = 0;
         virtual fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) = 0;
 
 
