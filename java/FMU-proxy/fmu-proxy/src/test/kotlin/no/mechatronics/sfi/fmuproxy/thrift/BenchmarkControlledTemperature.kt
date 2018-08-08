@@ -3,15 +3,12 @@ package no.mechatronics.sfi.fmuproxy.thrift
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.apache.thrift.transport.TTransportException
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.util.*
 import kotlin.system.measureTimeMillis
 
 class BenchmarkControlledTemperature {
@@ -47,7 +44,7 @@ class BenchmarkControlledTemperature {
                 "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
                         "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
-           ThriftFmuServer(fmu).use { server ->
+           ThriftFmuSocketServer(fmu).use { server ->
                val port = server.start()
                for (i in 0..2) {
                    ThriftTestClient("localhost", port).use { client ->

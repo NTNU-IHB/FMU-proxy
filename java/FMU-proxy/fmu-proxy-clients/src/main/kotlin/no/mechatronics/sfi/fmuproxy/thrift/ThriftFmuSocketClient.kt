@@ -28,23 +28,25 @@ import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
+import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.thrift.protocol.TBinaryProtocol
+import org.apache.thrift.protocol.TJSONProtocol
+import org.apache.thrift.protocol.TProtocol
+import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
-import org.apache.thrift.transport.TTransport
 
 class ThriftFmuClient(
-        host: String,
-        port: Int
+        private val protocol: TProtocol
 ): AbstractRpcFmuClient() {
 
-    private val transport: TTransport
-    private val client: FmuService.Client
+    private val client = FmuService.Client(protocol)
 
     init {
-        transport = TSocket(host, port).also {
-            it.open()
+        protocol.transport.apply {
+            if (!isOpen) {
+                open()
+            }
         }
-        client = FmuService.Client(TBinaryProtocol(transport))
     }
 
     override val modelDescription: CommonModelDescription by lazy {
@@ -91,13 +93,13 @@ class ThriftFmuClient(
 
     override fun close() {
         super.close()
-        transport.close()
+        protocol.transport.close()
     }
-    
+
     override fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead {
         return client.readInteger(instanceId, vr).convert()
     }
-    
+
     override fun readReal(instanceId: Int, vr: List<ValueReference>): FmuRealArrayRead {
         return client.readReal(instanceId, vr).convert()
     }
@@ -105,15 +107,15 @@ class ThriftFmuClient(
     override fun readString(instanceId: Int, vr: List<ValueReference>): FmuStringArrayRead {
         return client.readString(instanceId, vr).convert()
     }
-    
+
     override fun readBoolean(instanceId: Int, vr: List<ValueReference>): FmuBooleanArrayRead {
         return client.readBoolean(instanceId, vr).convert()
     }
-    
+
     override fun writeInteger(instanceId: Int, vr: List<ValueReference>, value: List<Int>): FmiStatus {
         return client.writeInteger(instanceId, vr, value).convert()
     }
-    
+
     override fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Real>): FmiStatus {
         return client.writeReal(instanceId, vr, value).convert()
     }
@@ -121,9 +123,23 @@ class ThriftFmuClient(
     override fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): FmiStatus {
         return client.writeString(instanceId, vr, value).convert()
     }
-    
+
     override fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return client.writeBoolean(instanceId, vr, value).convert()
     }
 
+    companion object {
+
+        fun socketClient(host: String, port: Int): ThriftFmuClient {
+            return ThriftFmuClient(TBinaryProtocol(TSocket(host, port)))
+        }
+
+        fun servletClient(host: String, port: Int): ThriftFmuClient {
+            val client = HttpClientBuilder.create().build()
+            return ThriftFmuClient(TJSONProtocol(THttpClient("http://$host:$port/thrift", client)))
+        }
+
+    }
+
 }
+

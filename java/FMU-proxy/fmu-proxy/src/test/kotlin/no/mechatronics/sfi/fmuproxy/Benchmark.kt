@@ -13,7 +13,7 @@ import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
-import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
+import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuSocketServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -62,11 +62,11 @@ class Benchmark {
     }
 
     @Test
-    fun measureTimeThrift() {
+    fun measureTimeThriftSocket() {
 
-        ThriftFmuServer(fmu).use { server ->
+        ThriftFmuSocketServer(fmu).use { server ->
             val port = server.start()
-            val client = ThriftFmuClient(host, port)
+            val client = ThriftFmuClient.socketClient(host, port)
             client.newInstance().use { instance ->
                 runInstance(instance, dt, stop) {
                     val read = instance.readReal("Temperature_Room")

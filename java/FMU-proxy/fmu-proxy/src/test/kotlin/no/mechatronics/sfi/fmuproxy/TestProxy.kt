@@ -12,9 +12,9 @@ import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
-import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
-import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
+import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServlet
+import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuSocketServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -37,37 +37,26 @@ class TestProxy {
         private const val stopTime: Double = 5.0
         private const val host = "localhost"
 
-        private const val httpPort: Int = 8003
-        private const val wsPort: Int = 8004
-        private const val tcpPort: Int = 8005
-        private const val zmqPort: Int = 8006
-
     }
 
     private val proxy: FmuProxy
-    private val grpcServer: FmuProxyServer
-    private val avroServer: FmuProxyServer
-    private val thriftServer: FmuProxyServer
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
     init {
 
-        grpcServer = GrpcFmuServer(fmu)
-        avroServer = AvroFmuServer(fmu)
-        thriftServer = ThriftFmuServer(fmu)
-
         proxy = FmuProxyBuilder(fmu).apply {
-            addServer(grpcServer)
-            addServer(thriftServer)
-            addServer(avroServer)
+            addServer(GrpcFmuServer(fmu))
+            addServer(AvroFmuServer(fmu))
+            addServer(ThriftFmuSocketServer(fmu))
+            addServer(ThriftFmuServlet(fmu))
             RpcHandler(RpcFmuService(fmu)).also { handler ->
-                addServer(FmuProxyJsonWsServer(handler), wsPort)
-                addServer(FmuProxyJsonTcpServer(handler), tcpPort)
-                addServer(FmuProxyJsonZmqServer(handler), zmqPort)
+                addServer(FmuProxyJsonWsServer(handler))
+                addServer(FmuProxyJsonTcpServer(handler))
+                addServer(FmuProxyJsonZmqServer(handler))
                 if (!OS.LINUX.isCurrentOs) {
-                    addServer(FmuProxyJsonHttpServer(handler), httpPort)
+                    addServer(FmuProxyJsonHttpServer(handler))
                 }
             }
 
@@ -82,23 +71,6 @@ class TestProxy {
     fun tearDown() {
         proxy.stop()
         fmu.close()
-    }
-
-    @Test
-    fun testGetPort() {
-        if (!OS.LINUX.isCurrentOs) {
-            Assertions.assertEquals(httpPort, proxy.getPortFor<FmuProxyJsonHttpServer>())
-        }
-        Assertions.assertEquals(wsPort, proxy.getPortFor<FmuProxyJsonWsServer>())
-        Assertions.assertEquals(tcpPort, proxy.getPortFor<FmuProxyJsonTcpServer>())
-        Assertions.assertEquals(zmqPort, proxy.getPortFor<FmuProxyJsonZmqServer>())
-    }
-
-    @Test
-    fun getServer() {
-        Assertions.assertEquals(grpcServer, proxy.getServer<GrpcFmuServer>())
-        Assertions.assertEquals(avroServer, proxy.getServer<AvroFmuServer>())
-        Assertions.assertEquals(thriftServer, proxy.getServer<ThriftFmuServer>())
     }
 
     @Test
@@ -128,10 +100,10 @@ class TestProxy {
     }
 
     @Test
-    fun testThrift() {
+    fun testThriftSocket() {
 
-        proxy.getPortFor<ThriftFmuServer>()?.also { port ->
-            ThriftFmuClient(host, port).use { client ->
+        proxy.getPortFor<ThriftFmuSocketServer>()?.also { port ->
+            ThriftFmuClient.socketClient(host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -143,7 +115,32 @@ class TestProxy {
                 client.newInstance().use { instance ->
 
                     runInstance(instance, stepSize, stopTime).also {
-                        LOG.info("Thrift duration: ${it}ms")
+                        LOG.info("Thrift (socket) duration: ${it}ms")
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    @Test
+    fun testThriftServlet() {
+
+        proxy.getPortFor<ThriftFmuServlet>()?.also { port ->
+            ThriftFmuClient.servletClient(host, port).use { client ->
+
+                val mdLocal = fmu.modelDescription
+                val mdRemote = client.modelDescription
+
+                Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
+                Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
+                Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
+
+                client.newInstance().use { instance ->
+
+                    runInstance(instance, stepSize, stopTime).also {
+                        LOG.info("Thrift (servlet) duration: ${it}ms")
                     }
 
                 }

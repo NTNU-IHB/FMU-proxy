@@ -15,7 +15,7 @@ object RunServer {
     fun main(args: Array<String>) {
 
         Fmu.from(fmuPath).use { fmu ->
-            val server = ThriftFmuServer(fmu).apply {
+            val server = ThriftFmuSocketServer(fmu).apply {
                 start(9090)
             }
 
