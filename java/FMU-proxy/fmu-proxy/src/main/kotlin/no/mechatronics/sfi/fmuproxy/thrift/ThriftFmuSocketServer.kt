@@ -32,9 +32,12 @@ import org.apache.thrift.server.TServer
 import org.apache.thrift.server.TServlet
 import org.apache.thrift.server.TSimpleServer
 import org.apache.thrift.transport.TServerSocket
-import org.mortbay.jetty.Server
-import org.mortbay.jetty.servlet.ServletHandler
-import org.mortbay.jetty.servlet.ServletHolder
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.servlet.FilterHolder
+import org.eclipse.jetty.servlet.FilterMapping
+import org.eclipse.jetty.servlet.ServletHandler
+import org.eclipse.jetty.servlet.ServletHolder
+import org.eclipse.jetty.servlets.CrossOriginFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -123,11 +126,30 @@ class ThriftFmuServlet(
 
     override fun setup(port: Int, processor: FmuService.Processor<ThriftFmuServiceImpl>): IServer {
 
-        val server = Server(port)
-        val handler = ServletHandler()
-        val holder = ServletHolder(TServlet(processor, TJSONProtocol.Factory()))
-        handler.addServletWithMapping(holder, "/thrift")
-        server.handler = handler
+        val handler = ServletHandler().apply {
+            val holder = ServletHolder(TServlet(processor, TJSONProtocol.Factory()))
+            addServletWithMapping(holder, "/thrift")
+        }
+
+        val holder = FilterHolder(CrossOriginFilter::class.java).apply {
+            name = "cross-origin"
+            setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*")
+            setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*")
+            setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD")
+            setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin")
+        }
+
+        val fm = FilterMapping().apply {
+            filterName = "cross-origin"
+            setPathSpec("*")
+        }
+
+        handler.addFilter(holder, fm)
+
+        val server = Server(port).also {
+            it.handler = handler
+        }
+
         return object: IServer {
 
             override fun serve() {
