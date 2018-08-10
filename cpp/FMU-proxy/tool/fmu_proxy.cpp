@@ -62,12 +62,19 @@ namespace {
 
         bool has_remote = remote != nullptr;
         bool enable_grpc = ports.count("grpc");
-        bool enable_thrift = ports.count("thrift");
+        bool enable_thrift_tcp = ports.count("thrift/tcp");
+        bool enable_thrift_http = ports.count("thrift/http");
 
-        unique_ptr<ThriftServer> thrift_server = nullptr;
-        if (enable_thrift) {
-            thrift_server = make_unique<ThriftServer>(fmu, ports["thrift"]);
-            thrift_server->start();
+        unique_ptr<ThriftServer> thrift_socket_server = nullptr;
+        if (enable_thrift_tcp) {
+            thrift_socket_server = make_unique<ThriftServer>(fmu, ports["thrift/tcp"]);
+            thrift_socket_server->start();
+        }
+
+        unique_ptr<ThriftServer> thrift_http_server = nullptr;
+        if (enable_thrift_http) {
+            thrift_http_server = make_unique<ThriftServer>(fmu, ports["thrift/http"], true);
+            thrift_http_server->start();
         }
 
         unique_ptr<GrpcServer> grpc_server = nullptr;
@@ -91,10 +98,12 @@ namespace {
         if (enable_grpc) {
             grpc_server->stop();
         }
-        if (enable_thrift) {
-            thrift_server->stop();
+        if (enable_thrift_tcp) {
+            thrift_socket_server->stop();
         }
-
+        if (enable_thrift_tcp) {
+            thrift_http_server->stop();
+        }
 
         return 0;
 
@@ -114,8 +123,9 @@ int main(int argc, char** argv) {
                 ("fmu,f", po::value<string>()->required(), "Path to FMU.")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
 
-                ("thrift_port,t", po::value<unsigned int>(), "Specify the network port to be used by the Thrift server.")
-                ("grpc_port,g", po::value<unsigned int>(), "Specify the network port to be used by the gRPC server.");
+                ("thrift/tcp,", po::value<unsigned int>(), "Specify the network port to be used by the Thrift (TCP/IP) server.")
+                ("thrift/http,", po::value<unsigned int>(), "Specify the network port to be used by the Thrift (HTTP) server.")
+                ("grpc,", po::value<unsigned int>(), "Specify the network port to be used by the gRPC server.");
 
         po::variables_map vm;
         try {
@@ -138,11 +148,19 @@ int main(int argc, char** argv) {
         const string fmu_path = vm["fmu"].as<string>();
 
         auto ports = std::map<string, unsigned int>();
-        if (vm.count("thrift_port")) {
-            ports["thrift"] = vm["thrift_port"].as<unsigned int>();
+        const char* thrift_tcp = "thrift/tcp";
+        if (vm.count(thrift_tcp)) {
+            ports[thrift_tcp] = vm[thrift_tcp].as<unsigned int>();
         }
-        if (vm.count("grpc_port")) {
-            ports["grpc"] = vm["grpc_port"].as<unsigned int>();
+
+        const char* thrift_http = "thrift/http";
+        if (vm.count(thrift_http)) {
+            ports[thrift_http] = vm[thrift_http].as<unsigned int>();
+        }
+
+        const char* grpc = "grpc";
+        if (vm.count(grpc)) {
+            ports[grpc] = vm[grpc].as<unsigned int>();
         }
 
         shared_ptr<fmuproxy::RemoteAddress> remote = nullptr;

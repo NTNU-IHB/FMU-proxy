@@ -43,7 +43,7 @@ namespace fmuproxy::thrift::server {
         void serve();
 
     public:
-        ThriftServer(fmuproxy::fmi::Fmu &fmu, unsigned int port);
+        ThriftServer(fmuproxy::fmi::Fmu &fmu, unsigned int port, bool http=false);
 
         void start();
 

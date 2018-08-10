@@ -40,11 +40,16 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu = Fmu(fmu_path);
-    ThriftServer server = ThriftServer(fmu, port);
-    server.start();
+    ThriftServer socket_server = ThriftServer(fmu, 9090);
+    socket_server.start();
+
+    ThriftServer http_server = ThriftServer(fmu, 9091, true);
+    http_server.start();
 
     wait_for_input();
-    server.stop();
+
+    socket_server.stop();
+    http_server.stop();
 
     return 0;
 }
