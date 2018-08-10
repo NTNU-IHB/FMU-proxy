@@ -25,9 +25,9 @@ The available **client** implementations are given in the table below:
 
 |    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	| [Javascript](#javascript)
 |:--------:	|:---:	|:---:	|:------:	|:------:		|
-|   gRPC   	|  x  	|  x  	|    x   	|  x			|
-|  Thrift/TCP  	|  x  	|  x  	|    x   	|  x			|  X
-|  Thrift/HTTP  |  x  	|  x  	|       	|			|
+|   gRPC   	|  x  	|  x  	|    x   	|  			|
+|  Thrift/TCP  	|  x  	|  x  	|    x   	|  			|  
+|  Thrift/HTTP  |  x  	|    	|       	|	x		|
 |   Avro   	|  x  	|     	|        	|			|
 | JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
