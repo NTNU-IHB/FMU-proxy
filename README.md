@@ -31,7 +31,9 @@ The available **client** implementations are given in the table below:
 | JSON-RPC 	|  x  	|     	|        	|
 
 
-**NOTE:** Becouse of the language inependent nature of the RPC technologies and network protocols used, servers and client can be implemented in virtually any other language as well. 
+A javascript client demo is also available.
+
+**NOTE:** Due to the language independent nature of the RPC technologies and network protocols involved, servers and client may be implemented in virtually any other languages with easy. 
 
 ### <a name="jvm"></a> JVM
 
@@ -99,6 +101,10 @@ Options:
 ### <a name="python"></a> Python
 
 This repository comes with client implementations in Python for gRPC and Thrift.
+
+### <a name="javascript"></a> JavaScript
+
+A simple Thrift client running in the browser can be seen [here](browser/thrift/index.html).
 
 ## Software Architecture
 
