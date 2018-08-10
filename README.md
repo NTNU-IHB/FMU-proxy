@@ -19,8 +19,12 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 
 ## Implementation
 
-This repository comes bundled with **server** implementations written in Kotlin(JVM) and C++. 
 
+##### Server
+This repository comes bundled with **server** implementations written in Kotlin (JVM) and C++. 
+
+
+##### Client
 The available **client** implementations are given in the table below:
 
 |    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	| [Javascript](#javascript)
@@ -32,13 +36,12 @@ The available **client** implementations are given in the table below:
 | JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
 
-A javascript client demo is also available.
+**NOTE:** Thanks to the language independent nature of the RPC technologies and network protocols involved, servers and client may be implemented in virtually any other languages with easy. 
 
-**NOTE:** Due to the language independent nature of the RPC technologies and network protocols involved, servers and client may be implemented in virtually any other languages with easy. 
 
 ### <a name="jvm"></a> JVM
 
-The JVM implementaion of FMU-proxy is written in Kotlin and uses the gradle build system. 
+The JVM implementation of FMU-proxy is written in Kotlin and uses the gradle build system. 
 
 It features a server implementation that supports Apache Thrift, Apache Avro, gRPC and JSON-RPC RPCs.
 While the former are only available using one network protocol. The JSON-RPC is available using both HTTP, WebSockets, TCP/IP and ZeroMQ.
@@ -47,9 +50,9 @@ For interacting with the FMUs on the JVM, [FMI4j](https://sfi-mechatronics.githu
 The JSON-RPC client and server implementation is found [here](https://github.com/markaren/YAJ-RPC).
 
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
-The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangebly in user code. 
+The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangeably in user code. 
 
-[The directory service](#directory_service) is also implemented in Kotlin.  
+[The discovery service](#discovery_service) has also been implemented in Kotlin.  
 
 #### FMU-proxy executable
 
@@ -104,24 +107,28 @@ Options:
 
 ### <a name="python"></a> Python
 
-This repository comes with client implementations in Python for gRPC and Thrift.
+This repository comes bundled with simple client implementations in Python for gRPC and Thrift.
+
 
 ### <a name="javascript"></a> JavaScript
 
 A simple Thrift client running in the browser can be found [here](browser/thrift/index.html). 
 
+
 ## Software Architecture
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
-#### <a name="directory_service"></a> The Directory Service
+#### <a name="discovery_service"></a> The Directory Service
 
-The directory service is a centralized web service which FMU-proxy servers connects to. 
+The discovery service is a centralized web service which FMU-proxy servers connects to. 
 As there may be many directory services online (each company could have they own), the IP and Port should be provided the FMU-proxy server on startup.
 The service has a HTTP API that allows clients to query for available FMUs. 
 The response is a JSON array with the necessary information required to connect to the FMUs directly. 
 
-The service features a web-based GUI, where users can lookup information retreived from the FMUs modelDescription.xml.
+The service features a web-based GUI, where users can lookup information retrieved from the FMUs modelDescription.xml.
+
+***
 
 #### Running Tests
 
