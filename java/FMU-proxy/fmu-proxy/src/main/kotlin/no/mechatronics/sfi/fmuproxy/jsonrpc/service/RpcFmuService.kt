@@ -153,72 +153,38 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun readInteger(instanceId: Int, vr: ValueReference): FmuIntegerRead {
+    fun readInteger(instanceId: Int, vr: ValueReferences): FmuIntegerArrayRead {
         return getFmu(instanceId).variableAccessor.readInteger(vr)
     }
-
+    
     @RpcMethod
-    fun bulkReadInteger(instanceId: Int, vr: ValueReferences): FmuIntegerArrayRead {
-        return getFmu(instanceId).variableAccessor.readInteger(vr)
-    }
-
-    @RpcMethod
-    fun readReal(instanceId: Int, vr: ValueReference): FmuRealRead {
+    fun readReal(instanceId: Int, vr: ValueReferences): FmuRealArrayRead {
         return getFmu(instanceId).variableAccessor.readReal(vr)
     }
-
+    
     @RpcMethod
-    fun bulkReadReal(instanceId: Int, vr: ValueReferences): FmuRealArrayRead {
-        return getFmu(instanceId).variableAccessor.readReal(vr)
-    }
-
-    @RpcMethod
-    fun readString(instanceId: Int, vr: ValueReference): FmuStringRead {
+    fun readString(instanceId: Int, vr: ValueReferences): FmuStringArrayRead {
         return getFmu(instanceId).variableAccessor.readString(vr)
     }
-
+    
     @RpcMethod
-    fun bulkReadString(instanceId: Int, vr: ValueReferences): FmuStringArrayRead {
-        return getFmu(instanceId).variableAccessor.readString(vr)
-    }
-
-    @RpcMethod
-    fun readBoolean(instanceId: Int, vr: ValueReference): FmuBooleanRead {
+    fun readBoolean(instanceId: Int, vr: ValueReferences): FmuBooleanArrayRead {
         return getFmu(instanceId).variableAccessor.readBoolean(vr)
     }
-
+    
     @RpcMethod
-    fun bulkReadBoolean(instanceId: Int, vr: ValueReferences): FmuBooleanArrayRead {
-        return getFmu(instanceId).variableAccessor.readBoolean(vr)
-    }
-
-    @RpcMethod
-    fun writeInteger(instanceId: Int, vr: ValueReference, value: Int): FmiStatus {
+    fun writeInteger(instanceId: Int, vr: ValueReferences, value: IntArray): FmiStatus {
         return getFmu(instanceId).variableAccessor.writeInteger(vr, value)
     }
 
     @RpcMethod
-    fun bulkWriteInteger(instanceId: Int, vr: ValueReferences, value: IntArray): FmiStatus {
-        return getFmu(instanceId).variableAccessor.writeInteger(vr, value)
-    }
-
-    @RpcMethod
-    fun writeReal(instanceId: Int, vr: ValueReference, value: Double): FmiStatus {
+    fun writeReal(instanceId: Int, vr: ValueReferences, value: DoubleArray): FmiStatus {
         return getFmu(instanceId).variableAccessor.writeReal(vr, value)
     }
+    
 
     @RpcMethod
-    fun bulkWriteReal(instanceId: Int, vr: ValueReferences, value: DoubleArray): FmiStatus {
-        return getFmu(instanceId).variableAccessor.writeReal(vr, value)
-    }
-
-    @RpcMethod
-    fun writeString(instanceId: Int, vr: ValueReference, value: String): FmiStatus {
-        return getFmu(instanceId).variableAccessor.writeString(vr, value)
-    }
-
-    @RpcMethod
-    fun bulkWriteString(instanceId: Int, vr: ValueReferences, value: StringArray): FmiStatus {
+    fun writeString(instanceId: Int, vr: ValueReferences, value: StringArray): FmiStatus {
         return getFmu(instanceId).variableAccessor.writeString(vr, value)
     }
 
@@ -228,7 +194,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun bulkWriteBoolean(instanceId: Int, vr: ValueReferences, value: BooleanArray): FmiStatus {
+    fun writeBoolean(instanceId: Int, vr: ValueReferences, value: BooleanArray): FmiStatus {
         return getFmu(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 

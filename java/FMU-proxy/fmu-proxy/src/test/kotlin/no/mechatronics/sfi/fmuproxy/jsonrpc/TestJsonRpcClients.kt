@@ -60,7 +60,7 @@ class TestJsonRpcClients {
     fun testClients() {
 
         val clients = mutableListOf(
-                RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
+//                RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
                 RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
                 RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
         ).apply {
