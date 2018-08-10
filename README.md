@@ -23,12 +23,13 @@ This repository comes bundled with **server** implementations written in Kotlin(
 
 The available **client** implementations are given in the table below:
 
-|    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	|
-|:--------:	|:---:	|:---:	|:------:	|
-|   gRPC   	|  x  	|  x  	|    x   	|
-|  Thrift  	|  x  	|  x  	|    x   	|
-|   Avro   	|  x  	|     	|        	|
-| JSON-RPC 	|  x  	|     	|        	|
+|    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	| [Javascript](#javascript)
+|:--------:	|:---:	|:---:	|:------:	|:------:		|
+|   gRPC   	|  x  	|  x  	|    x   	|  x			|
+|  Thrift/TCP  	|  x  	|  x  	|    x   	|  x			|  X
+|  Thrift/HTTP  |  x  	|  x  	|       	|			|
+|   Avro   	|  x  	|     	|        	|			|
+| JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
 
 A javascript client demo is also available.
@@ -57,13 +58,15 @@ Usage: fmu-proxy [-h] -fmu=<fmuPath>
                  [-avro=<avroPort>] [-grpc=<grpcPort>]
                  [-jsonrpc/http=<jsonHttpPort>] [-jsonrpc/tcp=<jsonTcpPort>]
                  [-jsonrpc/ws=<jsonWsPort>] [-jsonrpc/zmq=<jsonZmqPort>]
-                 [-r=<remote>] [-thrift=<thriftPort>]
+                 [-r=<remote>] [-thrift/http=<thriftHttpPort>]
+		 [-thrift/tcp=<thriftTcpPort>]
   -h, --help                        Print this message and quits.
-  -fmu, --fmuPath=<fmuPath>         Path to the fmu.
+  -f, --fmu=<fmuPath>               Path to the fmu.
   -r, --remote=<remote>             Specify an address for the remote tracking server (optional).
       -avro=<avroPort>              Manually specify the Avro port (optional).
       -grpc=<grpcPort>              Manually specify the gRPC port (optional).
-      -thrift=<thriftPort>          Manually specify the Thrift port (optional).
+      -thrift/tcp=<thriftPort>      Manually specify the Thrift (TCP) port (optional).
+      -thrift/http=<thriftPort>     Manually specify the Thrift (HTTP) port (optional).
       -jsonrpc/http=<jsonHttpPort>  Manually specify the JSON-RPC HTTP port(optional).
       -jsonrpc/tcp=<jsonTcpPort>    Manually specify the JSON-RPC TCP/IP port (optional).
       -jsonrpc/ws=<jsonWsPort>      Manually specify the JSON-RPC WS port (optional).
@@ -94,8 +97,9 @@ Options:
   -h [ --help ]            Print this help message and quits.
   -f [ --fmu ] arg         Path to FMU
   -r [ --remote ] arg      IP address of the remote tracking server
-  -g [ --grpc_port ] arg   Specify the network port to be used by the gRPC server
-  -t [ --thrift_port ] arg Specify the network port to be used by the Thrift server
+  - [ --grpc ] arg   Specify the network port to be used by the gRPC server
+  - [ --thrift/tcp ] arg Specify the network port to be used by the Thrift (TCP/IP) server
+  - [ --thrift/http ] arg Specify the network port to be used by the Thrift (HTTP) server
 ```
 
 ### <a name="python"></a> Python
