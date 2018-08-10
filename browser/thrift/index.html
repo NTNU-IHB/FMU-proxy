@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>Thrift Javascript test</title>
     <link rel="stylesheet" href="style.css">
-    <script src="thrift/thrift.js"></script>
-    <script src="thrift/FmuService.js"></script>
-    <script src="thrift/definitions_types.js"></script>
+    <script src="js/thrift.js"></script>
+    <script src="js/FmuService.js"></script>
+    <script src="js/definitions_types.js"></script>
   </head>
   <body>
     
@@ -17,6 +17,8 @@
         var transport = new Thrift.TXHRTransport("http://localhost:9090/thrift");
         var protocol  = new Thrift.TJSONProtocol(transport);
         var client    = new FmuServiceClient(protocol);
+   
+        console.log(client.getModelDescriptionXml())
    
         var instance_id = client.createInstanceFromCS();
         
