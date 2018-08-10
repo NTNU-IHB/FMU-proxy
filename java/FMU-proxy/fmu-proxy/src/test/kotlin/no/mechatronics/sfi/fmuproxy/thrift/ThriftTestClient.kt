@@ -107,9 +107,7 @@ class ThriftTestClient(
             currentTime = getCurrentTime(instanceId)
         }
 
-       fun init() = init(0.0)
-       fun init(start: Double) = init(start, 0.0)
-       fun init(start: Double, stop: Double) {
+       fun init(start: Double = 0.0, stop: Double = 0.0) {
             init(instanceId, start, stop)
         }
 
