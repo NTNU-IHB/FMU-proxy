@@ -61,9 +61,11 @@ class AvroFmuServer(
 
     override fun stop() {
         if (isRunning) {
+            LOG.info("Stopping ${javaClass.simpleName} ...")
             server?.close()
-            server = null
             LOG.info("${javaClass.simpleName} stopped!")
+            server = null
+
         }
     }
 

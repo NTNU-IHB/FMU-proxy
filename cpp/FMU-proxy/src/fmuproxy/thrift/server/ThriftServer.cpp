@@ -24,7 +24,10 @@
 
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 #include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/THttpTransport.h>
 #include <thrift/transport/TBufferTransports.h>
+#include <thrift/transport/THttpServer.h>
+#include <thrift/protocol/TJSONProtocol.h>
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -35,15 +38,23 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port): port(port) {
+ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port, bool http): port(port) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-    shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-    shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-    this->server = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+    shared_ptr<TTransportFactory> transportFactory;
+    shared_ptr<TProtocolFactory> protocolFactory;
+    if (http) {
+        shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
+        shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
+        this->server = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+    } else {
+        shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+        shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+        this->server = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+    }
 
 }
 

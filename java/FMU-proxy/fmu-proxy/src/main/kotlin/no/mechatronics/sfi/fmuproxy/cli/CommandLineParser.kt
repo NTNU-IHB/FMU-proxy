@@ -37,7 +37,8 @@ import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonWsServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonZmqServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
-import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServer
+import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServlet
+import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuSocketServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import picocli.CommandLine
@@ -78,8 +79,11 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)."])
     var grpcPort: Int? = null
 
-    @CommandLine.Option(names = ["-thrift"], description = ["Manually specify the Thrift port (optional)."])
-    var thriftPort: Int? = null
+    @CommandLine.Option(names = ["-thrift/tcp"], description = ["Manually specify the Thrift tcp port (optional)."])
+    var thriftTcpPort: Int? = null
+
+    @CommandLine.Option(names = ["-thrift/http"], description = ["Manually specify the Thrift http port (optional)."])
+    var thriftHttpPort: Int? = null
 
     @CommandLine.Option(names = ["-avro"], description = ["Manually specify the Avro port (optional)."])
     var avroPort: Int? = null
@@ -127,8 +131,12 @@ class Args: Callable<FmuProxy> {
                 addServer(this, grpcPort)
             }
 
-            ThriftFmuServer(fmu).apply {
-                addServer(this, thriftPort)
+            ThriftFmuSocketServer(fmu).apply {
+                addServer(this, thriftTcpPort)
+            }
+
+            ThriftFmuServlet(fmu).apply {
+                addServer(this, thriftHttpPort)
             }
 
             AvroFmuServer(fmu).apply {
@@ -137,31 +145,35 @@ class Args: Callable<FmuProxy> {
 
 
 
-            val handler = RpcHandler(RpcFmuService(fmu))
+            RpcHandler(RpcFmuService(fmu)).also { handler ->
 
-            if (Platform.isWindows()) {
-                FmuProxyJsonHttpServer(handler).apply {
-                    addServer(this, jsonHttpPort)
+                if (Platform.isWindows()) {
+                    FmuProxyJsonHttpServer(handler).apply {
+                        addServer(this, jsonHttpPort)
+                    }
                 }
+
+                FmuProxyJsonWsServer(handler).apply {
+                    addServer(this, jsonWsPort)
+                }
+
+                FmuProxyJsonTcpServer(handler).apply {
+                    addServer(this, jsonTcpPort)
+                }
+
+                FmuProxyJsonZmqServer(handler).apply {
+                    addServer(this, jsonZmqPort)
+                }
+
             }
 
-            FmuProxyJsonWsServer(handler).apply {
-                addServer(this, jsonWsPort)
-            }
 
-            FmuProxyJsonTcpServer(handler).apply {
-                addServer(this, jsonTcpPort)
-            }
-
-            FmuProxyJsonZmqServer(handler).apply {
-                addServer(this, jsonZmqPort)
-            }
 
         }.build()
     }
 
     override fun toString(): String {
-        return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftPort=$thriftPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
+        return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
     }
 
 

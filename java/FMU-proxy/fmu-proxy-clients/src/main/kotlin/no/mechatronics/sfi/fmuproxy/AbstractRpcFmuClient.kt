@@ -65,7 +65,7 @@ abstract class AbstractRpcFmuClient: Closeable {
     internal abstract fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead
 
     internal fun readReal(instanceId: Int, vr: ValueReference): FmuRealRead {
-        return readReal(instanceId, listOf(vr)).let { 
+        return readReal(instanceId, listOf(vr)).let {
             FmuRealRead(it.value[0], it.status)
         }
     }
@@ -131,7 +131,7 @@ abstract class AbstractRpcFmuClient: Closeable {
     }
 
     override fun close() {
-        LOG.info("Closing..")
+        LOG.debug("Closing..")
         FmuInstances.terminateAll()
     }
 

@@ -1,7 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.jupiter.api.AfterAll
@@ -24,8 +23,8 @@ class TestThriftTemperature {
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
-    private val server: ThriftFmuServer = ThriftFmuServer(fmu)
-    private val client: ThriftFmuClient = ThriftFmuClient("localhost", server.start())
+    private val server = ThriftFmuSocketServer(fmu)
+    private val client = ThriftFmuClient.socketClient("localhost", server.start())
 
     @AfterAll
     fun tearDown() {

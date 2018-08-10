@@ -5,7 +5,7 @@ import no.mechatronics.sfi.fmuproxy.TestUtils
 import java.io.File
 import java.util.*
 
-object RunServer {
+object RunServlet {
 
     private val fmuPath = File(TestUtils.getTEST_FMUs(),
             "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
@@ -15,8 +15,8 @@ object RunServer {
     fun main(args: Array<String>) {
 
         Fmu.from(fmuPath).use { fmu ->
-            val server = ThriftFmuServer(fmu).apply {
-                start(9090)
+            val server = ThriftFmuServlet(fmu).apply {
+                start(9091)
             }
 
             println("Press any key to quit..")
