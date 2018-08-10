@@ -14,7 +14,7 @@
     
       (function() {
       
-        var transport = new Thrift.TXHRTransport("http://localhost:9090/thrift");
+        var transport = new Thrift.TXHRTransport("http://localhost:9091/thrift");
         var protocol  = new Thrift.TJSONProtocol(transport);
         var client    = new FmuServiceClient(protocol);
    
