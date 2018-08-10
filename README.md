@@ -126,7 +126,7 @@ As there may be many directory services online (each company could have they own
 The service has a HTTP API that allows clients to query for available FMUs. 
 The response is a JSON array with the necessary information required to connect to the FMUs directly. 
 
-The service features a web-based GUI, where users can lookup information retrieved from the FMUs modelDescription.xml.
+The service features a web-based GUI, where users can lookup information retrieved from the FMUs _modelDescription.xml_.
 
 ***
 
