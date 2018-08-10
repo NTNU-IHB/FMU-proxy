@@ -5,7 +5,7 @@ import no.mechatronics.sfi.fmuproxy.TestUtils
 import java.io.File
 import java.util.*
 
-object RunServer {
+object RunSocketServer {
 
     private val fmuPath = File(TestUtils.getTEST_FMUs(),
             "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
