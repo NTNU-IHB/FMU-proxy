@@ -16,7 +16,7 @@ object RunServlet {
 
         Fmu.from(fmuPath).use { fmu ->
             val server = ThriftFmuServlet(fmu).apply {
-                start(9090)
+                start(9091)
             }
 
             println("Press any key to quit..")
