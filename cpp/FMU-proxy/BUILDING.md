@@ -17,18 +17,13 @@ which bundles CMake 3.12..
 Using vcpkg, installing the required dependencies is as easy as:
 
 ```
-./vcpkg install curl thrift grpc boost-atomic boost-system boost-filesystem boost-program-options
+./vcpkg install fmilib curl thrift grpc boost-atomic boost-system boost-filesystem boost-program-options
 ```
+If thrift gives you an error regarding flex or bison on linux, see this [issue](https://github.com/Microsoft/vcpkg/issues/4042)
 
-.. except **FMI Library** which requires some manual labour:
+If you also want to build the tests, add:
 
-While we wait for a vcpkg package to be officially added, 
-unpack [this](http://folk.ntnu.no/laht/files/vcpkg/fmilib-port.zip) archive into _VCPKG_ROOT_/ports.
-
-This will allow you to also install FMI Library using vcpkg:
-
-```
-./vcpkg install fmilib
+```./vcpkg install boost-test
 ```
 
 That's it!
