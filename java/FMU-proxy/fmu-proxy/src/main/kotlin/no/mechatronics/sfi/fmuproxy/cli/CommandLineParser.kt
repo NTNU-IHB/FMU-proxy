@@ -24,9 +24,9 @@
 
 package no.mechatronics.sfi.fmuproxy.cli
 
-import com.sun.jna.Platform
 import info.laht.yajrpc.RpcHandler
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.importer.misc.isLinux
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
@@ -143,11 +143,9 @@ class Args: Callable<FmuProxy> {
                 addServer(this, avroPort)
             }
 
-
-
             RpcHandler(RpcFmuService(fmu)).also { handler ->
 
-                if (Platform.isWindows()) {
+                if (!isLinux) {
                     FmuProxyJsonHttpServer(handler).apply {
                         addServer(this, jsonHttpPort)
                     }
@@ -167,8 +165,6 @@ class Args: Callable<FmuProxy> {
 
             }
 
-
-
         }.build()
     }
 
@@ -176,9 +172,5 @@ class Args: Callable<FmuProxy> {
         return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
     }
 
-
 }
-
-
-
 

@@ -21,8 +21,9 @@ dependencies {
     implementation group: 'info.laht', name: 'yaj-rpc-zmq', version: yajrpc_version
     implementation group: 'info.laht', name: 'yaj-rpc-http', version: yajrpc_version
 
-    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.11.v20180605'
-    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.11.v20180605'
+    def jetty_version = "9.4.11.v20180605"
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jetty_version
 
     compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 

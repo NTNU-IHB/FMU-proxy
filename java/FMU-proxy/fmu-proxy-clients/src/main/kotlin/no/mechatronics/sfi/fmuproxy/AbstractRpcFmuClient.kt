@@ -212,9 +212,6 @@ abstract class AbstractRpcFmuClient: Closeable {
         override fun readBoolean(vr: ValueReferences, value: BooleanArray)
                 = readBoolean(instanceId, vr.toList()).also { lastStatus = it.status }
 
-        override fun readBoolean(vr: ValueReferences, value: IntArray)
-                = readInteger(instanceId, vr.toList()).also { lastStatus = it.status }
-
 
         override fun readInteger(name: String)
                 = readInteger(instanceId, process(name)).also { lastStatus = it.status }
@@ -263,9 +260,6 @@ abstract class AbstractRpcFmuClient: Closeable {
 
         override fun writeBoolean(vr: ValueReferences, value: BooleanArray)
                 = writeBoolean(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
-
-        override fun writeBoolean(vr: ValueReferences, value: IntArray)
-                = writeBoolean(instanceId, vr.toList(), value.map { it != 0 })
 
 
         override fun writeInteger(name: String, value: Int)
