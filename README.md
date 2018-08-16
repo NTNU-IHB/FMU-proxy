@@ -36,7 +36,7 @@ The available **client** implementations are given in the table below:
 | JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
 
-**NOTE:** Thanks to the language independent nature of the RPC technologies and network protocols involved, servers and client may be implemented in virtually any other languages with easy. 
+**NOTE:** Thanks to the language independent nature of the RPC technologies and network protocols involved, servers and clients may be implemented in virtually any language with relative ease. 
 
 
 ### <a name="jvm"></a> JVM
@@ -119,10 +119,10 @@ A simple Thrift client running in the browser can be found [here](browser/thrift
 
 ![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
 
-#### <a name="discovery_service"></a> The Directory Service
+#### <a name="discovery_service"></a> The Discovery Service
 
 The discovery service is a centralized web service which FMU-proxy servers connects to. 
-As there may be many directory services online (each company could have they own), the IP and Port should be provided the FMU-proxy server on startup.
+As there may be many discovery services online (each company could have they own), the IP and Port should be provided to the FMU-proxy server uppon startup.
 The service has a HTTP API that allows clients to query for available FMUs. 
 The response is a JSON array with the necessary information required to connect to the FMUs directly. 
 
