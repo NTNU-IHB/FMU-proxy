@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Thrift Javascript test</title>
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="js/thrift.js"></script>
-    <script src="js/FmuService.js"></script>
-    <script src="js/definitions_types.js"></script>
-    
-  </head>
-  <body>
-    
-    <script>
-    
-      (function() {
-      
-        var transport = new Thrift.TXHRTransport("http://localhost:9091/thrift");
-        var protocol  = new Thrift.TJSONProtocol(transport);
-        var client    = new FmuServiceClient(protocol);
-   
-        console.log(client.getModelDescriptionXml())
-   
-        var instance_id = client.createInstanceFromCS();
-        
-        client.init(instance_id, 0, 0)
-        
-        var t = client.getSimulationTime(instance_id)
-        
-        var t0 = performance.now();
-        
-        var step_size = 1.0/100
-        while ( t < 5.0 ) {
-           
-            var result = client.step(instance_id, step_size)
-            if (result.status != 0) {
-                break
-            }
-            t = result.simulationTime;
-            
-        }
+    <head>
 
-        var t1 = performance.now();
-        
-        console.log((t1 - t0) + " ms.")
-        
-        client.terminate(instance_id);
-        
-      })();
-      
-    </script>
+        <meta charset="utf-8">
+        <title>Thrift Javascript test</title>
+        <link rel="stylesheet" href="style.css">
+
+        <script src="js/thrift.js"></script>
+        <script src="js/FmuService.js"></script>
+        <script src="js/definitions_types.js"></script>
+
+    </head>
+    <body>
     
-  </body>
+        <script>
+
+            // Demo showcasing a Thift Javascript client talking to a Thrift server over HTTP with JSON encoding.
+            // The client supports both synchronous and asynchronous operation
+
+            (function() {
+
+                var transport = new Thrift.TXHRTransport("http://localhost:9091/thrift")
+                var protocol  = new Thrift.TJSONProtocol(transport)
+                var client    = new FmuServiceClient(protocol)
+
+                console.log(client.getModelDescriptionXml())
+
+                var instance_id = client.createInstanceFromCS()
+                client.init(instance_id, 0, 0)
+
+                var t = client.getSimulationTime(instance_id)
+                var t0 = performance.now()
+
+                var stop = 5.0
+                var step_size = 1.0/100
+                while ( t < stop ) {
+
+                    var result = client.step(instance_id, step_size)
+                    if (result.status != 0) {
+                        break
+                    }
+                    t = result.simulationTime
+
+                }
+
+                var t1 = performance.now()
+                console.log((t1 - t0) + " ms.")
+
+                client.terminate(instance_id)
+
+            })();
+
+        </script>
+
+    </body>
 </html>
