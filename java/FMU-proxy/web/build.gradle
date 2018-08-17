@@ -7,7 +7,7 @@ plugins {
 
 ext.jetty94Version = '9.4.9.v20180320'
 
-def snapshot = true
+def snapshot = false
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {
