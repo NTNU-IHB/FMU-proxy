@@ -35,7 +35,7 @@ import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-private fun getFmu(id: Int): FmiSimulation {
+private fun getFmu(id: Int): FmuSlave {
     val fmu = Fmus.get(id)
     if (fmu != null) {
         return fmu

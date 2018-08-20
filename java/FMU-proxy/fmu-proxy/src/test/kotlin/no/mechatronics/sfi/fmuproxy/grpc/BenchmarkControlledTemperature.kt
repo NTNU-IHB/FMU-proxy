@@ -1,13 +1,11 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import io.grpc.StatusRuntimeException
-import no.mechatronics.sfi.fmi4j.common.FmiSimulation
+import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.TestUtils
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -26,7 +24,7 @@ class BenchmarkControlledTemperature {
 
     }
 
-    private fun runInstance(instance: FmiSimulation,
+    private fun runInstance(instance: FmuSlave,
                             dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
         instance.init()

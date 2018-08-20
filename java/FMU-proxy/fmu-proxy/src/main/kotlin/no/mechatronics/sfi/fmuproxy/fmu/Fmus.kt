@@ -24,8 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.fmu
 
-
-import no.mechatronics.sfi.fmi4j.common.FmiSimulation
+import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
@@ -38,7 +37,7 @@ object Fmus {
     private val LOG: Logger = LoggerFactory.getLogger(Fmus::class.java)
 
     private val idGen = AtomicInteger(0)
-    private val fmus = mutableMapOf<Int, FmiSimulation>()
+    private val fmus = mutableMapOf<Int, FmuSlave>()
 
     init {
         Runtime.getRuntime().addShutdownHook(Thread {
@@ -46,13 +45,13 @@ object Fmus {
         })
     }
 
-    fun put(fmu: FmiSimulation): Int {
+    fun put(fmu: FmuSlave): Int {
         return idGen.incrementAndGet().also {
             fmus[it] = fmu
         }
     }
 
-    fun remove(id: Int): FmiSimulation? {
+    fun remove(id: Int): FmuSlave? {
         return fmus.remove(id).also {
             if (it == null) {
                 LOG.warn("No fmu with id: $id")
@@ -60,7 +59,7 @@ object Fmus {
         }
     }
 
-    fun get(id: Int): FmiSimulation? {
+    fun get(id: Int): FmuSlave? {
         return fmus[id].also {
             if (it == null) {
                 LOG.warn("No fmu with id: $id")
@@ -76,7 +75,5 @@ object Fmus {
             }
         }
     }
-
-
 
 }

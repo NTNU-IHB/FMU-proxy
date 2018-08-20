@@ -137,7 +137,7 @@ abstract class AbstractRpcFmuClient: Closeable {
 
     inner class FmuInstance(
             private val instanceId: Int
-    ): FmiSimulation, FmuVariableAccessor {
+    ): FmuSlave, FmuVariableAccessor {
 
         override val isTerminated: Boolean
             get() = isTerminated(instanceId)
