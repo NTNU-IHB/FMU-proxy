@@ -5,8 +5,8 @@ plugins {
 
 println "Gradle version is ${GradleVersion.current().version}"
 
-ext.fmi4j_stable_version = '0.9'
-ext.fmi4j_snapshot_version = '0.9.1-SNAPSHOT'
+ext.fmi4j_stable_version = '0.9.1'
+ext.fmi4j_snapshot_version = '0.9.2-SNAPSHOT'
 
 ext.grpc_version = '1.14.0'
 ext.yajrpc_version = '0.9'
