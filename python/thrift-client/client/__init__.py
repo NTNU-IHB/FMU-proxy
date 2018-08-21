@@ -49,7 +49,7 @@ class VariableWriter:
 
 class RemoteFmuInstance:
 
-    def __init__(self, remote_fmu, instance_id, solver=None):
+    def __init__(self, remote_fmu, instance_id):
         self.instance_id = instance_id
         self.remote_fmu = remote_fmu
         self.client = remote_fmu.client  # type: FmuService.Client
@@ -124,4 +124,4 @@ class RemoteFmu:
             instance_id = self.client.createInstanceFromCS(self.fmu_id)
         else:
             instance_id = self.client.createInstanceFromME(self.fmu_id, solver)
-        return RemoteFmuInstance(self, instance_id, solver)
+        return RemoteFmuInstance(self, instance_id)
