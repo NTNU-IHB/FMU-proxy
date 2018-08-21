@@ -22,45 +22,42 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_REMOTEFMUINSTANCE_HPP
-#define FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#ifndef FMU_PROXY_FMUINSTANCE_HPP
+#define FMU_PROXY_FMUINSTANCE_HPP
 
 #include <iostream>
 #include <fmilib.h>
-#include "fmuproxy/fmi/FmuSlave.hpp"
-#include "../common/FmuService.h"
+#include "FmuInstance.hpp"
 
-using namespace fmuproxy::thrift;
+namespace fmuproxy::fmi {
 
-namespace fmuproxy::thrift::client {
-
-    class RemoteFmuInstance: public fmuproxy::fmi::FmuSlave {
+    class FmuSlave: public FmuInstance {
 
     private:
-        
-        const InstanceId instance_id;
-        double simulation_time;
 
-        FmuServiceClient &client;
-        fmuproxy::fmi::ModelDescription &modelDescription;
+        fmi2_import_t *instance;
+        ModelDescription &modelDescription;
+
+        bool is_terminated = false;
+        double simulation_time = 0.0;
+
 
     public:
-        RemoteFmuInstance(InstanceId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &modelDescription);
+        FmuSlave(fmi2_import_t* instance, ModelDescription &md);
 
-        RemoteFmuInstance(fmi2_import_t *instance, fmi::ModelDescription &md, const InstanceId instance_id,
-                          FmuServiceClient &client, fmi::ModelDescription &modelDescription);
+        virtual bool isTerminated() const;
 
-        double getSimulationTime() const override;
+        virtual double getSimulationTime() const;
 
-        fmuproxy::fmi::ModelDescription &getModelDescription() const override;
-
+        ModelDescription &getModelDescription() const override;
+        
         void init(double start = 0, double stop = 0) override;
 
-        fmi2_status_t step(double step_size) override;
-
-        fmi2_status_t terminate() override;
+        virtual fmi2_status_t step(double step_size);
 
         fmi2_status_t reset() override;
+
+        fmi2_status_t terminate() override;
 
         fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) override;
         fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) override;
@@ -85,14 +82,12 @@ namespace fmuproxy::thrift::client {
 
         fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
+        
 
-
-        ~RemoteFmuInstance() {
-            std::cout << "RemoteFmuInstance destructor called" << std::endl;
-        }
+        ~FmuSlave();
 
     };
 
 }
 
-#endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#endif //FMU_PROXY_FMUINSTANCE_HPP

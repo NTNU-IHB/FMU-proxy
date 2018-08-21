@@ -34,16 +34,15 @@ using namespace fmuproxy::thrift::server;
 
 int main(int argc, char **argv) {
 
-    const unsigned int port = 9090;
-    string fmu_path = string(getenv("TEST_FMUs"))
+    const string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path);
-    ThriftServer socket_server = ThriftServer(fmu, 9090);
+    Fmu fmu(fmu_path);
+    ThriftServer socket_server(fmu, 9090);
     socket_server.start();
 
-    ThriftServer http_server = ThriftServer(fmu, 9091, true);
+    ThriftServer http_server(fmu, 9091, true);
     http_server.start();
 
     wait_for_input();
@@ -53,4 +52,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-

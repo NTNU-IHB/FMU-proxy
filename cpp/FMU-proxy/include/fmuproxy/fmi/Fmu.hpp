@@ -28,7 +28,7 @@
 #include <boost/filesystem.hpp>
 
 #include "fmi_definitions.hpp"
-#include "FmuInstance.hpp"
+#include "FmuSlave.hpp"
 
 namespace fmuproxy::fmi {
 
@@ -52,7 +52,7 @@ namespace fmuproxy::fmi {
 
         const ModelDescription &get_model_description() const;
 
-        std::unique_ptr<FmuInstance> new_instance();
+        std::unique_ptr<FmuSlave> new_instance();
 
         ~Fmu();
 

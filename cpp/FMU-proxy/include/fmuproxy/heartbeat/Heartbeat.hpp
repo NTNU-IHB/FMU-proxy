@@ -27,6 +27,8 @@
 
 #include <string>
 #include <thread>
+#include <vector>
+#include <map>
 
 namespace fmuproxy::heartbeat {
 
@@ -35,17 +37,20 @@ namespace fmuproxy::heartbeat {
     private:
         const std::string host;
         const unsigned int port;
+        const std::map<std::string, unsigned int> &servers;
 
         bool m_stop = false;
         bool m_connected = false;
 
         std::unique_ptr<std::thread> m_thread;
-        const std::string model_description_xml;
+        const std::vector<std::string> fmus;
 
         void run();
 
     public:
-        Heartbeat(const std::string &host, unsigned int port, const std::string &xml);
+        Heartbeat(const std::string &host, const unsigned int port,
+                  const std::map<std::string, unsigned int> &servers,
+                  const std::vector<std::string> &fmus);
 
         void start();
 

@@ -38,11 +38,11 @@ const double step_size = 1E-4;
 
 int main(int argc, char **argv) {
 
-    string fmu_path = string(getenv("TEST_FMUs"))
+    const string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path);
+    Fmu fmu(fmu_path);
     const auto instance = fmu.new_instance();
     instance->init();
 

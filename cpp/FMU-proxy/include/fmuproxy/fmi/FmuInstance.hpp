@@ -22,71 +22,61 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_FMUINSTANCE_HPP
-#define FMU_PROXY_FMUINSTANCE_HPP
+#ifndef FMU_PROXY_FMISIMULATION_HPP
+#define FMU_PROXY_FMISIMULATION_HPP
 
+#include <vector>
 #include <iostream>
 #include <fmilib.h>
-#include "FmiSimulation.hpp"
+#include "fmi_definitions.hpp"
 
 namespace fmuproxy::fmi {
 
-    class FmuInstance: public FmiSimulation {
-
-    private:
-
-        fmi2_import_t *instance;
-        ModelDescription &modelDescription;
-
-        double simulation_time = 0.0;
-        bool terminated = false;
+    class FmuInstance {
 
     public:
-        FmuInstance(fmi2_import_t* instance, ModelDescription &md);
 
-        bool isTerminated() const;
-
-        double getSimulationTime() const override;
-
-        ModelDescription &getModelDescription() const override;
+        virtual ModelDescription &getModelDescription() const = 0;
         
-        void init(double start = 0, double stop = 0) override;
+        virtual void init(double start = 0, double stop = 0) = 0;
 
-        fmi2_status_t step(double step_size) override;
+        virtual fmi2_status_t reset() = 0;
 
-        fmi2_status_t reset() override;
+        virtual fmi2_status_t terminate() = 0;
 
-        fmi2_status_t terminate() override;
+        virtual fmi2_value_reference_t get_value_reference(const std::string &name) {
+            return getModelDescription().get_value_reference(name);
+        }
 
-        fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) override;
-        fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) override;
+        virtual fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) = 0;
+        virtual fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t > &ref) = 0;
 
-        fmi2_status_t readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) override;
-        fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) override;
+        virtual fmi2_status_t readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) = 0;
+        virtual fmi2_status_t readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t > &ref) = 0;
 
-        fmi2_status_t readString(const fmi2_value_reference_t vr, fmi2_string_t &ref) override;
-        fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) override;
+        virtual fmi2_status_t readString(const fmi2_value_reference_t vr, fmi2_string_t &ref) = 0;
+        virtual fmi2_status_t readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t > &ref) = 0;
 
-        fmi2_status_t readBoolean(const fmi2_value_reference_t vr, fmi2_boolean_t &ref) override;
-        fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) override;
+        virtual fmi2_status_t readBoolean(const fmi2_value_reference_t vr, fmi2_boolean_t &ref) = 0;
+        virtual fmi2_status_t readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t > &ref) = 0;
 
-        fmi2_status_t writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) override;
-        fmi2_status_t writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) override;
+        virtual fmi2_status_t writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) = 0;
+        virtual fmi2_status_t writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) = 0;
 
-        fmi2_status_t writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) override;
-        fmi2_status_t writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) override;
+        virtual fmi2_status_t writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) = 0;
+        virtual fmi2_status_t writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) = 0;
 
-        fmi2_status_t writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) override;
-        fmi2_status_t writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) override;
+        virtual fmi2_status_t writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) = 0;
+        virtual fmi2_status_t writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) = 0;
 
-        fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
-        fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
-        
+        virtual fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) = 0;
+        virtual fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) = 0;
 
-        ~FmuInstance();
+
+        virtual ~FmuInstance(){}
 
     };
 
 }
 
-#endif //FMU_PROXY_FMUINSTANCE_HPP
+#endif //FMU_PROXY_FMISIMULATION_HPP

@@ -33,7 +33,6 @@ using namespace fmuproxy::thrift::client;
 
 RemoteFmuInstance::RemoteFmuInstance(const InstanceId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &md)
         : instance_id(fmu_id), client(client), modelDescription(md) {
-    simulation_time = client.getSimulationTime(fmu_id);
 }
 
 double RemoteFmuInstance::getSimulationTime() const {
@@ -45,6 +44,7 @@ fmuproxy::fmi::ModelDescription &RemoteFmuInstance::getModelDescription() const 
 }
 
 void RemoteFmuInstance::init(const double start, const double stop) {
+    simulation_time = start;
     convert(client.init(instance_id, start, stop));
 }
 

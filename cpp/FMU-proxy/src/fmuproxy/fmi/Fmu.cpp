@@ -42,10 +42,10 @@ Fmu::Fmu (const string &fmu_path) {
 
     this->xml = load_model_description(tmp_path.string(), ctx);
 
-    this->modelDescription = std::make_shared<ModelDescription>();
+    this->modelDescription = make_shared<ModelDescription>();
     populate_model_description(version, xml, *modelDescription);
 
-    std::ifstream t(tmp_path.string() + "/modelDescription.xml");
+    ifstream t(tmp_path.string() + "/modelDescription.xml");
     model_description_xml = string((istreambuf_iterator<char>(t)),
                     istreambuf_iterator<char>());
 
@@ -55,11 +55,11 @@ const ModelDescription &Fmu::get_model_description() const {
     return *modelDescription;
 }
 
-const std::string &Fmu::get_model_description_xml() {
+const string &Fmu::get_model_description_xml() {
     return model_description_xml;
 }
 
-unique_ptr<FmuInstance> Fmu::new_instance() {
+unique_ptr<FmuSlave> Fmu::new_instance() {
 
     fmi2_callback_functions_t callBackFunctions;
     callBackFunctions.logger = fmi2_log_forwarding;
@@ -82,7 +82,7 @@ unique_ptr<FmuInstance> Fmu::new_instance() {
         throw runtime_error("fmi2_import_instantiate failed!");
     }
 
-    return make_unique<FmuInstance>(fmu, *modelDescription);
+    return make_unique<FmuSlave>(fmu, *modelDescription);
 
 }
 

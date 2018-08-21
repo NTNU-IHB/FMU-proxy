@@ -26,12 +26,12 @@
 #define FMU_PROXY_REMOTEFMUINSTANCE_HPP
 
 #include <fmilib.h>
+#include "fmuproxy/fmi/FmuSlave.hpp"
 #include "../common/service.grpc.pb.h"
-#include "../../fmi/FmuInstance.hpp"
 
-namespace fmuproxy { namespace  grpc { namespace  client {
+namespace fmuproxy::grpc::client {
 
-    class RemoteFmuInstance: public fmuproxy::fmi::FmiSimulation {
+    class RemoteFmuInstance: public fmuproxy::fmi::FmuSlave {
 
     private:
 
@@ -81,6 +81,6 @@ namespace fmuproxy { namespace  grpc { namespace  client {
 
     };
 
-}}}
+}
 
 #endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP

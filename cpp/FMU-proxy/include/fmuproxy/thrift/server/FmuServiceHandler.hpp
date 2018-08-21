@@ -35,7 +35,7 @@ namespace fmuproxy::thrift::server {
 
     private:
         fmi::Fmu& fmu;
-        std::map<InstanceId, std::unique_ptr<fmi::FmuInstance>> instances;
+        std::map<InstanceId, std::unique_ptr<fmi::FmuSlave>> instances;
 
     public:
         explicit FmuServiceHandler(fmi::Fmu &fmu);

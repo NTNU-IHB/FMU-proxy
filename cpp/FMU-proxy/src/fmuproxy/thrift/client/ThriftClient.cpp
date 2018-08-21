@@ -35,7 +35,7 @@
 using namespace std;
 using namespace fmuproxy::thrift::client;
 
-ThriftClient::ThriftClient(const string host, const unsigned int port) {
+ThriftClient::ThriftClient(const string fmu_id, const string host, const unsigned int port) : fmu_id(fmu_id) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
     this->transport = std::make_shared<TBufferedTransport>(socket);
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));

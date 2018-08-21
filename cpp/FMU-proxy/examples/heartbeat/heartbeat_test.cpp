@@ -23,6 +23,8 @@
  */
 
 #include <iostream>
+#include <vector>
+#include <map>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include "../test_util.cpp"
@@ -33,17 +35,15 @@ using namespace fmuproxy::heartbeat;
 
 int main() {
 
-    const unsigned int port = 8080;
-    const string host = "localhost";
-
-    string fmu_path = string(getenv("TEST_FMUs"))
+    const string fmu_path = string(getenv("TEST_FMUs"))
                           + "/FMI_2.0/CoSimulation/" + getOs() +
                           "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path);
-    string xml = fmu.get_model_description_xml();
+    Fmu fmu(fmu_path);
+    const vector<string> fmus = {fmu.get_model_description_xml()};
+    const map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
 
-    auto beat = Heartbeat(host, port, xml);
+    Heartbeat beat("localhost", 8080, servers, fmus);
     beat.start();
 
     wait_for_input();

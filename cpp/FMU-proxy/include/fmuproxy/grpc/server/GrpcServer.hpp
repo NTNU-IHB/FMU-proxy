@@ -34,31 +34,27 @@
 
 using grpc::Server;
 
-namespace fmuproxy {
-    namespace grpc {
-        namespace server {
+namespace fmuproxy:: grpc::server {
 
-            class GrpcServer {
+    class GrpcServer {
 
-            private:
-                const unsigned int m_port;
-                std::shared_ptr<Server> m_server;
-                std::unique_ptr<std::thread> m_thread;
-                std::shared_ptr<FmuServiceImpl> m_service;
+    private:
+        const unsigned int m_port;
+        std::shared_ptr<Server> m_server;
+        std::unique_ptr<std::thread> m_thread;
+        std::shared_ptr<FmuServiceImpl> m_service;
 
-                void wait();
+        void wait();
 
-            public:
-                GrpcServer(fmuproxy::fmi::Fmu &fmu, unsigned int port);
+    public:
+        GrpcServer(fmuproxy::fmi::Fmu &fmu, unsigned int port);
 
-                void start();
+        void start();
 
-                void stop();
+        void stop();
 
-            };
+    };
 
-        }
-    }
 }
 
 #endif //FMU_PROXY_GRPCSERVER_HPP

@@ -33,7 +33,7 @@ int main() {
     const double stop = 2;
     const double step_size = 1E-2;
 
-    GrpcClient fmu = GrpcClient("localhost", 9080);
+    GrpcClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9080);
 
     const auto md = fmu.get_model_description();
     cout << "GUID=" << md.guid << endl;

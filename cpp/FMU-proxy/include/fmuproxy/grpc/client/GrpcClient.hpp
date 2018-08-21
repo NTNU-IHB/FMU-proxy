@@ -31,17 +31,18 @@
 #include "../common/service.grpc.pb.h"
 #include "RemoteFmuInstance.hpp"
 
-namespace fmuproxy { namespace grpc { namespace client {
+namespace fmuproxy::grpc::client {
 
     class GrpcClient {
 
     private:
 
+        const std::string fmu_id;
         std::shared_ptr<fmuproxy::grpc::FmuService::Stub> m_stub;
         std::shared_ptr<fmuproxy::fmi::ModelDescription> m_modelDescription;
 
     public:
-        GrpcClient(std::string host, unsigned int port);
+        GrpcClient(std::string fmu_id, std::string host, unsigned int port);
 
         fmuproxy::fmi::ModelDescription &get_model_description();
 
@@ -57,6 +58,6 @@ namespace fmuproxy { namespace grpc { namespace client {
 
     };
 
-}}}
+}
 
 #endif //FMU_PROXY_GRPCCLIENT_HPP

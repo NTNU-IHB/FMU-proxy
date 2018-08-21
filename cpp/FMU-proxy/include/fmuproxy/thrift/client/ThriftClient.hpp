@@ -40,12 +40,13 @@ namespace fmuproxy::thrift::client {
 
     private:
 
+        std::string fmu_id;
         std::shared_ptr<TTransport> transport;
         std::shared_ptr<FmuServiceClient> client;
         std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription;
 
     public:
-        ThriftClient(std::string host, unsigned int port);
+        ThriftClient(std::string fmu_id, std::string host, unsigned int port);
 
         fmuproxy::fmi::ModelDescription &get_model_description();
 

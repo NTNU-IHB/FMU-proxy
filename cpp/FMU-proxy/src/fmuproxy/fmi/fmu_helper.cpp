@@ -126,8 +126,7 @@ namespace {
         }
 
     }
-
-
+    
     void populate_model_variables(fmi2_import_t *xml, ModelVariables &modelVariables) {
 
         const auto list = fmi2_import_get_variable_list(xml, 0);
@@ -143,8 +142,7 @@ namespace {
         fmi2_import_free_variable_list(list);
 
     }
-
-
+    
     void populate_model_description(fmi_version_enu_t fmi_version, fmi2_import_t *xml, ModelDescription &md) {
 
         md.guid = (fmi2_import_get_GUID(xml));

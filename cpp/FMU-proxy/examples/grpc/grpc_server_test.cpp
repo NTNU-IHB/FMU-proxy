@@ -37,8 +37,8 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path);
-    GrpcServer server = GrpcServer(fmu, port);
+    Fmu fmu(fmu_path);
+    GrpcServer server(fmu, port);
     server.start();
 
     wait_for_input();

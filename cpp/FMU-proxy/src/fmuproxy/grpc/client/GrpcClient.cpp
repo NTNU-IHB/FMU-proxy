@@ -31,7 +31,7 @@ using namespace grpc;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
 
-GrpcClient::GrpcClient(std::string host, unsigned int port) {
+GrpcClient::GrpcClient(const string fmu_id, const std::string host, const unsigned int port) : fmu_id(fmu_id) {
     const auto channel = CreateChannel(host + ":" + to_string(port), InsecureChannelCredentials());
     m_stub = move(FmuService::NewStub(channel));
 }

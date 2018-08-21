@@ -42,7 +42,7 @@ int main() {
 
     try {
 
-        ThriftClient fmu = ThriftClient("localhost", 9090);
+        ThriftClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9090);
 
         const auto md = fmu.get_model_description();
         cout << "GUID=" << md.guid << endl;

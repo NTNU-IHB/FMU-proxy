@@ -27,14 +27,16 @@
 #include <memory>
 #include <curl/curl.h>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
-
+#include <nlohmann/json.hpp>
 #include "heartbeat_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::heartbeat;
 
-Heartbeat::Heartbeat(const string &host, const unsigned int port, const string &xml)
-        : host(host), port(port), model_description_xml(escape_json(xml)) {}
+using json = nlohmann::json;
+
+Heartbeat::Heartbeat(const string &host, const unsigned int port, const map<string, unsigned int> &servers,
+                     const vector<string> &fmus) : host(host), port(port), servers(servers), fmus(fmus) {}
 
 void Heartbeat::start() {
    m_thread = make_unique<thread>(&Heartbeat::run, this);
@@ -53,22 +55,19 @@ void Heartbeat::run() {
         string uuid = generate_uuid();
         trim(uuid);
 
-        string json = "{\n"
-                      "  \"uuid\": \"" + uuid + "\",\n"
-                      "  \"modelDescriptionXml\": \"" + model_description_xml + "\",\n"
-                      "  \"networkInfo\": {\n"
-                      "    \"host\": \"localhost\",\n"
-                      "    \"ports\": {\n"
-                      "      \"thrift/tcp\": 9090\n"
-                      "    }\n"
-                      "  }\n"
-                      "}";
+        json json = {
+                {"uuid", uuid},
+                {"fmus", fmus},
+                {"networkInfo", { {"host", "localhost"}, {"servers", servers} }}
+            };
+
+        const string json_str = json.dump(2);
 
         while (!m_stop) {
 
             if (m_connected) {
 
-                std::string response;
+                string response;
                 res = post(host, port, curl, response, "ping", uuid);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
@@ -86,7 +85,7 @@ void Heartbeat::run() {
             } else {
 
                 std::string response;
-                res = post(host, port, curl, response, "registerfmu", json);
+                res = post(host, port, curl, response, "registerfmu", json_str);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 } else {
