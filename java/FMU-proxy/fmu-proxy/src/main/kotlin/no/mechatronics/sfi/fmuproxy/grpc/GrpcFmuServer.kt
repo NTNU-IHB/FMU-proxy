@@ -27,7 +27,6 @@ package no.mechatronics.sfi.fmuproxy.grpc
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmuproxy.grpc.services.GrpcFmuService
 import no.mechatronics.sfi.fmuproxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
@@ -38,8 +37,10 @@ import org.slf4j.LoggerFactory
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        private val fmu: Fmu
+        fmus: Map<String, Fmu>
 ): FmuProxyServer {
+
+    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
@@ -49,6 +50,7 @@ class GrpcFmuServer(
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
+    private val service = GrpcFmuServiceImpl(fmus)
 
     val isRunning: Boolean
         get() = server != null
@@ -58,7 +60,7 @@ class GrpcFmuServer(
             this.port = port
             server = ServerBuilder.forPort(port).apply {
                 directExecutor()
-               addService(GrpcFmuServiceImpl(fmu))
+               addService(service)
             }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")

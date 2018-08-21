@@ -38,7 +38,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmuproxy.Solver
 
 
-internal fun Proto.StatusResponse.convert(): FmiStatus {
+internal fun Service.StatusResponse.convert(): FmiStatus {
     return status.convert()
 }
 
@@ -104,31 +104,19 @@ internal fun Proto.VariableNamingConvention.convert(): VariableNamingConvention 
     }
 }
 
-internal fun Int.asProtoUInt(): Proto.UInt {
-    return Proto.UInt.newBuilder()
-            .setValue(this)
-            .build()
-}
-
-internal fun Int.asProtoInt(): Proto.UInt {
-    return Proto.UInt.newBuilder()
-            .setValue(this)
-            .build()
-}
-
-internal fun Proto.IntegerRead.convert(): FmuIntegerArrayRead {
+internal fun Service.IntegerRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(valuesList.toIntArray(), status.convert())
 }
 
-internal fun Proto.RealRead.convert(): FmuRealArrayRead {
+internal fun Service.RealRead.convert(): FmuRealArrayRead {
     return FmuRealArrayRead(valuesList.toDoubleArray(), status.convert())
 }
 
-internal fun Proto.StringRead.convert(): FmuStringArrayRead {
+internal fun Service.StringRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(valuesList.toTypedArray(), status.convert())
 }
 
-internal fun Proto.BooleanRead.convert(): FmuBooleanArrayRead {
+internal fun Service.BooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(valuesList.toBooleanArray(), status.convert())
 }
 
@@ -284,8 +272,8 @@ class GrpcModelDescription(
         get() = modelDescription.version
 }
 
-fun Solver.protoType(): Proto.Solver {
-    return Proto.Solver.newBuilder()
+fun Solver.protoType(): Service.Solver {
+    return Service.Solver.newBuilder()
             .setName(name)
             .setSettings(settings)
             .build()

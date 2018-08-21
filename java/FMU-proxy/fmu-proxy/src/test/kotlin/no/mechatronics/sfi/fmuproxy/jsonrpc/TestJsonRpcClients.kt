@@ -6,8 +6,7 @@ import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.FmuProxy
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
@@ -33,7 +32,7 @@ class TestJsonRpcClients {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+            "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
 
     private  val handler = RpcHandler(RpcFmuService(fmu))
@@ -60,14 +59,14 @@ class TestJsonRpcClients {
     fun testClients() {
 
         val clients = mutableListOf(
-//                RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
+                RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
                 RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
                 RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
         ).apply {
             if (!OS.LINUX.isCurrentOs) {
                 add(RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
             }
-        }.map { JsonRpcFmuClient(it) }
+        }.map { JsonRpcFmuClient(fmu.guid, it) }
 
 
         clients.forEach {
@@ -77,14 +76,14 @@ class TestJsonRpcClients {
                 Assertions.assertEquals(fmu.modelDescription.modelName, client.modelName)
                 Assertions.assertEquals(fmu.modelDescription.guid, client.guid)
 
-                client.newInstance().use { instance ->
+                client.newInstance().use { slave ->
 
                     val temp = client.modelDescription.modelVariables
                             .getByName("Temperature_Room").asRealVariable()
 
-                    val dt = 1E-4
                     val stop = 1.0
-                    runInstance(instance, dt, stop) {
+                    val stepSize = 1E-4
+                    runInstance(slave, stepSize, stop) {
                         temp.read()
                     }.also { LOG.info(" ${client.implementationName} duration: ${it}ms") }
 
@@ -92,7 +91,6 @@ class TestJsonRpcClients {
             }
 
         }
-
 
     }
 

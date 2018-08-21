@@ -38,53 +38,48 @@ private const val SERVICE = "FmuService"
  * @author Lars Ivar Hatledal
  */
 class JsonRpcFmuClient(
+        fmuId: String,
         private val client: RpcClient
-): AbstractRpcFmuClient() {
+): AbstractRpcFmuClient(fmuId) {
 
     val implementationName: String = client::class.java.simpleName
 
-    val fmiVersion: String by lazy {
-        client.write("$SERVICE.getFmiVersion")
-                .getResult(String::class.java)!!
-    }
+    val fmiVersion: String
+        get() = modelDescription.fmiVersion
 
-    val modelName: String by lazy {
-        client.write("$SERVICE.getModelName")
-                .getResult<String>()!!
-    }
+    val modelName: String
+        get() = modelDescription.modelName
 
-    val guid: String by lazy {
-        client.write("$SERVICE.getGuid")
-                .getResult(String::class.java)!!
-    }
+    val guid: String
+        get() = modelDescription.guid
 
     override val modelDescription: CommonModelDescription by lazy {
-        client.write("$SERVICE.getModelDescription")
-                .getResult(ModelDescriptionImpl::class.java)!!
+        client.write("$SERVICE.getModelDescription", RpcParams.listParams(fmuId))
+                .getResult<ModelDescriptionImpl>()!!
     }
 
     override val modelDescriptionXml: String by lazy {
-        client.write("$SERVICE.getModelDescriptionXml")
-                .getResult(String::class.java)!!
+        client.write("$SERVICE.getModelDescriptionXml", RpcParams.listParams(fmuId))
+                .getResult<String>()!!
+    }
+
+    override fun createInstanceFromCS(): String {
+        return client.write("$SERVICE.createInstanceFromCS", RpcParams.listParams(fmuId), 2500L)
+                .getResult<String>()!!
+    }
+
+    override fun createInstanceFromME(solver: Solver): String {
+        return client.write("$SERVICE.createInstanceFromME", RpcParams.listParams(fmuId, solver))
+                .getResult<String>()!!
     }
 
 
-    override fun isTerminated(instanceId: Int): Boolean {
-        return client.write("$SERVICE.getGuid", RpcParams.listParams(instanceId))
-                .getResult<Boolean>()!!
-    }
-
-    override fun getSimulationTime(instanceId: Int): Double {
-        return client.write("$SERVICE.getSimulationTime", RpcParams.listParams(instanceId))
-                .getResult<Double>()!!
-    }
-
-    override fun init(instanceId: Int, start: Double, stop: Double): FmiStatus {
+    override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
         return client.write("$SERVICE.init", RpcParams.listParams(instanceId, start))
                 .getResult<FmiStatus>()!!
     }
 
-    override fun step(instanceId: Int, stepSize: Double): Pair<Double, FmiStatus> {
+    override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
         return client.write("$SERVICE.step", RpcParams.listParams(instanceId, stepSize))
                 .getResult<StepResult>()!!.let { it.asPair() }
     }
@@ -92,7 +87,7 @@ class JsonRpcFmuClient(
     /**
      * Resets the FMU
      */
-    override fun reset(instanceId: Int): FmiStatus {
+    override fun reset(instanceId: String): FmiStatus {
         return client.write("$SERVICE.reset", RpcParams.listParams(instanceId))
                 .getResult<FmiStatus>()!!
     }
@@ -100,19 +95,9 @@ class JsonRpcFmuClient(
     /**
      * Terminates the FMU
      */
-    override fun terminate(instanceId: Int): FmiStatus {
+    override fun terminate(instanceId: String): FmiStatus {
         return client.write("$SERVICE.terminate", RpcParams.listParams(instanceId))
                 .getResult<FmiStatus>()!!
-    }
-
-    override fun createInstanceFromCS(): ValueReference {
-        return client.write("$SERVICE.createInstanceFromCS", RpcParams.noParams(), 2500L)
-                .getResult<ValueReference>()!!
-    }
-
-    override fun createInstanceFromME(solver: Solver): Int {
-        return client.write("$SERVICE.createInstanceFromME", RpcParams.listParams(solver))
-                .getResult<ValueReference>()!!
     }
 
     /**
@@ -123,43 +108,43 @@ class JsonRpcFmuClient(
         client.close()
     }
 
-    override fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead {
+    override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
         return client.write("$SERVICE.readInteger", RpcParams.listParams(instanceId, vr))
                 .getResult<FmuIntegerArrayRead>()!!
     }
 
-    override fun readReal(instanceId: Int, vr: List<ValueReference>): FmuRealArrayRead {
+    override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
         return client.write("$SERVICE.readReal", RpcParams.listParams(instanceId, vr))
                 .getResult<FmuRealArrayRead>()!!
     }
 
-    override fun readString(instanceId: Int, vr: List<ValueReference>): FmuStringArrayRead {
+    override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
         return client.write("$SERVICE.readString", RpcParams.listParams(instanceId, vr))
                 .getResult<FmuStringArrayRead>()!!
     }
 
-    override fun readBoolean(instanceId: Int, vr: List<ValueReference>): FmuBooleanArrayRead {
+    override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
         return client.write("$SERVICE.readBoolean", RpcParams.listParams(instanceId, vr))
                 .getResult<FmuBooleanArrayRead>()!!
     }
 
 
-    override fun writeInteger(instanceId: Int, vr: List<ValueReference>, value: List<Int>): FmiStatus {
+    override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
         return client.write("$SERVICE.writeInteger", RpcParams.listParams(instanceId, vr, value))
                 .getResult<FmiStatus>()!!
     }
 
-    override fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
         return client.write("$SERVICE.writeReal", RpcParams.listParams(instanceId, vr, value))
                 .getResult<FmiStatus>()!!
     }
 
-    override fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): FmiStatus {
+    override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
         return client.write("$SERVICE.writeString", RpcParams.listParams(instanceId, vr, value))
                 .getResult<FmiStatus>()!!
     }
 
-    override fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+    override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return client.write("$SERVICE.writeBoolean", RpcParams.listParams(instanceId, vr, value))
                 .getResult<FmiStatus>()!!
     }

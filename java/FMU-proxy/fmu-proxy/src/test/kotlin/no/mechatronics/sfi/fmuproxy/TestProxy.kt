@@ -6,6 +6,7 @@ import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
@@ -42,7 +43,8 @@ class TestProxy {
     private val proxy: FmuProxy
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+            "FMI_2.0/CoSimulation/$currentOS" +
+                    "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
     init {
 
@@ -78,7 +80,7 @@ class TestProxy {
 
         proxy.getPortFor<GrpcFmuServer>()?.also { port ->
 
-            GrpcFmuClient(host, port).use { client ->
+            GrpcFmuClient(fmu.guid, host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -103,7 +105,7 @@ class TestProxy {
     fun testThriftSocket() {
 
         proxy.getPortFor<ThriftFmuSocketServer>()?.also { port ->
-            ThriftFmuClient.socketClient(host, port).use { client ->
+            ThriftFmuClient.socketClient(fmu.guid, host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -128,7 +130,7 @@ class TestProxy {
     fun testThriftServlet() {
 
         proxy.getPortFor<ThriftFmuServlet>()?.also { port ->
-            ThriftFmuClient.servletClient(host, port).use { client ->
+            ThriftFmuClient.servletClient(fmu.guid, host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -153,7 +155,7 @@ class TestProxy {
     fun testAvro() {
 
         proxy.getPortFor<AvroFmuServer>()?.also { port ->
-            AvroFmuClient(host, port).use { client ->
+            AvroFmuClient(fmu.guid, host, port).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -185,7 +187,7 @@ class TestProxy {
             if (!OS.LINUX.isCurrentOs) {
                 add(RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
             }
-        }.map { JsonRpcFmuClient(it) }
+        }.map { JsonRpcFmuClient(fmu.guid, it) }
 
         val mdLocal = fmu.modelDescription
 

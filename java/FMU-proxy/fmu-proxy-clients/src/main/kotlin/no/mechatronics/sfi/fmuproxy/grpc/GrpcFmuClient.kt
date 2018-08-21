@@ -24,8 +24,6 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc
 
-
-import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
@@ -34,42 +32,60 @@ import no.mechatronics.sfi.fmuproxy.Solver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 /**
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuClient(
+        fmuId: String,
         host: String,
         port: Int
-): AbstractRpcFmuClient() {
+): AbstractRpcFmuClient(fmuId) {
 
     private val channel = ManagedChannelBuilder
             .forAddress(host, port)
             .usePlaintext()
             .directExecutor()
             .build()
-
+    
     private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
             = FmuServiceGrpc.newBlockingStub(channel)
 
     override val modelDescription: CommonModelDescription by lazy {
-        blockingStub.getModelDescription(VOID).convert()
+        Service.GetModelDescriptionRequest.newBuilder()
+                .setFmuId(fmuId)
+                .build().let {
+            blockingStub.getModelDescription(it).convert()
+        }
     }
 
     override val modelDescriptionXml: String by lazy {
-        blockingStub.getModelDescriptionXml(VOID).value
-    }
-    
-    override fun getSimulationTime(instanceId: Int): Double {
-        return blockingStub.getSimulationTime(instanceId.asProtoUInt()).value
-    }
-
-    override fun isTerminated(instanceId: Int): Boolean {
-        return blockingStub.isTerminated(instanceId.asProtoUInt()).value
+        Service.GetModelDescriptionXmlRequest.newBuilder()
+                .setFmuId(fmuId)
+                .build().let {
+           blockingStub.getModelDescriptionXml(it).xml
+        }
     }
 
-    override fun init(instanceId: Int, start: Double, stop: Double): FmiStatus {
-        return Proto.InitRequest.newBuilder()
+    override fun createInstanceFromCS(): String {
+        return Service.CreateInstanceFromCSRequest.newBuilder()
+                .setFmuId(fmuId)
+                .build().let {
+                    blockingStub.createInstanceFromCS(it).value
+                }
+    }
+
+    override fun createInstanceFromME(solver: Solver): String {
+        return Service.CreateInstanceFromMERequest.newBuilder()
+                .setFmuId(fmuId)
+                .setSolver(solver.protoType())
+                .build().let {
+                    blockingStub.createInstanceFromME(it).value
+                }
+    }
+
+
+    override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
+        return Service.InitRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .setStart(start)
                 .setStop(stop)
@@ -78,8 +94,8 @@ class GrpcFmuClient(
                 }
     }
 
-    override fun step(instanceId: Int, stepSize: Double): Pair<Double, FmiStatus> {
-        return Proto.StepRequest.newBuilder()
+    override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
+        return Service.StepRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .setStepSize(stepSize)
                 .build().let {
@@ -89,34 +105,38 @@ class GrpcFmuClient(
                 }
     }
 
-    override fun reset(instanceId: Int): FmiStatus {
-        return blockingStub.reset(instanceId.asProtoUInt()).convert()
+    override fun reset(instanceId: String): FmiStatus {
+        return Service.ResetRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .build().let {
+            blockingStub.reset(it).status.convert()
+        }
     }
 
-    override fun terminate(instanceId: Int): FmiStatus {
-        return blockingStub.terminate(instanceId.asProtoUInt()).convert()
+    override fun terminate(instanceId: String): FmiStatus {
+        return Service.TerminateRequest.newBuilder().setInstanceId(instanceId).build().let {
+            blockingStub.terminate(it).status.convert()
+        }
     }
 
-
-    override fun readInteger(instanceId: Int, vr: List<Int>): FmuIntegerArrayRead {
+    override fun readInteger(instanceId: String, vr: List<Int>): FmuIntegerArrayRead {
         return blockingStub.readInteger(getReadRequest(instanceId, vr)).convert()
     }
 
-
-    override fun readReal(instanceId: Int, vr: List<Int>): FmuRealArrayRead {
+    override fun readReal(instanceId: String, vr: List<Int>): FmuRealArrayRead {
         return blockingStub.readReal(getReadRequest(instanceId, vr)).convert()
     }
 
-    override fun readString(instanceId: Int, vr: List<Int>): FmuStringArrayRead {
+    override fun readString(instanceId: String, vr: List<Int>): FmuStringArrayRead {
         return blockingStub.readString(getReadRequest(instanceId, vr)).convert()
     }
 
-    override fun readBoolean(instanceId: Int, vr: List<Int>): FmuBooleanArrayRead {
+    override fun readBoolean(instanceId: String, vr: List<Int>): FmuBooleanArrayRead {
         return blockingStub.readBoolean(getReadRequest(instanceId, vr)).convert()
     }
     
-    override fun writeInteger(instanceId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
-        return Proto.WriteIntegerRequest.newBuilder()
+    override fun writeInteger(instanceId: String, vr: List<Int>, value: List<Int>): FmiStatus {
+        return Service.WriteIntegerRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)
@@ -126,8 +146,8 @@ class GrpcFmuClient(
     }
     
 
-    override fun writeReal(instanceId: Int, vr: List<Int>, value: List<Real>): FmiStatus {
-        return Proto.WriteRealRequest.newBuilder()
+    override fun writeReal(instanceId: String, vr: List<Int>, value: List<Real>): FmiStatus {
+        return Service.WriteRealRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)
@@ -136,8 +156,8 @@ class GrpcFmuClient(
                 }
     }
     
-    override fun writeString(instanceId: Int, vr: List<Int>, value: List<String>): FmiStatus {
-        return Proto.WriteStringRequest.newBuilder()
+    override fun writeString(instanceId: String, vr: List<Int>, value: List<String>): FmiStatus {
+        return Service.WriteStringRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)
@@ -146,22 +166,14 @@ class GrpcFmuClient(
                 }
     }
     
-    override fun writeBoolean(instanceId: Int, vr: List<Int>, value: List<Boolean>): FmiStatus {
-        return Proto.WriteBooleanRequest.newBuilder()
+    override fun writeBoolean(instanceId: String, vr: List<Int>, value: List<Boolean>): FmiStatus {
+        return Service.WriteBooleanRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
                 .addAllValues(value)
                 .build().let {
                     blockingStub.writeBoolean(it).convert()
                 }
-    }
-
-    override fun createInstanceFromCS(): Int {
-        return blockingStub.createInstanceFromCS(VOID).value
-    }
-
-    override fun createInstanceFromME(solver: Solver): Int {
-        return blockingStub.createInstanceFromME(solver.protoType()).value
     }
 
     override fun close() {
@@ -174,10 +186,8 @@ class GrpcFmuClient(
 
         private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
 
-        private val VOID = Proto.Void.getDefaultInstance()
-
-        private fun getReadRequest(instanceId: Int, vr: List<Int>): Proto.ReadRequest {
-            return Proto.ReadRequest.newBuilder()
+        private fun getReadRequest(instanceId: String, vr: List<Int>): Service.ReadRequest {
+            return Service.ReadRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .addAllValueReferences(vr)
                     .build()

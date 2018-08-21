@@ -41,7 +41,7 @@ import java.util.*
 internal class Heartbeat(
         private val remoteAddress: SimpleSocketAddress,
         private val networkInfo: NetworkInfo,
-        private val modelDescriptionXml: String
+        private val modelDescriptionXml: List<String>
 ): Closeable {
 
     private var thread: Thread? = null
@@ -67,7 +67,7 @@ internal class Heartbeat(
     fun start() {
 
         if (thread == null) {
-            thread = Thread(){
+            thread = Thread{
                 run()
             }.apply {
                 start()

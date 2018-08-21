@@ -32,81 +32,68 @@ import org.slf4j.LoggerFactory
 import java.io.Closeable
 
 
-abstract class AbstractRpcFmuClient: Closeable {
-
-    protected companion object {
-
-        val LOG: Logger = LoggerFactory.getLogger(AbstractRpcFmuClient::class.java)
-
-        val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
-
-        internal object FmuInstances: ArrayList<FmuInstance>() {
-            internal fun terminateAll() {
-                forEach{ it.terminate() }
-            }
-        }
-    }
+abstract class AbstractRpcFmuClient(
+        val fmuId: String
+): Closeable {
 
     abstract val modelDescriptionXml: String
     abstract val modelDescription: CommonModelDescription
+    
+    protected abstract fun init(instanceId: String, start: Double, stop: Double): FmiStatus
+    protected abstract fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus>
+    protected abstract fun reset(instanceId: String): FmiStatus
+    protected abstract fun terminate(instanceId: String): FmiStatus
 
-    protected abstract fun getSimulationTime(instanceId: Int): Double
-    protected abstract fun isTerminated(instanceId: Int): Boolean
-    protected abstract fun init(instanceId: Int, start: Double, stop: Double): FmiStatus
-    protected abstract fun terminate(instanceId: Int): FmiStatus
-    protected abstract fun step(instanceId: Int, stepSize: Double): Pair<Double, FmiStatus>
-    protected abstract fun reset(instanceId: Int): FmiStatus
-
-    internal fun readInteger(instanceId: Int, vr: ValueReference): FmuIntegerRead {
+    internal fun readInteger(instanceId: String, vr: ValueReference): FmuIntegerRead {
         return readInteger(instanceId, listOf(vr)).let { 
             FmuIntegerRead(it.value[0], it.status)
         }
     }
-    internal abstract fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead
+    internal abstract fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead
 
-    internal fun readReal(instanceId: Int, vr: ValueReference): FmuRealRead {
+    internal fun readReal(instanceId: String, vr: ValueReference): FmuRealRead {
         return readReal(instanceId, listOf(vr)).let {
             FmuRealRead(it.value[0], it.status)
         }
     }
-    internal abstract fun readReal(instanceId: Int, vr: List<ValueReference>): FmuRealArrayRead
+    internal abstract fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead
 
-    internal fun readString(instanceId: Int, vr: ValueReference): FmuStringRead {
+    internal fun readString(instanceId: String, vr: ValueReference): FmuStringRead {
         return readString(instanceId, listOf(vr)).let {
             FmuStringRead(it.value[0], it.status)
         }
     }
-    internal abstract fun readString(instanceId: Int, vr: List<ValueReference>): FmuStringArrayRead
+    internal abstract fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead
 
-    internal fun readBoolean(instanceId: Int, vr: ValueReference): FmuBooleanRead {
+    internal fun readBoolean(instanceId: String, vr: ValueReference): FmuBooleanRead {
         return readBoolean(instanceId, listOf(vr)).let {
             FmuBooleanRead(it.value[0], it.status)
         }
     }
-    internal abstract fun readBoolean(instanceId: Int, vr: List<ValueReference>): FmuBooleanArrayRead
+    internal abstract fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead
 
-    internal fun writeInteger(instanceId: Int, vr: ValueReference, value: Int): FmiStatus {
+    internal fun writeInteger(instanceId: String, vr: ValueReference, value: Int): FmiStatus {
         return writeInteger(instanceId, listOf(vr), listOf(value))
     }
-    internal abstract fun writeInteger(instanceId: Int, vr: List<ValueReference>, value: List<Int>): FmiStatus
+    internal abstract fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus
 
-    internal fun writeReal(instanceId: Int, vr: ValueReference, value: Real): FmiStatus {
+    internal fun writeReal(instanceId: String, vr: ValueReference, value: Real): FmiStatus {
         return writeReal(instanceId, listOf(vr), listOf(value))
     }
-    internal abstract fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Real>): FmiStatus
+    internal abstract fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus
 
-    internal fun writeString(instanceId: Int, vr: ValueReference, value: String): FmiStatus {
+    internal fun writeString(instanceId: String, vr: ValueReference, value: String): FmiStatus {
         return writeString(instanceId, listOf(vr), listOf(value))
     }
-    internal abstract fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): FmiStatus
+    internal abstract fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus
 
-    internal fun writeBoolean(instanceId: Int, vr: ValueReference, value: Boolean): FmiStatus {
+    internal fun writeBoolean(instanceId: String, vr: ValueReference, value: Boolean): FmiStatus {
         return writeBoolean(instanceId, listOf(vr), listOf(value))
     }
-    internal abstract fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
+    internal abstract fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
 
-    protected abstract fun createInstanceFromCS(): Int
-    protected abstract fun createInstanceFromME(solver: Solver): Int
+    protected abstract fun createInstanceFromCS(): String
+    protected abstract fun createInstanceFromME(solver: Solver): String
 
     protected fun process(name: String): Int {
         return NAME_TO_VALUE_REF.getOrPut(name) {
@@ -135,12 +122,26 @@ abstract class AbstractRpcFmuClient: Closeable {
         FmuInstances.terminateAll()
     }
 
+    protected companion object {
+
+        private val LOG: Logger = LoggerFactory.getLogger(AbstractRpcFmuClient::class.java)
+
+        private val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
+
+        internal object FmuInstances: ArrayList<FmuInstance>() {
+            internal fun terminateAll() {
+                forEach{ it.terminate() }
+            }
+        }
+    }
+
+
     inner class FmuInstance(
-            private val instanceId: Int
+            private val instanceId: String
     ): FmuSlave, FmuVariableAccessor {
 
-        override val isTerminated: Boolean
-            get() = isTerminated(instanceId)
+        override var isTerminated = false
+            private set
 
         override val variableAccessor = this
 
@@ -154,7 +155,7 @@ abstract class AbstractRpcFmuClient: Closeable {
             get() = this@AbstractRpcFmuClient.modelDescription
 
         init {
-            currentTime = getSimulationTime(instanceId)
+
             modelDescription.modelVariables.forEach { variable ->
                 if (variable is AbstractTypedScalarVariable<*>) {
                     variable::class.java.getField("accessor").also { field ->
@@ -162,6 +163,7 @@ abstract class AbstractRpcFmuClient: Closeable {
                     }
                 }
             }
+
         }
 
         override fun init() = init(0.0)
@@ -169,6 +171,7 @@ abstract class AbstractRpcFmuClient: Closeable {
         override fun init(start: Double, stop: Double) {
             init(instanceId, start, stop).also {
                 lastStatus = it
+                currentTime = start
                 isInitialized = true
             }
         }
@@ -181,13 +184,19 @@ abstract class AbstractRpcFmuClient: Closeable {
         }
 
         override fun terminate(): Boolean {
-            return try {
-                terminate(instanceId).also {
-                    lastStatus = it
-                } == FmiStatus.OK
-            } finally {
-                FmuInstances.remove(this)
+            
+            if (!isTerminated) {
+                return try {
+                    terminate(instanceId).also {
+                        lastStatus = it
+                    } == FmiStatus.OK
+                } finally {
+                    isTerminated = true
+                    FmuInstances.remove(this)
+                }
             }
+            return true
+            
         }
 
         override fun reset(): Boolean {

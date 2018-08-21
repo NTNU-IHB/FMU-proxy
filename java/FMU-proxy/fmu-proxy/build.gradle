@@ -5,7 +5,9 @@ plugins {
     id "com.github.johnrengelman.shadow" version "2.0.4"
 }
 
-mainClassName = "no.mechatronics.sfi.fmuproxy.FmuProxy"
+def group = "no.mechatronics.sfi.fmuproxy"
+
+mainClassName = "${group}.FmuProxy"
 
 def fmi4j_snapshot = true
 def fmi4j_version = fmi4j_snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
@@ -46,7 +48,7 @@ run {
 
 jar {
     manifest {
-        attributes 'Main-Class': "no.mechatronics.sfi.fmuproxy.FmuProxy"
+        attributes 'Main-Class': "${group}.FmuProxy"
     }
 }
 

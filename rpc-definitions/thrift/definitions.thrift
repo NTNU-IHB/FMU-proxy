@@ -25,17 +25,6 @@
 namespace cpp fmuproxy.thrift
 namespace java no.mechatronics.sfi.fmuproxy.thrift
 
-exception NoSuchFmuException {
-    1: string message
-}
-
-exception NoSuchVariableException {
-    1: string message
-}
-
-exception UnsupportedOperationException {
-    1: string message
-}
 
 enum Status {
     OK_STATUS = 0,

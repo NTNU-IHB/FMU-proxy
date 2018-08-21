@@ -1,6 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import java.io.File
 import java.util.*
@@ -8,7 +9,7 @@ import java.util.*
 object RunSocketServer {
 
     private val fmuPath = File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
+            "FMI_2.0/CoSimulation/$currentOS" +
                     "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     @JvmStatic

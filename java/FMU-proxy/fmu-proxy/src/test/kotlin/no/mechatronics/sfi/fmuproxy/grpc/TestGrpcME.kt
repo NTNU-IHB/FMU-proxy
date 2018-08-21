@@ -29,7 +29,7 @@ class TestGrpcME {
             "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
     private val modelDescription: CommonModelDescription = fmu.modelDescription
     private val server: GrpcFmuServer = GrpcFmuServer(fmu)
-    private val client: GrpcFmuClient = GrpcFmuClient("localhost", server.start())
+    private val client: GrpcFmuClient = GrpcFmuClient(fmu.guid, "localhost", server.start())
 
     @AfterAll
     fun tearDown() {

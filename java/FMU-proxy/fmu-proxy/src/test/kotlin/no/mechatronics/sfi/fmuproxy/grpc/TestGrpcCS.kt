@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
@@ -39,7 +40,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestGrpcCS {
@@ -49,10 +49,11 @@ class TestGrpcCS {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+            "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
+                    "ControlledTemperature/ControlledTemperature.fmu"))
     private val modelDescription: CommonModelDescription = fmu.modelDescription
     private val server: GrpcFmuServer = GrpcFmuServer(fmu)
-    private val client: GrpcFmuClient = GrpcFmuClient("localhost", server.start())
+    private val client: GrpcFmuClient = GrpcFmuClient(fmu.guid, "localhost", server.start())
 
     @AfterAll
     fun tearDown() {
@@ -76,15 +77,15 @@ class TestGrpcCS {
     @Test
     fun testInstance() {
 
-        client.newInstance().use { instance ->
+        client.newInstance().use { slave ->
 
-            val variableName = "x0"
-            val variable = instance.modelVariables
+            val variableName = "Temperature_Room"
+            val variable = slave.modelVariables
                     .getByName(variableName).asRealVariable()
 
             val stop = 2.0
             val stepSize = 1E-2
-            runInstance(instance, stepSize, stop) {
+            runInstance(slave, stepSize, stop) {
                 variable.read()
             }.also {
                 LOG.info("Duration: ${it}ms")

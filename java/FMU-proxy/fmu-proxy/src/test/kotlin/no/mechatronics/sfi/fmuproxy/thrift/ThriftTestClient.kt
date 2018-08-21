@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.ValueReference
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
@@ -32,6 +33,7 @@ import org.apache.thrift.transport.TTransport
 import java.io.Closeable
 
 class ThriftTestClient(
+        private val fmuId: String,
         host: String,
         port: Int
 ): Closeable {
@@ -53,26 +55,22 @@ class ThriftTestClient(
     }
 
     val modelDescriptionXml: String by lazy {
-        client.modelDescriptionXml
+        client.getModelDescriptionXml(fmuId)
     }
 
-    fun getCurrentTime(instanceId: Int): Double {
-        return client.getSimulationTime(instanceId)
+    val modelDescription: ModelDescription by lazy {
+        client.getModelDescription(fmuId)
     }
 
-    fun isTerminated(instanceId: Int): Boolean {
-        return client.isTerminated(instanceId)
-    }
-
-    fun init(instanceId: Int, start: Double, stop: Double): Status {
+    fun init(instanceId: String, start: Double, stop: Double): Status {
         return client.init(instanceId, start, stop)
     }
 
-    fun terminate(instanceId: Int): Status {
+    fun terminate(instanceId: String): Status {
         return client.terminate(instanceId)
     }
 
-    fun step(instanceId: Int, stepSize: Double): Pair<Double, Status> {
+    fun step(instanceId: String, stepSize: Double): Pair<Double, Status> {
         return client.step(instanceId, stepSize).let {
             it.simulationTime to it.status
         }
@@ -83,37 +81,34 @@ class ThriftTestClient(
         FmuInstances.terminateAll()
     }
 
-    private fun readReal(instanceId: Int, vr: List<ValueReference>): RealRead {
+    private fun readReal(instanceId: String, vr: List<ValueReference>): RealRead {
         return client.readReal(instanceId, vr)
     }
 
     fun newInstance(solver: Solver? = null): FmuInstance {
-        val instanceId = if (solver == null) client.createInstanceFromCS() else client.createInstanceFromME(solver.thriftType())
+        val instanceId = if (solver == null) client.createInstanceFromCS(fmuId) else client.createInstanceFromME(fmuId, solver.thriftType())
         return FmuInstance(instanceId).also {
             FmuInstances.add(it)
         }
     }
 
     inner class FmuInstance(
-            private val instanceId: Int
+            private val instanceId: String
     ): Closeable {
 
-       val isTerminated: Boolean
-            get() = isTerminated(instanceId)
+       var isTerminated = false
 
-       var currentTime: Double = 0.0
-
-        init {
-            currentTime = getCurrentTime(instanceId)
-        }
+       var simulationTime: Double = 0.0
 
        fun init(start: Double = 0.0, stop: Double = 0.0) {
-            init(instanceId, start, stop)
+            init(instanceId, start, stop).also {
+                simulationTime = start
+            }
         }
 
        fun doStep(stepSize: Double): Boolean {
             val stepResult = step(instanceId, stepSize)
-            currentTime = stepResult.first
+            simulationTime = stepResult.first
             return stepResult.second == Status.OK_STATUS
         }
 
@@ -121,6 +116,7 @@ class ThriftTestClient(
             return try {
                 terminate(instanceId) == Status.OK_STATUS
             } finally {
+                isTerminated = true
                 FmuInstances.remove(this)
             }
         }

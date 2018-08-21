@@ -27,49 +27,42 @@ package no.mechatronics.sfi.fmuproxy.fmu
 import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * @author Lars Ivar Hatledal
  */
-object Fmus {
+object FmuSlaves {
 
-    private val LOG: Logger = LoggerFactory.getLogger(Fmus::class.java)
+    private val LOG: Logger = LoggerFactory.getLogger(FmuSlaves::class.java)
 
-    private val idGen = AtomicInteger(0)
-    private val fmus = mutableMapOf<Int, FmuSlave>()
+    private val slaves = mutableMapOf<String, FmuSlave>()
 
-    init {
-        Runtime.getRuntime().addShutdownHook(Thread {
-            terminateAll()
-        })
-    }
-
-    fun put(fmu: FmuSlave): Int {
-        return idGen.incrementAndGet().also {
-            fmus[it] = fmu
+    fun put(slave: FmuSlave): String {
+        return UUID.randomUUID().toString().also {
+            slaves[it] = slave
         }
     }
 
-    fun remove(id: Int): FmuSlave? {
-        return fmus.remove(id).also {
+    fun remove(instanceId: String): FmuSlave? {
+        return slaves.remove(instanceId).also {
             if (it == null) {
-                LOG.warn("No fmu with id: $id")
+                LOG.warn("No slave with id: $instanceId")
             }
         }
     }
 
-    fun get(id: Int): FmuSlave? {
-        return fmus[id].also {
+    operator fun get(instanceId: String): FmuSlave? {
+        return slaves[instanceId].also {
             if (it == null) {
-                LOG.warn("No fmu with id: $id")
+                LOG.warn("No slave with id: $instanceId")
             }
         }
     }
-
-
+    
     fun terminateAll() {
-        fmus.values.forEach {
+        slaves.values.forEach {
             if (!it.isTerminated) {
                 it.terminate()
             }

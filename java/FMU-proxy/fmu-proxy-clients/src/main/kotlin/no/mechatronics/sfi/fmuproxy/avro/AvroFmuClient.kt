@@ -33,86 +33,78 @@ import org.apache.avro.ipc.specific.SpecificRequestor
 import java.net.InetSocketAddress
 
 class AvroFmuClient(
+        fmuId: String,
         host: String,
         port: Int
-): AbstractRpcFmuClient() {
+): AbstractRpcFmuClient(fmuId) {
 
     private val client = NettyTransceiver(InetSocketAddress(host, port))
     private val service = SpecificRequestor.getClient(AvroFmuService::class.java, client)
 
     override val modelDescription: CommonModelDescription by lazy {
-        service.modelDescription.convert()
+        service.getModelDescription(fmuId).convert()
     }
 
     override val modelDescriptionXml: String by lazy {
-        service.modelDescriptionXml
+        service.getModelDescriptionXml(fmuId)
     }
 
-    override fun getSimulationTime(instanceId: Int): Double {
-        return service.getSimulationTime(instanceId)
+    override fun createInstanceFromCS(): String {
+        return service.createInstanceFromCS(fmuId)
     }
 
-    override fun isTerminated(instanceId: Int): Boolean {
-        return service.isTerminated(instanceId)
+    override fun createInstanceFromME(solver: Solver): String {
+        return service.createInstanceFromME(fmuId, solver.avroType())
     }
 
-    override fun init(instanceId: Int, start: Double, stop: Double): FmiStatus {
+    override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
         return service.init(instanceId, start, stop).convert()
     }
 
-    override fun terminate(instanceId: Int): FmiStatus {
+    override fun terminate(instanceId: String): FmiStatus {
         return service.terminate(instanceId).convert()
     }
 
-    override fun step(instanceId: Int, stepSize: Double): Pair<Double, FmiStatus> {
+    override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
         return service.step(instanceId, stepSize).let {
             it.simulationTime to it.status.convert()
         }
     }
 
-    override fun reset(instanceId: Int): FmiStatus {
+    override fun reset(instanceId: String): FmiStatus {
         return service.reset(instanceId).convert()
     }
     
-    override fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead {
+    override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
         return service.readInteger(instanceId, vr).convert()
     }
     
-    override fun readReal(instanceId: Int, vr: List<ValueReference>): FmuRealArrayRead {
+    override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
         return service.readReal(instanceId, vr).convert()
     }
     
-    override fun readString(instanceId: Int, vr: List<ValueReference>): FmuStringArrayRead {
+    override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
         return service.readString(instanceId, vr).convert()
     }
 
-    override fun readBoolean(instanceId: Int, vr: List<ValueReference>): FmuBooleanArrayRead {
+    override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
         return service.readBoolean(instanceId, vr).convert()
     }
 
-    override fun writeInteger(instanceId: Int, vr: List<Int>, value: List<Int>): FmiStatus {
+    override fun writeInteger(instanceId: String, vr: List<Int>, value: List<Int>): FmiStatus {
         return service.writeInteger(instanceId, vr, value).convert()
     }
 
-    override fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
         return service.writeReal(instanceId, vr, value).convert()
     }
 
-
-    override fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): FmiStatus {
+    override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
         return service.writeString(instanceId, vr, value).convert()
     }
 
-    override fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+    override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return service.writeBoolean(instanceId, vr, value).convert()
-    }
-
-    override fun createInstanceFromCS(): Int {
-        return service.createInstanceFromCS()
-    }
-
-    override fun createInstanceFromME(solver: Solver): Int {
-        return service.createInstanceFromME(solver.avroType())
     }
 
     override fun close() {

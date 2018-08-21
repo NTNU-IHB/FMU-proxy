@@ -48,22 +48,21 @@ interface IServer {
 
 }
 
-
 abstract class ThriftFmuServer(
-        fmu: Fmu
+        fmus: Map<String, Fmu>
 ): FmuProxyServer {
 
     companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
 
-        fun socketServer(fmu: Fmu) = ThriftFmuSocketServer(fmu)
-        fun servlet(fmu: Fmu) = ThriftFmuServlet(fmu)
+        fun socketServer(fmus: Map<String, Fmu>) = ThriftFmuSocketServer(fmus)
+        fun servlet(fmus: Map<String, Fmu>) = ThriftFmuServlet(fmus)
 
     }
 
     override var port: Int? = null
     private var server: IServer? = null
-    private val handler = ThriftFmuServiceImpl(fmu)
+    private val handler = ThriftFmuServiceImpl(fmus)
 
     override fun start(port: Int) {
 
@@ -94,8 +93,10 @@ abstract class ThriftFmuServer(
 
 
 class ThriftFmuSocketServer(
-        fmu: Fmu
-): ThriftFmuServer(fmu) {
+        fmus: Map<String, Fmu>
+): ThriftFmuServer(fmus) {
+
+    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
     override val simpleName = "thrift/tcp"
 
@@ -119,34 +120,42 @@ class ThriftFmuSocketServer(
 }
 
 class ThriftFmuServlet(
-        fmu: Fmu
-):  ThriftFmuServer(fmu) {
+        fmus: Map<String, Fmu>
+):  ThriftFmuServer(fmus) {
+
+    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
     override val simpleName = "thrift/http"
 
     override fun setup(port: Int, processor: FmuService.Processor<ThriftFmuServiceImpl>): IServer {
 
-        val handler = ServletHandler().apply {
-            val holder = ServletHolder(TServlet(processor, TJSONProtocol.Factory()))
-            addServletWithMapping(holder, "/thrift")
-        }
-
-        val holder = FilterHolder(CrossOriginFilter::class.java).apply {
-            name = "cross-origin"
-            setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*")
-            setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*")
-            setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD")
-            setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin")
-        }
-
-        val fm = FilterMapping().apply {
-            filterName = "cross-origin"
-            setPathSpec("*")
-        }
-
-        handler.addFilter(holder, fm)
-
         val server = Server(port).also {
+
+            val handler = ServletHandler().apply {
+
+                ServletHolder(TServlet(processor, TJSONProtocol.Factory())).also {
+                    addServletWithMapping(it, "/thrift")
+                }
+
+                FilterHolder(CrossOriginFilter::class.java).apply {
+                    name = "cross-origin"
+                    setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*")
+                    setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*")
+                    setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,POST,HEAD")
+                    setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin")
+                }.also { filter ->
+
+                    FilterMapping().apply {
+                        filterName = "cross-origin"
+                        setPathSpec("*")
+                    }.also { mapping ->
+                        addFilter(filter, mapping)
+                    }
+
+                }
+
+            }
+
             it.handler = handler
         }
 
@@ -160,7 +169,6 @@ class ThriftFmuServlet(
                 server.stop()
             }
         }
-
 
     }
 

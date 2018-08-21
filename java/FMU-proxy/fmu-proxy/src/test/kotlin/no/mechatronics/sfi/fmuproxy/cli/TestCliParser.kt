@@ -1,5 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.cli
 
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
@@ -14,15 +15,15 @@ class TestCliParser {
         private val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
+                "FMI_2.0/CoSimulation/$currentOS" +
                         "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     }
 
     @Test
-    fun test1() {
+    fun test() {
 
-        var args = arrayOf("--fmu", "${fmuPath.absolutePath}")
+        var args = arrayOf("${fmuPath.absolutePath}")
         CommandLineParser.parse(args)?.use { proxy ->
 
             proxy.start()

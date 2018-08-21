@@ -179,6 +179,10 @@ protocol AvroFmuService {
     string message;
   }
 
+  error NoSuchInstanceException {
+    string message;
+  }
+
   error NoSuchVariableException {
     string message;
   }
@@ -187,28 +191,25 @@ protocol AvroFmuService {
     string message;
   }
 
-  string getModelDescriptionXml();
-  ModelDescription getModelDescription();
+  string getModelDescriptionXml(string fmu_id) throws NoSuchFmuException;
+  ModelDescription getModelDescription(string fmu_id) throws NoSuchFmuException;
 
-  int createInstanceFromCS() throws UnsupportedOperationException;
-  int createInstanceFromME(Solver solver) throws UnsupportedOperationException;
+  string createInstanceFromCS(string fmu_id) throws NoSuchFmuException, UnsupportedOperationException;
+  string createInstanceFromME(string fmu_id, Solver solver) throws NoSuchFmuException, UnsupportedOperationException;
 
-  double getSimulationTime(int instance_id) throws NoSuchFmuException;
-  boolean isTerminated(int instance_id) throws NoSuchFmuException;
+  Status init(string instance_id, double start, double stop) throws NoSuchInstanceException;
+  StepResult step(string instance_id, double step_size) throws NoSuchInstanceException;
+  Status reset(string instance_id) throws NoSuchInstanceException;
+  Status terminate(string instance_id) throws NoSuchInstanceException;
 
-  Status init(int instance_id, double start, double stop) throws NoSuchFmuException;
-  StepResult step(int instance_id, double step_size) throws NoSuchFmuException;
-  Status terminate(int instance_id) throws NoSuchFmuException;
-  Status reset(int instance_id) throws NoSuchFmuException;
+  IntegerRead readInteger(string instance_id, array<int> vr) throws NoSuchInstanceException, NoSuchVariableException;
+  RealRead readReal(string instance_id, array<int> vr) throws NoSuchInstanceException, NoSuchVariableException;
+  StringRead readString(string instance_id, array<int> vr) throws NoSuchInstanceException, NoSuchVariableException;
+  BooleanRead readBoolean(string instance_id, array<int> vr) throws NoSuchInstanceException, NoSuchVariableException;
 
-  IntegerRead readInteger(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-  RealRead readReal(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-  StringRead readString(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-  BooleanRead readBoolean(int instance_id, array<int> vr) throws NoSuchFmuException, NoSuchVariableException;
-
-  Status writeInteger(int instance_id,  array<int> vr, array<int> value) throws NoSuchFmuException, NoSuchVariableException;
-  Status writeReal(int instance_id, array<int> vr, array<double> value) throws NoSuchFmuException, NoSuchVariableException;
-  Status writeString(int instance_id, array<int> vr, array<string> value) throws NoSuchFmuException, NoSuchVariableException;
-  Status writeBoolean(int instance_id, array<int> vr, array<boolean> value) throws NoSuchFmuException, NoSuchVariableException;
+  Status writeInteger(string instance_id,  array<int> vr, array<int> value) throws NoSuchInstanceException, NoSuchVariableException;
+  Status writeReal(string instance_id, array<int> vr, array<double> value) throws NoSuchInstanceException, NoSuchVariableException;
+  Status writeString(string instance_id, array<int> vr, array<string> value) throws NoSuchInstanceException, NoSuchVariableException;
+  Status writeBoolean(string instance_id, array<int> vr, array<boolean> value) throws NoSuchInstanceException, NoSuchVariableException;
 
 }
