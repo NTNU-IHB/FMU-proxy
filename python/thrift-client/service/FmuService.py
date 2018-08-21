@@ -19,33 +19,32 @@ all_structs = []
 
 
 class Iface(object):
-    def getModelDescriptionXml(self):
-        pass
-
-    def getModelDescription(self):
-        pass
-
-    def createInstanceFromCS(self):
-        pass
-
-    def createInstanceFromME(self, solver):
+    def getModelDescriptionXml(self, fmu_id):
         """
         Parameters:
+         - fmu_id
+        """
+        pass
+
+    def getModelDescription(self, fmu_id):
+        """
+        Parameters:
+         - fmu_id
+        """
+        pass
+
+    def createInstanceFromCS(self, fmu_id):
+        """
+        Parameters:
+         - fmu_id
+        """
+        pass
+
+    def createInstanceFromME(self, fmu_id, solver):
+        """
+        Parameters:
+         - fmu_id
          - solver
-        """
-        pass
-
-    def getSimulationTime(self, instance_id):
-        """
-        Parameters:
-         - instance_id
-        """
-        pass
-
-    def isTerminated(self, instance_id):
-        """
-        Parameters:
-         - instance_id
         """
         pass
 
@@ -66,14 +65,14 @@ class Iface(object):
         """
         pass
 
-    def terminate(self, instance_id):
+    def reset(self, instance_id):
         """
         Parameters:
          - instance_id
         """
         pass
 
-    def reset(self, instance_id):
+    def terminate(self, instance_id):
         """
         Parameters:
          - instance_id
@@ -156,13 +155,18 @@ class Client(Iface):
             self._oprot = oprot
         self._seqid = 0
 
-    def getModelDescriptionXml(self):
-        self.send_getModelDescriptionXml()
+    def getModelDescriptionXml(self, fmu_id):
+        """
+        Parameters:
+         - fmu_id
+        """
+        self.send_getModelDescriptionXml(fmu_id)
         return self.recv_getModelDescriptionXml()
 
-    def send_getModelDescriptionXml(self):
+    def send_getModelDescriptionXml(self, fmu_id):
         self._oprot.writeMessageBegin('getModelDescriptionXml', TMessageType.CALL, self._seqid)
         args = getModelDescriptionXml_args()
+        args.fmu_id = fmu_id
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -180,15 +184,22 @@ class Client(Iface):
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
+        if result.ex is not None:
+            raise result.ex
         raise TApplicationException(TApplicationException.MISSING_RESULT, "getModelDescriptionXml failed: unknown result")
 
-    def getModelDescription(self):
-        self.send_getModelDescription()
+    def getModelDescription(self, fmu_id):
+        """
+        Parameters:
+         - fmu_id
+        """
+        self.send_getModelDescription(fmu_id)
         return self.recv_getModelDescription()
 
-    def send_getModelDescription(self):
+    def send_getModelDescription(self, fmu_id):
         self._oprot.writeMessageBegin('getModelDescription', TMessageType.CALL, self._seqid)
         args = getModelDescription_args()
+        args.fmu_id = fmu_id
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -206,15 +217,22 @@ class Client(Iface):
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
+        if result.ex is not None:
+            raise result.ex
         raise TApplicationException(TApplicationException.MISSING_RESULT, "getModelDescription failed: unknown result")
 
-    def createInstanceFromCS(self):
-        self.send_createInstanceFromCS()
+    def createInstanceFromCS(self, fmu_id):
+        """
+        Parameters:
+         - fmu_id
+        """
+        self.send_createInstanceFromCS(fmu_id)
         return self.recv_createInstanceFromCS()
 
-    def send_createInstanceFromCS(self):
+    def send_createInstanceFromCS(self, fmu_id):
         self._oprot.writeMessageBegin('createInstanceFromCS', TMessageType.CALL, self._seqid)
         args = createInstanceFromCS_args()
+        args.fmu_id = fmu_id
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -232,21 +250,25 @@ class Client(Iface):
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
-        if result.ex is not None:
-            raise result.ex
+        if result.ex1 is not None:
+            raise result.ex1
+        if result.ex2 is not None:
+            raise result.ex2
         raise TApplicationException(TApplicationException.MISSING_RESULT, "createInstanceFromCS failed: unknown result")
 
-    def createInstanceFromME(self, solver):
+    def createInstanceFromME(self, fmu_id, solver):
         """
         Parameters:
+         - fmu_id
          - solver
         """
-        self.send_createInstanceFromME(solver)
+        self.send_createInstanceFromME(fmu_id, solver)
         return self.recv_createInstanceFromME()
 
-    def send_createInstanceFromME(self, solver):
+    def send_createInstanceFromME(self, fmu_id, solver):
         self._oprot.writeMessageBegin('createInstanceFromME', TMessageType.CALL, self._seqid)
         args = createInstanceFromME_args()
+        args.fmu_id = fmu_id
         args.solver = solver
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
@@ -265,75 +287,11 @@ class Client(Iface):
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
-        if result.ex is not None:
-            raise result.ex
+        if result.ex1 is not None:
+            raise result.ex1
+        if result.ex2 is not None:
+            raise result.ex2
         raise TApplicationException(TApplicationException.MISSING_RESULT, "createInstanceFromME failed: unknown result")
-
-    def getSimulationTime(self, instance_id):
-        """
-        Parameters:
-         - instance_id
-        """
-        self.send_getSimulationTime(instance_id)
-        return self.recv_getSimulationTime()
-
-    def send_getSimulationTime(self, instance_id):
-        self._oprot.writeMessageBegin('getSimulationTime', TMessageType.CALL, self._seqid)
-        args = getSimulationTime_args()
-        args.instance_id = instance_id
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_getSimulationTime(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = getSimulationTime_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex is not None:
-            raise result.ex
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getSimulationTime failed: unknown result")
-
-    def isTerminated(self, instance_id):
-        """
-        Parameters:
-         - instance_id
-        """
-        self.send_isTerminated(instance_id)
-        return self.recv_isTerminated()
-
-    def send_isTerminated(self, instance_id):
-        self._oprot.writeMessageBegin('isTerminated', TMessageType.CALL, self._seqid)
-        args = isTerminated_args()
-        args.instance_id = instance_id
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_isTerminated(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = isTerminated_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex is not None:
-            raise result.ex
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "isTerminated failed: unknown result")
 
     def init(self, instance_id, start, stop):
         """
@@ -407,39 +365,6 @@ class Client(Iface):
             raise result.ex
         raise TApplicationException(TApplicationException.MISSING_RESULT, "step failed: unknown result")
 
-    def terminate(self, instance_id):
-        """
-        Parameters:
-         - instance_id
-        """
-        self.send_terminate(instance_id)
-        return self.recv_terminate()
-
-    def send_terminate(self, instance_id):
-        self._oprot.writeMessageBegin('terminate', TMessageType.CALL, self._seqid)
-        args = terminate_args()
-        args.instance_id = instance_id
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_terminate(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = terminate_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex is not None:
-            raise result.ex
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "terminate failed: unknown result")
-
     def reset(self, instance_id):
         """
         Parameters:
@@ -472,6 +397,39 @@ class Client(Iface):
         if result.ex is not None:
             raise result.ex
         raise TApplicationException(TApplicationException.MISSING_RESULT, "reset failed: unknown result")
+
+    def terminate(self, instance_id):
+        """
+        Parameters:
+         - instance_id
+        """
+        self.send_terminate(instance_id)
+        return self.recv_terminate()
+
+    def send_terminate(self, instance_id):
+        self._oprot.writeMessageBegin('terminate', TMessageType.CALL, self._seqid)
+        args = terminate_args()
+        args.instance_id = instance_id
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_terminate(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = terminate_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.ex is not None:
+            raise result.ex
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "terminate failed: unknown result")
 
     def readInteger(self, instance_id, vr):
         """
@@ -786,12 +744,10 @@ class Processor(Iface, TProcessor):
         self._processMap["getModelDescription"] = Processor.process_getModelDescription
         self._processMap["createInstanceFromCS"] = Processor.process_createInstanceFromCS
         self._processMap["createInstanceFromME"] = Processor.process_createInstanceFromME
-        self._processMap["getSimulationTime"] = Processor.process_getSimulationTime
-        self._processMap["isTerminated"] = Processor.process_isTerminated
         self._processMap["init"] = Processor.process_init
         self._processMap["step"] = Processor.process_step
-        self._processMap["terminate"] = Processor.process_terminate
         self._processMap["reset"] = Processor.process_reset
+        self._processMap["terminate"] = Processor.process_terminate
         self._processMap["readInteger"] = Processor.process_readInteger
         self._processMap["readReal"] = Processor.process_readReal
         self._processMap["readString"] = Processor.process_readString
@@ -822,10 +778,13 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = getModelDescriptionXml_result()
         try:
-            result.success = self._handler.getModelDescriptionXml()
+            result.success = self._handler.getModelDescriptionXml(args.fmu_id)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
+        except NoSuchFmuException as ex:
+            msg_type = TMessageType.REPLY
+            result.ex = ex
         except TApplicationException as ex:
             logging.exception('TApplication exception in handler')
             msg_type = TMessageType.EXCEPTION
@@ -845,10 +804,13 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = getModelDescription_result()
         try:
-            result.success = self._handler.getModelDescription()
+            result.success = self._handler.getModelDescription(args.fmu_id)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
+        except NoSuchFmuException as ex:
+            msg_type = TMessageType.REPLY
+            result.ex = ex
         except TApplicationException as ex:
             logging.exception('TApplication exception in handler')
             msg_type = TMessageType.EXCEPTION
@@ -868,13 +830,16 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = createInstanceFromCS_result()
         try:
-            result.success = self._handler.createInstanceFromCS()
+            result.success = self._handler.createInstanceFromCS(args.fmu_id)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.UnsupportedOperationException as ex:
+        except UnsupportedOperationException as ex1:
             msg_type = TMessageType.REPLY
-            result.ex = ex
+            result.ex1 = ex1
+        except NoSuchFmuException as ex2:
+            msg_type = TMessageType.REPLY
+            result.ex2 = ex2
         except TApplicationException as ex:
             logging.exception('TApplication exception in handler')
             msg_type = TMessageType.EXCEPTION
@@ -894,13 +859,16 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = createInstanceFromME_result()
         try:
-            result.success = self._handler.createInstanceFromME(args.solver)
+            result.success = self._handler.createInstanceFromME(args.fmu_id, args.solver)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.UnsupportedOperationException as ex:
+        except UnsupportedOperationException as ex1:
             msg_type = TMessageType.REPLY
-            result.ex = ex
+            result.ex1 = ex1
+        except NoSuchFmuException as ex2:
+            msg_type = TMessageType.REPLY
+            result.ex2 = ex2
         except TApplicationException as ex:
             logging.exception('TApplication exception in handler')
             msg_type = TMessageType.EXCEPTION
@@ -910,58 +878,6 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("createInstanceFromME", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
-    def process_getSimulationTime(self, seqid, iprot, oprot):
-        args = getSimulationTime_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = getSimulationTime_result()
-        try:
-            result.success = self._handler.getSimulationTime(args.instance_id)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except definitions.ttypes.NoSuchFmuException as ex:
-            msg_type = TMessageType.REPLY
-            result.ex = ex
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getSimulationTime", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
-    def process_isTerminated(self, seqid, iprot, oprot):
-        args = isTerminated_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = isTerminated_result()
-        try:
-            result.success = self._handler.isTerminated(args.instance_id)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except definitions.ttypes.NoSuchFmuException as ex:
-            msg_type = TMessageType.REPLY
-            result.ex = ex
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("isTerminated", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -976,7 +892,7 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex:
+        except NoSuchInstanceException as ex:
             msg_type = TMessageType.REPLY
             result.ex = ex
         except TApplicationException as ex:
@@ -1002,7 +918,7 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex:
+        except NoSuchInstanceException as ex:
             msg_type = TMessageType.REPLY
             result.ex = ex
         except TApplicationException as ex:
@@ -1018,32 +934,6 @@ class Processor(Iface, TProcessor):
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_terminate(self, seqid, iprot, oprot):
-        args = terminate_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = terminate_result()
-        try:
-            result.success = self._handler.terminate(args.instance_id)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except definitions.ttypes.NoSuchFmuException as ex:
-            msg_type = TMessageType.REPLY
-            result.ex = ex
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("terminate", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
     def process_reset(self, seqid, iprot, oprot):
         args = reset_args()
         args.read(iprot)
@@ -1054,7 +944,7 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex:
+        except NoSuchInstanceException as ex:
             msg_type = TMessageType.REPLY
             result.ex = ex
         except TApplicationException as ex:
@@ -1070,6 +960,32 @@ class Processor(Iface, TProcessor):
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
+    def process_terminate(self, seqid, iprot, oprot):
+        args = terminate_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = terminate_result()
+        try:
+            result.success = self._handler.terminate(args.instance_id)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except NoSuchInstanceException as ex:
+            msg_type = TMessageType.REPLY
+            result.ex = ex
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("terminate", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
     def process_readInteger(self, seqid, iprot, oprot):
         args = readInteger_args()
         args.read(iprot)
@@ -1080,10 +996,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1109,10 +1025,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1138,10 +1054,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1167,10 +1083,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1196,10 +1112,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1225,10 +1141,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1254,10 +1170,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1283,10 +1199,10 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
-        except definitions.ttypes.NoSuchFmuException as ex1:
+        except NoSuchInstanceException as ex1:
             msg_type = TMessageType.REPLY
             result.ex1 = ex1
-        except definitions.ttypes.NoSuchVariableException as ex2:
+        except NoSuchVariableException as ex2:
             msg_type = TMessageType.REPLY
             result.ex2 = ex2
         except TApplicationException as ex:
@@ -1306,7 +1222,14 @@ class Processor(Iface, TProcessor):
 
 
 class getModelDescriptionXml_args(object):
+    """
+    Attributes:
+     - fmu_id
+    """
 
+
+    def __init__(self, fmu_id=None,):
+        self.fmu_id = fmu_id
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1317,6 +1240,11 @@ class getModelDescriptionXml_args(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.fmu_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1327,6 +1255,10 @@ class getModelDescriptionXml_args(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('getModelDescriptionXml_args')
+        if self.fmu_id is not None:
+            oprot.writeFieldBegin('fmu_id', TType.STRING, 1)
+            oprot.writeString(self.fmu_id.encode('utf-8') if sys.version_info[0] == 2 else self.fmu_id)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -1345,217 +1277,12 @@ class getModelDescriptionXml_args(object):
         return not (self == other)
 all_structs.append(getModelDescriptionXml_args)
 getModelDescriptionXml_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'fmu_id', 'UTF8', None, ),  # 1
 )
 
 
 class getModelDescriptionXml_result(object):
-    """
-    Attributes:
-     - success
-    """
-
-
-    def __init__(self, success=None,):
-        self.success = success
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.STRING:
-                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('getModelDescriptionXml_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.STRING, 0)
-            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(getModelDescriptionXml_result)
-getModelDescriptionXml_result.thrift_spec = (
-    (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
-)
-
-
-class getModelDescription_args(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('getModelDescription_args')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(getModelDescription_args)
-getModelDescription_args.thrift_spec = (
-)
-
-
-class getModelDescription_result(object):
-    """
-    Attributes:
-     - success
-    """
-
-
-    def __init__(self, success=None,):
-        self.success = success
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.ModelDescription()
-                    self.success.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('getModelDescription_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.STRUCT, 0)
-            self.success.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(getModelDescription_result)
-getModelDescription_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.ModelDescription, None], None, ),  # 0
-)
-
-
-class createInstanceFromCS_args(object):
-
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('createInstanceFromCS_args')
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(createInstanceFromCS_args)
-createInstanceFromCS_args.thrift_spec = (
-)
-
-
-class createInstanceFromCS_result(object):
     """
     Attributes:
      - success
@@ -1577,13 +1304,13 @@ class createInstanceFromCS_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.I32:
-                    self.success = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.UnsupportedOperationException()
+                    self.ex = NoSuchFmuException()
                     self.ex.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1596,10 +1323,10 @@ class createInstanceFromCS_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('createInstanceFromCS_result')
+        oprot.writeStructBegin('getModelDescriptionXml_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.I32, 0)
-            oprot.writeI32(self.success)
+            oprot.writeFieldBegin('success', TType.STRING, 0)
+            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
             oprot.writeFieldEnd()
         if self.ex is not None:
             oprot.writeFieldBegin('ex', TType.STRUCT, 1)
@@ -1621,21 +1348,305 @@ class createInstanceFromCS_result(object):
 
     def __ne__(self, other):
         return not (self == other)
+all_structs.append(getModelDescriptionXml_result)
+getModelDescriptionXml_result.thrift_spec = (
+    (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
+    (1, TType.STRUCT, 'ex', [NoSuchFmuException, None], None, ),  # 1
+)
+
+
+class getModelDescription_args(object):
+    """
+    Attributes:
+     - fmu_id
+    """
+
+
+    def __init__(self, fmu_id=None,):
+        self.fmu_id = fmu_id
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.fmu_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('getModelDescription_args')
+        if self.fmu_id is not None:
+            oprot.writeFieldBegin('fmu_id', TType.STRING, 1)
+            oprot.writeString(self.fmu_id.encode('utf-8') if sys.version_info[0] == 2 else self.fmu_id)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(getModelDescription_args)
+getModelDescription_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'fmu_id', 'UTF8', None, ),  # 1
+)
+
+
+class getModelDescription_result(object):
+    """
+    Attributes:
+     - success
+     - ex
+    """
+
+
+    def __init__(self, success=None, ex=None,):
+        self.success = success
+        self.ex = ex
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = definitions.ttypes.ModelDescription()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.ex = NoSuchFmuException()
+                    self.ex.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('getModelDescription_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        if self.ex is not None:
+            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
+            self.ex.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(getModelDescription_result)
+getModelDescription_result.thrift_spec = (
+    (0, TType.STRUCT, 'success', [definitions.ttypes.ModelDescription, None], None, ),  # 0
+    (1, TType.STRUCT, 'ex', [NoSuchFmuException, None], None, ),  # 1
+)
+
+
+class createInstanceFromCS_args(object):
+    """
+    Attributes:
+     - fmu_id
+    """
+
+
+    def __init__(self, fmu_id=None,):
+        self.fmu_id = fmu_id
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.fmu_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('createInstanceFromCS_args')
+        if self.fmu_id is not None:
+            oprot.writeFieldBegin('fmu_id', TType.STRING, 1)
+            oprot.writeString(self.fmu_id.encode('utf-8') if sys.version_info[0] == 2 else self.fmu_id)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(createInstanceFromCS_args)
+createInstanceFromCS_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'fmu_id', 'UTF8', None, ),  # 1
+)
+
+
+class createInstanceFromCS_result(object):
+    """
+    Attributes:
+     - success
+     - ex1
+     - ex2
+    """
+
+
+    def __init__(self, success=None, ex1=None, ex2=None,):
+        self.success = success
+        self.ex1 = ex1
+        self.ex2 = ex2
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRING:
+                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.ex1 = UnsupportedOperationException()
+                    self.ex1.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.ex2 = NoSuchFmuException()
+                    self.ex2.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('createInstanceFromCS_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRING, 0)
+            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
+            oprot.writeFieldEnd()
+        if self.ex1 is not None:
+            oprot.writeFieldBegin('ex1', TType.STRUCT, 1)
+            self.ex1.write(oprot)
+            oprot.writeFieldEnd()
+        if self.ex2 is not None:
+            oprot.writeFieldBegin('ex2', TType.STRUCT, 2)
+            self.ex2.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
 all_structs.append(createInstanceFromCS_result)
 createInstanceFromCS_result.thrift_spec = (
-    (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.UnsupportedOperationException, None], None, ),  # 1
+    (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
+    (1, TType.STRUCT, 'ex1', [UnsupportedOperationException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchFmuException, None], None, ),  # 2
 )
 
 
 class createInstanceFromME_args(object):
     """
     Attributes:
+     - fmu_id
      - solver
     """
 
 
-    def __init__(self, solver=None,):
+    def __init__(self, fmu_id=None, solver=None,):
+        self.fmu_id = fmu_id
         self.solver = solver
 
     def read(self, iprot):
@@ -1648,6 +1659,11 @@ class createInstanceFromME_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
+                if ftype == TType.STRING:
+                    self.fmu_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
                 if ftype == TType.STRUCT:
                     self.solver = definitions.ttypes.Solver()
                     self.solver.read(iprot)
@@ -1663,8 +1679,12 @@ class createInstanceFromME_args(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('createInstanceFromME_args')
+        if self.fmu_id is not None:
+            oprot.writeFieldBegin('fmu_id', TType.STRING, 1)
+            oprot.writeString(self.fmu_id.encode('utf-8') if sys.version_info[0] == 2 else self.fmu_id)
+            oprot.writeFieldEnd()
         if self.solver is not None:
-            oprot.writeFieldBegin('solver', TType.STRUCT, 1)
+            oprot.writeFieldBegin('solver', TType.STRUCT, 2)
             self.solver.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1686,7 +1706,8 @@ class createInstanceFromME_args(object):
 all_structs.append(createInstanceFromME_args)
 createInstanceFromME_args.thrift_spec = (
     None,  # 0
-    (1, TType.STRUCT, 'solver', [definitions.ttypes.Solver, None], None, ),  # 1
+    (1, TType.STRING, 'fmu_id', 'UTF8', None, ),  # 1
+    (2, TType.STRUCT, 'solver', [definitions.ttypes.Solver, None], None, ),  # 2
 )
 
 
@@ -1694,13 +1715,15 @@ class createInstanceFromME_result(object):
     """
     Attributes:
      - success
-     - ex
+     - ex1
+     - ex2
     """
 
 
-    def __init__(self, success=None, ex=None,):
+    def __init__(self, success=None, ex1=None, ex2=None,):
         self.success = success
-        self.ex = ex
+        self.ex1 = ex1
+        self.ex2 = ex2
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1712,14 +1735,20 @@ class createInstanceFromME_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.I32:
-                    self.success = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.UnsupportedOperationException()
-                    self.ex.read(iprot)
+                    self.ex1 = UnsupportedOperationException()
+                    self.ex1.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.ex2 = NoSuchFmuException()
+                    self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -1733,12 +1762,16 @@ class createInstanceFromME_result(object):
             return
         oprot.writeStructBegin('createInstanceFromME_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.I32, 0)
-            oprot.writeI32(self.success)
+            oprot.writeFieldBegin('success', TType.STRING, 0)
+            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
             oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
+        if self.ex1 is not None:
+            oprot.writeFieldBegin('ex1', TType.STRUCT, 1)
+            self.ex1.write(oprot)
+            oprot.writeFieldEnd()
+        if self.ex2 is not None:
+            oprot.writeFieldBegin('ex2', TType.STRUCT, 2)
+            self.ex2.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1758,276 +1791,9 @@ class createInstanceFromME_result(object):
         return not (self == other)
 all_structs.append(createInstanceFromME_result)
 createInstanceFromME_result.thrift_spec = (
-    (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.UnsupportedOperationException, None], None, ),  # 1
-)
-
-
-class getSimulationTime_args(object):
-    """
-    Attributes:
-     - instance_id
-    """
-
-
-    def __init__(self, instance_id=None,):
-        self.instance_id = instance_id
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('getSimulationTime_args')
-        if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(getSimulationTime_args)
-getSimulationTime_args.thrift_spec = (
-    None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-)
-
-
-class getSimulationTime_result(object):
-    """
-    Attributes:
-     - success
-     - ex
-    """
-
-
-    def __init__(self, success=None, ex=None,):
-        self.success = success
-        self.ex = ex
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.DOUBLE:
-                    self.success = iprot.readDouble()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.NoSuchFmuException()
-                    self.ex.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('getSimulationTime_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
-            oprot.writeDouble(self.success)
-            oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(getSimulationTime_result)
-getSimulationTime_result.thrift_spec = (
-    (0, TType.DOUBLE, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-)
-
-
-class isTerminated_args(object):
-    """
-    Attributes:
-     - instance_id
-    """
-
-
-    def __init__(self, instance_id=None,):
-        self.instance_id = instance_id
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('isTerminated_args')
-        if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(isTerminated_args)
-isTerminated_args.thrift_spec = (
-    None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-)
-
-
-class isTerminated_result(object):
-    """
-    Attributes:
-     - success
-     - ex
-    """
-
-
-    def __init__(self, success=None, ex=None,):
-        self.success = success
-        self.ex = ex
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.BOOL:
-                    self.success = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.NoSuchFmuException()
-                    self.ex.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('isTerminated_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.BOOL, 0)
-            oprot.writeBool(self.success)
-            oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(isTerminated_result)
-isTerminated_result.thrift_spec = (
-    (0, TType.BOOL, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
+    (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
+    (1, TType.STRUCT, 'ex1', [UnsupportedOperationException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchFmuException, None], None, ),  # 2
 )
 
 
@@ -2055,16 +1821,16 @@ class init_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.DOUBLE:
                     self.start = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
-            elif fid == 3:
+            elif fid == 4:
                 if ftype == TType.DOUBLE:
                     self.stop = iprot.readDouble()
                 else:
@@ -2080,15 +1846,15 @@ class init_args(object):
             return
         oprot.writeStructBegin('init_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.start is not None:
-            oprot.writeFieldBegin('start', TType.DOUBLE, 2)
+            oprot.writeFieldBegin('start', TType.DOUBLE, 3)
             oprot.writeDouble(self.start)
             oprot.writeFieldEnd()
         if self.stop is not None:
-            oprot.writeFieldBegin('stop', TType.DOUBLE, 3)
+            oprot.writeFieldBegin('stop', TType.DOUBLE, 4)
             oprot.writeDouble(self.stop)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -2110,9 +1876,10 @@ class init_args(object):
 all_structs.append(init_args)
 init_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.DOUBLE, 'start', None, None, ),  # 2
-    (3, TType.DOUBLE, 'stop', None, None, ),  # 3
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.DOUBLE, 'start', None, None, ),  # 3
+    (4, TType.DOUBLE, 'stop', None, None, ),  # 4
 )
 
 
@@ -2144,7 +1911,7 @@ class init_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.NoSuchFmuException()
+                    self.ex = NoSuchInstanceException()
                     self.ex.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2185,7 +1952,7 @@ class init_result(object):
 all_structs.append(init_result)
 init_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
+    (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
 )
 
 
@@ -2211,11 +1978,11 @@ class step_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.DOUBLE:
                     self.step_size = iprot.readDouble()
                 else:
@@ -2231,11 +1998,11 @@ class step_args(object):
             return
         oprot.writeStructBegin('step_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.step_size is not None:
-            oprot.writeFieldBegin('step_size', TType.DOUBLE, 2)
+            oprot.writeFieldBegin('step_size', TType.DOUBLE, 3)
             oprot.writeDouble(self.step_size)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -2257,8 +2024,9 @@ class step_args(object):
 all_structs.append(step_args)
 step_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.DOUBLE, 'step_size', None, None, ),  # 2
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.DOUBLE, 'step_size', None, None, ),  # 3
 )
 
 
@@ -2291,7 +2059,7 @@ class step_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.NoSuchFmuException()
+                    self.ex = NoSuchInstanceException()
                     self.ex.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2332,141 +2100,7 @@ class step_result(object):
 all_structs.append(step_result)
 step_result.thrift_spec = (
     (0, TType.STRUCT, 'success', [definitions.ttypes.StepResult, None], None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-)
-
-
-class terminate_args(object):
-    """
-    Attributes:
-     - instance_id
-    """
-
-
-    def __init__(self, instance_id=None,):
-        self.instance_id = instance_id
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('terminate_args')
-        if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(terminate_args)
-terminate_args.thrift_spec = (
-    None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-)
-
-
-class terminate_result(object):
-    """
-    Attributes:
-     - success
-     - ex
-    """
-
-
-    def __init__(self, success=None, ex=None,):
-        self.success = success
-        self.ex = ex
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.I32:
-                    self.success = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.NoSuchFmuException()
-                    self.ex.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('terminate_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.I32, 0)
-            oprot.writeI32(self.success)
-            oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(terminate_result)
-terminate_result.thrift_spec = (
-    (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
+    (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
 )
 
 
@@ -2490,8 +2124,8 @@ class reset_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -2505,8 +2139,8 @@ class reset_args(object):
             return
         oprot.writeStructBegin('reset_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2527,7 +2161,7 @@ class reset_args(object):
 all_structs.append(reset_args)
 reset_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
 )
 
 
@@ -2559,7 +2193,7 @@ class reset_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex = definitions.ttypes.NoSuchFmuException()
+                    self.ex = NoSuchInstanceException()
                     self.ex.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2600,7 +2234,141 @@ class reset_result(object):
 all_structs.append(reset_result)
 reset_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
+    (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
+)
+
+
+class terminate_args(object):
+    """
+    Attributes:
+     - instance_id
+    """
+
+
+    def __init__(self, instance_id=None,):
+        self.instance_id = instance_id
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('terminate_args')
+        if self.instance_id is not None:
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(terminate_args)
+terminate_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+)
+
+
+class terminate_result(object):
+    """
+    Attributes:
+     - success
+     - ex
+    """
+
+
+    def __init__(self, success=None, ex=None,):
+        self.success = success
+        self.ex = ex
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.I32:
+                    self.success = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.ex = NoSuchInstanceException()
+                    self.ex.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('terminate_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.I32, 0)
+            oprot.writeI32(self.success)
+            oprot.writeFieldEnd()
+        if self.ex is not None:
+            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
+            self.ex.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(terminate_result)
+terminate_result.thrift_spec = (
+    (0, TType.I32, 'success', None, None, ),  # 0
+    (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
 )
 
 
@@ -2626,11 +2394,11 @@ class readInteger_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype3, _size0) = iprot.readListBegin()
@@ -2651,11 +2419,11 @@ class readInteger_args(object):
             return
         oprot.writeStructBegin('readInteger_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter6 in self.vr:
                 oprot.writeI32(iter6)
@@ -2680,8 +2448,9 @@ class readInteger_args(object):
 all_structs.append(readInteger_args)
 readInteger_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
 )
 
 
@@ -2716,13 +2485,13 @@ class readInteger_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2767,8 +2536,8 @@ class readInteger_result(object):
 all_structs.append(readInteger_result)
 readInteger_result.thrift_spec = (
     (0, TType.STRUCT, 'success', [definitions.ttypes.IntegerRead, None], None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -2794,11 +2563,11 @@ class readReal_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype10, _size7) = iprot.readListBegin()
@@ -2819,11 +2588,11 @@ class readReal_args(object):
             return
         oprot.writeStructBegin('readReal_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter13 in self.vr:
                 oprot.writeI32(iter13)
@@ -2848,8 +2617,9 @@ class readReal_args(object):
 all_structs.append(readReal_args)
 readReal_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
 )
 
 
@@ -2884,13 +2654,13 @@ class readReal_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2935,8 +2705,8 @@ class readReal_result(object):
 all_structs.append(readReal_result)
 readReal_result.thrift_spec = (
     (0, TType.STRUCT, 'success', [definitions.ttypes.RealRead, None], None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -2962,11 +2732,11 @@ class readString_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype17, _size14) = iprot.readListBegin()
@@ -2987,11 +2757,11 @@ class readString_args(object):
             return
         oprot.writeStructBegin('readString_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter20 in self.vr:
                 oprot.writeI32(iter20)
@@ -3016,8 +2786,9 @@ class readString_args(object):
 all_structs.append(readString_args)
 readString_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
 )
 
 
@@ -3052,13 +2823,13 @@ class readString_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3103,8 +2874,8 @@ class readString_result(object):
 all_structs.append(readString_result)
 readString_result.thrift_spec = (
     (0, TType.STRUCT, 'success', [definitions.ttypes.StringRead, None], None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -3130,11 +2901,11 @@ class readBoolean_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype24, _size21) = iprot.readListBegin()
@@ -3155,11 +2926,11 @@ class readBoolean_args(object):
             return
         oprot.writeStructBegin('readBoolean_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter27 in self.vr:
                 oprot.writeI32(iter27)
@@ -3184,8 +2955,9 @@ class readBoolean_args(object):
 all_structs.append(readBoolean_args)
 readBoolean_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
 )
 
 
@@ -3220,13 +2992,13 @@ class readBoolean_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3271,8 +3043,8 @@ class readBoolean_result(object):
 all_structs.append(readBoolean_result)
 readBoolean_result.thrift_spec = (
     (0, TType.STRUCT, 'success', [definitions.ttypes.BooleanRead, None], None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -3300,11 +3072,11 @@ class writeInteger_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype31, _size28) = iprot.readListBegin()
@@ -3314,7 +3086,7 @@ class writeInteger_args(object):
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
-            elif fid == 3:
+            elif fid == 4:
                 if ftype == TType.LIST:
                     self.value = []
                     (_etype37, _size34) = iprot.readListBegin()
@@ -3335,18 +3107,18 @@ class writeInteger_args(object):
             return
         oprot.writeStructBegin('writeInteger_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter40 in self.vr:
                 oprot.writeI32(iter40)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
-            oprot.writeFieldBegin('value', TType.LIST, 3)
+            oprot.writeFieldBegin('value', TType.LIST, 4)
             oprot.writeListBegin(TType.I32, len(self.value))
             for iter41 in self.value:
                 oprot.writeI32(iter41)
@@ -3371,9 +3143,10 @@ class writeInteger_args(object):
 all_structs.append(writeInteger_args)
 writeInteger_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
-    (3, TType.LIST, 'value', (TType.I32, None, False), None, ),  # 3
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
+    (4, TType.LIST, 'value', (TType.I32, None, False), None, ),  # 4
 )
 
 
@@ -3407,13 +3180,13 @@ class writeInteger_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3458,8 +3231,8 @@ class writeInteger_result(object):
 all_structs.append(writeInteger_result)
 writeInteger_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -3487,11 +3260,11 @@ class writeReal_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype45, _size42) = iprot.readListBegin()
@@ -3501,7 +3274,7 @@ class writeReal_args(object):
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
-            elif fid == 3:
+            elif fid == 4:
                 if ftype == TType.LIST:
                     self.value = []
                     (_etype51, _size48) = iprot.readListBegin()
@@ -3522,18 +3295,18 @@ class writeReal_args(object):
             return
         oprot.writeStructBegin('writeReal_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter54 in self.vr:
                 oprot.writeI32(iter54)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
-            oprot.writeFieldBegin('value', TType.LIST, 3)
+            oprot.writeFieldBegin('value', TType.LIST, 4)
             oprot.writeListBegin(TType.DOUBLE, len(self.value))
             for iter55 in self.value:
                 oprot.writeDouble(iter55)
@@ -3558,9 +3331,10 @@ class writeReal_args(object):
 all_structs.append(writeReal_args)
 writeReal_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
-    (3, TType.LIST, 'value', (TType.DOUBLE, None, False), None, ),  # 3
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
+    (4, TType.LIST, 'value', (TType.DOUBLE, None, False), None, ),  # 4
 )
 
 
@@ -3594,13 +3368,13 @@ class writeReal_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3645,8 +3419,8 @@ class writeReal_result(object):
 all_structs.append(writeReal_result)
 writeReal_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -3674,11 +3448,11 @@ class writeString_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype59, _size56) = iprot.readListBegin()
@@ -3688,7 +3462,7 @@ class writeString_args(object):
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
-            elif fid == 3:
+            elif fid == 4:
                 if ftype == TType.LIST:
                     self.value = []
                     (_etype65, _size62) = iprot.readListBegin()
@@ -3709,18 +3483,18 @@ class writeString_args(object):
             return
         oprot.writeStructBegin('writeString_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter68 in self.vr:
                 oprot.writeI32(iter68)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
-            oprot.writeFieldBegin('value', TType.LIST, 3)
+            oprot.writeFieldBegin('value', TType.LIST, 4)
             oprot.writeListBegin(TType.STRING, len(self.value))
             for iter69 in self.value:
                 oprot.writeString(iter69.encode('utf-8') if sys.version_info[0] == 2 else iter69)
@@ -3745,9 +3519,10 @@ class writeString_args(object):
 all_structs.append(writeString_args)
 writeString_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
-    (3, TType.LIST, 'value', (TType.STRING, 'UTF8', False), None, ),  # 3
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
+    (4, TType.LIST, 'value', (TType.STRING, 'UTF8', False), None, ),  # 4
 )
 
 
@@ -3781,13 +3556,13 @@ class writeString_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3832,8 +3607,8 @@ class writeString_result(object):
 all_structs.append(writeString_result)
 writeString_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 
 
@@ -3861,11 +3636,11 @@ class writeBoolean_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.instance_id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.instance_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
-            elif fid == 2:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.vr = []
                     (_etype73, _size70) = iprot.readListBegin()
@@ -3875,7 +3650,7 @@ class writeBoolean_args(object):
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
-            elif fid == 3:
+            elif fid == 4:
                 if ftype == TType.LIST:
                     self.value = []
                     (_etype79, _size76) = iprot.readListBegin()
@@ -3896,18 +3671,18 @@ class writeBoolean_args(object):
             return
         oprot.writeStructBegin('writeBoolean_args')
         if self.instance_id is not None:
-            oprot.writeFieldBegin('instance_id', TType.I32, 1)
-            oprot.writeI32(self.instance_id)
+            oprot.writeFieldBegin('instance_id', TType.STRING, 1)
+            oprot.writeString(self.instance_id.encode('utf-8') if sys.version_info[0] == 2 else self.instance_id)
             oprot.writeFieldEnd()
         if self.vr is not None:
-            oprot.writeFieldBegin('vr', TType.LIST, 2)
+            oprot.writeFieldBegin('vr', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.vr))
             for iter82 in self.vr:
                 oprot.writeI32(iter82)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
-            oprot.writeFieldBegin('value', TType.LIST, 3)
+            oprot.writeFieldBegin('value', TType.LIST, 4)
             oprot.writeListBegin(TType.BOOL, len(self.value))
             for iter83 in self.value:
                 oprot.writeBool(iter83)
@@ -3932,9 +3707,10 @@ class writeBoolean_args(object):
 all_structs.append(writeBoolean_args)
 writeBoolean_args.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'instance_id', None, None, ),  # 1
-    (2, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 2
-    (3, TType.LIST, 'value', (TType.BOOL, None, False), None, ),  # 3
+    (1, TType.STRING, 'instance_id', 'UTF8', None, ),  # 1
+    None,  # 2
+    (3, TType.LIST, 'vr', (TType.I32, None, False), None, ),  # 3
+    (4, TType.LIST, 'value', (TType.BOOL, None, False), None, ),  # 4
 )
 
 
@@ -3968,13 +3744,13 @@ class writeBoolean_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.ex1 = definitions.ttypes.NoSuchFmuException()
+                    self.ex1 = NoSuchInstanceException()
                     self.ex1.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.ex2 = definitions.ttypes.NoSuchVariableException()
+                    self.ex2 = NoSuchVariableException()
                     self.ex2.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -4019,8 +3795,8 @@ class writeBoolean_result(object):
 all_structs.append(writeBoolean_result)
 writeBoolean_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [definitions.ttypes.NoSuchFmuException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [definitions.ttypes.NoSuchVariableException, None], None, ),  # 2
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
 fix_spec(all_structs)
 del all_structs

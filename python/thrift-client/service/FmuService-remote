@@ -24,16 +24,14 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
-    print('  string getModelDescriptionXml()')
-    print('  ModelDescription getModelDescription()')
-    print('  InstanceId createInstanceFromCS()')
-    print('  InstanceId createInstanceFromME(Solver solver)')
-    print('  double getSimulationTime(InstanceId instance_id)')
-    print('  bool isTerminated(InstanceId instance_id)')
+    print('  string getModelDescriptionXml(FmuId fmu_id)')
+    print('  ModelDescription getModelDescription(FmuId fmu_id)')
+    print('  InstanceId createInstanceFromCS(FmuId fmu_id)')
+    print('  InstanceId createInstanceFromME(FmuId fmu_id, Solver solver)')
     print('  Status init(InstanceId instance_id, double start, double stop)')
     print('  StepResult step(InstanceId instance_id, double step_size)')
-    print('  Status terminate(InstanceId instance_id)')
     print('  Status reset(InstanceId instance_id)')
+    print('  Status terminate(InstanceId instance_id)')
     print('  IntegerRead readInteger(InstanceId instance_id, ValueReferences vr)')
     print('  RealRead readReal(InstanceId instance_id, ValueReferences vr)')
     print('  StringRead readString(InstanceId instance_id, ValueReferences vr)')
@@ -122,40 +120,28 @@ client = FmuService.Client(protocol)
 transport.open()
 
 if cmd == 'getModelDescriptionXml':
-    if len(args) != 0:
-        print('getModelDescriptionXml requires 0 args')
+    if len(args) != 1:
+        print('getModelDescriptionXml requires 1 args')
         sys.exit(1)
-    pp.pprint(client.getModelDescriptionXml())
+    pp.pprint(client.getModelDescriptionXml(eval(args[0]),))
 
 elif cmd == 'getModelDescription':
-    if len(args) != 0:
-        print('getModelDescription requires 0 args')
+    if len(args) != 1:
+        print('getModelDescription requires 1 args')
         sys.exit(1)
-    pp.pprint(client.getModelDescription())
+    pp.pprint(client.getModelDescription(eval(args[0]),))
 
 elif cmd == 'createInstanceFromCS':
-    if len(args) != 0:
-        print('createInstanceFromCS requires 0 args')
+    if len(args) != 1:
+        print('createInstanceFromCS requires 1 args')
         sys.exit(1)
-    pp.pprint(client.createInstanceFromCS())
+    pp.pprint(client.createInstanceFromCS(eval(args[0]),))
 
 elif cmd == 'createInstanceFromME':
-    if len(args) != 1:
-        print('createInstanceFromME requires 1 args')
+    if len(args) != 2:
+        print('createInstanceFromME requires 2 args')
         sys.exit(1)
-    pp.pprint(client.createInstanceFromME(eval(args[0]),))
-
-elif cmd == 'getSimulationTime':
-    if len(args) != 1:
-        print('getSimulationTime requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getSimulationTime(eval(args[0]),))
-
-elif cmd == 'isTerminated':
-    if len(args) != 1:
-        print('isTerminated requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.isTerminated(eval(args[0]),))
+    pp.pprint(client.createInstanceFromME(eval(args[0]), eval(args[1]),))
 
 elif cmd == 'init':
     if len(args) != 3:
@@ -169,17 +155,17 @@ elif cmd == 'step':
         sys.exit(1)
     pp.pprint(client.step(eval(args[0]), eval(args[1]),))
 
-elif cmd == 'terminate':
-    if len(args) != 1:
-        print('terminate requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.terminate(eval(args[0]),))
-
 elif cmd == 'reset':
     if len(args) != 1:
         print('reset requires 1 args')
         sys.exit(1)
     pp.pprint(client.reset(eval(args[0]),))
+
+elif cmd == 'terminate':
+    if len(args) != 1:
+        print('terminate requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.terminate(eval(args[0]),))
 
 elif cmd == 'readInteger':
     if len(args) != 2:
