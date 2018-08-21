@@ -11,14 +11,14 @@ SET(FMI_HEADER_DIR ${HEADER_ROOT_PATH}/fmi)
 SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/Fmu.hpp
         ${FMI_HEADER_DIR}/FmuInstance.hpp
-        ${FMI_HEADER_DIR}/FmiSimulation.hpp
+        ${FMI_HEADER_DIR}/FmuSlave.hpp
         ${FMI_HEADER_DIR}/fmi_definitions.hpp
         ${FMI_HEADER_DIR}/scalar_variable_attributes.hpp)
 
 SET(FMI_SRC
         fmuproxy/fmi/Fmu.cpp
         fmuproxy/fmi/fmu_helper.cpp
-        fmuproxy/fmi/FmuInstance.cpp)
+        fmuproxy/fmi/FmuSlave.cpp)
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
@@ -41,7 +41,7 @@ SET(HEARTBEAT_SRC
 
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
 target_link_libraries(heartbeat ${CURL_LIBRARIES} Boost::system)
-target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS})
+target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
 if (UNIX)
     target_link_libraries(heartbeat pthread)
 elseif (MSVC)

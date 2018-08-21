@@ -32,6 +32,7 @@ endif()
 find_package(Boost 1.67 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+find_package(JSON REQUIRED)
 find_package(FMILIB REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
