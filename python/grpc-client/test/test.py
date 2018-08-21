@@ -4,10 +4,10 @@ from client import RemoteFmu
 
 if __name__ == '__main__':
 
-    client = RemoteFmu("localhost", 9080)
+    client = RemoteFmu("{06c2700b-b39c-4895-9151-304ddde28443}","localhost", 9080)
 
-    step_size = 1.0/100
     stop = 10
+    step_size = 1.0 / 100
 
     instance = client.create_instance()
 
@@ -20,12 +20,12 @@ if __name__ == '__main__':
 
         start = time.time()
 
-        while instance.current_time < stop-step_size:
+        while instance.simulation_time < (stop-step_size):
             status = instance.step(step_size)
             if status != 0:
                 print("Error: t={}, FMU returned status {}".format(instance.current_time, status))
             else:
-                print("t={}, {}={}".format(instance.current_time, variable_name, reader.read_real().values[0]))
+                print("t={}, {}={}".format(instance.simulation_time, variable_name, reader.read_real().values[0]))
 
         end = time.time()
 

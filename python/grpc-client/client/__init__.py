@@ -1,13 +1,14 @@
 import grpc
-from google.protobuf.empty_pb2 import Empty
+
+from definitions.service_pb2 import *
 from definitions.definitions_pb2 import *
 from definitions.service_pb2_grpc import FmuServiceStub
 
 
-def uint(value: int) -> UInt:
-    var = UInt()
-    var.value = value
-    return var
+# def uint(value: int) -> UInt:
+#     var = UInt()
+#     var.value = value
+#     return var
 
 
 class VariableReader:
@@ -69,23 +70,15 @@ class VariableWriter:
 
 class RemoteFmuInstance:
 
-    def __init__(self, remote_fmu, solver=None):
+    def __init__(self, remote_fmu, instance_id: str):
         self.stub = remote_fmu.stub
         self.remote_fmu = remote_fmu
+        self.instance_id = instance_id  # type: str
         self.model_description = remote_fmu.model_description  # type: ModelDescription
-
-        self.instance_id = None  # type: int
-        if solver is None:
-            self.instance_id = self.stub.CreateInstanceFromCS(Empty()).value
-        else:
-            self.instance_id = self.stub.CreateInstanceFromME(solver).value
-
-        self.current_time = self.get_simulation_time()  # type: float
-
-    def get_simulation_time(self) -> float:
-        return self.stub.GetSimulationTime(uint(self.instance_id)).value
+        self.simulation_time = None  # type: float
 
     def init(self, start=0.0, stop=0.0) -> Status:
+        self.simulation_time = start
         request = InitRequest()
         request.instance_id = self.instance_id
         request.start = start
@@ -97,14 +90,18 @@ class RemoteFmuInstance:
         request.instance_id = self.instance_id
         request.step_size = step_size
         result = self.stub.Step(request)  # type: StepResult
-        self.current_time = result.simulation_time
+        self.simulation_time = result.simulation_time
         return result.status
 
     def terminate(self) -> Status:
-        return self.stub.Terminate(uint(self.instance_id)).status
+        request = TerminateRequest()
+        request.instance_id = self.instance_id
+        return self.stub.Terminate(request).status
 
     def reset(self) -> Status:
-        self.stub.Reset(uint(self.instance_id))
+        request = ResetRequest()
+        request.instance_id = self.instance_id
+        self.stub.Reset(request)
 
     def get_reader(self, identifier) -> VariableReader:
         if isinstance(identifier, int):
@@ -127,11 +124,15 @@ class RemoteFmuInstance:
 
 class RemoteFmu:
 
-    def __init__(self, host_address, port):
+    def __init__(self, fmu_id: str, host_address: str, port: int):
+
         self.channel = grpc.insecure_channel(host_address + ':' + str(port))
         self.stub = FmuServiceStub(self.channel)
 
-        self.model_description = self.stub.GetModelDescription(Empty()) # type: ModelDescription
+        self.fmu_id = fmu_id  # type: str
+        get_model_description_request = GetModelDescriptionRequest()
+        get_model_description_request.fmu_id = fmu_id
+        self.model_description = self.stub.GetModelDescription(get_model_description_request)  # type: ModelDescription
 
         self.model_variables = dict()
         for var in self.model_description.model_variables:
@@ -141,8 +142,17 @@ class RemoteFmu:
         for key in self.model_variables:
             if self.model_variables[key].name == var_name:
                 return key
-        return None
+        raise Exception("No variable with name '" + var_name + "' found!")
 
-    def create_instance(self, solver=None) -> RemoteFmuInstance:
-        return RemoteFmuInstance(self, solver)
+    def create_instance(self, solver: Solver=None) -> RemoteFmuInstance:
+        if solver is None:
+            request = CreateInstanceFromCSRequest()
+            request.fmu_id = self.fmu_id
+            instance_id = self.stub.CreateInstanceFromCS(request).value
+        else:
+            request = CreateInstanceFromMERequest()
+            request.fmu_id = self.fmu_id
+            request.solver = solver
+            instance_id = self.stub.CreateInstanceFromME(solver).value
+        return RemoteFmuInstance(self, instance_id)
 
