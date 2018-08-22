@@ -46,7 +46,6 @@ class Solver(
         val settings: String
 )
 
-
 /**
  * @author Lars Ivar Hatledal
  */
@@ -100,22 +99,6 @@ class RpcFmuService(
 
         
     }
-//
-//    @RpcMethod
-//    fun init(instanceId: String): FmiStatus {
-//        return getSlave(instanceId).let {
-//            it.init()
-//            it.lastStatus
-//        }
-//    }
-//
-//    @RpcMethod
-//    fun init(instanceId: String, startTime: Double): FmiStatus {
-//        return getSlave(instanceId).let {
-//            it.init(startTime)
-//            it.lastStatus
-//        }
-//    }
 
     @RpcMethod
     @JvmOverloads
@@ -131,7 +114,7 @@ class RpcFmuService(
         return getSlave(instanceId).let {
             it.doStep(stepSize)
             StepResult(
-                    simulationTime = it.currentTime,
+                    simulationTime = it.simulationTime,
                     status = it.lastStatus
             )
         }
@@ -144,7 +127,6 @@ class RpcFmuService(
             it.lastStatus
         }
     }
-
 
     @RpcMethod
     fun terminate(instanceId: String): FmiStatus {

@@ -24,7 +24,6 @@
 
 package no.mechatronics.sfi.fmuproxy
 
-import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
@@ -43,8 +42,8 @@ import java.util.*
  * @author Lars Ivar Hatledal
  */
 class FmuProxy(
-        val fmus: List<Fmu>,
-        val remoteAddress: SimpleSocketAddress? = null,
+        private val fmus: List<Fmu>,
+        private val remoteAddress: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
 

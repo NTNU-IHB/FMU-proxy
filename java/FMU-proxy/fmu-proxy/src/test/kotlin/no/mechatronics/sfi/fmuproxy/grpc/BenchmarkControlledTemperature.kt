@@ -29,7 +29,7 @@ class BenchmarkControlledTemperature {
 
         slave.init()
         return measureTimeMillis {
-            while (slave.currentTime < stop) {
+            while (slave.simulationTime < stop) {
                 val status = slave.doStep(stepSize)
                 Assertions.assertTrue(status)
                 callback()

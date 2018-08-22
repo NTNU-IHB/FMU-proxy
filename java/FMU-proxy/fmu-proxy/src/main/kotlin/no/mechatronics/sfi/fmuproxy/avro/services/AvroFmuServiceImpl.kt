@@ -87,7 +87,7 @@ class AvroFmuServiceImpl(
         return FmuSlaves[instanceId]?.let {
             it.doStep(step_size)
             StepResult().apply {
-                simulationTime = it.currentTime
+                simulationTime = it.simulationTime
                 status = it.lastStatus.avroType()
             }
         } ?: throw NoSuchFmuException("No fmu with id=$instanceId")

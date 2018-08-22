@@ -73,7 +73,7 @@ class TestGrpcME {
 
             val stop = 2.0
             val stepSize = 1E-2
-            while (instance.currentTime < stop) {
+            while (instance.simulationTime < stop) {
                 val step = instance.doStep(stepSize)
                 Assertions.assertTrue(step)
 

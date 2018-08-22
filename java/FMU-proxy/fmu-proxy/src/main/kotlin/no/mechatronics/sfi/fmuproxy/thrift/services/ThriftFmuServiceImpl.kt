@@ -81,7 +81,7 @@ class ThriftFmuServiceImpl(
         return FmuSlaves[instanceId]?.let {
             it.doStep(vr)
             StepResult().apply {
-                simulationTime = it.currentTime
+                simulationTime = it.simulationTime
                 status = it.lastStatus.thriftType()
             }
         } ?: throw NoSuchFmuException("No such FMU with id=$instanceId")

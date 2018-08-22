@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit

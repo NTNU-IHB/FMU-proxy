@@ -6,12 +6,10 @@ import info.laht.yajrpc.RpcRequestOut
 import info.laht.yajrpc.RpcResponse
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealArrayRead
-import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.modeldescription.parser.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult
@@ -62,7 +60,6 @@ class TestService {
 
     }
 
-
     @Test
     fun testModelDescription() {
 
@@ -94,7 +91,7 @@ class TestService {
 
         val init = RpcRequestOut(
                 methodName = "FmuService.init",
-                params = RpcParams.listParams(instanceId)
+                params = RpcParams.listParams(instanceId, 0.0)
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
 

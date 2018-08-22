@@ -72,7 +72,7 @@ class TestThriftME {
 
             val stop = 2.0
             val stepSize = 1E-2
-            while (slave.currentTime < stop) {
+            while (slave.simulationTime < stop) {
                 val step = slave.doStep(stepSize)
                 Assertions.assertTrue(step)
 

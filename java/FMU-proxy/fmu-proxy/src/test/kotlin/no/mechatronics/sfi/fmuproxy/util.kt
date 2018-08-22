@@ -13,7 +13,7 @@ internal inline fun runInstance(instance: FmuSlave, dt: Double, stop: Double, ca
     }
 
     return measureTimeMillis {
-        while (instance.currentTime <= stop) {
+        while (instance.simulationTime <= stop) {
             val status = instance.doStep(dt)
             Assertions.assertTrue(status)
             callback()

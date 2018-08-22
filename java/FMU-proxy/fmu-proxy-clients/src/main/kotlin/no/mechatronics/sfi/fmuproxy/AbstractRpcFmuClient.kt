@@ -149,7 +149,7 @@ abstract class AbstractRpcFmuClient(
             private set
 
         override var lastStatus = FmiStatus.NONE
-        override var currentTime: Double = 0.0
+        override var simulationTime: Double = 0.0
 
         override val modelDescription
             get() = this@AbstractRpcFmuClient.modelDescription
@@ -171,14 +171,14 @@ abstract class AbstractRpcFmuClient(
         override fun init(start: Double, stop: Double) {
             init(instanceId, start, stop).also {
                 lastStatus = it
-                currentTime = start
+                simulationTime = start
                 isInitialized = true
             }
         }
 
         override fun doStep(stepSize: Double): Boolean {
             val stepResult = step(instanceId, stepSize)
-            currentTime = stepResult.first
+            simulationTime = stepResult.first
             lastStatus = stepResult.second
             return lastStatus == FmiStatus.OK
         }

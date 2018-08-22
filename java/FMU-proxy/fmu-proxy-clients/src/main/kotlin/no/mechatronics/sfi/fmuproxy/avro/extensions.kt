@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
@@ -41,7 +41,6 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.EnumerationAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.ScalarVariable
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.Solver

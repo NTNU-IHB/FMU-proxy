@@ -189,7 +189,7 @@ class GrpcFmuServiceImpl(
         FmuSlaves[instanceId]?.apply {
             doStep(req.stepSize)
             Service.StepResponse.newBuilder()
-                    .setSimulationTime(currentTime)
+                    .setSimulationTime(simulationTime)
                     .setStatus(lastStatus.protoType())
                     .build().also {
                         responseObserver.onNext(it)
