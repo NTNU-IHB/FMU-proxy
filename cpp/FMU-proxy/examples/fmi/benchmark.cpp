@@ -32,8 +32,8 @@
 using namespace std;
 using namespace fmuproxy::fmi;
 
-const double start = 0;
-const double stop = 10;
+const double start = 0.0;
+const double stop = 10.0;
 const double step_size = 1E-4;
 
 int main(int argc, char **argv) {
@@ -43,25 +43,25 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu(fmu_path);
-    const auto instance = fmu.newInstance();
-    instance->init();
+    const auto slave = fmu.newInstance();
+    slave->init();
 
     clock_t begin = clock();
 
     vector<fmi2_real_t> ref(2);
-    vector<fmi2_value_reference_t> vr = {instance->getValueReference("Temperature_Reference"),
-                                         instance->getValueReference("Temperature_Room")};
+    vector<fmi2_value_reference_t> vr = {slave->getValueReference("Temperature_Reference"),
+                                         slave->getValueReference("Temperature_Room")};
     
 
     double t;
-    while ( (t = instance->getSimulationTime() ) <= stop-step_size) {
-        fmi2_status_t status = instance->step(step_size);
+    while ( (t = slave->getSimulationTime() ) <= (stop-step_size) ) {
+        fmi2_status_t status = slave->step(step_size);
         if (status != fmi2_status_ok) {
             cout << "Error! step returned with status: " << fmi2_status_to_string(status) << endl;
             break;
         }
-        instance->readReal(vr, ref);
-//        cout << "t=" << t << ", Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
+        slave->readReal(vr, ref);
+        cout << "t=" << t << ", Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
     }
 
     clock_t end = clock();
@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
     double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
     cout << "elapsed=" << elapsed_secs << "s" << endl;
 
-    instance->terminate();
+    slave->terminate();
 
     return 0;
 

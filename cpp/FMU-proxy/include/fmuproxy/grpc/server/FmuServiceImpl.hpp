@@ -36,45 +36,38 @@ namespace fmuproxy::grpc::server {
     class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
 
     private:
-        fmuproxy::fmi::Fmu &fmu_;
-        std::map<int, std::unique_ptr<fmi::FmuSlave>> slaves_;
+        std::map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus_;
+        std::map<std::string, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
 
-        explicit FmuServiceImpl(fmuproxy::fmi::Fmu &fmu);
+        explicit FmuServiceImpl(std::map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus);
 
         ::grpc::Status
-        GetModelDescriptionXml(::grpc::ServerContext *context, const ::fmuproxy::grpc::Void *request,
-                               ::fmuproxy::grpc::Str *response) override;
+        GetModelDescriptionXml(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest *request,
+                               ::fmuproxy::grpc::ModelDescriptionXml *response) override;
 
         ::grpc::Status
-        GetModelDescription(::grpc::ServerContext *context, const ::fmuproxy::grpc::Void *request,
+        GetModelDescription(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionRequest *request,
                             ::fmuproxy::grpc::ModelDescription *response) override;
 
         ::grpc::Status
-        CreateInstanceFromCS(::grpc::ServerContext *context, const ::fmuproxy::grpc::Void *request,
-                             ::fmuproxy::grpc::UInt *response) override;
+        CreateInstanceFromCS(::grpc::ServerContext *context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest *request,
+                             ::fmuproxy::grpc::InstanceId *response) override;
 
         ::grpc::Status
-        CreateInstanceFromME(::grpc::ServerContext *context, const ::fmuproxy::grpc::Solver *request,
-                             ::fmuproxy::grpc::UInt *response) override;
-
-        ::grpc::Status GetSimulationTime(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
-                                    ::fmuproxy::grpc::Real *response) override;
-
-        ::grpc::Status IsTerminated(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
-                                  ::fmuproxy::grpc::Bool *response) override;
-
+        CreateInstanceFromME(::grpc::ServerContext *context, const ::fmuproxy::grpc::CreateInstanceFromMERequest *request,
+                             ::fmuproxy::grpc::InstanceId *response) override;
 
         ::grpc::Status Init(::grpc::ServerContext *context, const ::fmuproxy::grpc::InitRequest *request,
                           ::fmuproxy::grpc::StatusResponse *response) override;
         ::grpc::Status Step(::grpc::ServerContext *context, const ::fmuproxy::grpc::StepRequest *request,
-                          ::fmuproxy::grpc::StepResult *response) override;
+                          ::fmuproxy::grpc::StepResponse *response) override;
 
-        ::grpc::Status Terminate(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
+        ::grpc::Status Terminate(::grpc::ServerContext *context, const ::fmuproxy::grpc::TerminateRequest *request,
                                ::fmuproxy::grpc::StatusResponse *response) override;
 
-        ::grpc::Status Reset(::grpc::ServerContext *context, const ::fmuproxy::grpc::UInt *request,
+        ::grpc::Status Reset(::grpc::ServerContext *context, const ::fmuproxy::grpc::ResetRequest *request,
                            ::fmuproxy::grpc::StatusResponse *response) override;
 
 
@@ -111,7 +104,6 @@ namespace fmuproxy::grpc::server {
 
     };
 
-    }
-
+}
 
 #endif //FMU_PROXY_FMUSERVICEIMPL_HPP

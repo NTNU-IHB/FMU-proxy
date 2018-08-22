@@ -40,7 +40,7 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(map<FmuId, Fmu> &fmus, const unsigned int port, bool http): port_(port) {
+ThriftServer::ThriftServer(map<FmuId, std::shared_ptr<Fmu>> &fmus, const unsigned int port, bool http): port_(port) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
@@ -74,4 +74,3 @@ void ThriftServer::stop() {
     thread_->join();
     cout << "Thrift server stopped.." << endl;
 }
-

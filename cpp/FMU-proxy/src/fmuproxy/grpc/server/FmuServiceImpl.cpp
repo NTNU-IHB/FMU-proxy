@@ -23,6 +23,11 @@
  */
 
 #include <vector>
+
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
+
 #include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
 #include "grpc_server_helper.cpp"
 
@@ -32,41 +37,33 @@ using namespace fmuproxy::grpc::server;
 
 using grpc::ServerContext;
 
-FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : fmu_(fmu) {}
+FmuServiceImpl::FmuServiceImpl(map<string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus) : fmus_(fmus) {}
 
-::grpc::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const Void *request, Str *response) {
-    response->set_value(fmu_.getModelDescriptionXml());
+::grpc::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const GetModelDescriptionXmlRequest *request, ModelDescriptionXml *response) {
+    const auto &fmu = fmus_[request->fmu_id()];
+    response->set_xml(fmu->getModelDescriptionXml());
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const Void *request, ModelDescription *response) {
-    grpcType(*response, fmu_.getModelDescription());
+::grpc::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const GetModelDescriptionRequest *request, ModelDescription *response) {
+    const auto &fmu = fmus_[request->fmu_id()];
+    grpcType(*response, fmu->getModelDescription());
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::CreateInstanceFromCS(ServerContext *context, const Void *request, UInt *response) {
-    int instance_id = ID_GEN++;
-    slaves_[instance_id] = fmu_.newInstance();
+::grpc::Status FmuServiceImpl::CreateInstanceFromCS(ServerContext *context, const CreateInstanceFromCSRequest *request, InstanceId *response) {
+    auto &fmu = fmus_[request->fmu_id()];
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    const string instance_id = boost::uuids::to_string(uuid);
+    slaves_[instance_id] = fmu->newInstance();
     response->set_value(instance_id);
     cout << "Created new FMU instance with id=" << instance_id << endl;
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::CreateInstanceFromME(ServerContext *context, const Solver *request, UInt *response) {
+::grpc::Status FmuServiceImpl::CreateInstanceFromME(ServerContext *context, const CreateInstanceFromMERequest *request, InstanceId *response) {
     //TODO implement from Model Exchange
     return ::grpc::Status::CANCELLED;
-}
-
-::grpc::Status FmuServiceImpl::GetSimulationTime(ServerContext *context, const UInt *request, Real *response) {
-    auto& fmu = slaves_[request->value()];
-    response->set_value(fmu->getSimulationTime());
-    return ::grpc::Status::OK;
-}
-
-::grpc::Status FmuServiceImpl::IsTerminated(ServerContext *context, const UInt *request, Bool *response) {
-    auto& fmu = slaves_[request->value()];
-    response->set_value(fmu->isTerminated());
-    return ::grpc::Status::OK;
 }
 
 ::grpc::Status FmuServiceImpl::Init(ServerContext *context, const InitRequest *request, StatusResponse *response) {
@@ -76,23 +73,23 @@ FmuServiceImpl::FmuServiceImpl(fmuproxy::fmi::Fmu &fmu) : fmu_(fmu) {}
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::Step(ServerContext *context, const StepRequest *request, StepResult *response) {
+::grpc::Status FmuServiceImpl::Step(ServerContext *context, const StepRequest *request, StepResponse *response) {
     auto& instance = slaves_[request->instance_id()];
     response->set_status(grpcType(instance->step(request->step_size())));
     response->set_simulation_time(instance->getSimulationTime());
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::Terminate(ServerContext *context, const UInt *request, StatusResponse *response) {
-    int instance_id = request->value();
+::grpc::Status FmuServiceImpl::Terminate(ServerContext *context, const TerminateRequest *request, StatusResponse *response) {
+    const auto instance_id = request->instance_id();
     auto& fmu = slaves_[instance_id];
     response->set_status(grpcType(fmu->terminate()));
     slaves_.erase(instance_id);
     return ::grpc::Status::OK;
 }
 
-::grpc::Status FmuServiceImpl::Reset(ServerContext *context, const UInt *request, StatusResponse *response) {
-    auto& instance = slaves_[request->value()];
+::grpc::Status FmuServiceImpl::Reset(ServerContext *context, const ResetRequest *request, StatusResponse *response) {
+    auto& instance = slaves_[request->instance_id()];
     response->set_status(grpcType(instance->reset()));
     return ::grpc::Status::OK;
 }

@@ -35,11 +35,11 @@ namespace fmuproxy::grpc::client {
 
     private:
 
-        unsigned int instanceId_;
+        const std::string instanceId_;
         fmuproxy::grpc::FmuService::Stub &stub_;
 
     public:
-        RemoteFmuSlave(const unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
+        RemoteFmuSlave(const std::string instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
 
         void init(double start = 0, double stop = 0) override;
 

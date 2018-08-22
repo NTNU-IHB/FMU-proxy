@@ -36,11 +36,11 @@ namespace fmuproxy::thrift::server {
     class FmuServiceHandler : virtual public FmuServiceIf {
 
     private:
-        std::map<FmuId, fmi::Fmu> &fmus_;
+        std::map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus_;
         std::map<InstanceId, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
-        explicit FmuServiceHandler(std::map<FmuId, fmi::Fmu> &fmus);
+        explicit FmuServiceHandler(std::map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
 
         void getModelDescriptionXml(std::string &_return, const FmuId &fmu_id) override;
 

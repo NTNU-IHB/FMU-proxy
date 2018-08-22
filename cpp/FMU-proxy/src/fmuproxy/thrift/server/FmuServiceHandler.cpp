@@ -22,7 +22,6 @@
  * THE SOFTWARE.
  */
 
-#include <string>
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
@@ -36,23 +35,23 @@ using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift::server;
 
-FmuServiceHandler::FmuServiceHandler(map<FmuId, fmi::Fmu> &fmus): fmus_(fmus) {}
+FmuServiceHandler::FmuServiceHandler(map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus): fmus_(fmus) {}
 
 void FmuServiceHandler::getModelDescriptionXml(std::string &_return, const FmuId &id) {
      const auto &fmu = fmus_.at(id);
-    _return = fmu.getModelDescriptionXml();
+    _return = fmu->getModelDescriptionXml();
 }
 
 void FmuServiceHandler::getModelDescription(ModelDescription &_return, const FmuId &id) {
     const auto &fmu = fmus_.at(id);
-    thriftType(_return, fmu.getModelDescription());
+    thriftType(_return, fmu->getModelDescription());
 }
 
 void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &id) {
     auto &fmu = fmus_.at(id);
     boost::uuids::uuid uuid = boost::uuids::random_generator()();
     _return = boost::uuids::to_string(uuid);
-    slaves_[_return] = fmu.newInstance();
+    slaves_[_return] = fmu->newInstance();
     cout << "Created new FMU instance with id=" << _return << endl;
 }
 

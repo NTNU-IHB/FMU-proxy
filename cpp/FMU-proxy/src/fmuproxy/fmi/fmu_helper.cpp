@@ -176,10 +176,10 @@ namespace {
 
     jm_callbacks create_callbacks(jm_log_level_enu_t log_level = jm_log_level_debug) {
         jm_callbacks callbacks;
-        callbacks.malloc = malloc;
-        callbacks.calloc = calloc;
-        callbacks.realloc = realloc;
-        callbacks.free = free;
+        callbacks.malloc = std::malloc;
+        callbacks.calloc = std::calloc;
+        callbacks.realloc = std::realloc;
+        callbacks.free = std::free;
         callbacks.logger = import_logger;
         callbacks.log_level = log_level;
         callbacks.context = nullptr;

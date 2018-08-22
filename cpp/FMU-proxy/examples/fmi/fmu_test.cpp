@@ -46,29 +46,29 @@ int main(int argc, char **argv) {
         cout << var.attribute << endl;
     }
 
-    const auto instance1 = fmu.newInstance();
-    const auto instance2 = fmu.newInstance();
+    const auto slave1 = fmu.newInstance();
+    const auto slave2 = fmu.newInstance();
 
-    instance1->init();
-    instance2->init();
+    slave1->init();
+    slave2->init();
 
     double temperature_room;
-    int vr = instance1->getValueReference("Temperature_Room");
+    int vr = slave1->getValueReference("Temperature_Room");
 
-    instance1->readReal(vr, temperature_room);
+    slave1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
-    instance1->step(step_size);
+    slave1->step(step_size);
 
-    instance1->readReal(vr, temperature_room);
+    slave1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
-    instance1->terminate();
+    slave1->terminate();
 
-    instance2->readReal(vr, temperature_room);
+    slave2->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
-    instance2->terminate();
+    slave2->terminate();
 
     return 0;
 

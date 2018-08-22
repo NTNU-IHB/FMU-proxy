@@ -31,11 +31,8 @@ using grpc::ServerBuilder;
 using namespace std;
 using namespace fmuproxy::grpc::server;
 
-GrpcServer::GrpcServer(fmuproxy::fmi::Fmu &fmu, const unsigned int port)
-        : port_(port) {
-
-    service_ = make_shared<FmuServiceImpl>(fmu);
-}
+GrpcServer::GrpcServer(map<string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus, const unsigned int port)
+        : port_(port), service_(make_shared<FmuServiceImpl>(fmus)) {}
 
 void GrpcServer::wait() {
     server_->Wait();

@@ -31,14 +31,15 @@ using namespace fmuproxy::fmi;
 using namespace fmuproxy::grpc::server;
 
 int main(int argc, char **argv) {
-
-    const unsigned int port = 9080;
+    
     const string fmu_path = string(getenv("TEST_FMUs"))
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu(fmu_path);
-    GrpcServer server(fmu, port);
+    auto fmu = make_shared<Fmu>(fmu_path);
+    map<string, shared_ptr<Fmu>> fmus = {{fmu->getModelDescription().guid, fmu}};
+    
+    GrpcServer server(fmus, 9080);
     server.start();
 
     wait_for_input();

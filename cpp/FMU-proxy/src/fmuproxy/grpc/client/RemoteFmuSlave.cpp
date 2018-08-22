@@ -30,7 +30,7 @@ using namespace grpc;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::grpc::client;
 
-RemoteFmuSlave::RemoteFmuSlave(const unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription)
+RemoteFmuSlave::RemoteFmuSlave(const string instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription)
         : FmuSlave(modelDescription), instanceId_(instance_id), stub_(stub) {}
 
 void RemoteFmuSlave::init(const double start, const double stop) {
@@ -48,7 +48,7 @@ fmi2_status_t RemoteFmuSlave::step(const double step_size) {
     StepRequest req;
     req.set_instance_id(instanceId_);
     req.set_step_size(step_size);
-    StepResult resp;
+    StepResponse resp;
     ClientContext ctx;
     stub_.Step(&ctx, req, &resp);
     simulationTime_ = resp.simulation_time();
@@ -60,8 +60,8 @@ fmi2_status_t RemoteFmuSlave::cancelStep() {
 }
 
 fmi2_status_t RemoteFmuSlave::terminate() {
-    UInt req;
-    req.set_value(instanceId_);
+    TerminateRequest req;
+    req.set_instance_id(instanceId_);
     ClientContext ctx;
     StatusResponse resp;
     stub_.Terminate(&ctx, req, &resp);
@@ -69,8 +69,8 @@ fmi2_status_t RemoteFmuSlave::terminate() {
 }
 
 fmi2_status_t RemoteFmuSlave::reset() {
-    UInt req;
-    req.set_value(instanceId_);
+    ResetRequest req;
+    req.set_instance_id(instanceId_);
     ClientContext ctx;
     StatusResponse resp;
     stub_.Reset(&ctx, req, &resp);

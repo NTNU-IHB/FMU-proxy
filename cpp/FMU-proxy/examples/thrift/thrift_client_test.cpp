@@ -53,19 +53,19 @@ int main() {
             cout << "Name=" << var.name << ", " << var.attribute << endl;
         }
 
-        auto instance = fmu.newInstance();
-        instance->init();
+        unique_ptr<RemoteFmuSlave> slave = fmu.newInstance();
+        slave->init();
 
         auto begin = clock();
 
         vector<fmi2_real_t> ref(2);
-        vector<fmi2_value_reference_t> vr = {instance->getValueReference("Temperature_Reference"),
-                                             instance->getValueReference("Temperature_Room")};
+        vector<fmi2_value_reference_t> vr = {slave->getValueReference("Temperature_Reference"),
+                                             slave->getValueReference("Temperature_Room")};
 
         double t;
-        while ( (t=instance->getSimulationTime() ) < stop) {
-            instance->step(step_size);
-            instance->readReal(vr, ref);
+        while ( (t=slave->getSimulationTime() ) < stop) {
+            slave->step(step_size);
+            slave->readReal(vr, ref);
             cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
         }
 
@@ -74,7 +74,7 @@ int main() {
         double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
         cout << "elapsed=" << elapsed_secs << "s" << endl;
 
-        auto status = instance->terminate();
+        auto status = slave->terminate();
         cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
 
         fmu.close();

@@ -44,7 +44,7 @@ namespace fmuproxy::thrift::server {
         void serve();
 
     public:
-        ThriftServer(std::map<FmuId, fmuproxy::fmi::Fmu> &fmus, const unsigned int port, bool http=false);
+        ThriftServer(std::map<FmuId, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus, const unsigned int port, bool http=false);
 
         void start();
 
