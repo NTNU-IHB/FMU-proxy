@@ -40,7 +40,7 @@ int main() {
                           "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu(fmu_path);
-    const vector<string> fmus = {fmu.get_model_description_xml()};
+    const vector<string> fmus = {fmu.getModelDescriptionXml()};
     const map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
 
     Heartbeat beat("localhost", 8080, servers, fmus);

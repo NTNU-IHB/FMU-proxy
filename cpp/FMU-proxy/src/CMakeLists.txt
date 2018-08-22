@@ -12,13 +12,14 @@ SET(FMI_HEADERS
         ${FMI_HEADER_DIR}/Fmu.hpp
         ${FMI_HEADER_DIR}/FmuInstance.hpp
         ${FMI_HEADER_DIR}/FmuSlave.hpp
+        ${FMI_HEADER_DIR}/LocalFmuSlave.hpp
         ${FMI_HEADER_DIR}/fmi_definitions.hpp
         ${FMI_HEADER_DIR}/scalar_variable_attributes.hpp)
 
 SET(FMI_SRC
         fmuproxy/fmi/Fmu.cpp
         fmuproxy/fmi/fmu_helper.cpp
-        fmuproxy/fmi/FmuSlave.cpp)
+        fmuproxy/fmi/LocalFmuSlave.cpp)
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
 target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
@@ -40,7 +41,7 @@ SET(HEARTBEAT_SRC
         fmuproxy/heartbeat/heartbeat_helper.cpp)
 
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
-target_link_libraries(heartbeat ${CURL_LIBRARIES} Boost::system)
+target_link_libraries(heartbeat ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES} Boost::system)
 target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
 if (UNIX)
     target_link_libraries(heartbeat pthread)
@@ -60,7 +61,7 @@ SET(GRPC_COMMON_HEADERS
 
 SET(GRPC_CLIENT_HEADERS
         ${GRPC_HEADER_DIR}/client/GrpcClient.hpp
-        ${GRPC_HEADER_DIR}/client/RemoteFmuInstance.hpp)
+        ${GRPC_HEADER_DIR}/client/RemoteFmuSlave.hpp)
 
 SET(GRPC_SERVER_HEADERS
         ${GRPC_HEADER_DIR}/server/GrpcServer.hpp
@@ -73,7 +74,7 @@ SET(GRPC_COMMON_SRC
 
 SET(GRPC_CLIENT_SRC
         fmuproxy/grpc/client/GrpcClient.cpp
-        fmuproxy/grpc/client/RemoteFmuInstance.cpp
+        fmuproxy/grpc/client/RemoteFmuSlave.cpp
         fmuproxy/grpc/client/grpc_client_helper.cpp)
 
 SET(GRPC_SERVER_SRC
@@ -107,7 +108,7 @@ SET(THRIFT_COMMON_HEADERS
         ${THRIFT_HEADER_DIR}/common/service_types.h)
 
 SET(THRIFT_CLIENT_HEADERS
-        ${THRIFT_HEADER_DIR}/client/RemoteFmuInstance.hpp
+        ${THRIFT_HEADER_DIR}/client/RemoteFmuSlave.hpp
         ${THRIFT_HEADER_DIR}/client/ThriftClient.hpp)
 
 SET(THRIFT_SERVER_HEADERS
@@ -115,12 +116,13 @@ SET(THRIFT_SERVER_HEADERS
         ${THRIFT_HEADER_DIR}/server/ThriftServer.hpp)
 
 SET(THRIFT_COMMON_SRC
+        fmuproxy/thrift/common/service_types.cpp
         fmuproxy/thrift/common/definitions_types.cpp
         fmuproxy/thrift/common/FmuService.cpp)
 
 SET(THRIFT_CLIENT_SRC
         fmuproxy/thrift/client/thrift_client_helper.cpp
-        fmuproxy/thrift/client/RemoteFmuInstance.cpp
+        fmuproxy/thrift/client/RemoteFmuSlave.cpp
         fmuproxy/thrift/client/ThriftClient.cpp)
 
 SET(THRIFT_SERVER_SRC

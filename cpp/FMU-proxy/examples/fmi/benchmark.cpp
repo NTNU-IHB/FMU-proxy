@@ -43,13 +43,14 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu(fmu_path);
-    const auto instance = fmu.new_instance();
+    const auto instance = fmu.newInstance();
     instance->init();
 
     clock_t begin = clock();
 
     vector<fmi2_real_t> ref(2);
-    vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
+    vector<fmi2_value_reference_t> vr = {instance->getValueReference("Temperature_Reference"),
+                                         instance->getValueReference("Temperature_Room")};
     
 
     double t;

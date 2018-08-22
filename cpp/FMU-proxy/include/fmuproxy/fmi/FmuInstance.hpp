@@ -34,9 +34,26 @@ namespace fmuproxy::fmi {
 
     class FmuInstance {
 
-    public:
+    protected:
+        bool isTerminated_ = false;
+        double simulationTime_ = 0.0;
+        ModelDescription &modelDescription_;
 
-        virtual ModelDescription &getModelDescription() const = 0;
+    public:
+        
+        explicit FmuInstance(ModelDescription &modelDescription): modelDescription_(modelDescription) {}
+
+        virtual fmi2_real_t getSimulationTime() const {
+            return simulationTime_;
+        }
+
+        virtual bool isTerminated() const {
+            return isTerminated_;
+        }
+
+        virtual ModelDescription &getModelDescription() const {
+            return modelDescription_;
+        }
         
         virtual void init(double start = 0, double stop = 0) = 0;
 
@@ -44,8 +61,8 @@ namespace fmuproxy::fmi {
 
         virtual fmi2_status_t terminate() = 0;
 
-        virtual fmi2_value_reference_t get_value_reference(const std::string &name) {
-            return getModelDescription().get_value_reference(name);
+        fmi2_value_reference_t getValueReference(const std::string &name) {
+            return getModelDescription().getValueReference(name);
         }
 
         virtual fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) = 0;

@@ -28,7 +28,7 @@
 #include <boost/filesystem.hpp>
 
 #include "fmi_definitions.hpp"
-#include "FmuSlave.hpp"
+#include "LocalFmuSlave.hpp"
 
 namespace fmuproxy::fmi {
 
@@ -36,23 +36,23 @@ namespace fmuproxy::fmi {
 
     private:
 
-        fmi2_import_t* xml;
-        fmi_xml_context_t* ctx;
-        jm_callbacks callbacks;
-        fmi_version_enu_t version;
+        fmi2_import_t* xml_;
+        fmi_xml_context_t* ctx_;
+        jm_callbacks callbacks_;
+        fmi_version_enu_t version_;
 
-        boost::filesystem::path tmp_path;
-        std::string model_description_xml;
-        std::shared_ptr<ModelDescription> modelDescription;
+        boost::filesystem::path tmp_path_;
+        std::string model_description_xml_;
+        std::shared_ptr<ModelDescription> modelDescription_;
 
     public:
         explicit Fmu(const std::string &fmu_path);
 
-        const std::string &get_model_description_xml();
+        const std::string &getModelDescriptionXml() const;
 
-        const ModelDescription &get_model_description() const;
+        const ModelDescription &getModelDescription() const;
 
-        std::unique_ptr<FmuSlave> new_instance();
+        std::unique_ptr<LocalFmuSlave> newInstance();
 
         ~Fmu();
 

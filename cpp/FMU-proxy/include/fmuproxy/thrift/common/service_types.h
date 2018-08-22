@@ -21,7 +21,9 @@
 
 namespace fmuproxy { namespace thrift {
 
-typedef int32_t InstanceId;
+typedef std::string FmuId;
+
+typedef std::string InstanceId;
 
 typedef int32_t ValueReference;
 
@@ -34,6 +36,190 @@ typedef std::vector<double>  RealArray;
 typedef std::vector<std::string>  StringArray;
 
 typedef std::vector<bool>  BooleanArray;
+
+class NoSuchFmuException;
+
+class NoSuchInstanceException;
+
+class NoSuchVariableException;
+
+class UnsupportedOperationException;
+
+typedef struct _NoSuchFmuException__isset {
+  _NoSuchFmuException__isset() : message(false) {}
+  bool message :1;
+} _NoSuchFmuException__isset;
+
+class NoSuchFmuException : public ::apache::thrift::TException {
+ public:
+
+  NoSuchFmuException(const NoSuchFmuException&);
+  NoSuchFmuException& operator=(const NoSuchFmuException&);
+  NoSuchFmuException() : message() {
+  }
+
+  virtual ~NoSuchFmuException() throw();
+  std::string message;
+
+  _NoSuchFmuException__isset __isset;
+
+  void __set_message(const std::string& val);
+
+  bool operator == (const NoSuchFmuException & rhs) const
+  {
+    if (!(message == rhs.message))
+      return false;
+    return true;
+  }
+  bool operator != (const NoSuchFmuException &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NoSuchFmuException & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+  mutable std::string thriftTExceptionMessageHolder_;
+  const char* what() const throw();
+};
+
+void swap(NoSuchFmuException &a, NoSuchFmuException &b);
+
+std::ostream& operator<<(std::ostream& out, const NoSuchFmuException& obj);
+
+typedef struct _NoSuchInstanceException__isset {
+  _NoSuchInstanceException__isset() : message(false) {}
+  bool message :1;
+} _NoSuchInstanceException__isset;
+
+class NoSuchInstanceException : public ::apache::thrift::TException {
+ public:
+
+  NoSuchInstanceException(const NoSuchInstanceException&);
+  NoSuchInstanceException& operator=(const NoSuchInstanceException&);
+  NoSuchInstanceException() : message() {
+  }
+
+  virtual ~NoSuchInstanceException() throw();
+  std::string message;
+
+  _NoSuchInstanceException__isset __isset;
+
+  void __set_message(const std::string& val);
+
+  bool operator == (const NoSuchInstanceException & rhs) const
+  {
+    if (!(message == rhs.message))
+      return false;
+    return true;
+  }
+  bool operator != (const NoSuchInstanceException &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NoSuchInstanceException & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+  mutable std::string thriftTExceptionMessageHolder_;
+  const char* what() const throw();
+};
+
+void swap(NoSuchInstanceException &a, NoSuchInstanceException &b);
+
+std::ostream& operator<<(std::ostream& out, const NoSuchInstanceException& obj);
+
+typedef struct _NoSuchVariableException__isset {
+  _NoSuchVariableException__isset() : message(false) {}
+  bool message :1;
+} _NoSuchVariableException__isset;
+
+class NoSuchVariableException : public ::apache::thrift::TException {
+ public:
+
+  NoSuchVariableException(const NoSuchVariableException&);
+  NoSuchVariableException& operator=(const NoSuchVariableException&);
+  NoSuchVariableException() : message() {
+  }
+
+  virtual ~NoSuchVariableException() throw();
+  std::string message;
+
+  _NoSuchVariableException__isset __isset;
+
+  void __set_message(const std::string& val);
+
+  bool operator == (const NoSuchVariableException & rhs) const
+  {
+    if (!(message == rhs.message))
+      return false;
+    return true;
+  }
+  bool operator != (const NoSuchVariableException &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NoSuchVariableException & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+  mutable std::string thriftTExceptionMessageHolder_;
+  const char* what() const throw();
+};
+
+void swap(NoSuchVariableException &a, NoSuchVariableException &b);
+
+std::ostream& operator<<(std::ostream& out, const NoSuchVariableException& obj);
+
+typedef struct _UnsupportedOperationException__isset {
+  _UnsupportedOperationException__isset() : message(false) {}
+  bool message :1;
+} _UnsupportedOperationException__isset;
+
+class UnsupportedOperationException : public ::apache::thrift::TException {
+ public:
+
+  UnsupportedOperationException(const UnsupportedOperationException&);
+  UnsupportedOperationException& operator=(const UnsupportedOperationException&);
+  UnsupportedOperationException() : message() {
+  }
+
+  virtual ~UnsupportedOperationException() throw();
+  std::string message;
+
+  _UnsupportedOperationException__isset __isset;
+
+  void __set_message(const std::string& val);
+
+  bool operator == (const UnsupportedOperationException & rhs) const
+  {
+    if (!(message == rhs.message))
+      return false;
+    return true;
+  }
+  bool operator != (const UnsupportedOperationException &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const UnsupportedOperationException & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+  mutable std::string thriftTExceptionMessageHolder_;
+  const char* what() const throw();
+};
+
+void swap(UnsupportedOperationException &a, UnsupportedOperationException &b);
+
+std::ostream& operator<<(std::ostream& out, const UnsupportedOperationException& obj);
 
 }} // namespace
 

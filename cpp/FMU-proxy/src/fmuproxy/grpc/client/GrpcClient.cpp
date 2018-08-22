@@ -31,39 +31,39 @@ using namespace grpc;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
 
-GrpcClient::GrpcClient(const string fmu_id, const std::string host, const unsigned int port) : fmu_id(fmu_id) {
+GrpcClient::GrpcClient(const string fmu_id, const std::string host, const unsigned int port) : fmuId_(fmu_id) {
     const auto channel = CreateChannel(host + ":" + to_string(port), InsecureChannelCredentials());
-    m_stub = move(FmuService::NewStub(channel));
+    stub_ = move(FmuService::NewStub(channel));
 }
 
-fmuproxy::fmi::ModelDescription &GrpcClient::get_model_description() {
+fmuproxy::fmi::ModelDescription &GrpcClient::getModelDescription() {
     
-    if(!m_modelDescription) {
+    if(!modelDescription_) {
         ClientContext ctx;
         Void empty;
         fmuproxy::grpc::ModelDescription md;
-        m_stub->GetModelDescription(&ctx, empty, &md);
-        m_modelDescription = std::make_shared<fmuproxy::fmi::ModelDescription>();
-        convert(*m_modelDescription, md);
+        stub_->GetModelDescription(&ctx, empty, &md);
+        modelDescription_ = std::make_shared<fmuproxy::fmi::ModelDescription>();
+        convert(*modelDescription_, md);
     }
     
-    return *m_modelDescription;
+    return *modelDescription_;
 }
 
-void GrpcClient::get_model_description_xml(std::string &_return) {
+void GrpcClient::getModelDescriptionXml(std::string &_return) {
     Str response;
     ClientContext ctx;
     Void empty;
-    ::grpc::Status status = m_stub->GetModelDescriptionXml(&ctx, empty, &response);
+    ::grpc::Status status = stub_->GetModelDescriptionXml(&ctx, empty, &response);
     _return = response.value();
 }
 
-unique_ptr<RemoteFmuInstance> GrpcClient::new_instance() {
+unique_ptr<RemoteFmuSlave> GrpcClient::newInstance() {
     UInt instance_id;
     ClientContext ctx;
     Void empty;
-    m_stub->CreateInstanceFromCS(&ctx, empty, &instance_id);
-    return make_unique<RemoteFmuInstance>(instance_id.value(), *m_stub, get_model_description());
+    stub_->CreateInstanceFromCS(&ctx, empty, &instance_id);
+    return make_unique<RemoteFmuSlave>(instance_id.value(), *stub_, getModelDescription());
 }
 
 void GrpcClient::close() {

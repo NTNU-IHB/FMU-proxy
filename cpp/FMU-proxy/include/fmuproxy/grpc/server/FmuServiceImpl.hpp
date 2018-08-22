@@ -36,8 +36,8 @@ namespace fmuproxy::grpc::server {
     class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
 
     private:
-        fmuproxy::fmi::Fmu &m_fmu;
-        std::map<int, std::unique_ptr<fmi::FmuSlave>> slaves;
+        fmuproxy::fmi::Fmu &fmu_;
+        std::map<int, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
 

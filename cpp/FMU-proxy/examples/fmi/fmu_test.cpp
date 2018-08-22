@@ -39,21 +39,21 @@ int main(int argc, char **argv) {
     const double step_size = 1.0/100;
     Fmu fmu(fmu_path);
 
-    cout << fmu.get_model_description_xml() << endl;
+    cout << fmu.getModelDescriptionXml() << endl;
 
-    const auto md = fmu.get_model_description();
+    const auto md = fmu.getModelDescription();
     for (const auto var : md.modelVariables) {
         cout << var.attribute << endl;
     }
 
-    const auto instance1 = fmu.new_instance();
-    const auto instance2 = fmu.new_instance();
+    const auto instance1 = fmu.newInstance();
+    const auto instance2 = fmu.newInstance();
 
     instance1->init();
     instance2->init();
 
     double temperature_room;
-    int vr = instance1->get_value_reference("Temperature_Room");
+    int vr = instance1->getValueReference("Temperature_Room");
 
     instance1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;

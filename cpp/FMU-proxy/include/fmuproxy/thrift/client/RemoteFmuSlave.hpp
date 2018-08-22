@@ -30,33 +30,26 @@
 #include "fmuproxy/fmi/FmuSlave.hpp"
 #include "../common/FmuService.h"
 
+using namespace fmuproxy;
 using namespace fmuproxy::thrift;
 
 namespace fmuproxy::thrift::client {
 
-    class RemoteFmuInstance: public fmuproxy::fmi::FmuSlave {
+    class RemoteFmuSlave: public fmuproxy::fmi::FmuSlave {
 
     private:
         
-        const InstanceId instance_id;
-        double simulation_time;
-
-        FmuServiceClient &client;
-        fmuproxy::fmi::ModelDescription &modelDescription;
+        const InstanceId instanceId_;
+        FmuServiceClient &client_;
 
     public:
-        RemoteFmuInstance(InstanceId fmu_id, FmuServiceClient &client, fmuproxy::fmi::ModelDescription &modelDescription);
-
-        RemoteFmuInstance(fmi2_import_t *instance, fmi::ModelDescription &md, const InstanceId instance_id,
-                          FmuServiceClient &client, fmi::ModelDescription &modelDescription);
-
-        double getSimulationTime() const override;
-
-        fmuproxy::fmi::ModelDescription &getModelDescription() const override;
+        RemoteFmuSlave(InstanceId fmu_id, FmuServiceClient &client, fmi::ModelDescription &modelDescription);
 
         void init(double start = 0, double stop = 0) override;
 
         fmi2_status_t step(double step_size) override;
+
+        fmi2_status_t cancelStep() override;
 
         fmi2_status_t terminate() override;
 
@@ -87,7 +80,7 @@ namespace fmuproxy::thrift::client {
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
 
 
-        ~RemoteFmuInstance() {
+        ~RemoteFmuSlave() {
             std::cout << "RemoteFmuInstance destructor called" << std::endl;
         }
 

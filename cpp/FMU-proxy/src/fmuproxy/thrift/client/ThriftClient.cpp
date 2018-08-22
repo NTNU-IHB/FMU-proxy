@@ -33,39 +33,38 @@
 #include "thrift_client_helper.cpp"
 
 using namespace std;
+using namespace apache::thrift::transport;
+using namespace apache::thrift::protocol;
 using namespace fmuproxy::thrift::client;
 
-ThriftClient::ThriftClient(const string fmu_id, const string host, const unsigned int port) : fmu_id(fmu_id) {
+ThriftClient::ThriftClient(const string fmu_id, const string host, const unsigned int port) : fmuId_(fmu_id) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
-    this->transport = std::make_shared<TBufferedTransport>(socket);
-    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-    this->client = std::make_shared<FmuServiceClient>(protocol);
-    this->transport->open();
+    this->transport_ = std::make_shared<TBufferedTransport>(socket);
+    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport_));
+    this->client_ = std::make_shared<FmuServiceClient>(protocol);
+    this->transport_->open();
 }
 
-void ThriftClient::get_model_description_xml(std::string &_return) {
-    client->getModelDescriptionXml(_return);
+void ThriftClient::getModelDescriptionXml(std::string &_return) const {
+    client_->getModelDescriptionXml(_return, fmuId_);
 }
 
-fmuproxy::fmi::ModelDescription &ThriftClient::get_model_description() {
-    if (!modelDescription) {
+fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
+    if (!modelDescription_) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
-        client->getModelDescription(md);
-        modelDescription = std::make_shared<fmuproxy::fmi::ModelDescription>();
-        convert(*modelDescription, md);
+        client_->getModelDescription(md, fmuId_);
+        modelDescription_ = std::make_shared<fmuproxy::fmi::ModelDescription>();
+        convert(*modelDescription_, md);
     }
-    return *modelDescription;
+    return *modelDescription_;
 }
 
-unique_ptr<RemoteFmuInstance> ThriftClient::new_instance() {
-    InstanceId instance_id = client->createInstanceFromCS();
-    return std::make_unique<RemoteFmuInstance>(instance_id, *client, *modelDescription);
+unique_ptr<RemoteFmuSlave> ThriftClient::newInstance() {
+    InstanceId instance_id;
+    client_->createInstanceFromCS(instance_id, fmuId_);
+    return std::make_unique<RemoteFmuSlave>(instance_id, *client_, *modelDescription_);
 }
-
 
 void ThriftClient::close() {
-    this->transport->close();
+    this->transport_->close();
 }
-
-
-

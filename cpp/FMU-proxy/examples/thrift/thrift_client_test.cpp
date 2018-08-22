@@ -44,7 +44,7 @@ int main() {
 
         ThriftClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9090);
 
-        const auto md = fmu.get_model_description();
+        const auto md = fmu.getModelDescription();
         cout << "GUID=" << md.guid << endl;
         cout << "modelName=" << md.modelName << endl;
         cout << "license=" << md.license << endl;
@@ -53,13 +53,14 @@ int main() {
             cout << "Name=" << var.name << ", " << var.attribute << endl;
         }
 
-        unique_ptr<RemoteFmuInstance> instance = fmu.new_instance();
+        auto instance = fmu.newInstance();
         instance->init();
 
-        clock_t begin = clock();
+        auto begin = clock();
 
         vector<fmi2_real_t> ref(2);
-        vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
+        vector<fmi2_value_reference_t> vr = {instance->getValueReference("Temperature_Reference"),
+                                             instance->getValueReference("Temperature_Room")};
 
         double t;
         while ( (t=instance->getSimulationTime() ) < stop) {
@@ -68,7 +69,7 @@ int main() {
             cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
         }
 
-        clock_t end = clock();
+        auto end = clock();
 
         double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
         cout << "elapsed=" << elapsed_secs << "s" << endl;

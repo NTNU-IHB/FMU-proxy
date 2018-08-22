@@ -85,7 +85,7 @@ namespace {
 
         unique_ptr<Heartbeat> beat = nullptr;
         if (has_remote) {
-            beat = make_unique<Heartbeat>(remote->host, remote->port, fmu.get_model_description_xml());
+            beat = make_unique<Heartbeat>(remote->host, remote->port, fmu.getModelDescriptionXml());
             beat->start();
         }
 

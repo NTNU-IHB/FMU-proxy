@@ -29,10 +29,7 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "RemoteFmuInstance.hpp"
-
-using namespace apache::thrift::protocol;
-using namespace apache::thrift::transport;
+#include "RemoteFmuSlave.hpp"
 
 namespace fmuproxy::thrift::client {
 
@@ -40,19 +37,19 @@ namespace fmuproxy::thrift::client {
 
     private:
 
-        std::string fmu_id;
-        std::shared_ptr<TTransport> transport;
-        std::shared_ptr<FmuServiceClient> client;
-        std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription;
+        const FmuId fmuId_;
+        std::shared_ptr<FmuServiceClient> client_;
+        std::shared_ptr<apache::thrift::transport::TTransport> transport_;
+        std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription_;
 
     public:
-        ThriftClient(std::string fmu_id, std::string host, unsigned int port);
+        ThriftClient(const FmuId fmu_id, const std::string host, const unsigned int port);
 
-        fmuproxy::fmi::ModelDescription &get_model_description();
+        fmuproxy::fmi::ModelDescription &getModelDescription();
 
-        void get_model_description_xml(std::string &_return);
+        void getModelDescriptionXml(std::string &_return) const;
 
-        std::unique_ptr<RemoteFmuInstance> new_instance();
+        std::unique_ptr<RemoteFmuSlave> newInstance();
 
         void close();
 

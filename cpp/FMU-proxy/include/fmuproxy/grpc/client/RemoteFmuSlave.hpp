@@ -31,25 +31,21 @@
 
 namespace fmuproxy::grpc::client {
 
-    class RemoteFmuInstance: public fmuproxy::fmi::FmuSlave {
+    class RemoteFmuSlave: public fmuproxy::fmi::FmuSlave {
 
     private:
 
-        unsigned int instance_id;
-        double simulation_time = 0;
-        fmuproxy::grpc::FmuService::Stub &stub;
-        fmuproxy::fmi::ModelDescription &modelDescription;
+        unsigned int instanceId_;
+        fmuproxy::grpc::FmuService::Stub &stub_;
 
     public:
-        RemoteFmuInstance(unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
-
-        double getSimulationTime() const override;
-
-        fmuproxy::fmi::ModelDescription &getModelDescription() const override;
+        RemoteFmuSlave(const unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
 
         void init(double start = 0, double stop = 0) override;
 
         fmi2_status_t step(double step_size) override;
+
+        fmi2_status_t cancelStep() override;
 
         fmi2_status_t terminate() override;
 

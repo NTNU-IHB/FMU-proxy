@@ -39,10 +39,13 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu(fmu_path);
-    ThriftServer socket_server(fmu, 9090);
+
+    map<string, Fmu> fmus = {{fmu.getModelDescription().guid, fmu}};
+
+    ThriftServer socket_server(fmus, 9090);
     socket_server.start();
 
-    ThriftServer http_server(fmu, 9091, true);
+    ThriftServer http_server(fmus, 9091, true);
     http_server.start();
 
     wait_for_input();

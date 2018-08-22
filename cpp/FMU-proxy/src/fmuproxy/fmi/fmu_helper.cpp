@@ -25,6 +25,7 @@
 #include <cfloat>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
 
+using namespace std;
 using namespace fmuproxy::fmi;
 
 namespace {
@@ -97,7 +98,7 @@ namespace {
         var.name = fmi2_import_get_variable_name(v);
         var.valueReference = fmi2_import_get_variable_vr(v);
 
-        const char *description = fmi2_import_get_variable_description(v);
+        fmi2_string_t  description = fmi2_import_get_variable_description(v);
         if (description != nullptr) {
             var.description = description;
         }
@@ -130,7 +131,7 @@ namespace {
     void populate_model_variables(fmi2_import_t *xml, ModelVariables &modelVariables) {
 
         const auto list = fmi2_import_get_variable_list(xml, 0);
-        size_t size = fmi2_import_get_variable_list_size(list);
+        const size_t size = fmi2_import_get_variable_list_size(list);
 
         for (unsigned int i = 0; i < size; ++i) {
             fmi2_import_variable_t *v = fmi2_import_get_variable(list, i);
@@ -175,26 +176,26 @@ namespace {
 
     jm_callbacks create_callbacks(jm_log_level_enu_t log_level = jm_log_level_debug) {
         jm_callbacks callbacks;
-        callbacks.malloc = std::malloc;
-        callbacks.calloc = std::calloc;
-        callbacks.realloc = std::realloc;
-        callbacks.free = std::free;
+        callbacks.malloc = malloc;
+        callbacks.calloc = calloc;
+        callbacks.realloc = realloc;
+        callbacks.free = free;
         callbacks.logger = import_logger;
         callbacks.log_level = log_level;
         callbacks.context = nullptr;
         return callbacks;
     }
 
-    fmi2_import_t *load_model_description(const std::string &tmp_path, fmi_xml_context_t *ctx) {
+    fmi2_import_t *load_model_description(const string &tmp_path, fmi_xml_context_t *ctx) {
 
         fmi2_import_t *xml = fmi2_import_parse_xml(ctx, tmp_path.c_str(), nullptr);
 
         if (!xml) {
-            throw std::runtime_error("Error parsing XML, exiting");
+            throw runtime_error("Error parsing XML, exiting");
         }
 
         if (fmi2_import_get_fmu_kind(xml) == fmi2_fmu_kind_me) {
-            throw std::runtime_error("Only CS 2.0 is supported by this code");
+            throw runtime_error("Only CS 2.0 is supported by this code");
         }
 
         return xml;

@@ -35,7 +35,7 @@ int main() {
 
     GrpcClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9080);
 
-    const auto md = fmu.get_model_description();
+    const auto md = fmu.getModelDescription();
     cout << "GUID=" << md.guid << endl;
     cout << "modelName=" << md.modelName << endl;
     cout << "license=" << md.license << endl;
@@ -44,12 +44,13 @@ int main() {
         cout << "Name=" << var.name << ", " << var.attribute << endl;
     }
 
-    unique_ptr<RemoteFmuInstance> instance = fmu.new_instance();
+    unique_ptr<RemoteFmuSlave> instance = fmu.newInstance();
     instance->init();
 
     clock_t begin = clock();
 
-    vector<fmi2_value_reference_t> vr = {instance->get_value_reference("Temperature_Reference"), instance->get_value_reference("Temperature_Room")};
+    vector<fmi2_value_reference_t> vr = {instance->getValueReference("Temperature_Reference"),
+                                         instance->getValueReference("Temperature_Room")};
     vector<fmi2_real_t> ref(vr.size());
 
     double t;
