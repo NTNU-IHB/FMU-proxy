@@ -83,9 +83,8 @@ SET(GRPC_SERVER_SRC
         fmuproxy/grpc/server/grpc_server_helper.cpp)
 
 add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
-target_link_libraries(grpc-common PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc_cronet ${Protobuf_LIBRARIES})
+target_link_libraries(grpc-common PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc_cronet ${Protobuf_LIBRARIES} ${OPENSSL_LIBRARIES})
 target_include_directories(grpc-common PRIVATE ${Protobuf_INCLUDE_DIRS})
-
 
 add_library(grpc-client ${GRPC_CLIENT_HEADERS} ${GRPC_CLIENT_SRC})
 target_link_libraries(grpc-client grpc-common fmi)
@@ -94,6 +93,8 @@ add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_HEADERS} ${GRPC_SERVER_SRC}
 target_link_libraries(grpc-server grpc-common fmi)
 if (UNIX)
     target_link_libraries(grpc-server pthread)
+elseif (MSVC)
+    target_link_libraries(grpc-server bcrypt)
 endif()
 
 
