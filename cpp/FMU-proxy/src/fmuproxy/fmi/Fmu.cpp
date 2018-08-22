@@ -46,7 +46,7 @@ Fmu::Fmu (const string &fmu_path) {
     populate_model_description(version_, xml_, *modelDescription_);
 
     ifstream t(tmp_path_.string() + "/modelDescription.xml");
-    model_description_xml_ = string((istreambuf_iterator<char>(t)),
+    this->model_description_xml_ = string((istreambuf_iterator<char>(t)),
                     istreambuf_iterator<char>());
 
 }
