@@ -43,38 +43,34 @@ gretty {
 }
 
 task copyAvro(type: Copy) {
-
-    from('../rpc-definitions/src/main/avro')
-    into('src/main/webapp/resources/schemas/avro')
-    include('*.avdl')
-
+    from '../../..rpc-definitions/avro'
+    into 'src/main/webapp/resources/schemas/avro'
+    include '*.avdl'
 }
 
 task copyThrift(type: Copy) {
-
-    from('../rpc-definitions/src/main/thrift')
-    into('src/main/webapp/resources/schemas/thrift')
-    include('*.thrift')
-
+    from '../../..rpc-definitions/thrift'
+    into 'src/main/webapp/resources/schemas/thrift'
+    include '*.thrift'
 }
 
 task copyProto(type: Copy) {
-
-    from('../rpc-definitions/src/main/proto')
-    into('src/main/webapp/resources/schemas/proto')
-    include('*.proto')
-
+    from '../../../rpc-definitions/proto'
+    into 'src/main/webapp/resources/schemas/proto'
+    include '*.proto'
 }
 
-task copyProtoZip(type: Zip) {
-
-    from '../rpc-definitions/src/main/proto'
-    include '*'
-    archiveName 'fmu-proxy-generic-proto.zip'
-    destinationDir(file('src/main/webapp/resources/schemas/proto/'))
+task copySchemas(type: Copy) {
+    dependsOn 'copyAvro'
+    dependsOn 'copyThrift'
+    dependsOn 'copyProto'
 }
 
-compileKotlin.dependsOn(copyAvro)
-compileKotlin.dependsOn(copyThrift)
-compileKotlin.dependsOn(copyProto)
-compileKotlin.dependsOn(copyProtoZip)
+task copySchemasZip(type: Zip) {
+    from fileTree(dir: '../../../rpc-definitions')
+    archiveName 'fmu-proxy-schemas.zip'
+    destinationDir file('src/main/webapp/resources/schemas')
+}
+
+compileKotlin.dependsOn(copySchemas)
+compileKotlin.dependsOn(copySchemasZip)
