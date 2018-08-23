@@ -34,6 +34,7 @@ endif()
 SET(HEARTBEAT_HEADER_DIR ${HEADER_ROOT_PATH}/heartbeat)
 
 SET(HEARTBEAT_HEADERS
+        ${HEARTBEAT_HEADER_DIR}/RemoteAddress.hpp
         ${HEARTBEAT_HEADER_DIR}/Heartbeat.hpp)
 
 SET(HEARTBEAT_SRC
@@ -84,13 +85,13 @@ SET(GRPC_SERVER_SRC
 
 add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
 target_link_libraries(grpc-common PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc_cronet ${Protobuf_LIBRARIES} ${OPENSSL_LIBRARIES})
-target_include_directories(grpc-common PRIVATE ${Protobuf_INCLUDE_DIRS})
+target_include_directories(grpc-common PRIVATE ${Protobuf_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIRS})
 
 add_library(grpc-client ${GRPC_CLIENT_HEADERS} ${GRPC_CLIENT_SRC})
 target_link_libraries(grpc-client grpc-common fmi)
 
 add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_HEADERS} ${GRPC_SERVER_SRC})
-target_link_libraries(grpc-server grpc-common fmi)
+target_link_libraries(grpc-server grpc-common fmi Boost::system)
 if (UNIX)
     target_link_libraries(grpc-server pthread)
 elseif (MSVC)
@@ -133,15 +134,17 @@ SET(THRIFT_SERVER_SRC
 
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})
 target_link_libraries(thrift-common ${THRIFT_LIBRARIES} ${OPENSSL_LIBRARIES})
-target_include_directories(thrift-common PUBLIC ${THRIFT_INCLUDE_DIRS} PRIVATE ${OpenSSL_INCLUDE_DIRS})
+target_include_directories(thrift-common PUBLIC ${THRIFT_INCLUDE_DIRS})
 
 add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIENT_SRC})
 target_link_libraries(thrift-client thrift-common fmi)
 
 add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
-target_link_libraries(thrift-server thrift-common fmi)
+target_link_libraries(thrift-server thrift-common fmi Boost::system)
 if (UNIX)
     target_link_libraries(thrift-server pthread)
+elseif (MSVC)
+    target_link_libraries(thrift-server bcrypt)
 endif()
 
 ##################################################################

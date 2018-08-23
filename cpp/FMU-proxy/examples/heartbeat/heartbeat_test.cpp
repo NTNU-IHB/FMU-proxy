@@ -27,9 +27,11 @@
 #include <map>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
+#include <fmuproxy/heartbeat/RemoteAddress.hpp>
 #include "../test_util.cpp"
 
 using namespace std;
+using namespace fmuproxy;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::heartbeat;
 
@@ -40,10 +42,12 @@ int main() {
                           "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu(fmu_path);
-    const vector<string> fmus = {fmu.getModelDescriptionXml()};
     const map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
+    const vector<string> modelDescriptionXml = {fmu.getModelDescriptionXml()};
 
-    Heartbeat beat("localhost", 8080, servers, fmus);
+    RemoteAddress remote("localhost", 8080);
+
+    Heartbeat beat(remote, servers, modelDescriptionXml);
     beat.start();
 
     wait_for_input();

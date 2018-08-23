@@ -23,7 +23,6 @@
  */
 
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
-#include <fmuproxy/thrift/common/service_types.h>
 
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/THttpTransport.h>
@@ -33,6 +32,7 @@
 
 using namespace std;
 using namespace fmuproxy::fmi;
+using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::server;
 
 using namespace ::apache::thrift;
@@ -40,7 +40,7 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(map<FmuId, std::shared_ptr<Fmu>> &fmus, const unsigned int port, bool http): port_(port) {
+ThriftServer::ThriftServer(map<FmuId, std::shared_ptr<Fmu>> &fmus, const unsigned int port, const bool http): port_(port) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));

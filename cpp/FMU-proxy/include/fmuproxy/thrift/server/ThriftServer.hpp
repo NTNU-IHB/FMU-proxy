@@ -28,7 +28,7 @@
 #include <map>
 #include <thread>
 #include <thrift/server/TSimpleServer.h>
-
+#include "../common/service_types.h"
 #include "../../fmi/Fmu.hpp"
 #include "FmuServiceHandler.hpp"
 
@@ -44,7 +44,9 @@ namespace fmuproxy::thrift::server {
         void serve();
 
     public:
-        ThriftServer(std::map<FmuId, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus, const unsigned int port, bool http=false);
+        ThriftServer(std::map<fmuproxy::thrift::FmuId,
+                std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus,
+                const unsigned int port, const bool http=false);
 
         void start();
 

@@ -33,7 +33,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <curl/curl.h>
-
+#include <fmuproxy/heartbeat/RemoteAddress.hpp>
 
 using namespace std;
 using namespace boost::uuids;
@@ -94,9 +94,9 @@ namespace fmuproxy { namespace  heartbeat {
         rtrim(s);
     }
 
-    static inline CURLcode post(const string &host, const unsigned int port, CURL *curl, string &response, const string &ctx, const string &data) {
+    static inline CURLcode post(const RemoteAddress &remote, CURL *curl, string &response, const string &ctx, const string &data) {
 
-        const string url = "http://" + host + ":" + to_string(port) + "/fmu-proxy/" + ctx;
+        const string url = "http://" + remote.host + ":" + to_string(remote.port) + "/fmu-proxy/" + ctx;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
 

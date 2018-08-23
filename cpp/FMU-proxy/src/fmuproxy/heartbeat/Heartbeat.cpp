@@ -31,15 +31,16 @@
 #include "heartbeat_helper.cpp"
 
 using namespace std;
+using namespace fmuproxy;
 using namespace fmuproxy::heartbeat;
 
 using json = nlohmann::json;
 
-Heartbeat::Heartbeat(const string &host, const unsigned int port, const map<string, unsigned int> &servers,
-                     const vector<string> &fmus) : host(host), port(port), servers(servers), fmus(fmus) {}
+Heartbeat::Heartbeat(const RemoteAddress remote, const map<string, unsigned int> &ports,
+                     const vector<string> &modelDescriptions) : remote_(remote), ports_(ports), modelDescriptions_(modelDescriptions) {}
 
 void Heartbeat::start() {
-   m_thread = make_unique<thread>(&Heartbeat::run, this);
+   thread_ = make_unique<thread>(&Heartbeat::run, this);
 }
 
 void Heartbeat::run() {
@@ -57,25 +58,26 @@ void Heartbeat::run() {
 
         json json = {
                 {"uuid", uuid},
-                {"fmus", fmus},
-                {"networkInfo", { {"host", "localhost"}, {"servers", servers} }}
+                {"ports", ports_},
+                {"modelDescriptions", modelDescriptions_},
+
             };
 
         const string json_str = json.dump(2);
 
-        while (!m_stop) {
+        while (!stop_) {
 
-            if (m_connected) {
+            if (connected_) {
 
                 string response;
-                res = post(host, port, curl, response, "ping", uuid);
+                res = post(remote_, curl, response, "ping", uuid);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-                    m_connected = false;
+                    connected_ = false;
                 } else {
                     trim(response);
-                    m_connected = response == "success";
-                    if (!m_connected) {
+                    connected_ = response == "success";
+                    if (!connected_) {
                         cout << "Disconnected from remote tracking server!" << endl;
                     }
                 }
@@ -84,14 +86,14 @@ void Heartbeat::run() {
 
             } else {
 
-                std::string response;
-                res = post(host, port, curl, response, "registerfmu", json_str);
+                string response;
+                res = post(remote_, curl, response, "register", json_str);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 } else {
                     trim(response);
-                    m_connected = response == "success";
-                    if (m_connected) {
+                    connected_ = response == "success";
+                    if (connected_) {
                         cout << "Connected to remote tracking server!" << endl;
                         continue;
                     }
@@ -111,7 +113,7 @@ void Heartbeat::run() {
 }
 
 void Heartbeat::stop() {
-    m_stop = true;
-    m_thread->join();
+    stop_ = true;
+    thread_->join();
 }
 

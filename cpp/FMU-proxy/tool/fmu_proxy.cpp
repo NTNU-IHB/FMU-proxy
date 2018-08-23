@@ -26,11 +26,11 @@
 #include <iostream>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
+#include <fmuproxy/heartbeat/RemoteAddress.hpp>
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 
-#include "boost/program_options.hpp"
-#include "extra/RemoteAddress.hpp"
+#include <boost/program_options.hpp>
 
 using namespace std;
 using namespace fmuproxy::fmi;
@@ -46,6 +46,10 @@ namespace {
     const int COMMANDLINE_ERROR = 1;
     const int UNHANDLED_ERROR = 2;
 
+    const string THRIFT_TCP = "thrift/tcp";
+    const string THRIFT_HTTP = "thrift/http";
+    const string GRPC_HTTP2 = "grpc/http2";
+
     void wait_for_input() {
         do {
             cout << '\n' << "Press a key to continue...\n";
@@ -54,38 +58,52 @@ namespace {
     }
 
     int run_application(
-            const string &fmu_path,
+            const vector<string> &fmu_paths,
             std::map<string, unsigned int> ports,
             const shared_ptr<RemoteAddress> &remote) {
 
-        Fmu fmu(fmu_path);
-
+        map<string, shared_ptr<Fmu>> fmu_map;
+        vector<string> modelDescriptionXml;
+        for (unsigned int i = 0; i < fmu_paths.size(); i++) {
+            const auto fmu_path = fmu_paths[i];
+            shared_ptr<Fmu> fmu = make_shared<Fmu>(fmu_path);
+            fmu_map[fmu->getModelDescription().guid] = fmu;
+            modelDescriptionXml.push_back(fmu->getModelDescriptionXml());
+        }
         bool has_remote = remote != nullptr;
-        bool enable_grpc = ports.count("grpc");
-        bool enable_thrift_tcp = ports.count("thrift/tcp");
-        bool enable_thrift_http = ports.count("thrift/http");
+        bool enable_grpc = ports.count(GRPC_HTTP2);
+        bool enable_thrift_tcp = ports.count(THRIFT_TCP);
+        bool enable_thrift_http = ports.count(THRIFT_HTTP);
+
+        map<string, unsigned int> servers;
 
         unique_ptr<ThriftServer> thrift_socket_server = nullptr;
         if (enable_thrift_tcp) {
-            thrift_socket_server = make_unique<ThriftServer>(fmu, ports["thrift/tcp"]);
+            const unsigned int port = ports[THRIFT_TCP];
+            thrift_socket_server = make_unique<ThriftServer>(fmu_map, port);
             thrift_socket_server->start();
+            servers[THRIFT_TCP] = port;
         }
 
         unique_ptr<ThriftServer> thrift_http_server = nullptr;
         if (enable_thrift_http) {
-            thrift_http_server = make_unique<ThriftServer>(fmu, ports["thrift/http"], true);
+            const unsigned int port = ports[THRIFT_HTTP];
+            thrift_http_server = make_unique<ThriftServer>(fmu_map, port, true);
             thrift_http_server->start();
+            servers[THRIFT_HTTP] = port;
         }
 
         unique_ptr<GrpcServer> grpc_server = nullptr;
         if (enable_grpc) {
-            grpc_server = make_unique<GrpcServer>(fmu, ports["grpc"]);
+            const unsigned int port = ports[GRPC_HTTP2];
+            grpc_server = make_unique<GrpcServer>(fmu_map, port);
             grpc_server->start();
+            servers[GRPC_HTTP2] = port;
         }
 
         unique_ptr<Heartbeat> beat = nullptr;
         if (has_remote) {
-            beat = make_unique<Heartbeat>(remote->host, remote->port, fmu.getModelDescriptionXml());
+            shared_ptr<Heartbeat> beat (new Heartbeat(*remote, servers, modelDescriptionXml));
             beat->start();
         }
 
@@ -120,7 +138,7 @@ int main(int argc, char** argv) {
         po::options_description desc("Options");
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
-                ("fmu,f", po::value<string>()->required(), "Path to FMU.")
+                ("fmu,", po::value<vector<string>>()->multitoken(), "Path to FMUs.")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
 
                 ("thrift/tcp,", po::value<unsigned int>(), "Specify the network port to be used by the Thrift (TCP/IP) server.")
@@ -145,7 +163,7 @@ int main(int argc, char** argv) {
             return COMMANDLINE_ERROR;
         }
 
-        const string fmu_path = vm["fmu"].as<string>();
+        const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
 
         auto ports = std::map<string, unsigned int>();
         const char* thrift_tcp = "thrift/tcp";
@@ -163,14 +181,13 @@ int main(int argc, char** argv) {
             ports[grpc] = vm[grpc].as<unsigned int>();
         }
 
-        shared_ptr<fmuproxy::RemoteAddress> remote = nullptr;
+        shared_ptr<RemoteAddress> remote = nullptr;
         if (vm.count("remote")) {
             string str = vm["remote"].as<string>();
-            auto parse = RemoteAddress::parse (str);
-            remote = shared_ptr<RemoteAddress>(&parse);
+            remote = make_shared<RemoteAddress>(RemoteAddress::parse (str));
         }
 
-        return run_application(fmu_path, ports, remote);
+        return run_application(fmu_paths, ports, remote);
 
     } catch(std::exception& e) {
         std::cerr << "Unhandled Exception reached the top of main: " << e.what() << ", application will now exit" << std::endl;
