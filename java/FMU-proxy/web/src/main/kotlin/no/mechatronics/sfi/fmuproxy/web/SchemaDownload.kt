@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.web.proto
+package no.mechatronics.sfi.fmuproxy.web
 
 import org.primefaces.model.DefaultStreamedContent
 import org.primefaces.model.StreamedContent
@@ -30,16 +30,18 @@ import javax.annotation.PostConstruct
 import javax.faces.bean.ManagedBean
 import javax.faces.context.FacesContext
 
+private const val ZIP_NAME = "fmu-proxy-schemas.zip"
+
 @ManagedBean
-class ProtoDownload {
+class SchemaDownload {
 
     var file: StreamedContent? = null
 
     @PostConstruct
     fun init() {
-        val name = "fmu-proxy-generic-proto.zip"
-        val stream = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/schemas/proto/$name")
-        file = DefaultStreamedContent(stream, "application/octet-stream", name)
+        file = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/schemas/$ZIP_NAME").use {
+           DefaultStreamedContent(it, "application/octet-stream", ZIP_NAME)
+        }
     }
 
 }

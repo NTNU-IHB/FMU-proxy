@@ -24,8 +24,8 @@
 
 package no.mechatronics.sfi.fmuproxy.heartbeat
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.gson.GsonBuilder
-import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -41,23 +41,22 @@ import java.util.*
 internal class Heartbeat(
         private val remote: SimpleSocketAddress,
         private val ports: Map<String, Int>,
-        private val modelDescriptionXml: List<String>
+        private val modelDescriptions: List<String>
 ): Closeable {
 
-    private var thread: Thread? = null
     private var stop: Boolean = false
-
     private var connected: Boolean = false
+    private var thread: Thread? = null
     private val uuid: String = UUID.randomUUID().toString()
 
     val jsonData: String by lazy {
-        val gson = GsonBuilder().create()
+        val mapper = jacksonObjectMapper()
         val map = mapOf(
                 "uuid" to uuid,
                 "ports" to ports,
-                "modelDescriptionXml" to modelDescriptionXml
+                "modelDescriptions" to modelDescriptions
         )
-        gson.toJson(map)
+        mapper.writeValueAsString(map)
     }
 
     private companion object {

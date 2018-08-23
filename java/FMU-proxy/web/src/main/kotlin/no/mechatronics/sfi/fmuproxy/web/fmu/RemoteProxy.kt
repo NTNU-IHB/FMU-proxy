@@ -40,7 +40,7 @@ import javax.faces.bean.ManagedBean
 class RemoteProxy(
         val uuid: String,
         private val ports: Map<String, Int>,
-        modelDescriptionXml: List<String>
+        modelDescriptions: List<String>
 ): Serializable {
 
     var host: String? = null
@@ -53,7 +53,7 @@ class RemoteProxy(
         }
 
     val fmus: List<RemoteFmu> by lazy {
-        modelDescriptionXml.map {
+        modelDescriptions.map {
             RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
         }
     }
