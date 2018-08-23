@@ -28,6 +28,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
 import java.io.Serializable
+import java.net.InetAddress
 import javax.faces.bean.ManagedBean
 
 /**
@@ -38,20 +39,27 @@ import javax.faces.bean.ManagedBean
 @ManagedBean
 class RemoteProxy(
         val uuid: String,
-        val ports: Map<String, Int>,
-        private val modelDescriptionXmls: List<String>
+        private val ports: Map<String, Int>,
+        modelDescriptionXml: List<String>
 ): Serializable {
 
-    lateinit var host: String
+    var host: String? = null
+        set(value) {
+            field = if (value != "127.0.0.1") {
+                value
+            } else {
+                InetAddress.getLocalHost().hostAddress
+            }
+        }
 
     val fmus: List<RemoteFmu> by lazy {
-        modelDescriptionXmls.map {
-            RemoteFmu(host, ports, ModelDescriptionParser.parse(it))
+        modelDescriptionXml.map {
+            RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
         }
     }
 
     override fun toString(): String {
-        return "RemoteFmu(uuid='$uuid', numFmus='${modelDescriptionXmls.size}', host=$host, ports=$ports)"
+        return "RemoteFmu(uuid='$uuid', numFmus='${fmus.size}', host=$host, ports=$ports)"
     }
 
 }

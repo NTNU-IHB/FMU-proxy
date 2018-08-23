@@ -45,12 +45,8 @@ class FmuProxy(
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
 
-    private var beat: Heartbeat? = null
     private var hasStarted = false
-
-    val ports = servers.keys.associate { server ->
-        server.simpleName to (servers[server] ?: server.port ?: -1)
-    }
+    private var beat: Heartbeat? = null
 
     /**
      * Start proxy
@@ -60,6 +56,9 @@ class FmuProxy(
             servers.forEach {
                 val (server, port) = it
                 if (port == null) server.start() else server.start(port)
+            }
+            val ports = servers.keys.associate { server ->
+                server.simpleName to (servers[server] ?: server.port ?: -1)
             }
             beat = remote?.let {
                 Heartbeat(remote, ports, fmus.map { it.modelDescriptionXml }).apply {
