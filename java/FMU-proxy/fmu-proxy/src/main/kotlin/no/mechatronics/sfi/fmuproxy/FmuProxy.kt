@@ -34,8 +34,6 @@ import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
-import java.net.InetAddress
-import java.net.UnknownHostException
 import java.util.*
 
 /**
@@ -43,31 +41,16 @@ import java.util.*
  */
 class FmuProxy(
         private val fmus: List<Fmu>,
-        private val remoteAddress: SimpleSocketAddress? = null,
+        private val remote: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
 
     private var beat: Heartbeat? = null
     private var hasStarted = false
 
-    private val hostAddress: String
-        get() {
-            return try {
-                InetAddress.getLocalHost().hostAddress
-            } catch (ex: UnknownHostException) {
-                "127.0.0.1"
-            }
-        }
-
-    val networkInfo: NetworkInfo
-        get() {
-            return NetworkInfo(
-                    host = hostAddress,
-                    ports = servers.keys.associate { server ->
-                        server.simpleName to (servers[server] ?: server.port ?: -1)
-                    }
-            )
-        }
+    val ports = servers.keys.associate { server ->
+        server.simpleName to (servers[server] ?: server.port ?: -1)
+    }
 
     /**
      * Start proxy
@@ -78,8 +61,8 @@ class FmuProxy(
                 val (server, port) = it
                 if (port == null) server.start() else server.start(port)
             }
-            beat = remoteAddress?.let {
-                Heartbeat(remoteAddress, networkInfo, fmus.map { it.modelDescriptionXml }).apply {
+            beat = remote?.let {
+                Heartbeat(remote, ports, fmus.map { it.modelDescriptionXml }).apply {
                     start()
                 }
             }

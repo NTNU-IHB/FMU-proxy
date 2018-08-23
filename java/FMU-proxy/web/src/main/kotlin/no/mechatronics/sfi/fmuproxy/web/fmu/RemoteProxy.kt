@@ -38,18 +38,20 @@ import javax.faces.bean.ManagedBean
 @ManagedBean
 class RemoteProxy(
         val uuid: String,
-        val networkInfo: NetworkInfo,
+        val ports: Map<String, Int>,
         private val modelDescriptionXmls: List<String>
 ): Serializable {
 
+    lateinit var host: String
+
     val fmus: List<RemoteFmu> by lazy {
         modelDescriptionXmls.map {
-            RemoteFmu(networkInfo, ModelDescriptionParser.parse(it))
+            RemoteFmu(host, ports, ModelDescriptionParser.parse(it))
         }
     }
 
     override fun toString(): String {
-        return "RemoteFmu(uuid='$uuid', numFmus='${modelDescriptionXmls.size}', networkInfo=$networkInfo)"
+        return "RemoteFmu(uuid='$uuid', numFmus='${modelDescriptionXmls.size}', host=$host, ports=$ports)"
     }
 
 }

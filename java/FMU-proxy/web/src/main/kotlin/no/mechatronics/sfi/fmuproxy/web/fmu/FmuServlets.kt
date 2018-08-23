@@ -59,7 +59,7 @@ class FmuService: Serializable {
 
     @PostConstruct
     fun setup() {
-        LOG.info("setup")
+        LOG.debug("setup")
         thread = Thread() {
             while (!stop && !Thread.currentThread().isInterrupted) {
                 FmuTimePair.purge(map)
@@ -76,7 +76,7 @@ class FmuService: Serializable {
         ServletContextListenerImpl.onDestroy {
             stop = true
             thread.interrupt()
-            LOG.info("destroy")
+            LOG.debug("destroy")
         }
 
     }
@@ -170,11 +170,13 @@ class RegisterFmuServlet: HttpServlet() {
 
         try {
 
-            val json = request.inputStream.reader().readText().trim()
-            val remoteFmu = Gson().fromJson(json, RemoteProxy::class.java)
-            FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu)
-
-            LOG.info("$remoteFmu connected!")
+            request.inputStream.reader().readText().trim().let {json ->
+                val remoteFmu = Gson().fromJson(json, RemoteProxy::class.java).apply {
+                    host = request.remoteHost
+                }
+                FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu)
+                LOG.info("$remoteFmu connected!")
+            }
 
             with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
@@ -201,6 +203,9 @@ class RegisterFmuServlet: HttpServlet() {
 
 }
 
+/**
+ * Used to determine if a remote FMU is alive or not
+ */
 class FmuTimePair(
         val remoteFmu: RemoteProxy
 ) {

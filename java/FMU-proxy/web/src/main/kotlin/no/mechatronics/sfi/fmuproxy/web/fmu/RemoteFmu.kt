@@ -33,7 +33,8 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
  * @author Lars Ivar Hatledal
  */
 class RemoteFmu(
-        val networkInfo: NetworkInfo,
+        val host: String,
+        val ports: Map<String, Int>,
         val modelDescription: CommonModelDescription
 ) {
 
@@ -52,6 +53,5 @@ class RemoteFmu(
     override fun toString(): String {
         return "RemoteFmu(guid=$guid, modelName=$modelName, description=$description)"
     }
-
 
 }

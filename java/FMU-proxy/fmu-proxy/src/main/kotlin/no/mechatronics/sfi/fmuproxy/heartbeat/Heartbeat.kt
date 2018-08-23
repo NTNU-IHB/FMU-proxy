@@ -39,8 +39,8 @@ import java.util.*
  * @author Lars Ivar Hatledal
  */
 internal class Heartbeat(
-        private val remoteAddress: SimpleSocketAddress,
-        private val networkInfo: NetworkInfo,
+        private val remote: SimpleSocketAddress,
+        private val ports: Map<String, Int>,
         private val modelDescriptionXml: List<String>
 ): Closeable {
 
@@ -54,7 +54,7 @@ internal class Heartbeat(
         val gson = GsonBuilder().create()
         val map = mapOf(
                 "uuid" to uuid,
-                "networkInfo" to networkInfo,
+                "ports" to ports,
                 "modelDescriptionXml" to modelDescriptionXml
         )
         gson.toJson(map)
@@ -72,7 +72,7 @@ internal class Heartbeat(
             }.apply {
                 start()
             }
-            LOG.info("Heartbeat started. Connecting to remote @${remoteAddress.host}:${remoteAddress.port}")
+            LOG.info("Heartbeat started. Connecting to remote @${remote.host}:${remote.port}")
         } else {
             LOG.warn("Heartbeat has already been started..")
         }
@@ -144,7 +144,7 @@ internal class Heartbeat(
 
         try {
 
-            val urlString = "${remoteAddress.urlString}/fmu-proxy/$ctx"
+            val urlString = "${remote.urlString}/fmu-proxy/$ctx"
             (URL(urlString).openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
                 doOutput = true
