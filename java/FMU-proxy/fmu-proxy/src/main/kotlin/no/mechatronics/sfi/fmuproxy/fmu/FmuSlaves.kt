@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2018. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,51 @@
  * THE SOFTWARE.
  */
 
+package no.mechatronics.sfi.fmuproxy.fmu
 
-package no.mechatronics.sfi.fmuproxy.web.fmu
-
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
+import no.mechatronics.sfi.fmi4j.common.FmuSlave
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
- * Represents a remote Fmu
  * @author Lars Ivar Hatledal
  */
-class RemoteFmu(
-        val host: String,
-        val ports: Map<String, Int>,
-        val modelDescription: CommonModelDescription
-) {
+object FmuSlaves {
 
-    val guid: String
-        get() = modelDescription.guid
+    private val LOG: Logger = LoggerFactory.getLogger(FmuSlaves::class.java)
 
-    val modelName: String
-        get() = modelDescription.modelName
+    private val slaves = mutableMapOf<String, FmuSlave>()
 
-    val description: String
-        get() = modelDescription.description ?: "-"
+    fun put(slave: FmuSlave): String {
+        return UUID.randomUUID().toString().also {
+            slaves[it] = slave
+        }
+    }
 
-    val modelVariables: List<TypedScalarVariable<*>>
-        get() = modelDescription.modelVariables.getVariables()
+    fun remove(instanceId: String): FmuSlave? {
+        return slaves.remove(instanceId).also {
+            if (it == null) {
+                LOG.warn("No slave with id: $instanceId")
+            }
+        }
+    }
 
-    override fun toString(): String {
-        return "RemoteFmu(guid=$guid, modelName=$modelName, description=$description)"
+    operator fun get(instanceId: String): FmuSlave? {
+        return slaves[instanceId].also {
+            if (it == null) {
+                LOG.warn("No slave with id: $instanceId")
+            }
+        }
+    }
+    
+    fun terminateAll() {
+        slaves.values.forEach {
+            if (!it.isTerminated) {
+                it.terminate()
+            }
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
@@ -32,14 +33,14 @@ class Benchmark {
 
         private val LOG: Logger = LoggerFactory.getLogger(Benchmark::class.java)
 
-        private const val dt = 1E-4
         private const val stop = 1.0
+        private const val stepSize = 1E-4
         private const val host = "localhost"
 
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+            "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
 
     @AfterAll
@@ -51,7 +52,7 @@ class Benchmark {
     fun measureTimeLocal() {
 
         fmu.asCoSimulationFmu().newInstance().use { instance ->
-            runInstance(instance, dt, stop) {
+            runInstance(instance, stepSize, stop) {
                 val read = instance.variableAccessor.readReal("Temperature_Room")
                 Assertions.assertTrue(read.value > 0)
             }.also {
@@ -66,9 +67,9 @@ class Benchmark {
 
         ThriftFmuSocketServer(fmu).use { server ->
             val port = server.start()
-            val client = ThriftFmuClient.socketClient(host, port)
+            val client = ThriftFmuClient.socketClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, dt, stop) {
+                runInstance(instance, stepSize, stop) {
                     val read = instance.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -85,9 +86,9 @@ class Benchmark {
 
         AvroFmuServer(fmu).use { server ->
             val port = server.start()
-            val client = AvroFmuClient(host, port)
+            val client = AvroFmuClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, dt, stop) {
+                runInstance(instance, stepSize, stop) {
                     val read = instance.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -104,9 +105,9 @@ class Benchmark {
 
         GrpcFmuServer(fmu).use { server ->
             val port = server.start()
-            val client = GrpcFmuClient(host, port)
+            val client = GrpcFmuClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, dt, stop) {
+                runInstance(instance, stepSize, stop) {
                     val read = instance.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -147,13 +148,13 @@ class Benchmark {
             if (!OS.LINUX.isCurrentOs) {
                 add(RpcHttpClient(host, httpPort))
             }
-        }.map { JsonRpcFmuClient(it) }
+        }.map { JsonRpcFmuClient(fmu.guid, it) }
 
         clients.forEach {
 
             it.use { client ->
                 client.newInstance().use { instance ->
-                    runInstance(instance, dt, stop) {
+                    runInstance(instance, stepSize, stop) {
                         val read = instance.readReal("Temperature_Room")
                         Assertions.assertTrue(read.value > 0)
                     }.also {

@@ -1,7 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.avro
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.jupiter.api.AfterAll
@@ -20,10 +20,10 @@ class TestAvroTemperature {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+            "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
     private val server: AvroFmuServer = AvroFmuServer(fmu)
-    private val client: AvroFmuClient = AvroFmuClient("localhost", server.start())
+    private val client: AvroFmuClient = AvroFmuClient(fmu.guid,"localhost", server.start())
 
     @AfterAll
     fun tearDown() {
@@ -52,9 +52,9 @@ class TestAvroTemperature {
             val temp = client.modelDescription.modelVariables
                     .getByName("Temperature_Room").asRealVariable()
 
-            val dt = 1E-4
             val stop = 2.0
-            runInstance(instance, dt, stop) {
+            val stepSize = 1E-4
+            runInstance(instance, stepSize, stop) {
                 temp.read()
             }.also {
                 LOG.info("Duration=${it}ms")

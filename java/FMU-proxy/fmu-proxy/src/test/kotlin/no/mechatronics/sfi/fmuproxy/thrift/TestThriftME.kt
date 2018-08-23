@@ -29,7 +29,7 @@ class TestThriftME {
             "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
     private val modelDescription: CommonModelDescription = fmu.modelDescription
     private val server: ThriftFmuSocketServer = ThriftFmuSocketServer(fmu)
-    private val client: ThriftFmuClient = ThriftFmuClient.socketClient("127.0.0.1", server.start())
+    private val client: ThriftFmuClient = ThriftFmuClient.socketClient(fmu.guid, "127.0.0.1", server.start())
 
     @AfterAll
     fun tearDown() {
@@ -57,13 +57,13 @@ class TestThriftME {
             addProperty("step_size", modelDescription.defaultExperiment?.stepSize ?: 1E-3)
         }
 
-        client.newInstance(solver).use { instance ->
+        client.newInstance(solver).use { slave ->
 
-            instance.init()
-            Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
+            slave.init()
+            Assertions.assertEquals(FmiStatus.OK, slave.lastStatus)
 
             val variableName = "x0"
-            val variable = instance.getVariableByName(variableName).asRealVariable()
+            val variable = slave.getVariableByName(variableName).asRealVariable()
 
             variable.read().also {
                 LOG.info("$variableName=${it.value}")
@@ -72,8 +72,8 @@ class TestThriftME {
 
             val stop = 2.0
             val stepSize = 1E-2
-            while (instance.currentTime < stop) {
-                val step = instance.doStep(stepSize)
+            while (slave.simulationTime < stop) {
+                val step = slave.doStep(stepSize)
                 Assertions.assertTrue(step)
 
                 LOG.info("$variableName=${variable.read()}")

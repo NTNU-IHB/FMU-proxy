@@ -36,8 +36,9 @@ import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
 
 class ThriftFmuClient(
+        fmuId: String,
         private val protocol: TProtocol
-): AbstractRpcFmuClient() {
+): AbstractRpcFmuClient(fmuId) {
 
     private val client = FmuService.Client(protocol)
 
@@ -50,45 +51,37 @@ class ThriftFmuClient(
     }
 
     override val modelDescription: CommonModelDescription by lazy {
-        client.modelDescription.convert()
+        client.getModelDescription(fmuId).convert()
     }
 
     override val modelDescriptionXml: String by lazy {
-        client.modelDescriptionXml
+        client.getModelDescriptionXml(fmuId)
     }
-
-    override fun getSimulationTime(instanceId: Int): Double {
-        return client.getSimulationTime(instanceId)
-    }
-
-    override fun isTerminated(instanceId: Int): Boolean {
-        return client.isTerminated(instanceId)
-    }
-
-    override fun init(instanceId: Int, start: Double, stop: Double): FmiStatus {
+    
+    override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
         return client.init(instanceId, start, stop).convert()
     }
 
-    override fun terminate(instanceId: Int): FmiStatus {
+    override fun terminate(instanceId: String): FmiStatus {
         return client.terminate(instanceId).convert()
     }
 
-    override fun step(instanceId: Int, stepSize: Double): Pair<Double, FmiStatus> {
+    override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
         return client.step(instanceId, stepSize).let {
             it.simulationTime to it.status.convert()
         }
     }
 
-    override fun reset(instanceId: Int): FmiStatus {
+    override fun reset(instanceId: String): FmiStatus {
         return client.reset(instanceId).convert()
     }
 
-    override fun createInstanceFromCS(): Int {
-        return client.createInstanceFromCS()
+    override fun createInstanceFromCS(): String {
+        return client.createInstanceFromCS(fmuId)
     }
 
-    override fun createInstanceFromME(solver: Solver): Int {
-        return client.createInstanceFromME(solver.thriftType())
+    override fun createInstanceFromME(solver: Solver): String {
+        return client.createInstanceFromME(fmuId, solver.thriftType())
     }
 
     override fun close() {
@@ -96,47 +89,49 @@ class ThriftFmuClient(
         protocol.transport.close()
     }
 
-    override fun readInteger(instanceId: Int, vr: List<ValueReference>): FmuIntegerArrayRead {
+    override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
         return client.readInteger(instanceId, vr).convert()
     }
 
-    override fun readReal(instanceId: Int, vr: List<ValueReference>): FmuRealArrayRead {
+    override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
         return client.readReal(instanceId, vr).convert()
     }
 
-    override fun readString(instanceId: Int, vr: List<ValueReference>): FmuStringArrayRead {
+    override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
         return client.readString(instanceId, vr).convert()
     }
 
-    override fun readBoolean(instanceId: Int, vr: List<ValueReference>): FmuBooleanArrayRead {
+    override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
         return client.readBoolean(instanceId, vr).convert()
     }
 
-    override fun writeInteger(instanceId: Int, vr: List<ValueReference>, value: List<Int>): FmiStatus {
+    override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
         return client.writeInteger(instanceId, vr, value).convert()
     }
 
-    override fun writeReal(instanceId: Int, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
         return client.writeReal(instanceId, vr, value).convert()
     }
 
-    override fun writeString(instanceId: Int, vr: List<ValueReference>, value: List<String>): FmiStatus {
+    override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
         return client.writeString(instanceId, vr, value).convert()
     }
 
-    override fun writeBoolean(instanceId: Int, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+    override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return client.writeBoolean(instanceId, vr, value).convert()
     }
 
     companion object {
 
-        fun socketClient(host: String, port: Int): ThriftFmuClient {
-            return ThriftFmuClient(TBinaryProtocol(TSocket(host, port)))
+        fun socketClient(fmuId: String, host: String, port: Int): ThriftFmuClient {
+            val protocol = TBinaryProtocol(TSocket(host, port))
+            return ThriftFmuClient(fmuId, protocol)
         }
 
-        fun servletClient(host: String, port: Int): ThriftFmuClient {
+        fun servletClient(fmuId: String, host: String, port: Int): ThriftFmuClient {
             val client = HttpClientBuilder.create().build()
-            return ThriftFmuClient(TJSONProtocol(THttpClient("http://$host:$port/thrift", client)))
+            val protocol = TJSONProtocol(THttpClient("http://$host:$port/thrift", client))
+            return ThriftFmuClient(fmuId, protocol)
         }
 
     }

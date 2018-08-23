@@ -31,28 +31,25 @@ using grpc::ServerBuilder;
 using namespace std;
 using namespace fmuproxy::grpc::server;
 
-GrpcServer::GrpcServer(fmuproxy::fmi::Fmu &fmu, const unsigned int port)
-        : m_port(port) {
-
-    m_service = make_shared<FmuServiceImpl>(fmu);
-}
+GrpcServer::GrpcServer(map<string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus, const unsigned int port)
+        : port_(port), service_(make_shared<FmuServiceImpl>(fmus)) {}
 
 void GrpcServer::wait() {
-    m_server->Wait();
+    server_->Wait();
 }
 
 void GrpcServer::start() {
 
-    cout << "gRPC server listening to connections on port: " << m_port << endl;
+    cout << "gRPC server listening to connections on port: " << port_ << endl;
     ServerBuilder builder;
-    builder.AddListeningPort("localhost:" + to_string(m_port), ::grpc::InsecureServerCredentials());
-    builder.RegisterService(m_service.get());
-    m_server = move(builder.BuildAndStart());
-    m_thread = make_unique<thread>(&GrpcServer::wait, this);
+    builder.AddListeningPort("localhost:" + to_string(port_), ::grpc::InsecureServerCredentials());
+    builder.RegisterService(service_.get());
+    server_ = move(builder.BuildAndStart());
+    thread_ = make_unique<thread>(&GrpcServer::wait, this);
 }
 
 void GrpcServer::stop() {
-    m_server->Shutdown();
-    m_thread->join();
+    server_->Shutdown();
+    thread_->join();
     cout << "gRPC server stopped.." << endl;
 }

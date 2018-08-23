@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017-2018 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,61 +22,44 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.fmu
+package no.mechatronics.sfi.fmuproxy.web.fmu
 
-
-import no.mechatronics.sfi.fmi4j.common.FmiSimulation
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import java.util.concurrent.atomic.AtomicInteger
+import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
+import java.io.Serializable
+import java.net.InetAddress
+import javax.faces.bean.ManagedBean
 
 /**
+ * Represents a remote FMU-proxy
+ *
  * @author Lars Ivar Hatledal
  */
-object Fmus {
+@ManagedBean
+class RemoteProxy(
+        val uuid: String,
+        private val ports: Map<String, Int>,
+        modelDescriptions: List<String>
+): Serializable {
 
-    private val LOG: Logger = LoggerFactory.getLogger(Fmus::class.java)
-
-    private val idGen = AtomicInteger(0)
-    private val fmus = mutableMapOf<Int, FmiSimulation>()
-
-    init {
-        Runtime.getRuntime().addShutdownHook(Thread {
-            terminateAll()
-        })
-    }
-
-    fun put(fmu: FmiSimulation): Int {
-        return idGen.incrementAndGet().also {
-            fmus[it] = fmu
-        }
-    }
-
-    fun remove(id: Int): FmiSimulation? {
-        return fmus.remove(id).also {
-            if (it == null) {
-                LOG.warn("No fmu with id: $id")
+    var host: String? = null
+        set(value) {
+            field = if (value != "127.0.0.1") {
+                value
+            } else {
+                InetAddress.getLocalHost().hostAddress
             }
         }
-    }
 
-    fun get(id: Int): FmiSimulation? {
-        return fmus[id].also {
-            if (it == null) {
-                LOG.warn("No fmu with id: $id")
-            }
+    val fmus: List<RemoteFmu> by lazy {
+        modelDescriptions.map {
+            RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
         }
     }
 
-
-    fun terminateAll() {
-        fmus.values.forEach {
-            if (!it.isTerminated) {
-                it.terminate()
-            }
-        }
+    override fun toString(): String {
+        return "RemoteFmu(uuid='$uuid', numFmus='${fmus.size}', host=$host, ports=$ports)"
     }
-
-
 
 }

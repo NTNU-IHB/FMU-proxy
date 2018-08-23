@@ -30,23 +30,129 @@ option java_package = "no.mechatronics.sfi.fmuproxy.grpc";
 
 import "definitions.proto";
 
+message FmuId {
+    string value = 1;
+}
+
+message InstanceId {
+    string value = 1;
+}
+
+message ModelDescriptionXml {
+    string xml = 1;
+}
+
+message StatusResponse {
+    Status status = 1;
+}
+
+message StepResponse {
+    Status status = 1;
+    double simulation_time = 2;
+}
+
+message CreateInstanceFromCSRequest {
+    string fmu_id = 1;
+}
+
+message CreateInstanceFromMERequest {
+    string fmu_id = 1;
+    Solver solver = 2;
+}
+
+message GetModelDescriptionRequest {
+    string fmu_id = 1;
+}
+
+message GetModelDescriptionXmlRequest {
+    string fmu_id = 1;
+}
+
+message InitRequest {
+    string instance_id = 1;
+    double start = 2;
+    double stop = 3;
+}
+
+message StepRequest {
+    string instance_id = 1;
+    double step_size = 2;
+}
+
+message ResetRequest {
+    string instance_id = 1;
+}
+
+message TerminateRequest {
+    string instance_id = 1;
+}
+
+message ReadRequest {
+    string instance_id = 1;
+    repeated uint32 value_references = 2;
+}
+
+message WriteIntegerRequest {
+    string instance_id = 1;
+    repeated uint32 value_references = 2;
+    repeated int32 values =3;
+}
+
+message WriteRealRequest {
+    string instance_id = 1;
+    repeated uint32 value_references = 2;
+    repeated double values = 3;
+}
+
+message WriteStringRequest {
+    string instance_id = 1;
+    repeated uint32 value_references = 2;
+    repeated string values = 3;
+}
+
+message WriteBooleanRequest {
+    string instance_id = 1;
+    repeated uint32 value_references = 2;
+    repeated bool values = 3;
+}
+
+message IntegerRead {
+    repeated int32 values = 1;
+    Status status = 2;
+}
+
+message RealRead {
+    repeated double values = 1;
+    Status status = 2;
+}
+
+message StringRead {
+    repeated string values = 1;
+    Status status = 2;
+}
+
+message BooleanRead {
+    repeated bool values = 1;
+    Status status = 2;
+}
+
+message Solver {
+    string name = 1;
+    string settings = 2;
+}
+
 service FmuService {
 
-    rpc GetModelDescriptionXml(Void) returns (Str);
-    rpc GetModelDescription(Void) returns (ModelDescription);
+    rpc GetModelDescription(GetModelDescriptionRequest) returns (ModelDescription);
+    rpc GetModelDescriptionXml(GetModelDescriptionXmlRequest) returns (ModelDescriptionXml);
 
-    rpc CreateInstanceFromCS (Void) returns (UInt);
-    rpc CreateInstanceFromME (Solver) returns (UInt);
-
-    //instance methods
-
-    rpc GetSimulationTime (UInt) returns (Real);
-    rpc IsTerminated (UInt) returns (Bool);
+    rpc CreateInstanceFromCS (CreateInstanceFromCSRequest) returns (InstanceId);
+    rpc CreateInstanceFromME (CreateInstanceFromMERequest) returns (InstanceId);
 
     rpc Init (InitRequest) returns (StatusResponse);
-    rpc Step (StepRequest) returns (StepResult);
-    rpc Terminate (UInt) returns (StatusResponse);
-    rpc Reset(UInt) returns (StatusResponse);
+    rpc Step (StepRequest) returns (StepResponse);
+    rpc Reset(ResetRequest) returns (StatusResponse);
+    rpc Terminate (TerminateRequest) returns (StatusResponse);
 
     rpc ReadInteger (ReadRequest) returns (IntegerRead);
     rpc ReadReal (ReadRequest) returns (RealRead);

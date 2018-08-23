@@ -22,6 +22,10 @@
  * THE SOFTWARE.
  */
 
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
+
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
 
@@ -31,72 +35,65 @@ using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift::server;
 
-FmuServiceHandler::FmuServiceHandler(fmi::Fmu &fmu): fmu(fmu) {}
+FmuServiceHandler::FmuServiceHandler(map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus): fmus_(fmus) {}
 
-void FmuServiceHandler::getModelDescriptionXml(std::string &_return) {
-    _return = fmu.get_model_description_xml();
+void FmuServiceHandler::getModelDescriptionXml(std::string &_return, const FmuId &id) {
+     const auto &fmu = fmus_.at(id);
+    _return = fmu->getModelDescriptionXml();
 }
 
-void FmuServiceHandler::getModelDescription(ModelDescription &_return) {
-    thriftType(_return, fmu.get_model_description());
+void FmuServiceHandler::getModelDescription(ModelDescription &_return, const FmuId &id) {
+    const auto &fmu = fmus_.at(id);
+    thriftType(_return, fmu->getModelDescription());
 }
 
-InstanceId FmuServiceHandler::createInstanceFromCS() {
-    InstanceId my_id = ID_GEN++;
-    instances[my_id] = fmu.new_instance();
-    cout << "Created new FMU instance with id=" << my_id << endl;
-    return my_id;
+void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &id) {
+    auto &fmu = fmus_.at(id);
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    _return = boost::uuids::to_string(uuid);
+    slaves_[_return] = fmu->newInstance();
+    cout << "Created new FMU instance with id=" << _return << endl;
 }
 
-InstanceId FmuServiceHandler::createInstanceFromME(const Solver &solver) {
-    return 0;
+void FmuServiceHandler::createInstanceFromME(InstanceId &_return, const FmuId &id, const Solver &solver) {
+    throw UnsupportedOperationException();
 }
 
-double FmuServiceHandler::getSimulationTime(const InstanceId instance_id) {
-    auto& instance = instances[instance_id];
-    return instance->getSimulationTime();
-}
-
-bool FmuServiceHandler::isTerminated(const InstanceId instance_id) {
-    auto& instance = instances[instance_id];
-    return instance->isTerminated();
-}
-
-Status::type FmuServiceHandler::init(const InstanceId instance_id, const double start, const double stop) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::init(const InstanceId &instance_id, const double start, const double stop) {
+    auto& instance = slaves_[instance_id];
     instance->init(start, stop);
     return ::Status::OK_STATUS;
 }
 
-void FmuServiceHandler::step(StepResult &_return, const InstanceId instance_id, const double step_size) {
-    auto& instance = instances[instance_id];
+void FmuServiceHandler::step(StepResult &_return, const InstanceId &instance_id, const double step_size) {
+    auto& instance = slaves_[instance_id];
     fmi2_status_t status = instance->step(step_size);
     _return.simulationTime = instance->getSimulationTime();
     _return.status = thriftType(status);
 }
 
-Status::type FmuServiceHandler::terminate(const InstanceId instance_id) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::terminate(const InstanceId &instance_id) {
+    auto& instance = slaves_[instance_id];
     Status::type status = thriftType(instance->terminate());
-    instances.erase(instance_id);
+    slaves_.erase(instance_id);
     return status;
 }
 
-Status::type FmuServiceHandler::reset(const InstanceId instance_id) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::reset(const InstanceId &instance_id) {
+    auto& instance = slaves_[instance_id];
     return thriftType(instance->reset());
 }
 
-void FmuServiceHandler::readInteger(IntegerRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
-    auto& instance = instances[instance_id];
+void FmuServiceHandler::readInteger(IntegerRead &_return, const InstanceId &instance_id, const ValueReferences &vr) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_integer_t >(vr.size());
     _return.status = thriftType(instance->readInteger(_vr, _value));
     _return.value = _value;
 }
 
-void FmuServiceHandler::readReal(RealRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
-    auto& instance = instances[instance_id];
+void FmuServiceHandler::readReal(RealRead &_return, const InstanceId &instance_id, const ValueReferences &vr) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_real_t >(vr.size());
     _return.status = thriftType(instance->readReal(_vr, _value));
@@ -104,47 +101,47 @@ void FmuServiceHandler::readReal(RealRead &_return, const InstanceId instance_id
 }
 
 
-void FmuServiceHandler::readString(StringRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
-    auto& instance = instances[instance_id];
+void FmuServiceHandler::readString(StringRead &_return, const InstanceId &instance_id, const ValueReferences &vr) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_string_t>(vr.size());
     _return.status = thriftType(instance->readString(_vr, _value));
     _return.value = vector<string>(_value.begin(), _value.end());
 }
 
-void FmuServiceHandler::readBoolean(BooleanRead &_return, const InstanceId instance_id, const ValueReferences &vr) {
-    auto& instance = instances[instance_id];
+void FmuServiceHandler::readBoolean(BooleanRead &_return, const InstanceId &instance_id, const ValueReferences &vr) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     auto _value = vector<fmi2_boolean_t >(vr.size());
     _return.status = thriftType(instance->readBoolean(_vr, _value));
     _return.value = vector<bool>(_value.begin(), _value.end());
 }
 
-Status::type FmuServiceHandler::writeInteger(const InstanceId instance_id, const ValueReferences &vr, const IntArray &value) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::writeInteger(const InstanceId &instance_id, const ValueReferences &vr, const IntArray &value) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     const auto status = instance->writeInteger(_vr, value);
     return thriftType(status);
 }
 
 
-Status::type FmuServiceHandler::writeReal(const InstanceId instance_id, const ValueReferences &vr, const RealArray &value) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::writeReal(const InstanceId &instance_id, const ValueReferences &vr, const RealArray &value) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     const auto status = instance->writeReal(_vr, value);
     return thriftType(status);
 }
 
 
-Status::type FmuServiceHandler::writeString(const InstanceId instance_id, const ValueReferences &vr, const StringArray &value) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::writeString(const InstanceId &instance_id, const ValueReferences &vr, const StringArray &value) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     return Status::type::DISCARD_STATUS;
 }
 
 
-Status::type FmuServiceHandler::writeBoolean(const InstanceId instance_id, const ValueReferences &vr, const BooleanArray &value) {
-    auto& instance = instances[instance_id];
+Status::type FmuServiceHandler::writeBoolean(const InstanceId &instance_id, const ValueReferences &vr, const BooleanArray &value) {
+    auto& instance = slaves_[instance_id];
     const auto _vr = vector<fmi2_value_reference_t>(vr.begin(), vr.end());
     return Status::type::DISCARD_STATUS;
 }

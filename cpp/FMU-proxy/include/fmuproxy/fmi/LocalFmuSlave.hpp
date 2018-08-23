@@ -22,38 +22,34 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_REMOTEFMUINSTANCE_HPP
-#define FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#ifndef FMU_PROXY_FMUINSTANCE_HPP
+#define FMU_PROXY_FMUINSTANCE_HPP
 
+#include <iostream>
 #include <fmilib.h>
-#include "../common/service.grpc.pb.h"
-#include "../../fmi/FmuInstance.hpp"
+#include "FmuSlave.hpp"
 
-namespace fmuproxy { namespace  grpc { namespace  client {
+namespace fmuproxy::fmi {
 
-    class RemoteFmuInstance: public fmuproxy::fmi::FmiSimulation {
+    class LocalFmuSlave: public FmuSlave {
 
     private:
 
-        unsigned int instance_id;
-        double simulation_time = 0;
-        fmuproxy::grpc::FmuService::Stub &stub;
-        fmuproxy::fmi::ModelDescription &modelDescription;
+        fmi2_import_t *instance_;
 
     public:
-        RemoteFmuInstance(unsigned int instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription);
 
-        double getSimulationTime() const override;
-
-        fmuproxy::fmi::ModelDescription &getModelDescription() const override;
+        LocalFmuSlave(fmi2_import_t* instance, ModelDescription &md);
 
         void init(double start = 0, double stop = 0) override;
 
         fmi2_status_t step(double step_size) override;
 
-        fmi2_status_t terminate() override;
+        fmi2_status_t cancelStep() override;
 
         fmi2_status_t reset() override;
+
+        fmi2_status_t terminate() override;
 
         fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) override;
         fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) override;
@@ -78,9 +74,12 @@ namespace fmuproxy { namespace  grpc { namespace  client {
 
         fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
+        
+
+        ~LocalFmuSlave();
 
     };
 
-}}}
+}
 
-#endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#endif //FMU_PROXY_FMUINSTANCE_HPP

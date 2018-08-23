@@ -1,6 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.apache.thrift.transport.TTransportException
 import org.junit.jupiter.api.Assertions
@@ -17,18 +18,18 @@ class BenchmarkControlledTemperature {
 
         private val LOG: Logger = LoggerFactory.getLogger(BenchmarkControlledTemperature::class.java)
 
-        private const val dt = 1E-4
         private const val stop = 1.0
+        private const val stepSize = 1E-4
 
     }
 
-    private fun runInstance(instance: ThriftTestClient.FmuInstance,
-                            dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
+    private fun runInstance(slave: ThriftTestClient.FmuInstance,
+                            stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
-        instance.init()
+        slave.init()
         return measureTimeMillis {
-            while (instance.currentTime < stop) {
-                val status = instance.doStep(dt)
+            while (slave.simulationTime < stop) {
+                val status = slave.doStep(stepSize)
                 Assertions.assertTrue(status)
                 callback()
             }
@@ -41,17 +42,17 @@ class BenchmarkControlledTemperature {
     fun benchmark() {
 
        Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/${TestUtils.getOs()}" +
+                "FMI_2.0/CoSimulation/$currentOS" +
                         "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
            ThriftFmuSocketServer(fmu).use { server ->
                val port = server.start()
                for (i in 0..2) {
-                   ThriftTestClient("localhost", port).use { client ->
+                   ThriftTestClient(fmu.guid,"localhost", port).use { client ->
 
-                       client.newInstance().use { instance ->
-                           runInstance(instance, dt, stop) {
-                               val read = instance.readReal(listOf(46))
+                       client.newInstance().use { slave ->
+                           runInstance(slave, stepSize, stop) {
+                               val read = slave.readReal(listOf(46))
                                Assertions.assertTrue(read.value[0] > 0)
                            }.also {
                                LOG.info("Thrift duration=${it}ms")
@@ -69,12 +70,16 @@ class BenchmarkControlledTemperature {
     @Test
     fun benchmarkRemote() {
 
+        val port = 9090
+        val host = "localhost"
+        val guid = "{06c2700b-b39c-4895-9151-304ddde28443}" //20Sim ControlledTemperature FMU
+
         for (i in 0..2) {
             try {
 
-               ThriftTestClient("localhost", 9090).use { client ->
+               ThriftTestClient(guid, host, port).use { client ->
                    client.newInstance().use { instance ->
-                       runInstance(instance, dt, stop) {
+                       runInstance(instance, stepSize, stop) {
                            val read = instance.readReal(listOf(46))
                            Assertions.assertTrue(read.value[0] > 0)
                        }.also {

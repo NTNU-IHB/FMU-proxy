@@ -32,43 +32,43 @@ namespace fs = boost::filesystem;
 
 Fmu::Fmu (const string &fmu_path) {
 
-    this->tmp_path = fs::temp_directory_path() /= fs::path(fmu_path).stem();
-    create_directories(tmp_path);
+    this->tmp_path_ = fs::temp_directory_path() /= fs::path(fmu_path).stem();
+    create_directories(tmp_path_);
 
-    this->callbacks = create_callbacks(jm_log_level_nothing);
+    this->callbacks_ = create_callbacks(jm_log_level_nothing);
 
-    this->ctx = fmi_import_allocate_context(&callbacks);
-    this->version = fmi_import_get_fmi_version(ctx, fmu_path.c_str(), tmp_path.string().c_str());
+    this->ctx_ = fmi_import_allocate_context(&callbacks_);
+    this->version_ = fmi_import_get_fmi_version(ctx_, fmu_path.c_str(), tmp_path_.string().c_str());
 
-    this->xml = load_model_description(tmp_path.string(), ctx);
+    this->xml_ = load_model_description(tmp_path_.string(), ctx_);
 
-    this->modelDescription = std::make_shared<ModelDescription>();
-    populate_model_description(version, xml, *modelDescription);
+    this->modelDescription_ = make_shared<ModelDescription>();
+    populate_model_description(version_, xml_, *modelDescription_);
 
-    std::ifstream t(tmp_path.string() + "/modelDescription.xml");
-    model_description_xml = string((istreambuf_iterator<char>(t)),
+    ifstream t(tmp_path_.string() + "/modelDescription.xml");
+    this->model_description_xml_ = string((istreambuf_iterator<char>(t)),
                     istreambuf_iterator<char>());
 
 }
 
-const ModelDescription &Fmu::get_model_description() const {
-    return *modelDescription;
+const ModelDescription &Fmu::getModelDescription() const {
+    return *modelDescription_;
 }
 
-const std::string &Fmu::get_model_description_xml() {
-    return model_description_xml;
+const string &Fmu::getModelDescriptionXml() const {
+    return model_description_xml_;
 }
 
-unique_ptr<FmuInstance> Fmu::new_instance() {
+unique_ptr<LocalFmuSlave> Fmu::newInstance() {
 
     fmi2_callback_functions_t callBackFunctions;
     callBackFunctions.logger = fmi2_log_forwarding;
-    callBackFunctions.allocateMemory = std::calloc;
-    callBackFunctions.freeMemory = std::free;
+    callBackFunctions.allocateMemory = calloc;
+    callBackFunctions.freeMemory = free;
     callBackFunctions.componentEnvironment = nullptr;
 
-    const char* model_identifier = fmi2_import_get_model_identifier_CS(xml);
-    fmi2_import_t *fmu = load_model_description(tmp_path.string(), ctx);
+    const char* model_identifier = fmi2_import_get_model_identifier_CS(xml_);
+    fmi2_import_t* fmu = load_model_description(tmp_path_.string(), ctx_);
 
     jm_status_enu_t status = fmi2_import_create_dllfmu(fmu, fmi2_fmu_kind_cs, &callBackFunctions);
     if (status == jm_status_error) {
@@ -82,7 +82,7 @@ unique_ptr<FmuInstance> Fmu::new_instance() {
         throw runtime_error("fmi2_import_instantiate failed!");
     }
 
-    return make_unique<FmuInstance>(fmu, *modelDescription);
+    return make_unique<LocalFmuSlave>(fmu, *modelDescription_);
 
 }
 
@@ -90,8 +90,8 @@ Fmu::~Fmu() {
 
     cout << "Fmu destructor called" << endl;
 
-    fmi2_import_free(xml);
-    fmi_import_free_context(this->ctx);
-    remove_all(this->tmp_path);
+    fmi2_import_free(xml_);
+    fmi_import_free_context(this->ctx_);
+    remove_all(this->tmp_path_);
 
 }

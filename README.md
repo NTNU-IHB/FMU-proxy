@@ -57,23 +57,30 @@ The interface is specified by FMI4j, allowing local and remote FMU instances to 
 #### FMU-proxy executable
 
 ```
-Usage: fmu-proxy [-h] -fmu=<fmuPath> 
-                 [-avro=<avroPort>] [-grpc=<grpcPort>]
+Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
                  [-jsonrpc/http=<jsonHttpPort>] [-jsonrpc/tcp=<jsonTcpPort>]
                  [-jsonrpc/ws=<jsonWsPort>] [-jsonrpc/zmq=<jsonZmqPort>]
                  [-r=<remote>] [-thrift/http=<thriftHttpPort>]
-		 [-thrift/tcp=<thriftTcpPort>]
-  -h, --help                        Print this message and quits.
-  -f, --fmu=<fmuPath>               Path to the fmu.
-  -r, --remote=<remote>             Specify an address for the remote tracking server (optional).
-      -avro=<avroPort>              Manually specify the Avro port (optional).
-      -grpc=<grpcPort>              Manually specify the gRPC port (optional).
-      -thrift/tcp=<thriftTcpPort>   Manually specify the Thrift TCP port (optional).
-      -thrift/http=<thriftHttpPort> Manually specify the Thrift HTTP port (optional).
-      -jsonrpc/http=<jsonHttpPort>  Manually specify the JSON-RPC HTTP port(optional).
-      -jsonrpc/tcp=<jsonTcpPort>    Manually specify the JSON-RPC TCP/IP port (optional).
-      -jsonrpc/ws=<jsonWsPort>      Manually specify the JSON-RPC WS port (optional).
-      -jsonrpc/zmq=<jsonZmqPort>    Manually specify the JSON-RPC ZMQ port (optional).
+                 [-thrift/tcp=<thriftTcpPort>] FMUs...
+      FMUs...             FMU(s) to include.
+      -avro=<avroPort>    Manually specify the Avro port (optional).
+      -grpc=<grpcPort>    Manually specify the gRPC port (optional).
+  -h, --help              Print this message and quits.
+      -jsonrpc/http=<jsonHttpPort>
+                          Manually specify the JSON-RPC HTTP port (optional).
+      -jsonrpc/tcp=<jsonTcpPort>
+                          Manually specify the JSON-RPC TCP/IP port (optional).
+      -jsonrpc/ws=<jsonWsPort>
+                          Manually specify the JSON-RPC WS port (optional).
+      -jsonrpc/zmq=<jsonZmqPort>
+                          Manually specify the JSON-RPC ZMQ port (optional).
+  -r, --remote=<remote>   Specify an address for the remoteAddress tracking server
+                            (optional).
+      -thrift/http=<thriftHttpPort>
+                          Manually specify the Thrift http port (optional).
+      -thrift/tcp=<thriftTcpPort>
+                          Manually specify the Thrift tcp port (optional).
+
 ```
 
 You can now connect to the FMU in a language of your choosing using one of the schemas available from the web server or located [here](rpc-definitions). 
@@ -97,12 +104,14 @@ See [BUILDING.md](cpp/FMU-proxy/BUILDING.md) for notes on how to build the proje
 ```
 FMU-proxy
 Options:
-  -h [ --help ]            Print this help message and quits.
-  -f [ --fmu ] arg         Path to FMU
-  -r [ --remote ] arg      IP address of the remote tracking server
-  - [ --grpc ] arg   Specify the network port to be used by the gRPC server
-  - [ --thrift/tcp ] arg Specify the network port to be used by the Thrift (TCP/IP) server
-  - [ --thrift/http ] arg Specify the network port to be used by the Thrift (HTTP) server
+  -h [ --help ]         Print this help message and quits.
+  --fmu arg             Path to FMUs.
+  -r [ --remote ] arg   IP address of the remote tracking server.
+  --thrift/tcp arg      Specify the network port to be used by the Thrift 
+                        (TCP/IP) server.
+  --thrift/http arg     Specify the network port to be used by the Thrift 
+                        (HTTP) server.
+  --grpc/http2 arg      Specify the network port to be used by the gRPC server.
 ```
 
 ### <a name="python"></a> Python

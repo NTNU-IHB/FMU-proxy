@@ -4,12 +4,12 @@
 
         <meta charset="utf-8">
         <title>Thrift Javascript test</title>
-        <link rel="stylesheet" href="style.css">
 
         <script src="js/thrift.js"></script>
         <script src="js/FmuService.js"></script>
+        <script src="js/service_types.js"></script>
         <script src="js/definitions_types.js"></script>
-
+        
     </head>
     <body>
     
@@ -24,12 +24,14 @@
                 var protocol  = new Thrift.TJSONProtocol(transport)
                 var client    = new FmuServiceClient(protocol)
 
-                console.log(client.getModelDescriptionXml())
+                var fmu_id = "{06c2700b-b39c-4895-9151-304ddde28443}"
+                console.log(client.getModelDescriptionXml(fmu_id))
 
-                var instance_id = client.createInstanceFromCS()
-                client.init(instance_id, 0, 0)
+                var instance_id = client.createInstanceFromCS(fmu_id)
+                
+                var t = 0.0
+                client.init(instance_id, t)
 
-                var t = client.getSimulationTime(instance_id)
                 var t0 = performance.now()
 
                 var stop = 5.0

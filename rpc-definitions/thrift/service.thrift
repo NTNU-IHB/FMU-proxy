@@ -27,7 +27,8 @@ include "definitions.thrift"
 namespace cpp fmuproxy.thrift
 namespace java no.mechatronics.sfi.fmuproxy.thrift
 
-typedef i32 InstanceId
+typedef string FmuId
+typedef string InstanceId
 typedef i32 ValueReference
 typedef list<i32> ValueReferences
 typedef list<i32> IntArray
@@ -35,30 +36,43 @@ typedef list<double> RealArray
 typedef list<string> StringArray
 typedef list<bool> BooleanArray
 
+exception NoSuchFmuException {
+    1: string message
+}
+
+exception NoSuchInstanceException {
+    1: string message
+}
+
+exception NoSuchVariableException {
+    1: string message
+}
+
+exception UnsupportedOperationException {
+    1: string message
+}
+
 service FmuService {
 
-    string getModelDescriptionXml()
-    definitions.ModelDescription getModelDescription()
+    string getModelDescriptionXml(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
+    definitions.ModelDescription getModelDescription(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
 
-    InstanceId createInstanceFromCS() throws (1: definitions.UnsupportedOperationException ex)
-    InstanceId createInstanceFromME(1: definitions.Solver solver) throws (1: definitions.UnsupportedOperationException ex)
+    InstanceId createInstanceFromCS(1: FmuId fmu_id) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
+    InstanceId createInstanceFromME(1: FmuId fmu_id, 2: definitions.Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
 
-    double getSimulationTime(1: InstanceId instance_id) throws (1: definitions.NoSuchFmuException ex)
-    bool isTerminated(1: InstanceId instance_id) throws (1: definitions.NoSuchFmuException ex)
+    definitions.Status init(1: InstanceId instance_id, 3: double start, 4: double stop) throws (1: NoSuchInstanceException ex)
+    definitions.StepResult step(1: InstanceId instance_id, 3: double step_size) throws (1: NoSuchInstanceException ex)
+    definitions.Status reset(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex)
+    definitions.Status terminate(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex)
 
-    definitions.Status init(1: InstanceId instance_id, 2: double start, 3: double stop) throws (1: definitions.NoSuchFmuException ex)
-    definitions.StepResult step(1: InstanceId instance_id, 2: double step_size) throws (1: definitions.NoSuchFmuException ex)
-    definitions.Status terminate(1: InstanceId instance_id) throws (1: definitions.NoSuchFmuException ex)
-    definitions.Status reset(1: InstanceId instance_id) throws (1: definitions.NoSuchFmuException ex)
+    definitions.IntegerRead readInteger(1: InstanceId instance_id, 3: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.RealRead readReal(1: InstanceId instance_id, 3: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.StringRead readString(1: InstanceId instance_id, 3: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.BooleanRead readBoolean(1: InstanceId instance_id, 3: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
 
-    definitions.IntegerRead readInteger(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.RealRead readReal(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.StringRead readString(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.BooleanRead readBoolean(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-
-    definitions.Status writeInteger(1: InstanceId instance_id, 2: ValueReferences vr, 3: IntArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.Status writeReal(1: InstanceId instance_id, 2: ValueReferences vr, 3: RealArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.Status writeString(1: InstanceId instance_id, 2: ValueReferences vr, 3: StringArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
-    definitions.Status writeBoolean(1: InstanceId instance_id, 2: ValueReferences vr, 3: BooleanArray value) throws (1: definitions.NoSuchFmuException ex1, 2: definitions.NoSuchVariableException ex2)
+    definitions.Status writeInteger(1: InstanceId instance_id, 3: ValueReferences vr, 4: IntArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeReal(1: InstanceId instance_id, 3: ValueReferences vr, 4: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeString(1: InstanceId instance_id, 3: ValueReferences vr, 4: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeBoolean(1: InstanceId instance_id, 3: ValueReferences vr, 4: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
 
 }

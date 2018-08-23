@@ -32,51 +32,51 @@ namespace fmuproxy::fmi {
 
     class IntegerAttribute {
     private:
-        int min;
-        int max;
-        int start;
-        bool start_set = false;
-        bool min_set = false;
-        bool max_set = false;
+        int min_;
+        int max_;
+        int start_;
+        bool isStartSet_ = false;
+        bool isMinSet_ = false;
+        bool isMaxSet_ = false;
     public:
 
         int getMin() const {
-            return min;
+            return min_;
         }
 
         void setMin(int min) {
-            this->min = min;
-            this->min_set = true;
+            this->min_ = min;
+            this->isMinSet_ = true;
         }
 
         int getMax() const {
-            return max;
+            return max_;
         }
 
         void setMax(int max) {
-            this->max = max;
-            this->max_set = true;
+            this->max_ = max;
+            this->isMaxSet_ = true;
         }
 
         int getStart() const {
-            return start;
+            return start_;
         }
 
         void setStart(int start) {
-            this->start = start;
-            this->start_set = true;
+            this->start_ = start;
+            this->isStartSet_ = true;
         }
 
         bool isStart_set() const {
-            return start_set;
+            return isStartSet_;
         }
 
         bool isMin_set() const {
-            return min_set;
+            return isMinSet_;
         }
 
         bool isMax_set() const {
-            return max_set;
+            return isMaxSet_;
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const IntegerAttribute &a) {
@@ -87,51 +87,51 @@ namespace fmuproxy::fmi {
 
     class RealAttribute {
     private:
-        double min;
-        double max;
-        double start;
-        bool start_set = false;
-        bool min_set = false;
-        bool max_set = false;
+        double min_;
+        double max_;
+        double start_;
+        bool isStartSet_ = false;
+        bool isMinSet_ = false;
+        bool isMaxSet_ = false;
     public:
 
         double getMin() const {
-            return min;
+            return min_;
         }
 
         double getMax() const {
-            return max;
+            return max_;
         }
 
         double getStart() const {
-            return start;
+            return start_;
         }
 
         void setStart(const double value) {
-            this->start = value;
-            this-> start_set = true;
+            this->start_ = value;
+            this-> isStartSet_ = true;
         }
 
         void setMin(const double value) {
-            this->min = value;
-            this-> min_set = true;
+            this->min_ = value;
+            this-> isMinSet_ = true;
         }
 
         void setMax(const double value) {
-            this->max = value;
-            this-> max_set = true;
+            this->max_ = value;
+            this-> isMaxSet_ = true;
         }
 
         bool isStart_set() const {
-            return start_set;
+            return isStartSet_;
         }
 
         bool isMin_set() const {
-            return min_set;
+            return isMinSet_;
         }
 
         bool isMax_set() const {
-            return max_set;
+            return isMaxSet_;
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const RealAttribute &a) {
@@ -142,21 +142,21 @@ namespace fmuproxy::fmi {
 
     class StringAttribute {
     private:
-        std::string start;
-        bool start_set = false;
+        std::string start_;
+        bool isStartSet_ = false;
     public:
 
         void setStart(const std::string &start) {
-            this->start = start;
-            this->start_set = true;
+            this->start_ = start;
+            this->isStartSet_ = true;
         }
 
         const std::string &getStart() const {
-            return start;
+            return start_;
         }
 
         bool isStart_set() const {
-            return start_set;
+            return isStartSet_;
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const StringAttribute &a) {
@@ -167,21 +167,21 @@ namespace fmuproxy::fmi {
 
     class BooleanAttribute {
     private:
-        bool start;
-        bool start_set = false;
+        bool start_;
+        bool isStartSet_ = false;
     public:
 
         bool getStart() const {
-            return start;
+            return start_;
         }
 
         void setStart(bool start) {
-            this->start = start;
-            this->start_set = true;
+            this->start_ = start;
+            this->isStartSet_ = true;
         }
 
         bool isStart_set() const {
-            return start_set;
+            return isStartSet_;
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const BooleanAttribute &a) {
@@ -193,51 +193,51 @@ namespace fmuproxy::fmi {
 
     class EnumerationAttribute {
     private:
-        int min;
-        int max;
-        int start;
-        bool start_set = false;
-        bool min_set = false;
-        bool max_set = false;
+        int min_;
+        int max_;
+        int start_;
+        bool isStartSet = false;
+        bool isMinSet = false;
+        bool isMaxSet = false;
     public:
 
         int getMin() const {
-            return min;
+            return min_;
         }
 
         void setMin(int min) {
-            this->min = min;
-            this->min_set = true;
+            this->min_ = min;
+            this->isMinSet = true;
         }
 
         int getMax() const {
-            return max;
+            return max_;
         }
 
         void setMax(int max) {
-            this->max = max;
-            this->max_set = true;
+            this->max_ = max;
+            this->isMaxSet = true;
         }
 
         int getStart() const {
-            return start;
+            return start_;
         }
 
         void setStart(int start) {
-            this->start = start;
-            this->start_set = true;
+            this->start_ = start;
+            this->isStartSet = true;
         }
 
         bool isStart_set() const {
-            return start_set;
+            return isStartSet;
         }
 
         bool isMin_set() const {
-            return min_set;
+            return isMinSet;
         }
 
         bool isMax_set() const {
-            return max_set;
+            return isMaxSet;
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const EnumerationAttribute &a) {
@@ -249,83 +249,83 @@ namespace fmuproxy::fmi {
 
     class ScalarVariableAttribute {
     private:
-        bool integer_set = false;
-        bool real_set = false;
-        bool string_set = false;
-        bool boolean_set = false;
-        bool enumeration_set = false;
+        bool isIntegerSet_ = false;
+        bool isRealSet_ = false;
+        bool isStringSet_ = false;
+        bool isBooleanSet_ = false;
+        bool isEnumerationSet_ = false;
 
-        IntegerAttribute integerAttribute;
-        RealAttribute realAttribute;
-        StringAttribute stringAttribute;
-        BooleanAttribute booleanAttribute ;
-        EnumerationAttribute enumerationAttribute;
+        IntegerAttribute integerAttribute_;
+        RealAttribute realAttribute_;
+        StringAttribute stringAttribute_;
+        BooleanAttribute booleanAttribute_ ;
+        EnumerationAttribute enumerationAttribute_;
 
     public:
 
         bool isIntegerAttribute() const {
-            return integer_set;
+            return isIntegerSet_;
         }
 
         bool isRealAttribute() const {
-            return real_set;
+            return isRealSet_;
         }
 
         bool isStringAttribute() const {
-            return string_set;
+            return isStringSet_;
         }
 
         bool isBooleanAttribute() const {
-            return boolean_set;
+            return isBooleanSet_;
         }
 
         bool isEnumerationAttribute() const {
-            return enumeration_set;
+            return isEnumerationSet_;
         }
 
         const IntegerAttribute &getIntegerAttribute() const {
-            return integerAttribute;
+            return integerAttribute_;
         }
 
         const RealAttribute &getRealAttribute() const {
-            return realAttribute;
+            return realAttribute_;
         }
 
         const StringAttribute &getStringAttribute() const {
-            return stringAttribute;
+            return stringAttribute_;
         }
 
         const BooleanAttribute &getBooleanAttribute() const {
-            return booleanAttribute;
+            return booleanAttribute_;
         }
 
         const EnumerationAttribute &getEnumerationAttribute() const {
-            return enumerationAttribute;
+            return enumerationAttribute_;
         }
 
         void setIntegerAttribute(const IntegerAttribute &integerAttribute) {
-            ScalarVariableAttribute::integerAttribute = integerAttribute;
-            integer_set = true;
+            ScalarVariableAttribute::integerAttribute_ = integerAttribute;
+            isIntegerSet_ = true;
         }
 
         void setRealAttribute(const RealAttribute &realAttribute) {
-            ScalarVariableAttribute::realAttribute = realAttribute;
-            real_set = true;
+            ScalarVariableAttribute::realAttribute_ = realAttribute;
+            isRealSet_ = true;
         }
 
         void setStringAttribute(const StringAttribute &stringAttribute) {
-            ScalarVariableAttribute::stringAttribute = stringAttribute;
-            string_set = true;
+            ScalarVariableAttribute::stringAttribute_ = stringAttribute;
+            isStringSet_ = true;
         }
 
         void setBooleanAttribute(const BooleanAttribute &booleanAttribute) {
-            ScalarVariableAttribute::booleanAttribute = booleanAttribute;
-            boolean_set = true;
+            ScalarVariableAttribute::booleanAttribute_ = booleanAttribute;
+            isBooleanSet_ = true;
         }
 
         void setEnumerationAttribute(const EnumerationAttribute &enumerationAttribute) {
-            ScalarVariableAttribute::enumerationAttribute = enumerationAttribute;
-            enumeration_set = true;
+            ScalarVariableAttribute::enumerationAttribute_ = enumerationAttribute;
+            isEnumerationSet_ = true;
         }
 
         friend std::ostream& operator<<(std::ostream &strm, const ScalarVariableAttribute &a) {

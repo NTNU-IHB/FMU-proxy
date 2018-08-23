@@ -1,11 +1,11 @@
 package no.mechatronics.sfi.fmuproxy
 
-import no.mechatronics.sfi.fmi4j.common.FmiSimulation
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
+import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import org.junit.jupiter.api.Assertions
 import kotlin.system.measureTimeMillis
 
-internal inline fun runInstance(instance: FmiSimulation, dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
+internal inline fun runInstance(instance: FmuSlave, dt: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
     if (!instance.isInitialized) {
         instance.init()
@@ -13,7 +13,7 @@ internal inline fun runInstance(instance: FmiSimulation, dt: Double, stop: Doubl
     }
 
     return measureTimeMillis {
-        while (instance.currentTime <= stop) {
+        while (instance.simulationTime <= stop) {
             val status = instance.doStep(dt)
             Assertions.assertTrue(status)
             callback()

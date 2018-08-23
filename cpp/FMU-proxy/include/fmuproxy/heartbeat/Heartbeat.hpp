@@ -27,25 +27,31 @@
 
 #include <string>
 #include <thread>
+#include <vector>
+#include <map>
+#include "RemoteAddress.hpp"
 
 namespace fmuproxy::heartbeat {
 
     class Heartbeat {
 
     private:
-        const std::string host;
-        const unsigned int port;
 
-        bool m_stop = false;
-        bool m_connected = false;
+        bool stop_ = false;
+        bool connected_ = false;
 
-        std::unique_ptr<std::thread> m_thread;
-        const std::string model_description_xml;
+        std::unique_ptr<std::thread> thread_;
+        const std::vector<std::string> modelDescriptions_;
+
+        const fmuproxy::RemoteAddress remote_;
+        const std::map<std::string, unsigned int> &ports_;
 
         void run();
 
     public:
-        Heartbeat(const std::string &host, unsigned int port, const std::string &xml);
+        Heartbeat(const RemoteAddress remote,
+                  const std::map<std::string, unsigned int> &ports,
+                  const std::vector<std::string> &modelDescriptions);
 
         void start();
 

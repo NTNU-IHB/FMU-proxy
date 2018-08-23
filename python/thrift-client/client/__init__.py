@@ -49,21 +49,15 @@ class VariableWriter:
 
 class RemoteFmuInstance:
 
-    def __init__(self, remote_fmu, solver=None):
-
+    def __init__(self, remote_fmu, instance_id):
+        self.instance_id = instance_id
         self.remote_fmu = remote_fmu
         self.client = remote_fmu.client  # type: FmuService.Client
         self.model_description = remote_fmu.model_description  # type: ModelDescription
-
-        self.instance_id = None  # type: int
-        if solver is None:
-            self.instance_id = self.client.createInstanceFromCS()
-        else:
-            self.instance_id = self.client.createInstanceFromME(solver)
-
-        self.simulation_time = self.client.getSimulationTime(self.instance_id)
+        self.simulation_time = None  # type: float
 
     def init(self, start: float = 0.0, stop: float = 0.0) -> Status:
+        self.simulation_time = start
         return self.client.init(self.instance_id, start, stop)
 
     def step(self, step_size: float) -> Status:
@@ -98,7 +92,7 @@ class RemoteFmuInstance:
 
 class RemoteFmu:
 
-    def __init__(self, host_address, port):
+    def __init__(self, fmu_id: str, host_address: str, port: int):
         # Make socket
         self.transport = TSocket.TSocket(host_address, port)
 
@@ -112,7 +106,8 @@ class RemoteFmu:
 
         self.transport.open()
 
-        self.model_description = self.client.getModelDescription()  # type: ModelDescription
+        self.fmu_id = fmu_id
+        self.model_description = self.client.getModelDescription(fmu_id)  # type: ModelDescription
 
         self.model_variables = dict()
         for var in self.model_description.modelVariables:  # type: [ScalarVariable]
@@ -125,7 +120,8 @@ class RemoteFmu:
         return None
 
     def create_instance(self, solver: Solver=None) -> RemoteFmuInstance:
-        return RemoteFmuInstance(self, solver)
-
-
-
+        if solver is None:
+            instance_id = self.client.createInstanceFromCS(self.fmu_id)
+        else:
+            instance_id = self.client.createInstanceFromME(self.fmu_id, solver)
+        return RemoteFmuInstance(self, instance_id)

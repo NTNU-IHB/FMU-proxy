@@ -12,21 +12,25 @@ def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {
 
-    providedCompile 'javax.servlet:servlet-api:2.2'
-    providedCompile 'javax.servlet.jsp:jsp-api:2.2'
     providedCompile 'javax.enterprise:cdi-api:2.0'
-
-    compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.17'
-    runtime group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.17'
-
     compile group: 'org.primefaces', name: 'primefaces', version: '6.2'
 
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    def servlet_version = "2.2"
+    providedCompile "javax.servlet:servlet-api:${servlet_version}"
+    providedCompile "javax.servlet.jsp:jsp-api:${servlet_version}"
+
+    def faces_version = "2.2.17"
+    compile group: 'com.sun.faces', name: 'jsf-api', version: faces_version
+    runtime group: 'com.sun.faces', name: 'jsf-impl', version: faces_version
+
+    def jackson_version = '2.9.6'
+    implementation group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: jackson_version
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: jackson_version
+
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
-
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
 
 }
 
@@ -39,38 +43,34 @@ gretty {
 }
 
 task copyAvro(type: Copy) {
-
-    from('../rpc-definitions/src/main/avro')
-    into('src/main/webapp/resources/schemas/avro')
-    include('*.avdl')
-
+    from '../../..rpc-definitions/avro'
+    into 'src/main/webapp/resources/schemas/avro'
+    include '*.avdl'
 }
 
 task copyThrift(type: Copy) {
-
-    from('../rpc-definitions/src/main/thrift')
-    into('src/main/webapp/resources/schemas/thrift')
-    include('*.thrift')
-
+    from '../../..rpc-definitions/thrift'
+    into 'src/main/webapp/resources/schemas/thrift'
+    include '*.thrift'
 }
 
 task copyProto(type: Copy) {
-
-    from('../rpc-definitions/src/main/proto')
-    into('src/main/webapp/resources/schemas/proto')
-    include('*.proto')
-
+    from '../../../rpc-definitions/proto'
+    into 'src/main/webapp/resources/schemas/proto'
+    include '*.proto'
 }
 
-task copyProtoZip(type: Zip) {
-
-    from '../rpc-definitions/src/main/proto'
-    include '*'
-    archiveName 'fmu-proxy-generic-proto.zip'
-    destinationDir(file('src/main/webapp/resources/schemas/proto/'))
+task copySchemas(type: Copy) {
+    dependsOn 'copyAvro'
+    dependsOn 'copyThrift'
+    dependsOn 'copyProto'
 }
 
-compileKotlin.dependsOn(copyAvro)
-compileKotlin.dependsOn(copyThrift)
-compileKotlin.dependsOn(copyProto)
-compileKotlin.dependsOn(copyProtoZip)
+task copySchemasZip(type: Zip) {
+    from fileTree(dir: '../../../rpc-definitions')
+    archiveName 'fmu-proxy-schemas.zip'
+    destinationDir file('src/main/webapp/resources/schemas')
+}
+
+compileKotlin.dependsOn(copySchemas)
+compileKotlin.dependsOn(copySchemasZip)

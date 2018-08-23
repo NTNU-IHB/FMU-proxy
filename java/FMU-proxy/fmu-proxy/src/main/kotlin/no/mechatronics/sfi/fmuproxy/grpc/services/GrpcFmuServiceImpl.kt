@@ -24,95 +24,45 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc.services
 
-import io.grpc.BindableService
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmuproxy.fmu.Fmus
-import no.mechatronics.sfi.fmuproxy.grpc.FmuServiceGrpc
-import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
-import no.mechatronics.sfi.fmuproxy.grpc.Proto
+import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
+import no.mechatronics.sfi.fmuproxy.grpc.*
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-interface GrpcFmuService : BindableService {
-
-    fun statusReply(status: FmiStatus, responseObserver: StreamObserver<Proto.StatusResponse>) {
-        Proto.StatusResponse.newBuilder()
-                .setStatus(status.protoType())
-                .build().also {
-                    responseObserver.onNext(it)
-                    responseObserver.onCompleted()
-                }
-    }
-    
-    fun noSuchFmuReply(id: Int, responseObserver: StreamObserver<*>) {
-        val message = "No FMU with id=$id!"
-        responseObserver.onError(
-                Status.INVALID_ARGUMENT
-                        .augmentDescription("FmuNotFoundException")
-                        .withDescription(message)
-                        .asRuntimeException()
-        )
-    }
-
-}
-
 class GrpcFmuServiceImpl(
-        private val fmu: Fmu
-): FmuServiceGrpc.FmuServiceImplBase(), GrpcFmuService {
+        private val fmus: Map<String, Fmu>
+): FmuServiceGrpc.FmuServiceImplBase() {
 
-    private companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
-    }
+    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
-
-    private val modelDescription: CommonModelDescription
-            = fmu.modelDescription
-
-    override fun getModelDescription(request: Proto.Void, responseObserver: StreamObserver<Proto.ModelDescription>) {
-        responseObserver.onNext(modelDescription.protoType())
-        responseObserver.onCompleted()
-    }
-
-    override fun getModelDescriptionXml(request: Proto.Void, responseObserver: StreamObserver<Proto.Str>) {
-
-        Proto.Str.newBuilder().setValue(fmu.modelDescriptionXml).build().also {
-            responseObserver.onNext(it)
+    override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Proto.ModelDescription>) {
+        val fmuId = request.fmuId
+        fmus[fmuId]?.apply {
+            responseObserver.onNext(modelDescription.protoType())
             responseObserver.onCompleted()
-        }
-
+        } ?: noSuchFmuReply(fmuId, responseObserver)
     }
 
-    override fun getSimulationTime(req: Proto.UInt, responseObserver: StreamObserver<Proto.Real>) {
-
-        val instanceId = req.value
-        Fmus.get(instanceId)?.apply {
-            responseObserver.onNext(currentTime.protoType())
+    override fun getModelDescriptionXml(request: Service.GetModelDescriptionXmlRequest, responseObserver: StreamObserver<Service.ModelDescriptionXml>) {
+        val fmuId = request.fmuId
+        fmus[fmuId]?.apply {
+            val xml = Service.ModelDescriptionXml.newBuilder().setXml(modelDescriptionXml).build()
+            responseObserver.onNext(xml)
             responseObserver.onCompleted()
-        } ?: noSuchFmuReply(instanceId, responseObserver)
-
+        } ?: noSuchFmuReply(fmuId, responseObserver)
     }
 
-    override fun isTerminated(req: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
-
-        val instanceId = req.value
-        Fmus.get(req.value)?.apply {
-            responseObserver.onNext(isTerminated.protoType())
-            responseObserver.onCompleted()
-        }?: noSuchFmuReply(instanceId, responseObserver)
-
-    }
-    
-    override fun readInteger(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.IntegerRead>) {
+    override fun readInteger(req: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
-            val builder = Proto.IntegerRead.newBuilder()
+        FmuSlaves[instanceId]?.apply {
+            val builder = Service.IntegerRead.newBuilder()
             val read = variableAccessor.readInteger(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -120,15 +70,15 @@ class GrpcFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
             responseObserver.onCompleted()
-        }?: noSuchFmuReply(instanceId, responseObserver)
+        }?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun readReal(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.RealRead>) {
+    override fun readReal(req: Service.ReadRequest, responseObserver: StreamObserver<Service.RealRead>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
-            val builder = Proto.RealRead.newBuilder()
+        FmuSlaves[instanceId]?.apply {
+            val builder = Service.RealRead.newBuilder()
             val read = variableAccessor.readReal(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -136,15 +86,15 @@ class GrpcFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
             responseObserver.onCompleted()
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun readString(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.StringRead>) {
+    override fun readString(req: Service.ReadRequest, responseObserver: StreamObserver<Service.StringRead>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
-            val builder = Proto.StringRead.newBuilder()
+        FmuSlaves[instanceId]?.apply {
+            val builder = Service.StringRead.newBuilder()
             val read = variableAccessor.readString(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -152,15 +102,15 @@ class GrpcFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
             responseObserver.onCompleted()
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun readBoolean(req: Proto.ReadRequest, responseObserver: StreamObserver<Proto.BooleanRead>) {
+    override fun readBoolean(req: Service.ReadRequest, responseObserver: StreamObserver<Service.BooleanRead>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
-            val builder = Proto.BooleanRead.newBuilder()
+        FmuSlaves[instanceId]?.apply {
+            val builder = Service.BooleanRead.newBuilder()
             val read = variableAccessor.readBoolean(req.valueReferencesList.toIntArray())
             builder.status = read.status.protoType()
             for (value in read.value) {
@@ -168,55 +118,55 @@ class GrpcFmuServiceImpl(
             }
             responseObserver.onNext(builder.build())
             responseObserver.onCompleted()
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
        
 
     }
 
-    override fun writeInteger(req: Proto.WriteIntegerRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeInteger(req: Service.WriteIntegerRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
+        FmuSlaves[instanceId]?.apply {
             val status = variableAccessor.writeInteger(req.valueReferencesList.toIntArray(), req.valuesList.toIntArray())
             statusReply(status, responseObserver)
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun writeReal(req: Proto.WriteRealRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeReal(req: Service.WriteRealRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
+        FmuSlaves[instanceId]?.apply {
             val status = variableAccessor.writeReal(req.valueReferencesList.toIntArray(), req.valuesList.toDoubleArray())
             statusReply(status, responseObserver)
         } ?: statusReply(FmiStatus.Error, responseObserver)
 
     }
 
-    override fun writeString(req: Proto.WriteStringRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeString(req: Service.WriteStringRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
         val instanceId = req.instanceId
-        Fmus.get(req.instanceId)?.apply {
+        FmuSlaves.get(req.instanceId)?.apply {
             val status = variableAccessor.writeString(req.valueReferencesList.toIntArray(), req.valuesList.toTypedArray())
             statusReply(status, responseObserver)
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun writeBoolean(req: Proto.WriteBooleanRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun writeBoolean(req: Service.WriteBooleanRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
+        FmuSlaves[instanceId]?.apply {
             val status = variableAccessor.writeBoolean(req.valueReferencesList.toIntArray(), req.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun init(req: Proto.InitRequest, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun init(req: Service.InitRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
+        FmuSlaves[instanceId]?.apply {
             val start = req.start
             val stop = req.stop
             val hasStart = start > 0
@@ -229,84 +179,129 @@ class GrpcFmuServiceImpl(
                 init()
             }
             statusReply(lastStatus, responseObserver)
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun step(req: Proto.StepRequest, responseObserver: StreamObserver<Proto.StepResult>) {
+    override fun step(req: Service.StepRequest, responseObserver: StreamObserver<Service.StepResponse>) {
         
         val instanceId = req.instanceId
-        Fmus.get(instanceId)?.apply {
+        FmuSlaves[instanceId]?.apply {
             doStep(req.stepSize)
-            Proto.StepResult.newBuilder()
-                    .setSimulationTime(currentTime)
+            Service.StepResponse.newBuilder()
+                    .setSimulationTime(simulationTime)
                     .setStatus(lastStatus.protoType())
                     .build().also {
                         responseObserver.onNext(it)
                         responseObserver.onCompleted()
                     }
 
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun terminate(req: Proto.UInt, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun terminate(req: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
-        val instanceId = req.value
-        Fmus.remove(instanceId)?.apply {
+        val instanceId = req.instanceId
+        FmuSlaves.remove(instanceId)?.apply {
             terminate()
             lastStatus.also { status ->
                 LOG.debug("Terminated fmu with status: $status")
                 statusReply(status, responseObserver)
             }
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun reset(req: Proto.UInt, responseObserver: StreamObserver<Proto.StatusResponse>) {
+    override fun reset(req: Service.ResetRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
 
-        val instanceId = req.value
-        Fmus.get(instanceId)?.apply {
+        val instanceId = req.instanceId
+        FmuSlaves[instanceId]?.apply {
             reset().also {
                 statusReply(lastStatus, responseObserver)
             }
-        } ?: noSuchFmuReply(instanceId, responseObserver)
+        } ?: noSuchInstanceReply(instanceId, responseObserver)
 
     }
 
-    override fun createInstanceFromCS(req: Proto.Void, responseObserver: StreamObserver<Proto.UInt>) {
+    override fun createInstanceFromCS(req: Service.CreateInstanceFromCSRequest, responseObserver: StreamObserver<Service.InstanceId>) {
 
-        Fmus.put(fmu.asCoSimulationFmu().newInstance()).also { id ->
-            Proto.UInt.newBuilder().setValue(id).build().also {
-                responseObserver.onNext(it)
-                responseObserver.onCompleted()
+        val fmuId = req.fmuId
+        fmus[fmuId]?.apply {
+
+            FmuSlaves.put(asCoSimulationFmu().newInstance()).also { id ->
+                Service.InstanceId.newBuilder().setValue(id).build().also {
+                    responseObserver.onNext(it)
+                    responseObserver.onCompleted()
+                }
             }
-        }
+
+        } ?: noSuchFmuReply(fmuId, responseObserver)
 
     }
 
-    override fun createInstanceFromME(req: Proto.Solver, responseObserver: StreamObserver<Proto.UInt>) {
+    override fun createInstanceFromME(req: Service.CreateInstanceFromMERequest, responseObserver: StreamObserver<Service.InstanceId>) {
 
-        fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
-            val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-            LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
-            return ApacheSolvers.euler(stepSize)
-        }
+        val fmuId = req.fmuId
+        fmus[fmuId]?.apply {
 
-        val integrator = parseSolver(req.name, req.settings) ?: selectDefaultIntegrator()
-        Fmus.put(fmu.asModelExchangeFmu().newInstance(integrator)).also { id ->
-            Proto.UInt.newBuilder().setValue(id).build().also {
-                responseObserver.onNext(it)
-                responseObserver.onCompleted()
+            fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
+                val stepSize = modelDescription.defaultExperiment?.stepSize ?: 1E-3
+                LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
+                return ApacheSolvers.euler(stepSize)
             }
+
+            val solver = parseSolver(req.solver.name, req.solver.settings) ?: selectDefaultIntegrator()
+            FmuSlaves.put(asModelExchangeFmu().newInstance(solver)).also { id ->
+                Service.InstanceId.newBuilder().setValue(id).build().also {
+                    responseObserver.onNext(it)
+                    responseObserver.onCompleted()
+                }
+            }
+
+        } ?: noSuchFmuReply(fmuId, responseObserver)
+
+    }
+
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServiceImpl::class.java)
+
+        fun statusReply(status: FmiStatus, responseObserver: StreamObserver<Service.StatusResponse>) {
+            Service.StatusResponse.newBuilder()
+                    .setStatus(status.protoType())
+                    .build().also {
+                        responseObserver.onNext(it)
+                        responseObserver.onCompleted()
+                    }
+        }
+
+        fun noSuchFmuReply(id: String, responseObserver: StreamObserver<*>) {
+            val message = "No FMU with id=$id!"
+            responseObserver.onError(
+                    Status.INVALID_ARGUMENT
+                            .augmentDescription("NoSuchFmuException")
+                            .withDescription(message)
+                            .asRuntimeException()
+            )
+        }
+
+
+        fun noSuchInstanceReply(id: String, responseObserver: StreamObserver<*>) {
+            val message = "No instance with id=$id!"
+            responseObserver.onError(
+                    Status.INVALID_ARGUMENT
+                            .augmentDescription("NoSuchInstanceException")
+                            .withDescription(message)
+                            .asRuntimeException()
+            )
         }
 
     }
 
 
-//    override fun canGetAndSetFMUstate(req: Proto.UInt, responseObserver: StreamObserver<Proto.Bool>) {
+//    override fun canGetAndSetFMUstate(req: Service.UInt, responseObserver: StreamObserver<Service.Bool>) {
 //        val instanceId = req.value
-//        Fmus.get(instanceId)?.apply {
+//        FmuSlaves[instanceId]?.apply {
 //            val md = modelDescription
 //            val canGetAndSetFMUstate = when (md) {
 //                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
@@ -315,7 +310,7 @@ class GrpcFmuServiceImpl(
 //            }
 //            responseObserver.onNext(canGetAndSetFMUstate.protoType())
 //            responseObserver.onCompleted()
-//        } ?: noSuchFmuReply(instanceId, responseObserver)
+//        } ?: noSuchInstanceReply(instanceId, responseObserver)
 //
 //    }
 

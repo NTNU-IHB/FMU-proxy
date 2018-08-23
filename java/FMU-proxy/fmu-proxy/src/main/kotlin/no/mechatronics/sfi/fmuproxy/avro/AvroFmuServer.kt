@@ -38,11 +38,14 @@ import java.net.InetSocketAddress
  * @author Lars Ivar Hatledal
  */
 class AvroFmuServer(
-        private val fmu: Fmu
+        fmus: Map<String, Fmu>
 ): FmuProxyServer {
+
+    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
     override var port: Int? = null
     private var server: Server? = null
+    private val service = AvroFmuServiceImpl(fmus)
 
     override val simpleName = "avro/tcp"
 
@@ -51,7 +54,7 @@ class AvroFmuServer(
 
     override fun start(port: Int) {
         if (!isRunning) {
-            val responder = SpecificResponder(AvroFmuService::class.java, AvroFmuServiceImpl(fmu))
+            val responder = SpecificResponder(AvroFmuService::class.java, service)
             server = NettyServer(responder, InetSocketAddress(port)).also { this.port = port }
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")
         } else {

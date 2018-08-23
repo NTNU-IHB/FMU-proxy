@@ -26,55 +26,59 @@
 #define FMU_PROXY_FMUSERVICEHANDLER_H
 
 #include <map>
+#include <vector>
 #include "../common/FmuService.h"
 #include "../../fmi/Fmu.hpp"
+#include "../../fmi/FmuSlave.hpp"
 
 namespace fmuproxy::thrift::server {
 
     class FmuServiceHandler : virtual public FmuServiceIf {
 
     private:
-        fmi::Fmu& fmu;
-        std::map<InstanceId, std::unique_ptr<fmi::FmuInstance>> instances;
+        std::map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus_;
+        std::map<InstanceId, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
-        explicit FmuServiceHandler(fmi::Fmu &fmu);
-        
-        void getModelDescriptionXml(std::string &_return) override;
+        explicit FmuServiceHandler(std::map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
 
-        void getModelDescription(ModelDescription &_return) override;
+        void getModelDescriptionXml(std::string &_return, const FmuId &fmu_id) override;
 
-        InstanceId createInstanceFromCS() override;
+        void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
 
-        InstanceId createInstanceFromME(const Solver &solver) override;
-        
-        double getSimulationTime(InstanceId instance_id) override;
+        void createInstanceFromCS(InstanceId &_return, const FmuId &fmu_id) override;
 
-        bool isTerminated(InstanceId instance_id) override;
 
-        Status::type init(InstanceId instance_id, double start, double stop) override;
+        void createInstanceFromME(InstanceId &_return, const FmuId &fmu_id,
+                                  const ::fmuproxy::thrift::Solver &solver) override;
 
-        void step(StepResult &_return, InstanceId instance_id, double step_size) override;
+        Status::type init(const InstanceId &instance_id, const double start, const double stop) override;
 
-        Status::type terminate(InstanceId instance_id) override;
+        void step(::fmuproxy::thrift::StepResult &_return, const InstanceId &instance_id, const double step_size) override;
 
-        Status::type reset(InstanceId instance_id) override;
-        
-        void readInteger(IntegerRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
-        
-        void readReal(RealRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
-        
-        void readString(StringRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
-        
-        void readBoolean(BooleanRead &_return, InstanceId instance_id, const ValueReferences &vr) override;
-        
-        Status::type writeInteger(InstanceId instance_id, const ValueReferences &vr, const IntArray &value) override;
-        
-        Status::type writeReal(InstanceId instance_id, const ValueReferences &vr, const RealArray &value) override;
+        Status::type reset(const InstanceId &instance_id) override;
 
-        Status::type writeString(InstanceId instance_id, const ValueReferences &vr, const StringArray &value) override;
-        
-        Status::type writeBoolean(InstanceId instance_id, const ValueReferences &vr, const BooleanArray &value) override;
+        Status::type terminate(const InstanceId &instance_id) override;
+
+        void readInteger(::fmuproxy::thrift::IntegerRead &_return, const InstanceId &instance_id,
+                         const ValueReferences &vr) override;
+
+        void readReal(::fmuproxy::thrift::RealRead &_return, const InstanceId &instance_id,
+                      const ValueReferences &vr) override;
+
+        void readString(::fmuproxy::thrift::StringRead &_return, const InstanceId &instance_id,
+                        const ValueReferences &vr) override;
+
+        void readBoolean(::fmuproxy::thrift::BooleanRead &_return, const InstanceId &instance_id,
+                         const ValueReferences &vr) override;
+
+        Status::type writeInteger(const InstanceId &instance_id, const ValueReferences &vr, const IntArray &value) override;
+
+        Status::type writeReal(const InstanceId &instance_id, const ValueReferences &vr, const RealArray &value) override;
+
+        Status::type writeString(const InstanceId &instance_id, const ValueReferences &vr, const StringArray &value) override;
+
+        Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr, const BooleanArray &value) override;
 
     };
 

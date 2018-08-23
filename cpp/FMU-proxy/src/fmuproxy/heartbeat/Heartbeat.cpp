@@ -27,17 +27,20 @@
 #include <memory>
 #include <curl/curl.h>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
-
+#include <nlohmann/json.hpp>
 #include "heartbeat_helper.cpp"
 
 using namespace std;
+using namespace fmuproxy;
 using namespace fmuproxy::heartbeat;
 
-Heartbeat::Heartbeat(const string &host, const unsigned int port, const string &xml)
-        : host(host), port(port), model_description_xml(escape_json(xml)) {}
+using json = nlohmann::json;
+
+Heartbeat::Heartbeat(const RemoteAddress remote, const map<string, unsigned int> &ports,
+                     const vector<string> &modelDescriptions) : remote_(remote), ports_(ports), modelDescriptions_(modelDescriptions) {}
 
 void Heartbeat::start() {
-   m_thread = make_unique<thread>(&Heartbeat::run, this);
+   thread_ = make_unique<thread>(&Heartbeat::run, this);
 }
 
 void Heartbeat::run() {
@@ -53,30 +56,28 @@ void Heartbeat::run() {
         string uuid = generate_uuid();
         trim(uuid);
 
-        string json = "{\n"
-                      "  \"uuid\": \"" + uuid + "\",\n"
-                      "  \"modelDescriptionXml\": \"" + model_description_xml + "\",\n"
-                      "  \"networkInfo\": {\n"
-                      "    \"host\": \"localhost\",\n"
-                      "    \"ports\": {\n"
-                      "      \"thrift/tcp\": 9090\n"
-                      "    }\n"
-                      "  }\n"
-                      "}";
+        json json = {
+                {"uuid", uuid},
+                {"ports", ports_},
+                {"modelDescriptions", modelDescriptions_},
 
-        while (!m_stop) {
+            };
 
-            if (m_connected) {
+        const string json_str = json.dump(2);
 
-                std::string response;
-                res = post(host, port, curl, response, "ping", uuid);
+        while (!stop_) {
+
+            if (connected_) {
+
+                string response;
+                res = post(remote_, curl, response, "ping", uuid);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-                    m_connected = false;
+                    connected_ = false;
                 } else {
                     trim(response);
-                    m_connected = response == "success";
-                    if (!m_connected) {
+                    connected_ = response == "success";
+                    if (!connected_) {
                         cout << "Disconnected from remote tracking server!" << endl;
                     }
                 }
@@ -85,14 +86,14 @@ void Heartbeat::run() {
 
             } else {
 
-                std::string response;
-                res = post(host, port, curl, response, "registerfmu", json);
+                string response;
+                res = post(remote_, curl, response, "register", json_str);
                 if (res != CURLE_OK) {
                     fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
                 } else {
                     trim(response);
-                    m_connected = response == "success";
-                    if (m_connected) {
+                    connected_ = response == "success";
+                    if (connected_) {
                         cout << "Connected to remote tracking server!" << endl;
                         continue;
                     }
@@ -112,7 +113,7 @@ void Heartbeat::run() {
 }
 
 void Heartbeat::stop() {
-    m_stop = true;
-    m_thread->join();
+    stop_ = true;
+    thread_->join();
 }
 

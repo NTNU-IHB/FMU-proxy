@@ -8,6 +8,12 @@
 //HELPER FUNCTIONS AND STRUCTURES
 
 FmuService_getModelDescriptionXml_args = function(args) {
+  this.fmu_id = null;
+  if (args) {
+    if (args.fmu_id !== undefined && args.fmu_id !== null) {
+      this.fmu_id = args.fmu_id;
+    }
+  }
 };
 FmuService_getModelDescriptionXml_args.prototype = {};
 FmuService_getModelDescriptionXml_args.prototype.read = function(input) {
@@ -21,7 +27,21 @@ FmuService_getModelDescriptionXml_args.prototype.read = function(input) {
     if (ftype == Thrift.Type.STOP) {
       break;
     }
-    input.skip(ftype);
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.fmu_id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
     input.readFieldEnd();
   }
   input.readStructEnd();
@@ -30,6 +50,11 @@ FmuService_getModelDescriptionXml_args.prototype.read = function(input) {
 
 FmuService_getModelDescriptionXml_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_getModelDescriptionXml_args');
+  if (this.fmu_id !== null && this.fmu_id !== undefined) {
+    output.writeFieldBegin('fmu_id', Thrift.Type.STRING, 1);
+    output.writeString(this.fmu_id);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -37,9 +62,17 @@ FmuService_getModelDescriptionXml_args.prototype.write = function(output) {
 
 FmuService_getModelDescriptionXml_result = function(args) {
   this.success = null;
+  this.ex = null;
+  if (args instanceof NoSuchFmuException) {
+    this.ex = args;
+    return;
+  }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
       this.success = args.success;
+    }
+    if (args.ex !== undefined && args.ex !== null) {
+      this.ex = args.ex;
     }
   }
 };
@@ -64,9 +97,14 @@ FmuService_getModelDescriptionXml_result.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex = new NoSuchFmuException();
+        this.ex.read(input);
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -83,12 +121,23 @@ FmuService_getModelDescriptionXml_result.prototype.write = function(output) {
     output.writeString(this.success);
     output.writeFieldEnd();
   }
+  if (this.ex !== null && this.ex !== undefined) {
+    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
+    this.ex.write(output);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
 };
 
 FmuService_getModelDescription_args = function(args) {
+  this.fmu_id = null;
+  if (args) {
+    if (args.fmu_id !== undefined && args.fmu_id !== null) {
+      this.fmu_id = args.fmu_id;
+    }
+  }
 };
 FmuService_getModelDescription_args.prototype = {};
 FmuService_getModelDescription_args.prototype.read = function(input) {
@@ -102,7 +151,21 @@ FmuService_getModelDescription_args.prototype.read = function(input) {
     if (ftype == Thrift.Type.STOP) {
       break;
     }
-    input.skip(ftype);
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.fmu_id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
     input.readFieldEnd();
   }
   input.readStructEnd();
@@ -111,6 +174,11 @@ FmuService_getModelDescription_args.prototype.read = function(input) {
 
 FmuService_getModelDescription_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_getModelDescription_args');
+  if (this.fmu_id !== null && this.fmu_id !== undefined) {
+    output.writeFieldBegin('fmu_id', Thrift.Type.STRING, 1);
+    output.writeString(this.fmu_id);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -118,9 +186,17 @@ FmuService_getModelDescription_args.prototype.write = function(output) {
 
 FmuService_getModelDescription_result = function(args) {
   this.success = null;
+  this.ex = null;
+  if (args instanceof NoSuchFmuException) {
+    this.ex = args;
+    return;
+  }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
       this.success = new ModelDescription(args.success);
+    }
+    if (args.ex !== undefined && args.ex !== null) {
+      this.ex = args.ex;
     }
   }
 };
@@ -146,9 +222,14 @@ FmuService_getModelDescription_result.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex = new NoSuchFmuException();
+        this.ex.read(input);
+      } else {
         input.skip(ftype);
-        break;
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -165,12 +246,23 @@ FmuService_getModelDescription_result.prototype.write = function(output) {
     this.success.write(output);
     output.writeFieldEnd();
   }
+  if (this.ex !== null && this.ex !== undefined) {
+    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
+    this.ex.write(output);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
 };
 
 FmuService_createInstanceFromCS_args = function(args) {
+  this.fmu_id = null;
+  if (args) {
+    if (args.fmu_id !== undefined && args.fmu_id !== null) {
+      this.fmu_id = args.fmu_id;
+    }
+  }
 };
 FmuService_createInstanceFromCS_args.prototype = {};
 FmuService_createInstanceFromCS_args.prototype.read = function(input) {
@@ -184,7 +276,21 @@ FmuService_createInstanceFromCS_args.prototype.read = function(input) {
     if (ftype == Thrift.Type.STOP) {
       break;
     }
-    input.skip(ftype);
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.fmu_id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
     input.readFieldEnd();
   }
   input.readStructEnd();
@@ -193,6 +299,11 @@ FmuService_createInstanceFromCS_args.prototype.read = function(input) {
 
 FmuService_createInstanceFromCS_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_createInstanceFromCS_args');
+  if (this.fmu_id !== null && this.fmu_id !== undefined) {
+    output.writeFieldBegin('fmu_id', Thrift.Type.STRING, 1);
+    output.writeString(this.fmu_id);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -200,17 +311,25 @@ FmuService_createInstanceFromCS_args.prototype.write = function(output) {
 
 FmuService_createInstanceFromCS_result = function(args) {
   this.success = null;
-  this.ex = null;
+  this.ex1 = null;
+  this.ex2 = null;
   if (args instanceof UnsupportedOperationException) {
-    this.ex = args;
+    this.ex1 = args;
+    return;
+  }
+  if (args instanceof NoSuchFmuException) {
+    this.ex2 = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
       this.success = args.success;
     }
-    if (args.ex !== undefined && args.ex !== null) {
-      this.ex = args.ex;
+    if (args.ex1 !== undefined && args.ex1 !== null) {
+      this.ex1 = args.ex1;
+    }
+    if (args.ex2 !== undefined && args.ex2 !== null) {
+      this.ex2 = args.ex2;
     }
   }
 };
@@ -229,16 +348,24 @@ FmuService_createInstanceFromCS_result.prototype.read = function(input) {
     switch (fid)
     {
       case 0:
-      if (ftype == Thrift.Type.I32) {
-        this.success = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new UnsupportedOperationException();
-        this.ex.read(input);
+        this.ex1 = new UnsupportedOperationException();
+        this.ex1.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex2 = new NoSuchFmuException();
+        this.ex2.read(input);
       } else {
         input.skip(ftype);
       }
@@ -255,13 +382,18 @@ FmuService_createInstanceFromCS_result.prototype.read = function(input) {
 FmuService_createInstanceFromCS_result.prototype.write = function(output) {
   output.writeStructBegin('FmuService_createInstanceFromCS_result');
   if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.I32, 0);
-    output.writeI32(this.success);
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeString(this.success);
     output.writeFieldEnd();
   }
-  if (this.ex !== null && this.ex !== undefined) {
-    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
-    this.ex.write(output);
+  if (this.ex1 !== null && this.ex1 !== undefined) {
+    output.writeFieldBegin('ex1', Thrift.Type.STRUCT, 1);
+    this.ex1.write(output);
+    output.writeFieldEnd();
+  }
+  if (this.ex2 !== null && this.ex2 !== undefined) {
+    output.writeFieldBegin('ex2', Thrift.Type.STRUCT, 2);
+    this.ex2.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -270,8 +402,12 @@ FmuService_createInstanceFromCS_result.prototype.write = function(output) {
 };
 
 FmuService_createInstanceFromME_args = function(args) {
+  this.fmu_id = null;
   this.solver = null;
   if (args) {
+    if (args.fmu_id !== undefined && args.fmu_id !== null) {
+      this.fmu_id = args.fmu_id;
+    }
     if (args.solver !== undefined && args.solver !== null) {
       this.solver = new Solver(args.solver);
     }
@@ -292,6 +428,13 @@ FmuService_createInstanceFromME_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.fmu_id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
       if (ftype == Thrift.Type.STRUCT) {
         this.solver = new Solver();
         this.solver.read(input);
@@ -299,9 +442,6 @@ FmuService_createInstanceFromME_args.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 0:
-        input.skip(ftype);
-        break;
       default:
         input.skip(ftype);
     }
@@ -313,8 +453,13 @@ FmuService_createInstanceFromME_args.prototype.read = function(input) {
 
 FmuService_createInstanceFromME_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_createInstanceFromME_args');
+  if (this.fmu_id !== null && this.fmu_id !== undefined) {
+    output.writeFieldBegin('fmu_id', Thrift.Type.STRING, 1);
+    output.writeString(this.fmu_id);
+    output.writeFieldEnd();
+  }
   if (this.solver !== null && this.solver !== undefined) {
-    output.writeFieldBegin('solver', Thrift.Type.STRUCT, 1);
+    output.writeFieldBegin('solver', Thrift.Type.STRUCT, 2);
     this.solver.write(output);
     output.writeFieldEnd();
   }
@@ -325,17 +470,25 @@ FmuService_createInstanceFromME_args.prototype.write = function(output) {
 
 FmuService_createInstanceFromME_result = function(args) {
   this.success = null;
-  this.ex = null;
+  this.ex1 = null;
+  this.ex2 = null;
   if (args instanceof UnsupportedOperationException) {
-    this.ex = args;
+    this.ex1 = args;
+    return;
+  }
+  if (args instanceof NoSuchFmuException) {
+    this.ex2 = args;
     return;
   }
   if (args) {
     if (args.success !== undefined && args.success !== null) {
       this.success = args.success;
     }
-    if (args.ex !== undefined && args.ex !== null) {
-      this.ex = args.ex;
+    if (args.ex1 !== undefined && args.ex1 !== null) {
+      this.ex1 = args.ex1;
+    }
+    if (args.ex2 !== undefined && args.ex2 !== null) {
+      this.ex2 = args.ex2;
     }
   }
 };
@@ -354,16 +507,24 @@ FmuService_createInstanceFromME_result.prototype.read = function(input) {
     switch (fid)
     {
       case 0:
-      if (ftype == Thrift.Type.I32) {
-        this.success = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new UnsupportedOperationException();
-        this.ex.read(input);
+        this.ex1 = new UnsupportedOperationException();
+        this.ex1.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex2 = new NoSuchFmuException();
+        this.ex2.read(input);
       } else {
         input.skip(ftype);
       }
@@ -380,261 +541,18 @@ FmuService_createInstanceFromME_result.prototype.read = function(input) {
 FmuService_createInstanceFromME_result.prototype.write = function(output) {
   output.writeStructBegin('FmuService_createInstanceFromME_result');
   if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.I32, 0);
-    output.writeI32(this.success);
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeString(this.success);
     output.writeFieldEnd();
   }
-  if (this.ex !== null && this.ex !== undefined) {
-    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
-    this.ex.write(output);
+  if (this.ex1 !== null && this.ex1 !== undefined) {
+    output.writeFieldBegin('ex1', Thrift.Type.STRUCT, 1);
+    this.ex1.write(output);
     output.writeFieldEnd();
   }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-FmuService_getSimulationTime_args = function(args) {
-  this.instance_id = null;
-  if (args) {
-    if (args.instance_id !== undefined && args.instance_id !== null) {
-      this.instance_id = args.instance_id;
-    }
-  }
-};
-FmuService_getSimulationTime_args.prototype = {};
-FmuService_getSimulationTime_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-FmuService_getSimulationTime_args.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_getSimulationTime_args');
-  if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-FmuService_getSimulationTime_result = function(args) {
-  this.success = null;
-  this.ex = null;
-  if (args instanceof NoSuchFmuException) {
-    this.ex = args;
-    return;
-  }
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = args.success;
-    }
-    if (args.ex !== undefined && args.ex !== null) {
-      this.ex = args.ex;
-    }
-  }
-};
-FmuService_getSimulationTime_result.prototype = {};
-FmuService_getSimulationTime_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.DOUBLE) {
-        this.success = input.readDouble().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new NoSuchFmuException();
-        this.ex.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-FmuService_getSimulationTime_result.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_getSimulationTime_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.DOUBLE, 0);
-    output.writeDouble(this.success);
-    output.writeFieldEnd();
-  }
-  if (this.ex !== null && this.ex !== undefined) {
-    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
-    this.ex.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-FmuService_isTerminated_args = function(args) {
-  this.instance_id = null;
-  if (args) {
-    if (args.instance_id !== undefined && args.instance_id !== null) {
-      this.instance_id = args.instance_id;
-    }
-  }
-};
-FmuService_isTerminated_args.prototype = {};
-FmuService_isTerminated_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-FmuService_isTerminated_args.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_isTerminated_args');
-  if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-FmuService_isTerminated_result = function(args) {
-  this.success = null;
-  this.ex = null;
-  if (args instanceof NoSuchFmuException) {
-    this.ex = args;
-    return;
-  }
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = args.success;
-    }
-    if (args.ex !== undefined && args.ex !== null) {
-      this.ex = args.ex;
-    }
-  }
-};
-FmuService_isTerminated_result.prototype = {};
-FmuService_isTerminated_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.BOOL) {
-        this.success = input.readBool().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new NoSuchFmuException();
-        this.ex.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-FmuService_isTerminated_result.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_isTerminated_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.BOOL, 0);
-    output.writeBool(this.success);
-    output.writeFieldEnd();
-  }
-  if (this.ex !== null && this.ex !== undefined) {
-    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
-    this.ex.write(output);
+  if (this.ex2 !== null && this.ex2 !== undefined) {
+    output.writeFieldBegin('ex2', Thrift.Type.STRUCT, 2);
+    this.ex2.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -673,20 +591,20 @@ FmuService_init_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.DOUBLE) {
         this.start = input.readDouble().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 3:
+      case 4:
       if (ftype == Thrift.Type.DOUBLE) {
         this.stop = input.readDouble().value;
       } else {
@@ -705,17 +623,17 @@ FmuService_init_args.prototype.read = function(input) {
 FmuService_init_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_init_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.start !== null && this.start !== undefined) {
-    output.writeFieldBegin('start', Thrift.Type.DOUBLE, 2);
+    output.writeFieldBegin('start', Thrift.Type.DOUBLE, 3);
     output.writeDouble(this.start);
     output.writeFieldEnd();
   }
   if (this.stop !== null && this.stop !== undefined) {
-    output.writeFieldBegin('stop', Thrift.Type.DOUBLE, 3);
+    output.writeFieldBegin('stop', Thrift.Type.DOUBLE, 4);
     output.writeDouble(this.stop);
     output.writeFieldEnd();
   }
@@ -727,7 +645,7 @@ FmuService_init_args.prototype.write = function(output) {
 FmuService_init_result = function(args) {
   this.success = null;
   this.ex = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex = args;
     return;
   }
@@ -763,7 +681,7 @@ FmuService_init_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new NoSuchFmuException();
+        this.ex = new NoSuchInstanceException();
         this.ex.read(input);
       } else {
         input.skip(ftype);
@@ -822,13 +740,13 @@ FmuService_step_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.DOUBLE) {
         this.step_size = input.readDouble().value;
       } else {
@@ -847,12 +765,12 @@ FmuService_step_args.prototype.read = function(input) {
 FmuService_step_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_step_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.step_size !== null && this.step_size !== undefined) {
-    output.writeFieldBegin('step_size', Thrift.Type.DOUBLE, 2);
+    output.writeFieldBegin('step_size', Thrift.Type.DOUBLE, 3);
     output.writeDouble(this.step_size);
     output.writeFieldEnd();
   }
@@ -864,7 +782,7 @@ FmuService_step_args.prototype.write = function(output) {
 FmuService_step_result = function(args) {
   this.success = null;
   this.ex = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex = args;
     return;
   }
@@ -901,7 +819,7 @@ FmuService_step_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new NoSuchFmuException();
+        this.ex = new NoSuchInstanceException();
         this.ex.read(input);
       } else {
         input.skip(ftype);
@@ -921,130 +839,6 @@ FmuService_step_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
     this.success.write(output);
-    output.writeFieldEnd();
-  }
-  if (this.ex !== null && this.ex !== undefined) {
-    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
-    this.ex.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-FmuService_terminate_args = function(args) {
-  this.instance_id = null;
-  if (args) {
-    if (args.instance_id !== undefined && args.instance_id !== null) {
-      this.instance_id = args.instance_id;
-    }
-  }
-};
-FmuService_terminate_args.prototype = {};
-FmuService_terminate_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-FmuService_terminate_args.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_terminate_args');
-  if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-FmuService_terminate_result = function(args) {
-  this.success = null;
-  this.ex = null;
-  if (args instanceof NoSuchFmuException) {
-    this.ex = args;
-    return;
-  }
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = args.success;
-    }
-    if (args.ex !== undefined && args.ex !== null) {
-      this.ex = args.ex;
-    }
-  }
-};
-FmuService_terminate_result.prototype = {};
-FmuService_terminate_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.I32) {
-        this.success = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 1:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new NoSuchFmuException();
-        this.ex.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-FmuService_terminate_result.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_terminate_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.I32, 0);
-    output.writeI32(this.success);
     output.writeFieldEnd();
   }
   if (this.ex !== null && this.ex !== undefined) {
@@ -1080,8 +874,8 @@ FmuService_reset_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -1101,8 +895,8 @@ FmuService_reset_args.prototype.read = function(input) {
 FmuService_reset_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_reset_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -1113,7 +907,7 @@ FmuService_reset_args.prototype.write = function(output) {
 FmuService_reset_result = function(args) {
   this.success = null;
   this.ex = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex = args;
     return;
   }
@@ -1149,7 +943,7 @@ FmuService_reset_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex = new NoSuchFmuException();
+        this.ex = new NoSuchInstanceException();
         this.ex.read(input);
       } else {
         input.skip(ftype);
@@ -1166,6 +960,130 @@ FmuService_reset_result.prototype.read = function(input) {
 
 FmuService_reset_result.prototype.write = function(output) {
   output.writeStructBegin('FmuService_reset_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.I32, 0);
+    output.writeI32(this.success);
+    output.writeFieldEnd();
+  }
+  if (this.ex !== null && this.ex !== undefined) {
+    output.writeFieldBegin('ex', Thrift.Type.STRUCT, 1);
+    this.ex.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+FmuService_terminate_args = function(args) {
+  this.instance_id = null;
+  if (args) {
+    if (args.instance_id !== undefined && args.instance_id !== null) {
+      this.instance_id = args.instance_id;
+    }
+  }
+};
+FmuService_terminate_args.prototype = {};
+FmuService_terminate_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+FmuService_terminate_args.prototype.write = function(output) {
+  output.writeStructBegin('FmuService_terminate_args');
+  if (this.instance_id !== null && this.instance_id !== undefined) {
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+FmuService_terminate_result = function(args) {
+  this.success = null;
+  this.ex = null;
+  if (args instanceof NoSuchInstanceException) {
+    this.ex = args;
+    return;
+  }
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+    if (args.ex !== undefined && args.ex !== null) {
+      this.ex = args.ex;
+    }
+  }
+};
+FmuService_terminate_result.prototype = {};
+FmuService_terminate_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.I32) {
+        this.success = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 1:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.ex = new NoSuchInstanceException();
+        this.ex.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+FmuService_terminate_result.prototype.write = function(output) {
+  output.writeStructBegin('FmuService_terminate_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.I32, 0);
     output.writeI32(this.success);
@@ -1208,13 +1126,13 @@ FmuService_readInteger_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size0 = 0;
         var _rtmp34;
@@ -1246,12 +1164,12 @@ FmuService_readInteger_args.prototype.read = function(input) {
 FmuService_readInteger_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_readInteger_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter7 in this.vr)
     {
@@ -1273,7 +1191,7 @@ FmuService_readInteger_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -1317,7 +1235,7 @@ FmuService_readInteger_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -1389,13 +1307,13 @@ FmuService_readReal_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size8 = 0;
         var _rtmp312;
@@ -1427,12 +1345,12 @@ FmuService_readReal_args.prototype.read = function(input) {
 FmuService_readReal_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_readReal_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter15 in this.vr)
     {
@@ -1454,7 +1372,7 @@ FmuService_readReal_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -1498,7 +1416,7 @@ FmuService_readReal_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -1570,13 +1488,13 @@ FmuService_readString_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size16 = 0;
         var _rtmp320;
@@ -1608,12 +1526,12 @@ FmuService_readString_args.prototype.read = function(input) {
 FmuService_readString_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_readString_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter23 in this.vr)
     {
@@ -1635,7 +1553,7 @@ FmuService_readString_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -1679,7 +1597,7 @@ FmuService_readString_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -1751,13 +1669,13 @@ FmuService_readBoolean_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size24 = 0;
         var _rtmp328;
@@ -1789,12 +1707,12 @@ FmuService_readBoolean_args.prototype.read = function(input) {
 FmuService_readBoolean_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_readBoolean_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter31 in this.vr)
     {
@@ -1816,7 +1734,7 @@ FmuService_readBoolean_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -1860,7 +1778,7 @@ FmuService_readBoolean_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -1936,13 +1854,13 @@ FmuService_writeInteger_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size32 = 0;
         var _rtmp336;
@@ -1962,7 +1880,7 @@ FmuService_writeInteger_args.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 3:
+      case 4:
       if (ftype == Thrift.Type.LIST) {
         var _size39 = 0;
         var _rtmp343;
@@ -1994,12 +1912,12 @@ FmuService_writeInteger_args.prototype.read = function(input) {
 FmuService_writeInteger_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_writeInteger_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter46 in this.vr)
     {
@@ -2013,7 +1931,7 @@ FmuService_writeInteger_args.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.value !== null && this.value !== undefined) {
-    output.writeFieldBegin('value', Thrift.Type.LIST, 3);
+    output.writeFieldBegin('value', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.I32, this.value.length);
     for (var iter47 in this.value)
     {
@@ -2035,7 +1953,7 @@ FmuService_writeInteger_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -2078,7 +1996,7 @@ FmuService_writeInteger_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -2154,13 +2072,13 @@ FmuService_writeReal_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size48 = 0;
         var _rtmp352;
@@ -2180,7 +2098,7 @@ FmuService_writeReal_args.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 3:
+      case 4:
       if (ftype == Thrift.Type.LIST) {
         var _size55 = 0;
         var _rtmp359;
@@ -2212,12 +2130,12 @@ FmuService_writeReal_args.prototype.read = function(input) {
 FmuService_writeReal_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_writeReal_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter62 in this.vr)
     {
@@ -2231,7 +2149,7 @@ FmuService_writeReal_args.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.value !== null && this.value !== undefined) {
-    output.writeFieldBegin('value', Thrift.Type.LIST, 3);
+    output.writeFieldBegin('value', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.DOUBLE, this.value.length);
     for (var iter63 in this.value)
     {
@@ -2253,7 +2171,7 @@ FmuService_writeReal_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -2296,7 +2214,7 @@ FmuService_writeReal_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -2372,13 +2290,13 @@ FmuService_writeString_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size64 = 0;
         var _rtmp368;
@@ -2398,7 +2316,7 @@ FmuService_writeString_args.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 3:
+      case 4:
       if (ftype == Thrift.Type.LIST) {
         var _size71 = 0;
         var _rtmp375;
@@ -2430,12 +2348,12 @@ FmuService_writeString_args.prototype.read = function(input) {
 FmuService_writeString_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_writeString_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter78 in this.vr)
     {
@@ -2449,7 +2367,7 @@ FmuService_writeString_args.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.value !== null && this.value !== undefined) {
-    output.writeFieldBegin('value', Thrift.Type.LIST, 3);
+    output.writeFieldBegin('value', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.STRING, this.value.length);
     for (var iter79 in this.value)
     {
@@ -2471,7 +2389,7 @@ FmuService_writeString_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -2514,7 +2432,7 @@ FmuService_writeString_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -2590,13 +2508,13 @@ FmuService_writeBoolean_args.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.I32) {
-        this.instance_id = input.readI32().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.instance_id = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
+      case 3:
       if (ftype == Thrift.Type.LIST) {
         var _size80 = 0;
         var _rtmp384;
@@ -2616,7 +2534,7 @@ FmuService_writeBoolean_args.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
-      case 3:
+      case 4:
       if (ftype == Thrift.Type.LIST) {
         var _size87 = 0;
         var _rtmp391;
@@ -2648,12 +2566,12 @@ FmuService_writeBoolean_args.prototype.read = function(input) {
 FmuService_writeBoolean_args.prototype.write = function(output) {
   output.writeStructBegin('FmuService_writeBoolean_args');
   if (this.instance_id !== null && this.instance_id !== undefined) {
-    output.writeFieldBegin('instance_id', Thrift.Type.I32, 1);
-    output.writeI32(this.instance_id);
+    output.writeFieldBegin('instance_id', Thrift.Type.STRING, 1);
+    output.writeString(this.instance_id);
     output.writeFieldEnd();
   }
   if (this.vr !== null && this.vr !== undefined) {
-    output.writeFieldBegin('vr', Thrift.Type.LIST, 2);
+    output.writeFieldBegin('vr', Thrift.Type.LIST, 3);
     output.writeListBegin(Thrift.Type.I32, this.vr.length);
     for (var iter94 in this.vr)
     {
@@ -2667,7 +2585,7 @@ FmuService_writeBoolean_args.prototype.write = function(output) {
     output.writeFieldEnd();
   }
   if (this.value !== null && this.value !== undefined) {
-    output.writeFieldBegin('value', Thrift.Type.LIST, 3);
+    output.writeFieldBegin('value', Thrift.Type.LIST, 4);
     output.writeListBegin(Thrift.Type.BOOL, this.value.length);
     for (var iter95 in this.value)
     {
@@ -2689,7 +2607,7 @@ FmuService_writeBoolean_result = function(args) {
   this.success = null;
   this.ex1 = null;
   this.ex2 = null;
-  if (args instanceof NoSuchFmuException) {
+  if (args instanceof NoSuchInstanceException) {
     this.ex1 = args;
     return;
   }
@@ -2732,7 +2650,7 @@ FmuService_writeBoolean_result.prototype.read = function(input) {
       break;
       case 1:
       if (ftype == Thrift.Type.STRUCT) {
-        this.ex1 = new NoSuchFmuException();
+        this.ex1 = new NoSuchInstanceException();
         this.ex1.read(input);
       } else {
         input.skip(ftype);
@@ -2783,16 +2701,19 @@ FmuServiceClient = function(input, output) {
     this.seqid = 0;
 };
 FmuServiceClient.prototype = {};
-FmuServiceClient.prototype.getModelDescriptionXml = function(callback) {
-  this.send_getModelDescriptionXml(callback); 
+FmuServiceClient.prototype.getModelDescriptionXml = function(fmu_id, callback) {
+  this.send_getModelDescriptionXml(fmu_id, callback); 
   if (!callback) {
     return this.recv_getModelDescriptionXml();
   }
 };
 
-FmuServiceClient.prototype.send_getModelDescriptionXml = function(callback) {
+FmuServiceClient.prototype.send_getModelDescriptionXml = function(fmu_id, callback) {
   this.output.writeMessageBegin('getModelDescriptionXml', Thrift.MessageType.CALL, this.seqid);
-  var args = new FmuService_getModelDescriptionXml_args();
+  var params = {
+    fmu_id: fmu_id
+  };
+  var args = new FmuService_getModelDescriptionXml_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
   if (callback) {
@@ -2826,21 +2747,27 @@ FmuServiceClient.prototype.recv_getModelDescriptionXml = function() {
   result.read(this.input);
   this.input.readMessageEnd();
 
+  if (null !== result.ex) {
+    throw result.ex;
+  }
   if (null !== result.success) {
     return result.success;
   }
   throw 'getModelDescriptionXml failed: unknown result';
 };
-FmuServiceClient.prototype.getModelDescription = function(callback) {
-  this.send_getModelDescription(callback); 
+FmuServiceClient.prototype.getModelDescription = function(fmu_id, callback) {
+  this.send_getModelDescription(fmu_id, callback); 
   if (!callback) {
     return this.recv_getModelDescription();
   }
 };
 
-FmuServiceClient.prototype.send_getModelDescription = function(callback) {
+FmuServiceClient.prototype.send_getModelDescription = function(fmu_id, callback) {
   this.output.writeMessageBegin('getModelDescription', Thrift.MessageType.CALL, this.seqid);
-  var args = new FmuService_getModelDescription_args();
+  var params = {
+    fmu_id: fmu_id
+  };
+  var args = new FmuService_getModelDescription_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
   if (callback) {
@@ -2874,21 +2801,27 @@ FmuServiceClient.prototype.recv_getModelDescription = function() {
   result.read(this.input);
   this.input.readMessageEnd();
 
+  if (null !== result.ex) {
+    throw result.ex;
+  }
   if (null !== result.success) {
     return result.success;
   }
   throw 'getModelDescription failed: unknown result';
 };
-FmuServiceClient.prototype.createInstanceFromCS = function(callback) {
-  this.send_createInstanceFromCS(callback); 
+FmuServiceClient.prototype.createInstanceFromCS = function(fmu_id, callback) {
+  this.send_createInstanceFromCS(fmu_id, callback); 
   if (!callback) {
     return this.recv_createInstanceFromCS();
   }
 };
 
-FmuServiceClient.prototype.send_createInstanceFromCS = function(callback) {
+FmuServiceClient.prototype.send_createInstanceFromCS = function(fmu_id, callback) {
   this.output.writeMessageBegin('createInstanceFromCS', Thrift.MessageType.CALL, this.seqid);
-  var args = new FmuService_createInstanceFromCS_args();
+  var params = {
+    fmu_id: fmu_id
+  };
+  var args = new FmuService_createInstanceFromCS_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
   if (callback) {
@@ -2922,24 +2855,28 @@ FmuServiceClient.prototype.recv_createInstanceFromCS = function() {
   result.read(this.input);
   this.input.readMessageEnd();
 
-  if (null !== result.ex) {
-    throw result.ex;
+  if (null !== result.ex1) {
+    throw result.ex1;
+  }
+  if (null !== result.ex2) {
+    throw result.ex2;
   }
   if (null !== result.success) {
     return result.success;
   }
   throw 'createInstanceFromCS failed: unknown result';
 };
-FmuServiceClient.prototype.createInstanceFromME = function(solver, callback) {
-  this.send_createInstanceFromME(solver, callback); 
+FmuServiceClient.prototype.createInstanceFromME = function(fmu_id, solver, callback) {
+  this.send_createInstanceFromME(fmu_id, solver, callback); 
   if (!callback) {
     return this.recv_createInstanceFromME();
   }
 };
 
-FmuServiceClient.prototype.send_createInstanceFromME = function(solver, callback) {
+FmuServiceClient.prototype.send_createInstanceFromME = function(fmu_id, solver, callback) {
   this.output.writeMessageBegin('createInstanceFromME', Thrift.MessageType.CALL, this.seqid);
   var params = {
+    fmu_id: fmu_id,
     solver: solver
   };
   var args = new FmuService_createInstanceFromME_args(params);
@@ -2976,121 +2913,16 @@ FmuServiceClient.prototype.recv_createInstanceFromME = function() {
   result.read(this.input);
   this.input.readMessageEnd();
 
-  if (null !== result.ex) {
-    throw result.ex;
+  if (null !== result.ex1) {
+    throw result.ex1;
+  }
+  if (null !== result.ex2) {
+    throw result.ex2;
   }
   if (null !== result.success) {
     return result.success;
   }
   throw 'createInstanceFromME failed: unknown result';
-};
-FmuServiceClient.prototype.getSimulationTime = function(instance_id, callback) {
-  this.send_getSimulationTime(instance_id, callback); 
-  if (!callback) {
-    return this.recv_getSimulationTime();
-  }
-};
-
-FmuServiceClient.prototype.send_getSimulationTime = function(instance_id, callback) {
-  this.output.writeMessageBegin('getSimulationTime', Thrift.MessageType.CALL, this.seqid);
-  var params = {
-    instance_id: instance_id
-  };
-  var args = new FmuService_getSimulationTime_args(params);
-  args.write(this.output);
-  this.output.writeMessageEnd();
-  if (callback) {
-    var self = this;
-    this.output.getTransport().flush(true, function() {
-      var result = null;
-      try {
-        result = self.recv_getSimulationTime();
-      } catch (e) {
-        result = e;
-      }
-      callback(result);
-    });
-  } else {
-    return this.output.getTransport().flush();
-  }
-};
-
-FmuServiceClient.prototype.recv_getSimulationTime = function() {
-  var ret = this.input.readMessageBegin();
-  var fname = ret.fname;
-  var mtype = ret.mtype;
-  var rseqid = ret.rseqid;
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(this.input);
-    this.input.readMessageEnd();
-    throw x;
-  }
-  var result = new FmuService_getSimulationTime_result();
-  result.read(this.input);
-  this.input.readMessageEnd();
-
-  if (null !== result.ex) {
-    throw result.ex;
-  }
-  if (null !== result.success) {
-    return result.success;
-  }
-  throw 'getSimulationTime failed: unknown result';
-};
-FmuServiceClient.prototype.isTerminated = function(instance_id, callback) {
-  this.send_isTerminated(instance_id, callback); 
-  if (!callback) {
-    return this.recv_isTerminated();
-  }
-};
-
-FmuServiceClient.prototype.send_isTerminated = function(instance_id, callback) {
-  this.output.writeMessageBegin('isTerminated', Thrift.MessageType.CALL, this.seqid);
-  var params = {
-    instance_id: instance_id
-  };
-  var args = new FmuService_isTerminated_args(params);
-  args.write(this.output);
-  this.output.writeMessageEnd();
-  if (callback) {
-    var self = this;
-    this.output.getTransport().flush(true, function() {
-      var result = null;
-      try {
-        result = self.recv_isTerminated();
-      } catch (e) {
-        result = e;
-      }
-      callback(result);
-    });
-  } else {
-    return this.output.getTransport().flush();
-  }
-};
-
-FmuServiceClient.prototype.recv_isTerminated = function() {
-  var ret = this.input.readMessageBegin();
-  var fname = ret.fname;
-  var mtype = ret.mtype;
-  var rseqid = ret.rseqid;
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(this.input);
-    this.input.readMessageEnd();
-    throw x;
-  }
-  var result = new FmuService_isTerminated_result();
-  result.read(this.input);
-  this.input.readMessageEnd();
-
-  if (null !== result.ex) {
-    throw result.ex;
-  }
-  if (null !== result.success) {
-    return result.success;
-  }
-  throw 'isTerminated failed: unknown result';
 };
 FmuServiceClient.prototype.init = function(instance_id, start, stop, callback) {
   this.send_init(instance_id, start, stop, callback); 
@@ -3203,60 +3035,6 @@ FmuServiceClient.prototype.recv_step = function() {
   }
   throw 'step failed: unknown result';
 };
-FmuServiceClient.prototype.terminate = function(instance_id, callback) {
-  this.send_terminate(instance_id, callback); 
-  if (!callback) {
-    return this.recv_terminate();
-  }
-};
-
-FmuServiceClient.prototype.send_terminate = function(instance_id, callback) {
-  this.output.writeMessageBegin('terminate', Thrift.MessageType.CALL, this.seqid);
-  var params = {
-    instance_id: instance_id
-  };
-  var args = new FmuService_terminate_args(params);
-  args.write(this.output);
-  this.output.writeMessageEnd();
-  if (callback) {
-    var self = this;
-    this.output.getTransport().flush(true, function() {
-      var result = null;
-      try {
-        result = self.recv_terminate();
-      } catch (e) {
-        result = e;
-      }
-      callback(result);
-    });
-  } else {
-    return this.output.getTransport().flush();
-  }
-};
-
-FmuServiceClient.prototype.recv_terminate = function() {
-  var ret = this.input.readMessageBegin();
-  var fname = ret.fname;
-  var mtype = ret.mtype;
-  var rseqid = ret.rseqid;
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(this.input);
-    this.input.readMessageEnd();
-    throw x;
-  }
-  var result = new FmuService_terminate_result();
-  result.read(this.input);
-  this.input.readMessageEnd();
-
-  if (null !== result.ex) {
-    throw result.ex;
-  }
-  if (null !== result.success) {
-    return result.success;
-  }
-  throw 'terminate failed: unknown result';
-};
 FmuServiceClient.prototype.reset = function(instance_id, callback) {
   this.send_reset(instance_id, callback); 
   if (!callback) {
@@ -3310,6 +3088,60 @@ FmuServiceClient.prototype.recv_reset = function() {
     return result.success;
   }
   throw 'reset failed: unknown result';
+};
+FmuServiceClient.prototype.terminate = function(instance_id, callback) {
+  this.send_terminate(instance_id, callback); 
+  if (!callback) {
+    return this.recv_terminate();
+  }
+};
+
+FmuServiceClient.prototype.send_terminate = function(instance_id, callback) {
+  this.output.writeMessageBegin('terminate', Thrift.MessageType.CALL, this.seqid);
+  var params = {
+    instance_id: instance_id
+  };
+  var args = new FmuService_terminate_args(params);
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_terminate();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+FmuServiceClient.prototype.recv_terminate = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new FmuService_terminate_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.ex) {
+    throw result.ex;
+  }
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'terminate failed: unknown result';
 };
 FmuServiceClient.prototype.readInteger = function(instance_id, vr, callback) {
   this.send_readInteger(instance_id, vr, callback); 

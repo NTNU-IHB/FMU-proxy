@@ -23,6 +23,7 @@
  */
 
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
+
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/THttpTransport.h>
 #include <thrift/transport/TBufferTransports.h>
@@ -31,6 +32,7 @@
 
 using namespace std;
 using namespace fmuproxy::fmi;
+using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::server;
 
 using namespace ::apache::thrift;
@@ -38,9 +40,9 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port, bool http): port(port) {
+ThriftServer::ThriftServer(map<FmuId, std::shared_ptr<Fmu>> &fmus, const unsigned int port, const bool http): port_(port) {
 
-    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmu));
+    shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
 
@@ -49,27 +51,26 @@ ThriftServer::ThriftServer(Fmu &fmu, const unsigned int port, bool http): port(p
     if (http) {
         shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
         shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
-        this->server = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+        server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
     } else {
         shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
         shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
-        this->server = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+        server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
     }
 
 }
 
 void ThriftServer::serve() {
-    server->serve();
+    server_->serve();
 }
 
 void ThriftServer::start() {
-    cout << "Thrift server listening to connections on port: " << port << endl;
-    m_thread = std::make_unique<thread>(&ThriftServer::serve, this);
+    cout << "Thrift server listening to connections on port: " << port_ << endl;
+    thread_ = std::make_unique<thread>(&ThriftServer::serve, this);
 }
 
 void ThriftServer::stop() {
-    server->stop();
-    m_thread->join();
+    server_->stop();
+    thread_->join();
     cout << "Thrift server stopped.." << endl;
 }
-

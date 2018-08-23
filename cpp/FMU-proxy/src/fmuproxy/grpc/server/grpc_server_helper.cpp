@@ -31,8 +31,6 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    int ID_GEN = 0;
-
     Status grpcType(fmi2_status_t status) {
         switch (status) {
             case fmi2_status_ok:

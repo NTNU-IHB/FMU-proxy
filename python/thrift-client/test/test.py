@@ -4,10 +4,10 @@ from client import RemoteFmu
 
 if __name__ == '__main__':
 
-    client = RemoteFmu("localhost", 9090)
+    client = RemoteFmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9090)
 
-    step_size = 1E-2
     stop = 10
+    step_size = 1E-2
 
     instance = client.create_instance()
 

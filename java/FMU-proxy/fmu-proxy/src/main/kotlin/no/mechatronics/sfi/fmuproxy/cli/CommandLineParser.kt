@@ -45,6 +45,7 @@ import picocli.CommandLine
 import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.*
 import java.util.concurrent.Callable
 
 private val LOG: Logger = LoggerFactory.getLogger(CommandLineParser::class.java)
@@ -70,8 +71,8 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
     var showHelp = false
 
-    @CommandLine.Option(names = ["-f", "--fmu"], description = ["Path to the FMU."], required = true)
-    lateinit var fmuPath: String
+    @CommandLine.Parameters(arity = "1..*", paramLabel = "FMUs", description = ["FMU(s) to include."])
+    lateinit var fmus: Array<File>
 
     @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remoteAddress tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
     var remote: SimpleSocketAddress? = null
@@ -103,74 +104,68 @@ class Args: Callable<FmuProxy> {
 
     override fun call(): FmuProxy? {
 
-        LOG.debug("FmuPath=$fmuPath")
-
-        val fmu = File(fmuPath).let {file ->
-
-            if (file.exists()) {
-                Fmu.from(file)
-            } else {
-                try {
-                    val url = URL(fmuPath)
-                    Fmu.from(url)
-                } catch (ex: MalformedURLException) {
-                    LOG.error("Interpreted fmuPath: '$fmuPath' as an URL, but an MalformedURLException was thrown!")
-                    null
-                }
-            }
-
+        if (fmus.isEmpty()) {
+            return null
         }
 
-       fmu ?: return null
+        LOG.debug("FMUs=${Arrays.toString(fmus)}")
 
-        return FmuProxyBuilder(fmu).apply {
 
-            setRemote(remote)
 
-            GrpcFmuServer(fmu).apply {
-                addServer(this, grpcPort)
-            }
+        return fmus.map { Fmu.from(it) }.let { fmus ->
+            FmuProxyBuilder(fmus).apply {
 
-            ThriftFmuSocketServer(fmu).apply {
-                addServer(this, thriftTcpPort)
-            }
+                setRemote(remote)
 
-            ThriftFmuServlet(fmu).apply {
-                addServer(this, thriftHttpPort)
-            }
+                val map = fmus.associate { it.modelDescription.guid to it }
 
-            AvroFmuServer(fmu).apply {
-                addServer(this, avroPort)
-            }
+                GrpcFmuServer(map).apply {
+                    addServer(this, grpcPort)
+                }
 
-            RpcHandler(RpcFmuService(fmu)).also { handler ->
+                ThriftFmuSocketServer(map).apply {
+                    addServer(this, thriftTcpPort)
+                }
 
-                if (!isLinux) {
-                    FmuProxyJsonHttpServer(handler).apply {
-                        addServer(this, jsonHttpPort)
+                ThriftFmuServlet(map).apply {
+                    addServer(this, thriftHttpPort)
+                }
+
+                AvroFmuServer(map).apply {
+                    addServer(this, avroPort)
+                }
+
+                RpcHandler(RpcFmuService(map)).also { handler ->
+
+                    if (!isLinux) {
+                        FmuProxyJsonHttpServer(handler).apply {
+                            addServer(this, jsonHttpPort)
+                        }
                     }
+
+                    FmuProxyJsonWsServer(handler).apply {
+                        addServer(this, jsonWsPort)
+                    }
+
+                    FmuProxyJsonTcpServer(handler).apply {
+                        addServer(this, jsonTcpPort)
+                    }
+
+                    FmuProxyJsonZmqServer(handler).apply {
+                        addServer(this, jsonZmqPort)
+                    }
+
                 }
 
-                FmuProxyJsonWsServer(handler).apply {
-                    addServer(this, jsonWsPort)
-                }
+            }.build()
+        }
 
-                FmuProxyJsonTcpServer(handler).apply {
-                    addServer(this, jsonTcpPort)
-                }
-
-                FmuProxyJsonZmqServer(handler).apply {
-                    addServer(this, jsonZmqPort)
-                }
-
-            }
-
-        }.build()
     }
 
     override fun toString(): String {
-        return "Args(fmuPath='$fmuPath', remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
+        return "Args(showHelp=$showHelp, fmus=${Arrays.toString(fmus)}, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
     }
+
 
 }
 

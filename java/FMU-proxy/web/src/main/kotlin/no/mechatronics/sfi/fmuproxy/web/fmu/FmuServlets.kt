@@ -24,15 +24,13 @@
 
 package no.mechatronics.sfi.fmuproxy.web.fmu
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import no.mechatronics.sfi.fmuproxy.web.ServletContextListenerImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Serializable
 import java.util.*
 import javax.annotation.PostConstruct
-import javax.annotation.PreDestroy
 import javax.faces.bean.ApplicationScoped
 import javax.faces.bean.ManagedBean
 import javax.servlet.annotation.WebServlet
@@ -47,17 +45,20 @@ private const val CONTENT_TYPE_TEXT_HTML = "text/html"
 @ApplicationScoped
 class FmuService: Serializable {
 
+    private var stop = false
+
     @Transient
     private lateinit var thread: Thread
 
+    /**
+     * instance access to static field
+     */
     val fmus: List<RemoteFmu>
         get() = FmuService.fmus
 
-    private var stop = false
-
     @PostConstruct
     fun setup() {
-        LOG.info("setup")
+        LOG.debug("setup")
         thread = Thread() {
             while (!stop && !Thread.currentThread().isInterrupted) {
                 FmuTimePair.purge(map)
@@ -67,13 +68,14 @@ class FmuService: Serializable {
                     //ignore
                 }
             }
+        }.apply {
+            start()
         }
-        thread.start()
 
         ServletContextListenerImpl.onDestroy {
             stop = true
             thread.interrupt()
-            LOG.info("destroy")
+            LOG.debug("destroy")
         }
 
     }
@@ -82,10 +84,15 @@ class FmuService: Serializable {
 
         val LOG: Logger = LoggerFactory.getLogger(FmuService::class.java)
 
-        val map: MutableMap<String, FmuTimePair> = Collections.synchronizedMap(hashMapOf())
+        val map: MutableMap<String, FmuTimePair>
+                = Collections.synchronizedMap(hashMapOf())
+
+        val proxies: List<RemoteProxy>
+            @Synchronized
+            get() = map.values.map { it.remoteFmu }
 
         val fmus: List<RemoteFmu>
-            get() = map.values.map { it.remoteFmu }
+            get() = FmuService.proxies.flatMap { it.fmus }
 
     }
 
@@ -97,18 +104,15 @@ class FmuService: Serializable {
 @WebServlet(urlPatterns = ["/availablefmus"])
 class AvailableFmuServlet: HttpServlet() {
 
-    override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
+    private val mapper = jacksonObjectMapper()
 
-        with (resp) {
+    override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
+
+        with (response) {
             contentType = CONTENT_TYPE_TEXT_HTML
 
-            val info = GsonBuilder()
-                    .setPrettyPrinting()
-                    .create()
-                    .toJson(FmuService.fmus)
-
             writer.use {
-                it.println(info)
+                mapper.writeValue(it, FmuService.fmus)
             }
 
         }
@@ -119,20 +123,16 @@ class AvailableFmuServlet: HttpServlet() {
 @WebServlet(urlPatterns = ["/ping"])
 class KeepAlive: HttpServlet() {
 
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger(KeepAlive::class.java)
-    }
+    override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
 
-    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
-
-        val uuid = req.inputStream.reader().readText()
+        val uuid = request.inputStream.bufferedReader().readText().trim()
         LOG.trace("Received ping from FMU with uuid=$uuid")
 
         FmuService.map[uuid]?.apply {
 
-            update()
+            signOfLifeGiven()
 
-            with(resp) {
+            with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("success")
@@ -140,7 +140,7 @@ class KeepAlive: HttpServlet() {
                 }
             }
 
-        } ?: with(resp) {
+        } ?: with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("fail")
@@ -150,26 +150,30 @@ class KeepAlive: HttpServlet() {
 
     }
 
-}
-
-@WebServlet(urlPatterns = ["/registerfmu"])
-class RegisterFmuServlet: HttpServlet() {
-
-    companion object {
-        val LOG: Logger = LoggerFactory.getLogger(RegisterFmuServlet::class.java)
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(KeepAlive::class.java)
     }
 
-    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+}
+
+@WebServlet(urlPatterns = ["/register"])
+class RegisterFmuServlet: HttpServlet() {
+
+    private val mapper = jacksonObjectMapper()
+
+    override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
 
         try {
 
-            val json = req.inputStream.reader().readText().trim()
-            val remoteFmu = Gson().fromJson(json, RemoteFmu::class.java)
-            FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu)
+            request.inputStream.bufferedReader().use {
+                val remoteFmu = mapper.readValue(it, RemoteProxy::class.java).apply {
+                    host = request.remoteHost
+                }
+                FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu)
+                LOG.info("$remoteFmu connected!")
+            }
 
-            LOG.info("$remoteFmu connected!")
-
-            with(resp) {
+            with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("success")
@@ -179,7 +183,7 @@ class RegisterFmuServlet: HttpServlet() {
 
         } catch (ex: Exception) {
 
-            with(resp) {
+            with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("error")
@@ -192,10 +196,17 @@ class RegisterFmuServlet: HttpServlet() {
 
     }
 
+    private companion object {
+        val LOG: Logger = LoggerFactory.getLogger(RegisterFmuServlet::class.java)
+    }
+
 }
 
+/**
+ * Used to determine if a remote FMU is alive or not
+ */
 class FmuTimePair(
-        val remoteFmu: RemoteFmu
+        val remoteFmu: RemoteProxy
 ) {
 
     private var lastSignOfLife = System.currentTimeMillis()
@@ -203,7 +214,7 @@ class FmuTimePair(
     val isDead: Boolean
         get() = (System.currentTimeMillis() - lastSignOfLife) > LIFE_TIME
 
-    fun update() {
+    fun signOfLifeGiven() {
         lastSignOfLife = System.currentTimeMillis()
     }
 

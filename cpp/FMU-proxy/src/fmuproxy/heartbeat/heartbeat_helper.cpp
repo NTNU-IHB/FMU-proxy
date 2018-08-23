@@ -27,10 +27,13 @@
 #include <iomanip>
 #include <cctype>
 #include <algorithm>
+#include <vector>
+#include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
+#include <boost/algorithm/string/join.hpp>
 #include <curl/curl.h>
+#include <fmuproxy/heartbeat/RemoteAddress.hpp>
 
 using namespace std;
 using namespace boost::uuids;
@@ -44,7 +47,7 @@ namespace fmuproxy { namespace  heartbeat {
     }
 
     //https://stackoverflow.com/questions/7724448/simple-json-string-escape-for-c
-    string escape_json(const std::string &s) {
+    const string toJSON(const std::string &s) {
         std::ostringstream o;
         for (auto c = s.cbegin(); c != s.cend(); c++) {
             if (*c == '"' || *c == '\\' || ('\x00' <= *c && *c <= '\x1f')) {
@@ -57,9 +60,12 @@ namespace fmuproxy { namespace  heartbeat {
         return o.str();
     }
 
+    const string toJSON(vector<string> v) {
+        return "[" + boost::algorithm::join(v, ", ") + "]";
+    }
+
     // https://stackoverflow.com/questions/44994203/how-to-get-the-http-response-string-using-curl-in-c
-    size_t write_callback(char *contents, size_t size, size_t nmemb, void *userp)
-    {
+    const size_t write_callback(char *contents, size_t size, size_t nmemb, void *userp) {
         ((std::string*)userp)->append(contents, size * nmemb);
         return size * nmemb;
     }
@@ -88,9 +94,9 @@ namespace fmuproxy { namespace  heartbeat {
         rtrim(s);
     }
 
-    static inline CURLcode post(const string &host, const unsigned int port, CURL *curl, string &response, const string &ctx, const string &data) {
+    static inline CURLcode post(const RemoteAddress &remote, CURL *curl, string &response, const string &ctx, const string &data) {
 
-        string url = "http://" + host + ":" + to_string(port) + "/fmu-proxy/" + ctx;
+        const string url = "http://" + remote.host + ":" + to_string(remote.port) + "/fmu-proxy/" + ctx;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data.c_str());
 

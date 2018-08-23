@@ -24,8 +24,8 @@
 
 package no.mechatronics.sfi.fmuproxy.heartbeat
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.google.gson.GsonBuilder
-import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,25 +39,24 @@ import java.util.*
  * @author Lars Ivar Hatledal
  */
 internal class Heartbeat(
-        private val remoteAddress: SimpleSocketAddress,
-        private val networkInfo: NetworkInfo,
-        private val modelDescriptionXml: String
+        private val remote: SimpleSocketAddress,
+        private val ports: Map<String, Int>,
+        private val modelDescriptions: List<String>
 ): Closeable {
 
-    private var thread: Thread? = null
     private var stop: Boolean = false
-
     private var connected: Boolean = false
+    private var thread: Thread? = null
     private val uuid: String = UUID.randomUUID().toString()
 
     val jsonData: String by lazy {
-        val gson = GsonBuilder().create()
+        val mapper = jacksonObjectMapper()
         val map = mapOf(
                 "uuid" to uuid,
-                "networkInfo" to networkInfo,
-                "modelDescriptionXml" to modelDescriptionXml
+                "ports" to ports,
+                "modelDescriptions" to modelDescriptions
         )
-        gson.toJson(map)
+        mapper.writeValueAsString(map)
     }
 
     private companion object {
@@ -67,12 +66,12 @@ internal class Heartbeat(
     fun start() {
 
         if (thread == null) {
-            thread = Thread(){
+            thread = Thread{
                 run()
             }.apply {
                 start()
             }
-            LOG.info("Heartbeat started. Connecting to remote @${remoteAddress.host}:${remoteAddress.port}")
+            LOG.info("Heartbeat started. Connecting to remote @${remote.host}:${remote.port}")
         } else {
             LOG.warn("Heartbeat has already been started..")
         }
@@ -123,7 +122,7 @@ internal class Heartbeat(
 
             } else {
 
-                post("registerfmu", jsonData, {
+                post("register", jsonData, {
                     connected = (it == "success")
                     if (connected) {
                         LOG.info("Successfully connected to remote!")
@@ -144,7 +143,7 @@ internal class Heartbeat(
 
         try {
 
-            val urlString = "${remoteAddress.urlString}/fmu-proxy/$ctx"
+            val urlString = "${remote.urlString}/fmu-proxy/$ctx"
             (URL(urlString).openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
                 doOutput = true

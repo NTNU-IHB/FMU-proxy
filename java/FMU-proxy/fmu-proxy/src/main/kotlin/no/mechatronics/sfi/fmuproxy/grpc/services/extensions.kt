@@ -127,14 +127,6 @@ internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
 }
 
 
-internal fun Double.protoType(): Proto.Real {
-    return Proto.Real.newBuilder().setValue(this).build()
-}
-
-internal fun Boolean.protoType(): Proto.Bool {
-    return Proto.Bool.newBuilder().setValue(this).build()
-}
-
 internal fun ModelStructure.protoType(): Proto.ModelStructure {
     return Proto.ModelStructure.newBuilder()
             .addAllOutputs(outputs.map { it.protoType() })

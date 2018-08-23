@@ -23,27 +23,32 @@
  */
 
 #include <iostream>
+#include <vector>
+#include <map>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
+#include <fmuproxy/heartbeat/RemoteAddress.hpp>
 #include "../test_util.cpp"
 
 using namespace std;
+using namespace fmuproxy;
 using namespace fmuproxy::fmi;
 using namespace fmuproxy::heartbeat;
 
 int main() {
 
-    const unsigned int port = 8080;
-    const string host = "localhost";
-
-    string fmu_path = string(getenv("TEST_FMUs"))
+    const string fmu_path = string(getenv("TEST_FMUs"))
                           + "/FMI_2.0/CoSimulation/" + getOs() +
                           "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu = Fmu(fmu_path);
-    string xml = fmu.get_model_description_xml();
+    Fmu fmu(fmu_path);
+    RemoteAddress remote("localhost", 8080);
+    
+    const map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
+    const vector<string> modelDescriptions = {fmu.getModelDescriptionXml()};
+    
 
-    auto beat = Heartbeat(host, port, xml);
+    Heartbeat beat(remote, servers, modelDescriptions);
     beat.start();
 
     wait_for_input();

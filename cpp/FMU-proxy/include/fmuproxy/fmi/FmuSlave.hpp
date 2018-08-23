@@ -22,40 +22,25 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_REMOTEADDRESS_HPP
-#define FMU_PROXY_REMOTEADDRESS_HPP
+#ifndef FMU_PROXY_FMUSLAVE_HPP
+#define FMU_PROXY_FMUSLAVE_HPP
 
-#include <string>
-#include <vector>
-#include <boost/algorithm/string.hpp>
-#include <ostream>
+#include "FmuInstance.hpp"
 
-namespace fmuproxy {
+namespace fmuproxy::fmi {
 
-    class RemoteAddress {
+    class FmuSlave: public FmuInstance {
 
     public:
+        explicit FmuSlave(ModelDescription &modelDescription) : FmuInstance(modelDescription) {}
 
-        const std::string host;
-        const unsigned int port;
+        virtual fmi2_status_t step(fmi2_real_t step_size) = 0;
 
-        RemoteAddress(const std::string &host, const unsigned int port)
-                : host(host), port(port) {}
-
-        static RemoteAddress parse(std::string &address) {
-            std::vector<std::string> split;
-            boost::split(split, address, boost::is_any_of(":"));
-            const std::string host = split[0];
-            const int port = std::stoi(split[1]);
-            return RemoteAddress(host, port);
-        }
-
-        friend std::ostream& operator<<(std::ostream &strm, const RemoteAddress &a) {
-            return strm << "RemoteAddress(" << a.host << ":" << a.port << ")";
-        }
+        virtual fmi2_status_t cancelStep() = 0;
 
     };
 
 }
 
-#endif //FMU_PROXY_REMOTEADDRESS_HPP
+
+#endif //FMU_PROXY_FMUSLAVE_HPP

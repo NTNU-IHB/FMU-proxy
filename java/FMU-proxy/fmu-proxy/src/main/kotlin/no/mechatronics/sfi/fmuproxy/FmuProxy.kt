@@ -26,6 +26,7 @@ package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
+import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
@@ -33,40 +34,19 @@ import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
-import java.net.InetAddress
-import java.net.UnknownHostException
 import java.util.*
 
 /**
  * @author Lars Ivar Hatledal
  */
 class FmuProxy(
-        val fmuFile: Fmu,
-        val remoteAddress: SimpleSocketAddress? = null,
+        private val fmus: List<Fmu>,
+        private val remote: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
 
-    private var beat: Heartbeat? = null
     private var hasStarted = false
-
-    private val hostAddress: String
-        get() {
-            return try {
-                InetAddress.getLocalHost().hostAddress
-            } catch (ex: UnknownHostException) {
-                "127.0.0.1"
-            }
-        }
-
-    val networkInfo: NetworkInfo
-        get() {
-            return NetworkInfo(
-                    host = hostAddress,
-                    ports = servers.keys.associate { server ->
-                        server.simpleName to (servers[server] ?: server.port ?: -1)
-                    }
-            )
-        }
+    private var beat: Heartbeat? = null
 
     /**
      * Start proxy
@@ -77,8 +57,11 @@ class FmuProxy(
                 val (server, port) = it
                 if (port == null) server.start() else server.start(port)
             }
-            beat = remoteAddress?.let {
-                Heartbeat(remoteAddress, networkInfo, fmuFile.modelDescriptionXml).apply {
+            val ports = servers.keys.associate { server ->
+                server.simpleName to (servers[server] ?: server.port ?: -1)
+            }
+            beat = remote?.let {
+                Heartbeat(remote, ports, fmus.map { it.modelDescriptionXml }).apply {
                     start()
                 }
             }
@@ -94,6 +77,7 @@ class FmuProxy(
             servers.forEach {
                 it.key.stop()
             }
+            FmuSlaves.terminateAll()
             LOG.debug("FMU-proxy stopped!")
         } else {
             LOG.warn("Calling stop, but FMU-proxy has not started..")
@@ -150,8 +134,10 @@ class FmuProxy(
  * @author Lars Ivar Hatledal
  */
 class FmuProxyBuilder(
-        private val fmuFile: Fmu
+        private val fmus: List<Fmu>
 ) {
+
+    constructor(fmu: Fmu): this(listOf(fmu))
 
     private var remote: SimpleSocketAddress? = null
     private val servers = mutableMapOf<FmuProxyServer, Int?>()
@@ -168,7 +154,7 @@ class FmuProxyBuilder(
     }
 
     fun build(): FmuProxy {
-        return FmuProxy(fmuFile, remote, servers)
+        return FmuProxy(fmus, remote, servers)
     }
 
 }

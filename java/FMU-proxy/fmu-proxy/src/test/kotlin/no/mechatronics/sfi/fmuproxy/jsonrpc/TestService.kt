@@ -6,12 +6,14 @@ import info.laht.yajrpc.RpcRequestOut
 import info.laht.yajrpc.RpcResponse
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealArrayRead
-import no.mechatronics.sfi.fmi4j.common.FmuRealRead
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
+import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
+import no.mechatronics.sfi.fmi4j.modeldescription.parser.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -27,49 +29,14 @@ class TestService {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/${TestUtils.getOs()}/20sim/4.6.4.8004/" +
+            "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
 
     private val handler = RpcHandler(RpcFmuService(fmu))
-    
-    @Test
-    fun testModelName() {
 
-        val modelName = """
-        {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "FmuService.getModelName",
-            "params": []
-        }
-        """.let {
-            RpcResponse.fromJson(handler.handle(it)!!)
-                    .getResult<String>()
-        }
-
-        LOG.info("modelName=$modelName")
-        Assertions.assertEquals(fmu.modelDescription.modelName, modelName)
-
-    }
-
-    @Test
-    fun testGuid() {
-
-        val guid = """
-        {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "FmuService.getGuid",
-            "params": null
-        }
-        """.let {
-            RpcResponse.fromJson(handler.handle(it)!!)
-                    .getResult<String>()
-        }
-
-        LOG.info("guid=$guid")
-        Assertions.assertEquals(fmu.modelDescription.guid, guid)
-
+    @AfterAll
+    fun tearDown() {
+        fmu.close()
     }
 
     @Test
@@ -80,7 +47,7 @@ class TestService {
             "jsonrpc": "2.0",
             "id": 1,
             "method": "FmuService.getModelDescriptionXml",
-            "params": []
+            "params": ["${fmu.guid}"]
         }
         """.let {
             RpcResponse.fromJson(handler.handle(it)!!)
@@ -94,34 +61,41 @@ class TestService {
     }
 
     @Test
+    fun testModelDescription() {
+
+        val md = """
+        {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "FmuService.getModelDescription",
+            "params": ["${fmu.guid}"]
+        }
+        """.let {
+            RpcResponse.fromJson(handler.handle(it)!!)
+                    .getResult<ModelDescriptionImpl>()!!
+        }
+
+        Assertions.assertEquals(fmu.guid, md.guid)
+        Assertions.assertEquals(fmu.modelName, md.modelName)
+
+    }
+
+    @Test
     fun testInstance() {
 
         val instanceId = RpcRequestOut(
                 methodName = "FmuService.createInstanceFromCS",
-                params = RpcParams.noParams()
+                params = RpcParams.listParams(fmu.guid)
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
-                .getResult<Int>()!!
+                .getResult<String>()!!
 
         val init = RpcRequestOut(
                 methodName = "FmuService.init",
-                params = RpcParams.listParams(instanceId)
+                params = RpcParams.listParams(instanceId, 0.0)
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
 
         Assertions.assertEquals(FmiStatus.OK, init)
-
-        val simulationTimeMsg = RpcRequestOut(
-                methodName = "FmuService.getSimulationTime",
-                params = RpcParams.listParams(instanceId)
-        ).toJson()
-
-        fun simulationTime() = simulationTimeMsg
-                .let{ RpcResponse.fromJson(handler.handle(it)!!) }
-                .getResult<Double>()!!
-
-        val simulationTime = simulationTime()
-        LOG.info("simulationTime=$simulationTime")
-        Assertions.assertEquals(0.0, simulationTime)
 
         val h = RpcRequestOut(
                 methodName = "FmuService.readReal",
@@ -142,7 +116,7 @@ class TestService {
                     .getResult<StepResult>()!!
             Assertions.assertEquals(FmiStatus.OK, stepResult.status)
 
-            LOG.info("simulationTime=${simulationTime()}")
+            LOG.info("simulationTime=${stepResult.simulationTime}")
 
         }
 
