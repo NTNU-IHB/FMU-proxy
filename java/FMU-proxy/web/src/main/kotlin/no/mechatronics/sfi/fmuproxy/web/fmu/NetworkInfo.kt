@@ -27,6 +27,8 @@ package no.mechatronics.sfi.fmuproxy.web.fmu
 import java.io.Serializable
 
 /**
+ * Contains the info needed to connect to a remote proxy
+ *
  * @author Lars Ivar Hatledal
  */
 data class NetworkInfo(
@@ -34,7 +36,8 @@ data class NetworkInfo(
         val host: String,
 
         /**
-         * keys: "grpc/http2", "avro/tcp", "thrift/tcp", "jsonRpc/http", "jsonRpc/ws", "jsonRpc/tcp", "jsonRpc/zmq"
+         * keys: "grpc/http2", "avro/tcp", "thrift/tcp", "thrift/http"
+         * "jsonRpc/http", "jsonRpc/ws", "jsonRpc/tcp", "jsonRpc/zmq"
          */
         val ports: Map<String, Int>
 

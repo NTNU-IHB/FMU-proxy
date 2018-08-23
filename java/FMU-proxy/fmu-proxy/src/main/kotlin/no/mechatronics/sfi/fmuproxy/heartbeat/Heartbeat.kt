@@ -123,7 +123,7 @@ internal class Heartbeat(
 
             } else {
 
-                post("registerfmu", jsonData, {
+                post("register", jsonData, {
                     connected = (it == "success")
                     if (connected) {
                         LOG.info("Successfully connected to remote!")

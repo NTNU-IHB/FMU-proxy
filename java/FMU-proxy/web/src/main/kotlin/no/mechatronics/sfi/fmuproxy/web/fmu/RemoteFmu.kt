@@ -22,28 +22,20 @@
  * THE SOFTWARE.
  */
 
+
 package no.mechatronics.sfi.fmuproxy.web.fmu
 
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionParser
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
-import java.io.Serializable
-import javax.faces.bean.ManagedBean
 
 /**
+ * Represents a remote Fmu
  * @author Lars Ivar Hatledal
  */
-@ManagedBean
-data class RemoteFmu(
-        val uuid: String,
+class RemoteFmu(
         val networkInfo: NetworkInfo,
-        val modelDescriptionXml: String
-): Serializable {
-
-    @Transient
-    private var _modelDescription: CommonModelDescription? = null
-    val modelDescription: CommonModelDescription
-        get() = _modelDescription ?: ModelDescriptionParser.parse(modelDescriptionXml).also { _modelDescription = it }
+        val modelDescription: CommonModelDescription
+) {
 
     val guid: String
         get() = modelDescription.guid
@@ -58,7 +50,8 @@ data class RemoteFmu(
         get() = modelDescription.modelVariables.getVariables()
 
     override fun toString(): String {
-        return "RemoteFmu(uuid='$uuid', modelName='${modelDescription.modelName}', networkInfo=$networkInfo)"
+        return "RemoteFmu(guid=$guid, modelName=$modelName, description=$description)"
     }
+
 
 }

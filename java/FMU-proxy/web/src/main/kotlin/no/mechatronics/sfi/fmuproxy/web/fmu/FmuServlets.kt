@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory
 import java.io.Serializable
 import java.util.*
 import javax.annotation.PostConstruct
-import javax.annotation.PreDestroy
 import javax.faces.bean.ApplicationScoped
 import javax.faces.bean.ManagedBean
 import javax.servlet.annotation.WebServlet
@@ -47,13 +46,16 @@ private const val CONTENT_TYPE_TEXT_HTML = "text/html"
 @ApplicationScoped
 class FmuService: Serializable {
 
+    private var stop = false
+
     @Transient
     private lateinit var thread: Thread
 
+    /**
+     * instance access to static field
+     */
     val fmus: List<RemoteFmu>
         get() = FmuService.fmus
-
-    private var stop = false
 
     @PostConstruct
     fun setup() {
@@ -67,8 +69,9 @@ class FmuService: Serializable {
                     //ignore
                 }
             }
+        }.apply {
+            start()
         }
-        thread.start()
 
         ServletContextListenerImpl.onDestroy {
             stop = true
@@ -84,8 +87,11 @@ class FmuService: Serializable {
 
         val map: MutableMap<String, FmuTimePair> = Collections.synchronizedMap(hashMapOf())
 
-        val fmus: List<RemoteFmu>
+        val proxies: List<RemoteProxy>
             get() = map.values.map { it.remoteFmu }
+
+        val fmus: List<RemoteFmu>
+            get() = FmuService.proxies.flatMap { it.fmus }
 
     }
 
@@ -97,18 +103,19 @@ class FmuService: Serializable {
 @WebServlet(urlPatterns = ["/availablefmus"])
 class AvailableFmuServlet: HttpServlet() {
 
-    override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
+    private val gson by lazy {
+        GsonBuilder().setPrettyPrinting().create()
+    }
 
-        with (resp) {
+    override fun doGet(request: HttpServletRequest, response: HttpServletResponse) {
+
+        with (response) {
             contentType = CONTENT_TYPE_TEXT_HTML
 
-            val info = GsonBuilder()
-                    .setPrettyPrinting()
-                    .create()
-                    .toJson(FmuService.fmus)
-
-            writer.use {
-                it.println(info)
+            gson.toJson(FmuService.fmus).also { json ->
+                writer.use {
+                    it.println(json)
+                }
             }
 
         }
@@ -119,20 +126,20 @@ class AvailableFmuServlet: HttpServlet() {
 @WebServlet(urlPatterns = ["/ping"])
 class KeepAlive: HttpServlet() {
 
-    companion object {
+    private companion object {
         val LOG: Logger = LoggerFactory.getLogger(KeepAlive::class.java)
     }
 
-    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+    override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
 
-        val uuid = req.inputStream.reader().readText()
+        val uuid = request.inputStream.reader().readText().trim()
         LOG.trace("Received ping from FMU with uuid=$uuid")
 
         FmuService.map[uuid]?.apply {
 
             update()
 
-            with(resp) {
+            with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("success")
@@ -140,7 +147,7 @@ class KeepAlive: HttpServlet() {
                 }
             }
 
-        } ?: with(resp) {
+        } ?: with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("fail")
@@ -152,24 +159,24 @@ class KeepAlive: HttpServlet() {
 
 }
 
-@WebServlet(urlPatterns = ["/registerfmu"])
+@WebServlet(urlPatterns = ["/register"])
 class RegisterFmuServlet: HttpServlet() {
 
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(RegisterFmuServlet::class.java)
     }
 
-    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+    override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
 
         try {
 
-            val json = req.inputStream.reader().readText().trim()
-            val remoteFmu = Gson().fromJson(json, RemoteFmu::class.java)
+            val json = request.inputStream.reader().readText().trim()
+            val remoteFmu = Gson().fromJson(json, RemoteProxy::class.java)
             FmuService.map[remoteFmu.uuid] = FmuTimePair(remoteFmu)
 
             LOG.info("$remoteFmu connected!")
 
-            with(resp) {
+            with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("success")
@@ -179,7 +186,7 @@ class RegisterFmuServlet: HttpServlet() {
 
         } catch (ex: Exception) {
 
-            with(resp) {
+            with(response) {
                 contentType = CONTENT_TYPE_TEXT_HTML
                 writer.use {
                     it.println("error")
@@ -195,7 +202,7 @@ class RegisterFmuServlet: HttpServlet() {
 }
 
 class FmuTimePair(
-        val remoteFmu: RemoteFmu
+        val remoteFmu: RemoteProxy
 ) {
 
     private var lastSignOfLife = System.currentTimeMillis()

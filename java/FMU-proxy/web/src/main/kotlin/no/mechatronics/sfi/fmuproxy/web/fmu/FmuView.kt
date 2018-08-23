@@ -39,7 +39,7 @@ class FmuView: Serializable {
     @ManagedProperty("#{fmuService}")
     lateinit var service: FmuService
 
-    var selectedFmu: RemoteFmu? = null
+    var selectedFmu: RemoteProxy? = null
 
     override fun toString(): String {
         return "FmuView(selectedFmu=$selectedFmu)"
