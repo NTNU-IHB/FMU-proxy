@@ -149,6 +149,33 @@ class JsonRpcFmuClient(
                 .getResult<FmiStatus>()!!
     }
 
+    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun canSerializeFMUstate(instanceId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     internal class StepResult(
             var simulationTime: Double,

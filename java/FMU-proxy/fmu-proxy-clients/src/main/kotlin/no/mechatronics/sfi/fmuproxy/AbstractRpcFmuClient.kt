@@ -38,7 +38,10 @@ abstract class AbstractRpcFmuClient(
 
     abstract val modelDescriptionXml: String
     abstract val modelDescription: CommonModelDescription
-    
+
+    protected abstract fun createInstanceFromCS(): String
+    protected abstract fun createInstanceFromME(solver: Solver): String
+
     protected abstract fun init(instanceId: String, start: Double, stop: Double): FmiStatus
     protected abstract fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus>
     protected abstract fun reset(instanceId: String): FmiStatus
@@ -92,8 +95,21 @@ abstract class AbstractRpcFmuClient(
     }
     internal abstract fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
 
-    protected abstract fun createInstanceFromCS(): String
-    protected abstract fun createInstanceFromME(solver: Solver): String
+
+    internal abstract fun canGetAndSetFMUstate(instanceId: String): Boolean
+
+    internal abstract fun canSerializeFMUstate(instanceId: String): Boolean
+
+    internal abstract fun deSerializeFMUstate(instanceId: String, state: ByteArray):  Pair<FmuState, FmiStatus>
+
+    internal abstract fun freeFMUstate(instanceId: String, state: FmuState):  FmiStatus
+
+    internal abstract fun getFMUstate(instanceId: String):  Pair<FmuState, FmiStatus>
+
+    internal abstract fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus>
+
+    internal abstract fun setFMUstate(instanceId: String, state: FmuState): FmiStatus
+
 
     protected fun process(name: String): Int {
         return NAME_TO_VALUE_REF.getOrPut(name) {
@@ -111,10 +127,6 @@ abstract class AbstractRpcFmuClient(
         return FmuInstance(instanceId).also {
             FmuInstances.add(it)
         }
-    }
-
-    fun stop() {
-        close()
     }
 
     override fun close() {
@@ -140,16 +152,15 @@ abstract class AbstractRpcFmuClient(
             private val instanceId: String
     ): FmuSlave, FmuVariableAccessor {
 
-        override var isTerminated = false
-            private set
-
-        override val variableAccessor = this
-
         override var isInitialized = false
             private set
 
-        override var lastStatus = FmiStatus.NONE
+        override var isTerminated = false
+            private set
+
         override var simulationTime: Double = 0.0
+        override var lastStatus = FmiStatus.NONE
+        override val variableAccessor = this
 
         override val modelDescription
             get() = this@AbstractRpcFmuClient.modelDescription
@@ -179,17 +190,20 @@ abstract class AbstractRpcFmuClient(
         override fun doStep(stepSize: Double): Boolean {
             val stepResult = step(instanceId, stepSize)
             simulationTime = stepResult.first
-            lastStatus = stepResult.second
-            return lastStatus == FmiStatus.OK
+            return stepResult.second.let {
+                lastStatus = it
+                it == FmiStatus.OK
+            }
         }
 
         override fun terminate(): Boolean {
             
             if (!isTerminated) {
                 return try {
-                    terminate(instanceId).also {
+                    terminate(instanceId).let {
                         lastStatus = it
-                    } == FmiStatus.OK
+                        it == FmiStatus.OK
+                    }
                 } finally {
                     isTerminated = true
                     FmuInstances.remove(this)
@@ -200,9 +214,10 @@ abstract class AbstractRpcFmuClient(
         }
 
         override fun reset(): Boolean {
-            return reset(instanceId).also {
+            return reset(instanceId).let {
                 lastStatus = it
-            } == FmiStatus.OK
+                it == FmiStatus.OK
+            }
         }
 
         override fun close() {
@@ -300,6 +315,36 @@ abstract class AbstractRpcFmuClient(
         override fun writeString(vr: ValueReferences, value: StringArray)
                 = writeString(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
 
+        override val canGetAndSetFMUstate: Boolean
+            get() = canGetAndSetFMUstate(instanceId)
+
+        override val canSerializeFMUstate: Boolean
+            get() = canSerializeFMUstate(instanceId)
+
+        override fun deSerializeFMUstate(state: ByteArray) = deSerializeFMUstate(instanceId, state).let {
+            lastStatus = it.second
+            it.first
+        }
+
+        override fun freeFMUstate(state: FmuState) = freeFMUstate(instanceId, state).let {
+            lastStatus = it
+            it == FmiStatus.OK
+        }
+
+        override fun getFMUstate() = getFMUstate(instanceId).let {
+            lastStatus = it.second
+            it.first
+        }
+
+        override fun serializeFMUstate(state: FmuState) = serializeFMUstate(instanceId, state).let {
+            lastStatus = it.second
+            it.first
+        }
+
+        override fun setFMUstate(state: FmuState) = setFMUstate(instanceId, state).let {
+            lastStatus = it
+            it == FmiStatus.OK
+        }
     }
 
 }

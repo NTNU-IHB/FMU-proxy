@@ -1,6 +1,6 @@
 package no.mechatronics.sfi.fmuproxy.cli
 
-import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
+import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
@@ -25,10 +25,7 @@ class TestCliParser {
 
         var args = arrayOf("${fmuPath.absolutePath}")
         CommandLineParser.parse(args)?.use { proxy ->
-
             proxy.start()
-            LOG.info("${proxy.networkInfo}")
-
         }
     }
 

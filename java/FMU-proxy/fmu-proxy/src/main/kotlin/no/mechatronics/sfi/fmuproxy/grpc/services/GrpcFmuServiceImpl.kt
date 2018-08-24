@@ -24,9 +24,11 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc.services
 
+import com.google.protobuf.ByteString
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
+import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.grpc.*
@@ -39,228 +41,295 @@ class GrpcFmuServiceImpl(
         private val fmus: Map<String, Fmu>
 ): FmuServiceGrpc.FmuServiceImplBase() {
 
-    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
+    constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))
+
+    private inline fun getFmu(fmuId: String, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
+        fmus[fmuId]?.apply(block) ?: noSuchFmuReply(fmuId, responseObserver)
+    }
+
+    private inline fun getSlave(instanceId: String, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
+        FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
+    }
 
     override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Proto.ModelDescription>) {
-        val fmuId = request.fmuId
-        fmus[fmuId]?.apply {
+        getFmu(request.fmuId, responseObserver) {
             responseObserver.onNext(modelDescription.protoType())
             responseObserver.onCompleted()
-        } ?: noSuchFmuReply(fmuId, responseObserver)
+        }
     }
 
     override fun getModelDescriptionXml(request: Service.GetModelDescriptionXmlRequest, responseObserver: StreamObserver<Service.ModelDescriptionXml>) {
-        val fmuId = request.fmuId
-        fmus[fmuId]?.apply {
-            val xml = Service.ModelDescriptionXml.newBuilder().setXml(modelDescriptionXml).build()
-            responseObserver.onNext(xml)
-            responseObserver.onCompleted()
-        } ?: noSuchFmuReply(fmuId, responseObserver)
-    }
-
-    override fun readInteger(req: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val builder = Service.IntegerRead.newBuilder()
-            val read = variableAccessor.readInteger(req.valueReferencesList.toIntArray())
-            builder.status = read.status.protoType()
-            for (value in read.value) {
-                builder.addValues(value)
+        getFmu(request.fmuId, responseObserver) {
+            Service.ModelDescriptionXml.newBuilder().setXml(modelDescriptionXml).also {
+                responseObserver.onNext(it.build())
+                responseObserver.onCompleted()
             }
-            responseObserver.onNext(builder.build())
-            responseObserver.onCompleted()
-        }?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun readReal(req: Service.ReadRequest, responseObserver: StreamObserver<Service.RealRead>) {
+    override fun createInstanceFromCS(request: Service.CreateInstanceFromCSRequest, responseObserver: StreamObserver<Service.InstanceId>) {
 
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val builder = Service.RealRead.newBuilder()
-            val read = variableAccessor.readReal(req.valueReferencesList.toIntArray())
-            builder.status = read.status.protoType()
-            for (value in read.value) {
-                builder.addValues(value)
+        getFmu(request.fmuId, responseObserver) {
+            if (!supportsCoSimulation) {
+                unSupportedOperationException(responseObserver, "FMU does not support Co-simulation!")
+            } else {
+                FmuSlaves.put(asCoSimulationFmu().newInstance()).also { id ->
+                    Service.InstanceId.newBuilder().setValue(id).also {
+                        responseObserver.onNext(it.build())
+                        responseObserver.onCompleted()
+                    }
+                }
             }
-            responseObserver.onNext(builder.build())
-            responseObserver.onCompleted()
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun readString(req: Service.ReadRequest, responseObserver: StreamObserver<Service.StringRead>) {
+    override fun createInstanceFromME(request: Service.CreateInstanceFromMERequest, responseObserver: StreamObserver<Service.InstanceId>) {
 
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val builder = Service.StringRead.newBuilder()
-            val read = variableAccessor.readString(req.valueReferencesList.toIntArray())
-            builder.status = read.status.protoType()
-            for (value in read.value) {
-                builder.addValues(value)
+        getFmu(request.fmuId, responseObserver) {
+            if (!supportsModelExchange) {
+                unSupportedOperationException(responseObserver, "FMU does not support Model Exchange!")
+            } else {
+                fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
+                    val stepSize = modelDescription.defaultExperiment?.stepSize ?: 1E-3
+                    LOG.warn("No valid solver found.. Defaulting to Euler with $stepSize stepSize")
+                    return ApacheSolvers.euler(stepSize)
+                }
+
+                val solver = parseSolver(request.solver.name, request.solver.settings) ?: selectDefaultIntegrator()
+                FmuSlaves.put(asModelExchangeFmu().newInstance(solver)).also { id ->
+                    Service.InstanceId.newBuilder().setValue(id).also {
+                        responseObserver.onNext(it.build())
+                        responseObserver.onCompleted()
+                    }
+                }
             }
-            responseObserver.onNext(builder.build())
-            responseObserver.onCompleted()
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
-
-    override fun readBoolean(req: Service.ReadRequest, responseObserver: StreamObserver<Service.BooleanRead>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val builder = Service.BooleanRead.newBuilder()
-            val read = variableAccessor.readBoolean(req.valueReferencesList.toIntArray())
-            builder.status = read.status.protoType()
-            for (value in read.value) {
-                builder.addValues(value)
+    
+    override fun readInteger(request: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
+        getSlave(request.instanceId, responseObserver) {
+            val read = variableAccessor.readInteger(request.valueReferencesList.toIntArray())
+            Service.IntegerRead.newBuilder().setStatus(read.status.protoType()).apply {
+                for (value in read.value) {
+                    addValues(value)
+                }
+                responseObserver.onNext(build())
+                responseObserver.onCompleted()
             }
-            responseObserver.onNext(builder.build())
-            responseObserver.onCompleted()
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-       
-
+        }
     }
 
-    override fun writeInteger(req: Service.WriteIntegerRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+    override fun readReal(request: Service.ReadRequest, responseObserver: StreamObserver<Service.RealRead>) {
+        getSlave(request.instanceId, responseObserver) {
+            val read = variableAccessor.readReal(request.valueReferencesList.toIntArray())
+            Service.RealRead.newBuilder().setStatus(read.status.protoType()).apply {
+                for (value in read.value) {
+                    addValues(value)
+                }
+            }.also {
+                responseObserver.onNext(it.build())
+                responseObserver.onCompleted()
+            }
+        }
+    }
 
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val status = variableAccessor.writeInteger(req.valueReferencesList.toIntArray(), req.valuesList.toIntArray())
+    override fun readString(request: Service.ReadRequest, responseObserver: StreamObserver<Service.StringRead>) {
+        getSlave(request.instanceId, responseObserver) {
+            val read = variableAccessor.readString(request.valueReferencesList.toIntArray())
+            Service.StringRead.newBuilder().setStatus(read.status.protoType()).apply {
+                for (value in read.value) {
+                    addValues(value)
+                }
+            }.also {
+                responseObserver.onNext(it.build())
+                responseObserver.onCompleted()
+            }
+        }
+    }
+
+    override fun readBoolean(request: Service.ReadRequest, responseObserver: StreamObserver<Service.BooleanRead>) {
+        getSlave(request.instanceId, responseObserver) {
+            val read = variableAccessor.readBoolean(request.valueReferencesList.toIntArray())
+            Service.BooleanRead.newBuilder().setStatus(read.status.protoType()).apply {
+                for (value in read.value) {
+                    addValues(value)
+                }
+            }.also {
+                responseObserver.onNext(it.build())
+                responseObserver.onCompleted()
+            }
+        }
+    }
+
+    override fun writeInteger(request: Service.WriteIntegerRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            val status = variableAccessor.writeInteger(request.valueReferencesList.toIntArray(), request.valuesList.toIntArray())
             statusReply(status, responseObserver)
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun writeReal(req: Service.WriteRealRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val status = variableAccessor.writeReal(req.valueReferencesList.toIntArray(), req.valuesList.toDoubleArray())
+    override fun writeReal(request: Service.WriteRealRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            val status = variableAccessor.writeReal(request.valueReferencesList.toIntArray(), request.valuesList.toDoubleArray())
             statusReply(status, responseObserver)
-        } ?: statusReply(FmiStatus.Error, responseObserver)
-
+        }
     }
 
-    override fun writeString(req: Service.WriteStringRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves.get(req.instanceId)?.apply {
-            val status = variableAccessor.writeString(req.valueReferencesList.toIntArray(), req.valuesList.toTypedArray())
+    override fun writeString(request: Service.WriteStringRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            val status = variableAccessor.writeString(request.valueReferencesList.toIntArray(), request.valuesList.toTypedArray())
             statusReply(status, responseObserver)
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun writeBoolean(req: Service.WriteBooleanRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val status = variableAccessor.writeBoolean(req.valueReferencesList.toIntArray(), req.valuesList.toBooleanArray())
+    override fun writeBoolean(request: Service.WriteBooleanRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            val status = variableAccessor.writeBoolean(request.valueReferencesList.toIntArray(), request.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun init(req: Service.InitRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            val start = req.start
-            val stop = req.stop
+    override fun init(request: Service.InitRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            val start = request.start
+            val stop = request.stop
             val hasStart = start > 0
             val hasStop = stop > 0 && stop > start
             if (hasStart && hasStop) {
                 init(start, stop)
-            } else if (hasStart && hasStop) {
+            } else if (hasStart) {
                 init(start)
             } else {
                 init()
             }
             statusReply(lastStatus, responseObserver)
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun step(req: Service.StepRequest, responseObserver: StreamObserver<Service.StepResponse>) {
-        
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
-            doStep(req.stepSize)
+    override fun step(request: Service.StepRequest, responseObserver: StreamObserver<Service.StepResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            doStep(request.stepSize)
             Service.StepResponse.newBuilder()
                     .setSimulationTime(simulationTime)
-                    .setStatus(lastStatus.protoType())
-                    .build().also {
-                        responseObserver.onNext(it)
+                    .setStatus(lastStatus.protoType()).also {
+                        responseObserver.onNext(it.build())
                         responseObserver.onCompleted()
                     }
 
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun terminate(req: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves.remove(instanceId)?.apply {
+    override fun terminate(request: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
             terminate()
             lastStatus.also { status ->
                 LOG.debug("Terminated fmu with status: $status")
                 statusReply(status, responseObserver)
             }
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun reset(req: Service.ResetRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-
-        val instanceId = req.instanceId
-        FmuSlaves[instanceId]?.apply {
+    override fun reset(request: Service.ResetRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+       getSlave(request.instanceId, responseObserver) {
             reset().also {
                 statusReply(lastStatus, responseObserver)
             }
-        } ?: noSuchInstanceReply(instanceId, responseObserver)
-
+        }
     }
 
-    override fun createInstanceFromCS(req: Service.CreateInstanceFromCSRequest, responseObserver: StreamObserver<Service.InstanceId>) {
-
-        val fmuId = req.fmuId
-        fmus[fmuId]?.apply {
-
-            FmuSlaves.put(asCoSimulationFmu().newInstance()).also { id ->
-                Service.InstanceId.newBuilder().setValue(id).build().also {
-                    responseObserver.onNext(it)
-                    responseObserver.onCompleted()
-                }
+    override fun canGetAndSetFMUstate(request: Service.CanGetAndSetFMUstateRequest, responseObserver: StreamObserver<Service.Bool>) {
+        getSlave(request.instanceId, responseObserver) {
+            Service.Bool.newBuilder().setValue(canGetAndSetFMUstate).also {
+                responseObserver.onNext(it.build())
+                responseObserver.onCompleted()
             }
-
-        } ?: noSuchFmuReply(fmuId, responseObserver)
-
+        }
     }
 
-    override fun createInstanceFromME(req: Service.CreateInstanceFromMERequest, responseObserver: StreamObserver<Service.InstanceId>) {
-
-        val fmuId = req.fmuId
-        fmus[fmuId]?.apply {
-
-            fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
-                val stepSize = modelDescription.defaultExperiment?.stepSize ?: 1E-3
-                LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
-                return ApacheSolvers.euler(stepSize)
+    override fun canSerializeFMUstate(request: Service.CanSerializeFMUstateRequest, responseObserver: StreamObserver<Service.Bool>) {
+        getSlave(request.instanceId, responseObserver) {
+            Service.Bool.newBuilder().setValue(canSerializeFMUstate).also {
+                responseObserver.onNext(it.build())
+                responseObserver.onCompleted()
             }
+        }
+    }
 
-            val solver = parseSolver(req.solver.name, req.solver.settings) ?: selectDefaultIntegrator()
-            FmuSlaves.put(asModelExchangeFmu().newInstance(solver)).also { id ->
-                Service.InstanceId.newBuilder().setValue(id).build().also {
-                    responseObserver.onNext(it)
-                    responseObserver.onCompleted()
-                }
+    override fun getFMUstate(request: Service.GetFMUstateRequest, responseObserver: StreamObserver<Service.GetFMUstateResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            if (!canGetAndSetFMUstate) {
+                unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
+            } else {
+
+                Service.GetFMUstateResponse.newBuilder()
+                        .setState(getFMUstate())
+                        .setStatus(lastStatus.protoType()).also {
+                            responseObserver.onNext(it.build())
+                            responseObserver.onCompleted()
+                        }
+
             }
+        }
+    }
 
-        } ?: noSuchFmuReply(fmuId, responseObserver)
+    override fun setFMUstate(request: Service.SetFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            if (!canGetAndSetFMUstate) {
+                unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
+            } else {
 
+                setFMUstate(request.state)
+                statusReply(lastStatus, responseObserver)
+
+            }
+        }
+    }
+
+    override fun freeFMUstate(request: Service.FreeFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            if (!canGetAndSetFMUstate) {
+                unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
+            } else {
+
+                freeFMUstate(request.state)
+                statusReply(lastStatus, responseObserver)
+
+            }
+        }
+    }
+
+    override fun serializeFMUstate(request: Service.SerializeFMUstateRequest, responseObserver: StreamObserver<Service.SerializeFMUstateResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            if (!canSerializeFMUstate) {
+                unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
+            } else {
+
+                Service.SerializeFMUstateResponse.newBuilder()
+                        .setState(ByteString.copyFrom(serializeFMUstate(request.state)))
+                        .setStatus(lastStatus.protoType()).also {
+                            responseObserver.onNext(it.build())
+                            responseObserver.onCompleted()
+                        }
+
+            }
+        }
+    }
+
+    override fun deSerializeFMUstate(request: Service.DeSerializeFMUstateRequest, responseObserver: StreamObserver<Service.DeSerializeFMUstateResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+
+            if (!canSerializeFMUstate) {
+                unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
+            } else {
+
+                Service.DeSerializeFMUstateResponse.newBuilder()
+                        .setState(getFMUstate())
+                        .setStatus(lastStatus.protoType()).also {
+                            responseObserver.onNext(it.build())
+                            responseObserver.onCompleted()
+                        }
+            }
+        }
     }
 
     private companion object {
@@ -276,43 +345,31 @@ class GrpcFmuServiceImpl(
         }
 
         fun noSuchFmuReply(id: String, responseObserver: StreamObserver<*>) {
-            val message = "No FMU with id=$id!"
-            responseObserver.onError(
-                    Status.INVALID_ARGUMENT
+            responseObserver.onError(Status.INVALID_ARGUMENT
                             .augmentDescription("NoSuchFmuException")
-                            .withDescription(message)
+                            .withDescription("No FMU with id=$id!")
                             .asRuntimeException()
             )
         }
 
 
         fun noSuchInstanceReply(id: String, responseObserver: StreamObserver<*>) {
-            val message = "No instance with id=$id!"
-            responseObserver.onError(
-                    Status.INVALID_ARGUMENT
+            responseObserver.onError(Status.INVALID_ARGUMENT
                             .augmentDescription("NoSuchInstanceException")
-                            .withDescription(message)
+                            .withDescription( "No instance with id=$id!")
                             .asRuntimeException()
             )
         }
 
+        fun unSupportedOperationException(responseObserver: StreamObserver<*>, description: String) {
+            responseObserver.onError(Status.UNAVAILABLE
+                    .augmentDescription("UnsupportedOperationException")
+                    .withDescription(description)
+                    .asRuntimeException())
+        }
+
+
     }
-
-
-//    override fun canGetAndSetFMUstate(req: Service.UInt, responseObserver: StreamObserver<Service.Bool>) {
-//        val instanceId = req.value
-//        FmuSlaves[instanceId]?.apply {
-//            val md = modelDescription
-//            val canGetAndSetFMUstate = when (md) {
-//                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
-//                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
-//                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
-//            }
-//            responseObserver.onNext(canGetAndSetFMUstate.protoType())
-//            responseObserver.onCompleted()
-//        } ?: noSuchInstanceReply(instanceId, responseObserver)
-//
-//    }
 
 }
 

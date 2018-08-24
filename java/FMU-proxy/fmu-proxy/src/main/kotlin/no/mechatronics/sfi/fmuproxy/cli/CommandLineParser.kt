@@ -25,8 +25,8 @@
 package no.mechatronics.sfi.fmuproxy.cli
 
 import info.laht.yajrpc.RpcHandler
+import no.mechatronics.sfi.fmi4j.common.isLinux
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.importer.misc.isLinux
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
@@ -43,8 +43,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import picocli.CommandLine
 import java.io.File
-import java.net.MalformedURLException
-import java.net.URL
 import java.util.*
 import java.util.concurrent.Callable
 

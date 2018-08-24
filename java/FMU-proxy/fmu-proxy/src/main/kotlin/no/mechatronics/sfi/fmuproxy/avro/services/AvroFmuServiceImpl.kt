@@ -24,14 +24,18 @@
 
 package no.mechatronics.sfi.fmuproxy.avro.services
 
+import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
 import no.mechatronics.sfi.fmuproxy.avro.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.nio.ByteBuffer
 
 class AvroFmuServiceImpl(
         private val fmus: Map<String, Fmu>
@@ -45,6 +49,10 @@ class AvroFmuServiceImpl(
         return fmus[fmuId] ?: throw NoSuchFmuException("No such fmu with guid: '$fmuId'")
     }
 
+    private fun getSlave(slaveId: String): FmuSlave {
+        return FmuSlaves[slaveId] ?: throw NoSuchInstanceException("No such slave with id: $slaveId")
+    }
+
     override fun getModelDescriptionXml(fmuId: String): String {
         return getFmu(fmuId).modelDescriptionXml
     }
@@ -53,11 +61,10 @@ class AvroFmuServiceImpl(
         return getFmu(fmuId).modelDescription.avroType()
     }
 
-
     override fun createInstanceFromCS(fmuId: String): String {
         return getFmu(fmuId).let { fmu ->
             if (!fmu.supportsCoSimulation) {
-                throw UnsupportedOperationException("FMU does not support CoSimulation!")
+                throw UnsupportedOperationException("FMU does not support Co-simulation!")
             }
             FmuSlaves.put(fmu.asCoSimulationFmu().newInstance())
         }
@@ -65,106 +72,154 @@ class AvroFmuServiceImpl(
 
     override fun createInstanceFromME(fmuId: String, solver: Solver): String {
         return getFmu(fmuId).let { fmu ->
+            if (!fmu.supportsModelExchange) {
+                throw UnsupportedOperationException("FMU does not support Model Exchange!")
+            }
             fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
                 LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
                 return ApacheSolvers.euler(stepSize)
             }
 
-            val integrator = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
-            FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(integrator))
+            val _solver = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
+            FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(_solver))
         }
     }
 
     override fun init(instanceId: String, start: Double, stop: Double): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.init(start, stop)
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun step(instanceId: String, step_size: Double): StepResult {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.doStep(step_size)
             StepResult().apply {
                 simulationTime = it.simulationTime
                 status = it.lastStatus.avroType()
             }
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun terminate(instanceId: String): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.terminate()
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun reset(instanceId: String): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.reset()
             it.lastStatus.avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
 
     override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerRead {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.readInteger(vr.toIntArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun readReal(instanceId: String, vr: List<ValueReference>): RealRead {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.readReal(vr.toIntArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun readString(instanceId: String, vr: List<ValueReference>): StringRead {
         return FmuSlaves[instanceId]?.let {
             it.variableAccessor.readString(vr.toIntArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        } ?: throw NoSuchInstanceException("No fmu with id=$instanceId")
     }
 
     override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanRead {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.readBoolean(vr.toIntArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.writeInteger(vr.toIntArray(), value.toIntArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Double>): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.writeReal(vr.toIntArray(), value.toDoubleArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.writeString(vr.toIntArray(), value.toTypedArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): Status {
-        return FmuSlaves[instanceId]?.let {
+        return getSlave(instanceId).let {
             it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).avroType()
-        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
+        }
     }
 
-    //    override fun canGetAndSetFMUstate(instanceId: Int): Boolean {
-//        return FmuSlaves[instanceId]?.let {
-//            val md = it.modelDescription
-//            when (md) {
-//                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
-//                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
-//                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
-//            }
-//        } ?: throw NoSuchFmuException("No fmu with id=$instanceId")
-//    }
+    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+        return getSlave(instanceId).canGetAndSetFMUstate
+    }
+
+    override fun canSerializeFMUstate(instanceId: String): Boolean {
+        return getSlave(instanceId).canSerializeFMUstate
+    }
+
+    override fun getFMUstate(instanceId: String): GetFmuStateResult {
+        return getSlave(instanceId).let {
+            if (!it.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            }
+            GetFmuStateResult(it.getFMUstate(), it.lastStatus.avroType())
+        }
+    }
+
+    override fun setFMUstate(instanceId: String, state: Long): Status {
+        return getSlave(instanceId).let {
+            if (!it.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            }
+            it.setFMUstate(state)
+            it.lastStatus.avroType()
+        }
+    }
+
+    override fun freeFMUstate(instanceId: String, state: Long): Status {
+        return getSlave(instanceId).let {
+            if (!it.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            }
+            it.freeFMUstate(state)
+            it.lastStatus.avroType()
+        }
+    }
+
+    override fun serializeFMUstate(instanceId: String, state: Long): SerializeFmuStateResult {
+        return getSlave(instanceId).let {
+            if (!it.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            }
+            val bytes = ByteBuffer.wrap(it.serializeFMUstate(state))
+            SerializeFmuStateResult(bytes, it.lastStatus.avroType())
+        }
+    }
+
+    override fun deSerializeFMUstate(instanceId: String, state: ByteBuffer): DeSerializeFmuStateResult {
+        return getSlave(instanceId).let {
+            if (!it.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            }
+            DeSerializeFmuStateResult(it.deSerializeFMUstate(state.array()), it.lastStatus.avroType())
+        }
+    }
 
 }

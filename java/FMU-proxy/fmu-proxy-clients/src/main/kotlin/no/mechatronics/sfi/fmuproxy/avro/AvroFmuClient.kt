@@ -31,6 +31,7 @@ import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.avro.ipc.NettyTransceiver
 import org.apache.avro.ipc.specific.SpecificRequestor
 import java.net.InetSocketAddress
+import java.nio.ByteBuffer
 
 class AvroFmuClient(
         fmuId: String,
@@ -105,6 +106,42 @@ class AvroFmuClient(
 
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return service.writeBoolean(instanceId, vr, value).convert()
+    }
+
+    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+        return service.canGetAndSetFMUstate(instanceId)
+    }
+
+    override fun canSerializeFMUstate(instanceId: String): Boolean {
+        return service.canSerializeFMUstate(instanceId)
+    }
+
+    override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
+        return service.deSerializeFMUstate(instanceId, ByteBuffer.wrap(state)).let {
+            it.state to it.status.convert()
+        }
+    }
+
+    override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
+       return service.freeFMUstate(instanceId, state).convert()
+
+    }
+
+    override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
+       return service.getFMUstate(instanceId).let {
+           it.state to it.status.convert()
+       }
+    }
+
+    override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
+        return service.serializeFMUstate(instanceId, state).let {
+            it.state.array() to it.status.convert()
+        }
+    }
+
+    override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        return service.setFMUstate(instanceId, state).convert()
+
     }
 
     override fun close() {

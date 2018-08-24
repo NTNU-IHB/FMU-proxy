@@ -33,8 +33,8 @@ class TestGrpcME {
 
     @AfterAll
     fun tearDown() {
+        client.close()
         server.stop()
-        client.stop()
         fmu.close()
     }
 

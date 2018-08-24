@@ -34,6 +34,7 @@ import org.apache.thrift.protocol.TJSONProtocol
 import org.apache.thrift.protocol.TProtocol
 import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
+import java.nio.ByteBuffer
 
 class ThriftFmuClient(
         fmuId: String,
@@ -119,6 +120,42 @@ class ThriftFmuClient(
 
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return client.writeBoolean(instanceId, vr, value).convert()
+    }
+
+    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+        return client.canGetAndSetFMUstate(instanceId)
+    }
+
+    override fun canSerializeFMUstate(instanceId: String): Boolean {
+        return client.canSerializeFMUstate(instanceId)
+    }
+
+    override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
+        return client.deSerializeFMUstate(instanceId, ByteBuffer.wrap(state)).let {
+            it.state to it.status.convert()
+        }
+    }
+
+    override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        return client.freeFMUstate(instanceId, state).convert()
+
+    }
+
+    override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
+        return client.getFMUstate(instanceId).let {
+            it.state to it.status.convert()
+        }
+    }
+
+    override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
+        return client.serializeFMUstate(instanceId, state).let {
+            it.state to it.status.convert()
+        }
+    }
+
+    override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        return client.setFMUstate(instanceId, state).convert()
+
     }
 
     companion object {

@@ -154,6 +154,9 @@ internal fun CommonModelDescription.avroType(): ModelDescription {
         generationDateAndTime?.also { md.generationDateAndTime = it }
         defaultExperiment?.also { md.defaultExperiment = it.avroType() }
 
+        md.supportsCoSimulation = supportsCoSimulation
+        md.supportsModelExchange = supportsModelExchange
+
     }
 }
 
