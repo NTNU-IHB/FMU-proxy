@@ -211,6 +211,10 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
+        override fun cancelStep(): Boolean {
+            throw UnsupportedOperationException("cancelStep is not supported!")
+        }
+
         override fun terminate(): Boolean {
             
             if (!isTerminated) {
