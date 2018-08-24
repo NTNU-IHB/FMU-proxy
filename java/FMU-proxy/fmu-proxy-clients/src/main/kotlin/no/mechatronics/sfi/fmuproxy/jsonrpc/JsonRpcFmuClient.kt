@@ -44,15 +44,6 @@ class JsonRpcFmuClient(
 
     val implementationName: String = client::class.java.simpleName
 
-    val fmiVersion: String
-        get() = modelDescription.fmiVersion
-
-    val modelName: String
-        get() = modelDescription.modelName
-
-    val guid: String
-        get() = modelDescription.guid
-
     override val modelDescription: CommonModelDescription by lazy {
         client.write("$SERVICE.getModelDescription", RpcParams.listParams(fmuId))
                 .getResult<ModelDescriptionImpl>()!!

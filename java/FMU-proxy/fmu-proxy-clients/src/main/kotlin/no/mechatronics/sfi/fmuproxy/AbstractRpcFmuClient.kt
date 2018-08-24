@@ -36,6 +36,21 @@ abstract class AbstractRpcFmuClient(
         val fmuId: String
 ): Closeable {
 
+    val fmiVersion: String
+        get() = modelDescription.fmiVersion
+
+    val guid: String
+        get() = modelDescription.guid
+
+    val modelName: String
+        get() = modelDescription.modelName
+
+    val supportsModelExchange: Boolean
+        get() = modelDescription.supportsModelExchange
+
+    val supportsCoSimulation: Boolean
+        get() = modelDescription.supportsCoSimulation
+
     abstract val modelDescriptionXml: String
     abstract val modelDescription: CommonModelDescription
 
