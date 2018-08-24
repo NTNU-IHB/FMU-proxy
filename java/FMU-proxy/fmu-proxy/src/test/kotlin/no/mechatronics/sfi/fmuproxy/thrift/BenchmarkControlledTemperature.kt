@@ -3,6 +3,7 @@ package no.mechatronics.sfi.fmuproxy.thrift
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
+import no.mechatronics.sfi.fmuproxy.thrift.client.LightThriftClient
 import org.apache.thrift.transport.TTransportException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -23,7 +24,7 @@ class BenchmarkControlledTemperature {
 
     }
 
-    private fun runInstance(slave: ThriftTestClient.FmuInstance,
+    private fun runInstance(slave: LightThriftClient.FmuInstance,
                             stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
         slave.init()
@@ -48,7 +49,7 @@ class BenchmarkControlledTemperature {
            ThriftFmuSocketServer(fmu).use { server ->
                val port = server.start()
                for (i in 0..2) {
-                   ThriftTestClient(fmu.guid,"localhost", port).use { client ->
+                   LightThriftClient(fmu.guid, "localhost", port).use { client ->
 
                        client.newInstance().use { slave ->
                            runInstance(slave, stepSize, stop) {
@@ -77,7 +78,7 @@ class BenchmarkControlledTemperature {
         for (i in 0..2) {
             try {
 
-               ThriftTestClient(guid, host, port).use { client ->
+               LightThriftClient(guid, host, port).use { client ->
                    client.newInstance().use { instance ->
                        runInstance(instance, stepSize, stop) {
                            val read = instance.readReal(listOf(46))

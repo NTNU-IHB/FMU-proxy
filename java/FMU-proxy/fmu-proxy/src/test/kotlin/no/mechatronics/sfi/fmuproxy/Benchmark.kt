@@ -14,7 +14,10 @@ import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuClient
+import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuServlet
 import no.mechatronics.sfi.fmuproxy.thrift.ThriftFmuSocketServer
+import org.apache.log4j.Level
+import org.apache.log4j.LogManager
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -24,6 +27,7 @@ import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
@@ -73,10 +77,39 @@ class Benchmark {
                     val read = instance.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
-                    LOG.info("Thrift duration=${it}ms")
+                    LOG.info("Thrift/tcp duration=${it}ms")
                 }
             }
             client.close()
+        }
+
+    }
+
+    @Test
+    fun measureTimeThriftServlet() {
+
+        val loggers = LogManager.getCurrentLoggers().toList().toMutableList()
+        loggers.add(LogManager.getRootLogger())
+        for (logger in loggers) {
+            ( logger as org.apache.log4j.Logger).level = Level.INFO
+        }
+
+        ThriftFmuServlet(fmu).use { server ->
+            val port = server.start()
+            val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
+            client.newInstance().use { instance ->
+                runInstance(instance, stepSize, stop) {
+                    val read = instance.readReal("Temperature_Room")
+                    Assertions.assertTrue(read.value > 0)
+                }.also {
+                    LOG.info("Thrift/http duration=${it}ms")
+                }
+            }
+            client.close()
+        }
+
+        for (logger in loggers) {
+            ( logger as org.apache.log4j.Logger).level = Level.DEBUG
         }
 
     }

@@ -73,6 +73,12 @@ class TestGrpcCS {
     }
 
     @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertFalse(client.supportsModelExchange)
+        Assertions.assertTrue(client.supportsCoSimulation)
+    }
+
+    @Test
     fun testInstance() {
 
         client.newInstance().use { slave ->
