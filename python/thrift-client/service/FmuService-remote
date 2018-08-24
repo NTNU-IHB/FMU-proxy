@@ -40,6 +40,13 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  Status writeReal(InstanceId instance_id, ValueReferences vr, RealArray value)')
     print('  Status writeString(InstanceId instance_id, ValueReferences vr, StringArray value)')
     print('  Status writeBoolean(InstanceId instance_id, ValueReferences vr, BooleanArray value)')
+    print('  bool canGetAndSetFMUstate(InstanceId instance_id)')
+    print('  bool canSerializeFMUstate(InstanceId instance_id)')
+    print('  GetFmuStateResult getFMUstate(InstanceId instance_id)')
+    print('  Status setFMUstate(InstanceId instance_id, FmuState state)')
+    print('  Status freeFMUstate(InstanceId instance_id, FmuState state)')
+    print('  SerializeFmuStateResult serializeFMUstate(InstanceId instance_id, FmuState state)')
+    print('  DeSerializeFmuStateResult deSerializeFMUstate(InstanceId instance_id, string state)')
     print('')
     sys.exit(0)
 
@@ -214,6 +221,48 @@ elif cmd == 'writeBoolean':
         print('writeBoolean requires 3 args')
         sys.exit(1)
     pp.pprint(client.writeBoolean(eval(args[0]), eval(args[1]), eval(args[2]),))
+
+elif cmd == 'canGetAndSetFMUstate':
+    if len(args) != 1:
+        print('canGetAndSetFMUstate requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.canGetAndSetFMUstate(eval(args[0]),))
+
+elif cmd == 'canSerializeFMUstate':
+    if len(args) != 1:
+        print('canSerializeFMUstate requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.canSerializeFMUstate(eval(args[0]),))
+
+elif cmd == 'getFMUstate':
+    if len(args) != 1:
+        print('getFMUstate requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getFMUstate(eval(args[0]),))
+
+elif cmd == 'setFMUstate':
+    if len(args) != 2:
+        print('setFMUstate requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.setFMUstate(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'freeFMUstate':
+    if len(args) != 2:
+        print('freeFMUstate requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.freeFMUstate(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'serializeFMUstate':
+    if len(args) != 2:
+        print('serializeFMUstate requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.serializeFMUstate(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'deSerializeFMUstate':
+    if len(args) != 2:
+        print('deSerializeFMUstate requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.deSerializeFMUstate(eval(args[0]), args[1],))
 
 else:
     print('Unrecognized method %s' % cmd)
