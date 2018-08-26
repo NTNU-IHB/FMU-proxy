@@ -26,7 +26,8 @@
 #define FMU_PROXY_FMISIMULATION_HPP
 
 #include <vector>
-#include <iostream>
+#include <memory>
+#include <cstdint>
 #include <fmilib.h>
 #include "fmi_definitions.hpp"
 
@@ -35,6 +36,8 @@ namespace fmuproxy::fmi {
     class FmuInstance {
 
     protected:
+
+        fmi2_status_t last_status;
         bool isTerminated_ = false;
         double simulationTime_ = 0.0;
         ModelDescription &modelDescription_;
@@ -42,6 +45,15 @@ namespace fmuproxy::fmi {
     public:
         
         explicit FmuInstance(ModelDescription &modelDescription): modelDescription_(modelDescription) {}
+
+        virtual bool canGetAndSetFMUstate() const = 0;
+
+        virtual bool canSerializeFMUstate() const = 0;
+
+
+        fmi2_status_t getLastStatus() const {
+            return last_status;
+        }
 
         virtual fmi2_real_t getSimulationTime() const {
             return simulationTime_;
@@ -54,16 +66,16 @@ namespace fmuproxy::fmi {
         virtual ModelDescription &getModelDescription() const {
             return modelDescription_;
         }
-        
+
+        fmi2_value_reference_t getValueReference(const std::string &name) const {
+            return getModelDescription().getValueReference(name);
+        }
+
         virtual void init(double start = 0, double stop = 0) = 0;
 
         virtual fmi2_status_t reset() = 0;
 
         virtual fmi2_status_t terminate() = 0;
-
-        fmi2_value_reference_t getValueReference(const std::string &name) {
-            return getModelDescription().getValueReference(name);
-        }
 
         virtual fmi2_status_t readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) = 0;
         virtual fmi2_status_t readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t > &ref) = 0;
@@ -88,6 +100,10 @@ namespace fmuproxy::fmi {
 
         virtual fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) = 0;
         virtual fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) = 0;
+
+        virtual fmi2_status_t getFMUstate(int64_t &state) = 0;
+        virtual fmi2_status_t setFMUstate(int64_t state) = 0;
+        virtual fmi2_status_t freeFMUstate(int64_t state) = 0;
 
 
         virtual ~FmuInstance(){}

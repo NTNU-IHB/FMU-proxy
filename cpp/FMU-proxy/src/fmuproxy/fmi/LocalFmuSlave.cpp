@@ -40,6 +40,14 @@ LocalFmuSlave::LocalFmuSlave(fmi2_import_t *instance, ModelDescription &modelDes
     : FmuSlave(modelDescription), instance_(instance) {}
 
 
+bool LocalFmuSlave::canGetAndSetFMUstate() const {
+    return fmi2_import_get_capability(instance_, fmi2_cs_canGetAndSetFMUstate);
+}
+
+bool LocalFmuSlave::canSerializeFMUstate() const {
+    return fmi2_import_get_capability(instance_, fmi2_cs_canSerializeFMUstate);
+}
+
 void LocalFmuSlave::init(double start, double stop) {
 
     fmi2_boolean_t stop_time_defined = start < stop;
@@ -88,7 +96,6 @@ fmi2_status_t LocalFmuSlave::terminate() {
     }
     return fmi2_status_ok;
 }
-
 
 fmi2_status_t LocalFmuSlave::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
     return fmi2_import_get_integer(instance_, &vr, 1, &ref);
@@ -164,6 +171,24 @@ fmi2_status_t LocalFmuSlave::writeBoolean(const std::vector<fmi2_value_reference
     return fmi2_import_set_boolean(instance_, vr.data(), vr.size(), value.data());
 }
 
+fmi2_status_t LocalFmuSlave::getFMUstate(int64_t &state) {
+    fmi2_FMU_state_t* _state;
+    last_status = fmi2_import_get_fmu_state(instance_, _state);
+    states.push_back(_state);
+    state = (int64_t) _state;
+    return last_status;
+}
+
+fmi2_status_t LocalFmuSlave::setFMUstate(int64_t state) {
+    fmi2_FMU_state_t  _state = (void*) state;
+    return fmi2_import_set_fmu_state(instance_, _state);
+}
+
+fmi2_status_t LocalFmuSlave::freeFMUstate(int64_t state) {
+    fmi2_FMU_state_t  _state = (void*) state;
+    return fmi2_import_free_fmu_state(instance_, &_state);
+}
+
 LocalFmuSlave::~LocalFmuSlave()  {
 
     std::cout << "FmuInstance destructor called" << std::endl;
@@ -171,8 +196,10 @@ LocalFmuSlave::~LocalFmuSlave()  {
     terminate();
     fmi2_import_destroy_dllfmu(instance_);
     fmi2_import_free(instance_);
+    instance_ = nullptr;
 
 }
+
 
 
 

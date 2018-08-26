@@ -75,6 +75,16 @@ namespace fmuproxy::grpc::client {
         fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
 
+        bool canGetAndSetFMUstate() const override;
+
+        bool canSerializeFMUstate() const override;
+
+        fmi2_status_t getFMUstate(std::uintptr_t &state) override;
+
+        fmi2_status_t setFMUstate(std::uintptr_t state) override;
+
+        fmi2_status_t freeFMUstate(std::uintptr_t &state) override;
+
     };
 
 }

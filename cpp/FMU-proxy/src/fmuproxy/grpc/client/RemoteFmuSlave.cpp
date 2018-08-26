@@ -27,32 +27,38 @@
 
 using namespace std;
 using namespace grpc;
-using namespace fmuproxy::fmi;
+using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
 
-RemoteFmuSlave::RemoteFmuSlave(const string instance_id, fmuproxy::grpc::FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription)
+RemoteFmuSlave::RemoteFmuSlave(const string instance_id, FmuService::Stub &stub, fmuproxy::fmi::ModelDescription &modelDescription)
         : FmuSlave(modelDescription), instanceId_(instance_id), stub_(stub) {}
 
 void RemoteFmuSlave::init(const double start, const double stop) {
-    InitRequest req;
-    req.set_instance_id(instanceId_);
-    req.set_start(start);
-    req.set_stop(stop);
-    StatusResponse response;
+
     ClientContext ctx;
-    stub_.Init(&ctx, req, &response);
+    StatusResponse response;
+    
+    InitRequest request;
+    request.set_instance_id(instanceId_);
+    request.set_start(start);
+    request.set_stop(stop);
+
+    stub_.Init(&ctx, request, &response);
     simulationTime_ = start;
 }
 
 fmi2_status_t RemoteFmuSlave::step(const double step_size) {
-    StepRequest req;
-    req.set_instance_id(instanceId_);
-    req.set_step_size(step_size);
-    StepResponse resp;
+
     ClientContext ctx;
-    stub_.Step(&ctx, req, &resp);
-    simulationTime_ = resp.simulation_time();
-    return convert(resp.status());
+    StepResponse response;
+    
+    StepRequest request;
+    request.set_instance_id(instanceId_);
+    request.set_step_size(step_size);
+
+    stub_.Step(&ctx, request, &response);
+    simulationTime_ = response.simulation_time();
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::cancelStep() {
@@ -60,21 +66,27 @@ fmi2_status_t RemoteFmuSlave::cancelStep() {
 }
 
 fmi2_status_t RemoteFmuSlave::terminate() {
-    TerminateRequest req;
-    req.set_instance_id(instanceId_);
+
     ClientContext ctx;
-    StatusResponse resp;
-    stub_.Terminate(&ctx, req, &resp);
-    return convert(resp.status());
+    StatusResponse response;
+    
+    TerminateRequest request;
+    request.set_instance_id(instanceId_);
+
+    stub_.Terminate(&ctx, request, &response);
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::reset() {
-    ResetRequest req;
-    req.set_instance_id(instanceId_);
+    
     ClientContext ctx;
-    StatusResponse resp;
-    stub_.Reset(&ctx, req, &resp);
-    return convert(resp.status());
+    StatusResponse response;
+    
+    ResetRequest request;
+    request.set_instance_id(instanceId_);
+
+    stub_.Reset(&ctx, request, &response);
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
@@ -85,21 +97,24 @@ fmi2_status_t RemoteFmuSlave::readInteger(const fmi2_value_reference_t vr, fmi2_
     return status;
 }
 
-fmi2_status_t RemoteFmuSlave::readInteger(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_integer_t> &ref) {
-    ReadRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::readInteger(const vector<fmi2_value_reference_t> &vr, vector<fmi2_integer_t> &ref) {
+
+    ClientContext ctx;
+    IntegerRead response;
+    
+    ReadRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    ClientContext ctx;
-    IntegerRead resp;
-    stub_.ReadInteger(&ctx, req, &resp);
+
+    stub_.ReadInteger(&ctx, request, &response);
     ref.clear();
-    for (const auto v : resp.values()) {
+    for (const auto v : response.values()) {
         ref.push_back(v);
     }
-    return convert(resp.status());
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::readReal(const fmi2_value_reference_t vr, fmi2_real_t &ref) {
@@ -110,21 +125,24 @@ fmi2_status_t RemoteFmuSlave::readReal(const fmi2_value_reference_t vr, fmi2_rea
     return status;
 }
 
-fmi2_status_t RemoteFmuSlave::readReal(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_real_t> &ref) {
-    ReadRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::readReal(const vector<fmi2_value_reference_t> &vr, vector<fmi2_real_t> &ref) {
+
+    ClientContext ctx;
+    RealRead response;
+    
+    ReadRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
        _vr->Add(v);
     }
-    ClientContext ctx;
-    RealRead resp;
-    stub_.ReadReal(&ctx, req, &resp);
+
+    stub_.ReadReal(&ctx, request, &response);
     ref.clear();
-    for (const auto v : resp.values()) {
+    for (const auto v : response.values()) {
         ref.push_back(v);
     }
-    return convert(resp.status());
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::readString(const fmi2_value_reference_t vr, fmi2_string_t &ref) {
@@ -135,21 +153,24 @@ fmi2_status_t RemoteFmuSlave::readString(const fmi2_value_reference_t vr, fmi2_s
     return status;
 }
 
-fmi2_status_t RemoteFmuSlave::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) {
-    ReadRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::readString(const vector<fmi2_value_reference_t> &vr, vector<fmi2_string_t> &ref) {
+    
+    ClientContext ctx;
+    StringRead response;
+    
+    ReadRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    ClientContext ctx;
-    StringRead resp;
-    stub_.ReadString(&ctx, req, &resp);
+
+    stub_.ReadString(&ctx, request, &response);
     ref.clear();
-    for (const auto v : resp.values()) {
+    for (const auto v : response.values()) {
         ref.push_back(v.c_str());
     }
-    return convert(resp.status());
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::readBoolean(const fmi2_value_reference_t vr, fmi2_boolean_t &ref) {
@@ -160,21 +181,24 @@ fmi2_status_t RemoteFmuSlave::readBoolean(const fmi2_value_reference_t vr, fmi2_
     return status;
 }
 
-fmi2_status_t RemoteFmuSlave::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {
-    ReadRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::readBoolean(const vector<fmi2_value_reference_t> &vr, vector<fmi2_boolean_t> &ref) {
+
+    ClientContext ctx;
+    BooleanRead response;
+    
+    ReadRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    ClientContext ctx;
-    BooleanRead resp;
-    stub_.ReadBoolean(&ctx, req, &resp);
+
+    stub_.ReadBoolean(&ctx, request, &response);
     ref.clear();
-    for (const auto v : resp.values()) {
+    for (const auto v : response.values()) {
         ref.push_back(v ? 1 : 0);
     }
-    return convert(resp.status());
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::writeInteger(const fmi2_value_reference_t vr, const fmi2_integer_t value) {
@@ -183,21 +207,24 @@ fmi2_status_t RemoteFmuSlave::writeInteger(const fmi2_value_reference_t vr, cons
     return writeInteger(_vr, _value);
 }
 
-fmi2_status_t RemoteFmuSlave::writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) {
-    WriteIntegerRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::writeInteger(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_integer_t> &value) {
+
+    ClientContext ctx;
+    StatusResponse response;
+    
+    WriteIntegerRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    auto _values = req.mutable_values();
+    auto _values = request.mutable_values();
     for (const auto v : value) {
         _values->Add(v);
     }
-    ClientContext ctx;
-    StatusResponse resp;
-    stub_.WriteInteger(&ctx, req, &resp);
-    return convert(resp.status());
+
+    stub_.WriteInteger(&ctx, request, &response);
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::writeReal(const fmi2_value_reference_t vr, const fmi2_real_t value) {
@@ -206,21 +233,24 @@ fmi2_status_t RemoteFmuSlave::writeReal(const fmi2_value_reference_t vr, const f
     return writeReal(_vr, _value);
 }
 
-fmi2_status_t RemoteFmuSlave::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
-    WriteRealRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::writeReal(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_real_t> &value) {
+    
+    ClientContext ctx;
+    StatusResponse response;
+    
+    WriteRealRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    auto _values = req.mutable_values();
+    auto _values = request.mutable_values();
     for (const auto v : value) {
         _values->Add(v);
     }
-    ClientContext ctx;
-    StatusResponse resp;
-    stub_.WriteReal(&ctx, req, &resp);
-    return convert(resp.status());
+   
+    stub_.WriteReal(&ctx, request, &response);
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::writeString(const fmi2_value_reference_t vr, const fmi2_string_t value) {
@@ -229,21 +259,24 @@ fmi2_status_t RemoteFmuSlave::writeString(const fmi2_value_reference_t vr, const
     return writeString(_vr, _value);
 }
 
-fmi2_status_t RemoteFmuSlave::writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) {
-    WriteStringRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::writeString(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_string_t> &value) {
+
+    ClientContext ctx;
+    StatusResponse response;
+    
+    WriteStringRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    auto _values = req.mutable_values();
+    auto _values = request.mutable_values();
     for (const auto v : value) {
         _values->Add(v);
     }
-    ClientContext ctx;
-    StatusResponse resp;
-    stub_.WriteString(&ctx, req, &resp);
-    return convert(resp.status());
+
+    stub_.WriteString(&ctx, request, &response);
+    return convert(response.status());
 }
 
 fmi2_status_t RemoteFmuSlave::writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) {
@@ -252,19 +285,55 @@ fmi2_status_t RemoteFmuSlave::writeBoolean(const fmi2_value_reference_t vr, cons
     return writeBoolean(_vr, _value);
 }
 
-fmi2_status_t RemoteFmuSlave::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {
-    WriteBooleanRequest req;
-    req.set_instance_id(instanceId_);
-    auto _vr = req.mutable_value_references();
+fmi2_status_t RemoteFmuSlave::writeBoolean(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_boolean_t> &value) {
+
+    ClientContext ctx;
+    StatusResponse response;
+    
+    WriteBooleanRequest request;
+    request.set_instance_id(instanceId_);
+    auto _vr = request.mutable_value_references();
     for (const auto v : vr) {
         _vr->Add(v);
     }
-    auto _values = req.mutable_values();
+    auto _values = request.mutable_values();
     for (const auto v : value) {
         _values->Add(v != 0);
     }
+   
+    stub_.WriteBoolean(&ctx, request, &response);
+    return convert(response.status());
+}
+
+bool RemoteFmuSlave::canGetAndSetFMUstate() const {
+
     ClientContext ctx;
-    StatusResponse resp;
-    stub_.WriteBoolean(&ctx, req, &resp);
-    return convert(resp.status());
+    Bool response;
+
+    CanGetAndSetFMUstateRequest request;
+    request.set_instance_id(instanceId_);
+    stub_.CanGetAndSetFMUstate(&ctx, request, &response);
+    return response.value();
+}
+
+bool RemoteFmuSlave::canSerializeFMUstate() const {
+
+    ClientContext ctx;
+    Bool response;
+
+    CanSerializeFMUstateRequest request;
+    stub_.CanSerializeFMUstate(&ctx, request, &response);
+    return response.value();
+}
+
+fmi2_status_t RemoteFmuSlave::getFMUstate(std::uintptr_t &state) {
+    return fmi2_status_error;
+}
+
+fmi2_status_t RemoteFmuSlave::setFMUstate(std::uintptr_t state) {
+    return fmi2_status_error;
+}
+
+fmi2_status_t RemoteFmuSlave::freeFMUstate(std::uintptr_t &state) {
+    return fmi2_status_error;
 }
