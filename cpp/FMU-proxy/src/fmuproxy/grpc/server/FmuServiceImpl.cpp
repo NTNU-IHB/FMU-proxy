@@ -32,13 +32,12 @@
 #include "grpc_server_helper.cpp"
 
 using namespace std;
-using namespace fmuproxy::fmi;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::server;
 using namespace boost::uuids;
 
-using grpc::Status;
-using grpc::ServerContext;
+using ::grpc::Status;
+using ::grpc::ServerContext;
 
 namespace {
 
@@ -51,7 +50,7 @@ namespace {
 
 }
 
-FmuServiceImpl::FmuServiceImpl(map<string, shared_ptr<Fmu>> &fmus) : fmus_(fmus) {}
+FmuServiceImpl::FmuServiceImpl(map<string, shared_ptr<fmuproxy::fmi::Fmu>> &fmus) : fmus_(fmus) {}
 
 ::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const GetModelDescriptionXmlRequest *request, ModelDescriptionXml *response) {
     const auto &fmu = fmus_[request->fmu_id()];
@@ -212,11 +211,13 @@ FmuServiceImpl::FreeFMUstate(ServerContext *context, const FreeFMUstateRequest *
 }
 
 ::Status
-FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstateRequest *request, SerializeFMUstateResponse *response) {
+FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstateRequest *request, 
+        SerializeFMUstateResponse *response) {
     return Service::SerializeFMUstate(context, request, response);
 }
 
 ::Status
-FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMUstateRequest *request, DeSerializeFMUstateResponse *response) {
+FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMUstateRequest *request,
+        DeSerializeFMUstateResponse *response) {
     return Service::DeSerializeFMUstate(context, request, response);
 }
