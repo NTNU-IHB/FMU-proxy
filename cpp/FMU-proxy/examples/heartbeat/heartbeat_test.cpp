@@ -42,12 +42,11 @@ int main() {
                           "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     Fmu fmu(fmu_path);
-    RemoteAddress remote("localhost", 8080);
+    const RemoteAddress remote("localhost", 8080);
     
     const map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
     const vector<string> modelDescriptions = {fmu.getModelDescriptionXml()};
     
-
     Heartbeat beat(remote, servers, modelDescriptions);
     beat.start();
 
