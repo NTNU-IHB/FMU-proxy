@@ -49,7 +49,7 @@ namespace {
 
 }
 
-FmuServiceImpl::FmuServiceImpl(map<string, shared_ptr<fmuproxy::fmi::Fmu>> &fmus) : fmus_(fmus) {}
+FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmuproxy::fmi::Fmu>> &fmus) : fmus_(fmus) {}
 
 ::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const GetModelDescriptionXmlRequest *request, ModelDescriptionXml *response) {
     const auto &fmu = fmus_[request->fmu_id()];

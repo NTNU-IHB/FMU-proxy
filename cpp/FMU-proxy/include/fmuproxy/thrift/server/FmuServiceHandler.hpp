@@ -25,8 +25,8 @@
 #ifndef FMU_PROXY_FMUSERVICEHANDLER_H
 #define FMU_PROXY_FMUSERVICEHANDLER_H
 
-#include <map>
 #include <vector>
+#include <unordered_map>
 #include "../common/FmuService.h"
 #include "../../fmi/Fmu.hpp"
 #include "../../fmi/FmuSlave.hpp"
@@ -36,11 +36,11 @@ namespace fmuproxy::thrift::server {
     class FmuServiceHandler : virtual public FmuServiceIf {
 
     private:
-        std::map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus_;
-        std::map<InstanceId, std::unique_ptr<fmi::FmuSlave>> slaves_;
+        std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus_;
+        std::unordered_map<InstanceId, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
-        explicit FmuServiceHandler(std::map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
+        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
 
         void getModelDescriptionXml(std::string &_return, const FmuId &fmu_id) override;
 

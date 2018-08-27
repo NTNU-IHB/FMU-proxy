@@ -28,12 +28,13 @@
 
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
+#include "thrift_server_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift::server;
 
-FmuServiceHandler::FmuServiceHandler(map<FmuId, shared_ptr<fmi::Fmu>> &fmus) : fmus_(fmus) {}
+FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi::Fmu>> &fmus) : fmus_(fmus) {}
 
 void FmuServiceHandler::getModelDescriptionXml(string &_return, const FmuId &id) {
      const auto &fmu = fmus_.at(id);

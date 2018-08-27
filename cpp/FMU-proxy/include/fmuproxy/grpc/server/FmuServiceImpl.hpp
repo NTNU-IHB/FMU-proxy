@@ -25,8 +25,8 @@
 #ifndef FMU_PROXY_FMUSERVICEIMPL_HPP
 #define FMU_PROXY_FMUSERVICEIMPL_HPP
 
-#include <map>
 #include <memory>
+#include <unordered_map>
 #include "../common/definitions.pb.h"
 #include "../common/service.grpc.pb.h"
 
@@ -37,12 +37,12 @@ namespace fmuproxy::grpc::server {
     class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
 
     private:
-        std::map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus_;
-        std::map<std::string, std::unique_ptr<fmi::FmuSlave>> slaves_;
+        std::unordered_map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus_;
+        std::unordered_map<std::string, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
 
-        explicit FmuServiceImpl(std::map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus);
+        explicit FmuServiceImpl(std::unordered_map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus);
 
         ::grpc::Status
         GetModelDescriptionXml(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest *request,
