@@ -370,9 +370,8 @@ abstract class AbstractRpcFmuClient(
             it.first
         }
 
-
         override fun getDirectionalDerivative(
-                vUnknownRef: IntArray, vKnownRef: IntArray, dvKnown: RealArray, dvUnknown: RealArray): FmiStatus {
+                vUnknownRef: IntArray, vKnownRef: IntArray, dvKnown: RealArray): RealArray {
             TODO("not implemented")
         }
 
