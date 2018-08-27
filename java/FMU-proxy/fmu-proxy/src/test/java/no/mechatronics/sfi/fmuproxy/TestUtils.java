@@ -1,6 +1,5 @@
 package no.mechatronics.sfi.fmuproxy;
 
-import org.junit.jupiter.api.condition.OS;
 
 public class TestUtils {
 

@@ -33,8 +33,8 @@ class TestGrpcME {
 
     @AfterAll
     fun tearDown() {
+        client.close()
         server.stop()
-        client.stop()
         fmu.close()
     }
 
@@ -48,6 +48,12 @@ class TestGrpcME {
     fun testGuid() {
         val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
         Assertions.assertEquals(modelDescription.guid, guid)
+    }
+
+    @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertTrue(client.supportsModelExchange)
+        Assertions.assertFalse(client.supportsCoSimulation)
     }
 
     @Test

@@ -155,6 +155,9 @@ internal fun CommonModelDescription.thriftType(): ModelDescription {
         generationDateAndTime?.also { md.generationDateAndTime = it }
         defaultExperiment?.also { md.defaultExperiment = it.thriftType() }
 
+        md.isSupportsCoSimulation = supportsCoSimulation
+        md.isSupportsModelExchange = supportsModelExchange
+
     }
 }
 

@@ -24,6 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc
 
+import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
@@ -176,6 +177,72 @@ class GrpcFmuClient(
                 }
     }
 
+    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+       return Service.CanGetAndSetFMUstateRequest.newBuilder()
+               .setInstanceId(instanceId)
+               .build().let {
+                   blockingStub.canGetAndSetFMUstate(it).value
+               }
+    }
+
+    override fun canSerializeFMUstate(instanceId: String): Boolean {
+        return Service.CanSerializeFMUstateRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .build().let {
+                    blockingStub.canSerializeFMUstate(it).value
+                }
+    }
+
+    override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
+        return Service.DeSerializeFMUstateRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .setState(ByteString.copyFrom(state))
+                .build().let {
+                    blockingStub.deSerializeFMUstate(it).let {
+                        it.state to it.status.convert()
+                    }
+                }
+    }
+
+    override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        return Service.FreeFMUstateRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .setState(state)
+                .build().let {
+                    blockingStub.freeFMUstate(it).convert()
+                }
+    }
+
+    override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
+        return Service.GetFMUstateRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .build().let {
+                    blockingStub.getFMUstate(it).let {
+                        it.state to it.status.convert()
+                    }
+                }
+    }
+
+    override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
+        return Service.SerializeFMUstateRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .setState(state)
+                .build().let {
+                    blockingStub.serializeFMUstate(it).let {
+                        it.state.toByteArray() to it.status.convert()
+                    }
+                }
+    }
+
+    override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        return Service.SetFMUstateRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .setState(state)
+                .build().let {
+                    blockingStub.setFMUstate(it).convert()
+                }
+    }
+
     override fun close() {
         super.close()
         channel.shutdownNow()
@@ -183,8 +250,6 @@ class GrpcFmuClient(
 
 
     private companion object {
-
-        private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
 
         private fun getReadRequest(instanceId: String, vr: List<Int>): Service.ReadRequest {
             return Service.ReadRequest.newBuilder()

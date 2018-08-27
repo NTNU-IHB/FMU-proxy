@@ -27,8 +27,9 @@
 
 #include <string>
 #include <thread>
+#include <memory>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "RemoteAddress.hpp"
 
 namespace fmuproxy::heartbeat {
@@ -44,13 +45,13 @@ namespace fmuproxy::heartbeat {
         const std::vector<std::string> modelDescriptions_;
 
         const fmuproxy::RemoteAddress remote_;
-        const std::map<std::string, unsigned int> &ports_;
+        const std::unordered_map<std::string, unsigned int> &ports_;
 
         void run();
 
     public:
         Heartbeat(const RemoteAddress remote,
-                  const std::map<std::string, unsigned int> &ports,
+                  const std::unordered_map<std::string, unsigned int> &ports,
                   const std::vector<std::string> &modelDescriptions);
 
         void start();

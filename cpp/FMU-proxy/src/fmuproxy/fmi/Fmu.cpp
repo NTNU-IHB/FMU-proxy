@@ -94,4 +94,7 @@ Fmu::~Fmu() {
     fmi_import_free_context(this->ctx_);
     remove_all(this->tmp_path_);
 
+    xml_ = nullptr;
+    ctx_ = nullptr;
+
 }

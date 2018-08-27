@@ -22,23 +22,38 @@
  * THE SOFTWARE.
  */
 
+#include <iostream>
 #include <fmuproxy/fmi/LocalFmuSlave.hpp>
 
 using namespace std;
 using namespace fmuproxy::fmi;
 
-const double RELATIVE_TOLERANCE = 1E-4;
+namespace {
 
-template <typename A, typename B>
-inline void checkSize(vector<A> v1, vector<B> v2) {
-    if (v1.size() != v2.size()) {
-        throw runtime_error("Vector sizes not equal!");
+    static int64_t STATE_GENERATOR = 0;
+
+    static const double RELATIVE_TOLERANCE = 1E-4;
+
+    template<typename A, typename B>
+    inline void checkSize(vector<A> v1, vector<B> v2) {
+        if (v1.size() != v2.size()) {
+            throw runtime_error("Vector sizes not equal!");
+        }
     }
+
 }
 
 LocalFmuSlave::LocalFmuSlave(fmi2_import_t *instance, ModelDescription &modelDescription)
     : FmuSlave(modelDescription), instance_(instance) {}
 
+
+bool LocalFmuSlave::canGetAndSetFMUstate() const {
+    return fmi2_import_get_capability(instance_, fmi2_cs_canGetAndSetFMUstate);
+}
+
+bool LocalFmuSlave::canSerializeFMUstate() const {
+    return fmi2_import_get_capability(instance_, fmi2_cs_canSerializeFMUstate);
+}
 
 void LocalFmuSlave::init(double start, double stop) {
 
@@ -88,7 +103,6 @@ fmi2_status_t LocalFmuSlave::terminate() {
     }
     return fmi2_status_ok;
 }
-
 
 fmi2_status_t LocalFmuSlave::readInteger(const fmi2_value_reference_t vr, fmi2_integer_t &ref) {
     return fmi2_import_get_integer(instance_, &vr, 1, &ref);
@@ -164,6 +178,46 @@ fmi2_status_t LocalFmuSlave::writeBoolean(const std::vector<fmi2_value_reference
     return fmi2_import_set_boolean(instance_, vr.data(), vr.size(), value.data());
 }
 
+fmi2_status_t LocalFmuSlave::getFMUstate(int64_t &state) {
+    fmi2_FMU_state_t *_state = nullptr;
+    fmi2_status_t status = fmi2_import_get_fmu_state(instance_, _state);
+    state = ++STATE_GENERATOR;
+    states[state] = _state;
+    return status;
+}
+
+fmi2_status_t LocalFmuSlave::setFMUstate(const int64_t state) {
+    fmi2_FMU_state_t _state = states[state];
+    return fmi2_import_set_fmu_state(instance_, _state);
+}
+
+fmi2_status_t LocalFmuSlave::freeFMUstate(int64_t &state) {
+    fmi2_FMU_state_t _state = states[state];
+    state = -1; //invalidate state
+    return fmi2_import_free_fmu_state(instance_, &_state);
+}
+
+fmi2_status_t LocalFmuSlave::serializeFMUstate(const int64_t state, string &serializedState) {
+    fmi2_FMU_state_t _state = states[state];
+
+    size_t size;
+    fmi2_import_serialized_fmu_state_size(instance_, _state, &size);
+
+    return fmi2_import_serialize_fmu_state(instance_, _state, serializedState.data(), size);
+}
+
+fmi2_status_t LocalFmuSlave::deSerializeFMUstate(const std::string serializedState, int64_t &state) {
+
+    fmi2_FMU_state_t *_state = nullptr;
+    fmi2_status_t status = fmi2_import_de_serialize_fmu_state(instance_, serializedState.data(), serializedState.size(),
+                                                              _state);
+
+    state = ++STATE_GENERATOR;
+    states[state] = _state;
+
+    return status;
+}
+
 LocalFmuSlave::~LocalFmuSlave()  {
 
     std::cout << "FmuInstance destructor called" << std::endl;
@@ -171,18 +225,6 @@ LocalFmuSlave::~LocalFmuSlave()  {
     terminate();
     fmi2_import_destroy_dllfmu(instance_);
     fmi2_import_free(instance_);
+    instance_ = nullptr;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

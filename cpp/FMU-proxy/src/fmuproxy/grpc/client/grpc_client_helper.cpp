@@ -171,7 +171,6 @@ namespace {
         v0.name = v1.name();
         v0.valueReference = v1.value_reference();
         v0.description = v1.description();
-        v0.declaredType = v1.declared_type();
         v0.variability = convert(v1.variability());
         v0.causality = convert(v1.causality());
         v0.initial = convert(v1.initial());
@@ -197,29 +196,35 @@ namespace {
 
         return v0;
     }
+    
+    void copyToFrom(fmuproxy::fmi::DefaultExperiment &to, const fmuproxy::grpc::DefaultExperiment &from) {
+        to.startTime = from.start_time();
+        to.stopTime = from.stop_time();
+        to.tolerance = from.tolerance();
+        to.stepSize = from.step_size();
+    }
 
-    void convert(fmuproxy::fmi::ModelDescription &m0, const fmuproxy::grpc::ModelDescription &m1) {
-        m0.guid = m1.guid();
-        m0.modelName = m1.model_name();
-        m0.version = m1.version();
-        m0.fmiVersion = m1.fmi_version();
-        m0.license = m1.license();
-        m0.copyright = m1.copyright();
-        m0.generationTool = m1.generation_tool();
-        m0.generationDateAndTime = m1.generation_date_and_time();
-        m0.variableNamingConvention = convert(m1.variable_naming_convention());
+    void copyToFrom(fmuproxy::fmi::ModelDescription &to, const fmuproxy::grpc::ModelDescription &from) {
+        to.guid = from.guid();
+        to.modelName = from.model_name();
+        to.version = from.version();
+        to.fmiVersion = from.fmi_version();
+        to.license = from.license();
+        to.copyright = from.copyright();
+        to.generationTool = from.generation_tool();
+        to.generationDateAndTime = from.generation_date_and_time();
+        to.variableNamingConvention = convert(from.variable_naming_convention());
 
-        m0.defaultExperiment.startTime = m1.default_experiment().start_time();
-        m0.defaultExperiment.stopTime = m1.default_experiment().stop_time();
-        m0.defaultExperiment.tolerance = m1.default_experiment().tolerance();
-        m0.defaultExperiment.stepSize = m1.default_experiment().step_size();
+        copyToFrom(to.defaultExperiment, from.default_experiment()); 
 
-        for (const fmuproxy::grpc::ScalarVariable &var : m1.model_variables()) {
-            m0.modelVariables.push_back(convert(var));
+        for (const auto &var : from.model_variables()) {
+            to.modelVariables.push_back(convert(var));
         }
+
+        to.supportsCoSimulation = from.supports_co_simulation();
+        to.supportsModelExchange = from.supports_model_exchange();
 
     }
     
     
 }
-

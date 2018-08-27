@@ -114,7 +114,7 @@ namespace {
         }
     }
 
-    void convert(fmuproxy::fmi::DefaultExperiment &d0, const fmuproxy::thrift::DefaultExperiment &d1) {
+    void copyToFrom(fmuproxy::fmi::DefaultExperiment &d0, const fmuproxy::thrift::DefaultExperiment &d1) {
         d0.startTime = d1.startTime;
         d0.stopTime = d1.stopTime;
         d0.tolerance = d1.tolerance;
@@ -200,7 +200,6 @@ namespace {
         v0.name = v1.name;
         v0.valueReference = v1.valueReference;
         v0.description = v1.description;
-        v0.declaredType = v1.declaredType;
         v0.variability = convert(v1.variability);
         v0.causality = convert(v1.causality);
         v0.initial = convert(v1.initial);
@@ -208,24 +207,28 @@ namespace {
         return v0;
     }
 
-    void convert(fmuproxy::fmi::ModelVariables &m0, const fmuproxy::thrift::ModelVariables &m1) {
+    void copyToFrom(fmuproxy::fmi::ModelVariables &m0, const fmuproxy::thrift::ModelVariables &m1) {
         for (const fmuproxy::thrift::ScalarVariable &var : m1) {
             m0.push_back(convert(var));
         }
     }
 
-    void convert(fmuproxy::fmi::ModelDescription &m0, const fmuproxy::thrift::ModelDescription &m1) {
-        m0.guid = m1.guid;
-        m0.modelName = m1.modelName;
-        m0.version = m1.version;
-        m0.fmiVersion = m1.fmiVersion;
-        m0.license = m1.license;
-        m0.copyright = m1.copyright;
-        m0.generationTool = m1.generationTool;
-        m0.generationDateAndTime = m1.generationDateAndTime;
-        m0.variableNamingConvention = convert(m1.variableNamingConvention);
-        convert(m0.modelVariables, m1.modelVariables);
-        convert(m0.defaultExperiment, m1.defaultExperiment);
+    void copyToFrom(fmuproxy::fmi::ModelDescription &to, const fmuproxy::thrift::ModelDescription &from) {
+        to.guid = from.guid;
+        to.modelName = from.modelName;
+        to.version = from.version;
+        to.fmiVersion = from.fmiVersion;
+        to.license = from.license;
+        to.copyright = from.copyright;
+        to.generationTool = from.generationTool;
+        to.generationDateAndTime = from.generationDateAndTime;
+        to.variableNamingConvention = convert(from.variableNamingConvention);
+        
+        copyToFrom(to.modelVariables, from.modelVariables);
+        copyToFrom(to.defaultExperiment, from.defaultExperiment);
+        
+        to.supportsCoSimulation = from.supportsCoSimulation;
+        to.supportsModelExchange = from.supportsModelExchange;
     }
 
 }

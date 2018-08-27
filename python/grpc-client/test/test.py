@@ -6,7 +6,7 @@ if __name__ == '__main__':
 
     client = RemoteFmu("{06c2700b-b39c-4895-9151-304ddde28443}","localhost", 9080)
 
-    stop = 10
+    stop = 2.0
     step_size = 1.0 / 100
 
     instance = client.create_instance()

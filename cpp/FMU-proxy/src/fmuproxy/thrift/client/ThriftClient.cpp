@@ -54,7 +54,7 @@ fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
         client_->getModelDescription(md, fmuId_);
         modelDescription_ = std::make_shared<fmuproxy::fmi::ModelDescription>();
-        convert(*modelDescription_, md);
+        copyToFrom(*modelDescription_, md);
     }
     return *modelDescription_;
 }

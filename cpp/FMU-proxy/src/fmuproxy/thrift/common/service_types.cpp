@@ -425,4 +425,346 @@ const char* UnsupportedOperationException::what() const throw() {
   }
 }
 
+
+GetFmuStateResult::~GetFmuStateResult() throw() {
+}
+
+
+void GetFmuStateResult::__set_state(const FmuState val) {
+  this->state = val;
+}
+
+void GetFmuStateResult::__set_status(const  ::fmuproxy::thrift::Status::type val) {
+  this->status = val;
+}
+std::ostream& operator<<(std::ostream& out, const GetFmuStateResult& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t GetFmuStateResult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->state);
+          this->__isset.state = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast8;
+          xfer += iprot->readI32(ecast8);
+          this->status = ( ::fmuproxy::thrift::Status::type)ecast8;
+          this->__isset.status = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t GetFmuStateResult::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("GetFmuStateResult");
+
+  xfer += oprot->writeFieldBegin("state", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->state);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->status);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(GetFmuStateResult &a, GetFmuStateResult &b) {
+  using ::std::swap;
+  swap(a.state, b.state);
+  swap(a.status, b.status);
+  swap(a.__isset, b.__isset);
+}
+
+GetFmuStateResult::GetFmuStateResult(const GetFmuStateResult& other9) {
+  state = other9.state;
+  status = other9.status;
+  __isset = other9.__isset;
+}
+GetFmuStateResult& GetFmuStateResult::operator=(const GetFmuStateResult& other10) {
+  state = other10.state;
+  status = other10.status;
+  __isset = other10.__isset;
+  return *this;
+}
+void GetFmuStateResult::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "GetFmuStateResult(";
+  out << "state=" << to_string(state);
+  out << ", " << "status=" << to_string(status);
+  out << ")";
+}
+
+
+SerializeFmuStateResult::~SerializeFmuStateResult() throw() {
+}
+
+
+void SerializeFmuStateResult::__set_state(const std::string& val) {
+  this->state = val;
+}
+
+void SerializeFmuStateResult::__set_status(const  ::fmuproxy::thrift::Status::type val) {
+  this->status = val;
+}
+std::ostream& operator<<(std::ostream& out, const SerializeFmuStateResult& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t SerializeFmuStateResult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readBinary(this->state);
+          this->__isset.state = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast11;
+          xfer += iprot->readI32(ecast11);
+          this->status = ( ::fmuproxy::thrift::Status::type)ecast11;
+          this->__isset.status = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t SerializeFmuStateResult::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("SerializeFmuStateResult");
+
+  xfer += oprot->writeFieldBegin("state", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeBinary(this->state);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->status);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(SerializeFmuStateResult &a, SerializeFmuStateResult &b) {
+  using ::std::swap;
+  swap(a.state, b.state);
+  swap(a.status, b.status);
+  swap(a.__isset, b.__isset);
+}
+
+SerializeFmuStateResult::SerializeFmuStateResult(const SerializeFmuStateResult& other12) {
+  state = other12.state;
+  status = other12.status;
+  __isset = other12.__isset;
+}
+SerializeFmuStateResult& SerializeFmuStateResult::operator=(const SerializeFmuStateResult& other13) {
+  state = other13.state;
+  status = other13.status;
+  __isset = other13.__isset;
+  return *this;
+}
+void SerializeFmuStateResult::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "SerializeFmuStateResult(";
+  out << "state=" << to_string(state);
+  out << ", " << "status=" << to_string(status);
+  out << ")";
+}
+
+
+DeSerializeFmuStateResult::~DeSerializeFmuStateResult() throw() {
+}
+
+
+void DeSerializeFmuStateResult::__set_state(const FmuState val) {
+  this->state = val;
+}
+
+void DeSerializeFmuStateResult::__set_status(const  ::fmuproxy::thrift::Status::type val) {
+  this->status = val;
+}
+std::ostream& operator<<(std::ostream& out, const DeSerializeFmuStateResult& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t DeSerializeFmuStateResult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->state);
+          this->__isset.state = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast14;
+          xfer += iprot->readI32(ecast14);
+          this->status = ( ::fmuproxy::thrift::Status::type)ecast14;
+          this->__isset.status = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t DeSerializeFmuStateResult::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("DeSerializeFmuStateResult");
+
+  xfer += oprot->writeFieldBegin("state", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->state);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("status", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((int32_t)this->status);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(DeSerializeFmuStateResult &a, DeSerializeFmuStateResult &b) {
+  using ::std::swap;
+  swap(a.state, b.state);
+  swap(a.status, b.status);
+  swap(a.__isset, b.__isset);
+}
+
+DeSerializeFmuStateResult::DeSerializeFmuStateResult(const DeSerializeFmuStateResult& other15) {
+  state = other15.state;
+  status = other15.status;
+  __isset = other15.__isset;
+}
+DeSerializeFmuStateResult& DeSerializeFmuStateResult::operator=(const DeSerializeFmuStateResult& other16) {
+  state = other16.state;
+  status = other16.status;
+  __isset = other16.__isset;
+  return *this;
+}
+void DeSerializeFmuStateResult::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "DeSerializeFmuStateResult(";
+  out << "state=" << to_string(state);
+  out << ", " << "status=" << to_string(status);
+  out << ")";
+}
+
 }} // namespace

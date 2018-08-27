@@ -56,7 +56,6 @@ namespace fmuproxy::fmi {
         fmi2_value_reference_t valueReference;
         std::string name;
         std::string description;
-        std::string declaredType;
         fmi2_initial_enu_t initial;
         fmi2_causality_enu_t causality;
         fmi2_variability_enu_t variability;
@@ -79,11 +78,10 @@ namespace fmuproxy::fmi {
         DefaultExperiment defaultExperiment;
         fmi2_variable_naming_convension_enu_t variableNamingConvention;
         ModelVariables modelVariables;
-        ModelStructure modelStructure;
         bool supportsCoSimulation;
         bool supportsModelExchange;
 
-        fmi2_value_reference_t getValueReference(const std::string name) {
+        fmi2_value_reference_t getValueReference(const std::string name) const {
             for (auto var : modelVariables) {
                 if (var.name == name) {
                     return var.valueReference;

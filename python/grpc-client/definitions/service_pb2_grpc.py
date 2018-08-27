@@ -95,6 +95,41 @@ class FmuServiceStub(object):
         request_serializer=service__pb2.WriteBooleanRequest.SerializeToString,
         response_deserializer=service__pb2.StatusResponse.FromString,
         )
+    self.CanGetAndSetFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/CanGetAndSetFMUstate',
+        request_serializer=service__pb2.CanGetAndSetFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.Bool.FromString,
+        )
+    self.CanSerializeFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/CanSerializeFMUstate',
+        request_serializer=service__pb2.CanSerializeFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.Bool.FromString,
+        )
+    self.GetFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/GetFMUstate',
+        request_serializer=service__pb2.GetFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.GetFMUstateResponse.FromString,
+        )
+    self.SetFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/SetFMUstate',
+        request_serializer=service__pb2.SetFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.StatusResponse.FromString,
+        )
+    self.FreeFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/FreeFMUstate',
+        request_serializer=service__pb2.FreeFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.StatusResponse.FromString,
+        )
+    self.SerializeFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/SerializeFMUstate',
+        request_serializer=service__pb2.SerializeFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.SerializeFMUstateResponse.FromString,
+        )
+    self.DeSerializeFMUstate = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/DeSerializeFMUstate',
+        request_serializer=service__pb2.DeSerializeFMUstateRequest.SerializeToString,
+        response_deserializer=service__pb2.DeSerializeFMUstateResponse.FromString,
+        )
 
 
 class FmuServiceServicer(object):
@@ -213,6 +248,55 @@ class FmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def CanGetAndSetFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CanSerializeFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SetFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def FreeFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SerializeFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def DeSerializeFMUstate(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_FmuServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -295,6 +379,41 @@ def add_FmuServiceServicer_to_server(servicer, server):
           servicer.WriteBoolean,
           request_deserializer=service__pb2.WriteBooleanRequest.FromString,
           response_serializer=service__pb2.StatusResponse.SerializeToString,
+      ),
+      'CanGetAndSetFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.CanGetAndSetFMUstate,
+          request_deserializer=service__pb2.CanGetAndSetFMUstateRequest.FromString,
+          response_serializer=service__pb2.Bool.SerializeToString,
+      ),
+      'CanSerializeFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.CanSerializeFMUstate,
+          request_deserializer=service__pb2.CanSerializeFMUstateRequest.FromString,
+          response_serializer=service__pb2.Bool.SerializeToString,
+      ),
+      'GetFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.GetFMUstate,
+          request_deserializer=service__pb2.GetFMUstateRequest.FromString,
+          response_serializer=service__pb2.GetFMUstateResponse.SerializeToString,
+      ),
+      'SetFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.SetFMUstate,
+          request_deserializer=service__pb2.SetFMUstateRequest.FromString,
+          response_serializer=service__pb2.StatusResponse.SerializeToString,
+      ),
+      'FreeFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.FreeFMUstate,
+          request_deserializer=service__pb2.FreeFMUstateRequest.FromString,
+          response_serializer=service__pb2.StatusResponse.SerializeToString,
+      ),
+      'SerializeFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.SerializeFMUstate,
+          request_deserializer=service__pb2.SerializeFMUstateRequest.FromString,
+          response_serializer=service__pb2.SerializeFMUstateResponse.SerializeToString,
+      ),
+      'DeSerializeFMUstate': grpc.unary_unary_rpc_method_handler(
+          servicer.DeSerializeFMUstate,
+          request_deserializer=service__pb2.DeSerializeFMUstateRequest.FromString,
+          response_serializer=service__pb2.DeSerializeFMUstateResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
