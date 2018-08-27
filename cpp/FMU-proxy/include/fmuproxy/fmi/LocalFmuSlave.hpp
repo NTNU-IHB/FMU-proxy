@@ -81,14 +81,18 @@ namespace fmuproxy::fmi {
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
 
         fmi2_status_t getFMUstate(int64_t &state) override;
-
         fmi2_status_t setFMUstate(const int64_t state) override;
-
         fmi2_status_t freeFMUstate(int64_t &state) override;
 
         fmi2_status_t serializeFMUstate(const int64_t state, std::string &serializedState) override;
-
         fmi2_status_t deSerializeFMUstate(const std::string serializedState, int64_t &state) override;
+
+        virtual bool providesDirectionalDerivatives() const;
+
+        virtual fmi2_status_t getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
+                                                       const std::vector<fmi2_value_reference_t> vKnownRef,
+                                                       const std::vector<fmi2_real_t> dvKnownRef,
+                                                       std::vector<fmi2_real_t> dvUnknownRef);
 
         ~LocalFmuSlave();
 

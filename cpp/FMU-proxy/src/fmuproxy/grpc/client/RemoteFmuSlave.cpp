@@ -393,3 +393,14 @@ fmi2_status_t RemoteFmuSlave::deSerializeFMUstate(const string serializedState, 
 
     return convert(response.status());
 }
+
+bool RemoteFmuSlave::providesDirectionalDerivatives() const {
+    return false;
+}
+
+fmi2_status_t RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
+                                                       const std::vector<fmi2_value_reference_t> vKnownRef,
+                                                       const std::vector<fmi2_real_t> dvKnownRef,
+                                                       std::vector<fmi2_real_t> dvUnknown) {
+    return fmi2_status_error;
+}

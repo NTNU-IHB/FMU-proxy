@@ -23,6 +23,7 @@
  */
 
 #include <vector>
+#include <algorithm>
 #include <fmuproxy/thrift/client/RemoteFmuSlave.hpp>
 #include "thrift_client_helper.cpp"
 
@@ -204,5 +205,16 @@ fmi2_status_t RemoteFmuSlave::deSerializeFMUstate(const string serializedState, 
     client_.deSerializeFMUstate(result, instanceId_, serializedState.data());
     state = result.state;
     return convert(result.status);
+}
+
+bool RemoteFmuSlave::providesDirectionalDerivatives() const {
+    return false;
+}
+
+fmi2_status_t RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
+                                                       const std::vector<fmi2_value_reference_t> vKnownRef,
+                                                       const std::vector<fmi2_real_t> dvKnownRef,
+                                                       std::vector<fmi2_real_t> dvUnknown) {
+    return fmi2_status_error;
 }
 

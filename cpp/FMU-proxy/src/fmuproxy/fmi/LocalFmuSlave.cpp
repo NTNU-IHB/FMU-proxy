@@ -55,6 +55,10 @@ bool LocalFmuSlave::canSerializeFMUstate() const {
     return fmi2_import_get_capability(instance_, fmi2_cs_canSerializeFMUstate);
 }
 
+bool LocalFmuSlave::providesDirectionalDerivatives() const {
+    return fmi2_import_get_capability(instance_, fmi2_cs_providesDirectionalDerivatives);
+}
+
 void LocalFmuSlave::init(double start, double stop) {
 
     fmi2_boolean_t stop_time_defined = start < stop;
@@ -209,13 +213,21 @@ fmi2_status_t LocalFmuSlave::serializeFMUstate(const int64_t state, string &seri
 fmi2_status_t LocalFmuSlave::deSerializeFMUstate(const std::string serializedState, int64_t &state) {
 
     fmi2_FMU_state_t *_state = nullptr;
-    fmi2_status_t status = fmi2_import_de_serialize_fmu_state(instance_, serializedState.data(), serializedState.size(),
-                                                              _state);
+    fmi2_status_t status = fmi2_import_de_serialize_fmu_state(instance_,
+            serializedState.data(), serializedState.size(), _state);
 
     state = ++STATE_GENERATOR;
     states[state] = _state;
 
     return status;
+}
+
+fmi2_status_t LocalFmuSlave::getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
+                                                      const std::vector<fmi2_value_reference_t> vKnownRef,
+                                                      const std::vector<fmi2_real_t> dvKnownRef,
+                                                      std::vector<fmi2_real_t> dvUnknownRef) {
+    return fmi2_import_get_directional_derivative(instance_, vUnknownRef.data(), vUnknownRef.size(),
+            vKnownRef.data(), vKnownRef.size(), dvKnownRef.data(), dvUnknownRef.data());
 }
 
 LocalFmuSlave::~LocalFmuSlave()  {
@@ -228,3 +240,4 @@ LocalFmuSlave::~LocalFmuSlave()  {
     instance_ = nullptr;
 
 }
+
