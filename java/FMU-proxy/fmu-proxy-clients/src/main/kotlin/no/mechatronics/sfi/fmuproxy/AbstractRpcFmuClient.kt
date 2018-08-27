@@ -180,6 +180,15 @@ abstract class AbstractRpcFmuClient(
         override val modelDescription
             get() = this@AbstractRpcFmuClient.modelDescription
 
+        override val canGetAndSetFMUstate: Boolean
+            get() = canGetAndSetFMUstate(instanceId)
+
+        override val canSerializeFMUstate: Boolean
+            get() = canSerializeFMUstate(instanceId)
+
+        override val providesDirectionalDerivative: Boolean
+            get() = false
+
         init {
 
             modelDescription.modelVariables.forEach { variable ->
@@ -334,28 +343,8 @@ abstract class AbstractRpcFmuClient(
         override fun writeString(vr: ValueReferences, value: StringArray)
                 = writeString(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
 
-        override val canGetAndSetFMUstate: Boolean
-            get() = canGetAndSetFMUstate(instanceId)
-
-        override val canSerializeFMUstate: Boolean
-            get() = canSerializeFMUstate(instanceId)
-
-        override fun deSerializeFMUstate(state: ByteArray) = deSerializeFMUstate(instanceId, state).let {
-            lastStatus = it.second
-            it.first
-        }
-
-        override fun freeFMUstate(state: FmuState) = freeFMUstate(instanceId, state).let {
-            lastStatus = it
-            it == FmiStatus.OK
-        }
 
         override fun getFMUstate() = getFMUstate(instanceId).let {
-            lastStatus = it.second
-            it.first
-        }
-
-        override fun serializeFMUstate(state: FmuState) = serializeFMUstate(instanceId, state).let {
             lastStatus = it.second
             it.first
         }
@@ -364,6 +353,29 @@ abstract class AbstractRpcFmuClient(
             lastStatus = it
             it == FmiStatus.OK
         }
+
+        override fun freeFMUstate(state: FmuState) = freeFMUstate(instanceId, state).let {
+            lastStatus = it
+            it == FmiStatus.OK
+        }
+
+
+        override fun serializeFMUstate(state: FmuState) = serializeFMUstate(instanceId, state).let {
+            lastStatus = it.second
+            it.first
+        }
+
+        override fun deSerializeFMUstate(state: ByteArray) = deSerializeFMUstate(instanceId, state).let {
+            lastStatus = it.second
+            it.first
+        }
+
+
+        override fun getDirectionalDerivative(
+                vUnknownRef: IntArray, vKnownRef: IntArray, dvKnown: RealArray, dvUnknown: RealArray): FmiStatus {
+            TODO("not implemented")
+        }
+
     }
 
 }
