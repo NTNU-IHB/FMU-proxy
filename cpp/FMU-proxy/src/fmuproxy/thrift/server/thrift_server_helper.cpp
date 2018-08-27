@@ -30,8 +30,8 @@
 using namespace fmuproxy::thrift;
 
 namespace {
-    
-    Status::type thriftType(fmi2_status_t status) {
+
+    const Status::type thriftType(fmi2_status_t status) {
         switch (status) {
             case fmi2_status_ok:
                 return Status::type::OK_STATUS;
@@ -49,7 +49,7 @@ namespace {
         throw std::runtime_error("");
     }
 
-    Causality::type thriftType(fmi2_causality_enu_t causality) {
+    const Causality::type thriftType(fmi2_causality_enu_t causality) {
         switch (causality) {
             case fmi2_causality_enu_input:
                 return Causality::type::INPUT_CAUSALITY;
@@ -69,7 +69,7 @@ namespace {
         throw std::runtime_error("");
     }
 
-    Variability::type thriftType(fmi2_variability_enu_t variability) {
+    const Variability::type thriftType(fmi2_variability_enu_t variability) {
         switch (variability) {
             case fmi2_variability_enu_constant:
                 return Variability::type::CONSTANT_VARIABILITY;
@@ -87,7 +87,7 @@ namespace {
         throw std::runtime_error("");
     }
 
-    Initial::type thriftType(fmi2_initial_enu_t initial) {
+    const Initial::type thriftType(fmi2_initial_enu_t initial) {
         switch (initial) {
             case fmi2_initial_enu_approx:
                 return Initial::type::APPROX_INITIAL;
@@ -101,7 +101,7 @@ namespace {
         throw std::runtime_error("");
     }
 
-    VariableNamingConvention::type thriftType(fmi2_variable_naming_convension_enu_t convention) {
+    const VariableNamingConvention::type thriftType(fmi2_variable_naming_convension_enu_t convention) {
         switch (convention) {
             case fmi2_naming_enu_flat:
                 return VariableNamingConvention::FLAT;

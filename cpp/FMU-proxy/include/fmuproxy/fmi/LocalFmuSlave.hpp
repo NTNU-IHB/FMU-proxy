@@ -25,7 +25,7 @@
 #ifndef FMU_PROXY_FMUINSTANCE_HPP
 #define FMU_PROXY_FMUINSTANCE_HPP
 
-#include <iostream>
+#include <unordered_map>
 #include <fmilib.h>
 #include "FmuSlave.hpp"
 
@@ -36,7 +36,7 @@ namespace fmuproxy::fmi {
     private:
 
         fmi2_import_t *instance_;
-        std::vector<fmi2_FMU_state_t* > states;
+        std::unordered_map<int64_t, fmi2_FMU_state_t *> states;
 
     public:
 
@@ -82,10 +82,13 @@ namespace fmuproxy::fmi {
 
         fmi2_status_t getFMUstate(int64_t &state) override;
 
-        fmi2_status_t setFMUstate(int64_t state) override;
+        fmi2_status_t setFMUstate(const int64_t state) override;
 
-        fmi2_status_t freeFMUstate(int64_t state) override;
+        fmi2_status_t freeFMUstate(int64_t &state) override;
 
+        fmi2_status_t serializeFMUstate(const int64_t state, std::string &serializedState) override;
+
+        fmi2_status_t deSerializeFMUstate(const std::string serializedState, int64_t &state) override;
 
         ~LocalFmuSlave();
 

@@ -23,7 +23,6 @@
  */
 
 #include <fmuproxy/grpc/client/RemoteFmuSlave.hpp>
-#include "grpc_client_helper.cpp"
 
 using namespace std;
 using namespace grpc;
@@ -322,18 +321,74 @@ bool RemoteFmuSlave::canSerializeFMUstate() const {
     Bool response;
 
     CanSerializeFMUstateRequest request;
+    request.set_instance_id(instanceId_);
     stub_.CanSerializeFMUstate(&ctx, request, &response);
     return response.value();
 }
 
-fmi2_status_t RemoteFmuSlave::getFMUstate(std::uintptr_t &state) {
-    return fmi2_status_error;
+fmi2_status_t RemoteFmuSlave::getFMUstate(int64_t &state) {
+
+    ClientContext ctx;
+    GetFMUstateResponse response;
+
+    GetFMUstateRequest request;
+    request.set_instance_id(instanceId_);
+    stub_.GetFMUstate(&ctx, request, &response);
+
+    state = response.state();
+    return convert(response.status());
 }
 
-fmi2_status_t RemoteFmuSlave::setFMUstate(std::uintptr_t state) {
-    return fmi2_status_error;
+fmi2_status_t RemoteFmuSlave::setFMUstate(const int64_t state) {
+
+    ClientContext ctx;
+    StatusResponse response;
+
+    SetFMUstateRequest request;
+    request.set_state(state);
+    request.set_instance_id(instanceId_);
+    stub_.SetFMUstate(&ctx, request, &response);
+
+    return convert(response.status());
 }
 
-fmi2_status_t RemoteFmuSlave::freeFMUstate(std::uintptr_t &state) {
-    return fmi2_status_error;
+fmi2_status_t RemoteFmuSlave::freeFMUstate(int64_t &state) {
+
+    ClientContext ctx;
+    StatusResponse response;
+
+    FreeFMUstateRequest request;
+    request.set_state(state);
+    request.set_instance_id(instanceId_);
+
+    stub_.FreeFMUstate(&ctx, request, &response);
+    state = -1; //invalidate state
+    return convert(response.status());
+}
+
+fmi2_status_t RemoteFmuSlave::serializeFMUstate(const int64_t state, string &serializedState) {
+
+    ClientContext ctx;
+    SerializeFMUstateResponse response;
+
+    SerializeFMUstateRequest request;
+    request.set_instance_id(instanceId_);
+    request.set_state(state);
+
+    serializedState = response.state();
+
+    return convert(response.status());
+}
+
+fmi2_status_t RemoteFmuSlave::deSerializeFMUstate(const string serializedState, int64_t &state) {
+    ClientContext ctx;
+    DeSerializeFMUstateResponse response;
+
+    DeSerializeFMUstateRequest request;
+    request.set_instance_id(instanceId_);
+    request.set_state(serializedState);
+
+    state = response.state();
+
+    return convert(response.status());
 }

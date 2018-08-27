@@ -31,7 +31,7 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    Status grpcType(fmi2_status_t status) {
+    const Status grpcType(fmi2_status_t status) {
         switch (status) {
             case fmi2_status_ok:
                 return Status::OK_STATUS;
@@ -50,7 +50,7 @@ namespace {
         }
     }
 
-    Causality grpcType(fmi2_causality_enu_t causality) {
+    const Causality grpcType(fmi2_causality_enu_t causality) {
         switch (causality) {
             case fmi2_causality_enu_input:
                 return Causality::INPUT_CAUSALITY;
@@ -71,7 +71,7 @@ namespace {
         }
     }
 
-    Variability grpcType(fmi2_variability_enu_t variability) {
+    const Variability grpcType(fmi2_variability_enu_t variability) {
         switch (variability) {
             case fmi2_variability_enu_constant:
                 return Variability::CONSTANT_VARIABILITY;
@@ -90,7 +90,7 @@ namespace {
         }
     }
 
-    Initial grpcType(fmi2_initial_enu_t initial) {
+    const Initial grpcType(fmi2_initial_enu_t initial) {
         switch (initial) {
             case fmi2_initial_enu_approx:
                 return Initial::APPROX_INITIAL;
@@ -105,7 +105,7 @@ namespace {
         }
     }
 
-    VariableNamingConvention grpcType(fmi2_variable_naming_convension_enu_t convention) {
+    const VariableNamingConvention grpcType(fmi2_variable_naming_convension_enu_t convention) {
         switch (convention) {
             case fmi2_naming_enu_flat:
                 return VariableNamingConvention::FLAT;

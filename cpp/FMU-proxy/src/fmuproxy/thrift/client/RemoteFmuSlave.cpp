@@ -23,10 +23,7 @@
  */
 
 #include <vector>
-#include <algorithm>
 #include <fmuproxy/thrift/client/RemoteFmuSlave.hpp>
-
-#include "thrift_client_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;
@@ -190,7 +187,21 @@ fmi2_status_t RemoteFmuSlave::setFMUstate(int64_t state) {
     return convert(client_.setFMUstate(instanceId_, state));
 }
 
-fmi2_status_t RemoteFmuSlave::freeFMUstate(int64_t state) {
+fmi2_status_t RemoteFmuSlave::freeFMUstate(int64_t &state) {
     return convert(client_.freeFMUstate(instanceId_, state));
+}
+
+fmi2_status_t RemoteFmuSlave::serializeFMUstate(const int64_t state, string &serializedState) {
+    SerializeFmuStateResult result;
+    client_.serializeFMUstate(result, instanceId_, state);
+    serializedState = result.state;
+    return convert(result.status);
+}
+
+fmi2_status_t RemoteFmuSlave::deSerializeFMUstate(const string serializedState, int64_t &state) {
+    DeSerializeFmuStateResult result;
+    client_.deSerializeFMUstate(result, instanceId_, serializedState.data());
+    state = result.state;
+    return convert(result.status);
 }
 
