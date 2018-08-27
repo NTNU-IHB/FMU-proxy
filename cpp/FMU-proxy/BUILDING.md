@@ -23,7 +23,8 @@ If thrift gives you an error regarding flex or bison on linux, see this [issue](
 
 If you also want to build the tests, add:
 
-```./vcpkg install boost-test
+```
+./vcpkg install boost-test
 ```
 
 That's it!
