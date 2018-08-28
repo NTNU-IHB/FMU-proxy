@@ -15,11 +15,10 @@ dependencies {
     providedCompile 'javax.enterprise:cdi-api:2.0'
     compile group: 'org.primefaces', name: 'primefaces', version: '6.2'
 
-    def servlet_version = "2.2"
+    def servlet_version = "2.5"
     providedCompile "javax.servlet:servlet-api:${servlet_version}"
-    providedCompile "javax.servlet.jsp:jsp-api:${servlet_version}"
 
-    def faces_version = "2.2.17"
+    def faces_version = "2.2.18"
     compile group: 'com.sun.faces', name: 'jsf-api', version: faces_version
     runtime group: 'com.sun.faces', name: 'jsf-impl', version: faces_version
 
