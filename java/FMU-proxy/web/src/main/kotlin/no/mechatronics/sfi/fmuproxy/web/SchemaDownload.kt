@@ -39,9 +39,10 @@ class SchemaDownload {
 
     @PostConstruct
     fun init() {
-        file = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/schemas/$ZIP_NAME").use {
-           DefaultStreamedContent(it, "application/octet-stream", ZIP_NAME)
+        file = FacesContext.getCurrentInstance().externalContext.getResourceAsStream("/resources/schemas/$ZIP_NAME").let {
+            DefaultStreamedContent(it, "application/octet-stream", ZIP_NAME)
         }
+
     }
 
 }
