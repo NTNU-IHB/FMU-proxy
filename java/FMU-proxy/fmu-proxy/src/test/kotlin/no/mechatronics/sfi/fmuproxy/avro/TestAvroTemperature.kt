@@ -1,7 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.avro
 
+import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.jupiter.api.AfterAll
@@ -34,14 +34,20 @@ class TestAvroTemperature {
 
     @Test
     fun testGuid() {
-        val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
-        Assertions.assertEquals(fmu.modelDescription.guid, guid)
+        val guid = client.guid.also { LOG.info("guid=$it") }
+        Assertions.assertEquals(fmu.guid, guid)
     }
 
     @Test
     fun testModelName() {
-        val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
-        Assertions.assertEquals(fmu.modelDescription.modelName, modelName)
+        val modelName = client.modelName.also { LOG.info("modelName=$it") }
+        Assertions.assertEquals(fmu.modelName, modelName)
+    }
+
+    @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertFalse(client.supportsModelExchange)
+        Assertions.assertTrue(client.supportsCoSimulation)
     }
 
     @Test

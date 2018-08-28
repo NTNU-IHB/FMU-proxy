@@ -25,7 +25,7 @@
 #ifndef FMU_PROXY_FMUINSTANCE_HPP
 #define FMU_PROXY_FMUINSTANCE_HPP
 
-#include <iostream>
+#include <unordered_map>
 #include <fmilib.h>
 #include "FmuSlave.hpp"
 
@@ -36,10 +36,15 @@ namespace fmuproxy::fmi {
     private:
 
         fmi2_import_t *instance_;
+        std::unordered_map<int64_t, fmi2_FMU_state_t *> states;
 
     public:
 
         LocalFmuSlave(fmi2_import_t* instance, ModelDescription &md);
+
+        bool canGetAndSetFMUstate() const override;
+
+        bool canSerializeFMUstate() const override;
 
         void init(double start = 0, double stop = 0) override;
 
@@ -74,7 +79,20 @@ namespace fmuproxy::fmi {
 
         fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) override;
         fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) override;
-        
+
+        fmi2_status_t getFMUstate(int64_t &state) override;
+        fmi2_status_t setFMUstate(const int64_t state) override;
+        fmi2_status_t freeFMUstate(int64_t &state) override;
+
+        fmi2_status_t serializeFMUstate(const int64_t state, std::string &serializedState) override;
+        fmi2_status_t deSerializeFMUstate(const std::string serializedState, int64_t &state) override;
+
+        virtual bool providesDirectionalDerivatives() const;
+
+        virtual fmi2_status_t getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
+                                                       const std::vector<fmi2_value_reference_t> vKnownRef,
+                                                       const std::vector<fmi2_real_t> dvKnownRef,
+                                                       std::vector<fmi2_real_t> dvUnknownRef);
 
         ~LocalFmuSlave();
 

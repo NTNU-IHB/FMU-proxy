@@ -5,12 +5,6 @@ from definitions.definitions_pb2 import *
 from definitions.service_pb2_grpc import FmuServiceStub
 
 
-# def uint(value: int) -> UInt:
-#     var = UInt()
-#     var.value = value
-#     return var
-
-
 class VariableReader:
 
     def __init__(self, instance_id: int, value_reference: int, stub: FmuServiceStub):

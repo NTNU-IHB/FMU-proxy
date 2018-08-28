@@ -42,5 +42,4 @@ namespace fmuproxy::fmi {
 
 }
 
-
 #endif //FMU_PROXY_FMUSLAVE_HPP

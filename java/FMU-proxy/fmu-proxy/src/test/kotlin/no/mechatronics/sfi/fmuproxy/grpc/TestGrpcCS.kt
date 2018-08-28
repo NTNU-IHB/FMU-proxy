@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
+import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
@@ -34,8 +34,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
-import org.junit.jupiter.api.condition.EnabledOnOs
-import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -72,6 +70,12 @@ class TestGrpcCS {
     fun testModelName() {
         val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
         Assertions.assertEquals(modelDescription.modelName, modelName)
+    }
+
+    @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertFalse(client.supportsModelExchange)
+        Assertions.assertTrue(client.supportsCoSimulation)
     }
 
     @Test

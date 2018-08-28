@@ -33,8 +33,8 @@ class TestGrpcME {
 
     @AfterAll
     fun tearDown() {
+        client.close()
         server.stop()
-        client.stop()
         fmu.close()
     }
 
@@ -51,19 +51,25 @@ class TestGrpcME {
     }
 
     @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertTrue(client.supportsModelExchange)
+        Assertions.assertFalse(client.supportsCoSimulation)
+    }
+
+    @Test
     fun testInstance() {
 
         val solver = Solver("Euler").apply {
             addProperty("step_size", modelDescription.defaultExperiment?.stepSize ?: 1E-3)
         }
 
-        client.newInstance(solver).use { instance ->
+        client.newInstance(solver).use { slave ->
 
-            instance.init()
-            Assertions.assertEquals(FmiStatus.OK, instance.lastStatus)
+            slave.init()
+            Assertions.assertEquals(FmiStatus.OK, slave.lastStatus)
 
             val variableName = "x0"
-            val variable = instance
+            val variable = slave
                     .getVariableByName(variableName).asRealVariable()
 
             variable.read().also {
@@ -73,8 +79,8 @@ class TestGrpcME {
 
             val stop = 2.0
             val stepSize = 1E-2
-            while (instance.simulationTime < stop) {
-                val step = instance.doStep(stepSize)
+            while (slave.simulationTime < stop) {
+                val step = slave.doStep(stepSize)
                 Assertions.assertTrue(step)
 
                 LOG.info("$variableName=${variable.read()}")

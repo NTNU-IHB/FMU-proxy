@@ -22,17 +22,17 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.thrift
+package no.mechatronics.sfi.fmuproxy.thrift.client
 
 import no.mechatronics.sfi.fmi4j.common.ValueReference
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.Solver
+import no.mechatronics.sfi.fmuproxy.thrift.*
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TSocket
 import org.apache.thrift.transport.TTransport
 import java.io.Closeable
 
-class ThriftTestClient(
+class LightThriftClient(
         private val fmuId: String,
         host: String,
         port: Int

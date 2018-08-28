@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+
+#include <unordered_map>
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
 
 #include "../test_util.cpp"
@@ -37,7 +39,7 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     auto fmu = make_shared<Fmu>(fmu_path);
-    map<string, shared_ptr<Fmu>> fmus = {{fmu->getModelDescription().guid, fmu}};
+    unordered_map<string, shared_ptr<Fmu>> fmus = {{fmu->getModelDescription().guid, fmu}};
     
     GrpcServer server(fmus, 9080);
     server.start();

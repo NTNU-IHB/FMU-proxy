@@ -58,3 +58,6 @@ __pycache__
 
 /**/cmake-build-debug
 /**/cmake-build-release
+
+/**/grpc_cpp_plugin
+/**/protoc

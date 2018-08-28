@@ -53,7 +53,7 @@ int main() {
             cout << "Name=" << var.name << ", " << var.attribute << endl;
         }
 
-        unique_ptr<RemoteFmuSlave> slave = fmu.newInstance();
+        auto slave = fmu.newInstance();
         slave->init();
 
         auto begin = clock();

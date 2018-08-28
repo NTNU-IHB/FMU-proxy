@@ -27,6 +27,8 @@ typedef std::string InstanceId;
 
 typedef int32_t ValueReference;
 
+typedef int64_t FmuState;
+
 typedef std::vector<int32_t>  ValueReferences;
 
 typedef std::vector<int32_t>  IntArray;
@@ -44,6 +46,12 @@ class NoSuchInstanceException;
 class NoSuchVariableException;
 
 class UnsupportedOperationException;
+
+class GetFmuStateResult;
+
+class SerializeFmuStateResult;
+
+class DeSerializeFmuStateResult;
 
 typedef struct _NoSuchFmuException__isset {
   _NoSuchFmuException__isset() : message(false) {}
@@ -220,6 +228,150 @@ class UnsupportedOperationException : public ::apache::thrift::TException {
 void swap(UnsupportedOperationException &a, UnsupportedOperationException &b);
 
 std::ostream& operator<<(std::ostream& out, const UnsupportedOperationException& obj);
+
+typedef struct _GetFmuStateResult__isset {
+  _GetFmuStateResult__isset() : state(false), status(false) {}
+  bool state :1;
+  bool status :1;
+} _GetFmuStateResult__isset;
+
+class GetFmuStateResult : public virtual ::apache::thrift::TBase {
+ public:
+
+  GetFmuStateResult(const GetFmuStateResult&);
+  GetFmuStateResult& operator=(const GetFmuStateResult&);
+  GetFmuStateResult() : state(0), status(( ::fmuproxy::thrift::Status::type)0) {
+  }
+
+  virtual ~GetFmuStateResult() throw();
+  FmuState state;
+   ::fmuproxy::thrift::Status::type status;
+
+  _GetFmuStateResult__isset __isset;
+
+  void __set_state(const FmuState val);
+
+  void __set_status(const  ::fmuproxy::thrift::Status::type val);
+
+  bool operator == (const GetFmuStateResult & rhs) const
+  {
+    if (!(state == rhs.state))
+      return false;
+    if (!(status == rhs.status))
+      return false;
+    return true;
+  }
+  bool operator != (const GetFmuStateResult &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GetFmuStateResult & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(GetFmuStateResult &a, GetFmuStateResult &b);
+
+std::ostream& operator<<(std::ostream& out, const GetFmuStateResult& obj);
+
+typedef struct _SerializeFmuStateResult__isset {
+  _SerializeFmuStateResult__isset() : state(false), status(false) {}
+  bool state :1;
+  bool status :1;
+} _SerializeFmuStateResult__isset;
+
+class SerializeFmuStateResult : public virtual ::apache::thrift::TBase {
+ public:
+
+  SerializeFmuStateResult(const SerializeFmuStateResult&);
+  SerializeFmuStateResult& operator=(const SerializeFmuStateResult&);
+  SerializeFmuStateResult() : state(), status(( ::fmuproxy::thrift::Status::type)0) {
+  }
+
+  virtual ~SerializeFmuStateResult() throw();
+  std::string state;
+   ::fmuproxy::thrift::Status::type status;
+
+  _SerializeFmuStateResult__isset __isset;
+
+  void __set_state(const std::string& val);
+
+  void __set_status(const  ::fmuproxy::thrift::Status::type val);
+
+  bool operator == (const SerializeFmuStateResult & rhs) const
+  {
+    if (!(state == rhs.state))
+      return false;
+    if (!(status == rhs.status))
+      return false;
+    return true;
+  }
+  bool operator != (const SerializeFmuStateResult &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const SerializeFmuStateResult & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(SerializeFmuStateResult &a, SerializeFmuStateResult &b);
+
+std::ostream& operator<<(std::ostream& out, const SerializeFmuStateResult& obj);
+
+typedef struct _DeSerializeFmuStateResult__isset {
+  _DeSerializeFmuStateResult__isset() : state(false), status(false) {}
+  bool state :1;
+  bool status :1;
+} _DeSerializeFmuStateResult__isset;
+
+class DeSerializeFmuStateResult : public virtual ::apache::thrift::TBase {
+ public:
+
+  DeSerializeFmuStateResult(const DeSerializeFmuStateResult&);
+  DeSerializeFmuStateResult& operator=(const DeSerializeFmuStateResult&);
+  DeSerializeFmuStateResult() : state(0), status(( ::fmuproxy::thrift::Status::type)0) {
+  }
+
+  virtual ~DeSerializeFmuStateResult() throw();
+  FmuState state;
+   ::fmuproxy::thrift::Status::type status;
+
+  _DeSerializeFmuStateResult__isset __isset;
+
+  void __set_state(const FmuState val);
+
+  void __set_status(const  ::fmuproxy::thrift::Status::type val);
+
+  bool operator == (const DeSerializeFmuStateResult & rhs) const
+  {
+    if (!(state == rhs.state))
+      return false;
+    if (!(status == rhs.status))
+      return false;
+    return true;
+  }
+  bool operator != (const DeSerializeFmuStateResult &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const DeSerializeFmuStateResult & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(DeSerializeFmuStateResult &a, DeSerializeFmuStateResult &b);
+
+std::ostream& operator<<(std::ostream& out, const DeSerializeFmuStateResult& obj);
 
 }} // namespace
 

@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
             break;
         }
         slave->readReal(vr, ref);
-        cout << "t=" << t << ", Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
+//        cout << "t=" << t << ", Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
     }
 
     clock_t end = clock();

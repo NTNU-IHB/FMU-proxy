@@ -25,7 +25,7 @@
 #ifndef FMU_PROXY_THRIFTSERVER_H
 #define FMU_PROXY_THRIFTSERVER_H
 
-#include <map>
+#include <unordered_map>
 #include <thread>
 #include <thrift/server/TSimpleServer.h>
 #include "../common/service_types.h"
@@ -37,6 +37,7 @@ namespace fmuproxy::thrift::server {
     class ThriftServer {
 
     private:
+        const bool http_;
         const unsigned int port_;
         std::unique_ptr<std::thread> thread_;
         std::unique_ptr<apache::thrift::server::TSimpleServer> server_;
@@ -44,7 +45,7 @@ namespace fmuproxy::thrift::server {
         void serve();
 
     public:
-        ThriftServer(std::map<fmuproxy::thrift::FmuId,
+        ThriftServer(std::unordered_map<fmuproxy::thrift::FmuId,
                 std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus,
                 const unsigned int port, const bool http=false);
 

@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  */
 
-#include <map>
 #include <iostream>
+#include <unordered_map>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/heartbeat/RemoteAddress.hpp>
@@ -59,10 +59,10 @@ namespace {
 
     int run_application(
             vector<shared_ptr<Fmu>> fmus,
-            std::map<string, unsigned int> ports,
+            unordered_map<string, unsigned int> ports,
             const shared_ptr<RemoteAddress> remote) {
 
-        map<string, shared_ptr<Fmu>> fmu_map;
+        unordered_map<string, shared_ptr<Fmu>> fmu_map;
         vector<string> modelDescriptions;
         for (const auto fmu : fmus) {
             fmu_map[fmu->getModelDescription().guid] = fmu;
@@ -73,7 +73,7 @@ namespace {
         bool enable_thrift_tcp = ports.count(THRIFT_TCP);
         bool enable_thrift_http = ports.count(THRIFT_HTTP);
 
-        map<string, unsigned int> servers;
+        unordered_map<string, unsigned int> servers;
 
         unique_ptr<ThriftServer> thrift_socket_server = nullptr;
         if (enable_thrift_tcp) {
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
             fmus.push_back(make_shared<Fmu>(fmu_path));
         }
 
-        auto ports = std::map<string, unsigned int>();
+        auto ports = unordered_map<string, unsigned int>();
 
         if (vm.count(THRIFT_HTTP)) {
             ports[THRIFT_TCP] = vm[THRIFT_TCP].as<unsigned int>();

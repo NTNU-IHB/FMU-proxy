@@ -138,7 +138,7 @@ A simple Thrift client running in the browser can be found [here](browser/thrift
 
 ## Software Architecture
 
-![Software architecture](http://folk.ntnu.no/laht/files/figures/fmu-proxy.PNG)
+![Software architecture](doc/architecture.png)
 
 #### <a name="discovery_service"></a> The Discovery Service
 

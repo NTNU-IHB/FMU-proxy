@@ -141,6 +141,57 @@ message Solver {
     string settings = 2;
 }
 
+message Bool {
+    bool value = 1;
+}
+
+message CanGetAndSetFMUstateRequest {
+    string instance_id = 1;
+}
+
+message CanSerializeFMUstateRequest {
+    string instance_id = 1;
+}
+
+message GetFMUstateRequest {
+    string instance_id = 1;
+}
+
+message GetFMUstateResponse {
+    int64 state = 1;
+    Status status = 2;
+}
+
+message SetFMUstateRequest {
+    string instance_id = 1;
+    int64 state = 2;
+}
+
+message FreeFMUstateRequest {
+    string instance_id = 1;
+    int64 state = 2;
+}
+
+message SerializeFMUstateRequest {
+    string instance_id = 1;
+    int64 state = 2;
+}
+
+message SerializeFMUstateResponse {
+    bytes state = 1;
+    Status status = 2;
+}
+
+message DeSerializeFMUstateRequest {
+    string instance_id = 1;
+    bytes state = 2;
+}
+
+message DeSerializeFMUstateResponse {
+    int64 state = 1;
+    Status status = 2;
+}
+
 service FmuService {
 
     rpc GetModelDescription(GetModelDescriptionRequest) returns (ModelDescription);
@@ -163,5 +214,15 @@ service FmuService {
     rpc WriteReal (WriteRealRequest) returns (StatusResponse);
     rpc WriteString (WriteStringRequest) returns (StatusResponse);
     rpc WriteBoolean (WriteBooleanRequest) returns (StatusResponse);
+
+    rpc CanGetAndSetFMUstate(CanGetAndSetFMUstateRequest) returns (Bool);
+    rpc CanSerializeFMUstate(CanSerializeFMUstateRequest) returns (Bool);
+
+    rpc GetFMUstate(GetFMUstateRequest) returns (GetFMUstateResponse);
+    rpc SetFMUstate(SetFMUstateRequest) returns (StatusResponse);
+    rpc FreeFMUstate(FreeFMUstateRequest) returns (StatusResponse);
+
+    rpc SerializeFMUstate(SerializeFMUstateRequest) returns (SerializeFMUstateResponse);
+    rpc DeSerializeFMUstate(DeSerializeFMUstateRequest) returns (DeSerializeFMUstateResponse);
 
 }

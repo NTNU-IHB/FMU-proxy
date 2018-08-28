@@ -25,7 +25,8 @@
 #ifndef FMU_PROXY_FMUSERVICEIMPL_HPP
 #define FMU_PROXY_FMUSERVICEIMPL_HPP
 
-#include <map>
+#include <memory>
+#include <unordered_map>
 #include "../common/definitions.pb.h"
 #include "../common/service.grpc.pb.h"
 
@@ -36,12 +37,12 @@ namespace fmuproxy::grpc::server {
     class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
 
     private:
-        std::map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus_;
-        std::map<std::string, std::unique_ptr<fmi::FmuSlave>> slaves_;
+        std::unordered_map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus_;
+        std::unordered_map<std::string, std::unique_ptr<fmi::FmuSlave>> slaves_;
 
     public:
 
-        explicit FmuServiceImpl(std::map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus);
+        explicit FmuServiceImpl(std::unordered_map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus);
 
         ::grpc::Status
         GetModelDescriptionXml(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest *request,
@@ -100,6 +101,31 @@ namespace fmuproxy::grpc::server {
         ::grpc::Status
         WriteBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::WriteBooleanRequest *request,
                      ::fmuproxy::grpc::StatusResponse *response) override;
+
+        ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext *context,
+                                          const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest *request,
+                                          ::fmuproxy::grpc::Bool *response) override;
+
+        ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext *context,
+                                          const ::fmuproxy::grpc::CanSerializeFMUstateRequest *request,
+                                          ::fmuproxy::grpc::Bool *response) override;
+
+        ::grpc::Status GetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetFMUstateRequest *request,
+                                 ::fmuproxy::grpc::GetFMUstateResponse *response) override;
+
+        ::grpc::Status SetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetFMUstateRequest *request,
+                                 ::fmuproxy::grpc::StatusResponse *response) override;
+
+        ::grpc::Status FreeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::FreeFMUstateRequest *request,
+                                  ::fmuproxy::grpc::StatusResponse *response) override;
+
+        ::grpc::Status
+        SerializeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SerializeFMUstateRequest *request,
+                          ::fmuproxy::grpc::SerializeFMUstateResponse *response) override;
+
+        ::grpc::Status
+        DeSerializeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest *request,
+                            ::fmuproxy::grpc::DeSerializeFMUstateResponse *response) override;
 
 
     };

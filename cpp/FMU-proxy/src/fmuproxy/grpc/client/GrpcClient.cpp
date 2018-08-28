@@ -44,7 +44,7 @@ fmuproxy::fmi::ModelDescription &GrpcClient::getModelDescription() {
         fmuproxy::grpc::ModelDescription md;
         stub_->GetModelDescription(&ctx, request, &md);
         modelDescription_ = std::make_shared<fmuproxy::fmi::ModelDescription>();
-        convert(*modelDescription_, md);
+        copyToFrom(*modelDescription_, md);
     }
     return *modelDescription_;
 }

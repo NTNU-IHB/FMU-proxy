@@ -46,20 +46,23 @@ internal fun FmiStatus.protoType(): Proto.Status {
 
 internal fun CommonModelDescription.protoType(): Proto.ModelDescription {
 
-    return Proto.ModelDescription.newBuilder().also { builder ->
+    return Proto.ModelDescription.newBuilder().also { md ->
 
-        builder.guid = guid
-        builder.modelName = modelName
-        builder.fmiVersion = fmiVersion
-        builder.modelStructure = modelStructure.protoType()
-        builder.addAllModelVariables(modelVariables.map { it.protoType() })
-        license?.also { builder.license = it }
-        copyright?.also { builder.copyright = it }
-        author?.also { builder.author = it }
-        version?.also { builder.version = it }
-        license?.also { builder.license = it }
-        generationTool?.also { builder.generationTool = it }
-        generationDateAndTime?.also { builder.generationDateAndTime = it }
+        md.guid = guid
+        md.modelName = modelName
+        md.fmiVersion = fmiVersion
+        md.modelStructure = modelStructure.protoType()
+        md.addAllModelVariables(modelVariables.map { it.protoType() })
+        license?.also { md.license = it }
+        copyright?.also { md.copyright = it }
+        author?.also { md.author = it }
+        version?.also { md.version = it }
+        license?.also { md.license = it }
+        generationTool?.also { md.generationTool = it }
+        generationDateAndTime?.also { md.generationDateAndTime = it }
+
+        md.supportsCoSimulation = supportsCoSimulation
+        md.supportsModelExchange = supportsModelExchange
 
     }.build()
 

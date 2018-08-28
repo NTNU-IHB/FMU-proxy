@@ -175,6 +175,21 @@ protocol AvroFmuService {
     string settings;
   }
 
+  record GetFmuStateResult {
+    long state;
+    Status status;
+  }
+
+  record SerializeFmuStateResult {
+    bytes state;
+    Status status;
+  }
+
+  record DeSerializeFmuStateResult {
+    long state;
+    Status status;
+  }
+
   error NoSuchFmuException {
     string message;
   }
@@ -211,5 +226,15 @@ protocol AvroFmuService {
   Status writeReal(string instance_id, array<int> vr, array<double> value) throws NoSuchInstanceException, NoSuchVariableException;
   Status writeString(string instance_id, array<int> vr, array<string> value) throws NoSuchInstanceException, NoSuchVariableException;
   Status writeBoolean(string instance_id, array<int> vr, array<boolean> value) throws NoSuchInstanceException, NoSuchVariableException;
+
+  boolean canGetAndSetFMUstate(string instance_id);
+  boolean canSerializeFMUstate(string instance_id);
+
+  GetFmuStateResult getFMUstate(string instance_id) throws NoSuchInstanceException, UnsupportedOperationException;
+  Status setFMUstate(string instance_id, long state) throws NoSuchInstanceException, UnsupportedOperationException;
+  Status freeFMUstate(string instance_id, long state) throws NoSuchInstanceException, UnsupportedOperationException;
+
+  SerializeFmuStateResult serializeFMUstate(string instance_id, long state) throws NoSuchInstanceException, UnsupportedOperationException;
+  DeSerializeFmuStateResult deSerializeFMUstate(string instance_id, bytes state) throws NoSuchInstanceException, UnsupportedOperationException;
 
 }

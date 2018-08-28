@@ -51,6 +51,12 @@ class TestThriftME {
     }
 
     @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertTrue(client.supportsModelExchange)
+        Assertions.assertFalse(client.supportsCoSimulation)
+    }
+
+    @Test
     fun testInstance() {
 
         val solver = Solver("Euler").apply {

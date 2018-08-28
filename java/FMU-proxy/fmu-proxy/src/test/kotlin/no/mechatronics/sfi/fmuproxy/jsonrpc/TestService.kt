@@ -7,7 +7,7 @@ import info.laht.yajrpc.RpcResponse
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuRealArrayRead
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
+import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
 import no.mechatronics.sfi.fmi4j.modeldescription.parser.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.TestUtils

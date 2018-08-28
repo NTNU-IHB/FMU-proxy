@@ -1,7 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.importer.misc.currentOS
+import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.jupiter.api.AfterAll
@@ -44,6 +44,12 @@ class TestThriftTemperature {
     fun testModelName() {
         val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
         Assertions.assertEquals(fmu.modelDescription.modelName, modelName)
+    }
+
+    @Test
+    fun testFMUSupportedTypes() {
+        Assertions.assertFalse(client.supportsModelExchange)
+        Assertions.assertTrue(client.supportsCoSimulation)
     }
 
     @Test
