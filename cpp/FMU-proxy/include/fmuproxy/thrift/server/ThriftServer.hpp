@@ -37,6 +37,7 @@ namespace fmuproxy::thrift::server {
     class ThriftServer {
 
     private:
+        const bool http_;
         const unsigned int port_;
         std::unique_ptr<std::thread> thread_;
         std::unique_ptr<apache::thrift::server::TSimpleServer> server_;
