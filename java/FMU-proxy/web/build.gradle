@@ -41,12 +41,6 @@ gretty {
     logDir = "$projectDir/logs"
 }
 
-task copyAvro(type: Copy) {
-    from '../../..rpc-definitions/avro'
-    into 'src/main/webapp/resources/schemas/avro'
-    include '*.avdl'
-}
-
 task copyThrift(type: Copy) {
     from '../../..rpc-definitions/thrift'
     into 'src/main/webapp/resources/schemas/thrift'
@@ -60,7 +54,6 @@ task copyProto(type: Copy) {
 }
 
 task copySchemas(type: Copy) {
-    dependsOn 'copyAvro'
     dependsOn 'copyThrift'
     dependsOn 'copyProto'
 }

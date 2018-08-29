@@ -2,39 +2,20 @@
 plugins {
     id "org.jruyi.thrift" version "0.4.0"
     id "com.google.protobuf" version "0.8.6"
-    id "com.commercehub.gradle.plugin.avro-base" version "0.14.2"
 }
 
 apply from: rootProject.file('publisher.gradle')
 
-def avro_version = '1.8.2'
 def definitions = "../../../rpc-definitions"
 
 dependencies {
+
     compile group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
 
     compile group: 'io.grpc', name: 'grpc-stub', version: grpc_version
     compile group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
 
-    compile group: 'org.apache.avro', name: 'avro', version: avro_version
-    compile group: 'org.apache.avro', name: 'avro-ipc', version: avro_version
 }
-
-avro {
-    fieldVisibility = "PRIVATE"
-}
-
-task generateAvroProtocol(type: com.commercehub.gradle.plugin.avro.GenerateAvroProtocolTask) {
-    source("${definitions}/avro")
-    outputDir = file("build/avpr")
-}
-
-task generateAvro(type: com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask) {
-    source("build/avpr")
-    outputDir = file("build/avro")
-}
-generateAvro.dependsOn(generateAvroProtocol)
-compileJava.source(generateAvro.outputs)
 
 compileThrift {
     createGenFolder false

@@ -1,20 +1,7 @@
 
-//required by avro plugin
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        jcenter()
-        maven {
-            name "JCenter Gradle Plugins"
-            url  "https://dl.bintray.com/gradle/gradle-plugins"
-        }
-    }
-}
-
 rootProject.name = 'FMU-proxy'
 
 include 'web'
 include 'fmu-proxy'
 include 'fmu-proxy-clients'
 include 'rpc-definitions'
-
