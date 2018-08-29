@@ -88,17 +88,22 @@ class Benchmark {
     @Test
     fun measureTimeThriftServlet() {
 
-        val loggers = LogManager.getCurrentLoggers().toList().toMutableList()
-        loggers.add(LogManager.getRootLogger())
+        val loggers = LogManager.getCurrentLoggers().toList().toMutableList().apply {
+            add(LogManager.getRootLogger())
+        }
         for (logger in loggers) {
-            ( logger as org.apache.log4j.Logger).level = Level.INFO
+            (logger as org.apache.log4j.Logger).apply {
+                if (name.contains("root")) {
+                    level = Level.INFO
+                }
+            }
         }
 
         ThriftFmuServlet(fmu).use { server ->
             val port = server.start()
             val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, stepSize, stop) {
+                runInstance(instance, stepSize, 1.0) {
                     val read = instance.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -106,10 +111,6 @@ class Benchmark {
                 }
             }
             client.close()
-        }
-
-        for (logger in loggers) {
-            ( logger as org.apache.log4j.Logger).level = Level.DEBUG
         }
 
     }
