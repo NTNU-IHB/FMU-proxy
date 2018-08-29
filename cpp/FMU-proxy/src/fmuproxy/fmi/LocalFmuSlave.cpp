@@ -132,7 +132,7 @@ fmi2_status_t LocalFmuSlave::readString(const fmi2_value_reference_t vr, fmi2_st
     return fmi2_import_get_string(instance_, &vr, 1, &ref);
 }
 
-fmi2_status_t LocalFmuSlave::readString(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_string_t> &ref) {
+fmi2_status_t LocalFmuSlave::readString(const vector<fmi2_value_reference_t> &vr, vector<fmi2_string_t> &ref) {
     checkSize(vr, ref);
     return fmi2_import_get_string(instance_, vr.data(), vr.size(), ref.data());
 }
@@ -141,7 +141,7 @@ fmi2_status_t LocalFmuSlave::readBoolean(const fmi2_value_reference_t vr, fmi2_b
     return fmi2_import_get_boolean(instance_, &vr, 1, &ref);
 }
 
-fmi2_status_t LocalFmuSlave::readBoolean(const std::vector<fmi2_value_reference_t> &vr, std::vector<fmi2_boolean_t> &ref) {
+fmi2_status_t LocalFmuSlave::readBoolean(const vector<fmi2_value_reference_t> &vr, vector<fmi2_boolean_t> &ref) {
     checkSize(vr, ref);
     return fmi2_import_get_boolean(instance_, vr.data(), vr.size(), ref.data());
 }
@@ -150,7 +150,7 @@ fmi2_status_t LocalFmuSlave::writeInteger(const fmi2_value_reference_t vr, const
     return fmi2_import_set_integer(instance_, &vr, 1, &value);
 }
 
-fmi2_status_t LocalFmuSlave::writeInteger(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_integer_t> &value) {
+fmi2_status_t LocalFmuSlave::writeInteger(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_integer_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_integer(instance_, vr.data(), vr.size(), value.data());
 }
@@ -159,7 +159,7 @@ fmi2_status_t LocalFmuSlave::writeReal(const fmi2_value_reference_t vr, const fm
     return fmi2_import_set_real(instance_, &vr, 1, &value);
 }
 
-fmi2_status_t LocalFmuSlave::writeReal(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_real_t> &value) {
+fmi2_status_t LocalFmuSlave::writeReal(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_real_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_real(instance_, vr.data(), vr.size(), value.data());
 }
@@ -168,7 +168,7 @@ fmi2_status_t LocalFmuSlave::writeString(const fmi2_value_reference_t vr, const 
     return fmi2_import_set_string(instance_, &vr, 1, &value);
 }
 
-fmi2_status_t LocalFmuSlave::writeString(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_string_t> &value) {
+fmi2_status_t LocalFmuSlave::writeString(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_string_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_string(instance_, vr.data(), vr.size(), value.data());
 }
@@ -177,7 +177,7 @@ fmi2_status_t LocalFmuSlave::writeBoolean(const fmi2_value_reference_t vr, const
     return fmi2_import_set_boolean(instance_, &vr, 1, &value);
 }
 
-fmi2_status_t LocalFmuSlave::writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) {
+fmi2_status_t LocalFmuSlave::writeBoolean(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_boolean_t> &value) {
     checkSize(vr, value);
     return fmi2_import_set_boolean(instance_, vr.data(), vr.size(), value.data());
 }
@@ -210,7 +210,7 @@ fmi2_status_t LocalFmuSlave::serializeFMUstate(const int64_t state, string &seri
     return fmi2_import_serialize_fmu_state(instance_, _state, serializedState.data(), size);
 }
 
-fmi2_status_t LocalFmuSlave::deSerializeFMUstate(const std::string serializedState, int64_t &state) {
+fmi2_status_t LocalFmuSlave::deSerializeFMUstate(const string serializedState, int64_t &state) {
 
     fmi2_FMU_state_t *_state = nullptr;
     fmi2_status_t status = fmi2_import_de_serialize_fmu_state(instance_,
@@ -222,17 +222,17 @@ fmi2_status_t LocalFmuSlave::deSerializeFMUstate(const std::string serializedSta
     return status;
 }
 
-fmi2_status_t LocalFmuSlave::getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
-                                                      const std::vector<fmi2_value_reference_t> vKnownRef,
-                                                      const std::vector<fmi2_real_t> dvKnownRef,
-                                                      std::vector<fmi2_real_t> dvUnknownRef) {
+fmi2_status_t LocalFmuSlave::getDirectionalDerivative(const vector<fmi2_value_reference_t> vUnknownRef,
+                                                      const vector<fmi2_value_reference_t> vKnownRef,
+                                                      const vector<fmi2_real_t> dvKnownRef,
+                                                      vector<fmi2_real_t> dvUnknownRef) {
     return fmi2_import_get_directional_derivative(instance_, vUnknownRef.data(), vUnknownRef.size(),
             vKnownRef.data(), vKnownRef.size(), dvKnownRef.data(), dvUnknownRef.data());
 }
 
 LocalFmuSlave::~LocalFmuSlave()  {
 
-    std::cout << "FmuInstance destructor called" << std::endl;
+    cout << "LocalFmuSlave destructor called" << ::endl;
 
     terminate();
     fmi2_import_destroy_dllfmu(instance_);

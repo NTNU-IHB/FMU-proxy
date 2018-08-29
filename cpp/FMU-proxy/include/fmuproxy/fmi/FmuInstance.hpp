@@ -45,15 +45,15 @@ namespace fmuproxy::fmi {
         
         explicit FmuInstance(ModelDescription &modelDescription): modelDescription_(modelDescription) {}
 
-        virtual fmi2_real_t getSimulationTime() const {
+        fmi2_real_t getSimulationTime() const {
             return simulationTime_;
         }
 
-        virtual bool isTerminated() const {
+        bool isTerminated() const {
             return isTerminated_;
         }
 
-        virtual ModelDescription &getModelDescription() const {
+        ModelDescription &getModelDescription() const {
             return modelDescription_;
         }
 

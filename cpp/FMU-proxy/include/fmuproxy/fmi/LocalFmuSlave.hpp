@@ -25,6 +25,7 @@
 #ifndef FMU_PROXY_FMUINSTANCE_HPP
 #define FMU_PROXY_FMUINSTANCE_HPP
 
+#include <vector>
 #include <unordered_map>
 #include <fmilib.h>
 #include "FmuSlave.hpp"
@@ -45,6 +46,8 @@ namespace fmuproxy::fmi {
         bool canGetAndSetFMUstate() const override;
 
         bool canSerializeFMUstate() const override;
+
+        bool providesDirectionalDerivatives() const override;
 
         void init(double start = 0, double stop = 0) override;
 
@@ -87,12 +90,10 @@ namespace fmuproxy::fmi {
         fmi2_status_t serializeFMUstate(const int64_t state, std::string &serializedState) override;
         fmi2_status_t deSerializeFMUstate(const std::string serializedState, int64_t &state) override;
 
-        virtual bool providesDirectionalDerivatives() const;
-
-        virtual fmi2_status_t getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
+        fmi2_status_t getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
                                                        const std::vector<fmi2_value_reference_t> vKnownRef,
                                                        const std::vector<fmi2_real_t> dvKnownRef,
-                                                       std::vector<fmi2_real_t> dvUnknownRef);
+                                                       std::vector<fmi2_real_t> dvUnknownRef) override;
 
         ~LocalFmuSlave();
 
