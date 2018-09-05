@@ -11,11 +11,24 @@ Furthermore, a library providing FMI support may not be available in a particula
 Another issue is related to the protection of Intellectual Property (IP). 
 While an FMU is free to only provide the C-code in its binary form, other resources shipped with the FMU may be unprotected.   
 
-In order to overcome these challenges, we presents an open-source framework for working with functional mock-up units across languages and platforms. 
-This is done by wrapping a single FMU inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. 
-Currently, Apache Thrift (TCP/IP, HTTP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. 
+In order to overcome these challenges, we present an open-source framework for working with functional mock-up units across languages and platforms. 
+This is done by wrapping a set of FMUs inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. 
+Currently, Apache Thrift (HTTP, TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. 
+
 Together, they allow FMUs to be invoked from virtually any language on any platform.
-As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
+As users don't have direct access to the FMU or the resources within it, IP is effectively protected.
+
+***
+
+FMU-proxy is a framework for accessing FMUs compatible with FMI for Co-simulation and Model Exchange 2.0 in a language and platform independent way. This is achieved using well established RPC technologies. Due to the technologies involved, clients and servers for FMU-proxy can be written in almost any language, on any platform! 
+
+[Server](https://github.com/SFI-Mechatronics/FMU-proxy/wiki/Servers) implementations already exists for C++ and JVM, while [client](https://github.com/SFI-Mechatronics/FMU-proxy/wiki/Clients) implementations exists for C++, JVM, Python and (browser) JavaScript. And its easy to add additional implementations, as the RPC frameworks will generate most of the code for you! 
+
+FMU-proxy is different from other framework for distributed FMU invocations such as [DACCOSIM](https://sourcesup.renater.fr/daccosim/), [FMI GO!](https://mimmi.math.umu.se/cosimulation/fmigo) and [Coral](https://github.com/viproma/coral) in that it completely separates itself from the master algorithm (logically and physically). FMU-proxy is a completely standalone project which provides access to FMUs over the wire. And just that. 
+
+The idea is that other applications should use FMU-proxy whenever FMUs are required to run distributed, rather than having each application creating their own solution.
+
+***
 
 ## Implementation
 
