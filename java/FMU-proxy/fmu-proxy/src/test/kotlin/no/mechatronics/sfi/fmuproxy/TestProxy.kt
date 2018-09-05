@@ -7,8 +7,6 @@ import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
-import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
-import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
@@ -50,7 +48,6 @@ class TestProxy {
 
         proxy = FmuProxyBuilder(fmu).apply {
             addServer(GrpcFmuServer(fmu))
-            addServer(AvroFmuServer(fmu))
             addServer(ThriftFmuSocketServer(fmu))
             addServer(ThriftFmuServlet(fmu))
             RpcHandler(RpcFmuService(fmu)).also { handler ->
@@ -142,31 +139,6 @@ class TestProxy {
 
                     runInstance(instance, stepSize, stopTime).also {
                         LOG.info("Thrift (servlet) duration: ${it}ms")
-                    }
-
-                }
-            }
-        }
-
-    }
-
-    @Test
-    fun testAvro() {
-
-        proxy.getPortFor<AvroFmuServer>()?.also { port ->
-            AvroFmuClient(fmu.guid, host, port).use { client ->
-
-                val mdLocal = fmu.modelDescription
-                val mdRemote = client.modelDescription
-
-                Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-                Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-                Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
-
-                client.newInstance().use { instance ->
-
-                    runInstance(instance, stepSize, stopTime).also {
-                        LOG.info("Avro duration: ${it}ms")
                     }
 
                 }

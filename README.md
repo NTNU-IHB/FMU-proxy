@@ -13,7 +13,7 @@ While an FMU is free to only provide the C-code in its binary form, other resour
 
 In order to overcome these challenges, we presents an open-source framework for working with functional mock-up units across languages and platforms. 
 This is done by wrapping a single FMU inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. 
-Currently, Apache Thrift (TCP/IP, HTTP), Apache Avro (TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. 
+Currently, Apache Thrift (TCP/IP, HTTP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. 
 Together, they allow FMUs to be invoked from virtually any language on any platform.
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected. 
 
@@ -32,7 +32,6 @@ The available **client** implementations are given in the table below:
 |   gRPC   	|  x  	|  x  	|    x   	|  			|
 |  Thrift/TCP  	|  x  	|  x  	|    x   	|  			|  
 |  Thrift/HTTP  |  x  	|    	|       	|	x		|
-|   Avro   	|  x  	|     	|        	|			|
 | JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
 
@@ -63,7 +62,6 @@ Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
                  [-r=<remote>] [-thrift/http=<thriftHttpPort>]
                  [-thrift/tcp=<thriftTcpPort>] FMUs...
       FMUs...             FMU(s) to include.
-      -avro=<avroPort>    Manually specify the Avro port (optional).
       -grpc=<grpcPort>    Manually specify the gRPC port (optional).
   -h, --help              Print this message and quits.
       -jsonrpc/http=<jsonHttpPort>

@@ -29,7 +29,6 @@ import no.mechatronics.sfi.fmi4j.common.isLinux
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
-import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonHttpServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.FmuProxyJsonTcpServer
@@ -84,9 +83,6 @@ class Args: Callable<FmuProxy> {
     @CommandLine.Option(names = ["-thrift/http"], description = ["Manually specify the Thrift http port (optional)."])
     var thriftHttpPort: Int? = null
 
-    @CommandLine.Option(names = ["-avro"], description = ["Manually specify the Avro port (optional)."])
-    var avroPort: Int? = null
-
     @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)."])
     var jsonHttpPort: Int? = null
 
@@ -109,7 +105,6 @@ class Args: Callable<FmuProxy> {
         LOG.debug("FMUs=${Arrays.toString(fmus)}")
 
 
-
         return fmus.map { Fmu.from(it) }.let { fmus ->
             FmuProxyBuilder(fmus).apply {
 
@@ -127,10 +122,6 @@ class Args: Callable<FmuProxy> {
 
                 ThriftFmuServlet(map).apply {
                     addServer(this, thriftHttpPort)
-                }
-
-                AvroFmuServer(map).apply {
-                    addServer(this, avroPort)
                 }
 
                 RpcHandler(RpcFmuService(map)).also { handler ->
@@ -161,9 +152,7 @@ class Args: Callable<FmuProxy> {
     }
 
     override fun toString(): String {
-        return "Args(showHelp=$showHelp, fmus=${Arrays.toString(fmus)}, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, avroPort=$avroPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
+        return "Args(showHelp=$showHelp, fmus=${Arrays.toString(fmus)}, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
     }
 
-
 }
-

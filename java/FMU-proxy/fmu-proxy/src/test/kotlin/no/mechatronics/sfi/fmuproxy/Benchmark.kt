@@ -7,8 +7,6 @@ import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
-import no.mechatronics.sfi.fmuproxy.avro.AvroFmuClient
-import no.mechatronics.sfi.fmuproxy.avro.AvroFmuServer
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
@@ -27,7 +25,6 @@ import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
@@ -108,25 +105,6 @@ class Benchmark {
                     Assertions.assertTrue(read.value > 0)
                 }.also {
                     LOG.info("Thrift/http duration=${it}ms")
-                }
-            }
-            client.close()
-        }
-
-    }
-
-    @Test
-    fun measureTimeAvro() {
-
-        AvroFmuServer(fmu).use { server ->
-            val port = server.start()
-            val client = AvroFmuClient(fmu.guid, host, port)
-            client.newInstance().use { instance ->
-                runInstance(instance, stepSize, stop) {
-                    val read = instance.readReal("Temperature_Room")
-                    Assertions.assertTrue(read.value > 0)
-                }.also {
-                    LOG.info("Avro duration=${it}ms")
                 }
             }
             client.close()
