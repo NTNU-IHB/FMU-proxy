@@ -25,6 +25,8 @@
 package no.mechatronics.sfi.fmuproxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.FmuSlave
+import no.mechatronics.sfi.fmi4j.common.RealArray
+import no.mechatronics.sfi.fmi4j.common.StringArray
 import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
@@ -117,51 +119,60 @@ class ThriftFmuServiceImpl(
         } 
     }
 
-    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Double>): Status {
+    override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerRead {
+        val values = IntArray(vr.size)
         return getSlave(instanceId).let {
-            it.variableAccessor.writeReal(vr.toIntArray(), value.toDoubleArray()).thriftType()
-        } 
+            val status = it.readInteger(vr.toIntArray(), values).thriftType()
+            IntegerRead(values.toList(), status)
+        }
+    }
+
+    override fun readReal(instanceId: String, vr: List<ValueReference>): RealRead {
+        val values = RealArray(vr.size)
+        return getSlave(instanceId).let {
+            val status = it.readReal(vr.toIntArray(), values).thriftType()
+            RealRead(values.asList(), status)
+        }
+    }
+
+    override fun readString(instanceId: String, vr: List<ValueReference>): StringRead {
+        val values = StringArray(vr.size) {""}
+        return getSlave(instanceId).let {
+            val status = it.readString(vr.toIntArray(), values).thriftType()
+            StringRead(values.toList(), status)
+        }
     }
 
     override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanRead {
+        val values = BooleanArray(vr.size)
         return getSlave(instanceId).let {
-            it.variableAccessor.readBoolean(vr.toIntArray()).thriftType()
+            val status = it.readBoolean(vr.toIntArray(), values).thriftType()
+            BooleanRead(values.toList(), status)
+        }
+    }
+
+
+    override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): Status {
+        return getSlave(instanceId).let {
+            it.writeInteger(vr.toIntArray(), value.toIntArray()).thriftType()
+        }
+    }
+
+    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Double>): Status {
+        return getSlave(instanceId).let {
+            it.writeReal(vr.toIntArray(), value.toDoubleArray()).thriftType()
         } 
     }
 
     override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): Status {
         return getSlave(instanceId).let {
-            it.variableAccessor.writeString(vr.toIntArray(), value.toTypedArray()).thriftType()
-        } 
-    }
-
-    override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): Status {
-        return getSlave(instanceId).let {
-            it.variableAccessor.writeInteger(vr.toIntArray(), value.toIntArray()).thriftType()
-        } 
-    }
-
-    override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerRead {
-        return getSlave(instanceId).let {
-            it.variableAccessor.readInteger(vr.toIntArray()).thriftType()
-        } 
-    }
-
-    override fun readReal(instanceId: String, vr: List<ValueReference>): RealRead {
-        return getSlave(instanceId).let {
-            it.variableAccessor.readReal(vr.toIntArray()).thriftType()
-        } 
-    }
-
-    override fun readString(instanceId: String, vr: List<ValueReference>): StringRead {
-        return getSlave(instanceId).let {
-            it.variableAccessor.readString(vr.toIntArray()).thriftType()
+            it.writeString(vr.toIntArray(), value.toTypedArray()).thriftType()
         } 
     }
 
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): Status {
         return getSlave(instanceId).let {
-            it.variableAccessor.writeBoolean(vr.toIntArray(), value.toBooleanArray()).thriftType()
+            it.writeBoolean(vr.toIntArray(), value.toBooleanArray()).thriftType()
         } 
     }
     
@@ -221,16 +232,5 @@ class ThriftFmuServiceImpl(
         }
     }
 
-    //    override fun canGetAndSetFMUstate(instanceId: Int): Boolean {
-//        return getSlave(instanceId).let {
-//            val md = it.modelDescription
-//            when (md) {
-//                is CoSimulationModelDescription -> md.canGetAndSetFMUstate
-//                is ModelExchangeModelDescription -> md.canGetAndSetFMUstate
-//                else -> throw AssertionError("ModelDescription is not of type CS or ME?")
-//            }
-//        } 
-//    }
-    
 }
 

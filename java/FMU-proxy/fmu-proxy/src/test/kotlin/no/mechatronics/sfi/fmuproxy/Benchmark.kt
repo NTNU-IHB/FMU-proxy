@@ -5,6 +5,7 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
@@ -54,7 +55,8 @@ class Benchmark {
 
         fmu.asCoSimulationFmu().newInstance().use { instance ->
             runInstance(instance, stepSize, stop) {
-                val read = instance.variableAccessor.readReal("Temperature_Room")
+                val read = instance.readReal("Temperature_Room")
+                Assertions.assertEquals(FmiStatus.OK, read.status)
                 Assertions.assertTrue(read.value > 0)
             }.also {
                 LOG.info("Local duration=${it}ms")

@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.grpc.services
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
@@ -44,7 +44,7 @@ internal fun FmiStatus.protoType(): Proto.Status {
     }
 }
 
-internal fun CommonModelDescription.protoType(): Proto.ModelDescription {
+internal fun ModelDescription.protoType(): Proto.ModelDescription {
 
     return Proto.ModelDescription.newBuilder().also { md ->
 
@@ -128,7 +128,6 @@ internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
     }.build()
 
 }
-
 
 internal fun ModelStructure.protoType(): Proto.ModelStructure {
     return Proto.ModelStructure.newBuilder()

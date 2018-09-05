@@ -27,11 +27,9 @@ package no.mechatronics.sfi.fmuproxy.grpc
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * @author Lars Ivar Hatledal
@@ -51,7 +49,7 @@ class GrpcFmuClient(
     private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
             = FmuServiceGrpc.newBlockingStub(channel)
 
-    override val modelDescription: CommonModelDescription by lazy {
+    override val modelDescription: ModelDescription by lazy {
         Service.GetModelDescriptionRequest.newBuilder()
                 .setFmuId(fmuId)
                 .build().let {

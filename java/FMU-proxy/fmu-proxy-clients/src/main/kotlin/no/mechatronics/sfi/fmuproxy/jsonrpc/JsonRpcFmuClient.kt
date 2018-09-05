@@ -27,7 +27,7 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc
 import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
@@ -44,7 +44,7 @@ class JsonRpcFmuClient(
 
     val implementationName: String = client::class.java.simpleName
 
-    override val modelDescription: CommonModelDescription by lazy {
+    override val modelDescription: ModelDescription by lazy {
         client.write("$SERVICE.getModelDescription", RpcParams.listParams(fmuId))
                 .getResult<ModelDescriptionImpl>()!!
     }

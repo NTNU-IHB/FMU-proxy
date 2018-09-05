@@ -28,7 +28,7 @@ import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
@@ -66,7 +66,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun getModelDescription(fmuId: String): CommonModelDescription {
+    fun getModelDescription(fmuId: String): ModelDescription {
         return getFmu(fmuId).modelDescription
     }
 
@@ -75,7 +75,6 @@ class RpcFmuService(
         return getFmu(fmuId).modelDescriptionXml
     }
 
-    
     @RpcMethod
     fun createInstanceFromCS(fmuId: String): String {
         return getFmu(fmuId).let { fmu ->
@@ -85,7 +84,6 @@ class RpcFmuService(
 
     @RpcMethod
     fun createInstanceFromME(fmuId: String, solver: Solver): String {
-
         return getFmu(fmuId).let { fmu ->
             fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
@@ -96,8 +94,6 @@ class RpcFmuService(
             val _solver = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
             FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(_solver))
         }
-
-        
     }
 
     @RpcMethod
@@ -138,48 +134,60 @@ class RpcFmuService(
 
     @RpcMethod
     fun readInteger(instanceId: String, vr: ValueReferences): FmuIntegerArrayRead {
-        return getSlave(instanceId).variableAccessor.readInteger(vr)
+        val values = IntArray(vr.size)
+        return getSlave(instanceId).readInteger(vr, values).let {
+            FmuIntegerArrayRead(values, it)
+        }
     }
     
     @RpcMethod
     fun readReal(instanceId: String, vr: ValueReferences): FmuRealArrayRead {
-        return getSlave(instanceId).variableAccessor.readReal(vr)
+        val values = RealArray(vr.size)
+        return getSlave(instanceId).readReal(vr, values).let {
+            FmuRealArrayRead(values, it)
+        }
     }
     
     @RpcMethod
     fun readString(instanceId: String, vr: ValueReferences): FmuStringArrayRead {
-        return getSlave(instanceId).variableAccessor.readString(vr)
+        val values = StringArray(vr.size) {""}
+        return getSlave(instanceId).readString(vr, values).let {
+            FmuStringArrayRead(values, it)
+        }
     }
     
     @RpcMethod
     fun readBoolean(instanceId: String, vr: ValueReferences): FmuBooleanArrayRead {
-        return getSlave(instanceId).variableAccessor.readBoolean(vr)
+        val values = BooleanArray(vr.size)
+        return getSlave(instanceId).readBoolean(vr, values).let {
+            FmuBooleanArrayRead(values, it)
+        }
     }
     
     @RpcMethod
     fun writeInteger(instanceId: String, vr: ValueReferences, value: IntArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeInteger(vr, value)
+        return getSlave(instanceId).writeInteger(vr, value)
     }
 
     @RpcMethod
     fun writeReal(instanceId: String, vr: ValueReferences, value: DoubleArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeReal(vr, value)
+        return getSlave(instanceId).writeReal(vr, value)
     }
     
 
     @RpcMethod
     fun writeString(instanceId: String, vr: ValueReferences, value: StringArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeString(vr, value)
+        return getSlave(instanceId).writeString(vr, value)
     }
 
     @RpcMethod
     fun writeBoolean(instanceId: String, vr: ValueReference, value: Boolean): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
+        return getSlave(instanceId).writeBoolean(vr, value)
     }
 
     @RpcMethod
     fun writeBoolean(instanceId: String, vr: ValueReferences, value: BooleanArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
+        return getSlave(instanceId).writeBoolean(vr, value)
     }
 
     private companion object {

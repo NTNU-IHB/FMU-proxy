@@ -26,7 +26,6 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.runInstance
 import org.junit.jupiter.api.AfterAll
@@ -49,9 +48,9 @@ class TestGrpcCS {
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
-    private val modelDescription: CommonModelDescription = fmu.modelDescription
-    private val server: GrpcFmuServer = GrpcFmuServer(fmu)
-    private val client: GrpcFmuClient = GrpcFmuClient(fmu.guid, "localhost", server.start())
+    private val modelDescription = fmu.modelDescription
+    private val server = GrpcFmuServer(fmu)
+    private val client = GrpcFmuClient(fmu.guid, "localhost", server.start())
 
     @AfterAll
     fun tearDown() {

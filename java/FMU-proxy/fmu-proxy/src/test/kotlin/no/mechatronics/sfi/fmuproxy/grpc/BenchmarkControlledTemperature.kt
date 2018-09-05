@@ -1,7 +1,9 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import io.grpc.StatusRuntimeException
+import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.common.FmuSlave
+import no.mechatronics.sfi.fmi4j.common.RealArray
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
@@ -38,7 +40,6 @@ class BenchmarkControlledTemperature {
 
     }
 
-
     @Test
     @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
     fun benchmark() {
@@ -47,7 +48,8 @@ class BenchmarkControlledTemperature {
                 "FMI_2.0/CoSimulation/$currentOS" +
                         "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
-
+            val vr = intArrayOf(46)
+            val buffer = RealArray(vr.size)
             GrpcFmuServer(fmu).use { server ->
                 val port = server.start()
                 for (i in 0..2) {
@@ -55,8 +57,9 @@ class BenchmarkControlledTemperature {
 
                         client.newInstance().use { slave ->
                             runInstance(slave, stepSize, stop) {
-                                val read = slave.readReal(intArrayOf(46))
-                                Assertions.assertTrue(read.value[0] > 0)
+                                val status = slave.readReal(vr, buffer)
+                                Assertions.assertEquals(FmiStatus.OK, status)
+                                Assertions.assertTrue(buffer[0] > 0)
                             }.also {
                                 LOG.info("gRPC duration=${it}ms")
                             }

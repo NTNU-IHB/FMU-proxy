@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.AbstractTypedScalarVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -52,7 +52,7 @@ abstract class AbstractRpcFmuClient(
         get() = modelDescription.supportsCoSimulation
 
     abstract val modelDescriptionXml: String
-    abstract val modelDescription: CommonModelDescription
+    abstract val modelDescription: ModelDescription
 
     protected abstract fun createInstanceFromCS(): String
     protected abstract fun createInstanceFromME(solver: Solver): String
@@ -126,12 +126,6 @@ abstract class AbstractRpcFmuClient(
     internal abstract fun setFMUstate(instanceId: String, state: FmuState): FmiStatus
 
 
-    protected fun process(name: String): Int {
-        return NAME_TO_VALUE_REF.getOrPut(name) {
-            modelDescription.modelVariables.getValueReference(name)
-        }
-    }
-
     @JvmOverloads
     fun newInstance(solver: Solver? = null): FmuInstance {
         val instanceId = if(solver == null) {
@@ -153,8 +147,6 @@ abstract class AbstractRpcFmuClient(
 
         private val LOG: Logger = LoggerFactory.getLogger(AbstractRpcFmuClient::class.java)
 
-        private val NAME_TO_VALUE_REF = mutableMapOf<String, Int>()
-
         internal object FmuInstances: ArrayList<FmuInstance>() {
             internal fun terminateAll() {
                 forEach{ it.terminate() }
@@ -165,7 +157,7 @@ abstract class AbstractRpcFmuClient(
 
     inner class FmuInstance(
             private val instanceId: String
-    ): FmuSlave, FmuVariableAccessor {
+    ): FmuSlave {
 
         override var isInitialized = false
             private set
@@ -175,7 +167,6 @@ abstract class AbstractRpcFmuClient(
 
         override var simulationTime: Double = 0.0
         override var lastStatus = FmiStatus.NONE
-        override val variableAccessor = this
 
         override val modelDescription
             get() = this@AbstractRpcFmuClient.modelDescription
@@ -190,15 +181,13 @@ abstract class AbstractRpcFmuClient(
             get() = false
 
         init {
-
             modelDescription.modelVariables.forEach { variable ->
                 if (variable is AbstractTypedScalarVariable<*>) {
                     variable::class.java.getField("accessor").also { field ->
-                        field.set(variable, variableAccessor)
+                        field.set(variable, this)
                     }
                 }
             }
-
         }
 
         override fun init() = init(0.0)
@@ -252,60 +241,68 @@ abstract class AbstractRpcFmuClient(
             terminate()
         }
 
-        override fun readBoolean(name: String)
-                = readBoolean(instanceId, process(name)).also { lastStatus = it.status }
+        override fun readInteger(vr: ValueReference): FmuIntegerRead {
+            return readInteger(instanceId, vr).also {
+                lastStatus = it.status
+            }
+        }
 
-        override fun readBoolean(vr: ValueReference)
-                = readBoolean(instanceId, vr).also { lastStatus = it.status }
+        override fun readInteger(vr: ValueReferences, value: IntArray): FmiStatus {
+            val read = readInteger(instanceId, vr.toList())
+            read.value.forEachIndexed { i, v ->
+                value[i] = v
+            }
+            return read.status.also {
+                lastStatus = it
+            }
+        }
 
-        override fun readBoolean(vr: ValueReferences)
-                = readBoolean(instanceId, vr.toList()).also { lastStatus = it.status }
+        override fun readReal(vr: ValueReference): FmuRealRead {
+            return readReal(instanceId, vr).also {
+                lastStatus = it.status
+            }
+        }
 
-        override fun readBoolean(vr: ValueReferences, value: BooleanArray)
-                = readBoolean(instanceId, vr.toList()).also { lastStatus = it.status }
+        override fun readReal(vr: ValueReferences, value: RealArray): FmiStatus {
+            val read = readReal(instanceId, vr.toList())
+            read.value.forEachIndexed { i, v ->
+                value[i] = v
+            }
+            return read.status.also {
+                lastStatus = it
+            }
+        }
 
+        override fun readString(vr: ValueReference): FmuStringRead {
+            return readString(instanceId, vr).also {
+                lastStatus = it.status
+            }
+        }
 
-        override fun readInteger(name: String)
-                = readInteger(instanceId, process(name)).also { lastStatus = it.status }
+        override fun readString(vr: ValueReferences, value: StringArray): FmiStatus {
+            val read = readString(instanceId, vr.toList())
+            read.value.forEachIndexed { i, v ->
+                value[i] = v
+            }
+            return read.status.also {
+                lastStatus = it
+            }
+        }
 
-        override fun readInteger(vr: ValueReference)
-                = readInteger(instanceId, vr).also { lastStatus = it.status }
-
-        override fun readInteger(vr: ValueReferences)
-                = readInteger(instanceId, vr.toList()).also { lastStatus = it.status }
-
-        override fun readInteger(vr: ValueReferences, value: IntArray)
-                = readInteger(instanceId, vr.toList()).also { lastStatus = it.status }
-
-
-        override fun readReal(name: String)
-                = readReal(instanceId, process(name)).also { lastStatus = it.status }
-
-        override fun readReal(vr: ValueReference)
-                = readReal(instanceId, vr).also { lastStatus = it.status }
-
-        override fun readReal(vr: ValueReferences)
-                = readReal(instanceId, vr.toList()).also { lastStatus = it.status }
-
-        override fun readReal(vr: ValueReferences, value: RealArray)
-                = readReal(instanceId, vr.toList()).also { lastStatus = it.status }
-
-
-        override fun readString(name: String)
-                = readString(instanceId, process(name)).also { lastStatus = it.status }
-
-        override fun readString(vr: ValueReference)
-                = readString(instanceId, vr).also { lastStatus = it.status }
-
-        override fun readString(vr: ValueReferences)
-                = readString(instanceId, vr.toList()).also { lastStatus = it.status }
-
-        override fun readString(vr: ValueReferences, value: StringArray)
-                = readString(instanceId, vr.toList()).also { lastStatus = it.status }
-
-
-        override fun writeBoolean(name: String, value: Boolean)
-                = writeBoolean(instanceId, process(name), value).also { lastStatus = it }
+        override fun readBoolean(vr: ValueReference): FmuBooleanRead {
+            return readBoolean(instanceId, vr).also {
+                lastStatus = it.status
+            }
+        }
+        override fun readBoolean(vr: ValueReferences, value: BooleanArray): FmiStatus {
+            val read = readBoolean(instanceId, vr.toList())
+            read.value.forEachIndexed { i, v ->
+                value[i] = v
+            }
+            return read.status.also {
+                lastStatus = it
+            }
+        }
 
         override fun writeBoolean(vr: ValueReference, value: Boolean)
                 = writeBoolean(instanceId, vr, value).also { lastStatus = it }
@@ -314,9 +311,6 @@ abstract class AbstractRpcFmuClient(
                 = writeBoolean(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
 
 
-        override fun writeInteger(name: String, value: Int)
-                = writeInteger(instanceId, process(name), value).also { lastStatus = it }
-
         override fun writeInteger(vr: ValueReference, value: Int)
                 = writeInteger(instanceId, vr, value).also { lastStatus = it }
 
@@ -324,18 +318,12 @@ abstract class AbstractRpcFmuClient(
                 = writeInteger(instanceId, vr.toList(), value.toList())
 
 
-        override fun writeReal(name: String, value: Real)
-                = writeReal(instanceId, process(name), value).also { lastStatus = it }
-
         override fun writeReal(vr: ValueReference, value: Real)
                 = writeReal(instanceId, vr, value).also { lastStatus = it }
 
         override fun writeReal(vr: ValueReferences, value: RealArray)
                 = writeReal(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
 
-
-        override fun writeString(name: String, value: String)
-                = writeString(instanceId, process(name), value).also { lastStatus = it }
 
         override fun writeString(vr: ValueReference, value: String)
                 = writeString(instanceId, vr, value).also { lastStatus = it }

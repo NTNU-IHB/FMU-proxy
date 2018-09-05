@@ -24,9 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.web.fmu
 
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.parser.ModelDescriptionParser
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
 import java.io.Serializable
 import java.net.InetAddress
 import javax.faces.bean.ManagedBean
@@ -59,7 +57,7 @@ class RemoteProxy(
     }
 
     override fun toString(): String {
-        return "RemoteFmu(uuid='$uuid', numFmus='${fmus.size}', host=$host, ports=$ports)"
+        return "RemoteProxy(uuid='$uuid', numFmus='${fmus.size}', host=$host, ports=$ports)"
     }
 
 }

@@ -25,8 +25,10 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
@@ -228,13 +230,13 @@ internal fun List<Proto.ScalarVariable>.convert(): ModelVariables {
     return MyModelVariables(this)
 }
 
-internal fun Proto.ModelDescription.convert(): CommonModelDescription {
+internal fun Proto.ModelDescription.convert(): ModelDescription {
     return GrpcModelDescription(this)
 }
 
 class GrpcModelDescription(
-        val modelDescription: Proto.ModelDescription
-): CommonModelDescription {
+        private val modelDescription: Proto.ModelDescription
+): ModelDescription {
 
     override val author: String?
         get() = modelDescription.author
@@ -270,6 +272,14 @@ class GrpcModelDescription(
     override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
+
+    override fun asCoSimulationModelDescription(): CoSimulationModelDescription {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun asModelExchangeModelDescription(): ModelExchangeModelDescription {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
 fun Solver.protoType(): Service.Solver {

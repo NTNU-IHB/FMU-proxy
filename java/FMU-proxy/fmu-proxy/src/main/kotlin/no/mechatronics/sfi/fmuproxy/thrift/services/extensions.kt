@@ -25,7 +25,6 @@
 package no.mechatronics.sfi.fmuproxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
@@ -36,19 +35,6 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.thrift.*
 import no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable
-
-
-internal fun FmuIntegerArrayRead.thriftType()
-        = IntegerRead(value.toList(), status.thriftType())
-
-internal fun FmuRealArrayRead.thriftType()
-        = RealRead(value.toList(), status.thriftType())
-
-internal fun FmuStringArrayRead.thriftType()
-        = StringRead(value.toList(), status.thriftType())
-
-internal fun FmuBooleanArrayRead.thriftType()
-        = BooleanRead(value.toList(), status.thriftType())
 
 internal fun IntegerVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute {
     return no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute().also { attribute->
@@ -137,7 +123,7 @@ internal fun ModelStructure.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Mo
     }
 }
 
-internal fun CommonModelDescription.thriftType(): ModelDescription {
+internal fun no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription.thriftType(): ModelDescription {
     return ModelDescription().also { md ->
 
         md.guid = guid

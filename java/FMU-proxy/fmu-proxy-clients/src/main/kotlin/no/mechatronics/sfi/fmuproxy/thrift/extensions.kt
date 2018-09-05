@@ -25,8 +25,9 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
+import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
@@ -223,13 +224,13 @@ internal fun List<no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable>.convert():
     return MyModelVariables(this)
 }
 
-internal fun ModelDescription.convert(): CommonModelDescription {
+internal fun ModelDescription.convert(): no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription {
     return ThriftModelDescription(this)
 }
 
 class ThriftModelDescription(
-        val modelDescription: ModelDescription
-): CommonModelDescription {
+        private val modelDescription: ModelDescription
+): no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription {
 
     override val author: String?
         get() = modelDescription.author
@@ -265,6 +266,14 @@ class ThriftModelDescription(
     override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
+
+    override fun asCoSimulationModelDescription(): CoSimulationModelDescription {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun asModelExchangeModelDescription(): ModelExchangeModelDescription {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
 fun Solver.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Solver {

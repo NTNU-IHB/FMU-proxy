@@ -25,7 +25,7 @@
 
 package no.mechatronics.sfi.fmuproxy.web.fmu
 
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
 
 /**
@@ -35,7 +35,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
 class RemoteFmu(
         val host: String,
         val ports: Map<String, Int>,
-        val modelDescription: CommonModelDescription
+        val modelDescription: ModelDescription
 ) {
 
     val guid: String

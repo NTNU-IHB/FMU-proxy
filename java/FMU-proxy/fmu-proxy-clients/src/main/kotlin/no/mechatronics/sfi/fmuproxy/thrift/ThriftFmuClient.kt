@@ -25,7 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.http.impl.client.HttpClientBuilder
@@ -51,7 +51,7 @@ class ThriftFmuClient(
         }
     }
 
-    override val modelDescription: CommonModelDescription by lazy {
+    override val modelDescription: ModelDescription by lazy {
         client.getModelDescription(fmuId).convert()
     }
 

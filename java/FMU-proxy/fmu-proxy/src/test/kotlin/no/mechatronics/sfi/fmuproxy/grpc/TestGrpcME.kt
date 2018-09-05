@@ -2,7 +2,6 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CommonModelDescription
 import no.mechatronics.sfi.fmuproxy.Solver
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.AfterAll
@@ -27,9 +26,9 @@ class TestGrpcME {
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "FMI_2.0/ModelExchange/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
-    private val modelDescription: CommonModelDescription = fmu.modelDescription
-    private val server: GrpcFmuServer = GrpcFmuServer(fmu)
-    private val client: GrpcFmuClient = GrpcFmuClient(fmu.guid, "localhost", server.start())
+    private val modelDescription = fmu.modelDescription
+    private val server = GrpcFmuServer(fmu)
+    private val client = GrpcFmuClient(fmu.guid, "localhost", server.start())
 
     @AfterAll
     fun tearDown() {
