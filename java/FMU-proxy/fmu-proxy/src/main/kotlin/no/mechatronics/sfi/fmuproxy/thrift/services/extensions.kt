@@ -26,7 +26,6 @@ package no.mechatronics.sfi.fmuproxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -155,7 +154,7 @@ internal fun Causality.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Causali
         Causality.PARAMETER -> no.mechatronics.sfi.fmuproxy.thrift.Causality.PARAMETER_CAUSALITY
         Causality.LOCAL -> no.mechatronics.sfi.fmuproxy.thrift.Causality.LOCAL_CAUSALITY
         Causality.INDEPENDENT -> no.mechatronics.sfi.fmuproxy.thrift.Causality.INDEPENDENT_CAUSALITY
-        else -> throw IllegalArgumentException()
+        else -> throw IllegalArgumentException("Not a valid Causality: $this")
     }
 }
 
@@ -166,7 +165,7 @@ internal fun Variability.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Varia
         Variability.DISCRETE -> no.mechatronics.sfi.fmuproxy.thrift.Variability.DISCRETE_VARIABILITY
         Variability.FIXED -> no.mechatronics.sfi.fmuproxy.thrift.Variability.FIXED_VARIABILITY
         Variability.TUNABLE -> no.mechatronics.sfi.fmuproxy.thrift.Variability.TUNABLE_VARIABILITY
-        else -> throw IllegalArgumentException()
+        else -> throw IllegalArgumentException("Not a valid Variability: $this")
     }
 }
 
@@ -175,17 +174,17 @@ internal fun Initial.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Initial {
         Initial.CALCULATED -> no.mechatronics.sfi.fmuproxy.thrift.Initial.CALCULATED_INITIAL
         Initial.EXACT -> no.mechatronics.sfi.fmuproxy.thrift.Initial.EXACT_INITIAL
         Initial.APPROX -> no.mechatronics.sfi.fmuproxy.thrift.Initial.APPROX_INITIAL
-        else -> throw IllegalArgumentException()
+        else -> throw IllegalArgumentException("Not a valid Initial: $this")
     }
 }
 
-internal fun DependenciesKind.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind {
-    return when(this) {
-        DependenciesKind.DEPENDENT -> no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.DEPENDENT_KIND
-        DependenciesKind.CONSTANT -> no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.CONSTANT_KIND
-        DependenciesKind.TUNABLE -> no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.TUNABLE_KIND
-        DependenciesKind.DISCRETE -> no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.DISCRETE_KIND
-        else -> throw IllegalArgumentException()
+internal fun String.thriftType(): DependenciesKind {
+    return when(this.toLowerCase()) {
+        "dependent" -> DependenciesKind.DEPENDENT_KIND
+        "constant" -> DependenciesKind.CONSTANT_KIND
+        "tunable" -> DependenciesKind.TUNABLE_KIND
+        "discrete" -> DependenciesKind.DISCRETE_KIND
+        else -> throw IllegalArgumentException("Not a valid DependeciesKind: $this")
     }
 }
 
@@ -197,7 +196,7 @@ internal fun FmiStatus.thriftType(): Status {
         FmiStatus.Error -> Status.ERROR_STATUS
         FmiStatus.Fatal -> Status.FATAL_STATUS
         FmiStatus.Pending -> Status.PENDING_STATUS
-        FmiStatus.NONE -> throw RuntimeException()
+        FmiStatus.NONE -> throw RuntimeException("Not a valid status: $this")
     }
 }
 

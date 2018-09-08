@@ -82,12 +82,12 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.Initial.convert(): Initial {
     }
 }
 
-internal fun DependenciesKind.convert(): no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind {
+internal fun DependenciesKind.convert(): String {
     return when(this) {
-        no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.CONSTANT_KIND -> no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind.CONSTANT
-        no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.DEPENDENT_KIND -> no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind.DEPENDENT
-        no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.DISCRETE_KIND -> no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind.DISCRETE
-        no.mechatronics.sfi.fmuproxy.thrift.DependenciesKind.TUNABLE_KIND ->no.mechatronics.sfi.fmi4j.modeldescription.structure. DependenciesKind.TUNABLE
+        DependenciesKind.CONSTANT_KIND -> "constant"
+        DependenciesKind.DEPENDENT_KIND -> "dependent"
+        DependenciesKind.DISCRETE_KIND -> "discrete"
+        DependenciesKind.TUNABLE_KIND -> "tunable"
     }
 }
 
@@ -128,7 +128,7 @@ internal fun Unknown.convert(): no.mechatronics.sfi.fmi4j.modeldescription.struc
     return object: no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown {
         override val dependencies: List<Int>
             get() = getDependencies() ?: emptyList()
-        override val dependenciesKind: no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind?
+        override val dependenciesKind: String?
             get() = getDependenciesKind()?.convert()
         override val index: Int
             get() = getIndex()

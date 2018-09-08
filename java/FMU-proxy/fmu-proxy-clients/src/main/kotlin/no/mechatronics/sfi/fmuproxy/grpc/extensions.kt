@@ -33,7 +33,6 @@ import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -88,12 +87,12 @@ internal fun Proto.Initial.convert(): Initial {
     }
 }
 
-internal fun Proto.DependenciesKind.convert(): DependenciesKind {
+internal fun Proto.DependenciesKind.convert(): String {
     return when(this) {
-        Proto.DependenciesKind.CONSTANT_KIND -> DependenciesKind.CONSTANT
-        Proto.DependenciesKind.DEPENDENT_KIND -> DependenciesKind.DEPENDENT
-        Proto.DependenciesKind.DISCRETE_KIND -> DependenciesKind.DISCRETE
-        Proto.DependenciesKind.TUNABLE_KIND -> DependenciesKind.TUNABLE
+        Proto.DependenciesKind.CONSTANT_KIND -> "constant"
+        Proto.DependenciesKind.DEPENDENT_KIND -> "dependent"
+        Proto.DependenciesKind.DISCRETE_KIND -> "discrete"
+        Proto.DependenciesKind.TUNABLE_KIND -> "tunable"
         Proto.DependenciesKind.UNRECOGNIZED -> throw AssertionError()
     }
 }
@@ -133,12 +132,12 @@ internal fun Proto.DefaultExperiment.convert(): DefaultExperiment {
 
 internal fun Proto.Unknown.convert(): Unknown {
     return object: Unknown {
-        override val dependencies: List<Int>
-            get() = dependenciesList
-        override val dependenciesKind: DependenciesKind?
-            get() = getDependenciesKind()?.convert()
         override val index: Int
             get() = getIndex()
+        override val dependencies: List<Int>
+            get() = dependenciesList
+        override val dependenciesKind: String?
+            get() = getDependenciesKind()?.convert()
     }
 }
 

@@ -26,7 +26,6 @@ package no.mechatronics.sfi.fmuproxy.grpc.services
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.DependenciesKind
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -147,13 +146,13 @@ internal fun Unknown.protoType(): Proto.Unknown {
     }.build()
 }
 
-internal fun DependenciesKind.protoType(): Proto.DependenciesKind {
+internal fun String.protoType(): Proto.DependenciesKind {
 
-    return when (this) {
-        DependenciesKind.CONSTANT -> Proto.DependenciesKind.CONSTANT_KIND
-        DependenciesKind.DEPENDENT -> Proto.DependenciesKind.DEPENDENT_KIND
-        DependenciesKind.DISCRETE -> Proto.DependenciesKind.DISCRETE_KIND
-        DependenciesKind.TUNABLE -> Proto.DependenciesKind.TUNABLE_KIND
+    return when (this.toLowerCase()) {
+        "constant" -> Proto.DependenciesKind.CONSTANT_KIND
+        "dependent" -> Proto.DependenciesKind.DEPENDENT_KIND
+        "discrete" -> Proto.DependenciesKind.DISCRETE_KIND
+        "tunable" -> Proto.DependenciesKind.TUNABLE_KIND
         else -> Proto.DependenciesKind.UNRECOGNIZED
     }
 

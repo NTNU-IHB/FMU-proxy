@@ -26,7 +26,7 @@ dependencies {
     implementation group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: jackson_version
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: jackson_version
 
-    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-modeldescription', version: fmi4j_version, changing: snapshot
+    compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: snapshot
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
