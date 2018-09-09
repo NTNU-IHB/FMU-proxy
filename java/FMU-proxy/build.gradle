@@ -5,8 +5,8 @@ plugins {
 
 println "Gradle version is ${GradleVersion.current().version}"
 
-ext.fmi4j_stable_version = '0.9.3'
-ext.fmi4j_snapshot_version = '0.10.0-SNAPSHOT'
+ext.fmi4j_stable_version = '0.10.0'
+ext.fmi4j_snapshot_version = '0.11.0-SNAPSHOT'
 
 ext.grpc_version = '1.14.0'
 ext.yajrpc_version = '0.9'
@@ -27,14 +27,13 @@ subprojects { sub ->
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     }
 
-
     dependencies {
 
         sub.plugins.withId('kotlin') {
             compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
         }
 
-        def junit_version = '5.2.0'
+        def junit_version = '5.3.0'
         testImplementation("org.junit.jupiter:junit-jupiter-api:${junit_version}")
         testImplementation("org.junit.jupiter:junit-jupiter-params:${junit_version}")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junit_version}")
