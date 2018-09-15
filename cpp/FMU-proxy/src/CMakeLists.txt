@@ -1,6 +1,4 @@
 
-cmake_minimum_required(VERSION ${CMAKE_MINIMUM_REQUIRED_VERSION})
-
 INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 
 #set headers

@@ -5,8 +5,6 @@
 #   JSON_INCLUDE_DIRS   - where to find json.hpp
 #   JSON_FOUND          - True if nlohmann-json found.
 
-cmake_minimum_required (VERSION ${CMAKE_MINIMUM_REQUIRED_VERSION})
-
 find_path(JSON_INCLUDE_DIR NAMES nlohmann/json.hpp)
 mark_as_advanced(JSON_INCLUDE_DIR)
 
