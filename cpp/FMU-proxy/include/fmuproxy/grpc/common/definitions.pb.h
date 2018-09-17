@@ -193,29 +193,6 @@ inline bool Status_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<Status>(
     Status_descriptor(), name, value);
 }
-enum DependenciesKind {
-  DEPENDENT_KIND = 0,
-  CONSTANT_KIND = 1,
-  TUNABLE_KIND = 2,
-  DISCRETE_KIND = 4,
-  DependenciesKind_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  DependenciesKind_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool DependenciesKind_IsValid(int value);
-const DependenciesKind DependenciesKind_MIN = DEPENDENT_KIND;
-const DependenciesKind DependenciesKind_MAX = DISCRETE_KIND;
-const int DependenciesKind_ARRAYSIZE = DependenciesKind_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* DependenciesKind_descriptor();
-inline const ::std::string& DependenciesKind_Name(DependenciesKind value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    DependenciesKind_descriptor(), value);
-}
-inline bool DependenciesKind_Parse(
-    const ::std::string& name, DependenciesKind* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<DependenciesKind>(
-    DependenciesKind_descriptor(), name, value);
-}
 enum VariableNamingConvention {
   FLAT = 0,
   STRUCTURED = 1,
@@ -1591,17 +1568,25 @@ class Unknown : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_dependencies();
 
+  // string dependencies_kind = 3;
+  void clear_dependencies_kind();
+  static const int kDependenciesKindFieldNumber = 3;
+  const ::std::string& dependencies_kind() const;
+  void set_dependencies_kind(const ::std::string& value);
+  #if LANG_CXX11
+  void set_dependencies_kind(::std::string&& value);
+  #endif
+  void set_dependencies_kind(const char* value);
+  void set_dependencies_kind(const char* value, size_t size);
+  ::std::string* mutable_dependencies_kind();
+  ::std::string* release_dependencies_kind();
+  void set_allocated_dependencies_kind(::std::string* dependencies_kind);
+
   // uint32 index = 1;
   void clear_index();
   static const int kIndexFieldNumber = 1;
   ::google::protobuf::uint32 index() const;
   void set_index(::google::protobuf::uint32 value);
-
-  // .fmuproxy.grpc.DependenciesKind dependencies_kind = 3;
-  void clear_dependencies_kind();
-  static const int kDependenciesKindFieldNumber = 3;
-  ::fmuproxy::grpc::DependenciesKind dependencies_kind() const;
-  void set_dependencies_kind(::fmuproxy::grpc::DependenciesKind value);
 
   // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Unknown)
  private:
@@ -1609,8 +1594,8 @@ class Unknown : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > dependencies_;
   mutable int _dependencies_cached_byte_size_;
+  ::google::protobuf::internal::ArenaStringPtr dependencies_kind_;
   ::google::protobuf::uint32 index_;
-  int dependencies_kind_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -3239,18 +3224,57 @@ Unknown::mutable_dependencies() {
   return &dependencies_;
 }
 
-// .fmuproxy.grpc.DependenciesKind dependencies_kind = 3;
+// string dependencies_kind = 3;
 inline void Unknown::clear_dependencies_kind() {
-  dependencies_kind_ = 0;
+  dependencies_kind_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::fmuproxy::grpc::DependenciesKind Unknown::dependencies_kind() const {
+inline const ::std::string& Unknown::dependencies_kind() const {
   // @@protoc_insertion_point(field_get:fmuproxy.grpc.Unknown.dependencies_kind)
-  return static_cast< ::fmuproxy::grpc::DependenciesKind >(dependencies_kind_);
+  return dependencies_kind_.GetNoArena();
 }
-inline void Unknown::set_dependencies_kind(::fmuproxy::grpc::DependenciesKind value) {
+inline void Unknown::set_dependencies_kind(const ::std::string& value) {
   
-  dependencies_kind_ = value;
+  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+#if LANG_CXX11
+inline void Unknown::set_dependencies_kind(::std::string&& value) {
+  
+  dependencies_kind_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+#endif
+inline void Unknown::set_dependencies_kind(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+inline void Unknown::set_dependencies_kind(const char* value, size_t size) {
+  
+  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+inline ::std::string* Unknown::mutable_dependencies_kind() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.Unknown.dependencies_kind)
+  return dependencies_kind_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Unknown::release_dependencies_kind() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.Unknown.dependencies_kind)
+  
+  return dependencies_kind_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Unknown::set_allocated_dependencies_kind(::std::string* dependencies_kind) {
+  if (dependencies_kind != NULL) {
+    
+  } else {
+    
+  }
+  dependencies_kind_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dependencies_kind);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.Unknown.dependencies_kind)
 }
 
 // -------------------------------------------------------------------
@@ -3396,11 +3420,6 @@ template <> struct is_proto_enum< ::fmuproxy::grpc::Status> : ::std::true_type {
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Status>() {
   return ::fmuproxy::grpc::Status_descriptor();
-}
-template <> struct is_proto_enum< ::fmuproxy::grpc::DependenciesKind> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::DependenciesKind>() {
-  return ::fmuproxy::grpc::DependenciesKind_descriptor();
 }
 template <> struct is_proto_enum< ::fmuproxy::grpc::VariableNamingConvention> : ::std::true_type {};
 template <>

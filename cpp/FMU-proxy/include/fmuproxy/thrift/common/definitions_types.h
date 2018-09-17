@@ -76,19 +76,6 @@ extern const std::map<int, const char*> _Initial_VALUES_TO_NAMES;
 
 std::ostream& operator<<(std::ostream& out, const Initial::type& val);
 
-struct DependenciesKind {
-  enum type {
-    DEPENDENT_KIND = 0,
-    CONSTANT_KIND = 1,
-    TUNABLE_KIND = 2,
-    DISCRETE_KIND = 3
-  };
-};
-
-extern const std::map<int, const char*> _DependenciesKind_VALUES_TO_NAMES;
-
-std::ostream& operator<<(std::ostream& out, const DependenciesKind::type& val);
-
 struct VariableNamingConvention {
   enum type {
     FLAT = 0,
@@ -564,13 +551,13 @@ class Unknown : public virtual ::apache::thrift::TBase {
 
   Unknown(const Unknown&);
   Unknown& operator=(const Unknown&);
-  Unknown() : index(0), dependenciesKind((DependenciesKind::type)0) {
+  Unknown() : index(0), dependenciesKind() {
   }
 
   virtual ~Unknown() throw();
   int32_t index;
   std::vector<int32_t>  dependencies;
-  DependenciesKind::type dependenciesKind;
+  std::string dependenciesKind;
 
   _Unknown__isset __isset;
 
@@ -578,7 +565,7 @@ class Unknown : public virtual ::apache::thrift::TBase {
 
   void __set_dependencies(const std::vector<int32_t> & val);
 
-  void __set_dependenciesKind(const DependenciesKind::type val);
+  void __set_dependenciesKind(const std::string& val);
 
   bool operator == (const Unknown & rhs) const
   {

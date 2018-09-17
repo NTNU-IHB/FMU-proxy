@@ -253,7 +253,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[10];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[6];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[5];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -441,34 +441,31 @@ void AddDescriptorsImpl() {
       "tionAttributeH\000B\013\n\tattribute\"`\n\021DefaultE"
       "xperiment\022\022\n\nstart_time\030\001 \001(\001\022\021\n\tstop_ti"
       "me\030\002 \001(\001\022\021\n\ttolerance\030\003 \001(\001\022\021\n\tstep_size"
-      "\030\004 \001(\001\"j\n\007Unknown\022\r\n\005index\030\001 \001(\r\022\024\n\014depe"
-      "ndencies\030\002 \003(\r\022:\n\021dependencies_kind\030\003 \001("
-      "\0162\037.fmuproxy.grpc.DependenciesKind\"\230\001\n\016M"
-      "odelStructure\022\'\n\007outputs\030\001 \003(\0132\026.fmuprox"
-      "y.grpc.Unknown\022+\n\013derivatives\030\002 \003(\0132\026.fm"
-      "uproxy.grpc.Unknown\0220\n\020initial_unknowns\030"
-      "\003 \003(\0132\026.fmuproxy.grpc.Unknown*\243\001\n\tCausal"
-      "ity\022\023\n\017INPUT_CAUSALITY\020\000\022\024\n\020OUTPUT_CAUSA"
-      "LITY\020\001\022\027\n\023PARAMETER_CAUSALITY\020\002\022\"\n\036CALCU"
-      "LATED_PARAMETER_CAUSALITY\020\003\022\023\n\017LOCAL_CAU"
-      "SALITY\020\004\022\031\n\025INDEPENDENT_CAUSALITY\020\005*\215\001\n\013"
-      "Variability\022\030\n\024CONSTANT_VARIABILITY\020\000\022\025\n"
-      "\021FIXED_VARIABILITY\020\001\022\032\n\026CONTINUOUS_VARIA"
-      "BILITY\020\002\022\030\n\024DISCRETE_VARIABILITY\020\003\022\027\n\023TU"
-      "NABLE_VARIABILITY\020\004*H\n\007Initial\022\021\n\rEXACT_"
-      "INITIAL\020\000\022\022\n\016APPROX_INITIAL\020\001\022\026\n\022CALCULA"
-      "TED_INITIAL\020\002*w\n\006Status\022\r\n\tOK_STATUS\020\000\022\022"
-      "\n\016WARNING_STATUS\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020"
-      "\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PE"
-      "NDING_STATUS\020\005*^\n\020DependenciesKind\022\022\n\016DE"
-      "PENDENT_KIND\020\000\022\021\n\rCONSTANT_KIND\020\001\022\020\n\014TUN"
-      "ABLE_KIND\020\002\022\021\n\rDISCRETE_KIND\020\004*4\n\030Variab"
-      "leNamingConvention\022\010\n\004FLAT\020\000\022\016\n\nSTRUCTUR"
-      "ED\020\001B*\n!no.mechatronics.sfi.fmuproxy.grp"
-      "cB\005Protob\006proto3"
+      "\030\004 \001(\001\"I\n\007Unknown\022\r\n\005index\030\001 \001(\r\022\024\n\014depe"
+      "ndencies\030\002 \003(\r\022\031\n\021dependencies_kind\030\003 \001("
+      "\t\"\230\001\n\016ModelStructure\022\'\n\007outputs\030\001 \003(\0132\026."
+      "fmuproxy.grpc.Unknown\022+\n\013derivatives\030\002 \003"
+      "(\0132\026.fmuproxy.grpc.Unknown\0220\n\020initial_un"
+      "knowns\030\003 \003(\0132\026.fmuproxy.grpc.Unknown*\243\001\n"
+      "\tCausality\022\023\n\017INPUT_CAUSALITY\020\000\022\024\n\020OUTPU"
+      "T_CAUSALITY\020\001\022\027\n\023PARAMETER_CAUSALITY\020\002\022\""
+      "\n\036CALCULATED_PARAMETER_CAUSALITY\020\003\022\023\n\017LO"
+      "CAL_CAUSALITY\020\004\022\031\n\025INDEPENDENT_CAUSALITY"
+      "\020\005*\215\001\n\013Variability\022\030\n\024CONSTANT_VARIABILI"
+      "TY\020\000\022\025\n\021FIXED_VARIABILITY\020\001\022\032\n\026CONTINUOU"
+      "S_VARIABILITY\020\002\022\030\n\024DISCRETE_VARIABILITY\020"
+      "\003\022\027\n\023TUNABLE_VARIABILITY\020\004*H\n\007Initial\022\021\n"
+      "\rEXACT_INITIAL\020\000\022\022\n\016APPROX_INITIAL\020\001\022\026\n\022"
+      "CALCULATED_INITIAL\020\002*w\n\006Status\022\r\n\tOK_STA"
+      "TUS\020\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISCARD_STA"
+      "TUS\020\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_STATUS\020"
+      "\004\022\022\n\016PENDING_STATUS\020\005*4\n\030VariableNamingC"
+      "onvention\022\010\n\004FLAT\020\000\022\016\n\nSTRUCTURED\020\001B*\n!n"
+      "o.mechatronics.sfi.fmuproxy.grpcB\005Protob"
+      "\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 2456);
+      descriptor, 2327);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "definitions.proto", &protobuf_RegisterTypes);
 }
@@ -554,25 +551,9 @@ bool Status_IsValid(int value) {
   }
 }
 
-const ::google::protobuf::EnumDescriptor* DependenciesKind_descriptor() {
-  protobuf_definitions_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_definitions_2eproto::file_level_enum_descriptors[4];
-}
-bool DependenciesKind_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 4:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const ::google::protobuf::EnumDescriptor* VariableNamingConvention_descriptor() {
   protobuf_definitions_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_definitions_2eproto::file_level_enum_descriptors[5];
+  return protobuf_definitions_2eproto::file_level_enum_descriptors[4];
 }
 bool VariableNamingConvention_IsValid(int value) {
   switch (value) {
@@ -4174,16 +4155,17 @@ Unknown::Unknown(const Unknown& from)
       _internal_metadata_(NULL),
       dependencies_(from.dependencies_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&index_, &from.index_,
-    static_cast<size_t>(reinterpret_cast<char*>(&dependencies_kind_) -
-    reinterpret_cast<char*>(&index_)) + sizeof(dependencies_kind_));
+  dependencies_kind_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.dependencies_kind().size() > 0) {
+    dependencies_kind_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.dependencies_kind_);
+  }
+  index_ = from.index_;
   // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.Unknown)
 }
 
 void Unknown::SharedCtor() {
-  ::memset(&index_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&dependencies_kind_) -
-      reinterpret_cast<char*>(&index_)) + sizeof(dependencies_kind_));
+  dependencies_kind_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  index_ = 0u;
 }
 
 Unknown::~Unknown() {
@@ -4192,6 +4174,7 @@ Unknown::~Unknown() {
 }
 
 void Unknown::SharedDtor() {
+  dependencies_kind_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void Unknown::SetCachedSize(int size) const {
@@ -4215,9 +4198,8 @@ void Unknown::Clear() {
   (void) cached_has_bits;
 
   dependencies_.Clear();
-  ::memset(&index_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&dependencies_kind_) -
-      reinterpret_cast<char*>(&index_)) + sizeof(dependencies_kind_));
+  dependencies_kind_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  index_ = 0u;
   _internal_metadata_.Clear();
 }
 
@@ -4264,15 +4246,16 @@ bool Unknown::MergePartialFromCodedStream(
         break;
       }
 
-      // .fmuproxy.grpc.DependenciesKind dependencies_kind = 3;
+      // string dependencies_kind = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_dependencies_kind(static_cast< ::fmuproxy::grpc::DependenciesKind >(value));
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_dependencies_kind()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->dependencies_kind().data(), static_cast<int>(this->dependencies_kind().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.Unknown.dependencies_kind"));
         } else {
           goto handle_unusual;
         }
@@ -4321,9 +4304,13 @@ void Unknown::SerializeWithCachedSizes(
       this->dependencies(i), output);
   }
 
-  // .fmuproxy.grpc.DependenciesKind dependencies_kind = 3;
-  if (this->dependencies_kind() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+  // string dependencies_kind = 3;
+  if (this->dependencies_kind().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->dependencies_kind().data(), static_cast<int>(this->dependencies_kind().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.Unknown.dependencies_kind");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->dependencies_kind(), output);
   }
 
@@ -4359,10 +4346,15 @@ void Unknown::SerializeWithCachedSizes(
       WriteUInt32NoTagToArray(this->dependencies_, target);
   }
 
-  // .fmuproxy.grpc.DependenciesKind dependencies_kind = 3;
-  if (this->dependencies_kind() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      3, this->dependencies_kind(), target);
+  // string dependencies_kind = 3;
+  if (this->dependencies_kind().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->dependencies_kind().data(), static_cast<int>(this->dependencies_kind().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.Unknown.dependencies_kind");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->dependencies_kind(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4398,17 +4390,18 @@ size_t Unknown::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // string dependencies_kind = 3;
+  if (this->dependencies_kind().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->dependencies_kind());
+  }
+
   // uint32 index = 1;
   if (this->index() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->index());
-  }
-
-  // .fmuproxy.grpc.DependenciesKind dependencies_kind = 3;
-  if (this->dependencies_kind() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->dependencies_kind());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -4439,11 +4432,12 @@ void Unknown::MergeFrom(const Unknown& from) {
   (void) cached_has_bits;
 
   dependencies_.MergeFrom(from.dependencies_);
+  if (from.dependencies_kind().size() > 0) {
+
+    dependencies_kind_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.dependencies_kind_);
+  }
   if (from.index() != 0) {
     set_index(from.index());
-  }
-  if (from.dependencies_kind() != 0) {
-    set_dependencies_kind(from.dependencies_kind());
   }
 }
 
@@ -4472,8 +4466,9 @@ void Unknown::Swap(Unknown* other) {
 void Unknown::InternalSwap(Unknown* other) {
   using std::swap;
   dependencies_.InternalSwap(&other->dependencies_);
+  dependencies_kind_.Swap(&other->dependencies_kind_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(index_, other->index_);
-  swap(dependencies_kind_, other->dependencies_kind_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
