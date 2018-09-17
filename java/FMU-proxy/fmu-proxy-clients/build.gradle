@@ -9,7 +9,7 @@ pomDescription {
     description 'A collection of clients for talking to FMU-proxy servers'
 }
 
-def snapshot = true
+def snapshot = false
 def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
 
 dependencies {

@@ -82,15 +82,6 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.Initial.convert(): Initial {
     }
 }
 
-internal fun DependenciesKind.convert(): String {
-    return when(this) {
-        DependenciesKind.CONSTANT_KIND -> "constant"
-        DependenciesKind.DEPENDENT_KIND -> "dependent"
-        DependenciesKind.DISCRETE_KIND -> "discrete"
-        DependenciesKind.TUNABLE_KIND -> "tunable"
-    }
-}
-
 internal fun VariableNamingConvention.convert(): no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention {
     return when(this) {
         VariableNamingConvention.FLAT -> no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention.FLAT
@@ -129,12 +120,11 @@ internal fun Unknown.convert(): no.mechatronics.sfi.fmi4j.modeldescription.struc
         override val dependencies: List<Int>
             get() = getDependencies() ?: emptyList()
         override val dependenciesKind: String?
-            get() = getDependenciesKind()?.convert()
+            get() = getDependenciesKind()
         override val index: Int
             get() = getIndex()
     }
 }
-
 
 internal fun no.mechatronics.sfi.fmuproxy.thrift.ModelStructure.convert(): ModelStructure {
     return object: ModelStructure {

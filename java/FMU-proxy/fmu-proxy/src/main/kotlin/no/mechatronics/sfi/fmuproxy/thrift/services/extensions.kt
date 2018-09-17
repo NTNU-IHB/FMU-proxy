@@ -110,7 +110,7 @@ internal fun Unknown.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Unknown {
     return no.mechatronics.sfi.fmuproxy.thrift.Unknown().also { u ->
         u.index = index
         u.dependencies = dependencies
-        dependenciesKind?.also { u.dependenciesKind = it.thriftType() }
+        dependenciesKind?.also { u.dependenciesKind = it }
     }
 }
 
@@ -178,16 +178,6 @@ internal fun Initial.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Initial {
     }
 }
 
-internal fun String.thriftType(): DependenciesKind {
-    return when(this.toLowerCase()) {
-        "dependent" -> DependenciesKind.DEPENDENT_KIND
-        "constant" -> DependenciesKind.CONSTANT_KIND
-        "tunable" -> DependenciesKind.TUNABLE_KIND
-        "discrete" -> DependenciesKind.DISCRETE_KIND
-        else -> throw IllegalArgumentException("Not a valid DependeciesKind: $this")
-    }
-}
-
 internal fun FmiStatus.thriftType(): Status {
     return when (this) {
         FmiStatus.OK -> Status.OK_STATUS
@@ -199,4 +189,3 @@ internal fun FmiStatus.thriftType(): Status {
         FmiStatus.NONE -> throw RuntimeException("Not a valid status: $this")
     }
 }
-

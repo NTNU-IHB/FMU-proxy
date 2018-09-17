@@ -6,8 +6,6 @@
 #   FMILIB_LIBRARIES      - List of libraries when using FMI Library.
 #   FMILIB_FOUND          - True if FMI Library found.
 
-cmake_minimum_required (VERSION ${CMAKE_MINIMUM_REQUIRED_VERSION})
-
 find_path(FMILIB_INCLUDE_DIR NAMES fmilib.h)
 mark_as_advanced(FMILIB_INCLUDE_DIR)
 

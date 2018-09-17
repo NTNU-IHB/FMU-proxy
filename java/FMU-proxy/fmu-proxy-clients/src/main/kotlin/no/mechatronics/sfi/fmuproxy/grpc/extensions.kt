@@ -87,16 +87,6 @@ internal fun Proto.Initial.convert(): Initial {
     }
 }
 
-internal fun Proto.DependenciesKind.convert(): String {
-    return when(this) {
-        Proto.DependenciesKind.CONSTANT_KIND -> "constant"
-        Proto.DependenciesKind.DEPENDENT_KIND -> "dependent"
-        Proto.DependenciesKind.DISCRETE_KIND -> "discrete"
-        Proto.DependenciesKind.TUNABLE_KIND -> "tunable"
-        Proto.DependenciesKind.UNRECOGNIZED -> throw AssertionError()
-    }
-}
-
 internal fun Proto.VariableNamingConvention.convert(): VariableNamingConvention {
     return when(this) {
         Proto.VariableNamingConvention.FLAT -> VariableNamingConvention.FLAT
@@ -137,7 +127,7 @@ internal fun Proto.Unknown.convert(): Unknown {
         override val dependencies: List<Int>
             get() = dependenciesList
         override val dependenciesKind: String?
-            get() = getDependenciesKind()?.convert()
+            get() = getDependenciesKind()
     }
 }
 
