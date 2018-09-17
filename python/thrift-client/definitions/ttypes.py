@@ -112,27 +112,6 @@ class Initial(object):
     }
 
 
-class DependenciesKind(object):
-    DEPENDENT_KIND = 0
-    CONSTANT_KIND = 1
-    TUNABLE_KIND = 2
-    DISCRETE_KIND = 3
-
-    _VALUES_TO_NAMES = {
-        0: "DEPENDENT_KIND",
-        1: "CONSTANT_KIND",
-        2: "TUNABLE_KIND",
-        3: "DISCRETE_KIND",
-    }
-
-    _NAMES_TO_VALUES = {
-        "DEPENDENT_KIND": 0,
-        "CONSTANT_KIND": 1,
-        "TUNABLE_KIND": 2,
-        "DISCRETE_KIND": 3,
-    }
-
-
 class VariableNamingConvention(object):
     FLAT = 0
     STRUCTURED = 1
@@ -772,8 +751,8 @@ class Unknown(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
-                if ftype == TType.I32:
-                    self.dependenciesKind = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.dependenciesKind = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -798,8 +777,8 @@ class Unknown(object):
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.dependenciesKind is not None:
-            oprot.writeFieldBegin('dependenciesKind', TType.I32, 3)
-            oprot.writeI32(self.dependenciesKind)
+            oprot.writeFieldBegin('dependenciesKind', TType.STRING, 3)
+            oprot.writeString(self.dependenciesKind.encode('utf-8') if sys.version_info[0] == 2 else self.dependenciesKind)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1734,7 +1713,7 @@ Unknown.thrift_spec = (
     None,  # 0
     (1, TType.I32, 'index', None, None, ),  # 1
     (2, TType.LIST, 'dependencies', (TType.I32, None, False), None, ),  # 2
-    (3, TType.I32, 'dependenciesKind', None, None, ),  # 3
+    (3, TType.STRING, 'dependenciesKind', 'UTF8', None, ),  # 3
 )
 all_structs.append(ModelStructure)
 ModelStructure.thrift_spec = (
