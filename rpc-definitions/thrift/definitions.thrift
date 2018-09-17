@@ -58,13 +58,6 @@ enum Initial {
     CALCULATED_INITIAL = 2
 }
 
-enum DependenciesKind {
-    DEPENDENT_KIND = 0,
-    CONSTANT_KIND = 1,
-    TUNABLE_KIND = 2,
-    DISCRETE_KIND = 3
-}
-
 enum VariableNamingConvention {
     FLAT = 0,
     STRUCTURED = 1
@@ -120,7 +113,7 @@ typedef list<ScalarVariable> ModelVariables
 struct Unknown {
     1: i32 index,
     2: list<i32> dependencies,
-    3: DependenciesKind dependenciesKind
+    3: string dependenciesKind
 }
 
 struct ModelStructure {

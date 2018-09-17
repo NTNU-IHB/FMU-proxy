@@ -141,21 +141,9 @@ internal fun Unknown.protoType(): Proto.Unknown {
         builder.index = index
         builder.addAllDependencies(dependencies)
 
-        dependenciesKind?.also { builder.dependenciesKind = it.protoType() }
+        dependenciesKind?.also { builder.dependenciesKind = it }
 
     }.build()
-}
-
-internal fun String.protoType(): Proto.DependenciesKind {
-
-    return when (this.toLowerCase()) {
-        "constant" -> Proto.DependenciesKind.CONSTANT_KIND
-        "dependent" -> Proto.DependenciesKind.DEPENDENT_KIND
-        "discrete" -> Proto.DependenciesKind.DISCRETE_KIND
-        "tunable" -> Proto.DependenciesKind.TUNABLE_KIND
-        else -> Proto.DependenciesKind.UNRECOGNIZED
-    }
-
 }
 
 internal fun Causality.protoType(): Proto.Causality {

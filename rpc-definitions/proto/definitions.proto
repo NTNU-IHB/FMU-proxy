@@ -101,7 +101,7 @@ message DefaultExperiment {
 message Unknown {
     uint32 index = 1;
     repeated uint32 dependencies = 2;
-    DependenciesKind dependencies_kind = 3;
+    string dependencies_kind = 3;
 }
 
 message ModelStructure {
@@ -109,7 +109,6 @@ message ModelStructure {
     repeated Unknown derivatives = 2;
     repeated Unknown initial_unknowns = 3;
 }
-
 
 
 enum Causality {
@@ -142,13 +141,6 @@ enum Status {
     ERROR_STATUS = 3;
     FATAL_STATUS = 4;
     PENDING_STATUS = 5;
-}
-
-enum DependenciesKind {
-    DEPENDENT_KIND = 0;
-    CONSTANT_KIND = 1;
-    TUNABLE_KIND = 2;
-    DISCRETE_KIND = 4;
 }
 
 enum VariableNamingConvention {
