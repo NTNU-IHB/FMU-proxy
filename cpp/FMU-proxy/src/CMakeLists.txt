@@ -20,10 +20,10 @@ SET(FMI_SRC
         fmuproxy/fmi/LocalFmuSlave.cpp)
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
-target_link_libraries(fmi ${FMILIB_LIBRARIES} Boost::filesystem Boost::system)
+target_link_libraries(fmi ${FMILIB_LIBRARIES})
 target_include_directories(fmi PUBLIC ${FMILIB_INCLUDE_DIRS})
 if (UNIX)
-    target_link_libraries(fmi dl)
+    target_link_libraries(fmi dl stdc++fs)
 endif()
 
 ##################################################################
@@ -40,7 +40,7 @@ SET(HEARTBEAT_SRC
         fmuproxy/heartbeat/heartbeat_helper.cpp)
 
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
-target_link_libraries(heartbeat ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES} Boost::system)
+target_link_libraries(heartbeat ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
 target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
 if (UNIX)
     target_link_libraries(heartbeat pthread)
@@ -91,7 +91,7 @@ add_library(grpc-client ${GRPC_CLIENT_HEADERS} ${GRPC_CLIENT_SRC})
 target_link_libraries(grpc-client grpc-common fmi)
 
 add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_HEADERS} ${GRPC_SERVER_SRC})
-target_link_libraries(grpc-server grpc-common fmi Boost::system)
+target_link_libraries(grpc-server grpc-common fmi)
 if (UNIX)
     target_link_libraries(grpc-server pthread)
 endif()
@@ -141,7 +141,7 @@ add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIEN
 target_link_libraries(thrift-client thrift-common fmi)
 
 add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
-target_link_libraries(thrift-server thrift-common fmi Boost::system)
+target_link_libraries(thrift-server thrift-common fmi)
 if (UNIX)
     target_link_libraries(thrift-server pthread)
 endif()

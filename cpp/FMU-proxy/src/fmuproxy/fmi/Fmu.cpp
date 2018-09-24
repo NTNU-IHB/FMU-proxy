@@ -22,13 +22,12 @@
  * THE SOFTWARE.
  */
 
+#include <fstream>
 #include <fmuproxy/fmi/Fmu.hpp>
 #include "fmu_helper.cpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;
-
-namespace fs = boost::filesystem;
 
 Fmu::Fmu (const string &fmu_path) {
 

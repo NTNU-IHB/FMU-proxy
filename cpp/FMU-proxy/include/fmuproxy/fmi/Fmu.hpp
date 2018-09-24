@@ -25,10 +25,12 @@
 #ifndef FMU_PROXY_FMU_H
 #define FMU_PROXY_FMU_H
 
-#include <boost/filesystem.hpp>
+#include <experimental/filesystem>
 
 #include "fmi_definitions.hpp"
 #include "LocalFmuSlave.hpp"
+
+namespace fs = std::experimental::filesystem;
 
 namespace fmuproxy::fmi {
 
@@ -41,7 +43,7 @@ namespace fmuproxy::fmi {
         jm_callbacks callbacks_;
         fmi_version_enu_t version_;
 
-        boost::filesystem::path tmp_path_;
+        fs::path tmp_path_;
         std::string model_description_xml_;
         std::shared_ptr<ModelDescription> modelDescription_;
 

@@ -25,7 +25,7 @@ if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-SET(BOOST_COMPONENTS atomic system filesystem program_options)
+SET(BOOST_COMPONENTS atomic program_options)
 if (BUILD_TESTS)
     SET(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework)
 endif()
