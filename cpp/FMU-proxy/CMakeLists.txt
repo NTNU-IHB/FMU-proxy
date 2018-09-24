@@ -36,7 +36,6 @@ find_package(Thrift REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
-set(tool_dest "bin")
 
 # add subdiretories
 add_subdirectory(src)
