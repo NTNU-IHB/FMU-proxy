@@ -24,7 +24,7 @@
 
 #include <fmuproxy/grpc/client/GrpcClient.hpp>
 #include <google/protobuf/empty.pb.h>
-#include "grpc_client_helper.cpp"
+#include "grpc_client_helper.hpp"
 
 using namespace std;
 using namespace grpc;

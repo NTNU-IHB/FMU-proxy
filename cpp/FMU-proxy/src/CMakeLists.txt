@@ -16,7 +16,6 @@ SET(FMI_HEADERS
 
 SET(FMI_SRC
         fmuproxy/fmi/Fmu.cpp
-        fmuproxy/fmi/fmu_helper.cpp
         fmuproxy/fmi/LocalFmuSlave.cpp)
 
 add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
@@ -36,8 +35,7 @@ SET(HEARTBEAT_HEADERS
         ${HEARTBEAT_HEADER_DIR}/Heartbeat.hpp)
 
 SET(HEARTBEAT_SRC
-        fmuproxy/heartbeat/Heartbeat.cpp
-        fmuproxy/heartbeat/heartbeat_helper.cpp)
+        fmuproxy/heartbeat/Heartbeat.cpp)
 
 add_library(heartbeat ${HEARTBEAT_HEADERS} ${HEARTBEAT_SRC})
 target_link_libraries(heartbeat ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
@@ -73,13 +71,11 @@ SET(GRPC_COMMON_SRC
 
 SET(GRPC_CLIENT_SRC
         fmuproxy/grpc/client/GrpcClient.cpp
-        fmuproxy/grpc/client/RemoteFmuSlave.cpp
-        fmuproxy/grpc/client/grpc_client_helper.cpp)
+        fmuproxy/grpc/client/RemoteFmuSlave.cpp)
 
 SET(GRPC_SERVER_SRC
         fmuproxy/grpc/server/GrpcServer.cpp
-        fmuproxy/grpc/server/FmuServiceImpl.cpp
-        fmuproxy/grpc/server/grpc_server_helper.cpp)
+        fmuproxy/grpc/server/FmuServiceImpl.cpp)
 
 add_library(grpc-common ${GRPC_COMMON_HEADERS} ${GRPC_COMMON_SRC})
 target_link_libraries(grpc-common gRPC::grpc gRPC::grpc++ ${Protobuf_LIBRARIES} ${OPENSSL_LIBRARIES})
@@ -121,13 +117,12 @@ SET(THRIFT_COMMON_SRC
         fmuproxy/thrift/common/FmuService.cpp)
 
 SET(THRIFT_CLIENT_SRC
-        fmuproxy/thrift/client/thrift_client_helper.cpp
+        fmuproxy/thrift/client/thrift_client_helper.hpp
         fmuproxy/thrift/client/RemoteFmuSlave.cpp
         fmuproxy/thrift/client/ThriftClient.cpp)
 
 SET(THRIFT_SERVER_SRC
         fmuproxy/thrift/server/FmuServiceHandler.cpp
-        fmuproxy/thrift/server/thrift_server_helper.cpp
         fmuproxy/thrift/server/ThriftServer.cpp)
 
 add_library(thrift-common ${THRIFT_COMMON_HEADERS} ${THRIFT_COMMON_SRC})

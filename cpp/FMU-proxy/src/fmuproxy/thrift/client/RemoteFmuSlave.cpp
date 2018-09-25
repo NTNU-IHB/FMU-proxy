@@ -25,7 +25,7 @@
 #include <vector>
 #include <algorithm>
 #include <fmuproxy/thrift/client/RemoteFmuSlave.hpp>
-#include "thrift_client_helper.cpp"
+#include "thrift_client_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy::thrift::client;

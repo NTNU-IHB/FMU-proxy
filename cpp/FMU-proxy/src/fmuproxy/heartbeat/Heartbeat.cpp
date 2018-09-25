@@ -27,7 +27,7 @@
 #include <curl/curl.h>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <nlohmann/json.hpp>
-#include "heartbeat_helper.cpp"
+#include "heartbeat_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy;

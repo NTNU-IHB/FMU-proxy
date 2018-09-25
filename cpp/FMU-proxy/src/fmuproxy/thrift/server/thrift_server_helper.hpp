@@ -22,6 +22,9 @@
  * THE SOFTWARE.
  */
 
+#ifndef FMU_PROXY_THRIFT_SERVER_HELPER_HPP
+#define FMU_PROXY_THRIFT_SERVER_HELPER_HPP
+
 #include <cfloat>
 #include <fmilib.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
@@ -242,3 +245,5 @@ namespace {
     }
     
 }
+
+#endif //FMU_PROXY_THRIFT_SERVER_HELPER_HPP

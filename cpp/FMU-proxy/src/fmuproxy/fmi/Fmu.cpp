@@ -24,7 +24,7 @@
 
 #include <fstream>
 #include <fmuproxy/fmi/Fmu.hpp>
-#include "fmu_helper.cpp"
+#include "fmu_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy::fmi;

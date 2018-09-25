@@ -22,6 +22,9 @@
  * THE SOFTWARE.
  */
 
+#ifndef FMU_PROXY_GRPC_SERVER_HELPER_HPP
+#define FMU_PROXY_GRPC_SERVER_HELPER_HPP
+
 #include <grpcpp/grpcpp.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
 #include <fmuproxy/grpc/common/definitions.pb.h>
@@ -227,3 +230,5 @@ namespace {
     }
 
 }
+
+#endif //FMU_PROXY_GRPC_CLIENT_HELPER_HPP

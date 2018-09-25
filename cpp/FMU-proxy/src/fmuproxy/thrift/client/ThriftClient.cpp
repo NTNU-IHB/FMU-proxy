@@ -30,7 +30,7 @@
 
 #include <fmuproxy/thrift/common/FmuService.h>
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
-#include "thrift_client_helper.cpp"
+#include "thrift_client_helper.hpp"
 
 using namespace std;
 using namespace apache::thrift::transport;

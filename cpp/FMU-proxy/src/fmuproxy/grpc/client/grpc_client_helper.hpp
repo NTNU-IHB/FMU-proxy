@@ -22,10 +22,12 @@
  * THE SOFTWARE.
  */
 
+#ifndef FMU_PROXY_GRPC_CLIENT_HELPER_HPP
+#define FMU_PROXY_GRPC_CLIENT_HELPER_HPP
+
 #include <fmilib.h>
 #include <fmuproxy/grpc/common/definitions.pb.h>
 #include <fmuproxy/fmi/fmi_definitions.hpp>
-
 
 namespace {
 
@@ -215,7 +217,7 @@ namespace {
         to.generationDateAndTime = from.generation_date_and_time();
         to.variableNamingConvention = convert(from.variable_naming_convention());
 
-        copyToFrom(to.defaultExperiment, from.default_experiment()); 
+        copyToFrom(to.defaultExperiment, from.default_experiment());
 
         for (const auto &var : from.model_variables()) {
             to.modelVariables.push_back(convert(var));
@@ -226,5 +228,6 @@ namespace {
 
     }
     
-    
 }
+
+#endif //FMU_PROXY_GRPC_CLIENT_HELPER_HPP

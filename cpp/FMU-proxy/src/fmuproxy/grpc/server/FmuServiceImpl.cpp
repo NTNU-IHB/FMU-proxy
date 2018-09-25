@@ -29,7 +29,7 @@
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 #include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
-#include "grpc_server_helper.cpp"
+#include "grpc_server_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy::grpc;
@@ -250,7 +250,7 @@ FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstat
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'SerializeFMUstate'!");
     }
 
-    int64_t state;
+    int64_t state = 0;
     string serializedState;
     const auto status = grpcType(slave->serializeFMUstate(state, serializedState));
 

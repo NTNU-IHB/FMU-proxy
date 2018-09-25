@@ -28,7 +28,7 @@
 
 #include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
-#include "thrift_server_helper.cpp"
+#include "thrift_server_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy;

@@ -22,6 +22,9 @@
  * THE SOFTWARE.
  */
 
+#ifndef FMU_PROXY_HEARTBEAT_HELPER_HPP
+#define FMU_PROXY_HEARTBEAT_HELPER_HPP
+
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -108,3 +111,5 @@ namespace fmuproxy::heartbeat {
     }
 
 }
+
+#endif //FMU_PROXY_HEARTBEAT_HELPER_HPP
