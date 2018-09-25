@@ -1,14 +1,14 @@
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.70" apply false //apply in sub-projects
+    id "org.jetbrains.kotlin.jvm" version "1.2.71" apply false //apply in sub-projects
 }
 
 println "Gradle version is ${GradleVersion.current().version}"
 
-ext.fmi4j_stable_version = '0.10.0'
-ext.fmi4j_snapshot_version = '0.11.0-SNAPSHOT'
+ext.fmi4j_stable_version = '0.10.1'
+ext.fmi4j_snapshot_version = 'dev-SNAPSHOT'
 
-ext.grpc_version = '1.14.0'
+ext.grpc_version = '1.15.0'
 ext.yajrpc_version = '0.9'
 ext.slf4j_version = '1.7.25'
 
@@ -33,7 +33,7 @@ subprojects { sub ->
             compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
         }
 
-        def junit_version = '5.3.0'
+        def junit_version = '5.3.1'
         testImplementation("org.junit.jupiter:junit-jupiter-api:${junit_version}")
         testImplementation("org.junit.jupiter:junit-jupiter-params:${junit_version}")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junit_version}")
