@@ -9,9 +9,6 @@ def group = "no.mechatronics.sfi.fmuproxy"
 
 mainClassName = "${group}.FmuProxy"
 
-def fmi4j_snapshot = false
-def fmi4j_version = fmi4j_snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
-
 dependencies {
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version

@@ -9,9 +9,6 @@ pomDescription {
     description 'A collection of clients for talking to FMU-proxy servers'
 }
 
-def snapshot = false
-def fmi4j_version = snapshot ? fmi4j_snapshot_version : fmi4j_stable_version
-
 dependencies {
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
@@ -22,7 +19,7 @@ dependencies {
     implementation group: 'info.laht', name: 'yaj-rpc-zmq', version: yajrpc_version
     implementation group: 'info.laht', name: 'yaj-rpc-http', version: yajrpc_version
 
-    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: snapshot
+    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
     implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
