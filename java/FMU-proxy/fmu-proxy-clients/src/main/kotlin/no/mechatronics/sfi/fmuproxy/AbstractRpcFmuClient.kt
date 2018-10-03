@@ -26,6 +26,8 @@ package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.SpecificModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.AbstractTypedScalarVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -114,7 +116,7 @@ abstract class AbstractRpcFmuClient(
 
     inner class FmuInstance(
             private val instanceId: String
-    ): FmuSlave {
+    ): FmuSlave  {
 
         override var isInitialized = false
             private set
@@ -136,16 +138,6 @@ abstract class AbstractRpcFmuClient(
 
         override val providesDirectionalDerivative: Boolean
             get() = false
-
-        init {
-            modelDescription.modelVariables.forEach { variable ->
-                if (variable is AbstractTypedScalarVariable<*>) {
-                    variable::class.java.getField("accessor").also { field ->
-                        field.set(variable, this)
-                    }
-                }
-            }
-        }
 
         override fun init() = init(0.0)
         override fun init(start: Double) = init(start, 0.0)

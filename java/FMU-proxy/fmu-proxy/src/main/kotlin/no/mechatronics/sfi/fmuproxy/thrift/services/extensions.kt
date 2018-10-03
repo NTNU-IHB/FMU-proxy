@@ -76,7 +76,6 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
 
         v.name = name
         v.valueReference = valueReference
-        declaredType?.also { v.declaredType = it }
         description?.also { v.description = it }
         causality?.also { v.causality = it.thriftType() }
         variability?.also { v.variability = it.thriftType() }

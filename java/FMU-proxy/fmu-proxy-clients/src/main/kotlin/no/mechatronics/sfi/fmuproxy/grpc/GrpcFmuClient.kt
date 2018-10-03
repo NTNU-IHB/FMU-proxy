@@ -28,6 +28,7 @@ import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 
@@ -118,23 +119,23 @@ class GrpcFmuClient(
         }
     }
 
-    override fun readInteger(instanceId: String, vr: List<Int>): FmuIntegerArrayRead {
+    override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
         return blockingStub.readInteger(getReadRequest(instanceId, vr)).convert()
     }
 
-    override fun readReal(instanceId: String, vr: List<Int>): FmuRealArrayRead {
+    override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
         return blockingStub.readReal(getReadRequest(instanceId, vr)).convert()
     }
 
-    override fun readString(instanceId: String, vr: List<Int>): FmuStringArrayRead {
+    override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
         return blockingStub.readString(getReadRequest(instanceId, vr)).convert()
     }
 
-    override fun readBoolean(instanceId: String, vr: List<Int>): FmuBooleanArrayRead {
+    override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
         return blockingStub.readBoolean(getReadRequest(instanceId, vr)).convert()
     }
     
-    override fun writeInteger(instanceId: String, vr: List<Int>, value: List<Int>): FmiStatus {
+    override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
         return Service.WriteIntegerRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
@@ -145,7 +146,7 @@ class GrpcFmuClient(
     }
     
 
-    override fun writeReal(instanceId: String, vr: List<Int>, value: List<Real>): FmiStatus {
+    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
         return Service.WriteRealRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
@@ -155,7 +156,7 @@ class GrpcFmuClient(
                 }
     }
     
-    override fun writeString(instanceId: String, vr: List<Int>, value: List<String>): FmiStatus {
+    override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
         return Service.WriteStringRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
@@ -165,7 +166,7 @@ class GrpcFmuClient(
                 }
     }
     
-    override fun writeBoolean(instanceId: String, vr: List<Int>, value: List<Boolean>): FmiStatus {
+    override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return Service.WriteBooleanRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .addAllValueReferences(vr)
@@ -249,7 +250,7 @@ class GrpcFmuClient(
 
     private companion object {
 
-        private fun getReadRequest(instanceId: String, vr: List<Int>): Service.ReadRequest {
+        private fun getReadRequest(instanceId: String, vr: List<ValueReference>): Service.ReadRequest {
             return Service.ReadRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .addAllValueReferences(vr)

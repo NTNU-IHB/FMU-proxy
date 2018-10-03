@@ -29,9 +29,9 @@ namespace java no.mechatronics.sfi.fmuproxy.thrift
 
 typedef string FmuId
 typedef string InstanceId
-typedef i32 ValueReference
+typedef i64 ValueReference
 typedef i64 FmuState
-typedef list<i32> ValueReferences
+typedef list<ValueReference> ValueReferences
 typedef list<i32> IntArray
 typedef list<double> RealArray
 typedef list<string> StringArray

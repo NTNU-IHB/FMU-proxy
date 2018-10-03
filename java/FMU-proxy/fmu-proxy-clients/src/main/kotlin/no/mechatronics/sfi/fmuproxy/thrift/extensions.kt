@@ -137,49 +137,48 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.ModelStructure.convert(): Model
     }
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute.convert(): IntegerAttribute {
-    return IntegerAttribute(
+internal fun no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute.convert(): IntegerAttributeImpl {
+    return IntegerAttributeImpl(
             min = min,
             max = max,
             start = start
     )
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.RealAttribute.convert(): RealAttribute {
-    return RealAttribute(
+internal fun no.mechatronics.sfi.fmuproxy.thrift.RealAttribute.convert(): RealAttributeImpl {
+    return RealAttributeImpl(
             min = min,
             max = max,
             start = start
     )
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.StringAttribute.convert(): StringAttribute {
-    return StringAttribute(
+internal fun no.mechatronics.sfi.fmuproxy.thrift.StringAttribute.convert(): StringAttributeImpl {
+    return StringAttributeImpl(
             start = start
     )
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute.convert(): BooleanAttribute {
-    return BooleanAttribute(
+internal fun no.mechatronics.sfi.fmuproxy.thrift.BooleanAttribute.convert(): BooleanAttributeImpl {
+    return BooleanAttributeImpl(
             start = isStart
     )
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute.convert(): EnumerationAttribute {
-    return EnumerationAttribute(
+internal fun no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute.convert(): EnumerationAttributeImpl {
+    return EnumerationAttributeImpl(
             min = min,
             max = max,
             start = start
     )
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable.convert(): TypedScalarVariable<*> {
+internal fun ScalarVariable.convert(): TypedScalarVariable<*> {
 
     val v = ScalarVariableImpl(
             name = name,
             description = description,
             valueReference = valueReference,
-            declaredType = declaredType,
             causality = causality?.convert(),
             variability = variability?.convert(),
             initial = initial?.convert()
@@ -199,7 +198,7 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable.convert(): Typed
 }
 
 class MyModelVariables(
-        vars: List<no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable>
+        vars: List<ScalarVariable>
 ) : ModelVariables {
 
     private val variables = vars.map { it.convert() }
@@ -210,7 +209,7 @@ class MyModelVariables(
 
 }
 
-internal fun List<no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable>.convert(): ModelVariables {
+internal fun List<ScalarVariable>.convert(): ModelVariables {
     return MyModelVariables(this)
 }
 
@@ -257,13 +256,6 @@ class ThriftModelDescription(
     override val version: String?
         get() = modelDescription.version
 
-    override fun asCoSimulationModelDescription(): CoSimulationModelDescription {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun asModelExchangeModelDescription(): ModelExchangeModelDescription {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
 
 fun Solver.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Solver {

@@ -89,30 +89,30 @@ message TerminateRequest {
 
 message ReadRequest {
     string instance_id = 1;
-    repeated uint32 value_references = 2;
+    repeated uint64 value_references = 2;
 }
 
 message WriteIntegerRequest {
     string instance_id = 1;
-    repeated uint32 value_references = 2;
+    repeated uint64 value_references = 2;
     repeated int32 values =3;
 }
 
 message WriteRealRequest {
     string instance_id = 1;
-    repeated uint32 value_references = 2;
+    repeated uint64 value_references = 2;
     repeated double values = 3;
 }
 
 message WriteStringRequest {
     string instance_id = 1;
-    repeated uint32 value_references = 2;
+    repeated uint64 value_references = 2;
     repeated string values = 3;
 }
 
 message WriteBooleanRequest {
     string instance_id = 1;
-    repeated uint32 value_references = 2;
+    repeated uint64 value_references = 2;
     repeated bool values = 3;
 }
 

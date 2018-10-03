@@ -75,13 +75,12 @@ message EnumerationAttribute {
 }
 
 message ScalarVariable {
-    uint32 value_reference = 1;
+    uint64 value_reference = 1;
     string name = 2;
     string description = 3;
-    string declared_type = 4;
-    Initial initial = 5;
-    Causality causality = 6;
-    Variability variability = 7;
+    Initial initial = 4;
+    Causality causality = 5;
+    Variability variability = 6;
     oneof attribute {
         IntegerAttribute integer_attribute = 10;
         RealAttribute real_attribute = 11;

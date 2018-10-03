@@ -109,7 +109,6 @@ internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
         builder.name = name
         builder.valueReference = valueReference
 
-        declaredType?.also { builder.declaredType = it }
         description?.also { builder.description = it }
         causality?.also { builder.causality = it.protoType() }
         variability?.also { builder.variability = it.protoType() }

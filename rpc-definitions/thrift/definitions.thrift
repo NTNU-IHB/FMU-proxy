@@ -98,14 +98,13 @@ union ScalarVariableAttribute {
 }
 
 struct ScalarVariable {
-    1: i32 valueReference,
+    1: i64 valueReference,
     2: string name,
     3: optional string description,
-    4: optional string declaredType,
-    5: optional Initial initial,
-    6: optional Causality causality,
-    7: optional Variability variability,
-    8: ScalarVariableAttribute attribute
+    4: optional Initial initial,
+    5: optional Causality causality,
+    6: optional Variability variability,
+    7: ScalarVariableAttribute attribute
 }
 
 typedef list<ScalarVariable> ModelVariables

@@ -29,10 +29,8 @@ import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
 import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.*
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -142,36 +140,36 @@ internal fun Proto.ModelStructure.convert(): ModelStructure {
     }
 }
 
-internal fun Proto.IntegerAttribute.convert(): IntegerAttribute {
-    return IntegerAttribute(
+internal fun Proto.IntegerAttribute.convert(): IntegerAttributeImpl {
+    return IntegerAttributeImpl(
             min = min,
             max = max,
             start = start
     )
 }
 
-internal fun Proto.RealAttribute.convert(): RealAttribute {
-    return RealAttribute(
+internal fun Proto.RealAttribute.convert(): RealAttributeImpl {
+    return RealAttributeImpl(
             min = min,
             max = max,
             start = start
     )
 }
 
-internal fun Proto.StringAttribute.convert(): StringAttribute {
-    return StringAttribute(
+internal fun Proto.StringAttribute.convert(): StringAttributeImpl {
+    return StringAttributeImpl(
             start = start
     )
 }
 
-internal fun Proto.BooleanAttribute.convert(): BooleanAttribute {
-    return BooleanAttribute(
+internal fun Proto.BooleanAttribute.convert(): BooleanAttributeImpl {
+    return BooleanAttributeImpl(
             start = start
     )
 }
 
-internal fun Proto.EnumerationAttribute.convert(): EnumerationAttribute {
-    return EnumerationAttribute(
+internal fun Proto.EnumerationAttribute.convert(): EnumerationAttributeImpl {
+    return EnumerationAttributeImpl(
             min = min,
             max = max,
             start = start
@@ -184,7 +182,6 @@ internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
             name = name,
             description = description,
             valueReference = valueReference,
-            declaredType = declaredType,
             causality = causality?.convert(),
             variability = variability?.convert(),
             initial = initial?.convert()
@@ -262,13 +259,6 @@ class GrpcModelDescription(
     override val version: String?
         get() = modelDescription.version
 
-    override fun asCoSimulationModelDescription(): CoSimulationModelDescription {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun asModelExchangeModelDescription(): ModelExchangeModelDescription {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
 
 fun Solver.protoType(): Service.Solver {
