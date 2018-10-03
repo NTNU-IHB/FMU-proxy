@@ -25,6 +25,8 @@
 package no.mechatronics.sfi.fmuproxy.thrift.services
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionProvider
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
@@ -139,9 +141,31 @@ internal fun no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription.thriftT
         generationDateAndTime?.also { md.generationDateAndTime = it }
         defaultExperiment?.also { md.defaultExperiment = it.thriftType() }
 
-        md.isSupportsCoSimulation = supportsCoSimulation
-        md.isSupportsModelExchange = supportsModelExchange
+    }
+}
 
+internal fun CoSimulationModelDescription.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.CoSimulationModelDescription {
+    return CoSimulationModelDescription().also { md ->
+
+        md.guid = guid
+        md.modelName = modelName
+        md.fmiVersion = fmiVersion
+        md.modelVariables = modelVariables.thriftType()
+        md.modelStructure = modelStructure.thriftType()
+
+        license?.also { md.license = it }
+        copyright?.also { md.copyright = it }
+        author?.also { md.author = it }
+        version?.also { md.version = it }
+        description?.also { md.description = it }
+        generationTool?.also { md.generationTool = it }
+        generationDateAndTime?.also { md.generationDateAndTime = it }
+        defaultExperiment?.also { md.defaultExperiment = it.thriftType() }
+
+        md.modelIdentifier = modelIdentifier
+        md.isCanGetAndSetFMUstate = canGetAndSetFMUstate
+        md.isCanSerializeFMUstate = canSerializeFMUstate
+        md.isProvidesDirectionalDerivative = providesDirectionalDerivative
     }
 }
 

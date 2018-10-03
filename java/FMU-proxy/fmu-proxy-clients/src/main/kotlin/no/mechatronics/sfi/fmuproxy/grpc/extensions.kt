@@ -220,6 +220,10 @@ internal fun Proto.ModelDescription.convert(): ModelDescription {
     return GrpcModelDescription(this)
 }
 
+internal fun Proto.CoSimulationModelDescription.convert(): CoSimulationModelDescription {
+
+}
+
 class GrpcModelDescription(
         private val modelDescription: Proto.ModelDescription
 ): ModelDescription {
@@ -251,14 +255,9 @@ class GrpcModelDescription(
         get() = modelDescription.modelName
     override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
     override val modelVariables: ModelVariables = modelDescription.modelVariablesList.convert()
-    override val supportsCoSimulation: Boolean
-        get() = modelDescription.supportsCoSimulation
-    override val supportsModelExchange: Boolean
-        get() = modelDescription.supportsModelExchange
     override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
-
 }
 
 fun Solver.protoType(): Service.Solver {

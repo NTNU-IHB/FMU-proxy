@@ -44,8 +44,27 @@ message ModelDescription {
     VariableNamingConvention variable_naming_convention = 12;
     repeated ScalarVariable model_variables = 13;
     ModelStructure model_structure = 14;
-    bool supports_co_simulation = 15;
-    bool supports_model_exchange = 16;
+}
+
+message CoSimulationModelDescription {
+    string fmi_version = 1;
+    string guid = 2;
+    string model_name = 3;
+    string license = 4;
+    string copyright = 5;
+    string author = 6;
+    string version = 7;
+    string description = 8;
+    string generation_tool = 9;
+    string generation_date_and_time = 10;
+    DefaultExperiment default_experiment = 11;
+    VariableNamingConvention variable_naming_convention = 12;
+    repeated ScalarVariable model_variables = 13;
+    ModelStructure model_structure = 14;
+    string modelIdentifier = 15;
+    bool canGetAndSetFMUstate = 16;
+    bool canSerializeFMUstate = 17;
+    bool providesDirectionalDerivative = 18;
 }
 
 message IntegerAttribute {

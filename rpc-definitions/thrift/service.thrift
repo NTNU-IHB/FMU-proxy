@@ -70,8 +70,12 @@ struct DeSerializeFmuStateResult {
 
 service FmuService {
 
-    string getModelDescriptionXml(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
+
     definitions.ModelDescription getModelDescription(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
+    definitions.CoSimulationModelDescription getCoSimulationModelDescription(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex)
+
+    bool canCreateInstanceFromCS(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
+    bool canCreateInstanceFromME(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
 
     InstanceId createInstanceFromCS(1: FmuId fmu_id) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
     InstanceId createInstanceFromME(1: FmuId fmu_id, 2: definitions.Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
@@ -90,9 +94,6 @@ service FmuService {
     definitions.Status writeReal(1: InstanceId instance_id, 2: ValueReferences vr, 3: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
     definitions.Status writeString(1: InstanceId instance_id, 2: ValueReferences vr, 3: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
     definitions.Status writeBoolean(1: InstanceId instance_id, 2: ValueReferences vr, 3: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-
-    bool canGetAndSetFMUstate(1: InstanceId instance_id);
-    bool canSerializeFMUstate(1: InstanceId instance_id);
 
     GetFmuStateResult getFMUstate(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
     definitions.Status setFMUstate(1: InstanceId instance_id, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)

@@ -172,7 +172,26 @@ struct ModelDescription {
     11: optional DefaultExperiment defaultExperiment,
     12: optional VariableNamingConvention variableNamingConvention,
     13: ModelVariables modelVariables,
+    14: ModelStructure modelStructure
+}
+
+struct CoSimulationModelDescription {
+    1: string guid,
+    2: string fmiVersion,
+    3: string modelName,
+    4: optional string license,
+    5: optional string copyright,
+    6: optional string author,
+    7: optional string version,
+    8: optional string description,
+    9: optional string generationTool,
+    10: optional string generationDateAndTime,
+    11: optional DefaultExperiment defaultExperiment,
+    12: optional VariableNamingConvention variableNamingConvention,
+    13: ModelVariables modelVariables,
     14: ModelStructure modelStructure,
-    15: bool supportsCoSimulation,
-    16: bool supportsModelExchange
+    15: string modelIdentifier,
+    16: bool canGetAndSetFMUstate,
+    17: bool canSerializeFMUstate,
+    18: bool providesDirectionalDerivative
 }

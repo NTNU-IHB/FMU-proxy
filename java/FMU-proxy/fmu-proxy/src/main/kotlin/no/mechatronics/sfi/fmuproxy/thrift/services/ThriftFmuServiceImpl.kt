@@ -29,8 +29,6 @@ import no.mechatronics.sfi.fmi4j.common.RealArray
 import no.mechatronics.sfi.fmi4j.common.StringArray
 import no.mechatronics.sfi.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.mechatronics.sfi.fmuproxy.thrift.*
@@ -55,12 +53,20 @@ class ThriftFmuServiceImpl(
         return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
     }
 
-    override fun getModelDescriptionXml(fmuId: String): String {
-        return getFmu(fmuId).modelDescriptionXml
-    }
+//    override fun getModelDescriptionXml(fmuId: String): String {
+//        return getFmu(fmuId).modelDescriptionXml
+//    }
 
     override fun getModelDescription(fmuId: String): ModelDescription {
         return getFmu(fmuId).modelDescription.thriftType()
+    }
+
+    override fun canCreateInstanceFromCS(fmuId: String): Boolean {
+        return getFmu(fmuId).supportsCoSimulation
+    }
+
+    override fun canCreateInstanceFromME(fmuId: String): Boolean {
+        return getFmu(fmuId).supportsModelExchange
     }
 
     override fun createInstanceFromCS(fmuId: String): String {
@@ -83,9 +89,13 @@ class ThriftFmuServiceImpl(
                 return ApacheSolvers.euler(stepSize)
             }
 
-            val _solver = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
-            FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(_solver))
+            val solver_ = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
+            FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(solver_))
         }
+    }
+
+    override fun getCoSimulationModelDescription(instanceId: String): no.mechatronics.sfi.fmuproxy.thrift.CoSimulationModelDescription {
+        return getSlave(instanceId).modelDescription.thriftType()
     }
 
     override fun init(instanceId: String, startTime: Double, endTime: Double): Status {
@@ -122,7 +132,7 @@ class ThriftFmuServiceImpl(
     override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerRead {
         val values = IntArray(vr.size)
         return getSlave(instanceId).let {
-            val status = it.readInteger(vr.toIntArray(), values).thriftType()
+            val status = it.variableAccessor.readInteger(vr.toLongArray(), values).thriftType()
             IntegerRead(values.toList(), status)
         }
     }
@@ -130,7 +140,7 @@ class ThriftFmuServiceImpl(
     override fun readReal(instanceId: String, vr: List<ValueReference>): RealRead {
         val values = RealArray(vr.size)
         return getSlave(instanceId).let {
-            val status = it.readReal(vr.toIntArray(), values).thriftType()
+            val status = it.variableAccessor.readReal(vr.toLongArray(), values).thriftType()
             RealRead(values.asList(), status)
         }
     }
@@ -138,7 +148,7 @@ class ThriftFmuServiceImpl(
     override fun readString(instanceId: String, vr: List<ValueReference>): StringRead {
         val values = StringArray(vr.size) {""}
         return getSlave(instanceId).let {
-            val status = it.readString(vr.toIntArray(), values).thriftType()
+            val status = it.variableAccessor.readString(vr.toLongArray(), values).thriftType()
             StringRead(values.toList(), status)
         }
     }
@@ -146,7 +156,7 @@ class ThriftFmuServiceImpl(
     override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanRead {
         val values = BooleanArray(vr.size)
         return getSlave(instanceId).let {
-            val status = it.readBoolean(vr.toIntArray(), values).thriftType()
+            val status = it.variableAccessor.readBoolean(vr.toLongArray(), values).thriftType()
             BooleanRead(values.toList(), status)
         }
     }
@@ -154,40 +164,40 @@ class ThriftFmuServiceImpl(
 
     override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): Status {
         return getSlave(instanceId).let {
-            it.writeInteger(vr.toIntArray(), value.toIntArray()).thriftType()
+            it.variableAccessor.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
         }
     }
 
     override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Double>): Status {
         return getSlave(instanceId).let {
-            it.writeReal(vr.toIntArray(), value.toDoubleArray()).thriftType()
+            it.variableAccessor.writeReal(vr.toLongArray(), value.toDoubleArray()).thriftType()
         } 
     }
 
     override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): Status {
         return getSlave(instanceId).let {
-            it.writeString(vr.toIntArray(), value.toTypedArray()).thriftType()
+            it.variableAccessor.writeString(vr.toLongArray(), value.toTypedArray()).thriftType()
         } 
     }
 
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): Status {
         return getSlave(instanceId).let {
-            it.writeBoolean(vr.toIntArray(), value.toBooleanArray()).thriftType()
+            it.variableAccessor.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
         } 
     }
     
-    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
-        return getSlave(instanceId).canGetAndSetFMUstate
-    }
-    
-    override fun canSerializeFMUstate(instanceId: String): Boolean {
-        return getSlave(instanceId).canSerializeFMUstate
-    }
+//    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+//        return getSlave(instanceId).canGetAndSetFMUstate
+//    }
+//
+//    override fun canSerializeFMUstate(instanceId: String): Boolean {
+//        return getSlave(instanceId).canSerializeFMUstate
+//    }
 
     override fun getFMUstate(instanceId: String): GetFmuStateResult {
         return getSlave(instanceId).let {
-            if (!it.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            if (!it.modelDescription.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
             }
             GetFmuStateResult(it.getFMUstate(), it.lastStatus.thriftType())
         }
@@ -195,8 +205,8 @@ class ThriftFmuServiceImpl(
 
     override fun setFMUstate(instanceId: String, state: Long): Status {
         return getSlave(instanceId).let {
-            if (!it.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            if (!it.modelDescription.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
             }
             it.setFMUstate(state)
             it.lastStatus.thriftType()
@@ -205,8 +215,8 @@ class ThriftFmuServiceImpl(
 
     override fun freeFMUstate(instanceId: String, state: Long): Status {
         return getSlave(instanceId).let {
-            if (!it.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            if (!it.modelDescription.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
             }
             it.freeFMUstate(state)
             it.lastStatus.thriftType()
@@ -215,8 +225,8 @@ class ThriftFmuServiceImpl(
 
     override fun serializeFMUstate(instanceId: String, state: Long): SerializeFmuStateResult {
         return getSlave(instanceId).let {
-            if (!it.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+            if (!it.modelDescription.canGetAndSetFMUstate) {
+                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
             }
             val bytes = ByteBuffer.wrap(it.serializeFMUstate(state))
             SerializeFmuStateResult(bytes, it.lastStatus.thriftType())
@@ -225,7 +235,7 @@ class ThriftFmuServiceImpl(
 
     override fun deSerializeFMUstate(instanceId: String, state: ByteBuffer): DeSerializeFmuStateResult {
         return getSlave(instanceId).let {
-            if (!it.canGetAndSetFMUstate) {
+            if (!it.modelDescription.canGetAndSetFMUstate) {
                 throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
             }
             DeSerializeFmuStateResult(it.deSerializeFMUstate(state.array()), it.lastStatus.thriftType())

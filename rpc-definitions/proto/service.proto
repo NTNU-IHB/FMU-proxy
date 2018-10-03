@@ -64,8 +64,8 @@ message GetModelDescriptionRequest {
     string fmu_id = 1;
 }
 
-message GetModelDescriptionXmlRequest {
-    string fmu_id = 1;
+message GetCoSimulationModelDescriptionRequest {
+    string instance_id = 1;
 }
 
 message InitRequest {
@@ -145,14 +145,6 @@ message Bool {
     bool value = 1;
 }
 
-message CanGetAndSetFMUstateRequest {
-    string instance_id = 1;
-}
-
-message CanSerializeFMUstateRequest {
-    string instance_id = 1;
-}
-
 message GetFMUstateRequest {
     string instance_id = 1;
 }
@@ -192,10 +184,21 @@ message DeSerializeFMUstateResponse {
     Status status = 2;
 }
 
+message CanCreateInstanceFromCSRequest {
+    string fmu_id = 1;
+}
+
+message CanCreateInstanceFromMERequest {
+    string fmu_id = 1;
+}
+
 service FmuService {
 
     rpc GetModelDescription(GetModelDescriptionRequest) returns (ModelDescription);
-    rpc GetModelDescriptionXml(GetModelDescriptionXmlRequest) returns (ModelDescriptionXml);
+    rpc GetCoSimulationModelDescription(GetCoSimulationModelDescriptionRequest) returns (CoSimulationModelDescription);
+
+    rpc CanCreateInstanceFromCS(CanCreateInstanceFromCSRequest) returns (Bool);
+    rpc CanCreateInstanceFromME(CanCreateInstanceFromMERequest) returns (Bool);
 
     rpc CreateInstanceFromCS (CreateInstanceFromCSRequest) returns (InstanceId);
     rpc CreateInstanceFromME (CreateInstanceFromMERequest) returns (InstanceId);
@@ -214,9 +217,6 @@ service FmuService {
     rpc WriteReal (WriteRealRequest) returns (StatusResponse);
     rpc WriteString (WriteStringRequest) returns (StatusResponse);
     rpc WriteBoolean (WriteBooleanRequest) returns (StatusResponse);
-
-    rpc CanGetAndSetFMUstate(CanGetAndSetFMUstateRequest) returns (Bool);
-    rpc CanSerializeFMUstate(CanSerializeFMUstateRequest) returns (Bool);
 
     rpc GetFMUstate(GetFMUstateRequest) returns (GetFMUstateResponse);
     rpc SetFMUstate(SetFMUstateRequest) returns (StatusResponse);

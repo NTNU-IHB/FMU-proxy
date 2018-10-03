@@ -49,10 +49,10 @@ class JsonRpcFmuClient(
                 .getResult<ModelDescriptionImpl>()!!
     }
 
-    override val modelDescriptionXml: String by lazy {
-        client.write("$SERVICE.getModelDescriptionXml", RpcParams.listParams(fmuId))
-                .getResult<String>()!!
-    }
+//    override val modelDescriptionXml: String by lazy {
+//        client.write("$SERVICE.getModelDescriptionXml", RpcParams.listParams(fmuId))
+//                .getResult<String>()!!
+//    }
 
     override fun createInstanceFromCS(): String {
         return client.write("$SERVICE.createInstanceFromCS", RpcParams.listParams(fmuId), 2500L)

@@ -58,13 +58,23 @@ class GrpcFmuClient(
         }
     }
 
-    override val modelDescriptionXml: String by lazy {
-        Service.GetModelDescriptionXmlRequest.newBuilder()
+    override val supportsModelExchange: Boolean by lazy {
+        Service.CanCreateInstanceFromCSRequest.newBuilder()
                 .setFmuId(fmuId)
                 .build().let {
-           blockingStub.getModelDescriptionXml(it).xml
+            blockingStub.canCreateInstanceFromCS(it).value
         }
+
     }
+
+    override val supportsCoSimulation: Boolean by lazy {
+        Service.CanCreateInstanceFromMERequest.newBuilder()
+                .setFmuId(fmuId)
+                .build().let {
+                    blockingStub.canCreateInstanceFromME(it).value
+                }
+    }
+
 
     override fun createInstanceFromCS(): String {
         return Service.CreateInstanceFromCSRequest.newBuilder()

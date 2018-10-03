@@ -248,13 +248,14 @@ class ThriftModelDescription(
         get() = modelDescription.modelName
     override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
     override val modelVariables: ModelVariables = modelDescription.modelVariables.convert()
-    override val supportsCoSimulation: Boolean
-        get() = modelDescription.isSupportsCoSimulation
-    override val supportsModelExchange: Boolean
-        get() = modelDescription.isSupportsModelExchange
     override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
+
+    val supportsCoSimulation: Boolean
+        get() = modelDescription.isSupportsCoSimulation
+    val supportsModelExchange: Boolean
+        get() = modelDescription.isSupportsModelExchange
 
 }
 

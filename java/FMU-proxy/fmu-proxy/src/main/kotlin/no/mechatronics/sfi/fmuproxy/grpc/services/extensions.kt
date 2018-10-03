@@ -26,10 +26,16 @@ package no.mechatronics.sfi.fmuproxy.grpc.services
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmuproxy.grpc.Proto
+import no.mechatronics.sfi.fmuproxy.grpc.Service
+
+internal fun Boolean.protoType(): Service.Bool {
+    return Service.Bool.newBuilder().setValue(this).build()
+}
 
 internal fun FmiStatus.protoType(): Proto.Status {
     return when (this) {
@@ -60,8 +66,31 @@ internal fun ModelDescription.protoType(): Proto.ModelDescription {
         generationTool?.also { md.generationTool = it }
         generationDateAndTime?.also { md.generationDateAndTime = it }
 
-        md.supportsCoSimulation = supportsCoSimulation
-        md.supportsModelExchange = supportsModelExchange
+    }.build()
+
+}
+
+internal fun CoSimulationModelDescription.protoType(): Proto.CoSimulationModelDescription {
+
+    return Proto.CoSimulationModelDescription.newBuilder().also { md ->
+
+        md.guid = guid
+        md.modelName = modelName
+        md.fmiVersion = fmiVersion
+        md.modelStructure = modelStructure.protoType()
+        md.addAllModelVariables(modelVariables.map { it.protoType() })
+        license?.also { md.license = it }
+        copyright?.also { md.copyright = it }
+        author?.also { md.author = it }
+        version?.also { md.version = it }
+        license?.also { md.license = it }
+        generationTool?.also { md.generationTool = it }
+        generationDateAndTime?.also { md.generationDateAndTime = it }
+
+        md.modelIdentifier = modelIdentifier
+        md.canGetAndSetFMUstate = canGetAndSetFMUstate
+        md.canSerializeFMUstate = canSerializeFMUstate
+        md.providesDirectionalDerivative = providesDirectionalDerivative
 
     }.build()
 

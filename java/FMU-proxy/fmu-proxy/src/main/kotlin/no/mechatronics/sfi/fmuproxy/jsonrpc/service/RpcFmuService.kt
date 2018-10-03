@@ -135,7 +135,7 @@ class RpcFmuService(
     @RpcMethod
     fun readInteger(instanceId: String, vr: ValueReferences): FmuIntegerArrayRead {
         val values = IntArray(vr.size)
-        return getSlave(instanceId).readInteger(vr, values).let {
+        return getSlave(instanceId).variableAccessor.readInteger(vr, values).let {
             FmuIntegerArrayRead(values, it)
         }
     }
@@ -143,7 +143,7 @@ class RpcFmuService(
     @RpcMethod
     fun readReal(instanceId: String, vr: ValueReferences): FmuRealArrayRead {
         val values = RealArray(vr.size)
-        return getSlave(instanceId).readReal(vr, values).let {
+        return getSlave(instanceId).variableAccessor.readReal(vr, values).let {
             FmuRealArrayRead(values, it)
         }
     }
@@ -151,7 +151,7 @@ class RpcFmuService(
     @RpcMethod
     fun readString(instanceId: String, vr: ValueReferences): FmuStringArrayRead {
         val values = StringArray(vr.size) {""}
-        return getSlave(instanceId).readString(vr, values).let {
+        return getSlave(instanceId).variableAccessor.readString(vr, values).let {
             FmuStringArrayRead(values, it)
         }
     }
@@ -159,35 +159,35 @@ class RpcFmuService(
     @RpcMethod
     fun readBoolean(instanceId: String, vr: ValueReferences): FmuBooleanArrayRead {
         val values = BooleanArray(vr.size)
-        return getSlave(instanceId).readBoolean(vr, values).let {
+        return getSlave(instanceId).variableAccessor.readBoolean(vr, values).let {
             FmuBooleanArrayRead(values, it)
         }
     }
     
     @RpcMethod
     fun writeInteger(instanceId: String, vr: ValueReferences, value: IntArray): FmiStatus {
-        return getSlave(instanceId).writeInteger(vr, value)
+        return getSlave(instanceId).variableAccessor.writeInteger(vr, value)
     }
 
     @RpcMethod
     fun writeReal(instanceId: String, vr: ValueReferences, value: DoubleArray): FmiStatus {
-        return getSlave(instanceId).writeReal(vr, value)
+        return getSlave(instanceId).variableAccessor.writeReal(vr, value)
     }
     
 
     @RpcMethod
     fun writeString(instanceId: String, vr: ValueReferences, value: StringArray): FmiStatus {
-        return getSlave(instanceId).writeString(vr, value)
+        return getSlave(instanceId).variableAccessor.writeString(vr, value)
     }
 
     @RpcMethod
     fun writeBoolean(instanceId: String, vr: ValueReference, value: Boolean): FmiStatus {
-        return getSlave(instanceId).writeBoolean(vr, value)
+        return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 
     @RpcMethod
     fun writeBoolean(instanceId: String, vr: ValueReferences, value: BooleanArray): FmiStatus {
-        return getSlave(instanceId).writeBoolean(vr, value)
+        return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 
     private companion object {

@@ -55,9 +55,9 @@ class ThriftFmuClient(
         client.getModelDescription(fmuId).convert()
     }
 
-    override val modelDescriptionXml: String by lazy {
-        client.getModelDescriptionXml(fmuId)
-    }
+//    override val modelDescriptionXml: String by lazy {
+//        client.getModelDescriptionXml(fmuId)
+//    }
     
     override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
         return client.init(instanceId, start, stop).convert()
@@ -122,13 +122,13 @@ class ThriftFmuClient(
         return client.writeBoolean(instanceId, vr, value).convert()
     }
 
-    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
-        return client.canGetAndSetFMUstate(instanceId)
-    }
-
-    override fun canSerializeFMUstate(instanceId: String): Boolean {
-        return client.canSerializeFMUstate(instanceId)
-    }
+//    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+//        return client.canGetAndSetFMUstate(instanceId)
+//    }
+//
+//    override fun canSerializeFMUstate(instanceId: String): Boolean {
+//        return client.canSerializeFMUstate(instanceId)
+//    }
 
     override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
         return client.deSerializeFMUstate(instanceId, ByteBuffer.wrap(state)).let {

@@ -58,12 +58,17 @@ class GrpcFmuServiceImpl(
         }
     }
 
-    override fun getModelDescriptionXml(request: Service.GetModelDescriptionXmlRequest, responseObserver: StreamObserver<Service.ModelDescriptionXml>) {
+    override fun canCreateInstanceFromCS(request: Service.CanCreateInstanceFromCSRequest, responseObserver: StreamObserver<Service.Bool>) {
         getFmu(request.fmuId, responseObserver) {
-            Service.ModelDescriptionXml.newBuilder().setXml(modelDescriptionXml).also {
-                responseObserver.onNext(it.build())
-                responseObserver.onCompleted()
-            }
+            responseObserver.onNext(supportsCoSimulation.protoType())
+            responseObserver.onCompleted()
+        }
+    }
+
+    override fun canCreateInstanceFromME(request: Service.CanCreateInstanceFromMERequest, responseObserver: StreamObserver<Service.Bool>) {
+        getFmu(request.fmuId, responseObserver) {
+            responseObserver.onNext(supportsModelExchange.protoType())
+            responseObserver.onCompleted()
         }
     }
 
@@ -105,13 +110,20 @@ class GrpcFmuServiceImpl(
             }
         }
     }
+
+    override fun getCoSimulationModelDescription(request: Service.GetCoSimulationModelDescriptionRequest, responseObserver: StreamObserver<Proto.CoSimulationModelDescription>) {
+        getSlave(request.instanceId, responseObserver) {
+            responseObserver.onNext(modelDescription.protoType())
+            responseObserver.onCompleted()
+        }
+    }
     
     override fun readInteger(request: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
        
         getSlave(request.instanceId, responseObserver) {
-            val vr = request.valueReferencesList.toIntArray()
+            val vr = request.valueReferencesList.toLongArray()
             val values = IntArray(vr.size)
-            val status = readInteger(vr, values)
+            val status = variableAccessor.readInteger(vr, values)
             Service.IntegerRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -122,9 +134,9 @@ class GrpcFmuServiceImpl(
 
     override fun readReal(request: Service.ReadRequest, responseObserver: StreamObserver<Service.RealRead>) {
         getSlave(request.instanceId, responseObserver) {
-            val vr = request.valueReferencesList.toIntArray()
+            val vr = request.valueReferencesList.toLongArray()
             val values = RealArray(vr.size)
-            val status = readReal(vr, values)
+            val status = variableAccessor.readReal(vr, values)
             Service.RealRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -135,9 +147,9 @@ class GrpcFmuServiceImpl(
 
     override fun readString(request: Service.ReadRequest, responseObserver: StreamObserver<Service.StringRead>) {
         getSlave(request.instanceId, responseObserver) {
-            val vr = request.valueReferencesList.toIntArray()
+            val vr = request.valueReferencesList.toLongArray()
             val values = StringArray(vr.size) {""}
-            val status = readString(vr, values)
+            val status = variableAccessor.readString(vr, values)
             Service.StringRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -148,9 +160,9 @@ class GrpcFmuServiceImpl(
 
     override fun readBoolean(request: Service.ReadRequest, responseObserver: StreamObserver<Service.BooleanRead>) {
         getSlave(request.instanceId, responseObserver) {
-            val vr = request.valueReferencesList.toIntArray()
+            val vr = request.valueReferencesList.toLongArray()
             val values = BooleanArray(vr.size)
-            val status = readBoolean(vr, values)
+            val status = variableAccessor.readBoolean(vr, values)
             Service.BooleanRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -161,28 +173,28 @@ class GrpcFmuServiceImpl(
 
     override fun writeInteger(request: Service.WriteIntegerRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeInteger(request.valueReferencesList.toIntArray(), request.valuesList.toIntArray())
+            val status = variableAccessor.writeInteger(request.valueReferencesList.toLongArray(), request.valuesList.toIntArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeReal(request: Service.WriteRealRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeReal(request.valueReferencesList.toIntArray(), request.valuesList.toDoubleArray())
+            val status = variableAccessor.writeReal(request.valueReferencesList.toLongArray(), request.valuesList.toDoubleArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeString(request: Service.WriteStringRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeString(request.valueReferencesList.toIntArray(), request.valuesList.toTypedArray())
+            val status = variableAccessor.writeString(request.valueReferencesList.toLongArray(), request.valuesList.toTypedArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeBoolean(request: Service.WriteBooleanRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeBoolean(request.valueReferencesList.toIntArray(), request.valuesList.toBooleanArray())
+            val status = variableAccessor.writeBoolean(request.valueReferencesList.toLongArray(), request.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
         }
     }
@@ -192,7 +204,7 @@ class GrpcFmuServiceImpl(
             val start = request.start
             val stop = request.stop
             val hasStart = start > 0
-            val hasStop = stop > 0 && stop > start
+            val hasStop = stop > start
             if (hasStart && hasStop) {
                 init(start, stop)
             } else if (hasStart) {
@@ -235,27 +247,9 @@ class GrpcFmuServiceImpl(
         }
     }
 
-    override fun canGetAndSetFMUstate(request: Service.CanGetAndSetFMUstateRequest, responseObserver: StreamObserver<Service.Bool>) {
-        getSlave(request.instanceId, responseObserver) {
-            Service.Bool.newBuilder().setValue(canGetAndSetFMUstate).also {
-                responseObserver.onNext(it.build())
-                responseObserver.onCompleted()
-            }
-        }
-    }
-
-    override fun canSerializeFMUstate(request: Service.CanSerializeFMUstateRequest, responseObserver: StreamObserver<Service.Bool>) {
-        getSlave(request.instanceId, responseObserver) {
-            Service.Bool.newBuilder().setValue(canSerializeFMUstate).also {
-                responseObserver.onNext(it.build())
-                responseObserver.onCompleted()
-            }
-        }
-    }
-
     override fun getFMUstate(request: Service.GetFMUstateRequest, responseObserver: StreamObserver<Service.GetFMUstateResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!canGetAndSetFMUstate) {
+            if (!modelDescription.canGetAndSetFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
             } else {
 
@@ -272,7 +266,7 @@ class GrpcFmuServiceImpl(
 
     override fun setFMUstate(request: Service.SetFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!canGetAndSetFMUstate) {
+            if (!modelDescription.canGetAndSetFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
             } else {
 
@@ -285,7 +279,7 @@ class GrpcFmuServiceImpl(
 
     override fun freeFMUstate(request: Service.FreeFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!canGetAndSetFMUstate) {
+            if (!modelDescription.canGetAndSetFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
             } else {
 
@@ -298,7 +292,7 @@ class GrpcFmuServiceImpl(
 
     override fun serializeFMUstate(request: Service.SerializeFMUstateRequest, responseObserver: StreamObserver<Service.SerializeFMUstateResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!canSerializeFMUstate) {
+            if (!modelDescription.canSerializeFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
             } else {
 
@@ -316,7 +310,7 @@ class GrpcFmuServiceImpl(
     override fun deSerializeFMUstate(request: Service.DeSerializeFMUstateRequest, responseObserver: StreamObserver<Service.DeSerializeFMUstateResponse>) {
         getSlave(request.instanceId, responseObserver) {
 
-            if (!canSerializeFMUstate) {
+            if (!modelDescription.canSerializeFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
             } else {
 
