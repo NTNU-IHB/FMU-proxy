@@ -73,8 +73,8 @@ class TestGrpcCS {
 
     @Test
     fun testFMUSupportedTypes() {
-        Assertions.assertFalse(client.supportsModelExchange)
-        Assertions.assertTrue(client.supportsCoSimulation)
+        Assertions.assertFalse(client.canCreateInstanceFromME)
+        Assertions.assertTrue(client.canCreateInstanceFromCS)
     }
 
     @Test
@@ -89,7 +89,7 @@ class TestGrpcCS {
             val stop = 2.0
             val stepSize = 1E-2
             runInstance(slave, stepSize, stop) {
-                variable.read()
+                variable.read(slave)
             }.also {
                 LOG.info("Duration: ${it}ms")
             }

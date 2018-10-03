@@ -32,6 +32,7 @@ import no.mechatronics.sfi.fmi4j.common.FmuSlave
 import no.mechatronics.sfi.fmi4j.common.RealArray
 import no.mechatronics.sfi.fmi4j.common.StringArray
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.grpc.*
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
@@ -100,20 +101,22 @@ class GrpcFmuServiceImpl(
                     return ApacheSolvers.euler(stepSize)
                 }
 
-                val solver = parseSolver(request.solver.name, request.solver.settings) ?: selectDefaultIntegrator()
-                FmuSlaves.put(asModelExchangeFmu().newInstance(solver)).also { id ->
-                    Service.InstanceId.newBuilder().setValue(id).also {
-                        responseObserver.onNext(it.build())
-                        responseObserver.onCompleted()
+                (parseSolver(request.solver.name, request.solver.settings) ?: selectDefaultIntegrator()).let {
+                    FmuSlaves.put(asModelExchangeFmu().newInstance(it)).also { id ->
+                        Service.InstanceId.newBuilder().setValue(id).also {
+                            responseObserver.onNext(it.build())
+                            responseObserver.onCompleted()
+                        }
                     }
                 }
+
             }
         }
     }
 
-    override fun getCoSimulationModelDescription(request: Service.GetCoSimulationModelDescriptionRequest, responseObserver: StreamObserver<Proto.CoSimulationModelDescription>) {
+    override fun getCoSimulationAttributes(request: Service.GetCoSimulationAttributesRequest, responseObserver: StreamObserver<Proto.CoSimulationAttributes>) {
         getSlave(request.instanceId, responseObserver) {
-            responseObserver.onNext(modelDescription.protoType())
+            responseObserver.onNext((modelDescription as CoSimulationAttributes).protoType())
             responseObserver.onCompleted()
         }
     }

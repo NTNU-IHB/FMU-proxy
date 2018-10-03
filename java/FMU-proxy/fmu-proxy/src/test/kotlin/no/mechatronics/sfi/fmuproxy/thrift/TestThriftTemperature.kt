@@ -48,8 +48,8 @@ class TestThriftTemperature {
 
     @Test
     fun testFMUSupportedTypes() {
-        Assertions.assertFalse(client.supportsModelExchange)
-        Assertions.assertTrue(client.supportsCoSimulation)
+        Assertions.assertFalse(client.canCreateInstanceFromME)
+        Assertions.assertTrue(client.canCreateInstanceFromCS)
     }
 
     @Test
@@ -63,7 +63,7 @@ class TestThriftTemperature {
             val stop = 2.0
             val stepSize = 1E-4
             runInstance(slave, stepSize, stop) {
-                temp.read()
+                temp.read(slave)
             }.also {
                 LOG.info("Duration: ${it}ms")
             }

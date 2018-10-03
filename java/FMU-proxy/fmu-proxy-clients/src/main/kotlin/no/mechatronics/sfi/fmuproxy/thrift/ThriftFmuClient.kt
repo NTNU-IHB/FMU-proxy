@@ -25,6 +25,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
@@ -55,10 +56,26 @@ class ThriftFmuClient(
         client.getModelDescription(fmuId).convert()
     }
 
-//    override val modelDescriptionXml: String by lazy {
-//        client.getModelDescriptionXml(fmuId)
-//    }
-    
+    override val canCreateInstanceFromCS: Boolean by lazy {
+        client.canCreateInstanceFromCS(fmuId)
+    }
+
+    override val canCreateInstanceFromME: Boolean by lazy {
+        client.canCreateInstanceFromME(fmuId)
+    }
+
+    override fun createInstanceFromCS(): String {
+        return client.createInstanceFromCS(fmuId)
+    }
+
+    override fun createInstanceFromME(solver: Solver): String {
+        return client.createInstanceFromME(fmuId, solver.thriftType())
+    }
+
+    override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
+        return client.getCoSimulationAttributes(instanceId).convert();
+    }
+
     override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
         return client.init(instanceId, start, stop).convert()
     }
@@ -75,14 +92,6 @@ class ThriftFmuClient(
 
     override fun reset(instanceId: String): FmiStatus {
         return client.reset(instanceId).convert()
-    }
-
-    override fun createInstanceFromCS(): String {
-        return client.createInstanceFromCS(fmuId)
-    }
-
-    override fun createInstanceFromME(solver: Solver): String {
-        return client.createInstanceFromME(fmuId, solver.thriftType())
     }
 
     override fun close() {

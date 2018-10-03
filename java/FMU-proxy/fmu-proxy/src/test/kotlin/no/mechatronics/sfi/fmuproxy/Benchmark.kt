@@ -55,7 +55,7 @@ class Benchmark {
 
         fmu.asCoSimulationFmu().newInstance().use { instance ->
             runInstance(instance, stepSize, stop) {
-                val read = instance.readReal("Temperature_Room")
+                val read = instance.variableAccessor.readReal("Temperature_Room")
                 Assertions.assertEquals(FmiStatus.OK, read.status)
                 Assertions.assertTrue(read.value > 0)
             }.also {
@@ -73,7 +73,7 @@ class Benchmark {
             val client = ThriftFmuClient.socketClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
                 runInstance(instance, stepSize, stop) {
-                    val read = instance.readReal("Temperature_Room")
+                    val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
                     LOG.info("Thrift/tcp duration=${it}ms")
@@ -103,7 +103,7 @@ class Benchmark {
             val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
                 runInstance(instance, stepSize, 1.0) {
-                    val read = instance.readReal("Temperature_Room")
+                    val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
                     LOG.info("Thrift/http duration=${it}ms")
@@ -122,7 +122,7 @@ class Benchmark {
             val client = GrpcFmuClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
                 runInstance(instance, stepSize, stop) {
-                    val read = instance.readReal("Temperature_Room")
+                    val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
                     LOG.info("gRPC duration=${it}ms")
@@ -167,9 +167,9 @@ class Benchmark {
         clients.forEach {
 
             it.use { client ->
-                client.newInstance().use { instance ->
-                    runInstance(instance, stepSize, stop) {
-                        val read = instance.readReal("Temperature_Room")
+                client.newInstance().use { slave ->
+                    runInstance(slave, stepSize, stop) {
+                        val read = slave.variableAccessor.readReal("Temperature_Room")
                         Assertions.assertTrue(read.value > 0)
                     }.also {
                         LOG.info("${client.implementationName} duration=${it}ms")

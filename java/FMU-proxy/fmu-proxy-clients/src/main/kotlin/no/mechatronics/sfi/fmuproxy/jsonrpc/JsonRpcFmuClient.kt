@@ -27,6 +27,8 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc
 import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributesImpl
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
@@ -49,18 +51,31 @@ class JsonRpcFmuClient(
                 .getResult<ModelDescriptionImpl>()!!
     }
 
-//    override val modelDescriptionXml: String by lazy {
-//        client.write("$SERVICE.getModelDescriptionXml", RpcParams.listParams(fmuId))
-//                .getResult<String>()!!
-//    }
+    val modelDescriptionXml: String by lazy {
+        client.write("$SERVICE.getModelDescriptionXml", RpcParams.listParams(fmuId))
+                .getResult<String>()!!
+    }
+
+    override val canCreateInstanceFromCS: Boolean
+        get() = client.write("$SERVICE.canCreateInstanceFromCS", RpcParams.listParams(fmuId))
+                .getResult<Boolean>()!!
+
+    override val canCreateInstanceFromME: Boolean
+        get() = client.write("$SERVICE.canCreateInstanceFromME", RpcParams.listParams(fmuId))
+                .getResult<Boolean>()!!
+
+    override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
+        return client.write("$SERVICE.getCoSimulationAttributes", RpcParams.listParams(instanceId))
+                .getResult<CoSimulationAttributesImpl>()!!
+    }
 
     override fun createInstanceFromCS(): String {
-        return client.write("$SERVICE.createInstanceFromCS", RpcParams.listParams(fmuId), 2500L)
+        return client.write("$SERVICE.createInstanceFromCS", RpcParams.listParams(fmuId), timeOut = 2500L)
                 .getResult<String>()!!
     }
 
     override fun createInstanceFromME(solver: Solver): String {
-        return client.write("$SERVICE.createInstanceFromME", RpcParams.listParams(fmuId, solver))
+        return client.write("$SERVICE.createInstanceFromME", RpcParams.listParams(fmuId, solver), timeOut = 2500L)
                 .getResult<String>()!!
     }
 
@@ -138,14 +153,6 @@ class JsonRpcFmuClient(
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
         return client.write("$SERVICE.writeBoolean", RpcParams.listParams(instanceId, vr, value))
                 .getResult<FmiStatus>()!!
-    }
-
-    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun canSerializeFMUstate(instanceId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {

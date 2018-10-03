@@ -64,7 +64,7 @@ message GetModelDescriptionRequest {
     string fmu_id = 1;
 }
 
-message GetCoSimulationModelDescriptionRequest {
+message GetCoSimulationAttributesRequest {
     string instance_id = 1;
 }
 
@@ -194,11 +194,11 @@ message CanCreateInstanceFromMERequest {
 
 service FmuService {
 
-    rpc GetModelDescription(GetModelDescriptionRequest) returns (ModelDescription);
-    rpc GetCoSimulationModelDescription(GetCoSimulationModelDescriptionRequest) returns (CoSimulationModelDescription);
+    rpc GetModelDescription (GetModelDescriptionRequest) returns (ModelDescription);
+    rpc GetCoSimulationAttributes (GetCoSimulationAttributesRequest) returns (CoSimulationAttributes);
 
-    rpc CanCreateInstanceFromCS(CanCreateInstanceFromCSRequest) returns (Bool);
-    rpc CanCreateInstanceFromME(CanCreateInstanceFromMERequest) returns (Bool);
+    rpc CanCreateInstanceFromCS (CanCreateInstanceFromCSRequest) returns (Bool);
+    rpc CanCreateInstanceFromME (CanCreateInstanceFromMERequest) returns (Bool);
 
     rpc CreateInstanceFromCS (CreateInstanceFromCSRequest) returns (InstanceId);
     rpc CreateInstanceFromME (CreateInstanceFromMERequest) returns (InstanceId);

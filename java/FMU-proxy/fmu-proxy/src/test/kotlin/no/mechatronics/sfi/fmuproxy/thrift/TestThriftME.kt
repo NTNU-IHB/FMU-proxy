@@ -51,8 +51,8 @@ class TestThriftME {
 
     @Test
     fun testFMUSupportedTypes() {
-        Assertions.assertTrue(client.supportsModelExchange)
-        Assertions.assertFalse(client.supportsCoSimulation)
+        Assertions.assertTrue(client.canCreateInstanceFromME)
+        Assertions.assertFalse(client.canCreateInstanceFromCS)
     }
 
     @Test
@@ -70,18 +70,18 @@ class TestThriftME {
             val variableName = "x0"
             val variable = slave.getVariableByName(variableName).asRealVariable()
 
-            variable.read().also {
+            variable.read(slave).also {
                 LOG.info("$variableName=${it.value}")
                 Assertions.assertEquals(2.0, it.value)
             }
 
             val stop = 2.0
             val stepSize = 1E-2
-            while (slave.simulationTime < stop) {
+            while (slave.simulationTime <= stop) {
                 val step = slave.doStep(stepSize)
                 Assertions.assertTrue(step)
 
-                LOG.info("$variableName=${variable.read()}")
+                LOG.info("$variableName=${variable.read(slave)}")
 
             }
 

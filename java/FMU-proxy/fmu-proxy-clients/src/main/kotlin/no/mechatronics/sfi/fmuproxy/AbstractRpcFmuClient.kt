@@ -25,35 +25,27 @@
 package no.mechatronics.sfi.fmuproxy
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.importer.IFmu
 import no.mechatronics.sfi.fmi4j.importer.misc.FmuVariableAccessorImpl
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.Closeable
 
 
 abstract class AbstractRpcFmuClient(
         val fmuId: String
-): Closeable {
+): IFmu {
 
     val fmiVersion: String
         get() = modelDescription.fmiVersion
 
-    val guid: String
-        get() = modelDescription.guid
-
-    val modelName: String
-        get() = modelDescription.modelName
-
-    abstract val supportsModelExchange: Boolean
-    abstract val supportsCoSimulation: Boolean
-
-    abstract val modelDescription: ModelDescription
-    abstract val coSimulationModelDescription: CoSimulationModelDescription
+    abstract val canCreateInstanceFromCS: Boolean
+    abstract val canCreateInstanceFromME: Boolean
 
     protected abstract fun createInstanceFromCS(): String
     protected abstract fun createInstanceFromME(solver: Solver): String
+
+    protected abstract fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes
 
     protected abstract fun init(instanceId: String, start: Double, stop: Double): FmiStatus
     protected abstract fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus>
@@ -69,9 +61,6 @@ abstract class AbstractRpcFmuClient(
     internal abstract fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus
     internal abstract fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus
     internal abstract fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
-
-    internal abstract fun canGetAndSetFMUstate(instanceId: String): Boolean
-    internal abstract fun canSerializeFMUstate(instanceId: String): Boolean
 
     internal abstract fun getFMUstate(instanceId: String):  Pair<FmuState, FmiStatus>
     internal abstract fun setFMUstate(instanceId: String, state: FmuState): FmiStatus
@@ -109,8 +98,6 @@ abstract class AbstractRpcFmuClient(
         }
     }
 
-
-
     inner class FmuInstance(
             private val instanceId: String
     ): FmuSlave  {
@@ -124,11 +111,17 @@ abstract class AbstractRpcFmuClient(
         override var simulationTime: Double = 0.0
         override var lastStatus = FmiStatus.NONE
 
-        override val modelDescription
-            get() = this@AbstractRpcFmuClient.coSimulationModelDescription
+        override val modelDescription by lazy {
+            CoSimulationModelDescriptionImpl(
+                    this@AbstractRpcFmuClient.modelDescription,
+                    getCoSimulationAttributes(instanceId)
+            )
+        }
 
         override val variableAccessor: FmuVariableAccessor by lazy {
-            FmuVariableAccessorImpl(RemoteVariableAccessor()) {modelDescription.modelVariables.getByName(it).valueReference}
+            FmuVariableAccessorImpl(RemoteVariableAccessor()) {
+                modelDescription.getVariableByName(it).valueReference
+            }
         }
 
         override fun init() = init(0.0)

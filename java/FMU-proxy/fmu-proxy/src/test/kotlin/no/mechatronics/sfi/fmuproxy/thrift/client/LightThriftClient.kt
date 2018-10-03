@@ -54,9 +54,9 @@ class LightThriftClient(
         client = FmuService.Client(TBinaryProtocol(transport))
     }
 
-    val modelDescriptionXml: String by lazy {
-        client.getModelDescriptionXml(fmuId)
-    }
+//    val modelDescriptionXml: String by lazy {
+//        client.getModelDescriptionXml(fmuId)
+//    }
 
     val modelDescription: ModelDescription by lazy {
         client.getModelDescription(fmuId)

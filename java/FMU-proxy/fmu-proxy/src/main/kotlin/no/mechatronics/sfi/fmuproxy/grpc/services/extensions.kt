@@ -25,8 +25,8 @@
 package no.mechatronics.sfi.fmuproxy.grpc.services
 
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -70,27 +70,18 @@ internal fun ModelDescription.protoType(): Proto.ModelDescription {
 
 }
 
-internal fun CoSimulationModelDescription.protoType(): Proto.CoSimulationModelDescription {
+internal fun CoSimulationAttributes.protoType(): Proto.CoSimulationAttributes {
 
-    return Proto.CoSimulationModelDescription.newBuilder().also { md ->
+    return Proto.CoSimulationAttributes.newBuilder().also { a ->
 
-        md.guid = guid
-        md.modelName = modelName
-        md.fmiVersion = fmiVersion
-        md.modelStructure = modelStructure.protoType()
-        md.addAllModelVariables(modelVariables.map { it.protoType() })
-        license?.also { md.license = it }
-        copyright?.also { md.copyright = it }
-        author?.also { md.author = it }
-        version?.also { md.version = it }
-        license?.also { md.license = it }
-        generationTool?.also { md.generationTool = it }
-        generationDateAndTime?.also { md.generationDateAndTime = it }
+        a.canHandleVariableCommunicationStepSize = canHandleVariableCommunicationStepSize
+        a.canInterpolateInputs = canInterpolateInputs
+        a.maxOutputDerivativeOrder = maxOutputDerivativeOrder
 
-        md.modelIdentifier = modelIdentifier
-        md.canGetAndSetFMUstate = canGetAndSetFMUstate
-        md.canSerializeFMUstate = canSerializeFMUstate
-        md.providesDirectionalDerivative = providesDirectionalDerivative
+        a.modelIdentifier = modelIdentifier
+        a.canGetAndSetFMUstate = canGetAndSetFMUstate
+        a.canSerializeFMUstate = canSerializeFMUstate
+        a.providesDirectionalDerivative = providesDirectionalDerivative
 
     }.build()
 

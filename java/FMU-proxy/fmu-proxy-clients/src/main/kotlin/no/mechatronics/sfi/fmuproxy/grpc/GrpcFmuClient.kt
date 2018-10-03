@@ -27,8 +27,8 @@ package no.mechatronics.sfi.fmuproxy.grpc
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.Solver
 
@@ -58,7 +58,7 @@ class GrpcFmuClient(
         }
     }
 
-    override val supportsModelExchange: Boolean by lazy {
+    override val canCreateInstanceFromCS: Boolean by lazy {
         Service.CanCreateInstanceFromCSRequest.newBuilder()
                 .setFmuId(fmuId)
                 .build().let {
@@ -67,14 +67,13 @@ class GrpcFmuClient(
 
     }
 
-    override val supportsCoSimulation: Boolean by lazy {
+    override val canCreateInstanceFromME: Boolean by lazy {
         Service.CanCreateInstanceFromMERequest.newBuilder()
                 .setFmuId(fmuId)
                 .build().let {
                     blockingStub.canCreateInstanceFromME(it).value
                 }
     }
-
 
     override fun createInstanceFromCS(): String {
         return Service.CreateInstanceFromCSRequest.newBuilder()
@@ -93,6 +92,13 @@ class GrpcFmuClient(
                 }
     }
 
+    override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
+        return Service.GetCoSimulationAttributesRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .build().let {
+                    blockingStub.getCoSimulationAttributes(it).convert()
+                }
+    }
 
     override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
         return Service.InitRequest.newBuilder()
@@ -186,21 +192,21 @@ class GrpcFmuClient(
                 }
     }
 
-    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
-       return Service.CanGetAndSetFMUstateRequest.newBuilder()
-               .setInstanceId(instanceId)
-               .build().let {
-                   blockingStub.canGetAndSetFMUstate(it).value
-               }
-    }
-
-    override fun canSerializeFMUstate(instanceId: String): Boolean {
-        return Service.CanSerializeFMUstateRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .build().let {
-                    blockingStub.canSerializeFMUstate(it).value
-                }
-    }
+//    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
+//       return Service.CanGetAndSetFMUstateRequest.newBuilder()
+//               .setInstanceId(instanceId)
+//               .build().let {
+//                   blockingStub.canGetAndSetFMUstate(it).value
+//               }
+//    }
+//
+//    override fun canSerializeFMUstate(instanceId: String): Boolean {
+//        return Service.CanSerializeFMUstateRequest.newBuilder()
+//                .setInstanceId(instanceId)
+//                .build().let {
+//                    blockingStub.canSerializeFMUstate(it).value
+//                }
+//    }
 
     override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
         return Service.DeSerializeFMUstateRequest.newBuilder()

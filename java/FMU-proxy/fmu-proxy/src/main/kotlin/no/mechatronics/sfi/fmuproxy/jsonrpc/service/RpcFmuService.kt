@@ -28,13 +28,14 @@ import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmuproxy.InstanceId
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
 
 class StepResult(
         val status: FmiStatus,
@@ -61,7 +62,7 @@ class RpcFmuService(
         return fmus[id] ?: throw IllegalArgumentException("No FMU with id=$id")
     }
 
-    private fun getSlave(id: String): FmuSlave {
+    private fun getSlave(id: InstanceId): FmuSlave {
         return FmuSlaves[id] ?: throw IllegalArgumentException("No slave with id=$id")
     }
 
@@ -73,6 +74,16 @@ class RpcFmuService(
     @RpcMethod
     fun getModelDescriptionXml(fmuId: String): String {
         return getFmu(fmuId).modelDescriptionXml
+    }
+
+    @RpcMethod
+    fun canCreateInstanceFromCS(fmuId: String): Boolean {
+        return getFmu(fmuId).supportsCoSimulation
+    }
+
+    @RpcMethod
+    fun canCreateInstanceFromME(fmuId: String): Boolean {
+        return getFmu(fmuId).supportsModelExchange
     }
 
     @RpcMethod
@@ -91,8 +102,16 @@ class RpcFmuService(
                 return ApacheSolvers.euler(stepSize)
             }
 
-            val _solver = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
-            FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(_solver))
+            (parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()).let {
+                FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it))
+            }
+        }
+    }
+
+    @RpcMethod
+    fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes {
+        return getSlave(instanceId).let {
+            it.modelDescription.attributes
         }
     }
 

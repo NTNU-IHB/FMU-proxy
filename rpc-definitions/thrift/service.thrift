@@ -70,36 +70,35 @@ struct DeSerializeFmuStateResult {
 
 service FmuService {
 
+    definitions.ModelDescription getModelDescription(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    definitions.CoSimulationAttributes getCoSimulationAttributes(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
 
-    definitions.ModelDescription getModelDescription(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
-    definitions.CoSimulationModelDescription getCoSimulationModelDescription(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex)
+    bool canCreateInstanceFromCS(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    bool canCreateInstanceFromME(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
 
-    bool canCreateInstanceFromCS(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
-    bool canCreateInstanceFromME(1: FmuId fmu_id) throws (1: NoSuchFmuException ex)
+    InstanceId createInstanceFromCS(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
+    InstanceId createInstanceFromME(1: FmuId fmuId, 2: definitions.Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
 
-    InstanceId createInstanceFromCS(1: FmuId fmu_id) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
-    InstanceId createInstanceFromME(1: FmuId fmu_id, 2: definitions.Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
+    definitions.Status init(1: InstanceId instanceId, 2: double start, 3: double stop) throws (1: NoSuchInstanceException ex)
+    definitions.StepResult step(1: InstanceId instanceId, 2: double stepSize) throws (1: NoSuchInstanceException ex)
+    definitions.Status reset(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    definitions.Status terminate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
 
-    definitions.Status init(1: InstanceId instance_id, 2: double start, 3: double stop) throws (1: NoSuchInstanceException ex)
-    definitions.StepResult step(1: InstanceId instance_id, 2: double step_size) throws (1: NoSuchInstanceException ex)
-    definitions.Status reset(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex)
-    definitions.Status terminate(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex)
+    definitions.IntegerRead readInteger(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.RealRead readReal(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.StringRead readString(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.BooleanRead readBoolean(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
 
-    definitions.IntegerRead readInteger(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    definitions.RealRead readReal(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    definitions.StringRead readString(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    definitions.BooleanRead readBoolean(1: InstanceId instance_id, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeInteger(1: InstanceId instanceId, 2: ValueReferences vr, 3: IntArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeReal(1: InstanceId instanceId, 2: ValueReferences vr, 3: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeString(1: InstanceId instanceId, 2: ValueReferences vr, 3: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    definitions.Status writeBoolean(1: InstanceId instanceId, 2: ValueReferences vr, 3: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
 
-    definitions.Status writeInteger(1: InstanceId instance_id, 2: ValueReferences vr, 3: IntArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    definitions.Status writeReal(1: InstanceId instance_id, 2: ValueReferences vr, 3: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    definitions.Status writeString(1: InstanceId instance_id, 2: ValueReferences vr, 3: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    definitions.Status writeBoolean(1: InstanceId instance_id, 2: ValueReferences vr, 3: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    GetFmuStateResult getFMUstate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
+    definitions.Status setFMUstate(1: InstanceId instanceId, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
+    definitions.Status freeFMUstate(1: InstanceId instanceId, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
 
-    GetFmuStateResult getFMUstate(1: InstanceId instance_id) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-    definitions.Status setFMUstate(1: InstanceId instance_id, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-    definitions.Status freeFMUstate(1: InstanceId instance_id, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-
-    SerializeFmuStateResult serializeFMUstate(1: InstanceId instance_id, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-    DeSerializeFmuStateResult deSerializeFMUstate(1: InstanceId instance_id, 2: binary state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
+    SerializeFmuStateResult serializeFMUstate(1: InstanceId instanceId, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
+    DeSerializeFmuStateResult deSerializeFMUstate(1: InstanceId instanceId, 2: binary state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
 
 }

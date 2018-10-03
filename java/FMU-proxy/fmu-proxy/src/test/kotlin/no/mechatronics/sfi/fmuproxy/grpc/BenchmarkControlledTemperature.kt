@@ -48,7 +48,7 @@ class BenchmarkControlledTemperature {
                 "FMI_2.0/CoSimulation/$currentOS" +
                         "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
-            val vr = intArrayOf(46)
+            val vr = longArrayOf(46)
             val buffer = RealArray(vr.size)
             GrpcFmuServer(fmu).use { server ->
                 val port = server.start()
@@ -57,7 +57,7 @@ class BenchmarkControlledTemperature {
 
                         client.newInstance().use { slave ->
                             runInstance(slave, stepSize, stop) {
-                                val status = slave.readReal(vr, buffer)
+                                val status = slave.variableAccessor.readReal(vr, buffer)
                                 Assertions.assertEquals(FmiStatus.OK, status)
                                 Assertions.assertTrue(buffer[0] > 0)
                             }.also {
@@ -86,7 +86,7 @@ class BenchmarkControlledTemperature {
                 GrpcFmuClient(guid, host, port).use { client ->
                     client.newInstance().use { slave ->
                         runInstance(slave, stepSize, stop) {
-                            val read = slave.readReal(46)
+                            val read = slave.variableAccessor.readReal(46)
                             Assertions.assertTrue(read.value > 0)
                         }.also {
                             LOG.info("gRPC remote duration=${it}ms")

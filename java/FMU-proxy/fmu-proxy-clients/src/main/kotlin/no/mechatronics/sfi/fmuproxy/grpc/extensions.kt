@@ -25,10 +25,9 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import no.mechatronics.sfi.fmi4j.common.*
+import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
-import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.*
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
@@ -220,7 +219,36 @@ internal fun Proto.ModelDescription.convert(): ModelDescription {
     return GrpcModelDescription(this)
 }
 
-internal fun Proto.CoSimulationModelDescription.convert(): CoSimulationModelDescription {
+internal fun Proto.CoSimulationAttributes.convert(): CoSimulationAttributes {
+
+    return object: CoSimulationAttributes {
+
+        override val canBeInstantiatedOnlyOncePerProcess: Boolean
+            get() = false
+        override val canGetAndSetFMUstate: Boolean
+            get() = this@convert.canGetAndSetFMUstate
+        override val canNotUseMemoryManagementFunctions: Boolean
+            get() = false
+        override val canSerializeFMUstate: Boolean
+            get() = this@convert.canSerializeFMUstate
+        override val modelIdentifier: String
+            get() = this@convert.modelIdentifier
+        override val needsExecutionTool: Boolean
+            get() = false
+        override val providesDirectionalDerivative: Boolean
+            get() = this@convert.providesDirectionalDerivative
+        override val sourceFiles: List<SourceFile>
+            get() = emptyList()
+
+        override val canHandleVariableCommunicationStepSize: Boolean
+            get() = this@convert.canHandleVariableCommunicationStepSize
+        override val canInterpolateInputs: Boolean
+            get() = this@convert.canInterpolateInputs
+        override val canRunAsynchronuously: Boolean
+            get() = false
+        override val maxOutputDerivativeOrder: Int
+            get() = this@convert.maxOutputDerivativeOrder
+    }
 
 }
 

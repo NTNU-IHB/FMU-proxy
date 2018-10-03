@@ -25,20 +25,14 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.cs.CoSimulationModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
-import no.mechatronics.sfi.fmi4j.modeldescription.me.ModelExchangeModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.SourceFile
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.BooleanAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.EnumerationAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.IntegerAttribute
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.RealAttribute
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.StringAttribute
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.Solver
 
@@ -217,6 +211,38 @@ internal fun ModelDescription.convert(): no.mechatronics.sfi.fmi4j.modeldescript
     return ThriftModelDescription(this)
 }
 
+internal fun CoSimulationAttributes.convert(): no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes {
+
+    return object :no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes {
+
+        override val canBeInstantiatedOnlyOncePerProcess: Boolean
+            get() = false
+        override val canGetAndSetFMUstate: Boolean
+            get() =  this@convert.isCanGetAndSetFMUstate
+        override val canNotUseMemoryManagementFunctions: Boolean
+            get() =  false
+        override val canSerializeFMUstate: Boolean
+            get() =  this@convert.isSetCanSerializeFMUstate
+        override val modelIdentifier: String
+            get() = this@convert.modelIdentifier
+        override val needsExecutionTool: Boolean
+            get() = false
+        override val providesDirectionalDerivative: Boolean
+            get() = this@convert.isProvidesDirectionalDerivative
+        override val sourceFiles: List<SourceFile>
+            get() = emptyList()
+
+        override val canHandleVariableCommunicationStepSize: Boolean
+            get() = this@convert.isCanHandleVariableCommunicationStepSize
+        override val canInterpolateInputs: Boolean
+            get() = this@convert.isCanInterpolateInputs
+        override val canRunAsynchronuously: Boolean
+            get() = false
+        override val maxOutputDerivativeOrder: Int
+            get() = this@convert.maxOutputDerivativeOrder
+    }
+}
+
 class ThriftModelDescription(
         private val modelDescription: ModelDescription
 ): no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription {
@@ -251,11 +277,6 @@ class ThriftModelDescription(
     override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
     override val version: String?
         get() = modelDescription.version
-
-    val supportsCoSimulation: Boolean
-        get() = modelDescription.isSupportsCoSimulation
-    val supportsModelExchange: Boolean
-        get() = modelDescription.isSupportsModelExchange
 
 }
 

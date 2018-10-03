@@ -29,12 +29,14 @@ import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.heartbeat.Heartbeat
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
-import no.mechatronics.sfi.fmuproxy.net.NetworkInfo
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.util.*
+
+typealias FmuId = String
+typealias InstanceId = String
 
 /**
  * @author Lars Ivar Hatledal

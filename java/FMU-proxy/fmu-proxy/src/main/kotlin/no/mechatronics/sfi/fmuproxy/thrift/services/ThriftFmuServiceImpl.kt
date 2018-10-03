@@ -33,6 +33,7 @@ import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.mechatronics.sfi.fmuproxy.thrift.*
 import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
+import org.apache.commons.math3.analysis.function.Cos
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.ByteBuffer
@@ -89,13 +90,17 @@ class ThriftFmuServiceImpl(
                 return ApacheSolvers.euler(stepSize)
             }
 
-            val solver_ = parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()
-            FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(solver_))
+            (parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()).let {
+                FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it))
+            }
+
         }
     }
 
-    override fun getCoSimulationModelDescription(instanceId: String): no.mechatronics.sfi.fmuproxy.thrift.CoSimulationModelDescription {
-        return getSlave(instanceId).modelDescription.thriftType()
+    override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
+        val attributes = getSlave(instanceId).modelDescription
+                as no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
+        return attributes.thriftType()
     }
 
     override fun init(instanceId: String, startTime: Double, endTime: Double): Status {

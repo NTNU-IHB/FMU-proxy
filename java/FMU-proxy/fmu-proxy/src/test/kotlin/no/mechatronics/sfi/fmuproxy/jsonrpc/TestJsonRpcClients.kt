@@ -84,7 +84,7 @@ class TestJsonRpcClients {
                     val stop = 1.0
                     val stepSize = 1E-4
                     runInstance(slave, stepSize, stop) {
-                        temp.read()
+                        temp.read(slave)
                     }.also { LOG.info(" ${client.implementationName} duration: ${it}ms") }
 
                 }
