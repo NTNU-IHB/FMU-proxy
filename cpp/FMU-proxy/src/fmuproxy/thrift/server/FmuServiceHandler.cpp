@@ -22,19 +22,20 @@
  * THE SOFTWARE.
  */
 
+#include <iostream>
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
-#include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
+
 #include "thrift_server_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy;
 using namespace fmuproxy::thrift::server;
 
-FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi::Fmu>> &fmus) : fmus_(fmus) {}
+FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::import::Fmu>> &fmus) : fmus_(fmus) {}
 
 void FmuServiceHandler::getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
                                                   const InstanceId &instanceId) {
@@ -58,7 +59,7 @@ void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &i
     auto &fmu = fmus_.at(id);
     boost::uuids::uuid uuid = boost::uuids::random_generator()();
     _return = boost::uuids::to_string(uuid);
-    slaves_[_return] = fmu->newInstance();
+    slaves_[_return] = fmu->asCoSimulationFmu()->newInstance();
     cout << "Created new FMU slave with id=" << _return << endl;
 }
 
@@ -157,70 +158,70 @@ FmuServiceHandler::writeBoolean(const InstanceId &slave_id, const ValueReference
     return Status::type::DISCARD_STATUS;
 }
 
-void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId &slave_id) {
-    auto &slave = slaves_[slave_id];
-//    if (!slave->canGetAndSetFMUstate()) {
+//void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId &slave_id) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
 //        auto ex = UnsupportedOperationException();
 //        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
 //        throw ex;
 //    }
-
-    const auto status = slave->getFMUstate(_return.state);
-    _return.status = thriftType(status);
-}
-
-Status::type FmuServiceHandler::setFMUstate(const InstanceId &slave_id, const FmuState state) {
-    auto &slave = slaves_[slave_id];
-//    if (!slave->canGetAndSetFMUstate()) {
+//
+//    const auto status = slave->getFMUstate(_return.state);
+//    _return.status = thriftType(status);
+//}
+//
+//Status::type FmuServiceHandler::setFMUstate(const InstanceId &slave_id, const FmuState state) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
 //        auto ex = UnsupportedOperationException();
 //        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
 //        throw ex;
 //    }
-
-    return thriftType(slave->setFMUstate(state));
-}
-
-Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuState state) {
-    auto &slave = slaves_[slave_id];
-//    if (!slave->canGetAndSetFMUstate()) {
+//
+//    return thriftType(slave->setFMUstate(state));
+//}
+//
+//Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuState state) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
 //        auto ex = UnsupportedOperationException();
 //        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
 //        throw ex;
 //    }
-
-    return thriftType(slave->freeFMUstate(state));
-}
-
-void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &slave_id,
-                                          const FmuState state) {
-    auto &slave = slaves_[slave_id];
-//    if (!slave->canSerializeFMUstate()) {
+//
+//    return thriftType(slave->freeFMUstate(state));
+//}
+//
+//void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &slave_id,
+//                                          const FmuState state) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->getModelDescription()->canSerializeFMUstate()) {
 //        auto ex = UnsupportedOperationException();
 //        ex.message = "FMU does not have capability 'SerializeFMUstate'";
 //        throw ex;
 //    }
-
-    string serializedState;
-    const auto status = thriftType(slave->serializeFMUstate(state, serializedState));
-
-    _return.__set_status(status);
-    _return.__set_state(serializedState.data());
-
-}
-
-void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &slave_id,
-                                            const string &serializedState) {
-    auto &slave = slaves_[slave_id];
-//    if (!slave->canSerializeFMUstate()) {
+//
+//    string serializedState;
+//    const auto status = thriftType(slave->serializeFMUstate(state, serializedState));
+//
+//    _return.__set_status(status);
+//    _return.__set_state(serializedState.data());
+//
+//}
+//
+//void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &slave_id,
+//                                            const string &serializedState) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->getModelDescription()->canSerializeFMUstate()) {
 //        auto ex = UnsupportedOperationException();
 //        ex.message = "FMU does not have capability 'SerializeFMUstate'";
 //        throw ex;
 //    }
-
-    int64_t state;
-    const auto status = thriftType(slave->deSerializeFMUstate(serializedState, state));
-
-    _return.__set_state(state);
-    _return.__set_status(status);
-    
-}
+//
+//    int64_t state;
+//    const auto status = thriftType(slave->deSerializeFMUstate(serializedState, state));
+//
+//    _return.__set_state(state);
+//    _return.__set_status(status);
+//
+//}

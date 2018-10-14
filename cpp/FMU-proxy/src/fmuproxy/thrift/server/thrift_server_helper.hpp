@@ -26,85 +26,84 @@
 #define FMU_PROXY_THRIFT_SERVER_HELPER_HPP
 
 #include <cfloat>
-#include <fmilib.h>
-#include <fmuproxy/fmi/fmi_definitions.hpp>
 #include <fmuproxy/thrift/common/definitions_types.h>
+
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
 
 using namespace fmuproxy::thrift;
 
 namespace {
 
-    const Status::type thriftType(fmi2_status_t status) {
+    const Status::type thriftType(fmi2Status status) {
         switch (status) {
-            case fmi2_status_ok:
+            case fmi2OK:
                 return Status::type::OK_STATUS;
-            case fmi2_status_warning:
+            case fmi2Warning:
                 return Status::type::WARNING_STATUS;
-            case fmi2_status_pending:
+            case fmi2Pending:
                 return Status::type::PENDING_STATUS;
-            case fmi2_status_discard:
+            case fmi2Discard:
                 return Status::type::DISCARD_STATUS;
-            case fmi2_status_error:
+            case fmi2Error:
                 return Status::type::ERROR_STATUS;
-            case fmi2_status_fatal:
+            case fmi2Fatal:
                 return Status::type::FATAL_STATUS;
+            default:
+                throw std::runtime_error("Fatal: Unknown status type!");
         }
-        throw std::runtime_error("");
     }
 
-    const Causality::type thriftType(fmi2_causality_enu_t causality) {
+    const Causality::type thriftType(fmi2Causality causality) {
         switch (causality) {
-            case fmi2_causality_enu_input:
+            case fmi2Causality ::input:
                 return Causality::type::INPUT_CAUSALITY;
-            case fmi2_causality_enu_output:
+            case fmi2Causality ::output:
                 return Causality::type::OUTPUT_CAUSALITY;
-            case fmi2_causality_enu_parameter:
+            case fmi2Causality ::parameter:
                 return Causality::type::PARAMETER_CAUSALITY;
-            case fmi2_causality_enu_local:
+            case fmi2Causality ::local:
                 return Causality::type::LOCAL_CAUSALITY;
-            case fmi2_causality_enu_independent:
+            case fmi2Causality ::independent:
                 return Causality::type::INDEPENDENT_CAUSALITY;
-            case fmi2_causality_enu_calculated_parameter:
+            case fmi2Causality ::calculatedParameter:
                 return Causality::type::CALCULATED_PARAMETER_CAUSALITY;
-            case fmi2_causality_enu_unknown:
+            default:
                 return Causality::type::LOCAL_CAUSALITY;
         }
-        throw std::runtime_error("");
     }
 
-    const Variability::type thriftType(fmi2_variability_enu_t variability) {
+    const Variability::type thriftType(fmi2Variability variability) {
         switch (variability) {
-            case fmi2_variability_enu_constant:
+            case fmi2Variability ::constant:
                 return Variability::type::CONSTANT_VARIABILITY;
-            case fmi2_variability_enu_continuous:
+            case fmi2Variability ::continuous:
                 return Variability::type::CONTINUOUS_VARIABILITY;
-            case fmi2_variability_enu_discrete:
+            case fmi2Variability ::discrete:
                 return Variability::type::DISCRETE_VARIABILITY;
-            case fmi2_variability_enu_fixed:
+            case fmi2Variability ::fixed:
                 return Variability::type::FIXED_VARIABILITY;
-            case fmi2_variability_enu_tunable:
+            case fmi2Variability ::tunable:
                 return Variability::type::TUNABLE_VARIABILITY;;
-            case fmi2_variability_enu_unknown:
+            default:
                 return Variability::type::CONTINUOUS_VARIABILITY;
         }
-        throw std::runtime_error("");
     }
 
-    const Initial::type thriftType(fmi2_initial_enu_t initial) {
+    const Initial::type thriftType(fmi2Initial initial) {
         switch (initial) {
-            case fmi2_initial_enu_approx:
+            case fmi2Initial ::approx:
                 return Initial::type::APPROX_INITIAL;
-            case fmi2_initial_enu_calculated:
+            case fmi2Initial ::calculated:
                 return Initial::type::CALCULATED_INITIAL;
-            case fmi2_initial_enu_exact:
+            case fmi2Initial ::exact:
                 return Initial::type::EXACT_INITIAL;
-            case fmi2_initial_enu_unknown:
-                return Initial::type::APPROX_INITIAL;
+            case fmi2Initial ::unknown:
+            default:
+                return Initial::type::UNKNOWN_INITIAL;
         }
-        throw std::runtime_error("");
     }
 
-    IntegerAttribute thriftType(const fmuproxy::fmi::IntegerAttribute &a) {
+    IntegerAttribute thriftType(const fmi4cpp::fmi2::xml::IntegerAttribute &a) {
         IntegerAttribute attribute;
         if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
@@ -118,7 +117,7 @@ namespace {
         return attribute;
     }
 
-    RealAttribute thriftType(const fmuproxy::fmi::RealAttribute &a) {
+    RealAttribute thriftType(const fmi4cpp::fmi2::xml::RealAttribute &a) {
         RealAttribute attribute;
         if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
@@ -132,7 +131,7 @@ namespace {
         return attribute;
     }
 
-    StringAttribute thriftType(const fmuproxy::fmi::StringAttribute &a) {
+    StringAttribute thriftType(const fmi4cpp::fmi2::xml::StringAttribute &a) {
         StringAttribute attribute;
         if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
@@ -140,7 +139,7 @@ namespace {
         return attribute;
     }
 
-    BooleanAttribute thriftType(const fmuproxy::fmi::BooleanAttribute &a) {
+    BooleanAttribute thriftType(const fmi4cpp::fmi2::xml::BooleanAttribute &a) {
         BooleanAttribute attribute;
         if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
@@ -148,7 +147,7 @@ namespace {
         return attribute;
     }
 
-    EnumerationAttribute thriftType(const fmuproxy::fmi::EnumerationAttribute &a) {
+    EnumerationAttribute thriftType(const fmi4cpp::fmi2::xml::EnumerationAttribute &a) {
         EnumerationAttribute attribute;
         if (a.isStart_set()) {
             attribute.__set_start(a.getStart());
@@ -162,7 +161,7 @@ namespace {
         return attribute;
     }
 
-    ScalarVariable thriftType(const fmuproxy::fmi::ScalarVariable &v) {
+    ScalarVariable thriftType(const fmi4cpp::fmi2::xml::ScalarVariable &v) {
 
         ScalarVariable var;
         var.__set_name(v.name);
@@ -197,13 +196,13 @@ namespace {
 
     }
 
-    void thriftType(ModelVariables &variables, const fmuproxy::fmi::ModelVariables &mv) {
-        for (const fmuproxy::fmi::ScalarVariable &var : mv) {
+    void thriftType(ModelVariables &variables, const fmi4cpp::fmi2::xml::ModelVariables &mv) {
+        for (const fmi4cpp::fmi2::xml::ScalarVariable &var : mv) {
             variables.push_back(thriftType(var));
         }
     }
 
-    void thriftType(ModelDescription &md, const fmuproxy::fmi::ModelDescription &m) {
+    void thriftType(ModelDescription &md, const fmi4cpp::fmi2::xml::ModelDescription &m) {
 
         md.__set_guid(m.guid);
         md.__set_version(m.version);

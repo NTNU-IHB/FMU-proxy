@@ -27,20 +27,21 @@
 
 #include <vector>
 #include <unordered_map>
+
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+
 #include "../common/FmuService.h"
-#include "../../fmi/Fmu.hpp"
-#include "../../fmi/FmuSlave.hpp"
 
 namespace fmuproxy::thrift::server {
 
     class FmuServiceHandler : virtual public FmuServiceIf {
 
     private:
-        std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus_;
-        std::unordered_map<InstanceId, std::unique_ptr<fmi::FmuSlave>> slaves_;
+        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::import::Fmu>> &fmus_;
+        std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::fmi2::import::FmuSlave>> slaves_;
 
     public:
-        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
+        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::import::Fmu>> &fmus);
 
         void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
 
@@ -83,17 +84,17 @@ namespace fmuproxy::thrift::server {
         Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr,
                 const BooleanArray &value) override;
 
-        void getFMUstate(GetFmuStateResult &_return, const InstanceId &instance_id) override;
-
-        Status::type setFMUstate(const InstanceId &instance_id, const FmuState state) override;
-
-        Status::type freeFMUstate(const InstanceId &instance_id, const FmuState state) override;
-
-        void serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &instance_id,
-                               const FmuState state) override;
-
-        void deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &instance_id,
-                                 const std::string &state) override;
+//        void getFMUstate(GetFmuStateResult &_return, const InstanceId &instance_id) override;
+//
+//        Status::type setFMUstate(const InstanceId &instance_id, const FmuState state) override;
+//
+//        Status::type freeFMUstate(const InstanceId &instance_id, const FmuState state) override;
+//
+//        void serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &instance_id,
+//                               const FmuState state) override;
+//
+//        void deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &instance_id,
+//                                 const std::string &state) override;
 
         void getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
                                        const InstanceId &instanceId) override;

@@ -25,11 +25,12 @@
 #ifndef FMU_PROXY_GRPCSERVER_HPP
 #define FMU_PROXY_GRPCSERVER_HPP
 
-#include <unordered_map>
 #include <thread>
 #include <memory>
+#include <unordered_map>
 
-#include "../../fmi/Fmu.hpp"
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+
 #include "../common/service.grpc.pb.h"
 #include "FmuServiceImpl.hpp"
 
@@ -49,7 +50,7 @@ namespace fmuproxy:: grpc::server {
 
     public:
         GrpcServer(std::unordered_map<std::string,
-                std::shared_ptr<fmuproxy::fmi::Fmu>> &fmu,
+                std::shared_ptr<fmi4cpp::fmi2::import::Fmu>> &fmu,
                 const unsigned int port);
 
         void start();
