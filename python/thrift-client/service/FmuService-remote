@@ -24,29 +24,29 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
-    print('  string getModelDescriptionXml(FmuId fmu_id)')
-    print('  ModelDescription getModelDescription(FmuId fmu_id)')
-    print('  InstanceId createInstanceFromCS(FmuId fmu_id)')
-    print('  InstanceId createInstanceFromME(FmuId fmu_id, Solver solver)')
-    print('  Status init(InstanceId instance_id, double start, double stop)')
-    print('  StepResult step(InstanceId instance_id, double step_size)')
-    print('  Status reset(InstanceId instance_id)')
-    print('  Status terminate(InstanceId instance_id)')
-    print('  IntegerRead readInteger(InstanceId instance_id, ValueReferences vr)')
-    print('  RealRead readReal(InstanceId instance_id, ValueReferences vr)')
-    print('  StringRead readString(InstanceId instance_id, ValueReferences vr)')
-    print('  BooleanRead readBoolean(InstanceId instance_id, ValueReferences vr)')
-    print('  Status writeInteger(InstanceId instance_id, ValueReferences vr, IntArray value)')
-    print('  Status writeReal(InstanceId instance_id, ValueReferences vr, RealArray value)')
-    print('  Status writeString(InstanceId instance_id, ValueReferences vr, StringArray value)')
-    print('  Status writeBoolean(InstanceId instance_id, ValueReferences vr, BooleanArray value)')
-    print('  bool canGetAndSetFMUstate(InstanceId instance_id)')
-    print('  bool canSerializeFMUstate(InstanceId instance_id)')
-    print('  GetFmuStateResult getFMUstate(InstanceId instance_id)')
-    print('  Status setFMUstate(InstanceId instance_id, FmuState state)')
-    print('  Status freeFMUstate(InstanceId instance_id, FmuState state)')
-    print('  SerializeFmuStateResult serializeFMUstate(InstanceId instance_id, FmuState state)')
-    print('  DeSerializeFmuStateResult deSerializeFMUstate(InstanceId instance_id, string state)')
+    print('  ModelDescription getModelDescription(FmuId fmuId)')
+    print('  CoSimulationAttributes getCoSimulationAttributes(InstanceId instanceId)')
+    print('  bool canCreateInstanceFromCS(FmuId fmuId)')
+    print('  bool canCreateInstanceFromME(FmuId fmuId)')
+    print('  InstanceId createInstanceFromCS(FmuId fmuId)')
+    print('  InstanceId createInstanceFromME(FmuId fmuId, Solver solver)')
+    print('  Status init(InstanceId instanceId, double start, double stop)')
+    print('  StepResult step(InstanceId instanceId, double stepSize)')
+    print('  Status reset(InstanceId instanceId)')
+    print('  Status terminate(InstanceId instanceId)')
+    print('  IntegerRead readInteger(InstanceId instanceId, ValueReferences vr)')
+    print('  RealRead readReal(InstanceId instanceId, ValueReferences vr)')
+    print('  StringRead readString(InstanceId instanceId, ValueReferences vr)')
+    print('  BooleanRead readBoolean(InstanceId instanceId, ValueReferences vr)')
+    print('  Status writeInteger(InstanceId instanceId, ValueReferences vr, IntArray value)')
+    print('  Status writeReal(InstanceId instanceId, ValueReferences vr, RealArray value)')
+    print('  Status writeString(InstanceId instanceId, ValueReferences vr, StringArray value)')
+    print('  Status writeBoolean(InstanceId instanceId, ValueReferences vr, BooleanArray value)')
+    print('  GetFmuStateResult getFMUstate(InstanceId instanceId)')
+    print('  Status setFMUstate(InstanceId instanceId, FmuState state)')
+    print('  Status freeFMUstate(InstanceId instanceId, FmuState state)')
+    print('  SerializeFmuStateResult serializeFMUstate(InstanceId instanceId, FmuState state)')
+    print('  DeSerializeFmuStateResult deSerializeFMUstate(InstanceId instanceId, string state)')
     print('')
     sys.exit(0)
 
@@ -126,17 +126,29 @@ protocol = TBinaryProtocol(transport)
 client = FmuService.Client(protocol)
 transport.open()
 
-if cmd == 'getModelDescriptionXml':
-    if len(args) != 1:
-        print('getModelDescriptionXml requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getModelDescriptionXml(eval(args[0]),))
-
-elif cmd == 'getModelDescription':
+if cmd == 'getModelDescription':
     if len(args) != 1:
         print('getModelDescription requires 1 args')
         sys.exit(1)
     pp.pprint(client.getModelDescription(eval(args[0]),))
+
+elif cmd == 'getCoSimulationAttributes':
+    if len(args) != 1:
+        print('getCoSimulationAttributes requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getCoSimulationAttributes(eval(args[0]),))
+
+elif cmd == 'canCreateInstanceFromCS':
+    if len(args) != 1:
+        print('canCreateInstanceFromCS requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.canCreateInstanceFromCS(eval(args[0]),))
+
+elif cmd == 'canCreateInstanceFromME':
+    if len(args) != 1:
+        print('canCreateInstanceFromME requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.canCreateInstanceFromME(eval(args[0]),))
 
 elif cmd == 'createInstanceFromCS':
     if len(args) != 1:
@@ -221,18 +233,6 @@ elif cmd == 'writeBoolean':
         print('writeBoolean requires 3 args')
         sys.exit(1)
     pp.pprint(client.writeBoolean(eval(args[0]), eval(args[1]), eval(args[2]),))
-
-elif cmd == 'canGetAndSetFMUstate':
-    if len(args) != 1:
-        print('canGetAndSetFMUstate requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.canGetAndSetFMUstate(eval(args[0]),))
-
-elif cmd == 'canSerializeFMUstate':
-    if len(args) != 1:
-        print('canSerializeFMUstate requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.canSerializeFMUstate(eval(args[0]),))
 
 elif cmd == 'getFMUstate':
     if len(args) != 1:
