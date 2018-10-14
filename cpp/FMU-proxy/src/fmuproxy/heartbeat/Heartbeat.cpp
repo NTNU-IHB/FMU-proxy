@@ -36,10 +36,16 @@ using namespace fmuproxy::heartbeat;
 using json = nlohmann::json;
 
 Heartbeat::Heartbeat(const RemoteAddress remote, const unordered_map<string, unsigned int> &ports,
-                     const vector<string> &modelDescriptions) : remote_(remote), ports_(ports), modelDescriptions_(modelDescriptions) {}
+                     const vector<string> &modelDescriptions) : remote_(remote), ports_(ports),
+                                                                modelDescriptions_(modelDescriptions) {}
 
 void Heartbeat::start() {
-   thread_ = make_unique<thread>(&Heartbeat::run, this);
+    thread_ = make_unique<thread>(&Heartbeat::run, this);
+}
+
+void Heartbeat::stop() {
+    stop_ = true;
+    thread_->join();
 }
 
 void Heartbeat::run() {
@@ -52,15 +58,15 @@ void Heartbeat::run() {
 
     if (curl) {
 
-        string uuid = generate_uuid();
-        trim(uuid);
+        string uuid = generate_simple_id();
+        ltrim(uuid);
 
         json json = {
-                {"uuid", uuid},
-                {"ports", ports_},
+                {"uuid",              uuid},
+                {"ports",             ports_},
                 {"modelDescriptions", modelDescriptions_},
 
-            };
+        };
 
         const string json_str = json.dump(2);
 
@@ -88,7 +94,7 @@ void Heartbeat::run() {
                 string response;
                 res = post(remote_, curl, response, "register", json_str);
                 if (res != CURLE_OK) {
-                    fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+                    fprintf(stderr, "Heartbeat failed: %s\n", curl_easy_strerror(res));
                 } else {
                     trim(response);
                     connected_ = response == "success";
@@ -110,9 +116,3 @@ void Heartbeat::run() {
     curl_global_cleanup();
 
 }
-
-void Heartbeat::stop() {
-    stop_ = true;
-    thread_->join();
-}
-

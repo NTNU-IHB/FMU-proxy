@@ -42,8 +42,6 @@ target_link_libraries(heartbeat ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
 target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
 if (UNIX)
     target_link_libraries(heartbeat pthread)
-elseif (MSVC)
-    target_link_libraries(heartbeat bcrypt)
 endif()
 
 ##################################################################
