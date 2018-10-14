@@ -27,10 +27,10 @@
 #include <iostream>
 
 #include "../test_util.cpp"
-#include "fmuproxy/fmi/Fmu.hpp"
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
 
 using namespace std;
-using namespace fmuproxy::fmi;
+using namespace fmi4cpp::fmi2;
 
 const double start = 0.0;
 const double stop = 10.0;
@@ -42,22 +42,22 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    Fmu fmu(fmu_path);
-    const auto slave = fmu.newInstance();
+    auto fmu = import::Fmu(fmu_path).asCoSimulationFmu();
+    auto slave = fmu->newInstance();
+    auto md = slave->getModelDescription();
     slave->init();
 
     clock_t begin = clock();
 
-    vector<fmi2_real_t> ref(2);
-    vector<fmi2_value_reference_t> vr = {slave->getValueReference("Temperature_Reference"),
-                                         slave->getValueReference("Temperature_Room")};
-    
+    vector<fmi2Real > ref(2);
+    vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
+                                      md->getValueReference("Temperature_Room")};
 
     double t;
     while ( (t = slave->getSimulationTime() ) <= (stop-step_size) ) {
-        fmi2_status_t status = slave->step(step_size);
-        if (status != fmi2_status_ok) {
-            cout << "Error! step returned with status: " << fmi2_status_to_string(status) << endl;
+        fmi2Status status = slave->doStep(step_size);
+        if (status != fmi2OK) {
+            cout << "Error! step returned with status: " << to_string(status) << endl;
             break;
         }
         slave->readReal(vr, ref);

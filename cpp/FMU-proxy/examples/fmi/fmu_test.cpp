@@ -23,12 +23,12 @@
  */
 
 #include <iostream>
-#include <fmuproxy/fmi/Fmu.hpp>
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
 
 #include "../test_util.cpp"
 
 using namespace std;
-using namespace fmuproxy::fmi;
+using namespace fmi4cpp::fmi2;
 
 int main(int argc, char **argv) {
 
@@ -37,28 +37,29 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     const double step_size = 1.0/100;
-    Fmu fmu(fmu_path);
+    auto fmu = import::Fmu(fmu_path).asCoSimulationFmu();
 
-    cout << fmu.getModelDescriptionXml() << endl;
+    auto md = fmu->getModelDescription();
 
-    const auto md = fmu.getModelDescription();
-    for (const auto var : md.modelVariables) {
-        cout << var.attribute << endl;
+    for (const auto &v : md->modelVariables()) {
+        if (v.causality() == fmi2Causality::output) {
+            cout << v.name() << endl;
+        }
     }
 
-    const auto slave1 = fmu.newInstance();
-    const auto slave2 = fmu.newInstance();
+    const auto slave1 = fmu->newInstance();
+    const auto slave2 = fmu->newInstance();
 
     slave1->init();
     slave2->init();
 
     double temperature_room;
-    int vr = slave1->getValueReference("Temperature_Room");
+    int vr = md->getValueReference("Temperature_Room");
 
     slave1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;
 
-    slave1->step(step_size);
+    slave1->doStep(step_size);
 
     slave1->readReal(vr, temperature_room);
     cout << "Temperature_Room=" << temperature_room << endl;

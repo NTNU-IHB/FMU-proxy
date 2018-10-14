@@ -4,26 +4,6 @@ INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 #set headers
 SET(HEADER_ROOT_PATH ${FMU_PROXY_SOURCE_DIR}/include/fmuproxy)
 
-#########################FMI############################
-SET(FMI_HEADER_DIR ${HEADER_ROOT_PATH}/fmi)
-SET(FMI_HEADERS
-        ${FMI_HEADER_DIR}/Fmu.hpp
-        ${FMI_HEADER_DIR}/FmuInstance.hpp
-        ${FMI_HEADER_DIR}/FmuSlave.hpp
-        ${FMI_HEADER_DIR}/LocalFmuSlave.hpp
-        ${FMI_HEADER_DIR}/fmi_definitions.hpp
-        ${FMI_HEADER_DIR}/scalar_variable_attributes.hpp)
-
-SET(FMI_SRC
-        fmuproxy/fmi/Fmu.cpp
-        fmuproxy/fmi/LocalFmuSlave.cpp)
-
-add_library(fmi ${FMI_HEADERS} ${FMI_SRC})
-target_link_libraries(fmi ${FMILIB_LIBRARIES})
-target_include_directories(fmi PUBLIC ${FMILIB_INCLUDE_DIRS})
-if (UNIX)
-    target_link_libraries(fmi dl stdc++fs)
-endif()
 
 ##################################################################
 #########################HEARTBEATING############################
@@ -82,10 +62,10 @@ if (MSVC)
 endif()
 
 add_library(grpc-client ${GRPC_CLIENT_HEADERS} ${GRPC_CLIENT_SRC})
-target_link_libraries(grpc-client grpc-common fmi)
+target_link_libraries(grpc-client grpc-common FMI4cpp::FMI4cpp)
 
 add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_HEADERS} ${GRPC_SERVER_SRC})
-target_link_libraries(grpc-server grpc-common fmi)
+target_link_libraries(grpc-server grpc-common FMI4cpp::FMI4cpp)
 if (UNIX)
     target_link_libraries(grpc-server pthread)
 endif()
@@ -131,10 +111,10 @@ if (MSVC)
 endif()
 
 add_library(thrift-client ${FMI_HEADERS} ${THRIFT_CLIENT_HEADERS} ${THRIFT_CLIENT_SRC})
-target_link_libraries(thrift-client thrift-common fmi)
+target_link_libraries(thrift-client thrift-common FMI4cpp::FMI4cpp)
 
 add_library(thrift-server ${FMI_HEADERS} ${THRIFT_SERVER_HEADERS} ${THRIFT_SERVER_SRC})
-target_link_libraries(thrift-server thrift-common fmi)
+target_link_libraries(thrift-server thrift-common FMI4cpp::FMI4cpp)
 if (UNIX)
     target_link_libraries(thrift-server pthread)
 endif()

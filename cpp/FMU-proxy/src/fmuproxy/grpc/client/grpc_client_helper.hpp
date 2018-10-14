@@ -25,93 +25,93 @@
 #ifndef FMU_PROXY_GRPC_CLIENT_HELPER_HPP
 #define FMU_PROXY_GRPC_CLIENT_HELPER_HPP
 
-#include <fmilib.h>
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
 #include <fmuproxy/grpc/common/definitions.pb.h>
-#include <fmuproxy/fmi/fmi_definitions.hpp>
+
 
 namespace {
 
-    fmi2_status_t convert(const fmuproxy::grpc::Status status) {
+    fmi2Status convert(const fmuproxy::grpc::Status status) {
         switch (status) {
             case fmuproxy::grpc::Status::OK_STATUS:
-                return fmi2_status_ok;
+                return fmi2OK;
             case fmuproxy::grpc::Status::WARNING_STATUS:
-                return fmi2_status_warning;
+                return fmi2Warning;
             case fmuproxy::grpc::Status::DISCARD_STATUS:
-                return fmi2_status_discard;
+                return fmi2Discard;
             case fmuproxy::grpc::Status::ERROR_STATUS:
-                return fmi2_status_error;
+                return fmi2Error;
             case fmuproxy::grpc::Status::FATAL_STATUS:
-                return fmi2_status_fatal;
+                return fmi2Fatal;
             case fmuproxy::grpc::Status::PENDING_STATUS:
-                return fmi2_status_pending;
+                return fmi2Pending;
             default:
                 throw std::runtime_error("not a valid status: " + status);
         }
     }
 
-    fmi2_causality_enu_t convert(const fmuproxy::grpc::Causality causality) {
+    fmi2Causality convert(const fmuproxy::grpc::Causality causality) {
         switch (causality) {
             case fmuproxy::grpc::Causality::LOCAL_CAUSALITY:
-                return fmi2_causality_enu_local;
+                return fmi2Causality ::local;
             case fmuproxy::grpc::Causality::INDEPENDENT_CAUSALITY:
-                return fmi2_causality_enu_independent;
+                return fmi2Causality ::independent;
             case fmuproxy::grpc::Causality::INPUT_CAUSALITY:
-                return fmi2_causality_enu_input;
+                return fmi2Causality ::input;
             case fmuproxy::grpc::Causality::OUTPUT_CAUSALITY:
-                return fmi2_causality_enu_output;
+                return fmi2Causality ::output;
             case fmuproxy::grpc::Causality::CALCULATED_PARAMETER_CAUSALITY:
-                return fmi2_causality_enu_calculated_parameter;
+                return fmi2Causality ::calculatedParameter;
             case fmuproxy::grpc::Causality::PARAMETER_CAUSALITY:
-                return fmi2_causality_enu_parameter;
+                return fmi2Causality ::parameter;
             default:
-                return fmi2_causality_enu_unknown;
+                return fmi2Causality ::local;
         }
     }
 
-    fmi2_variability_enu_t convert(const fmuproxy::grpc::Variability variability) {
+    fmi2Variability convert(const fmuproxy::grpc::Variability variability) {
         switch (variability) {
             case fmuproxy::grpc::Variability::CONSTANT_VARIABILITY:
-                return fmi2_variability_enu_constant;
+                return fmi2Variability ::constant;
             case fmuproxy::grpc::Variability::CONTINUOUS_VARIABILITY:
-                return fmi2_variability_enu_continuous;
+                return fmi2Variability ::continuous;
             case fmuproxy::grpc::Variability::FIXED_VARIABILITY:
-                return fmi2_variability_enu_fixed;
+                return fmi2Variability ::fixed;
             case fmuproxy::grpc::Variability::DISCRETE_VARIABILITY:
-                return fmi2_variability_enu_discrete;
+                return fmi2Variability ::discrete;
             case fmuproxy::grpc::Variability::TUNABLE_VARIABILITY:
-                return fmi2_variability_enu_tunable;
+                return fmi2Variability ::tunable;
             default:
-                return fmi2_variability_enu_unknown;
+                return fmi2Variability ::continuous;
         }
     }
 
-    fmi2_initial_enu_t convert(const fmuproxy::grpc::Initial initial) {
+    fmi2Initial convert(const fmuproxy::grpc::Initial initial) {
         switch (initial) {
             case fmuproxy::grpc::Initial::APPROX_INITIAL:
-                return fmi2_initial_enu_approx;
+                return fmi2Initial ::approx;
             case fmuproxy::grpc::Initial::CALCULATED_INITIAL:
-                return fmi2_initial_enu_calculated;
+                return fmi2Initial ::calculated;
             case fmuproxy::grpc::Initial::EXACT_INITIAL:
-                return fmi2_initial_enu_exact;
+                return fmi2Initial ::exact;
             default:
-                return fmi2_initial_enu_unknown;
+                return fmi2Initial ::unknown;
         }
     }
 
-    fmi2_variable_naming_convension_enu_t convert(const fmuproxy::grpc::VariableNamingConvention convention) {
+    std::string convert(const fmuproxy::grpc::VariableNamingConvention convention) {
         switch (convention) {
             case fmuproxy::grpc::VariableNamingConvention::FLAT:
-                return fmi2_naming_enu_flat;
+                return "flat";
             case fmuproxy::grpc::VariableNamingConvention::STRUCTURED:
-                return fmi2_naming_enu_structured;
+                return "structured";
             default:
                 throw std::runtime_error("not a valid convention: " + convention);
         }
     }
 
-    fmuproxy::fmi::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a1) {
-        fmuproxy::fmi::IntegerAttribute a0;
+    fmi4cpp::fmi2::xml::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a1) {
+//        fmi4cpp::fmi2::xml::IntegerAttribute a0;
 
         const auto min = a1.min();
         const auto max = a1.max();
