@@ -21,7 +21,7 @@ if(MSVC)
 endif()
 
 SET(BOOST_COMPONENTS atomic program_options)
-if (BUILD_TESTS)
+if (FMU_PROXY_BUILD_TESTS)
     SET(BOOST_COMPONENTS ${BOOST_COMPONENTS} unit_test_framework)
 endif()
 
