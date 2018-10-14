@@ -24,7 +24,7 @@ dependencies {
     implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
     implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jetty_version
 
-    compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+    compile group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
 
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
     compile group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import-solvers-apache-math3', version: fmi4j_version, changing: fmi4j_snapshot

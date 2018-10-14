@@ -20,9 +20,9 @@ dependencies {
     implementation group: 'info.laht', name: 'yaj-rpc-http', version: yajrpc_version
 
     implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
-    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: '0.1-SNAPSHOT', changing: true
+    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
-    runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
 }

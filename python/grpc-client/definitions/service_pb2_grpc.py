@@ -20,10 +20,20 @@ class FmuServiceStub(object):
         request_serializer=service__pb2.GetModelDescriptionRequest.SerializeToString,
         response_deserializer=definitions__pb2.ModelDescription.FromString,
         )
-    self.GetModelDescriptionXml = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/GetModelDescriptionXml',
-        request_serializer=service__pb2.GetModelDescriptionXmlRequest.SerializeToString,
-        response_deserializer=service__pb2.ModelDescriptionXml.FromString,
+    self.GetCoSimulationAttributes = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/GetCoSimulationAttributes',
+        request_serializer=service__pb2.GetCoSimulationAttributesRequest.SerializeToString,
+        response_deserializer=definitions__pb2.CoSimulationAttributes.FromString,
+        )
+    self.CanCreateInstanceFromCS = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/CanCreateInstanceFromCS',
+        request_serializer=service__pb2.CanCreateInstanceFromCSRequest.SerializeToString,
+        response_deserializer=service__pb2.Bool.FromString,
+        )
+    self.CanCreateInstanceFromME = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/CanCreateInstanceFromME',
+        request_serializer=service__pb2.CanCreateInstanceFromMERequest.SerializeToString,
+        response_deserializer=service__pb2.Bool.FromString,
         )
     self.CreateInstanceFromCS = channel.unary_unary(
         '/fmuproxy.grpc.FmuService/CreateInstanceFromCS',
@@ -95,16 +105,6 @@ class FmuServiceStub(object):
         request_serializer=service__pb2.WriteBooleanRequest.SerializeToString,
         response_deserializer=service__pb2.StatusResponse.FromString,
         )
-    self.CanGetAndSetFMUstate = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/CanGetAndSetFMUstate',
-        request_serializer=service__pb2.CanGetAndSetFMUstateRequest.SerializeToString,
-        response_deserializer=service__pb2.Bool.FromString,
-        )
-    self.CanSerializeFMUstate = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/CanSerializeFMUstate',
-        request_serializer=service__pb2.CanSerializeFMUstateRequest.SerializeToString,
-        response_deserializer=service__pb2.Bool.FromString,
-        )
     self.GetFMUstate = channel.unary_unary(
         '/fmuproxy.grpc.FmuService/GetFMUstate',
         request_serializer=service__pb2.GetFMUstateRequest.SerializeToString,
@@ -143,7 +143,21 @@ class FmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def GetModelDescriptionXml(self, request, context):
+  def GetCoSimulationAttributes(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CanCreateInstanceFromCS(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def CanCreateInstanceFromME(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -248,20 +262,6 @@ class FmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def CanGetAndSetFMUstate(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def CanSerializeFMUstate(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
   def GetFMUstate(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -305,10 +305,20 @@ def add_FmuServiceServicer_to_server(servicer, server):
           request_deserializer=service__pb2.GetModelDescriptionRequest.FromString,
           response_serializer=definitions__pb2.ModelDescription.SerializeToString,
       ),
-      'GetModelDescriptionXml': grpc.unary_unary_rpc_method_handler(
-          servicer.GetModelDescriptionXml,
-          request_deserializer=service__pb2.GetModelDescriptionXmlRequest.FromString,
-          response_serializer=service__pb2.ModelDescriptionXml.SerializeToString,
+      'GetCoSimulationAttributes': grpc.unary_unary_rpc_method_handler(
+          servicer.GetCoSimulationAttributes,
+          request_deserializer=service__pb2.GetCoSimulationAttributesRequest.FromString,
+          response_serializer=definitions__pb2.CoSimulationAttributes.SerializeToString,
+      ),
+      'CanCreateInstanceFromCS': grpc.unary_unary_rpc_method_handler(
+          servicer.CanCreateInstanceFromCS,
+          request_deserializer=service__pb2.CanCreateInstanceFromCSRequest.FromString,
+          response_serializer=service__pb2.Bool.SerializeToString,
+      ),
+      'CanCreateInstanceFromME': grpc.unary_unary_rpc_method_handler(
+          servicer.CanCreateInstanceFromME,
+          request_deserializer=service__pb2.CanCreateInstanceFromMERequest.FromString,
+          response_serializer=service__pb2.Bool.SerializeToString,
       ),
       'CreateInstanceFromCS': grpc.unary_unary_rpc_method_handler(
           servicer.CreateInstanceFromCS,
@@ -379,16 +389,6 @@ def add_FmuServiceServicer_to_server(servicer, server):
           servicer.WriteBoolean,
           request_deserializer=service__pb2.WriteBooleanRequest.FromString,
           response_serializer=service__pb2.StatusResponse.SerializeToString,
-      ),
-      'CanGetAndSetFMUstate': grpc.unary_unary_rpc_method_handler(
-          servicer.CanGetAndSetFMUstate,
-          request_deserializer=service__pb2.CanGetAndSetFMUstateRequest.FromString,
-          response_serializer=service__pb2.Bool.SerializeToString,
-      ),
-      'CanSerializeFMUstate': grpc.unary_unary_rpc_method_handler(
-          servicer.CanSerializeFMUstate,
-          request_deserializer=service__pb2.CanSerializeFMUstateRequest.FromString,
-          response_serializer=service__pb2.Bool.SerializeToString,
       ),
       'GetFMUstate': grpc.unary_unary_rpc_method_handler(
           servicer.GetFMUstate,

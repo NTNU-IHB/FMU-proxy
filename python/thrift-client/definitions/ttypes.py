@@ -50,6 +50,7 @@ class Causality(object):
     CALCULATED_PARAMETER_CAUSALITY = 3
     LOCAL_CAUSALITY = 4
     INDEPENDENT_CAUSALITY = 5
+    UNKNOWN_CAUSALITY = 6
 
     _VALUES_TO_NAMES = {
         0: "INPUT_CAUSALITY",
@@ -58,6 +59,7 @@ class Causality(object):
         3: "CALCULATED_PARAMETER_CAUSALITY",
         4: "LOCAL_CAUSALITY",
         5: "INDEPENDENT_CAUSALITY",
+        6: "UNKNOWN_CAUSALITY",
     }
 
     _NAMES_TO_VALUES = {
@@ -67,6 +69,7 @@ class Causality(object):
         "CALCULATED_PARAMETER_CAUSALITY": 3,
         "LOCAL_CAUSALITY": 4,
         "INDEPENDENT_CAUSALITY": 5,
+        "UNKNOWN_CAUSALITY": 6,
     }
 
 
@@ -76,6 +79,7 @@ class Variability(object):
     CONTINUOUS_VARIABILITY = 2
     DISCRETE_VARIABILITY = 3
     TUNABLE_VARIABILITY = 4
+    UNKNOWN_VARIABILITY = 6
 
     _VALUES_TO_NAMES = {
         0: "CONSTANT_VARIABILITY",
@@ -83,6 +87,7 @@ class Variability(object):
         2: "CONTINUOUS_VARIABILITY",
         3: "DISCRETE_VARIABILITY",
         4: "TUNABLE_VARIABILITY",
+        6: "UNKNOWN_VARIABILITY",
     }
 
     _NAMES_TO_VALUES = {
@@ -91,6 +96,7 @@ class Variability(object):
         "CONTINUOUS_VARIABILITY": 2,
         "DISCRETE_VARIABILITY": 3,
         "TUNABLE_VARIABILITY": 4,
+        "UNKNOWN_VARIABILITY": 6,
     }
 
 
@@ -98,32 +104,20 @@ class Initial(object):
     EXACT_INITIAL = 0
     APPROX_INITIAL = 1
     CALCULATED_INITIAL = 2
+    UNKNOWN_INITIAL = 3
 
     _VALUES_TO_NAMES = {
         0: "EXACT_INITIAL",
         1: "APPROX_INITIAL",
         2: "CALCULATED_INITIAL",
+        3: "UNKNOWN_INITIAL",
     }
 
     _NAMES_TO_VALUES = {
         "EXACT_INITIAL": 0,
         "APPROX_INITIAL": 1,
         "CALCULATED_INITIAL": 2,
-    }
-
-
-class VariableNamingConvention(object):
-    FLAT = 0
-    STRUCTURED = 1
-
-    _VALUES_TO_NAMES = {
-        0: "FLAT",
-        1: "STRUCTURED",
-    }
-
-    _NAMES_TO_VALUES = {
-        "FLAT": 0,
-        "STRUCTURED": 1,
+        "UNKNOWN_INITIAL": 3,
     }
 
 
@@ -133,13 +127,15 @@ class IntegerAttribute(object):
      - min
      - max
      - start
+     - quantity
     """
 
 
-    def __init__(self, min=None, max=None, start=None,):
+    def __init__(self, min=None, max=None, start=None, quantity=None,):
         self.min = min
         self.max = max
         self.start = start
+        self.quantity = quantity
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -165,6 +161,11 @@ class IntegerAttribute(object):
                     self.start = iprot.readI32()
                 else:
                     iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.quantity = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -186,6 +187,10 @@ class IntegerAttribute(object):
         if self.start is not None:
             oprot.writeFieldBegin('start', TType.I32, 3)
             oprot.writeI32(self.start)
+            oprot.writeFieldEnd()
+        if self.quantity is not None:
+            oprot.writeFieldBegin('quantity', TType.STRING, 4)
+            oprot.writeString(self.quantity.encode('utf-8') if sys.version_info[0] == 2 else self.quantity)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -211,13 +216,15 @@ class RealAttribute(object):
      - min
      - max
      - start
+     - quantity
     """
 
 
-    def __init__(self, min=None, max=None, start=None,):
+    def __init__(self, min=None, max=None, start=None, quantity=None,):
         self.min = min
         self.max = max
         self.start = start
+        self.quantity = quantity
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -243,6 +250,11 @@ class RealAttribute(object):
                     self.start = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.quantity = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -264,6 +276,10 @@ class RealAttribute(object):
         if self.start is not None:
             oprot.writeFieldBegin('start', TType.DOUBLE, 3)
             oprot.writeDouble(self.start)
+            oprot.writeFieldEnd()
+        if self.quantity is not None:
+            oprot.writeFieldBegin('quantity', TType.STRING, 4)
+            oprot.writeString(self.quantity.encode('utf-8') if sys.version_info[0] == 2 else self.quantity)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -401,13 +417,15 @@ class EnumerationAttribute(object):
      - min
      - max
      - start
+     - quantity
     """
 
 
-    def __init__(self, min=None, max=None, start=None,):
+    def __init__(self, min=None, max=None, start=None, quantity=None,):
         self.min = min
         self.max = max
         self.start = start
+        self.quantity = quantity
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -433,6 +451,11 @@ class EnumerationAttribute(object):
                     self.start = iprot.readI32()
                 else:
                     iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.quantity = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -454,6 +477,10 @@ class EnumerationAttribute(object):
         if self.start is not None:
             oprot.writeFieldBegin('start', TType.I32, 3)
             oprot.writeI32(self.start)
+            oprot.writeFieldEnd()
+        if self.quantity is not None:
+            oprot.writeFieldBegin('quantity', TType.STRING, 4)
+            oprot.writeString(self.quantity.encode('utf-8') if sys.version_info[0] == 2 else self.quantity)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -584,7 +611,6 @@ class ScalarVariable(object):
      - valueReference
      - name
      - description
-     - declaredType
      - initial
      - causality
      - variability
@@ -592,11 +618,10 @@ class ScalarVariable(object):
     """
 
 
-    def __init__(self, valueReference=None, name=None, description=None, declaredType=None, initial=None, causality=None, variability=None, attribute=None,):
+    def __init__(self, valueReference=None, name=None, description=None, initial=None, causality=None, variability=None, attribute=None,):
         self.valueReference = valueReference
         self.name = name
         self.description = description
-        self.declaredType = declaredType
         self.initial = initial
         self.causality = causality
         self.variability = variability
@@ -612,8 +637,8 @@ class ScalarVariable(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.valueReference = iprot.readI32()
+                if ftype == TType.I64:
+                    self.valueReference = iprot.readI64()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
@@ -627,26 +652,21 @@ class ScalarVariable(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
-                if ftype == TType.STRING:
-                    self.declaredType = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
                 if ftype == TType.I32:
                     self.initial = iprot.readI32()
                 else:
                     iprot.skip(ftype)
-            elif fid == 6:
+            elif fid == 5:
                 if ftype == TType.I32:
                     self.causality = iprot.readI32()
                 else:
                     iprot.skip(ftype)
-            elif fid == 7:
+            elif fid == 6:
                 if ftype == TType.I32:
                     self.variability = iprot.readI32()
                 else:
                     iprot.skip(ftype)
-            elif fid == 8:
+            elif fid == 7:
                 if ftype == TType.STRUCT:
                     self.attribute = ScalarVariableAttribute()
                     self.attribute.read(iprot)
@@ -663,8 +683,8 @@ class ScalarVariable(object):
             return
         oprot.writeStructBegin('ScalarVariable')
         if self.valueReference is not None:
-            oprot.writeFieldBegin('valueReference', TType.I32, 1)
-            oprot.writeI32(self.valueReference)
+            oprot.writeFieldBegin('valueReference', TType.I64, 1)
+            oprot.writeI64(self.valueReference)
             oprot.writeFieldEnd()
         if self.name is not None:
             oprot.writeFieldBegin('name', TType.STRING, 2)
@@ -674,24 +694,20 @@ class ScalarVariable(object):
             oprot.writeFieldBegin('description', TType.STRING, 3)
             oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
             oprot.writeFieldEnd()
-        if self.declaredType is not None:
-            oprot.writeFieldBegin('declaredType', TType.STRING, 4)
-            oprot.writeString(self.declaredType.encode('utf-8') if sys.version_info[0] == 2 else self.declaredType)
-            oprot.writeFieldEnd()
         if self.initial is not None:
-            oprot.writeFieldBegin('initial', TType.I32, 5)
+            oprot.writeFieldBegin('initial', TType.I32, 4)
             oprot.writeI32(self.initial)
             oprot.writeFieldEnd()
         if self.causality is not None:
-            oprot.writeFieldBegin('causality', TType.I32, 6)
+            oprot.writeFieldBegin('causality', TType.I32, 5)
             oprot.writeI32(self.causality)
             oprot.writeFieldEnd()
         if self.variability is not None:
-            oprot.writeFieldBegin('variability', TType.I32, 7)
+            oprot.writeFieldBegin('variability', TType.I32, 6)
             oprot.writeI32(self.variability)
             oprot.writeFieldEnd()
         if self.attribute is not None:
-            oprot.writeFieldBegin('attribute', TType.STRUCT, 8)
+            oprot.writeFieldBegin('attribute', TType.STRUCT, 7)
             self.attribute.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1443,12 +1459,10 @@ class ModelDescription(object):
      - variableNamingConvention
      - modelVariables
      - modelStructure
-     - supportsCoSimulation
-     - supportsModelExchange
     """
 
 
-    def __init__(self, guid=None, fmiVersion=None, modelName=None, license=None, copyright=None, author=None, version=None, description=None, generationTool=None, generationDateAndTime=None, defaultExperiment=None, variableNamingConvention=None, modelVariables=None, modelStructure=None, supportsCoSimulation=None, supportsModelExchange=None,):
+    def __init__(self, guid=None, fmiVersion=None, modelName=None, license=None, copyright=None, author=None, version=None, description=None, generationTool=None, generationDateAndTime=None, defaultExperiment=None, variableNamingConvention=None, modelVariables=None, modelStructure=None,):
         self.guid = guid
         self.fmiVersion = fmiVersion
         self.modelName = modelName
@@ -1463,8 +1477,6 @@ class ModelDescription(object):
         self.variableNamingConvention = variableNamingConvention
         self.modelVariables = modelVariables
         self.modelStructure = modelStructure
-        self.supportsCoSimulation = supportsCoSimulation
-        self.supportsModelExchange = supportsModelExchange
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1532,8 +1544,8 @@ class ModelDescription(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 12:
-                if ftype == TType.I32:
-                    self.variableNamingConvention = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.variableNamingConvention = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 13:
@@ -1551,16 +1563,6 @@ class ModelDescription(object):
                 if ftype == TType.STRUCT:
                     self.modelStructure = ModelStructure()
                     self.modelStructure.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 15:
-                if ftype == TType.BOOL:
-                    self.supportsCoSimulation = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 16:
-                if ftype == TType.BOOL:
-                    self.supportsModelExchange = iprot.readBool()
                 else:
                     iprot.skip(ftype)
             else:
@@ -1618,8 +1620,8 @@ class ModelDescription(object):
             self.defaultExperiment.write(oprot)
             oprot.writeFieldEnd()
         if self.variableNamingConvention is not None:
-            oprot.writeFieldBegin('variableNamingConvention', TType.I32, 12)
-            oprot.writeI32(self.variableNamingConvention)
+            oprot.writeFieldBegin('variableNamingConvention', TType.STRING, 12)
+            oprot.writeString(self.variableNamingConvention.encode('utf-8') if sys.version_info[0] == 2 else self.variableNamingConvention)
             oprot.writeFieldEnd()
         if self.modelVariables is not None:
             oprot.writeFieldBegin('modelVariables', TType.LIST, 13)
@@ -1632,13 +1634,127 @@ class ModelDescription(object):
             oprot.writeFieldBegin('modelStructure', TType.STRUCT, 14)
             self.modelStructure.write(oprot)
             oprot.writeFieldEnd()
-        if self.supportsCoSimulation is not None:
-            oprot.writeFieldBegin('supportsCoSimulation', TType.BOOL, 15)
-            oprot.writeBool(self.supportsCoSimulation)
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class CoSimulationAttributes(object):
+    """
+    Attributes:
+     - modelIdentifier
+     - canGetAndSetFMUstate
+     - canSerializeFMUstate
+     - providesDirectionalDerivative
+     - canHandleVariableCommunicationStepSize
+     - canInterpolateInputs
+     - maxOutputDerivativeOrder
+    """
+
+
+    def __init__(self, modelIdentifier=None, canGetAndSetFMUstate=None, canSerializeFMUstate=None, providesDirectionalDerivative=None, canHandleVariableCommunicationStepSize=None, canInterpolateInputs=None, maxOutputDerivativeOrder=None,):
+        self.modelIdentifier = modelIdentifier
+        self.canGetAndSetFMUstate = canGetAndSetFMUstate
+        self.canSerializeFMUstate = canSerializeFMUstate
+        self.providesDirectionalDerivative = providesDirectionalDerivative
+        self.canHandleVariableCommunicationStepSize = canHandleVariableCommunicationStepSize
+        self.canInterpolateInputs = canInterpolateInputs
+        self.maxOutputDerivativeOrder = maxOutputDerivativeOrder
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.modelIdentifier = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.BOOL:
+                    self.canGetAndSetFMUstate = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.BOOL:
+                    self.canSerializeFMUstate = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.BOOL:
+                    self.providesDirectionalDerivative = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.BOOL:
+                    self.canHandleVariableCommunicationStepSize = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.BOOL:
+                    self.canInterpolateInputs = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.I32:
+                    self.maxOutputDerivativeOrder = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('CoSimulationAttributes')
+        if self.modelIdentifier is not None:
+            oprot.writeFieldBegin('modelIdentifier', TType.STRING, 1)
+            oprot.writeString(self.modelIdentifier.encode('utf-8') if sys.version_info[0] == 2 else self.modelIdentifier)
             oprot.writeFieldEnd()
-        if self.supportsModelExchange is not None:
-            oprot.writeFieldBegin('supportsModelExchange', TType.BOOL, 16)
-            oprot.writeBool(self.supportsModelExchange)
+        if self.canGetAndSetFMUstate is not None:
+            oprot.writeFieldBegin('canGetAndSetFMUstate', TType.BOOL, 2)
+            oprot.writeBool(self.canGetAndSetFMUstate)
+            oprot.writeFieldEnd()
+        if self.canSerializeFMUstate is not None:
+            oprot.writeFieldBegin('canSerializeFMUstate', TType.BOOL, 3)
+            oprot.writeBool(self.canSerializeFMUstate)
+            oprot.writeFieldEnd()
+        if self.providesDirectionalDerivative is not None:
+            oprot.writeFieldBegin('providesDirectionalDerivative', TType.BOOL, 4)
+            oprot.writeBool(self.providesDirectionalDerivative)
+            oprot.writeFieldEnd()
+        if self.canHandleVariableCommunicationStepSize is not None:
+            oprot.writeFieldBegin('canHandleVariableCommunicationStepSize', TType.BOOL, 5)
+            oprot.writeBool(self.canHandleVariableCommunicationStepSize)
+            oprot.writeFieldEnd()
+        if self.canInterpolateInputs is not None:
+            oprot.writeFieldBegin('canInterpolateInputs', TType.BOOL, 6)
+            oprot.writeBool(self.canInterpolateInputs)
+            oprot.writeFieldEnd()
+        if self.maxOutputDerivativeOrder is not None:
+            oprot.writeFieldBegin('maxOutputDerivativeOrder', TType.I32, 7)
+            oprot.writeI32(self.maxOutputDerivativeOrder)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1662,6 +1778,7 @@ IntegerAttribute.thrift_spec = (
     (1, TType.I32, 'min', None, None, ),  # 1
     (2, TType.I32, 'max', None, None, ),  # 2
     (3, TType.I32, 'start', None, None, ),  # 3
+    (4, TType.STRING, 'quantity', 'UTF8', None, ),  # 4
 )
 all_structs.append(RealAttribute)
 RealAttribute.thrift_spec = (
@@ -1669,6 +1786,7 @@ RealAttribute.thrift_spec = (
     (1, TType.DOUBLE, 'min', None, None, ),  # 1
     (2, TType.DOUBLE, 'max', None, None, ),  # 2
     (3, TType.DOUBLE, 'start', None, None, ),  # 3
+    (4, TType.STRING, 'quantity', 'UTF8', None, ),  # 4
 )
 all_structs.append(StringAttribute)
 StringAttribute.thrift_spec = (
@@ -1686,6 +1804,7 @@ EnumerationAttribute.thrift_spec = (
     (1, TType.I32, 'min', None, None, ),  # 1
     (2, TType.I32, 'max', None, None, ),  # 2
     (3, TType.I32, 'start', None, None, ),  # 3
+    (4, TType.STRING, 'quantity', 'UTF8', None, ),  # 4
 )
 all_structs.append(ScalarVariableAttribute)
 ScalarVariableAttribute.thrift_spec = (
@@ -1699,14 +1818,13 @@ ScalarVariableAttribute.thrift_spec = (
 all_structs.append(ScalarVariable)
 ScalarVariable.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'valueReference', None, None, ),  # 1
+    (1, TType.I64, 'valueReference', None, None, ),  # 1
     (2, TType.STRING, 'name', 'UTF8', None, ),  # 2
     (3, TType.STRING, 'description', 'UTF8', None, ),  # 3
-    (4, TType.STRING, 'declaredType', 'UTF8', None, ),  # 4
-    (5, TType.I32, 'initial', None, None, ),  # 5
-    (6, TType.I32, 'causality', None, None, ),  # 6
-    (7, TType.I32, 'variability', None, None, ),  # 7
-    (8, TType.STRUCT, 'attribute', [ScalarVariableAttribute, None], None, ),  # 8
+    (4, TType.I32, 'initial', None, None, ),  # 4
+    (5, TType.I32, 'causality', None, None, ),  # 5
+    (6, TType.I32, 'variability', None, None, ),  # 6
+    (7, TType.STRUCT, 'attribute', [ScalarVariableAttribute, None], None, ),  # 7
 )
 all_structs.append(Unknown)
 Unknown.thrift_spec = (
@@ -1780,11 +1898,20 @@ ModelDescription.thrift_spec = (
     (9, TType.STRING, 'generationTool', 'UTF8', None, ),  # 9
     (10, TType.STRING, 'generationDateAndTime', 'UTF8', None, ),  # 10
     (11, TType.STRUCT, 'defaultExperiment', [DefaultExperiment, None], None, ),  # 11
-    (12, TType.I32, 'variableNamingConvention', None, None, ),  # 12
+    (12, TType.STRING, 'variableNamingConvention', 'UTF8', None, ),  # 12
     (13, TType.LIST, 'modelVariables', (TType.STRUCT, [ScalarVariable, None], False), None, ),  # 13
     (14, TType.STRUCT, 'modelStructure', [ModelStructure, None], None, ),  # 14
-    (15, TType.BOOL, 'supportsCoSimulation', None, None, ),  # 15
-    (16, TType.BOOL, 'supportsModelExchange', None, None, ),  # 16
+)
+all_structs.append(CoSimulationAttributes)
+CoSimulationAttributes.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'modelIdentifier', 'UTF8', None, ),  # 1
+    (2, TType.BOOL, 'canGetAndSetFMUstate', None, None, ),  # 2
+    (3, TType.BOOL, 'canSerializeFMUstate', None, None, ),  # 3
+    (4, TType.BOOL, 'providesDirectionalDerivative', None, None, ),  # 4
+    (5, TType.BOOL, 'canHandleVariableCommunicationStepSize', None, None, ),  # 5
+    (6, TType.BOOL, 'canInterpolateInputs', None, None, ),  # 6
+    (7, TType.I32, 'maxOutputDerivativeOrder', None, None, ),  # 7
 )
 fix_spec(all_structs)
 del all_structs

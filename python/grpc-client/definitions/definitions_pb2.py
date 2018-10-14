@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='definitions.proto',
   package='fmuproxy.grpc',
   syntax='proto3',
-  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\rfmuproxy.grpc\"\x9a\x04\n\x10ModelDescription\x12\x13\n\x0b\x66mi_version\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12 \n\x18generation_date_and_time\x18\n \x01(\t\x12<\n\x12\x64\x65\x66\x61ult_experiment\x18\x0b \x01(\x0b\x32 .fmuproxy.grpc.DefaultExperiment\x12K\n\x1avariable_naming_convention\x18\x0c \x01(\x0e\x32\'.fmuproxy.grpc.VariableNamingConvention\x12\x36\n\x0fmodel_variables\x18\r \x03(\x0b\x32\x1d.fmuproxy.grpc.ScalarVariable\x12\x36\n\x0fmodel_structure\x18\x0e \x01(\x0b\x32\x1d.fmuproxy.grpc.ModelStructure\x12\x1e\n\x16supports_co_simulation\x18\x0f \x01(\x08\x12\x1f\n\x17supports_model_exchange\x18\x10 \x01(\x08\";\n\x10IntegerAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\"8\n\rRealAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x01\x12\x0b\n\x03max\x18\x02 \x01(\x01\x12\r\n\x05start\x18\x03 \x01(\x01\" \n\x0fStringAttribute\x12\r\n\x05start\x18\x01 \x01(\t\"!\n\x10\x42ooleanAttribute\x12\r\n\x05start\x18\x01 \x01(\x08\"?\n\x14\x45numerationAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\"\xad\x04\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\r\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x15\n\rdeclared_type\x18\x04 \x01(\t\x12\'\n\x07initial\x18\x05 \x01(\x0e\x32\x16.fmuproxy.grpc.Initial\x12+\n\tcausality\x18\x06 \x01(\x0e\x32\x18.fmuproxy.grpc.Causality\x12/\n\x0bvariability\x18\x07 \x01(\x0e\x32\x1a.fmuproxy.grpc.Variability\x12<\n\x11integer_attribute\x18\n \x01(\x0b\x32\x1f.fmuproxy.grpc.IntegerAttributeH\x00\x12\x36\n\x0ereal_attribute\x18\x0b \x01(\x0b\x32\x1c.fmuproxy.grpc.RealAttributeH\x00\x12:\n\x10string_attribute\x18\x0c \x01(\x0b\x32\x1e.fmuproxy.grpc.StringAttributeH\x00\x12<\n\x11\x62oolean_attribute\x18\r \x01(\x0b\x32\x1f.fmuproxy.grpc.BooleanAttributeH\x00\x12\x44\n\x15\x65numeration_attribute\x18\x0e \x01(\x0b\x32#.fmuproxy.grpc.EnumerationAttributeH\x00\x42\x0b\n\tattribute\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"I\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12\x19\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\t\"\x98\x01\n\x0eModelStructure\x12\'\n\x07outputs\x18\x01 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12+\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12\x30\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown*\xa3\x01\n\tCausality\x12\x13\n\x0fINPUT_CAUSALITY\x10\x00\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x01\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x02\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x03\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x04\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x05*\x8d\x01\n\x0bVariability\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x00\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x01\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x02\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x03\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x04*H\n\x07Initial\x12\x11\n\rEXACT_INITIAL\x10\x00\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x01\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x02*w\n\x06Status\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05*4\n\x18VariableNamingConvention\x12\x08\n\x04\x46LAT\x10\x00\x12\x0e\n\nSTRUCTURED\x10\x01\x42*\n!no.mechatronics.sfi.fmuproxy.grpcB\x05Protob\x06proto3')
+  serialized_pb=_b('\n\x11\x64\x65\x66initions.proto\x12\rfmuproxy.grpc\"\xb0\x03\n\x10ModelDescription\x12\x13\n\x0b\x66mi_version\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12 \n\x18generation_date_and_time\x18\n \x01(\t\x12<\n\x12\x64\x65\x66\x61ult_experiment\x18\x0b \x01(\x0b\x32 .fmuproxy.grpc.DefaultExperiment\x12\"\n\x1avariable_naming_convention\x18\x0c \x01(\t\x12\x36\n\x0fmodel_variables\x18\r \x03(\x0b\x32\x1d.fmuproxy.grpc.ScalarVariable\x12\x36\n\x0fmodel_structure\x18\x0e \x01(\x0b\x32\x1d.fmuproxy.grpc.ModelStructure\"\x84\x02\n\x16\x43oSimulationAttributes\x12\x17\n\x0fmodelIdentifier\x18\x01 \x01(\t\x12\x1c\n\x14\x63\x61nGetAndSetFMUstate\x18\x02 \x01(\x08\x12\x1c\n\x14\x63\x61nSerializeFMUstate\x18\x03 \x01(\x08\x12%\n\x1dprovidesDirectionalDerivative\x18\x04 \x01(\x08\x12.\n&canHandleVariableCommunicationStepSize\x18\x05 \x01(\x08\x12\x1c\n\x14\x63\x61nInterpolateInputs\x18\x06 \x01(\x08\x12 \n\x18maxOutputDerivativeOrder\x18\x07 \x01(\r\"M\n\x10IntegerAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\x12\x10\n\x08quantity\x18\x04 \x01(\t\"J\n\rRealAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x01\x12\x0b\n\x03max\x18\x02 \x01(\x01\x12\r\n\x05start\x18\x03 \x01(\x01\x12\x10\n\x08quantity\x18\x04 \x01(\t\" \n\x0fStringAttribute\x12\r\n\x05start\x18\x01 \x01(\t\"!\n\x10\x42ooleanAttribute\x12\r\n\x05start\x18\x01 \x01(\x08\"Q\n\x14\x45numerationAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\x12\x10\n\x08quantity\x18\x04 \x01(\t\"\x96\x04\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\'\n\x07initial\x18\x04 \x01(\x0e\x32\x16.fmuproxy.grpc.Initial\x12+\n\tcausality\x18\x05 \x01(\x0e\x32\x18.fmuproxy.grpc.Causality\x12/\n\x0bvariability\x18\x06 \x01(\x0e\x32\x1a.fmuproxy.grpc.Variability\x12<\n\x11integer_attribute\x18\n \x01(\x0b\x32\x1f.fmuproxy.grpc.IntegerAttributeH\x00\x12\x36\n\x0ereal_attribute\x18\x0b \x01(\x0b\x32\x1c.fmuproxy.grpc.RealAttributeH\x00\x12:\n\x10string_attribute\x18\x0c \x01(\x0b\x32\x1e.fmuproxy.grpc.StringAttributeH\x00\x12<\n\x11\x62oolean_attribute\x18\r \x01(\x0b\x32\x1f.fmuproxy.grpc.BooleanAttributeH\x00\x12\x44\n\x15\x65numeration_attribute\x18\x0e \x01(\x0b\x32#.fmuproxy.grpc.EnumerationAttributeH\x00\x42\x0b\n\tattribute\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"I\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12\x19\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\t\"\x98\x01\n\x0eModelStructure\x12\'\n\x07outputs\x18\x01 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12+\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12\x30\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown*\xba\x01\n\tCausality\x12\x13\n\x0fINPUT_CAUSALITY\x10\x00\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x01\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x02\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x03\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x04\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x05\x12\x15\n\x11UNKNOWN_CAUSALITY\x10\x06*\xa6\x01\n\x0bVariability\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x00\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x01\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x02\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x03\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x04\x12\x17\n\x13UNKNOWN_VARIABILITY\x10\x05*]\n\x07Initial\x12\x11\n\rEXACT_INITIAL\x10\x00\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x01\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x02\x12\x13\n\x0fUNKNOWN_INITIAL\x10\x03*w\n\x06Status\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05\x42*\n!no.mechatronics.sfi.fmuproxy.grpcB\x05Protob\x06proto3')
 )
 
 _CAUSALITY = _descriptor.EnumDescriptor(
@@ -53,11 +53,15 @@ _CAUSALITY = _descriptor.EnumDescriptor(
       name='INDEPENDENT_CAUSALITY', index=5, number=5,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='UNKNOWN_CAUSALITY', index=6, number=6,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=1719,
-  serialized_end=1882,
+  serialized_start=1907,
+  serialized_end=2093,
 )
 _sym_db.RegisterEnumDescriptor(_CAUSALITY)
 
@@ -88,11 +92,15 @@ _VARIABILITY = _descriptor.EnumDescriptor(
       name='TUNABLE_VARIABILITY', index=4, number=4,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='UNKNOWN_VARIABILITY', index=5, number=5,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=1885,
-  serialized_end=2026,
+  serialized_start=2096,
+  serialized_end=2262,
 )
 _sym_db.RegisterEnumDescriptor(_VARIABILITY)
 
@@ -115,11 +123,15 @@ _INITIAL = _descriptor.EnumDescriptor(
       name='CALCULATED_INITIAL', index=2, number=2,
       options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='UNKNOWN_INITIAL', index=3, number=3,
+      options=None,
+      type=None),
   ],
   containing_type=None,
   options=None,
-  serialized_start=2028,
-  serialized_end=2100,
+  serialized_start=2264,
+  serialized_end=2357,
 )
 _sym_db.RegisterEnumDescriptor(_INITIAL)
 
@@ -157,57 +169,35 @@ _STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=2102,
-  serialized_end=2221,
+  serialized_start=2359,
+  serialized_end=2478,
 )
 _sym_db.RegisterEnumDescriptor(_STATUS)
 
 Status = enum_type_wrapper.EnumTypeWrapper(_STATUS)
-_VARIABLENAMINGCONVENTION = _descriptor.EnumDescriptor(
-  name='VariableNamingConvention',
-  full_name='fmuproxy.grpc.VariableNamingConvention',
-  filename=None,
-  file=DESCRIPTOR,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='FLAT', index=0, number=0,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='STRUCTURED', index=1, number=1,
-      options=None,
-      type=None),
-  ],
-  containing_type=None,
-  options=None,
-  serialized_start=2223,
-  serialized_end=2275,
-)
-_sym_db.RegisterEnumDescriptor(_VARIABLENAMINGCONVENTION)
-
-VariableNamingConvention = enum_type_wrapper.EnumTypeWrapper(_VARIABLENAMINGCONVENTION)
 INPUT_CAUSALITY = 0
 OUTPUT_CAUSALITY = 1
 PARAMETER_CAUSALITY = 2
 CALCULATED_PARAMETER_CAUSALITY = 3
 LOCAL_CAUSALITY = 4
 INDEPENDENT_CAUSALITY = 5
+UNKNOWN_CAUSALITY = 6
 CONSTANT_VARIABILITY = 0
 FIXED_VARIABILITY = 1
 CONTINUOUS_VARIABILITY = 2
 DISCRETE_VARIABILITY = 3
 TUNABLE_VARIABILITY = 4
+UNKNOWN_VARIABILITY = 5
 EXACT_INITIAL = 0
 APPROX_INITIAL = 1
 CALCULATED_INITIAL = 2
+UNKNOWN_INITIAL = 3
 OK_STATUS = 0
 WARNING_STATUS = 1
 DISCARD_STATUS = 2
 ERROR_STATUS = 3
 FATAL_STATUS = 4
 PENDING_STATUS = 5
-FLAT = 0
-STRUCTURED = 1
 
 
 
@@ -297,8 +287,8 @@ _MODELDESCRIPTION = _descriptor.Descriptor(
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='variable_naming_convention', full_name='fmuproxy.grpc.ModelDescription.variable_naming_convention', index=11,
-      number=12, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
+      number=12, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -316,17 +306,76 @@ _MODELDESCRIPTION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=37,
+  serialized_end=469,
+)
+
+
+_COSIMULATIONATTRIBUTES = _descriptor.Descriptor(
+  name='CoSimulationAttributes',
+  full_name='fmuproxy.grpc.CoSimulationAttributes',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
     _descriptor.FieldDescriptor(
-      name='supports_co_simulation', full_name='fmuproxy.grpc.ModelDescription.supports_co_simulation', index=14,
-      number=15, type=8, cpp_type=7, label=1,
+      name='modelIdentifier', full_name='fmuproxy.grpc.CoSimulationAttributes.modelIdentifier', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='canGetAndSetFMUstate', full_name='fmuproxy.grpc.CoSimulationAttributes.canGetAndSetFMUstate', index=1,
+      number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='supports_model_exchange', full_name='fmuproxy.grpc.ModelDescription.supports_model_exchange', index=15,
-      number=16, type=8, cpp_type=7, label=1,
+      name='canSerializeFMUstate', full_name='fmuproxy.grpc.CoSimulationAttributes.canSerializeFMUstate', index=2,
+      number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='providesDirectionalDerivative', full_name='fmuproxy.grpc.CoSimulationAttributes.providesDirectionalDerivative', index=3,
+      number=4, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='canHandleVariableCommunicationStepSize', full_name='fmuproxy.grpc.CoSimulationAttributes.canHandleVariableCommunicationStepSize', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='canInterpolateInputs', full_name='fmuproxy.grpc.CoSimulationAttributes.canInterpolateInputs', index=5,
+      number=6, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='maxOutputDerivativeOrder', full_name='fmuproxy.grpc.CoSimulationAttributes.maxOutputDerivativeOrder', index=6,
+      number=7, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
@@ -342,8 +391,8 @@ _MODELDESCRIPTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=37,
-  serialized_end=575,
+  serialized_start=472,
+  serialized_end=732,
 )
 
 
@@ -375,6 +424,13 @@ _INTEGERATTRIBUTE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='quantity', full_name='fmuproxy.grpc.IntegerAttribute.quantity', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -387,8 +443,8 @@ _INTEGERATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=577,
-  serialized_end=636,
+  serialized_start=734,
+  serialized_end=811,
 )
 
 
@@ -420,6 +476,13 @@ _REALATTRIBUTE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='quantity', full_name='fmuproxy.grpc.RealAttribute.quantity', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -432,8 +495,8 @@ _REALATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=638,
-  serialized_end=694,
+  serialized_start=813,
+  serialized_end=887,
 )
 
 
@@ -463,8 +526,8 @@ _STRINGATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=696,
-  serialized_end=728,
+  serialized_start=889,
+  serialized_end=921,
 )
 
 
@@ -494,8 +557,8 @@ _BOOLEANATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=730,
-  serialized_end=763,
+  serialized_start=923,
+  serialized_end=956,
 )
 
 
@@ -527,6 +590,13 @@ _ENUMERATIONATTRIBUTE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='quantity', full_name='fmuproxy.grpc.EnumerationAttribute.quantity', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -539,8 +609,8 @@ _ENUMERATIONATTRIBUTE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=765,
-  serialized_end=828,
+  serialized_start=958,
+  serialized_end=1039,
 )
 
 
@@ -553,7 +623,7 @@ _SCALARVARIABLE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='value_reference', full_name='fmuproxy.grpc.ScalarVariable.value_reference', index=0,
-      number=1, type=13, cpp_type=3, label=1,
+      number=1, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -573,63 +643,56 @@ _SCALARVARIABLE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='declared_type', full_name='fmuproxy.grpc.ScalarVariable.declared_type', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='initial', full_name='fmuproxy.grpc.ScalarVariable.initial', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='initial', full_name='fmuproxy.grpc.ScalarVariable.initial', index=4,
+      name='causality', full_name='fmuproxy.grpc.ScalarVariable.causality', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='causality', full_name='fmuproxy.grpc.ScalarVariable.causality', index=5,
+      name='variability', full_name='fmuproxy.grpc.ScalarVariable.variability', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='variability', full_name='fmuproxy.grpc.ScalarVariable.variability', index=6,
-      number=7, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='integer_attribute', full_name='fmuproxy.grpc.ScalarVariable.integer_attribute', index=7,
+      name='integer_attribute', full_name='fmuproxy.grpc.ScalarVariable.integer_attribute', index=6,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='real_attribute', full_name='fmuproxy.grpc.ScalarVariable.real_attribute', index=8,
+      name='real_attribute', full_name='fmuproxy.grpc.ScalarVariable.real_attribute', index=7,
       number=11, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='string_attribute', full_name='fmuproxy.grpc.ScalarVariable.string_attribute', index=9,
+      name='string_attribute', full_name='fmuproxy.grpc.ScalarVariable.string_attribute', index=8,
       number=12, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='boolean_attribute', full_name='fmuproxy.grpc.ScalarVariable.boolean_attribute', index=10,
+      name='boolean_attribute', full_name='fmuproxy.grpc.ScalarVariable.boolean_attribute', index=9,
       number=13, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='enumeration_attribute', full_name='fmuproxy.grpc.ScalarVariable.enumeration_attribute', index=11,
+      name='enumeration_attribute', full_name='fmuproxy.grpc.ScalarVariable.enumeration_attribute', index=10,
       number=14, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -650,8 +713,8 @@ _SCALARVARIABLE = _descriptor.Descriptor(
       name='attribute', full_name='fmuproxy.grpc.ScalarVariable.attribute',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=831,
-  serialized_end=1388,
+  serialized_start=1042,
+  serialized_end=1576,
 )
 
 
@@ -702,8 +765,8 @@ _DEFAULTEXPERIMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1390,
-  serialized_end=1486,
+  serialized_start=1578,
+  serialized_end=1674,
 )
 
 
@@ -747,8 +810,8 @@ _UNKNOWN = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1488,
-  serialized_end=1561,
+  serialized_start=1676,
+  serialized_end=1749,
 )
 
 
@@ -792,12 +855,11 @@ _MODELSTRUCTURE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1564,
-  serialized_end=1716,
+  serialized_start=1752,
+  serialized_end=1904,
 )
 
 _MODELDESCRIPTION.fields_by_name['default_experiment'].message_type = _DEFAULTEXPERIMENT
-_MODELDESCRIPTION.fields_by_name['variable_naming_convention'].enum_type = _VARIABLENAMINGCONVENTION
 _MODELDESCRIPTION.fields_by_name['model_variables'].message_type = _SCALARVARIABLE
 _MODELDESCRIPTION.fields_by_name['model_structure'].message_type = _MODELSTRUCTURE
 _SCALARVARIABLE.fields_by_name['initial'].enum_type = _INITIAL
@@ -827,6 +889,7 @@ _MODELSTRUCTURE.fields_by_name['outputs'].message_type = _UNKNOWN
 _MODELSTRUCTURE.fields_by_name['derivatives'].message_type = _UNKNOWN
 _MODELSTRUCTURE.fields_by_name['initial_unknowns'].message_type = _UNKNOWN
 DESCRIPTOR.message_types_by_name['ModelDescription'] = _MODELDESCRIPTION
+DESCRIPTOR.message_types_by_name['CoSimulationAttributes'] = _COSIMULATIONATTRIBUTES
 DESCRIPTOR.message_types_by_name['IntegerAttribute'] = _INTEGERATTRIBUTE
 DESCRIPTOR.message_types_by_name['RealAttribute'] = _REALATTRIBUTE
 DESCRIPTOR.message_types_by_name['StringAttribute'] = _STRINGATTRIBUTE
@@ -840,7 +903,6 @@ DESCRIPTOR.enum_types_by_name['Causality'] = _CAUSALITY
 DESCRIPTOR.enum_types_by_name['Variability'] = _VARIABILITY
 DESCRIPTOR.enum_types_by_name['Initial'] = _INITIAL
 DESCRIPTOR.enum_types_by_name['Status'] = _STATUS
-DESCRIPTOR.enum_types_by_name['VariableNamingConvention'] = _VARIABLENAMINGCONVENTION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ModelDescription = _reflection.GeneratedProtocolMessageType('ModelDescription', (_message.Message,), dict(
@@ -849,6 +911,13 @@ ModelDescription = _reflection.GeneratedProtocolMessageType('ModelDescription', 
   # @@protoc_insertion_point(class_scope:fmuproxy.grpc.ModelDescription)
   ))
 _sym_db.RegisterMessage(ModelDescription)
+
+CoSimulationAttributes = _reflection.GeneratedProtocolMessageType('CoSimulationAttributes', (_message.Message,), dict(
+  DESCRIPTOR = _COSIMULATIONATTRIBUTES,
+  __module__ = 'definitions_pb2'
+  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.CoSimulationAttributes)
+  ))
+_sym_db.RegisterMessage(CoSimulationAttributes)
 
 IntegerAttribute = _reflection.GeneratedProtocolMessageType('IntegerAttribute', (_message.Message,), dict(
   DESCRIPTOR = _INTEGERATTRIBUTE,

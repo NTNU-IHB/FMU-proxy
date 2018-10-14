@@ -47,7 +47,7 @@ internal fun Status.convert(): FmiStatus {
     }
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.Causality.convert(): Causality {
+internal fun no.mechatronics.sfi.fmuproxy.thrift.Causality.convert(): Causality? {
     return when(this) {
         no.mechatronics.sfi.fmuproxy.thrift.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
         no.mechatronics.sfi.fmuproxy.thrift.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
@@ -55,31 +55,27 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.Causality.convert(): Causality 
         no.mechatronics.sfi.fmuproxy.thrift.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
         no.mechatronics.sfi.fmuproxy.thrift.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
         no.mechatronics.sfi.fmuproxy.thrift.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
+        else -> null
     }
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.Variability.convert(): Variability {
+internal fun no.mechatronics.sfi.fmuproxy.thrift.Variability.convert(): Variability? {
     return when(this) {
         no.mechatronics.sfi.fmuproxy.thrift.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
         no.mechatronics.sfi.fmuproxy.thrift.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
         no.mechatronics.sfi.fmuproxy.thrift.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
         no.mechatronics.sfi.fmuproxy.thrift.Variability.FIXED_VARIABILITY -> Variability.FIXED
         no.mechatronics.sfi.fmuproxy.thrift.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
+        else -> null
     }
 }
 
-internal fun no.mechatronics.sfi.fmuproxy.thrift.Initial.convert(): Initial {
+internal fun no.mechatronics.sfi.fmuproxy.thrift.Initial.convert(): Initial? {
     return when(this) {
         no.mechatronics.sfi.fmuproxy.thrift.Initial.APPROX_INITIAL -> Initial.APPROX
         no.mechatronics.sfi.fmuproxy.thrift.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
         no.mechatronics.sfi.fmuproxy.thrift.Initial.EXACT_INITIAL -> Initial.EXACT
-    }
-}
-
-internal fun VariableNamingConvention.convert(): no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention {
-    return when(this) {
-        VariableNamingConvention.FLAT -> no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention.FLAT
-        VariableNamingConvention.STRUCTURED -> no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention.STRUCTURED
+        else -> null
     }
 }
 
@@ -135,7 +131,8 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.IntegerAttribute.convert(): Int
     return IntegerAttributeImpl(
             min = min,
             max = max,
-            start = start
+            start = start,
+            quantity = quantity
     )
 }
 
@@ -143,7 +140,8 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.RealAttribute.convert(): RealAt
     return RealAttributeImpl(
             min = min,
             max = max,
-            start = start
+            start = start,
+            quantity = quantity
     )
 }
 
@@ -163,7 +161,8 @@ internal fun no.mechatronics.sfi.fmuproxy.thrift.EnumerationAttribute.convert():
     return EnumerationAttributeImpl(
             min = min,
             max = max,
-            start = start
+            start = start,
+            quantity = quantity
     )
 }
 
@@ -274,7 +273,7 @@ class ThriftModelDescription(
         get() = modelDescription.modelName
     override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
     override val modelVariables: ModelVariables = modelDescription.modelVariables.convert()
-    override val variableNamingConvention: no.mechatronics.sfi.fmi4j.modeldescription.misc.VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
+    override val variableNamingConvention: String? = modelDescription.variableNamingConvention
     override val version: String?
         get() = modelDescription.version
 

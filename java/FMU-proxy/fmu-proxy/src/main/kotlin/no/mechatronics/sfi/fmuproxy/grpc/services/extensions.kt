@@ -27,6 +27,7 @@ package no.mechatronics.sfi.fmuproxy.grpc.services
 import no.mechatronics.sfi.fmi4j.common.FmiStatus
 import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -58,14 +59,28 @@ internal fun ModelDescription.protoType(): Proto.ModelDescription {
         md.fmiVersion = fmiVersion
         md.modelStructure = modelStructure.protoType()
         md.addAllModelVariables(modelVariables.map { it.protoType() })
+
         license?.also { md.license = it }
         copyright?.also { md.copyright = it }
         author?.also { md.author = it }
         version?.also { md.version = it }
-        license?.also { md.license = it }
+        description?.also { md.description = it }
         generationTool?.also { md.generationTool = it }
         generationDateAndTime?.also { md.generationDateAndTime = it }
+        defaultExperiment?.also { md.defaultExperiment = it.protoType() }
+        variableNamingConvention?.also { md.variableNamingConvention = it }
 
+    }.build()
+
+}
+
+internal fun DefaultExperiment.protoType(): Proto.DefaultExperiment {
+
+    return Proto.DefaultExperiment.newBuilder().also {
+        it.startTime = startTime
+        it.stopTime = stopTime
+        it.stepSize = stepSize
+        it.tolerance = tolerance
     }.build()
 
 }
@@ -92,6 +107,7 @@ internal fun IntegerVariable.protoType(): Proto.IntegerAttribute {
         min?.also { builder.min = it }
         max?.also { builder.max = it }
         start?.also { builder.start = it }
+        quantity?.also { builder.quantity = it }
     }.build()
 }
 
@@ -100,6 +116,7 @@ internal fun RealVariable.protoType(): Proto.RealAttribute {
         min?.also { builder.min = it }
         max?.also { builder.max = it }
         start?.also { builder.start = it }
+        quantity?.also { builder.quantity = it }
     }.build()
 }
 
@@ -120,6 +137,7 @@ internal fun EnumerationVariable.protoType(): Proto.EnumerationAttribute {
         min?.also { builder.min = it }
         max?.also { builder.max = it }
         start?.also { builder.start = it }
+        quantity?.also { builder.quantity = it }
     }.build()
 }
 
@@ -174,7 +192,7 @@ internal fun Causality.protoType(): Proto.Causality {
         Causality.PARAMETER -> Proto.Causality.PARAMETER_CAUSALITY
         Causality.LOCAL -> Proto.Causality.LOCAL_CAUSALITY
         Causality.INDEPENDENT -> Proto.Causality.INDEPENDENT_CAUSALITY
-        else -> Proto.Causality.UNRECOGNIZED
+        else -> Proto.Causality.UNKNOWN_CAUSALITY
     }
 
 }
@@ -187,7 +205,7 @@ internal fun Variability.protoType(): Proto.Variability {
         Variability.DISCRETE -> Proto.Variability.DISCRETE_VARIABILITY
         Variability.FIXED -> Proto.Variability.FIXED_VARIABILITY
         Variability.TUNABLE -> Proto.Variability.TUNABLE_VARIABILITY
-        else -> Proto.Variability.UNRECOGNIZED
+        else -> Proto.Variability.UNKNOWN_VARIABILITY
     }
 
 }
@@ -198,7 +216,7 @@ internal fun Initial.protoType(): Proto.Initial {
         Initial.CALCULATED ->  Proto.Initial.CALCULATED_INITIAL
         Initial.EXACT ->  Proto.Initial.EXACT_INITIAL
         Initial.APPROX ->  Proto.Initial.APPROX_INITIAL
-        else ->  Proto.Initial.UNRECOGNIZED
+        else ->  Proto.Initial.UNKNOWN_INITIAL
     }
 
 }

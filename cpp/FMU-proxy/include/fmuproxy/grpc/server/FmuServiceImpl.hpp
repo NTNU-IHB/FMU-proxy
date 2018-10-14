@@ -44,46 +44,56 @@ namespace fmuproxy::grpc::server {
 
         explicit FmuServiceImpl(std::unordered_map<std::string, std::shared_ptr<fmuproxy::fmi::Fmu>> &fmus);
 
-        ::grpc::Status
-        GetModelDescriptionXml(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest *request,
-                               ::fmuproxy::grpc::ModelDescriptionXml *response) override;
+        ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext *context,
+                                                 const ::fmuproxy::grpc::GetCoSimulationAttributesRequest *request,
+                                                 ::fmuproxy::grpc::CoSimulationAttributes *response) override;
+
+        ::grpc::Status CanCreateInstanceFromCS(::grpc::ServerContext *context,
+                                               const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest *request,
+                                               ::fmuproxy::grpc::Bool *response) override;
+
+        ::grpc::Status CanCreateInstanceFromME(::grpc::ServerContext *context,
+                                               const ::fmuproxy::grpc::CanCreateInstanceFromMERequest *request,
+                                               ::fmuproxy::grpc::Bool *response) override;
 
         ::grpc::Status
         GetModelDescription(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionRequest *request,
                             ::fmuproxy::grpc::ModelDescription *response) override;
 
         ::grpc::Status
-        CreateInstanceFromCS(::grpc::ServerContext *context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest *request,
+        CreateInstanceFromCS(::grpc::ServerContext *context,
+                             const ::fmuproxy::grpc::CreateInstanceFromCSRequest *request,
                              ::fmuproxy::grpc::InstanceId *response) override;
 
         ::grpc::Status
-        CreateInstanceFromME(::grpc::ServerContext *context, const ::fmuproxy::grpc::CreateInstanceFromMERequest *request,
+        CreateInstanceFromME(::grpc::ServerContext *context,
+                             const ::fmuproxy::grpc::CreateInstanceFromMERequest *request,
                              ::fmuproxy::grpc::InstanceId *response) override;
 
         ::grpc::Status Init(::grpc::ServerContext *context, const ::fmuproxy::grpc::InitRequest *request,
-                          ::fmuproxy::grpc::StatusResponse *response) override;
+                            ::fmuproxy::grpc::StatusResponse *response) override;
+
         ::grpc::Status Step(::grpc::ServerContext *context, const ::fmuproxy::grpc::StepRequest *request,
-                          ::fmuproxy::grpc::StepResponse *response) override;
+                            ::fmuproxy::grpc::StepResponse *response) override;
 
         ::grpc::Status Terminate(::grpc::ServerContext *context, const ::fmuproxy::grpc::TerminateRequest *request,
-                               ::fmuproxy::grpc::StatusResponse *response) override;
+                                 ::fmuproxy::grpc::StatusResponse *response) override;
 
         ::grpc::Status Reset(::grpc::ServerContext *context, const ::fmuproxy::grpc::ResetRequest *request,
-                           ::fmuproxy::grpc::StatusResponse *response) override;
-
+                             ::fmuproxy::grpc::StatusResponse *response) override;
 
 
         ::grpc::Status ReadInteger(::grpc::ServerContext *context, const ::fmuproxy::grpc::ReadRequest *request,
-                                 ::fmuproxy::grpc::IntegerRead *response) override;
+                                   ::fmuproxy::grpc::IntegerRead *response) override;
 
         ::grpc::Status ReadReal(::grpc::ServerContext *context, const ::fmuproxy::grpc::ReadRequest *request,
-                              ::fmuproxy::grpc::RealRead *response) override;
+                                ::fmuproxy::grpc::RealRead *response) override;
 
         ::grpc::Status ReadString(::grpc::ServerContext *context, const ::fmuproxy::grpc::ReadRequest *request,
-                                ::fmuproxy::grpc::StringRead *response) override;
+                                  ::fmuproxy::grpc::StringRead *response) override;
 
         ::grpc::Status ReadBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::ReadRequest *request,
-                                 ::fmuproxy::grpc::BooleanRead *response) override;
+                                   ::fmuproxy::grpc::BooleanRead *response) override;
 
 
         ::grpc::Status
@@ -102,22 +112,15 @@ namespace fmuproxy::grpc::server {
         WriteBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::WriteBooleanRequest *request,
                      ::fmuproxy::grpc::StatusResponse *response) override;
 
-        ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext *context,
-                                          const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest *request,
-                                          ::fmuproxy::grpc::Bool *response) override;
-
-        ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext *context,
-                                          const ::fmuproxy::grpc::CanSerializeFMUstateRequest *request,
-                                          ::fmuproxy::grpc::Bool *response) override;
-
         ::grpc::Status GetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetFMUstateRequest *request,
-                                 ::fmuproxy::grpc::GetFMUstateResponse *response) override;
+                                   ::fmuproxy::grpc::GetFMUstateResponse *response) override;
 
         ::grpc::Status SetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetFMUstateRequest *request,
-                                 ::fmuproxy::grpc::StatusResponse *response) override;
+                                   ::fmuproxy::grpc::StatusResponse *response) override;
 
-        ::grpc::Status FreeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::FreeFMUstateRequest *request,
-                                  ::fmuproxy::grpc::StatusResponse *response) override;
+        ::grpc::Status
+        FreeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::FreeFMUstateRequest *request,
+                     ::fmuproxy::grpc::StatusResponse *response) override;
 
         ::grpc::Status
         SerializeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SerializeFMUstateRequest *request,

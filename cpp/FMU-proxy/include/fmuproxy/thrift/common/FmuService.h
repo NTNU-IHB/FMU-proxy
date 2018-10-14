@@ -21,29 +21,29 @@ namespace fmuproxy { namespace thrift {
 class FmuServiceIf {
  public:
   virtual ~FmuServiceIf() {}
-  virtual void getModelDescriptionXml(std::string& _return, const FmuId& fmu_id) = 0;
-  virtual void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmu_id) = 0;
-  virtual void createInstanceFromCS(InstanceId& _return, const FmuId& fmu_id) = 0;
-  virtual void createInstanceFromME(InstanceId& _return, const FmuId& fmu_id, const  ::fmuproxy::thrift::Solver& solver) = 0;
-  virtual  ::fmuproxy::thrift::Status::type init(const InstanceId& instance_id, const double start, const double stop) = 0;
-  virtual void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instance_id, const double step_size) = 0;
-  virtual  ::fmuproxy::thrift::Status::type reset(const InstanceId& instance_id) = 0;
-  virtual  ::fmuproxy::thrift::Status::type terminate(const InstanceId& instance_id) = 0;
-  virtual void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instance_id, const ValueReferences& vr) = 0;
-  virtual void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instance_id, const ValueReferences& vr) = 0;
-  virtual void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instance_id, const ValueReferences& vr) = 0;
-  virtual void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instance_id, const ValueReferences& vr) = 0;
-  virtual  ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instance_id, const ValueReferences& vr, const IntArray& value) = 0;
-  virtual  ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instance_id, const ValueReferences& vr, const RealArray& value) = 0;
-  virtual  ::fmuproxy::thrift::Status::type writeString(const InstanceId& instance_id, const ValueReferences& vr, const StringArray& value) = 0;
-  virtual  ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instance_id, const ValueReferences& vr, const BooleanArray& value) = 0;
-  virtual bool canGetAndSetFMUstate(const InstanceId& instance_id) = 0;
-  virtual bool canSerializeFMUstate(const InstanceId& instance_id) = 0;
-  virtual void getFMUstate(GetFmuStateResult& _return, const InstanceId& instance_id) = 0;
-  virtual  ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instance_id, const FmuState state) = 0;
-  virtual  ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instance_id, const FmuState state) = 0;
-  virtual void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instance_id, const FmuState state) = 0;
-  virtual void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instance_id, const std::string& state) = 0;
+  virtual void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmuId) = 0;
+  virtual void getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& _return, const InstanceId& instanceId) = 0;
+  virtual bool canCreateInstanceFromCS(const FmuId& fmuId) = 0;
+  virtual bool canCreateInstanceFromME(const FmuId& fmuId) = 0;
+  virtual void createInstanceFromCS(InstanceId& _return, const FmuId& fmuId) = 0;
+  virtual void createInstanceFromME(InstanceId& _return, const FmuId& fmuId, const  ::fmuproxy::thrift::Solver& solver) = 0;
+  virtual  ::fmuproxy::thrift::Status::type init(const InstanceId& instanceId, const double start, const double stop) = 0;
+  virtual void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instanceId, const double stepSize) = 0;
+  virtual  ::fmuproxy::thrift::Status::type reset(const InstanceId& instanceId) = 0;
+  virtual  ::fmuproxy::thrift::Status::type terminate(const InstanceId& instanceId) = 0;
+  virtual void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instanceId, const ValueReferences& vr) = 0;
+  virtual void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instanceId, const ValueReferences& vr) = 0;
+  virtual void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instanceId, const ValueReferences& vr) = 0;
+  virtual void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instanceId, const ValueReferences& vr) = 0;
+  virtual  ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instanceId, const ValueReferences& vr, const IntArray& value) = 0;
+  virtual  ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instanceId, const ValueReferences& vr, const RealArray& value) = 0;
+  virtual  ::fmuproxy::thrift::Status::type writeString(const InstanceId& instanceId, const ValueReferences& vr, const StringArray& value) = 0;
+  virtual  ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instanceId, const ValueReferences& vr, const BooleanArray& value) = 0;
+  virtual void getFMUstate(GetFmuStateResult& _return, const InstanceId& instanceId) = 0;
+  virtual  ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instanceId, const FmuState state) = 0;
+  virtual  ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instanceId, const FmuState state) = 0;
+  virtual void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instanceId, const FmuState state) = 0;
+  virtual void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instanceId, const std::string& state) = 0;
 };
 
 class FmuServiceIfFactory {
@@ -73,203 +73,91 @@ class FmuServiceIfSingletonFactory : virtual public FmuServiceIfFactory {
 class FmuServiceNull : virtual public FmuServiceIf {
  public:
   virtual ~FmuServiceNull() {}
-  void getModelDescriptionXml(std::string& /* _return */, const FmuId& /* fmu_id */) {
+  void getModelDescription( ::fmuproxy::thrift::ModelDescription& /* _return */, const FmuId& /* fmuId */) {
     return;
   }
-  void getModelDescription( ::fmuproxy::thrift::ModelDescription& /* _return */, const FmuId& /* fmu_id */) {
+  void getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& /* _return */, const InstanceId& /* instanceId */) {
     return;
   }
-  void createInstanceFromCS(InstanceId& /* _return */, const FmuId& /* fmu_id */) {
-    return;
-  }
-  void createInstanceFromME(InstanceId& /* _return */, const FmuId& /* fmu_id */, const  ::fmuproxy::thrift::Solver& /* solver */) {
-    return;
-  }
-   ::fmuproxy::thrift::Status::type init(const InstanceId& /* instance_id */, const double /* start */, const double /* stop */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-  void step( ::fmuproxy::thrift::StepResult& /* _return */, const InstanceId& /* instance_id */, const double /* step_size */) {
-    return;
-  }
-   ::fmuproxy::thrift::Status::type reset(const InstanceId& /* instance_id */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-   ::fmuproxy::thrift::Status::type terminate(const InstanceId& /* instance_id */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-  void readInteger( ::fmuproxy::thrift::IntegerRead& /* _return */, const InstanceId& /* instance_id */, const ValueReferences& /* vr */) {
-    return;
-  }
-  void readReal( ::fmuproxy::thrift::RealRead& /* _return */, const InstanceId& /* instance_id */, const ValueReferences& /* vr */) {
-    return;
-  }
-  void readString( ::fmuproxy::thrift::StringRead& /* _return */, const InstanceId& /* instance_id */, const ValueReferences& /* vr */) {
-    return;
-  }
-  void readBoolean( ::fmuproxy::thrift::BooleanRead& /* _return */, const InstanceId& /* instance_id */, const ValueReferences& /* vr */) {
-    return;
-  }
-   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& /* instance_id */, const ValueReferences& /* vr */, const IntArray& /* value */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& /* instance_id */, const ValueReferences& /* vr */, const RealArray& /* value */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-   ::fmuproxy::thrift::Status::type writeString(const InstanceId& /* instance_id */, const ValueReferences& /* vr */, const StringArray& /* value */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& /* instance_id */, const ValueReferences& /* vr */, const BooleanArray& /* value */) {
-     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
-    return _return;
-  }
-  bool canGetAndSetFMUstate(const InstanceId& /* instance_id */) {
+  bool canCreateInstanceFromCS(const FmuId& /* fmuId */) {
     bool _return = false;
     return _return;
   }
-  bool canSerializeFMUstate(const InstanceId& /* instance_id */) {
+  bool canCreateInstanceFromME(const FmuId& /* fmuId */) {
     bool _return = false;
     return _return;
   }
-  void getFMUstate(GetFmuStateResult& /* _return */, const InstanceId& /* instance_id */) {
+  void createInstanceFromCS(InstanceId& /* _return */, const FmuId& /* fmuId */) {
     return;
   }
-   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& /* instance_id */, const FmuState /* state */) {
+  void createInstanceFromME(InstanceId& /* _return */, const FmuId& /* fmuId */, const  ::fmuproxy::thrift::Solver& /* solver */) {
+    return;
+  }
+   ::fmuproxy::thrift::Status::type init(const InstanceId& /* instanceId */, const double /* start */, const double /* stop */) {
      ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
     return _return;
   }
-   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& /* instance_id */, const FmuState /* state */) {
+  void step( ::fmuproxy::thrift::StepResult& /* _return */, const InstanceId& /* instanceId */, const double /* stepSize */) {
+    return;
+  }
+   ::fmuproxy::thrift::Status::type reset(const InstanceId& /* instanceId */) {
      ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
     return _return;
   }
-  void serializeFMUstate(SerializeFmuStateResult& /* _return */, const InstanceId& /* instance_id */, const FmuState /* state */) {
+   ::fmuproxy::thrift::Status::type terminate(const InstanceId& /* instanceId */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
+  }
+  void readInteger( ::fmuproxy::thrift::IntegerRead& /* _return */, const InstanceId& /* instanceId */, const ValueReferences& /* vr */) {
     return;
   }
-  void deSerializeFMUstate(DeSerializeFmuStateResult& /* _return */, const InstanceId& /* instance_id */, const std::string& /* state */) {
+  void readReal( ::fmuproxy::thrift::RealRead& /* _return */, const InstanceId& /* instanceId */, const ValueReferences& /* vr */) {
     return;
   }
-};
-
-typedef struct _FmuService_getModelDescriptionXml_args__isset {
-  _FmuService_getModelDescriptionXml_args__isset() : fmu_id(false) {}
-  bool fmu_id :1;
-} _FmuService_getModelDescriptionXml_args__isset;
-
-class FmuService_getModelDescriptionXml_args {
- public:
-
-  FmuService_getModelDescriptionXml_args(const FmuService_getModelDescriptionXml_args&);
-  FmuService_getModelDescriptionXml_args& operator=(const FmuService_getModelDescriptionXml_args&);
-  FmuService_getModelDescriptionXml_args() : fmu_id() {
+  void readString( ::fmuproxy::thrift::StringRead& /* _return */, const InstanceId& /* instanceId */, const ValueReferences& /* vr */) {
+    return;
   }
-
-  virtual ~FmuService_getModelDescriptionXml_args() throw();
-  FmuId fmu_id;
-
-  _FmuService_getModelDescriptionXml_args__isset __isset;
-
-  void __set_fmu_id(const FmuId& val);
-
-  bool operator == (const FmuService_getModelDescriptionXml_args & rhs) const
-  {
-    if (!(fmu_id == rhs.fmu_id))
-      return false;
-    return true;
+  void readBoolean( ::fmuproxy::thrift::BooleanRead& /* _return */, const InstanceId& /* instanceId */, const ValueReferences& /* vr */) {
+    return;
   }
-  bool operator != (const FmuService_getModelDescriptionXml_args &rhs) const {
-    return !(*this == rhs);
+   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& /* instanceId */, const ValueReferences& /* vr */, const IntArray& /* value */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
   }
-
-  bool operator < (const FmuService_getModelDescriptionXml_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class FmuService_getModelDescriptionXml_pargs {
- public:
-
-
-  virtual ~FmuService_getModelDescriptionXml_pargs() throw();
-  const FmuId* fmu_id;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _FmuService_getModelDescriptionXml_result__isset {
-  _FmuService_getModelDescriptionXml_result__isset() : success(false), ex(false) {}
-  bool success :1;
-  bool ex :1;
-} _FmuService_getModelDescriptionXml_result__isset;
-
-class FmuService_getModelDescriptionXml_result {
- public:
-
-  FmuService_getModelDescriptionXml_result(const FmuService_getModelDescriptionXml_result&);
-  FmuService_getModelDescriptionXml_result& operator=(const FmuService_getModelDescriptionXml_result&);
-  FmuService_getModelDescriptionXml_result() : success() {
+   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& /* instanceId */, const ValueReferences& /* vr */, const RealArray& /* value */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
   }
-
-  virtual ~FmuService_getModelDescriptionXml_result() throw();
-  std::string success;
-  NoSuchFmuException ex;
-
-  _FmuService_getModelDescriptionXml_result__isset __isset;
-
-  void __set_success(const std::string& val);
-
-  void __set_ex(const NoSuchFmuException& val);
-
-  bool operator == (const FmuService_getModelDescriptionXml_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    if (!(ex == rhs.ex))
-      return false;
-    return true;
+   ::fmuproxy::thrift::Status::type writeString(const InstanceId& /* instanceId */, const ValueReferences& /* vr */, const StringArray& /* value */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
   }
-  bool operator != (const FmuService_getModelDescriptionXml_result &rhs) const {
-    return !(*this == rhs);
+   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& /* instanceId */, const ValueReferences& /* vr */, const BooleanArray& /* value */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
   }
-
-  bool operator < (const FmuService_getModelDescriptionXml_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _FmuService_getModelDescriptionXml_presult__isset {
-  _FmuService_getModelDescriptionXml_presult__isset() : success(false), ex(false) {}
-  bool success :1;
-  bool ex :1;
-} _FmuService_getModelDescriptionXml_presult__isset;
-
-class FmuService_getModelDescriptionXml_presult {
- public:
-
-
-  virtual ~FmuService_getModelDescriptionXml_presult() throw();
-  std::string* success;
-  NoSuchFmuException ex;
-
-  _FmuService_getModelDescriptionXml_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
+  void getFMUstate(GetFmuStateResult& /* _return */, const InstanceId& /* instanceId */) {
+    return;
+  }
+   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& /* instanceId */, const FmuState /* state */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
+  }
+   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& /* instanceId */, const FmuState /* state */) {
+     ::fmuproxy::thrift::Status::type _return = ( ::fmuproxy::thrift::Status::type)0;
+    return _return;
+  }
+  void serializeFMUstate(SerializeFmuStateResult& /* _return */, const InstanceId& /* instanceId */, const FmuState /* state */) {
+    return;
+  }
+  void deSerializeFMUstate(DeSerializeFmuStateResult& /* _return */, const InstanceId& /* instanceId */, const std::string& /* state */) {
+    return;
+  }
 };
 
 typedef struct _FmuService_getModelDescription_args__isset {
-  _FmuService_getModelDescription_args__isset() : fmu_id(false) {}
-  bool fmu_id :1;
+  _FmuService_getModelDescription_args__isset() : fmuId(false) {}
+  bool fmuId :1;
 } _FmuService_getModelDescription_args__isset;
 
 class FmuService_getModelDescription_args {
@@ -277,19 +165,19 @@ class FmuService_getModelDescription_args {
 
   FmuService_getModelDescription_args(const FmuService_getModelDescription_args&);
   FmuService_getModelDescription_args& operator=(const FmuService_getModelDescription_args&);
-  FmuService_getModelDescription_args() : fmu_id() {
+  FmuService_getModelDescription_args() : fmuId() {
   }
 
   virtual ~FmuService_getModelDescription_args() throw();
-  FmuId fmu_id;
+  FmuId fmuId;
 
   _FmuService_getModelDescription_args__isset __isset;
 
-  void __set_fmu_id(const FmuId& val);
+  void __set_fmuId(const FmuId& val);
 
   bool operator == (const FmuService_getModelDescription_args & rhs) const
   {
-    if (!(fmu_id == rhs.fmu_id))
+    if (!(fmuId == rhs.fmuId))
       return false;
     return true;
   }
@@ -310,7 +198,7 @@ class FmuService_getModelDescription_pargs {
 
 
   virtual ~FmuService_getModelDescription_pargs() throw();
-  const FmuId* fmu_id;
+  const FmuId* fmuId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -379,9 +267,345 @@ class FmuService_getModelDescription_presult {
 
 };
 
+typedef struct _FmuService_getCoSimulationAttributes_args__isset {
+  _FmuService_getCoSimulationAttributes_args__isset() : instanceId(false) {}
+  bool instanceId :1;
+} _FmuService_getCoSimulationAttributes_args__isset;
+
+class FmuService_getCoSimulationAttributes_args {
+ public:
+
+  FmuService_getCoSimulationAttributes_args(const FmuService_getCoSimulationAttributes_args&);
+  FmuService_getCoSimulationAttributes_args& operator=(const FmuService_getCoSimulationAttributes_args&);
+  FmuService_getCoSimulationAttributes_args() : instanceId() {
+  }
+
+  virtual ~FmuService_getCoSimulationAttributes_args() throw();
+  InstanceId instanceId;
+
+  _FmuService_getCoSimulationAttributes_args__isset __isset;
+
+  void __set_instanceId(const InstanceId& val);
+
+  bool operator == (const FmuService_getCoSimulationAttributes_args & rhs) const
+  {
+    if (!(instanceId == rhs.instanceId))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_getCoSimulationAttributes_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_getCoSimulationAttributes_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class FmuService_getCoSimulationAttributes_pargs {
+ public:
+
+
+  virtual ~FmuService_getCoSimulationAttributes_pargs() throw();
+  const InstanceId* instanceId;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_getCoSimulationAttributes_result__isset {
+  _FmuService_getCoSimulationAttributes_result__isset() : success(false), ex(false) {}
+  bool success :1;
+  bool ex :1;
+} _FmuService_getCoSimulationAttributes_result__isset;
+
+class FmuService_getCoSimulationAttributes_result {
+ public:
+
+  FmuService_getCoSimulationAttributes_result(const FmuService_getCoSimulationAttributes_result&);
+  FmuService_getCoSimulationAttributes_result& operator=(const FmuService_getCoSimulationAttributes_result&);
+  FmuService_getCoSimulationAttributes_result() {
+  }
+
+  virtual ~FmuService_getCoSimulationAttributes_result() throw();
+   ::fmuproxy::thrift::CoSimulationAttributes success;
+  NoSuchInstanceException ex;
+
+  _FmuService_getCoSimulationAttributes_result__isset __isset;
+
+  void __set_success(const  ::fmuproxy::thrift::CoSimulationAttributes& val);
+
+  void __set_ex(const NoSuchInstanceException& val);
+
+  bool operator == (const FmuService_getCoSimulationAttributes_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(ex == rhs.ex))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_getCoSimulationAttributes_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_getCoSimulationAttributes_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_getCoSimulationAttributes_presult__isset {
+  _FmuService_getCoSimulationAttributes_presult__isset() : success(false), ex(false) {}
+  bool success :1;
+  bool ex :1;
+} _FmuService_getCoSimulationAttributes_presult__isset;
+
+class FmuService_getCoSimulationAttributes_presult {
+ public:
+
+
+  virtual ~FmuService_getCoSimulationAttributes_presult() throw();
+   ::fmuproxy::thrift::CoSimulationAttributes* success;
+  NoSuchInstanceException ex;
+
+  _FmuService_getCoSimulationAttributes_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _FmuService_canCreateInstanceFromCS_args__isset {
+  _FmuService_canCreateInstanceFromCS_args__isset() : fmuId(false) {}
+  bool fmuId :1;
+} _FmuService_canCreateInstanceFromCS_args__isset;
+
+class FmuService_canCreateInstanceFromCS_args {
+ public:
+
+  FmuService_canCreateInstanceFromCS_args(const FmuService_canCreateInstanceFromCS_args&);
+  FmuService_canCreateInstanceFromCS_args& operator=(const FmuService_canCreateInstanceFromCS_args&);
+  FmuService_canCreateInstanceFromCS_args() : fmuId() {
+  }
+
+  virtual ~FmuService_canCreateInstanceFromCS_args() throw();
+  FmuId fmuId;
+
+  _FmuService_canCreateInstanceFromCS_args__isset __isset;
+
+  void __set_fmuId(const FmuId& val);
+
+  bool operator == (const FmuService_canCreateInstanceFromCS_args & rhs) const
+  {
+    if (!(fmuId == rhs.fmuId))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_canCreateInstanceFromCS_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_canCreateInstanceFromCS_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class FmuService_canCreateInstanceFromCS_pargs {
+ public:
+
+
+  virtual ~FmuService_canCreateInstanceFromCS_pargs() throw();
+  const FmuId* fmuId;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_canCreateInstanceFromCS_result__isset {
+  _FmuService_canCreateInstanceFromCS_result__isset() : success(false), ex(false) {}
+  bool success :1;
+  bool ex :1;
+} _FmuService_canCreateInstanceFromCS_result__isset;
+
+class FmuService_canCreateInstanceFromCS_result {
+ public:
+
+  FmuService_canCreateInstanceFromCS_result(const FmuService_canCreateInstanceFromCS_result&);
+  FmuService_canCreateInstanceFromCS_result& operator=(const FmuService_canCreateInstanceFromCS_result&);
+  FmuService_canCreateInstanceFromCS_result() : success(0) {
+  }
+
+  virtual ~FmuService_canCreateInstanceFromCS_result() throw();
+  bool success;
+  NoSuchFmuException ex;
+
+  _FmuService_canCreateInstanceFromCS_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  void __set_ex(const NoSuchFmuException& val);
+
+  bool operator == (const FmuService_canCreateInstanceFromCS_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(ex == rhs.ex))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_canCreateInstanceFromCS_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_canCreateInstanceFromCS_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_canCreateInstanceFromCS_presult__isset {
+  _FmuService_canCreateInstanceFromCS_presult__isset() : success(false), ex(false) {}
+  bool success :1;
+  bool ex :1;
+} _FmuService_canCreateInstanceFromCS_presult__isset;
+
+class FmuService_canCreateInstanceFromCS_presult {
+ public:
+
+
+  virtual ~FmuService_canCreateInstanceFromCS_presult() throw();
+  bool* success;
+  NoSuchFmuException ex;
+
+  _FmuService_canCreateInstanceFromCS_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _FmuService_canCreateInstanceFromME_args__isset {
+  _FmuService_canCreateInstanceFromME_args__isset() : fmuId(false) {}
+  bool fmuId :1;
+} _FmuService_canCreateInstanceFromME_args__isset;
+
+class FmuService_canCreateInstanceFromME_args {
+ public:
+
+  FmuService_canCreateInstanceFromME_args(const FmuService_canCreateInstanceFromME_args&);
+  FmuService_canCreateInstanceFromME_args& operator=(const FmuService_canCreateInstanceFromME_args&);
+  FmuService_canCreateInstanceFromME_args() : fmuId() {
+  }
+
+  virtual ~FmuService_canCreateInstanceFromME_args() throw();
+  FmuId fmuId;
+
+  _FmuService_canCreateInstanceFromME_args__isset __isset;
+
+  void __set_fmuId(const FmuId& val);
+
+  bool operator == (const FmuService_canCreateInstanceFromME_args & rhs) const
+  {
+    if (!(fmuId == rhs.fmuId))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_canCreateInstanceFromME_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_canCreateInstanceFromME_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class FmuService_canCreateInstanceFromME_pargs {
+ public:
+
+
+  virtual ~FmuService_canCreateInstanceFromME_pargs() throw();
+  const FmuId* fmuId;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_canCreateInstanceFromME_result__isset {
+  _FmuService_canCreateInstanceFromME_result__isset() : success(false), ex(false) {}
+  bool success :1;
+  bool ex :1;
+} _FmuService_canCreateInstanceFromME_result__isset;
+
+class FmuService_canCreateInstanceFromME_result {
+ public:
+
+  FmuService_canCreateInstanceFromME_result(const FmuService_canCreateInstanceFromME_result&);
+  FmuService_canCreateInstanceFromME_result& operator=(const FmuService_canCreateInstanceFromME_result&);
+  FmuService_canCreateInstanceFromME_result() : success(0) {
+  }
+
+  virtual ~FmuService_canCreateInstanceFromME_result() throw();
+  bool success;
+  NoSuchFmuException ex;
+
+  _FmuService_canCreateInstanceFromME_result__isset __isset;
+
+  void __set_success(const bool val);
+
+  void __set_ex(const NoSuchFmuException& val);
+
+  bool operator == (const FmuService_canCreateInstanceFromME_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    if (!(ex == rhs.ex))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_canCreateInstanceFromME_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_canCreateInstanceFromME_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_canCreateInstanceFromME_presult__isset {
+  _FmuService_canCreateInstanceFromME_presult__isset() : success(false), ex(false) {}
+  bool success :1;
+  bool ex :1;
+} _FmuService_canCreateInstanceFromME_presult__isset;
+
+class FmuService_canCreateInstanceFromME_presult {
+ public:
+
+
+  virtual ~FmuService_canCreateInstanceFromME_presult() throw();
+  bool* success;
+  NoSuchFmuException ex;
+
+  _FmuService_canCreateInstanceFromME_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _FmuService_createInstanceFromCS_args__isset {
-  _FmuService_createInstanceFromCS_args__isset() : fmu_id(false) {}
-  bool fmu_id :1;
+  _FmuService_createInstanceFromCS_args__isset() : fmuId(false) {}
+  bool fmuId :1;
 } _FmuService_createInstanceFromCS_args__isset;
 
 class FmuService_createInstanceFromCS_args {
@@ -389,19 +613,19 @@ class FmuService_createInstanceFromCS_args {
 
   FmuService_createInstanceFromCS_args(const FmuService_createInstanceFromCS_args&);
   FmuService_createInstanceFromCS_args& operator=(const FmuService_createInstanceFromCS_args&);
-  FmuService_createInstanceFromCS_args() : fmu_id() {
+  FmuService_createInstanceFromCS_args() : fmuId() {
   }
 
   virtual ~FmuService_createInstanceFromCS_args() throw();
-  FmuId fmu_id;
+  FmuId fmuId;
 
   _FmuService_createInstanceFromCS_args__isset __isset;
 
-  void __set_fmu_id(const FmuId& val);
+  void __set_fmuId(const FmuId& val);
 
   bool operator == (const FmuService_createInstanceFromCS_args & rhs) const
   {
-    if (!(fmu_id == rhs.fmu_id))
+    if (!(fmuId == rhs.fmuId))
       return false;
     return true;
   }
@@ -422,7 +646,7 @@ class FmuService_createInstanceFromCS_pargs {
 
 
   virtual ~FmuService_createInstanceFromCS_pargs() throw();
-  const FmuId* fmu_id;
+  const FmuId* fmuId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -500,8 +724,8 @@ class FmuService_createInstanceFromCS_presult {
 };
 
 typedef struct _FmuService_createInstanceFromME_args__isset {
-  _FmuService_createInstanceFromME_args__isset() : fmu_id(false), solver(false) {}
-  bool fmu_id :1;
+  _FmuService_createInstanceFromME_args__isset() : fmuId(false), solver(false) {}
+  bool fmuId :1;
   bool solver :1;
 } _FmuService_createInstanceFromME_args__isset;
 
@@ -510,22 +734,22 @@ class FmuService_createInstanceFromME_args {
 
   FmuService_createInstanceFromME_args(const FmuService_createInstanceFromME_args&);
   FmuService_createInstanceFromME_args& operator=(const FmuService_createInstanceFromME_args&);
-  FmuService_createInstanceFromME_args() : fmu_id() {
+  FmuService_createInstanceFromME_args() : fmuId() {
   }
 
   virtual ~FmuService_createInstanceFromME_args() throw();
-  FmuId fmu_id;
+  FmuId fmuId;
    ::fmuproxy::thrift::Solver solver;
 
   _FmuService_createInstanceFromME_args__isset __isset;
 
-  void __set_fmu_id(const FmuId& val);
+  void __set_fmuId(const FmuId& val);
 
   void __set_solver(const  ::fmuproxy::thrift::Solver& val);
 
   bool operator == (const FmuService_createInstanceFromME_args & rhs) const
   {
-    if (!(fmu_id == rhs.fmu_id))
+    if (!(fmuId == rhs.fmuId))
       return false;
     if (!(solver == rhs.solver))
       return false;
@@ -548,7 +772,7 @@ class FmuService_createInstanceFromME_pargs {
 
 
   virtual ~FmuService_createInstanceFromME_pargs() throw();
-  const FmuId* fmu_id;
+  const FmuId* fmuId;
   const  ::fmuproxy::thrift::Solver* solver;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -627,8 +851,8 @@ class FmuService_createInstanceFromME_presult {
 };
 
 typedef struct _FmuService_init_args__isset {
-  _FmuService_init_args__isset() : instance_id(false), start(false), stop(false) {}
-  bool instance_id :1;
+  _FmuService_init_args__isset() : instanceId(false), start(false), stop(false) {}
+  bool instanceId :1;
   bool start :1;
   bool stop :1;
 } _FmuService_init_args__isset;
@@ -638,17 +862,17 @@ class FmuService_init_args {
 
   FmuService_init_args(const FmuService_init_args&);
   FmuService_init_args& operator=(const FmuService_init_args&);
-  FmuService_init_args() : instance_id(), start(0), stop(0) {
+  FmuService_init_args() : instanceId(), start(0), stop(0) {
   }
 
   virtual ~FmuService_init_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   double start;
   double stop;
 
   _FmuService_init_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_start(const double val);
 
@@ -656,7 +880,7 @@ class FmuService_init_args {
 
   bool operator == (const FmuService_init_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(start == rhs.start))
       return false;
@@ -681,7 +905,7 @@ class FmuService_init_pargs {
 
 
   virtual ~FmuService_init_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const double* start;
   const double* stop;
 
@@ -753,9 +977,9 @@ class FmuService_init_presult {
 };
 
 typedef struct _FmuService_step_args__isset {
-  _FmuService_step_args__isset() : instance_id(false), step_size(false) {}
-  bool instance_id :1;
-  bool step_size :1;
+  _FmuService_step_args__isset() : instanceId(false), stepSize(false) {}
+  bool instanceId :1;
+  bool stepSize :1;
 } _FmuService_step_args__isset;
 
 class FmuService_step_args {
@@ -763,24 +987,24 @@ class FmuService_step_args {
 
   FmuService_step_args(const FmuService_step_args&);
   FmuService_step_args& operator=(const FmuService_step_args&);
-  FmuService_step_args() : instance_id(), step_size(0) {
+  FmuService_step_args() : instanceId(), stepSize(0) {
   }
 
   virtual ~FmuService_step_args() throw();
-  InstanceId instance_id;
-  double step_size;
+  InstanceId instanceId;
+  double stepSize;
 
   _FmuService_step_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
-  void __set_step_size(const double val);
+  void __set_stepSize(const double val);
 
   bool operator == (const FmuService_step_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
-    if (!(step_size == rhs.step_size))
+    if (!(stepSize == rhs.stepSize))
       return false;
     return true;
   }
@@ -801,8 +1025,8 @@ class FmuService_step_pargs {
 
 
   virtual ~FmuService_step_pargs() throw();
-  const InstanceId* instance_id;
-  const double* step_size;
+  const InstanceId* instanceId;
+  const double* stepSize;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -872,8 +1096,8 @@ class FmuService_step_presult {
 };
 
 typedef struct _FmuService_reset_args__isset {
-  _FmuService_reset_args__isset() : instance_id(false) {}
-  bool instance_id :1;
+  _FmuService_reset_args__isset() : instanceId(false) {}
+  bool instanceId :1;
 } _FmuService_reset_args__isset;
 
 class FmuService_reset_args {
@@ -881,19 +1105,19 @@ class FmuService_reset_args {
 
   FmuService_reset_args(const FmuService_reset_args&);
   FmuService_reset_args& operator=(const FmuService_reset_args&);
-  FmuService_reset_args() : instance_id() {
+  FmuService_reset_args() : instanceId() {
   }
 
   virtual ~FmuService_reset_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
 
   _FmuService_reset_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   bool operator == (const FmuService_reset_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     return true;
   }
@@ -914,7 +1138,7 @@ class FmuService_reset_pargs {
 
 
   virtual ~FmuService_reset_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -984,8 +1208,8 @@ class FmuService_reset_presult {
 };
 
 typedef struct _FmuService_terminate_args__isset {
-  _FmuService_terminate_args__isset() : instance_id(false) {}
-  bool instance_id :1;
+  _FmuService_terminate_args__isset() : instanceId(false) {}
+  bool instanceId :1;
 } _FmuService_terminate_args__isset;
 
 class FmuService_terminate_args {
@@ -993,19 +1217,19 @@ class FmuService_terminate_args {
 
   FmuService_terminate_args(const FmuService_terminate_args&);
   FmuService_terminate_args& operator=(const FmuService_terminate_args&);
-  FmuService_terminate_args() : instance_id() {
+  FmuService_terminate_args() : instanceId() {
   }
 
   virtual ~FmuService_terminate_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
 
   _FmuService_terminate_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   bool operator == (const FmuService_terminate_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     return true;
   }
@@ -1026,7 +1250,7 @@ class FmuService_terminate_pargs {
 
 
   virtual ~FmuService_terminate_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1096,8 +1320,8 @@ class FmuService_terminate_presult {
 };
 
 typedef struct _FmuService_readInteger_args__isset {
-  _FmuService_readInteger_args__isset() : instance_id(false), vr(false) {}
-  bool instance_id :1;
+  _FmuService_readInteger_args__isset() : instanceId(false), vr(false) {}
+  bool instanceId :1;
   bool vr :1;
 } _FmuService_readInteger_args__isset;
 
@@ -1106,22 +1330,22 @@ class FmuService_readInteger_args {
 
   FmuService_readInteger_args(const FmuService_readInteger_args&);
   FmuService_readInteger_args& operator=(const FmuService_readInteger_args&);
-  FmuService_readInteger_args() : instance_id() {
+  FmuService_readInteger_args() : instanceId() {
   }
 
   virtual ~FmuService_readInteger_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
 
   _FmuService_readInteger_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
   bool operator == (const FmuService_readInteger_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1144,7 +1368,7 @@ class FmuService_readInteger_pargs {
 
 
   virtual ~FmuService_readInteger_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1223,8 +1447,8 @@ class FmuService_readInteger_presult {
 };
 
 typedef struct _FmuService_readReal_args__isset {
-  _FmuService_readReal_args__isset() : instance_id(false), vr(false) {}
-  bool instance_id :1;
+  _FmuService_readReal_args__isset() : instanceId(false), vr(false) {}
+  bool instanceId :1;
   bool vr :1;
 } _FmuService_readReal_args__isset;
 
@@ -1233,22 +1457,22 @@ class FmuService_readReal_args {
 
   FmuService_readReal_args(const FmuService_readReal_args&);
   FmuService_readReal_args& operator=(const FmuService_readReal_args&);
-  FmuService_readReal_args() : instance_id() {
+  FmuService_readReal_args() : instanceId() {
   }
 
   virtual ~FmuService_readReal_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
 
   _FmuService_readReal_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
   bool operator == (const FmuService_readReal_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1271,7 +1495,7 @@ class FmuService_readReal_pargs {
 
 
   virtual ~FmuService_readReal_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1350,8 +1574,8 @@ class FmuService_readReal_presult {
 };
 
 typedef struct _FmuService_readString_args__isset {
-  _FmuService_readString_args__isset() : instance_id(false), vr(false) {}
-  bool instance_id :1;
+  _FmuService_readString_args__isset() : instanceId(false), vr(false) {}
+  bool instanceId :1;
   bool vr :1;
 } _FmuService_readString_args__isset;
 
@@ -1360,22 +1584,22 @@ class FmuService_readString_args {
 
   FmuService_readString_args(const FmuService_readString_args&);
   FmuService_readString_args& operator=(const FmuService_readString_args&);
-  FmuService_readString_args() : instance_id() {
+  FmuService_readString_args() : instanceId() {
   }
 
   virtual ~FmuService_readString_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
 
   _FmuService_readString_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
   bool operator == (const FmuService_readString_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1398,7 +1622,7 @@ class FmuService_readString_pargs {
 
 
   virtual ~FmuService_readString_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1477,8 +1701,8 @@ class FmuService_readString_presult {
 };
 
 typedef struct _FmuService_readBoolean_args__isset {
-  _FmuService_readBoolean_args__isset() : instance_id(false), vr(false) {}
-  bool instance_id :1;
+  _FmuService_readBoolean_args__isset() : instanceId(false), vr(false) {}
+  bool instanceId :1;
   bool vr :1;
 } _FmuService_readBoolean_args__isset;
 
@@ -1487,22 +1711,22 @@ class FmuService_readBoolean_args {
 
   FmuService_readBoolean_args(const FmuService_readBoolean_args&);
   FmuService_readBoolean_args& operator=(const FmuService_readBoolean_args&);
-  FmuService_readBoolean_args() : instance_id() {
+  FmuService_readBoolean_args() : instanceId() {
   }
 
   virtual ~FmuService_readBoolean_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
 
   _FmuService_readBoolean_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
   bool operator == (const FmuService_readBoolean_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1525,7 +1749,7 @@ class FmuService_readBoolean_pargs {
 
 
   virtual ~FmuService_readBoolean_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1604,8 +1828,8 @@ class FmuService_readBoolean_presult {
 };
 
 typedef struct _FmuService_writeInteger_args__isset {
-  _FmuService_writeInteger_args__isset() : instance_id(false), vr(false), value(false) {}
-  bool instance_id :1;
+  _FmuService_writeInteger_args__isset() : instanceId(false), vr(false), value(false) {}
+  bool instanceId :1;
   bool vr :1;
   bool value :1;
 } _FmuService_writeInteger_args__isset;
@@ -1615,17 +1839,17 @@ class FmuService_writeInteger_args {
 
   FmuService_writeInteger_args(const FmuService_writeInteger_args&);
   FmuService_writeInteger_args& operator=(const FmuService_writeInteger_args&);
-  FmuService_writeInteger_args() : instance_id() {
+  FmuService_writeInteger_args() : instanceId() {
   }
 
   virtual ~FmuService_writeInteger_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
   IntArray value;
 
   _FmuService_writeInteger_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
@@ -1633,7 +1857,7 @@ class FmuService_writeInteger_args {
 
   bool operator == (const FmuService_writeInteger_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1658,7 +1882,7 @@ class FmuService_writeInteger_pargs {
 
 
   virtual ~FmuService_writeInteger_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
   const IntArray* value;
 
@@ -1738,8 +1962,8 @@ class FmuService_writeInteger_presult {
 };
 
 typedef struct _FmuService_writeReal_args__isset {
-  _FmuService_writeReal_args__isset() : instance_id(false), vr(false), value(false) {}
-  bool instance_id :1;
+  _FmuService_writeReal_args__isset() : instanceId(false), vr(false), value(false) {}
+  bool instanceId :1;
   bool vr :1;
   bool value :1;
 } _FmuService_writeReal_args__isset;
@@ -1749,17 +1973,17 @@ class FmuService_writeReal_args {
 
   FmuService_writeReal_args(const FmuService_writeReal_args&);
   FmuService_writeReal_args& operator=(const FmuService_writeReal_args&);
-  FmuService_writeReal_args() : instance_id() {
+  FmuService_writeReal_args() : instanceId() {
   }
 
   virtual ~FmuService_writeReal_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
   RealArray value;
 
   _FmuService_writeReal_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
@@ -1767,7 +1991,7 @@ class FmuService_writeReal_args {
 
   bool operator == (const FmuService_writeReal_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1792,7 +2016,7 @@ class FmuService_writeReal_pargs {
 
 
   virtual ~FmuService_writeReal_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
   const RealArray* value;
 
@@ -1872,8 +2096,8 @@ class FmuService_writeReal_presult {
 };
 
 typedef struct _FmuService_writeString_args__isset {
-  _FmuService_writeString_args__isset() : instance_id(false), vr(false), value(false) {}
-  bool instance_id :1;
+  _FmuService_writeString_args__isset() : instanceId(false), vr(false), value(false) {}
+  bool instanceId :1;
   bool vr :1;
   bool value :1;
 } _FmuService_writeString_args__isset;
@@ -1883,17 +2107,17 @@ class FmuService_writeString_args {
 
   FmuService_writeString_args(const FmuService_writeString_args&);
   FmuService_writeString_args& operator=(const FmuService_writeString_args&);
-  FmuService_writeString_args() : instance_id() {
+  FmuService_writeString_args() : instanceId() {
   }
 
   virtual ~FmuService_writeString_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
   StringArray value;
 
   _FmuService_writeString_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
@@ -1901,7 +2125,7 @@ class FmuService_writeString_args {
 
   bool operator == (const FmuService_writeString_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -1926,7 +2150,7 @@ class FmuService_writeString_pargs {
 
 
   virtual ~FmuService_writeString_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
   const StringArray* value;
 
@@ -2006,8 +2230,8 @@ class FmuService_writeString_presult {
 };
 
 typedef struct _FmuService_writeBoolean_args__isset {
-  _FmuService_writeBoolean_args__isset() : instance_id(false), vr(false), value(false) {}
-  bool instance_id :1;
+  _FmuService_writeBoolean_args__isset() : instanceId(false), vr(false), value(false) {}
+  bool instanceId :1;
   bool vr :1;
   bool value :1;
 } _FmuService_writeBoolean_args__isset;
@@ -2017,17 +2241,17 @@ class FmuService_writeBoolean_args {
 
   FmuService_writeBoolean_args(const FmuService_writeBoolean_args&);
   FmuService_writeBoolean_args& operator=(const FmuService_writeBoolean_args&);
-  FmuService_writeBoolean_args() : instance_id() {
+  FmuService_writeBoolean_args() : instanceId() {
   }
 
   virtual ~FmuService_writeBoolean_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   ValueReferences vr;
   BooleanArray value;
 
   _FmuService_writeBoolean_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_vr(const ValueReferences& val);
 
@@ -2035,7 +2259,7 @@ class FmuService_writeBoolean_args {
 
   bool operator == (const FmuService_writeBoolean_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(vr == rhs.vr))
       return false;
@@ -2060,7 +2284,7 @@ class FmuService_writeBoolean_pargs {
 
 
   virtual ~FmuService_writeBoolean_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const ValueReferences* vr;
   const BooleanArray* value;
 
@@ -2139,217 +2363,9 @@ class FmuService_writeBoolean_presult {
 
 };
 
-typedef struct _FmuService_canGetAndSetFMUstate_args__isset {
-  _FmuService_canGetAndSetFMUstate_args__isset() : instance_id(false) {}
-  bool instance_id :1;
-} _FmuService_canGetAndSetFMUstate_args__isset;
-
-class FmuService_canGetAndSetFMUstate_args {
- public:
-
-  FmuService_canGetAndSetFMUstate_args(const FmuService_canGetAndSetFMUstate_args&);
-  FmuService_canGetAndSetFMUstate_args& operator=(const FmuService_canGetAndSetFMUstate_args&);
-  FmuService_canGetAndSetFMUstate_args() : instance_id() {
-  }
-
-  virtual ~FmuService_canGetAndSetFMUstate_args() throw();
-  InstanceId instance_id;
-
-  _FmuService_canGetAndSetFMUstate_args__isset __isset;
-
-  void __set_instance_id(const InstanceId& val);
-
-  bool operator == (const FmuService_canGetAndSetFMUstate_args & rhs) const
-  {
-    if (!(instance_id == rhs.instance_id))
-      return false;
-    return true;
-  }
-  bool operator != (const FmuService_canGetAndSetFMUstate_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const FmuService_canGetAndSetFMUstate_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class FmuService_canGetAndSetFMUstate_pargs {
- public:
-
-
-  virtual ~FmuService_canGetAndSetFMUstate_pargs() throw();
-  const InstanceId* instance_id;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _FmuService_canGetAndSetFMUstate_result__isset {
-  _FmuService_canGetAndSetFMUstate_result__isset() : success(false) {}
-  bool success :1;
-} _FmuService_canGetAndSetFMUstate_result__isset;
-
-class FmuService_canGetAndSetFMUstate_result {
- public:
-
-  FmuService_canGetAndSetFMUstate_result(const FmuService_canGetAndSetFMUstate_result&);
-  FmuService_canGetAndSetFMUstate_result& operator=(const FmuService_canGetAndSetFMUstate_result&);
-  FmuService_canGetAndSetFMUstate_result() : success(0) {
-  }
-
-  virtual ~FmuService_canGetAndSetFMUstate_result() throw();
-  bool success;
-
-  _FmuService_canGetAndSetFMUstate_result__isset __isset;
-
-  void __set_success(const bool val);
-
-  bool operator == (const FmuService_canGetAndSetFMUstate_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const FmuService_canGetAndSetFMUstate_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const FmuService_canGetAndSetFMUstate_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _FmuService_canGetAndSetFMUstate_presult__isset {
-  _FmuService_canGetAndSetFMUstate_presult__isset() : success(false) {}
-  bool success :1;
-} _FmuService_canGetAndSetFMUstate_presult__isset;
-
-class FmuService_canGetAndSetFMUstate_presult {
- public:
-
-
-  virtual ~FmuService_canGetAndSetFMUstate_presult() throw();
-  bool* success;
-
-  _FmuService_canGetAndSetFMUstate_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-typedef struct _FmuService_canSerializeFMUstate_args__isset {
-  _FmuService_canSerializeFMUstate_args__isset() : instance_id(false) {}
-  bool instance_id :1;
-} _FmuService_canSerializeFMUstate_args__isset;
-
-class FmuService_canSerializeFMUstate_args {
- public:
-
-  FmuService_canSerializeFMUstate_args(const FmuService_canSerializeFMUstate_args&);
-  FmuService_canSerializeFMUstate_args& operator=(const FmuService_canSerializeFMUstate_args&);
-  FmuService_canSerializeFMUstate_args() : instance_id() {
-  }
-
-  virtual ~FmuService_canSerializeFMUstate_args() throw();
-  InstanceId instance_id;
-
-  _FmuService_canSerializeFMUstate_args__isset __isset;
-
-  void __set_instance_id(const InstanceId& val);
-
-  bool operator == (const FmuService_canSerializeFMUstate_args & rhs) const
-  {
-    if (!(instance_id == rhs.instance_id))
-      return false;
-    return true;
-  }
-  bool operator != (const FmuService_canSerializeFMUstate_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const FmuService_canSerializeFMUstate_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class FmuService_canSerializeFMUstate_pargs {
- public:
-
-
-  virtual ~FmuService_canSerializeFMUstate_pargs() throw();
-  const InstanceId* instance_id;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _FmuService_canSerializeFMUstate_result__isset {
-  _FmuService_canSerializeFMUstate_result__isset() : success(false) {}
-  bool success :1;
-} _FmuService_canSerializeFMUstate_result__isset;
-
-class FmuService_canSerializeFMUstate_result {
- public:
-
-  FmuService_canSerializeFMUstate_result(const FmuService_canSerializeFMUstate_result&);
-  FmuService_canSerializeFMUstate_result& operator=(const FmuService_canSerializeFMUstate_result&);
-  FmuService_canSerializeFMUstate_result() : success(0) {
-  }
-
-  virtual ~FmuService_canSerializeFMUstate_result() throw();
-  bool success;
-
-  _FmuService_canSerializeFMUstate_result__isset __isset;
-
-  void __set_success(const bool val);
-
-  bool operator == (const FmuService_canSerializeFMUstate_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const FmuService_canSerializeFMUstate_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const FmuService_canSerializeFMUstate_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _FmuService_canSerializeFMUstate_presult__isset {
-  _FmuService_canSerializeFMUstate_presult__isset() : success(false) {}
-  bool success :1;
-} _FmuService_canSerializeFMUstate_presult__isset;
-
-class FmuService_canSerializeFMUstate_presult {
- public:
-
-
-  virtual ~FmuService_canSerializeFMUstate_presult() throw();
-  bool* success;
-
-  _FmuService_canSerializeFMUstate_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
 typedef struct _FmuService_getFMUstate_args__isset {
-  _FmuService_getFMUstate_args__isset() : instance_id(false) {}
-  bool instance_id :1;
+  _FmuService_getFMUstate_args__isset() : instanceId(false) {}
+  bool instanceId :1;
 } _FmuService_getFMUstate_args__isset;
 
 class FmuService_getFMUstate_args {
@@ -2357,19 +2373,19 @@ class FmuService_getFMUstate_args {
 
   FmuService_getFMUstate_args(const FmuService_getFMUstate_args&);
   FmuService_getFMUstate_args& operator=(const FmuService_getFMUstate_args&);
-  FmuService_getFMUstate_args() : instance_id() {
+  FmuService_getFMUstate_args() : instanceId() {
   }
 
   virtual ~FmuService_getFMUstate_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
 
   _FmuService_getFMUstate_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   bool operator == (const FmuService_getFMUstate_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     return true;
   }
@@ -2390,7 +2406,7 @@ class FmuService_getFMUstate_pargs {
 
 
   virtual ~FmuService_getFMUstate_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2468,8 +2484,8 @@ class FmuService_getFMUstate_presult {
 };
 
 typedef struct _FmuService_setFMUstate_args__isset {
-  _FmuService_setFMUstate_args__isset() : instance_id(false), state(false) {}
-  bool instance_id :1;
+  _FmuService_setFMUstate_args__isset() : instanceId(false), state(false) {}
+  bool instanceId :1;
   bool state :1;
 } _FmuService_setFMUstate_args__isset;
 
@@ -2478,22 +2494,22 @@ class FmuService_setFMUstate_args {
 
   FmuService_setFMUstate_args(const FmuService_setFMUstate_args&);
   FmuService_setFMUstate_args& operator=(const FmuService_setFMUstate_args&);
-  FmuService_setFMUstate_args() : instance_id(), state(0) {
+  FmuService_setFMUstate_args() : instanceId(), state(0) {
   }
 
   virtual ~FmuService_setFMUstate_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   FmuState state;
 
   _FmuService_setFMUstate_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_state(const FmuState val);
 
   bool operator == (const FmuService_setFMUstate_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(state == rhs.state))
       return false;
@@ -2516,7 +2532,7 @@ class FmuService_setFMUstate_pargs {
 
 
   virtual ~FmuService_setFMUstate_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const FmuState* state;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2595,8 +2611,8 @@ class FmuService_setFMUstate_presult {
 };
 
 typedef struct _FmuService_freeFMUstate_args__isset {
-  _FmuService_freeFMUstate_args__isset() : instance_id(false), state(false) {}
-  bool instance_id :1;
+  _FmuService_freeFMUstate_args__isset() : instanceId(false), state(false) {}
+  bool instanceId :1;
   bool state :1;
 } _FmuService_freeFMUstate_args__isset;
 
@@ -2605,22 +2621,22 @@ class FmuService_freeFMUstate_args {
 
   FmuService_freeFMUstate_args(const FmuService_freeFMUstate_args&);
   FmuService_freeFMUstate_args& operator=(const FmuService_freeFMUstate_args&);
-  FmuService_freeFMUstate_args() : instance_id(), state(0) {
+  FmuService_freeFMUstate_args() : instanceId(), state(0) {
   }
 
   virtual ~FmuService_freeFMUstate_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   FmuState state;
 
   _FmuService_freeFMUstate_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_state(const FmuState val);
 
   bool operator == (const FmuService_freeFMUstate_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(state == rhs.state))
       return false;
@@ -2643,7 +2659,7 @@ class FmuService_freeFMUstate_pargs {
 
 
   virtual ~FmuService_freeFMUstate_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const FmuState* state;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2722,8 +2738,8 @@ class FmuService_freeFMUstate_presult {
 };
 
 typedef struct _FmuService_serializeFMUstate_args__isset {
-  _FmuService_serializeFMUstate_args__isset() : instance_id(false), state(false) {}
-  bool instance_id :1;
+  _FmuService_serializeFMUstate_args__isset() : instanceId(false), state(false) {}
+  bool instanceId :1;
   bool state :1;
 } _FmuService_serializeFMUstate_args__isset;
 
@@ -2732,22 +2748,22 @@ class FmuService_serializeFMUstate_args {
 
   FmuService_serializeFMUstate_args(const FmuService_serializeFMUstate_args&);
   FmuService_serializeFMUstate_args& operator=(const FmuService_serializeFMUstate_args&);
-  FmuService_serializeFMUstate_args() : instance_id(), state(0) {
+  FmuService_serializeFMUstate_args() : instanceId(), state(0) {
   }
 
   virtual ~FmuService_serializeFMUstate_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   FmuState state;
 
   _FmuService_serializeFMUstate_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_state(const FmuState val);
 
   bool operator == (const FmuService_serializeFMUstate_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(state == rhs.state))
       return false;
@@ -2770,7 +2786,7 @@ class FmuService_serializeFMUstate_pargs {
 
 
   virtual ~FmuService_serializeFMUstate_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const FmuState* state;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2849,8 +2865,8 @@ class FmuService_serializeFMUstate_presult {
 };
 
 typedef struct _FmuService_deSerializeFMUstate_args__isset {
-  _FmuService_deSerializeFMUstate_args__isset() : instance_id(false), state(false) {}
-  bool instance_id :1;
+  _FmuService_deSerializeFMUstate_args__isset() : instanceId(false), state(false) {}
+  bool instanceId :1;
   bool state :1;
 } _FmuService_deSerializeFMUstate_args__isset;
 
@@ -2859,22 +2875,22 @@ class FmuService_deSerializeFMUstate_args {
 
   FmuService_deSerializeFMUstate_args(const FmuService_deSerializeFMUstate_args&);
   FmuService_deSerializeFMUstate_args& operator=(const FmuService_deSerializeFMUstate_args&);
-  FmuService_deSerializeFMUstate_args() : instance_id(), state() {
+  FmuService_deSerializeFMUstate_args() : instanceId(), state() {
   }
 
   virtual ~FmuService_deSerializeFMUstate_args() throw();
-  InstanceId instance_id;
+  InstanceId instanceId;
   std::string state;
 
   _FmuService_deSerializeFMUstate_args__isset __isset;
 
-  void __set_instance_id(const InstanceId& val);
+  void __set_instanceId(const InstanceId& val);
 
   void __set_state(const std::string& val);
 
   bool operator == (const FmuService_deSerializeFMUstate_args & rhs) const
   {
-    if (!(instance_id == rhs.instance_id))
+    if (!(instanceId == rhs.instanceId))
       return false;
     if (!(state == rhs.state))
       return false;
@@ -2897,7 +2913,7 @@ class FmuService_deSerializeFMUstate_pargs {
 
 
   virtual ~FmuService_deSerializeFMUstate_pargs() throw();
-  const InstanceId* instance_id;
+  const InstanceId* instanceId;
   const std::string* state;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -3000,74 +3016,74 @@ class FmuServiceClient : virtual public FmuServiceIf {
   apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void getModelDescriptionXml(std::string& _return, const FmuId& fmu_id);
-  void send_getModelDescriptionXml(const FmuId& fmu_id);
-  void recv_getModelDescriptionXml(std::string& _return);
-  void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmu_id);
-  void send_getModelDescription(const FmuId& fmu_id);
+  void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmuId);
+  void send_getModelDescription(const FmuId& fmuId);
   void recv_getModelDescription( ::fmuproxy::thrift::ModelDescription& _return);
-  void createInstanceFromCS(InstanceId& _return, const FmuId& fmu_id);
-  void send_createInstanceFromCS(const FmuId& fmu_id);
+  void getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& _return, const InstanceId& instanceId);
+  void send_getCoSimulationAttributes(const InstanceId& instanceId);
+  void recv_getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& _return);
+  bool canCreateInstanceFromCS(const FmuId& fmuId);
+  void send_canCreateInstanceFromCS(const FmuId& fmuId);
+  bool recv_canCreateInstanceFromCS();
+  bool canCreateInstanceFromME(const FmuId& fmuId);
+  void send_canCreateInstanceFromME(const FmuId& fmuId);
+  bool recv_canCreateInstanceFromME();
+  void createInstanceFromCS(InstanceId& _return, const FmuId& fmuId);
+  void send_createInstanceFromCS(const FmuId& fmuId);
   void recv_createInstanceFromCS(InstanceId& _return);
-  void createInstanceFromME(InstanceId& _return, const FmuId& fmu_id, const  ::fmuproxy::thrift::Solver& solver);
-  void send_createInstanceFromME(const FmuId& fmu_id, const  ::fmuproxy::thrift::Solver& solver);
+  void createInstanceFromME(InstanceId& _return, const FmuId& fmuId, const  ::fmuproxy::thrift::Solver& solver);
+  void send_createInstanceFromME(const FmuId& fmuId, const  ::fmuproxy::thrift::Solver& solver);
   void recv_createInstanceFromME(InstanceId& _return);
-   ::fmuproxy::thrift::Status::type init(const InstanceId& instance_id, const double start, const double stop);
-  void send_init(const InstanceId& instance_id, const double start, const double stop);
+   ::fmuproxy::thrift::Status::type init(const InstanceId& instanceId, const double start, const double stop);
+  void send_init(const InstanceId& instanceId, const double start, const double stop);
    ::fmuproxy::thrift::Status::type recv_init();
-  void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instance_id, const double step_size);
-  void send_step(const InstanceId& instance_id, const double step_size);
+  void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instanceId, const double stepSize);
+  void send_step(const InstanceId& instanceId, const double stepSize);
   void recv_step( ::fmuproxy::thrift::StepResult& _return);
-   ::fmuproxy::thrift::Status::type reset(const InstanceId& instance_id);
-  void send_reset(const InstanceId& instance_id);
+   ::fmuproxy::thrift::Status::type reset(const InstanceId& instanceId);
+  void send_reset(const InstanceId& instanceId);
    ::fmuproxy::thrift::Status::type recv_reset();
-   ::fmuproxy::thrift::Status::type terminate(const InstanceId& instance_id);
-  void send_terminate(const InstanceId& instance_id);
+   ::fmuproxy::thrift::Status::type terminate(const InstanceId& instanceId);
+  void send_terminate(const InstanceId& instanceId);
    ::fmuproxy::thrift::Status::type recv_terminate();
-  void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  void send_readInteger(const InstanceId& instance_id, const ValueReferences& vr);
+  void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  void send_readInteger(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readInteger( ::fmuproxy::thrift::IntegerRead& _return);
-  void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  void send_readReal(const InstanceId& instance_id, const ValueReferences& vr);
+  void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  void send_readReal(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readReal( ::fmuproxy::thrift::RealRead& _return);
-  void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  void send_readString(const InstanceId& instance_id, const ValueReferences& vr);
+  void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  void send_readString(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readString( ::fmuproxy::thrift::StringRead& _return);
-  void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  void send_readBoolean(const InstanceId& instance_id, const ValueReferences& vr);
+  void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  void send_readBoolean(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readBoolean( ::fmuproxy::thrift::BooleanRead& _return);
-   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instance_id, const ValueReferences& vr, const IntArray& value);
-  void send_writeInteger(const InstanceId& instance_id, const ValueReferences& vr, const IntArray& value);
+   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instanceId, const ValueReferences& vr, const IntArray& value);
+  void send_writeInteger(const InstanceId& instanceId, const ValueReferences& vr, const IntArray& value);
    ::fmuproxy::thrift::Status::type recv_writeInteger();
-   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instance_id, const ValueReferences& vr, const RealArray& value);
-  void send_writeReal(const InstanceId& instance_id, const ValueReferences& vr, const RealArray& value);
+   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instanceId, const ValueReferences& vr, const RealArray& value);
+  void send_writeReal(const InstanceId& instanceId, const ValueReferences& vr, const RealArray& value);
    ::fmuproxy::thrift::Status::type recv_writeReal();
-   ::fmuproxy::thrift::Status::type writeString(const InstanceId& instance_id, const ValueReferences& vr, const StringArray& value);
-  void send_writeString(const InstanceId& instance_id, const ValueReferences& vr, const StringArray& value);
+   ::fmuproxy::thrift::Status::type writeString(const InstanceId& instanceId, const ValueReferences& vr, const StringArray& value);
+  void send_writeString(const InstanceId& instanceId, const ValueReferences& vr, const StringArray& value);
    ::fmuproxy::thrift::Status::type recv_writeString();
-   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instance_id, const ValueReferences& vr, const BooleanArray& value);
-  void send_writeBoolean(const InstanceId& instance_id, const ValueReferences& vr, const BooleanArray& value);
+   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instanceId, const ValueReferences& vr, const BooleanArray& value);
+  void send_writeBoolean(const InstanceId& instanceId, const ValueReferences& vr, const BooleanArray& value);
    ::fmuproxy::thrift::Status::type recv_writeBoolean();
-  bool canGetAndSetFMUstate(const InstanceId& instance_id);
-  void send_canGetAndSetFMUstate(const InstanceId& instance_id);
-  bool recv_canGetAndSetFMUstate();
-  bool canSerializeFMUstate(const InstanceId& instance_id);
-  void send_canSerializeFMUstate(const InstanceId& instance_id);
-  bool recv_canSerializeFMUstate();
-  void getFMUstate(GetFmuStateResult& _return, const InstanceId& instance_id);
-  void send_getFMUstate(const InstanceId& instance_id);
+  void getFMUstate(GetFmuStateResult& _return, const InstanceId& instanceId);
+  void send_getFMUstate(const InstanceId& instanceId);
   void recv_getFMUstate(GetFmuStateResult& _return);
-   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instance_id, const FmuState state);
-  void send_setFMUstate(const InstanceId& instance_id, const FmuState state);
+   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instanceId, const FmuState state);
+  void send_setFMUstate(const InstanceId& instanceId, const FmuState state);
    ::fmuproxy::thrift::Status::type recv_setFMUstate();
-   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instance_id, const FmuState state);
-  void send_freeFMUstate(const InstanceId& instance_id, const FmuState state);
+   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instanceId, const FmuState state);
+  void send_freeFMUstate(const InstanceId& instanceId, const FmuState state);
    ::fmuproxy::thrift::Status::type recv_freeFMUstate();
-  void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instance_id, const FmuState state);
-  void send_serializeFMUstate(const InstanceId& instance_id, const FmuState state);
+  void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instanceId, const FmuState state);
+  void send_serializeFMUstate(const InstanceId& instanceId, const FmuState state);
   void recv_serializeFMUstate(SerializeFmuStateResult& _return);
-  void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instance_id, const std::string& state);
-  void send_deSerializeFMUstate(const InstanceId& instance_id, const std::string& state);
+  void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instanceId, const std::string& state);
+  void send_deSerializeFMUstate(const InstanceId& instanceId, const std::string& state);
   void recv_deSerializeFMUstate(DeSerializeFmuStateResult& _return);
  protected:
   apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
@@ -3084,8 +3100,10 @@ class FmuServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (FmuServiceProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_getModelDescriptionXml(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getModelDescription(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_getCoSimulationAttributes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_canCreateInstanceFromCS(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_canCreateInstanceFromME(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_createInstanceFromCS(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_createInstanceFromME(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_init(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3100,8 +3118,6 @@ class FmuServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_writeReal(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_writeString(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_writeBoolean(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_canGetAndSetFMUstate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_canSerializeFMUstate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getFMUstate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_setFMUstate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_freeFMUstate(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3110,8 +3126,10 @@ class FmuServiceProcessor : public ::apache::thrift::TDispatchProcessor {
  public:
   FmuServiceProcessor(::apache::thrift::stdcxx::shared_ptr<FmuServiceIf> iface) :
     iface_(iface) {
-    processMap_["getModelDescriptionXml"] = &FmuServiceProcessor::process_getModelDescriptionXml;
     processMap_["getModelDescription"] = &FmuServiceProcessor::process_getModelDescription;
+    processMap_["getCoSimulationAttributes"] = &FmuServiceProcessor::process_getCoSimulationAttributes;
+    processMap_["canCreateInstanceFromCS"] = &FmuServiceProcessor::process_canCreateInstanceFromCS;
+    processMap_["canCreateInstanceFromME"] = &FmuServiceProcessor::process_canCreateInstanceFromME;
     processMap_["createInstanceFromCS"] = &FmuServiceProcessor::process_createInstanceFromCS;
     processMap_["createInstanceFromME"] = &FmuServiceProcessor::process_createInstanceFromME;
     processMap_["init"] = &FmuServiceProcessor::process_init;
@@ -3126,8 +3144,6 @@ class FmuServiceProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["writeReal"] = &FmuServiceProcessor::process_writeReal;
     processMap_["writeString"] = &FmuServiceProcessor::process_writeString;
     processMap_["writeBoolean"] = &FmuServiceProcessor::process_writeBoolean;
-    processMap_["canGetAndSetFMUstate"] = &FmuServiceProcessor::process_canGetAndSetFMUstate;
-    processMap_["canSerializeFMUstate"] = &FmuServiceProcessor::process_canSerializeFMUstate;
     processMap_["getFMUstate"] = &FmuServiceProcessor::process_getFMUstate;
     processMap_["setFMUstate"] = &FmuServiceProcessor::process_setFMUstate;
     processMap_["freeFMUstate"] = &FmuServiceProcessor::process_freeFMUstate;
@@ -3161,222 +3177,222 @@ class FmuServiceMultiface : virtual public FmuServiceIf {
     ifaces_.push_back(iface);
   }
  public:
-  void getModelDescriptionXml(std::string& _return, const FmuId& fmu_id) {
+  void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmuId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getModelDescriptionXml(_return, fmu_id);
+      ifaces_[i]->getModelDescription(_return, fmuId);
     }
-    ifaces_[i]->getModelDescriptionXml(_return, fmu_id);
+    ifaces_[i]->getModelDescription(_return, fmuId);
     return;
   }
 
-  void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmu_id) {
+  void getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& _return, const InstanceId& instanceId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getModelDescription(_return, fmu_id);
+      ifaces_[i]->getCoSimulationAttributes(_return, instanceId);
     }
-    ifaces_[i]->getModelDescription(_return, fmu_id);
+    ifaces_[i]->getCoSimulationAttributes(_return, instanceId);
     return;
   }
 
-  void createInstanceFromCS(InstanceId& _return, const FmuId& fmu_id) {
+  bool canCreateInstanceFromCS(const FmuId& fmuId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->createInstanceFromCS(_return, fmu_id);
+      ifaces_[i]->canCreateInstanceFromCS(fmuId);
     }
-    ifaces_[i]->createInstanceFromCS(_return, fmu_id);
+    return ifaces_[i]->canCreateInstanceFromCS(fmuId);
+  }
+
+  bool canCreateInstanceFromME(const FmuId& fmuId) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->canCreateInstanceFromME(fmuId);
+    }
+    return ifaces_[i]->canCreateInstanceFromME(fmuId);
+  }
+
+  void createInstanceFromCS(InstanceId& _return, const FmuId& fmuId) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->createInstanceFromCS(_return, fmuId);
+    }
+    ifaces_[i]->createInstanceFromCS(_return, fmuId);
     return;
   }
 
-  void createInstanceFromME(InstanceId& _return, const FmuId& fmu_id, const  ::fmuproxy::thrift::Solver& solver) {
+  void createInstanceFromME(InstanceId& _return, const FmuId& fmuId, const  ::fmuproxy::thrift::Solver& solver) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->createInstanceFromME(_return, fmu_id, solver);
+      ifaces_[i]->createInstanceFromME(_return, fmuId, solver);
     }
-    ifaces_[i]->createInstanceFromME(_return, fmu_id, solver);
+    ifaces_[i]->createInstanceFromME(_return, fmuId, solver);
     return;
   }
 
-   ::fmuproxy::thrift::Status::type init(const InstanceId& instance_id, const double start, const double stop) {
+   ::fmuproxy::thrift::Status::type init(const InstanceId& instanceId, const double start, const double stop) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->init(instance_id, start, stop);
+      ifaces_[i]->init(instanceId, start, stop);
     }
-    return ifaces_[i]->init(instance_id, start, stop);
+    return ifaces_[i]->init(instanceId, start, stop);
   }
 
-  void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instance_id, const double step_size) {
+  void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instanceId, const double stepSize) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->step(_return, instance_id, step_size);
+      ifaces_[i]->step(_return, instanceId, stepSize);
     }
-    ifaces_[i]->step(_return, instance_id, step_size);
+    ifaces_[i]->step(_return, instanceId, stepSize);
     return;
   }
 
-   ::fmuproxy::thrift::Status::type reset(const InstanceId& instance_id) {
+   ::fmuproxy::thrift::Status::type reset(const InstanceId& instanceId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->reset(instance_id);
+      ifaces_[i]->reset(instanceId);
     }
-    return ifaces_[i]->reset(instance_id);
+    return ifaces_[i]->reset(instanceId);
   }
 
-   ::fmuproxy::thrift::Status::type terminate(const InstanceId& instance_id) {
+   ::fmuproxy::thrift::Status::type terminate(const InstanceId& instanceId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->terminate(instance_id);
+      ifaces_[i]->terminate(instanceId);
     }
-    return ifaces_[i]->terminate(instance_id);
+    return ifaces_[i]->terminate(instanceId);
   }
 
-  void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instance_id, const ValueReferences& vr) {
+  void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instanceId, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->readInteger(_return, instance_id, vr);
+      ifaces_[i]->readInteger(_return, instanceId, vr);
     }
-    ifaces_[i]->readInteger(_return, instance_id, vr);
+    ifaces_[i]->readInteger(_return, instanceId, vr);
     return;
   }
 
-  void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instance_id, const ValueReferences& vr) {
+  void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instanceId, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->readReal(_return, instance_id, vr);
+      ifaces_[i]->readReal(_return, instanceId, vr);
     }
-    ifaces_[i]->readReal(_return, instance_id, vr);
+    ifaces_[i]->readReal(_return, instanceId, vr);
     return;
   }
 
-  void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instance_id, const ValueReferences& vr) {
+  void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instanceId, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->readString(_return, instance_id, vr);
+      ifaces_[i]->readString(_return, instanceId, vr);
     }
-    ifaces_[i]->readString(_return, instance_id, vr);
+    ifaces_[i]->readString(_return, instanceId, vr);
     return;
   }
 
-  void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instance_id, const ValueReferences& vr) {
+  void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instanceId, const ValueReferences& vr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->readBoolean(_return, instance_id, vr);
+      ifaces_[i]->readBoolean(_return, instanceId, vr);
     }
-    ifaces_[i]->readBoolean(_return, instance_id, vr);
+    ifaces_[i]->readBoolean(_return, instanceId, vr);
     return;
   }
 
-   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instance_id, const ValueReferences& vr, const IntArray& value) {
+   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instanceId, const ValueReferences& vr, const IntArray& value) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->writeInteger(instance_id, vr, value);
+      ifaces_[i]->writeInteger(instanceId, vr, value);
     }
-    return ifaces_[i]->writeInteger(instance_id, vr, value);
+    return ifaces_[i]->writeInteger(instanceId, vr, value);
   }
 
-   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instance_id, const ValueReferences& vr, const RealArray& value) {
+   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instanceId, const ValueReferences& vr, const RealArray& value) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->writeReal(instance_id, vr, value);
+      ifaces_[i]->writeReal(instanceId, vr, value);
     }
-    return ifaces_[i]->writeReal(instance_id, vr, value);
+    return ifaces_[i]->writeReal(instanceId, vr, value);
   }
 
-   ::fmuproxy::thrift::Status::type writeString(const InstanceId& instance_id, const ValueReferences& vr, const StringArray& value) {
+   ::fmuproxy::thrift::Status::type writeString(const InstanceId& instanceId, const ValueReferences& vr, const StringArray& value) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->writeString(instance_id, vr, value);
+      ifaces_[i]->writeString(instanceId, vr, value);
     }
-    return ifaces_[i]->writeString(instance_id, vr, value);
+    return ifaces_[i]->writeString(instanceId, vr, value);
   }
 
-   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instance_id, const ValueReferences& vr, const BooleanArray& value) {
+   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instanceId, const ValueReferences& vr, const BooleanArray& value) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->writeBoolean(instance_id, vr, value);
+      ifaces_[i]->writeBoolean(instanceId, vr, value);
     }
-    return ifaces_[i]->writeBoolean(instance_id, vr, value);
+    return ifaces_[i]->writeBoolean(instanceId, vr, value);
   }
 
-  bool canGetAndSetFMUstate(const InstanceId& instance_id) {
+  void getFMUstate(GetFmuStateResult& _return, const InstanceId& instanceId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->canGetAndSetFMUstate(instance_id);
+      ifaces_[i]->getFMUstate(_return, instanceId);
     }
-    return ifaces_[i]->canGetAndSetFMUstate(instance_id);
-  }
-
-  bool canSerializeFMUstate(const InstanceId& instance_id) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->canSerializeFMUstate(instance_id);
-    }
-    return ifaces_[i]->canSerializeFMUstate(instance_id);
-  }
-
-  void getFMUstate(GetFmuStateResult& _return, const InstanceId& instance_id) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getFMUstate(_return, instance_id);
-    }
-    ifaces_[i]->getFMUstate(_return, instance_id);
+    ifaces_[i]->getFMUstate(_return, instanceId);
     return;
   }
 
-   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instance_id, const FmuState state) {
+   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instanceId, const FmuState state) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->setFMUstate(instance_id, state);
+      ifaces_[i]->setFMUstate(instanceId, state);
     }
-    return ifaces_[i]->setFMUstate(instance_id, state);
+    return ifaces_[i]->setFMUstate(instanceId, state);
   }
 
-   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instance_id, const FmuState state) {
+   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instanceId, const FmuState state) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->freeFMUstate(instance_id, state);
+      ifaces_[i]->freeFMUstate(instanceId, state);
     }
-    return ifaces_[i]->freeFMUstate(instance_id, state);
+    return ifaces_[i]->freeFMUstate(instanceId, state);
   }
 
-  void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instance_id, const FmuState state) {
+  void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instanceId, const FmuState state) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->serializeFMUstate(_return, instance_id, state);
+      ifaces_[i]->serializeFMUstate(_return, instanceId, state);
     }
-    ifaces_[i]->serializeFMUstate(_return, instance_id, state);
+    ifaces_[i]->serializeFMUstate(_return, instanceId, state);
     return;
   }
 
-  void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instance_id, const std::string& state) {
+  void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instanceId, const std::string& state) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->deSerializeFMUstate(_return, instance_id, state);
+      ifaces_[i]->deSerializeFMUstate(_return, instanceId, state);
     }
-    ifaces_[i]->deSerializeFMUstate(_return, instance_id, state);
+    ifaces_[i]->deSerializeFMUstate(_return, instanceId, state);
     return;
   }
 
@@ -3410,74 +3426,74 @@ class FmuServiceConcurrentClient : virtual public FmuServiceIf {
   apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void getModelDescriptionXml(std::string& _return, const FmuId& fmu_id);
-  int32_t send_getModelDescriptionXml(const FmuId& fmu_id);
-  void recv_getModelDescriptionXml(std::string& _return, const int32_t seqid);
-  void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmu_id);
-  int32_t send_getModelDescription(const FmuId& fmu_id);
+  void getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const FmuId& fmuId);
+  int32_t send_getModelDescription(const FmuId& fmuId);
   void recv_getModelDescription( ::fmuproxy::thrift::ModelDescription& _return, const int32_t seqid);
-  void createInstanceFromCS(InstanceId& _return, const FmuId& fmu_id);
-  int32_t send_createInstanceFromCS(const FmuId& fmu_id);
+  void getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& _return, const InstanceId& instanceId);
+  int32_t send_getCoSimulationAttributes(const InstanceId& instanceId);
+  void recv_getCoSimulationAttributes( ::fmuproxy::thrift::CoSimulationAttributes& _return, const int32_t seqid);
+  bool canCreateInstanceFromCS(const FmuId& fmuId);
+  int32_t send_canCreateInstanceFromCS(const FmuId& fmuId);
+  bool recv_canCreateInstanceFromCS(const int32_t seqid);
+  bool canCreateInstanceFromME(const FmuId& fmuId);
+  int32_t send_canCreateInstanceFromME(const FmuId& fmuId);
+  bool recv_canCreateInstanceFromME(const int32_t seqid);
+  void createInstanceFromCS(InstanceId& _return, const FmuId& fmuId);
+  int32_t send_createInstanceFromCS(const FmuId& fmuId);
   void recv_createInstanceFromCS(InstanceId& _return, const int32_t seqid);
-  void createInstanceFromME(InstanceId& _return, const FmuId& fmu_id, const  ::fmuproxy::thrift::Solver& solver);
-  int32_t send_createInstanceFromME(const FmuId& fmu_id, const  ::fmuproxy::thrift::Solver& solver);
+  void createInstanceFromME(InstanceId& _return, const FmuId& fmuId, const  ::fmuproxy::thrift::Solver& solver);
+  int32_t send_createInstanceFromME(const FmuId& fmuId, const  ::fmuproxy::thrift::Solver& solver);
   void recv_createInstanceFromME(InstanceId& _return, const int32_t seqid);
-   ::fmuproxy::thrift::Status::type init(const InstanceId& instance_id, const double start, const double stop);
-  int32_t send_init(const InstanceId& instance_id, const double start, const double stop);
+   ::fmuproxy::thrift::Status::type init(const InstanceId& instanceId, const double start, const double stop);
+  int32_t send_init(const InstanceId& instanceId, const double start, const double stop);
    ::fmuproxy::thrift::Status::type recv_init(const int32_t seqid);
-  void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instance_id, const double step_size);
-  int32_t send_step(const InstanceId& instance_id, const double step_size);
+  void step( ::fmuproxy::thrift::StepResult& _return, const InstanceId& instanceId, const double stepSize);
+  int32_t send_step(const InstanceId& instanceId, const double stepSize);
   void recv_step( ::fmuproxy::thrift::StepResult& _return, const int32_t seqid);
-   ::fmuproxy::thrift::Status::type reset(const InstanceId& instance_id);
-  int32_t send_reset(const InstanceId& instance_id);
+   ::fmuproxy::thrift::Status::type reset(const InstanceId& instanceId);
+  int32_t send_reset(const InstanceId& instanceId);
    ::fmuproxy::thrift::Status::type recv_reset(const int32_t seqid);
-   ::fmuproxy::thrift::Status::type terminate(const InstanceId& instance_id);
-  int32_t send_terminate(const InstanceId& instance_id);
+   ::fmuproxy::thrift::Status::type terminate(const InstanceId& instanceId);
+  int32_t send_terminate(const InstanceId& instanceId);
    ::fmuproxy::thrift::Status::type recv_terminate(const int32_t seqid);
-  void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  int32_t send_readInteger(const InstanceId& instance_id, const ValueReferences& vr);
+  void readInteger( ::fmuproxy::thrift::IntegerRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  int32_t send_readInteger(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readInteger( ::fmuproxy::thrift::IntegerRead& _return, const int32_t seqid);
-  void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  int32_t send_readReal(const InstanceId& instance_id, const ValueReferences& vr);
+  void readReal( ::fmuproxy::thrift::RealRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  int32_t send_readReal(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readReal( ::fmuproxy::thrift::RealRead& _return, const int32_t seqid);
-  void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  int32_t send_readString(const InstanceId& instance_id, const ValueReferences& vr);
+  void readString( ::fmuproxy::thrift::StringRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  int32_t send_readString(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readString( ::fmuproxy::thrift::StringRead& _return, const int32_t seqid);
-  void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instance_id, const ValueReferences& vr);
-  int32_t send_readBoolean(const InstanceId& instance_id, const ValueReferences& vr);
+  void readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const InstanceId& instanceId, const ValueReferences& vr);
+  int32_t send_readBoolean(const InstanceId& instanceId, const ValueReferences& vr);
   void recv_readBoolean( ::fmuproxy::thrift::BooleanRead& _return, const int32_t seqid);
-   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instance_id, const ValueReferences& vr, const IntArray& value);
-  int32_t send_writeInteger(const InstanceId& instance_id, const ValueReferences& vr, const IntArray& value);
+   ::fmuproxy::thrift::Status::type writeInteger(const InstanceId& instanceId, const ValueReferences& vr, const IntArray& value);
+  int32_t send_writeInteger(const InstanceId& instanceId, const ValueReferences& vr, const IntArray& value);
    ::fmuproxy::thrift::Status::type recv_writeInteger(const int32_t seqid);
-   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instance_id, const ValueReferences& vr, const RealArray& value);
-  int32_t send_writeReal(const InstanceId& instance_id, const ValueReferences& vr, const RealArray& value);
+   ::fmuproxy::thrift::Status::type writeReal(const InstanceId& instanceId, const ValueReferences& vr, const RealArray& value);
+  int32_t send_writeReal(const InstanceId& instanceId, const ValueReferences& vr, const RealArray& value);
    ::fmuproxy::thrift::Status::type recv_writeReal(const int32_t seqid);
-   ::fmuproxy::thrift::Status::type writeString(const InstanceId& instance_id, const ValueReferences& vr, const StringArray& value);
-  int32_t send_writeString(const InstanceId& instance_id, const ValueReferences& vr, const StringArray& value);
+   ::fmuproxy::thrift::Status::type writeString(const InstanceId& instanceId, const ValueReferences& vr, const StringArray& value);
+  int32_t send_writeString(const InstanceId& instanceId, const ValueReferences& vr, const StringArray& value);
    ::fmuproxy::thrift::Status::type recv_writeString(const int32_t seqid);
-   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instance_id, const ValueReferences& vr, const BooleanArray& value);
-  int32_t send_writeBoolean(const InstanceId& instance_id, const ValueReferences& vr, const BooleanArray& value);
+   ::fmuproxy::thrift::Status::type writeBoolean(const InstanceId& instanceId, const ValueReferences& vr, const BooleanArray& value);
+  int32_t send_writeBoolean(const InstanceId& instanceId, const ValueReferences& vr, const BooleanArray& value);
    ::fmuproxy::thrift::Status::type recv_writeBoolean(const int32_t seqid);
-  bool canGetAndSetFMUstate(const InstanceId& instance_id);
-  int32_t send_canGetAndSetFMUstate(const InstanceId& instance_id);
-  bool recv_canGetAndSetFMUstate(const int32_t seqid);
-  bool canSerializeFMUstate(const InstanceId& instance_id);
-  int32_t send_canSerializeFMUstate(const InstanceId& instance_id);
-  bool recv_canSerializeFMUstate(const int32_t seqid);
-  void getFMUstate(GetFmuStateResult& _return, const InstanceId& instance_id);
-  int32_t send_getFMUstate(const InstanceId& instance_id);
+  void getFMUstate(GetFmuStateResult& _return, const InstanceId& instanceId);
+  int32_t send_getFMUstate(const InstanceId& instanceId);
   void recv_getFMUstate(GetFmuStateResult& _return, const int32_t seqid);
-   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instance_id, const FmuState state);
-  int32_t send_setFMUstate(const InstanceId& instance_id, const FmuState state);
+   ::fmuproxy::thrift::Status::type setFMUstate(const InstanceId& instanceId, const FmuState state);
+  int32_t send_setFMUstate(const InstanceId& instanceId, const FmuState state);
    ::fmuproxy::thrift::Status::type recv_setFMUstate(const int32_t seqid);
-   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instance_id, const FmuState state);
-  int32_t send_freeFMUstate(const InstanceId& instance_id, const FmuState state);
+   ::fmuproxy::thrift::Status::type freeFMUstate(const InstanceId& instanceId, const FmuState state);
+  int32_t send_freeFMUstate(const InstanceId& instanceId, const FmuState state);
    ::fmuproxy::thrift::Status::type recv_freeFMUstate(const int32_t seqid);
-  void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instance_id, const FmuState state);
-  int32_t send_serializeFMUstate(const InstanceId& instance_id, const FmuState state);
+  void serializeFMUstate(SerializeFmuStateResult& _return, const InstanceId& instanceId, const FmuState state);
+  int32_t send_serializeFMUstate(const InstanceId& instanceId, const FmuState state);
   void recv_serializeFMUstate(SerializeFmuStateResult& _return, const int32_t seqid);
-  void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instance_id, const std::string& state);
-  int32_t send_deSerializeFMUstate(const InstanceId& instance_id, const std::string& state);
+  void deSerializeFMUstate(DeSerializeFmuStateResult& _return, const InstanceId& instanceId, const std::string& state);
+  int32_t send_deSerializeFMUstate(const InstanceId& instanceId, const std::string& state);
   void recv_deSerializeFMUstate(DeSerializeFmuStateResult& _return, const int32_t seqid);
  protected:
   apache::thrift::stdcxx::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;

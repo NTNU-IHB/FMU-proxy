@@ -42,8 +42,6 @@ namespace fmuproxy::thrift::server {
     public:
         explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
 
-        void getModelDescriptionXml(std::string &_return, const FmuId &fmu_id) override;
-
         void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
 
         void createInstanceFromCS(InstanceId &_return, const FmuId &fmu_id) override;
@@ -85,10 +83,6 @@ namespace fmuproxy::thrift::server {
         Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr,
                 const BooleanArray &value) override;
 
-        bool canGetAndSetFMUstate(const InstanceId &instance_id) override;
-
-        bool canSerializeFMUstate(const InstanceId &instance_id) override;
-
         void getFMUstate(GetFmuStateResult &_return, const InstanceId &instance_id) override;
 
         Status::type setFMUstate(const InstanceId &instance_id, const FmuState state) override;
@@ -100,6 +94,13 @@ namespace fmuproxy::thrift::server {
 
         void deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &instance_id,
                                  const std::string &state) override;
+
+        void getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
+                                       const InstanceId &instanceId) override;
+
+        bool canCreateInstanceFromCS(const FmuId &fmuId) override;
+
+        bool canCreateInstanceFromME(const FmuId &fmuId) override;
 
     };
 

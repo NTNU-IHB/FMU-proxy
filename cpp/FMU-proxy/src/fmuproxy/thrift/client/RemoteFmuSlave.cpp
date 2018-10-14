@@ -68,7 +68,7 @@ fmi2_status_t RemoteFmuSlave::readInteger(fmi2_value_reference_t vr, fmi2_intege
 
 fmi2_status_t RemoteFmuSlave::readInteger(const vector<fmi2_value_reference_t> &vr, vector<fmi2_integer_t> &ref) {
     IntegerRead integerRead;
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t >(vr.begin(), vr.end());
     client_.readInteger(integerRead, instanceId_, _vr);
     ref = integerRead.value;
     return convert(integerRead.status);
@@ -84,7 +84,7 @@ fmi2_status_t RemoteFmuSlave::readReal(fmi2_value_reference_t vr, fmi2_real_t &r
 
 fmi2_status_t RemoteFmuSlave::readReal(const vector<fmi2_value_reference_t> &vr, vector<fmi2_real_t> &ref) {
     RealRead realRead;
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     client_.readReal(realRead, instanceId_, _vr);
     ref = realRead.value;
     return convert(realRead.status);
@@ -100,7 +100,7 @@ fmi2_status_t RemoteFmuSlave::readString(fmi2_value_reference_t vr, fmi2_string_
 
 fmi2_status_t RemoteFmuSlave::readString(const vector<fmi2_value_reference_t> &vr, vector<fmi2_string_t > &ref) {
     StringRead stringRead;
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     client_.readString(stringRead, instanceId_, _vr);
     const vector<string> read = stringRead.value;
     std::transform(read.begin(), read.end(), std::back_inserter(ref), convert_string);
@@ -117,7 +117,7 @@ fmi2_status_t RemoteFmuSlave::readBoolean(fmi2_value_reference_t vr, fmi2_boolea
 
 fmi2_status_t RemoteFmuSlave::readBoolean(const vector<fmi2_value_reference_t> &vr, vector<fmi2_boolean_t> &ref) {
     BooleanRead booleanRead;
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     client_.readBoolean(booleanRead, instanceId_, _vr);
     const vector<bool> read = booleanRead.value;
     ref = vector<fmi2_boolean_t>(read.begin(), read.end());
@@ -131,7 +131,7 @@ fmi2_status_t RemoteFmuSlave::writeInteger(const fmi2_value_reference_t vr, cons
 }
 
 fmi2_status_t RemoteFmuSlave::writeInteger(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_integer_t> &value) {
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     return convert(client_.writeInteger(instanceId_, _vr, value));
 }
 
@@ -142,7 +142,7 @@ fmi2_status_t RemoteFmuSlave::writeReal(const fmi2_value_reference_t vr, const f
 }
 
 fmi2_status_t RemoteFmuSlave::writeReal(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_real_t> &value) {
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     return convert(client_.writeReal(instanceId_, _vr, value));
 }
 
@@ -153,7 +153,7 @@ fmi2_status_t RemoteFmuSlave::writeString(const fmi2_value_reference_t vr, const
 }
 
 fmi2_status_t RemoteFmuSlave::writeString(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_string_t> &value) {
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     const StringArray _value = vector<string>(value.begin(), value.end());
     return convert(client_.writeString(instanceId_, _vr, _value));
 }
@@ -165,18 +165,11 @@ fmi2_status_t RemoteFmuSlave::writeBoolean(const fmi2_value_reference_t vr, cons
 }
 
 fmi2_status_t RemoteFmuSlave::writeBoolean(const vector<fmi2_value_reference_t> &vr, const vector<fmi2_boolean_t> &value) {
-    const ValueReferences _vr = vector<int>(vr.begin(), vr.end());
+    const ValueReferences _vr = vector<int64_t>(vr.begin(), vr.end());
     const BooleanArray _value = vector<bool>(value.begin(), value.end());
     return convert(client_.writeBoolean(instanceId_, _vr, _value));
 }
 
-bool RemoteFmuSlave::canGetAndSetFMUstate() const {
-    return client_.canGetAndSetFMUstate(instanceId_);
-}
-
-bool RemoteFmuSlave::canSerializeFMUstate() const {
-    return client_.canSerializeFMUstate(instanceId_);
-}
 
 fmi2_status_t RemoteFmuSlave::getFMUstate(int64_t &state) {
     GetFmuStateResult _return;
@@ -205,10 +198,6 @@ fmi2_status_t RemoteFmuSlave::deSerializeFMUstate(const string serializedState, 
     client_.deSerializeFMUstate(result, instanceId_, serializedState.data());
     state = result.state;
     return convert(result.status);
-}
-
-bool RemoteFmuSlave::providesDirectionalDerivatives() const {
-    return false;
 }
 
 fmi2_status_t RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,

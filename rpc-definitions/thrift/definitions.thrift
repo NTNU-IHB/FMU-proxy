@@ -41,7 +41,8 @@ enum Causality {
     PARAMETER_CAUSALITY = 2,
     CALCULATED_PARAMETER_CAUSALITY = 3,
     LOCAL_CAUSALITY = 4,
-    INDEPENDENT_CAUSALITY = 5
+    INDEPENDENT_CAUSALITY = 5,
+    UNKNOWN_CAUSALITY = 6
 }
 
 enum Variability {
@@ -49,30 +50,29 @@ enum Variability {
     FIXED_VARIABILITY = 1,
     CONTINUOUS_VARIABILITY = 2,
     DISCRETE_VARIABILITY = 3,
-    TUNABLE_VARIABILITY = 4
+    TUNABLE_VARIABILITY = 4,
+    UNKNOWN_VARIABILITY = 6
 }
 
 enum Initial {
     EXACT_INITIAL = 0,
     APPROX_INITIAL = 1,
-    CALCULATED_INITIAL = 2
-}
-
-enum VariableNamingConvention {
-    FLAT = 0,
-    STRUCTURED = 1
+    CALCULATED_INITIAL = 2,
+    UNKNOWN_INITIAL = 3
 }
 
 struct IntegerAttribute {
     1: i32 min,
     2: i32 max,
-    3: i32 start
+    3: i32 start,
+    4: string quantity
 }
 
 struct RealAttribute {
     1: double min,
     2: double max,
-    3: double start
+    3: double start,
+    4: string quantity
 }
 
 struct StringAttribute {
@@ -86,7 +86,8 @@ struct BooleanAttribute {
 struct EnumerationAttribute {
     1: i32 min,
     2: i32 max,
-    3: i32 start
+    3: i32 start,
+    4: string quantity
 }
 
 union ScalarVariableAttribute {
@@ -170,7 +171,7 @@ struct ModelDescription {
     9: optional string generationTool,
     10: optional string generationDateAndTime,
     11: optional DefaultExperiment defaultExperiment,
-    12: optional VariableNamingConvention variableNamingConvention,
+    12: optional string variableNamingConvention,
     13: ModelVariables modelVariables,
     14: ModelStructure modelStructure
 }

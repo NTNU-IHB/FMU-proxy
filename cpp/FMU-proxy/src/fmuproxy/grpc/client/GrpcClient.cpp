@@ -49,15 +49,6 @@ fmuproxy::fmi::ModelDescription &GrpcClient::getModelDescription() {
     return *modelDescription_;
 }
 
-void GrpcClient::getModelDescriptionXml(std::string &_return) {
-    ClientContext ctx;
-    ModelDescriptionXml response;
-    GetModelDescriptionXmlRequest request;
-    request.set_fmu_id(fmuId_);
-    ::grpc::Status status = stub_->GetModelDescriptionXml(&ctx, request, &response);
-    _return = response.xml();
-}
-
 unique_ptr<RemoteFmuSlave> GrpcClient::newInstance() {
     ClientContext ctx;
     InstanceId instance_id;

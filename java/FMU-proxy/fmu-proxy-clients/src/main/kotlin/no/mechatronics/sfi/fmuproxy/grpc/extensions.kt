@@ -48,11 +48,11 @@ internal fun Proto.Status.convert(): FmiStatus {
         Proto.Status.WARNING_STATUS -> FmiStatus.Warning
         Proto.Status.PENDING_STATUS -> FmiStatus.Pending
         Proto.Status.FATAL_STATUS -> FmiStatus.Fatal
-        Proto.Status.UNRECOGNIZED -> throw AssertionError()
+        Proto.Status.UNRECOGNIZED -> throw AssertionError("Fatal: Unrecognized status type: $this")
     }
 }
 
-internal fun Proto.Causality.convert(): Causality {
+internal fun Proto.Causality.convert(): Causality? {
     return when(this) {
         Proto.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
         Proto.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
@@ -60,35 +60,27 @@ internal fun Proto.Causality.convert(): Causality {
         Proto.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
         Proto.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
         Proto.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
-        Proto.Causality.UNRECOGNIZED -> throw AssertionError()
+        else -> null
     }
 }
 
-internal fun Proto.Variability.convert(): Variability {
+internal fun Proto.Variability.convert(): Variability? {
     return when(this) {
         Proto.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
         Proto.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
         Proto.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
         Proto.Variability.FIXED_VARIABILITY -> Variability.FIXED
         Proto.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
-        Proto.Variability.UNRECOGNIZED -> throw AssertionError()
+        else -> null
     }
 }
 
-internal fun Proto.Initial.convert(): Initial {
+internal fun Proto.Initial.convert(): Initial? {
     return when(this) {
         Proto.Initial.APPROX_INITIAL -> Initial.APPROX
         Proto.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
         Proto.Initial.EXACT_INITIAL -> Initial.EXACT
-        Proto.Initial.UNRECOGNIZED -> throw AssertionError()
-    }
-}
-
-internal fun Proto.VariableNamingConvention.convert(): VariableNamingConvention {
-    return when(this) {
-        Proto.VariableNamingConvention.FLAT -> VariableNamingConvention.FLAT
-        Proto.VariableNamingConvention.STRUCTURED -> VariableNamingConvention.STRUCTURED
-        Proto.VariableNamingConvention.UNRECOGNIZED -> throw AssertionError()
+        else -> null
     }
 }
 
@@ -143,7 +135,8 @@ internal fun Proto.IntegerAttribute.convert(): IntegerAttributeImpl {
     return IntegerAttributeImpl(
             min = min,
             max = max,
-            start = start
+            start = start,
+            quantity = quantity
     )
 }
 
@@ -151,7 +144,8 @@ internal fun Proto.RealAttribute.convert(): RealAttributeImpl {
     return RealAttributeImpl(
             min = min,
             max = max,
-            start = start
+            start = start,
+            quantity = quantity
     )
 }
 
@@ -171,7 +165,8 @@ internal fun Proto.EnumerationAttribute.convert(): EnumerationAttributeImpl {
     return EnumerationAttributeImpl(
             min = min,
             max = max,
-            start = start
+            start = start,
+            quantity = quantity
     )
 }
 
@@ -192,7 +187,7 @@ internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
         Proto.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
         Proto.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
         Proto.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
-        else -> throw AssertionError()
+        else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
     }
 
     return v.toTyped()
@@ -283,7 +278,7 @@ class GrpcModelDescription(
         get() = modelDescription.modelName
     override val modelStructure: ModelStructure = modelDescription.modelStructure.convert()
     override val modelVariables: ModelVariables = modelDescription.modelVariablesList.convert()
-    override val variableNamingConvention: VariableNamingConvention? = modelDescription.variableNamingConvention?.convert()
+    override val variableNamingConvention: String? = modelDescription.variableNamingConvention
     override val version: String?
         get() = modelDescription.version
 }

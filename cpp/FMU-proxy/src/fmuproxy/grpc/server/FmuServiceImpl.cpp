@@ -51,11 +51,6 @@ namespace {
 
 FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmuproxy::fmi::Fmu>> &fmus) : fmus_(fmus) {}
 
-::Status FmuServiceImpl::GetModelDescriptionXml(ServerContext *context, const GetModelDescriptionXmlRequest *request, ModelDescriptionXml *response) {
-    const auto &fmu = fmus_[request->fmu_id()];
-    response->set_xml(fmu->getModelDescriptionXml());
-    return ::Status::OK;
-}
 
 ::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const GetModelDescriptionRequest *request, ModelDescription *response) {
     const auto &fmu = fmus_[request->fmu_id()];
@@ -180,26 +175,12 @@ FmuServiceImpl::WriteBoolean(ServerContext *context, const WriteBooleanRequest *
 }
 
 ::Status
-FmuServiceImpl::CanGetAndSetFMUstate(ServerContext *context, const CanGetAndSetFMUstateRequest *request, Bool *response) {
-    auto& slave = slaves_[request->instance_id()];
-    response->set_value(slave->canGetAndSetFMUstate());
-    return ::Status::OK;
-}
-
-::Status
-FmuServiceImpl::CanSerializeFMUstate(ServerContext *context, const CanSerializeFMUstateRequest *request, Bool *response) {
-    auto& slave = slaves_[request->instance_id()];
-    response->set_value(slave->canSerializeFMUstate());
-    return ::Status::OK;
-}
-
-::Status
 FmuServiceImpl::GetFMUstate(ServerContext *context, const GetFMUstateRequest *request, GetFMUstateResponse *response) {
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->canGetAndSetFMUstate()) {
-        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
-    }
+//    if (!slave->canGetAndSetFMUstate()) {
+//        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
+//    }
 
     int64_t state;
     auto status = grpcType(slave->getFMUstate(state));
@@ -214,9 +195,9 @@ FmuServiceImpl::GetFMUstate(ServerContext *context, const GetFMUstateRequest *re
 FmuServiceImpl::SetFMUstate(ServerContext *context, const SetFMUstateRequest *request, StatusResponse *response) {
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->canGetAndSetFMUstate()) {
-        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
-    }
+//    if (!slave->canGetAndSetFMUstate()) {
+//        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
+//    }
 
     auto status = grpcType(slave->setFMUstate(request->state()));
     response->set_status(status);
@@ -229,9 +210,9 @@ FmuServiceImpl::FreeFMUstate(ServerContext *context, const FreeFMUstateRequest *
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->canGetAndSetFMUstate()) {
-        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
-    }
+//    if (!slave->canGetAndSetFMUstate()) {
+//        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
+//    }
 
     int64_t _state = request->state();
     auto status = grpcType(slave->freeFMUstate(_state));
@@ -246,9 +227,9 @@ FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstat
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->canSerializeFMUstate()) {
-        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'SerializeFMUstate'!");
-    }
+//    if (!slave->canSerializeFMUstate()) {
+//        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'SerializeFMUstate'!");
+//    }
 
     int64_t state = 0;
     string serializedState;
@@ -266,9 +247,9 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->canSerializeFMUstate()) {
-        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'SerializeFMUstate'!");
-    }
+//    if (!slave->canSerializeFMUstate()) {
+//        return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'SerializeFMUstate'!");
+//    }
 
     int64_t state;
     const auto status = grpcType(slave->deSerializeFMUstate(request->state(), state));
@@ -276,5 +257,26 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
     response->set_state(state);
     response->set_status(status);
 
+    return ::Status::OK;
+}
+
+::Status FmuServiceImpl::GetCoSimulationAttributes(ServerContext *context,
+                                                 const GetCoSimulationAttributesRequest *request,
+                                                 CoSimulationAttributes *response) {
+    auto &slave = slaves_[request->instance_id()];
+
+    return ::Status::OK;
+}
+
+::Status FmuServiceImpl::CanCreateInstanceFromCS(ServerContext *context,
+                                               const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest *request,
+                                               Bool *response) {
+    response->set_value(true);
+    return ::Status::OK;
+}
+
+::Status FmuServiceImpl::CanCreateInstanceFromME(ServerContext *context,
+                                               const CanCreateInstanceFromMERequest *request, Bool *response) {
+    response->set_value(false);
     return ::Status::OK;
 }

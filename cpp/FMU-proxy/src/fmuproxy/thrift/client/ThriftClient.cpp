@@ -45,9 +45,6 @@ ThriftClient::ThriftClient(const string fmu_id, const string host, const unsigne
     this->transport_->open();
 }
 
-void ThriftClient::getModelDescriptionXml(std::string &_return) const {
-    client_->getModelDescriptionXml(_return, fmuId_);
-}
 
 fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
     if (!modelDescription_) {
