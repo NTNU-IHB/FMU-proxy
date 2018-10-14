@@ -11,8 +11,8 @@ project(FMU_PROXY)
 set(CMAKE_CXX_STANDARD 17)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-option(BUILD_TESTS "Build tests" OFF)
-option(BUILD_EXAMPLES "Build examples" ON)
+option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
+option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
 
 if(MSVC)
     add_definitions(-DNOMINMAX)
@@ -41,11 +41,11 @@ find_package(gRPC CONFIG REQUIRED)
 add_subdirectory(src)
 add_subdirectory(tool)
 
-if (BUILD_TESTS)
+if (FMU_PROXY_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-if (BUILD_EXAMPLES)
+if (FMU_PROXY_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
