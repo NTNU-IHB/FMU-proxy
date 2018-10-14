@@ -26,7 +26,8 @@
 #define FMU_PROXY_GRPC_SERVER_HELPER_HPP
 
 #include <grpcpp/grpcpp.h>
-#include <fmuproxy/fmi/fmi_definitions.hpp>
+
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
 #include <fmuproxy/grpc/common/definitions.pb.h>
 #include <fmuproxy/thrift/common/definitions_types.h>
 
@@ -34,92 +35,89 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    const Status grpcType(fmi2_status_t status) {
+    const Status grpcType(fmi2Status status) {
         switch (status) {
-            case fmi2_status_ok:
+            case fmi2OK:
                 return Status::OK_STATUS;
-            case fmi2_status_warning:
+            case fmi2Warning:
                 return Status::WARNING_STATUS;
-            case fmi2_status_pending:
+            case fmi2Pending:
                 return Status::PENDING_STATUS;
-            case fmi2_status_discard:
+            case fmi2Discard:
                 return Status::DISCARD_STATUS;
-            case fmi2_status_error:
+            case fmi2Error:
                 return Status::ERROR_STATUS;
-            case fmi2_status_fatal:
+            case fmi2Fatal:
                 return Status::FATAL_STATUS;
             default:
                 throw std::runtime_error("Invalid status: " + status);
         }
     }
 
-    const Causality grpcType(fmi2_causality_enu_t causality) {
+    const Causality grpcType(fmi2Causality causality) {
         switch (causality) {
-            case fmi2_causality_enu_input:
+            case fmi2Causality ::input:
                 return Causality::INPUT_CAUSALITY;
-            case fmi2_causality_enu_output:
+            case fmi2Causality ::output:
                 return Causality::OUTPUT_CAUSALITY;
-            case fmi2_causality_enu_parameter:
+            case fmi2Causality ::parameter:
                 return Causality::PARAMETER_CAUSALITY;
-            case fmi2_causality_enu_local:
+            case fmi2Causality ::local:
                 return Causality::LOCAL_CAUSALITY;
-            case fmi2_causality_enu_independent:
+            case fmi2Causality ::independent:
                 return Causality::INDEPENDENT_CAUSALITY;
-            case fmi2_causality_enu_calculated_parameter:
+            case fmi2Causality ::calculatedParameter:
                 return Causality::CALCULATED_PARAMETER_CAUSALITY;
-            case fmi2_causality_enu_unknown:
-                return Causality::LOCAL_CAUSALITY;
             default:
-                throw std::runtime_error("Invalid status: " + causality);
+                return Causality::LOCAL_CAUSALITY;
         }
     }
 
-    const Variability grpcType(fmi2_variability_enu_t variability) {
+    const Variability grpcType(fmi2Variability variability) {
         switch (variability) {
-            case fmi2_variability_enu_constant:
+            case fmi2Variability::constant:
                 return Variability::CONSTANT_VARIABILITY;
-            case fmi2_variability_enu_continuous:
+            case fmi2Variability::continuous:
                 return Variability::CONTINUOUS_VARIABILITY;
-            case fmi2_variability_enu_discrete:
+            case fmi2Variability::discrete:
                 return Variability::DISCRETE_VARIABILITY;
-            case fmi2_variability_enu_fixed:
+            case fmi2Variability::fixed:
                 return Variability::FIXED_VARIABILITY;
-            case fmi2_variability_enu_tunable:
+            case fmi2Variability::tunable:
                 return Variability::TUNABLE_VARIABILITY;;
-            case fmi2_variability_enu_unknown:
+            case fmi2Variability::unknown:
                 return Variability::CONTINUOUS_VARIABILITY;
             default:
                 throw std::runtime_error("Invalid status: " + variability);
         }
     }
 
-    const Initial grpcType(fmi2_initial_enu_t initial) {
+    const Initial grpcType(fmi2Initial initial) {
         switch (initial) {
-            case fmi2_initial_enu_approx:
+            case fmi2Initial ::approx:
                 return Initial::APPROX_INITIAL;
-            case fmi2_initial_enu_calculated:
+            case fmi2Initial ::calculated:
                 return Initial::CALCULATED_INITIAL;
-            case fmi2_initial_enu_exact:
+            case fmi2Initial ::exact:
                 return Initial::EXACT_INITIAL;
-            case fmi2_initial_enu_unknown:
-                return Initial::APPROX_INITIAL;
+            case fmi2Initial ::unknown:
             default:
-                throw std::runtime_error("Invalid status: " + initial);
+                return Initial::APPROX_INITIAL; //TODO set unkown
         }
     }
 
-    const VariableNamingConvention grpcType(fmi2_variable_naming_convension_enu_t convention) {
-        switch (convention) {
-            case fmi2_naming_enu_flat:
-                return VariableNamingConvention::FLAT;
-            case fmi2_naming_enu_structured:
-                return VariableNamingConvention::STRUCTURED;
-            case fmi2_naming_enu_unknown:
-                throw std::runtime_error("TODO handle unknown naming convention!");
-            default:
-                throw std::runtime_error("Invalid status: " + convention);
-        }
-    }
+//    const VariableNamingConvention grpcType(fmi2_variable_naming_convension_enu_t convention) {
+//        switch (convention) {
+//            case fmi2_naming_enu_flat:
+//                return VariableNamingConvention::FLAT;
+//            case fmi2_naming_enu_structured:
+//                return VariableNamingConvention::STRUCTURED;
+//            case fmi2_naming_enu_unknown:
+//                throw std::runtime_error("TODO handle unknown naming convention!");
+//            default:
+//                throw std::runtime_error("Invalid status: " + convention);
+//        }
+//    }
 
     void grpcType(IntegerAttribute &attribute, const fmuproxy::fmi::IntegerAttribute &a) {
         if (a.isStart_set()) {

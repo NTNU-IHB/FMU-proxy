@@ -28,7 +28,6 @@
 #include <fmi4cpp/fmi2/fmi4cpp.hpp>
 #include <fmuproxy/grpc/common/definitions.pb.h>
 
-
 namespace {
 
     fmi2Status convert(const fmuproxy::grpc::Status status) {
@@ -111,8 +110,24 @@ namespace {
     }
 
     fmi4cpp::fmi2::xml::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a1) {
-//        fmi4cpp::fmi2::xml::IntegerAttribute a0;
 
+        const auto min = a1.min();
+        const auto max = a1.max();
+
+        if (min < max) {
+            a0.setMin(a1.min());
+            a0.setMax(a1.max());
+        }
+
+        a0.setStart(a1.start());
+
+        ScalarVariableAttributes attributes(std::make_optional(0), {});
+
+        return IntegerAttribute(BoundedScalarVariableAttributes());
+    }
+
+    fmi4cpp::fmi2::xml::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a1) {
+        fmi4cpp::fmi2::xml::RealAttribute a0;
         const auto min = a1.min();
         const auto max = a1.max();
 
@@ -126,8 +141,21 @@ namespace {
         return a0;
     }
 
-    fmuproxy::fmi::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a1) {
-        fmuproxy::fmi::RealAttribute a0;
+    fmi4cpp::fmi2::xml::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a1) {
+        return
+        fmi4cpp::fmi2::xml::StringAttribute a0;
+        a0.setStart(a1.start());
+        return a0;
+    }
+
+    fmi4cpp::fmi2::xml::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a1) {
+        fmi4cpp::fmi2::xml::BooleanAttribute a0;
+        a0.setStart(a1.start());
+        return a0;
+    }
+
+    fmi4cpp::fmi2::xml::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a1) {
+        fmi4cpp::fmi2::xml::EnumerationAttribute a0;
         const auto min = a1.min();
         const auto max = a1.max();
 
@@ -141,41 +169,9 @@ namespace {
         return a0;
     }
 
-    fmuproxy::fmi::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a1) {
-        fmuproxy::fmi::StringAttribute a0;
-        a0.setStart(a1.start());
-        return a0;
-    }
+    fmi4cpp::fmi2::xml::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v1) {
 
-    fmuproxy::fmi::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a1) {
-        fmuproxy::fmi::BooleanAttribute a0;
-        a0.setStart(a1.start());
-        return a0;
-    }
 
-    fmuproxy::fmi::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a1) {
-        fmuproxy::fmi::EnumerationAttribute a0;
-        const auto min = a1.min();
-        const auto max = a1.max();
-
-        if (min < max) {
-            a0.setMin(a1.min());
-            a0.setMax(a1.max());
-        }
-
-        a0.setStart(a1.start());
-
-        return a0;
-    }
-
-    fmuproxy::fmi::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v1) {
-        fmuproxy::fmi::ScalarVariable v0;
-        v0.name = v1.name();
-        v0.valueReference = v1.value_reference();
-        v0.description = v1.description();
-        v0.variability = convert(v1.variability());
-        v0.causality = convert(v1.causality());
-        v0.initial = convert(v1.initial());
         switch (v1.attribute_case()) {
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kIntegerAttribute:
                 v0.attribute.setIntegerAttribute(convert(v1.integer_attribute()));
@@ -196,17 +192,22 @@ namespace {
                 throw std::runtime_error("no attribute set!");
         }
 
-        return v0;
+        v0.name = v1.name();
+        v0.valueReference = v1.value_reference();
+        v0.description = v1.description();
+        v0.variability = convert(v1.variability());
+        v0.causality = convert(v1.causality());
+        v0.initial = convert(v1.initial());
     }
     
-    void copyToFrom(fmuproxy::fmi::DefaultExperiment &to, const fmuproxy::grpc::DefaultExperiment &from) {
+    void copyToFrom(fmi4cpp::fmi2::xml::DefaultExperiment &to, const fmuproxy::grpc::DefaultExperiment &from) {
         to.startTime = from.start_time();
         to.stopTime = from.stop_time();
         to.tolerance = from.tolerance();
         to.stepSize = from.step_size();
     }
 
-    void copyToFrom(fmuproxy::fmi::ModelDescription &to, const fmuproxy::grpc::ModelDescription &from) {
+    void copyToFrom(fmi4cpp::fmi2::xml::ModelDescription &to, const fmuproxy::grpc::ModelDescription &from) {
         to.guid = from.guid();
         to.modelName = from.model_name();
         to.version = from.version();
