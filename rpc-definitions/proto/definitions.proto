@@ -41,7 +41,7 @@ message ModelDescription {
     string generation_tool = 9;
     string generation_date_and_time = 10;
     DefaultExperiment default_experiment = 11;
-    VariableNamingConvention variable_naming_convention = 12;
+    string variable_naming_convention = 12;
     repeated ScalarVariable model_variables = 13;
     ModelStructure model_structure = 14;
 }
@@ -54,19 +54,20 @@ message CoSimulationAttributes {
     bool canHandleVariableCommunicationStepSize = 5;
     bool canInterpolateInputs = 6;
     uint32 maxOutputDerivativeOrder = 7;
-    
 }
 
 message IntegerAttribute {
     int32 min = 1;
     int32 max = 2;
     int32 start = 3;
+    string quantity = 4;
 }
 
 message RealAttribute {
     double min = 1;
     double max = 2;
     double start = 3;
+    string quantity = 4;
 }
 
 message StringAttribute {
@@ -81,6 +82,7 @@ message EnumerationAttribute {
     int32 min = 1;
     int32 max = 2;
     int32 start = 3;
+    string quantity = 4;
 }
 
 message ScalarVariable {
@@ -126,6 +128,7 @@ enum Causality {
     CALCULATED_PARAMETER_CAUSALITY = 3;
     LOCAL_CAUSALITY = 4;
     INDEPENDENT_CAUSALITY = 5;
+    UNKNOWN_CAUSALITY = 6;
 }
 
 enum Variability {
@@ -134,12 +137,14 @@ enum Variability {
     CONTINUOUS_VARIABILITY = 2;
     DISCRETE_VARIABILITY = 3;
     TUNABLE_VARIABILITY = 4;
+    UNKNOWN_VARIABILITY= 5;
 }
 
 enum Initial {
     EXACT_INITIAL = 0;
     APPROX_INITIAL = 1;
     CALCULATED_INITIAL = 2;
+    UNKNOWN_INITIAL = 3;
 }
 
 enum Status {
@@ -151,7 +156,3 @@ enum Status {
     PENDING_STATUS = 5;
 }
 
-enum VariableNamingConvention {
-    FLAT = 0;
-    STRUCTURED = 1;
-}
