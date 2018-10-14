@@ -40,6 +40,7 @@ internal fun IntegerVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.I
         min?.also { attribute.min = it }
         max?.also { attribute.max = it }
         start?.also { attribute.start = it }
+        quantity?.also { attribute.quantity = quantity }
     }
 }
 
@@ -48,6 +49,7 @@ internal fun RealVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Real
         min?.also { attribute.min = it }
         max?.also { attribute.max = it }
         start?.also { attribute.start = it }
+        quantity?.also { attribute.quantity = quantity }
     }
 }
 
@@ -68,6 +70,7 @@ internal fun EnumerationVariable.thriftType(): no.mechatronics.sfi.fmuproxy.thri
         min?.also { attribute.min = it }
         max?.also { attribute.max = it }
         start?.also { attribute.start = it }
+        quantity?.also { attribute.quantity = quantity }
     }
 }
 
@@ -138,6 +141,7 @@ internal fun no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription.thriftT
         generationTool?.also { md.generationTool = it }
         generationDateAndTime?.also { md.generationDateAndTime = it }
         defaultExperiment?.also { md.defaultExperiment = it.thriftType() }
+        variableNamingConvention?.also { md.variableNamingConvention = it }
 
     }
 }
@@ -164,7 +168,7 @@ internal fun Causality.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Causali
         Causality.PARAMETER -> no.mechatronics.sfi.fmuproxy.thrift.Causality.PARAMETER_CAUSALITY
         Causality.LOCAL -> no.mechatronics.sfi.fmuproxy.thrift.Causality.LOCAL_CAUSALITY
         Causality.INDEPENDENT -> no.mechatronics.sfi.fmuproxy.thrift.Causality.INDEPENDENT_CAUSALITY
-        else -> throw IllegalArgumentException("Not a valid Causality: $this")
+        else ->  no.mechatronics.sfi.fmuproxy.thrift.Causality.UNKNOWN_CAUSALITY
     }
 }
 
@@ -175,7 +179,7 @@ internal fun Variability.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Varia
         Variability.DISCRETE -> no.mechatronics.sfi.fmuproxy.thrift.Variability.DISCRETE_VARIABILITY
         Variability.FIXED -> no.mechatronics.sfi.fmuproxy.thrift.Variability.FIXED_VARIABILITY
         Variability.TUNABLE -> no.mechatronics.sfi.fmuproxy.thrift.Variability.TUNABLE_VARIABILITY
-        else -> throw IllegalArgumentException("Not a valid Variability: $this")
+        else -> no.mechatronics.sfi.fmuproxy.thrift.Variability.UNKNOWN_VARIABILITY
     }
 }
 
@@ -184,7 +188,7 @@ internal fun Initial.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Initial {
         Initial.CALCULATED -> no.mechatronics.sfi.fmuproxy.thrift.Initial.CALCULATED_INITIAL
         Initial.EXACT -> no.mechatronics.sfi.fmuproxy.thrift.Initial.EXACT_INITIAL
         Initial.APPROX -> no.mechatronics.sfi.fmuproxy.thrift.Initial.APPROX_INITIAL
-        else -> throw IllegalArgumentException("Not a valid Initial: $this")
+        else ->no.mechatronics.sfi.fmuproxy.thrift.Initial.UNKNOWN_INITIAL
     }
 }
 

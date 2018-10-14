@@ -68,7 +68,7 @@ class TestGrpcME {
             Assertions.assertEquals(FmiStatus.OK, slave.lastStatus)
 
             val variableName = "x0"
-            val variable = slave
+            val variable = slave.modelDescription
                     .getVariableByName(variableName).asRealVariable()
 
             variable.read(slave).also {

@@ -68,7 +68,8 @@ class TestThriftME {
             Assertions.assertEquals(FmiStatus.OK, slave.lastStatus)
 
             val variableName = "x0"
-            val variable = slave.getVariableByName(variableName).asRealVariable()
+            val variable = slave.modelDescription
+                    .getVariableByName(variableName).asRealVariable()
 
             variable.read(slave).also {
                 LOG.info("$variableName=${it.value}")
