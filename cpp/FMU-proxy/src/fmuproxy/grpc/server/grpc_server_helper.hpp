@@ -108,19 +108,6 @@ namespace {
         }
     }
 
-    const VariableNamingConvention grpcType(fmi2_variable_naming_convension_enu_t convention) {
-        switch (convention) {
-            case fmi2_naming_enu_flat:
-                return VariableNamingConvention::FLAT;
-            case fmi2_naming_enu_structured:
-                return VariableNamingConvention::STRUCTURED;
-            case fmi2_naming_enu_unknown:
-                throw std::runtime_error("TODO handle unknown naming convention!");
-            default:
-                throw std::runtime_error("Invalid status: " + convention);
-        }
-    }
-
     void grpcType(IntegerAttribute &attribute, const fmuproxy::fmi::IntegerAttribute &a) {
         if (a.isStart_set()) {
             attribute.set_start(a.getStart());
@@ -212,9 +199,7 @@ namespace {
         md.set_description(m.description);
         md.set_generation_tool(m.generationTool);
         md.set_generation_date_and_time(m.generationDateAndTime);
-        md.set_variable_naming_convention(grpcType(m.variableNamingConvention));
-        md.set_supports_co_simulation(true);
-        md.set_supports_model_exchange(false);
+        md.set_variable_naming_convention(m.variableNamingConvention);
 
         auto ex = md.default_experiment();
         ex.set_start_time(m.defaultExperiment.startTime);

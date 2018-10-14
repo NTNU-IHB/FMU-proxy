@@ -305,27 +305,6 @@ fmi2_status_t RemoteFmuSlave::writeBoolean(const vector<fmi2_value_reference_t> 
     return convert(response.status());
 }
 
-bool RemoteFmuSlave::canGetAndSetFMUstate() const {
-
-    ClientContext ctx;
-    Bool response;
-
-    CanGetAndSetFMUstateRequest request;
-    request.set_instance_id(instanceId_);
-    stub_.CanGetAndSetFMUstate(&ctx, request, &response);
-    return response.value();
-}
-
-bool RemoteFmuSlave::canSerializeFMUstate() const {
-
-    ClientContext ctx;
-    Bool response;
-
-    CanSerializeFMUstateRequest request;
-    request.set_instance_id(instanceId_);
-    stub_.CanSerializeFMUstate(&ctx, request, &response);
-    return response.value();
-}
 
 fmi2_status_t RemoteFmuSlave::getFMUstate(int64_t &state) {
 
@@ -394,9 +373,6 @@ fmi2_status_t RemoteFmuSlave::deSerializeFMUstate(const string serializedState, 
     return convert(response.status());
 }
 
-bool RemoteFmuSlave::providesDirectionalDerivatives() const {
-    return false;
-}
 
 fmi2_status_t RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
                                                        const std::vector<fmi2_value_reference_t> vKnownRef,

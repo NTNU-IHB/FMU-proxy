@@ -91,17 +91,12 @@ namespace fmuproxy::fmi {
         virtual fmi2_status_t writeBoolean(const fmi2_value_reference_t vr, const fmi2_boolean_t value) = 0;
         virtual fmi2_status_t writeBoolean(const std::vector<fmi2_value_reference_t> &vr, const std::vector<fmi2_boolean_t> &value) = 0;
 
-        virtual bool canGetAndSetFMUstate() const = 0;
-        virtual bool canSerializeFMUstate() const = 0;
-
         virtual fmi2_status_t getFMUstate(int64_t &state) = 0;
         virtual fmi2_status_t setFMUstate(const int64_t state) = 0;
         virtual fmi2_status_t freeFMUstate(int64_t &state) = 0;
 
         virtual fmi2_status_t serializeFMUstate(const int64_t state, std::string &serializedState) = 0;
         virtual fmi2_status_t deSerializeFMUstate(const std::string serializedState, int64_t &state) = 0;
-
-        virtual bool providesDirectionalDerivatives() const = 0;
 
         virtual fmi2_status_t getDirectionalDerivative(const std::vector<fmi2_value_reference_t> vUnknownRef,
                 const std::vector<fmi2_value_reference_t> vKnownRef, const std::vector<fmi2_real_t > dvKnownRef,

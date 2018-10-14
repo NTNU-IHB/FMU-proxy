@@ -25,11 +25,11 @@ typedef std::string FmuId;
 
 typedef std::string InstanceId;
 
-typedef int32_t ValueReference;
+typedef int64_t ValueReference;
 
 typedef int64_t FmuState;
 
-typedef std::vector<int32_t>  ValueReferences;
+typedef std::vector<ValueReference>  ValueReferences;
 
 typedef std::vector<int32_t>  IntArray;
 

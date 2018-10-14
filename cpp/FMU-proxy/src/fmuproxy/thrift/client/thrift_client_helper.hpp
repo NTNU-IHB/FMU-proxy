@@ -106,17 +106,6 @@ namespace {
         }
     }
 
-    fmi2_variable_naming_convension_enu_t convert(const VariableNamingConvention::type convention) {
-        switch (convention) {
-            case VariableNamingConvention::FLAT:
-                return fmi2_naming_enu_flat;
-            case VariableNamingConvention::STRUCTURED:
-                return fmi2_naming_enu_structured;
-            default:
-                throw std::runtime_error("not a valid convention: " + convention);
-        }
-    }
-
     void copyToFrom(fmuproxy::fmi::DefaultExperiment &d0, const fmuproxy::thrift::DefaultExperiment &d1) {
         d0.startTime = d1.startTime;
         d0.stopTime = d1.stopTime;
@@ -225,13 +214,11 @@ namespace {
         to.copyright = from.copyright;
         to.generationTool = from.generationTool;
         to.generationDateAndTime = from.generationDateAndTime;
-        to.variableNamingConvention = convert(from.variableNamingConvention);
+        to.variableNamingConvention = from.variableNamingConvention;
         
         copyToFrom(to.modelVariables, from.modelVariables);
         copyToFrom(to.defaultExperiment, from.defaultExperiment);
-        
-        to.supportsCoSimulation = from.supportsCoSimulation;
-        to.supportsModelExchange = from.supportsModelExchange;
+
     }
 
 }

@@ -36,9 +36,17 @@ using namespace fmuproxy::thrift::server;
 
 FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi::Fmu>> &fmus) : fmus_(fmus) {}
 
-void FmuServiceHandler::getModelDescriptionXml(string &_return, const FmuId &id) {
-     const auto &fmu = fmus_.at(id);
-    _return = fmu->getModelDescriptionXml();
+void FmuServiceHandler::getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
+                                                  const InstanceId &instanceId) {
+
+}
+
+bool FmuServiceHandler::canCreateInstanceFromCS(const FmuId &fmuId) {
+    return true;
+}
+
+bool FmuServiceHandler::canCreateInstanceFromME(const FmuId &fmuId) {
+    return false;
 }
 
 void FmuServiceHandler::getModelDescription(ModelDescription &_return, const FmuId &id) {
@@ -149,23 +157,13 @@ FmuServiceHandler::writeBoolean(const InstanceId &slave_id, const ValueReference
     return Status::type::DISCARD_STATUS;
 }
 
-bool FmuServiceHandler::canGetAndSetFMUstate(const InstanceId &slave_id) {
-    auto &slave = slaves_[slave_id];
-    return slave->canGetAndSetFMUstate();
-}
-
-bool FmuServiceHandler::canSerializeFMUstate(const InstanceId &slave_id) {
-    auto &slave = slaves_[slave_id];
-    return slave->canSerializeFMUstate();
-}
-
 void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    if (!slave->canGetAndSetFMUstate()) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
-        throw ex;
-    }
+//    if (!slave->canGetAndSetFMUstate()) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
+//        throw ex;
+//    }
 
     const auto status = slave->getFMUstate(_return.state);
     _return.status = thriftType(status);
@@ -173,21 +171,22 @@ void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId
 
 Status::type FmuServiceHandler::setFMUstate(const InstanceId &slave_id, const FmuState state) {
     auto &slave = slaves_[slave_id];
-    if (!slave->canGetAndSetFMUstate()) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
-        throw ex;
-    }
+//    if (!slave->canGetAndSetFMUstate()) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
+//        throw ex;
+//    }
+
     return thriftType(slave->setFMUstate(state));
 }
 
 Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuState state) {
     auto &slave = slaves_[slave_id];
-    if (!slave->canGetAndSetFMUstate()) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
-        throw ex;
-    }
+//    if (!slave->canGetAndSetFMUstate()) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
+//        throw ex;
+//    }
 
     return thriftType(slave->freeFMUstate(state));
 }
@@ -195,11 +194,11 @@ Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuStat
 void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &slave_id,
                                           const FmuState state) {
     auto &slave = slaves_[slave_id];
-    if (!slave->canSerializeFMUstate()) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'SerializeFMUstate'";
-        throw ex;
-    }
+//    if (!slave->canSerializeFMUstate()) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'SerializeFMUstate'";
+//        throw ex;
+//    }
 
     string serializedState;
     const auto status = thriftType(slave->serializeFMUstate(state, serializedState));
@@ -212,11 +211,11 @@ void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, cons
 void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &slave_id,
                                             const string &serializedState) {
     auto &slave = slaves_[slave_id];
-    if (!slave->canSerializeFMUstate()) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'SerializeFMUstate'";
-        throw ex;
-    }
+//    if (!slave->canSerializeFMUstate()) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'SerializeFMUstate'";
+//        throw ex;
+//    }
 
     int64_t state;
     const auto status = thriftType(slave->deSerializeFMUstate(serializedState, state));

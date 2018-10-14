@@ -42,7 +42,8 @@ struct Causality {
     PARAMETER_CAUSALITY = 2,
     CALCULATED_PARAMETER_CAUSALITY = 3,
     LOCAL_CAUSALITY = 4,
-    INDEPENDENT_CAUSALITY = 5
+    INDEPENDENT_CAUSALITY = 5,
+    UNKNOWN_CAUSALITY = 6
   };
 };
 
@@ -56,7 +57,8 @@ struct Variability {
     FIXED_VARIABILITY = 1,
     CONTINUOUS_VARIABILITY = 2,
     DISCRETE_VARIABILITY = 3,
-    TUNABLE_VARIABILITY = 4
+    TUNABLE_VARIABILITY = 4,
+    UNKNOWN_VARIABILITY = 6
   };
 };
 
@@ -68,24 +70,14 @@ struct Initial {
   enum type {
     EXACT_INITIAL = 0,
     APPROX_INITIAL = 1,
-    CALCULATED_INITIAL = 2
+    CALCULATED_INITIAL = 2,
+    UNKNOWN_INITIAL = 3
   };
 };
 
 extern const std::map<int, const char*> _Initial_VALUES_TO_NAMES;
 
 std::ostream& operator<<(std::ostream& out, const Initial::type& val);
-
-struct VariableNamingConvention {
-  enum type {
-    FLAT = 0,
-    STRUCTURED = 1
-  };
-};
-
-extern const std::map<int, const char*> _VariableNamingConvention_VALUES_TO_NAMES;
-
-std::ostream& operator<<(std::ostream& out, const VariableNamingConvention::type& val);
 
 typedef std::vector<class ScalarVariable>  ModelVariables;
 
@@ -123,11 +115,14 @@ class Solver;
 
 class ModelDescription;
 
+class CoSimulationAttributes;
+
 typedef struct _IntegerAttribute__isset {
-  _IntegerAttribute__isset() : min(false), max(false), start(false) {}
+  _IntegerAttribute__isset() : min(false), max(false), start(false), quantity(false) {}
   bool min :1;
   bool max :1;
   bool start :1;
+  bool quantity :1;
 } _IntegerAttribute__isset;
 
 class IntegerAttribute : public virtual ::apache::thrift::TBase {
@@ -135,13 +130,14 @@ class IntegerAttribute : public virtual ::apache::thrift::TBase {
 
   IntegerAttribute(const IntegerAttribute&);
   IntegerAttribute& operator=(const IntegerAttribute&);
-  IntegerAttribute() : min(0), max(0), start(0) {
+  IntegerAttribute() : min(0), max(0), start(0), quantity() {
   }
 
   virtual ~IntegerAttribute() throw();
   int32_t min;
   int32_t max;
   int32_t start;
+  std::string quantity;
 
   _IntegerAttribute__isset __isset;
 
@@ -151,6 +147,8 @@ class IntegerAttribute : public virtual ::apache::thrift::TBase {
 
   void __set_start(const int32_t val);
 
+  void __set_quantity(const std::string& val);
+
   bool operator == (const IntegerAttribute & rhs) const
   {
     if (!(min == rhs.min))
@@ -158,6 +156,8 @@ class IntegerAttribute : public virtual ::apache::thrift::TBase {
     if (!(max == rhs.max))
       return false;
     if (!(start == rhs.start))
+      return false;
+    if (!(quantity == rhs.quantity))
       return false;
     return true;
   }
@@ -178,10 +178,11 @@ void swap(IntegerAttribute &a, IntegerAttribute &b);
 std::ostream& operator<<(std::ostream& out, const IntegerAttribute& obj);
 
 typedef struct _RealAttribute__isset {
-  _RealAttribute__isset() : min(false), max(false), start(false) {}
+  _RealAttribute__isset() : min(false), max(false), start(false), quantity(false) {}
   bool min :1;
   bool max :1;
   bool start :1;
+  bool quantity :1;
 } _RealAttribute__isset;
 
 class RealAttribute : public virtual ::apache::thrift::TBase {
@@ -189,13 +190,14 @@ class RealAttribute : public virtual ::apache::thrift::TBase {
 
   RealAttribute(const RealAttribute&);
   RealAttribute& operator=(const RealAttribute&);
-  RealAttribute() : min(0), max(0), start(0) {
+  RealAttribute() : min(0), max(0), start(0), quantity() {
   }
 
   virtual ~RealAttribute() throw();
   double min;
   double max;
   double start;
+  std::string quantity;
 
   _RealAttribute__isset __isset;
 
@@ -205,6 +207,8 @@ class RealAttribute : public virtual ::apache::thrift::TBase {
 
   void __set_start(const double val);
 
+  void __set_quantity(const std::string& val);
+
   bool operator == (const RealAttribute & rhs) const
   {
     if (!(min == rhs.min))
@@ -212,6 +216,8 @@ class RealAttribute : public virtual ::apache::thrift::TBase {
     if (!(max == rhs.max))
       return false;
     if (!(start == rhs.start))
+      return false;
+    if (!(quantity == rhs.quantity))
       return false;
     return true;
   }
@@ -316,10 +322,11 @@ void swap(BooleanAttribute &a, BooleanAttribute &b);
 std::ostream& operator<<(std::ostream& out, const BooleanAttribute& obj);
 
 typedef struct _EnumerationAttribute__isset {
-  _EnumerationAttribute__isset() : min(false), max(false), start(false) {}
+  _EnumerationAttribute__isset() : min(false), max(false), start(false), quantity(false) {}
   bool min :1;
   bool max :1;
   bool start :1;
+  bool quantity :1;
 } _EnumerationAttribute__isset;
 
 class EnumerationAttribute : public virtual ::apache::thrift::TBase {
@@ -327,13 +334,14 @@ class EnumerationAttribute : public virtual ::apache::thrift::TBase {
 
   EnumerationAttribute(const EnumerationAttribute&);
   EnumerationAttribute& operator=(const EnumerationAttribute&);
-  EnumerationAttribute() : min(0), max(0), start(0) {
+  EnumerationAttribute() : min(0), max(0), start(0), quantity() {
   }
 
   virtual ~EnumerationAttribute() throw();
   int32_t min;
   int32_t max;
   int32_t start;
+  std::string quantity;
 
   _EnumerationAttribute__isset __isset;
 
@@ -343,6 +351,8 @@ class EnumerationAttribute : public virtual ::apache::thrift::TBase {
 
   void __set_start(const int32_t val);
 
+  void __set_quantity(const std::string& val);
+
   bool operator == (const EnumerationAttribute & rhs) const
   {
     if (!(min == rhs.min))
@@ -350,6 +360,8 @@ class EnumerationAttribute : public virtual ::apache::thrift::TBase {
     if (!(max == rhs.max))
       return false;
     if (!(start == rhs.start))
+      return false;
+    if (!(quantity == rhs.quantity))
       return false;
     return true;
   }
@@ -446,11 +458,10 @@ void swap(ScalarVariableAttribute &a, ScalarVariableAttribute &b);
 std::ostream& operator<<(std::ostream& out, const ScalarVariableAttribute& obj);
 
 typedef struct _ScalarVariable__isset {
-  _ScalarVariable__isset() : valueReference(false), name(false), description(false), declaredType(false), initial(false), causality(false), variability(false), attribute(false) {}
+  _ScalarVariable__isset() : valueReference(false), name(false), description(false), initial(false), causality(false), variability(false), attribute(false) {}
   bool valueReference :1;
   bool name :1;
   bool description :1;
-  bool declaredType :1;
   bool initial :1;
   bool causality :1;
   bool variability :1;
@@ -462,14 +473,13 @@ class ScalarVariable : public virtual ::apache::thrift::TBase {
 
   ScalarVariable(const ScalarVariable&);
   ScalarVariable& operator=(const ScalarVariable&);
-  ScalarVariable() : valueReference(0), name(), description(), declaredType(), initial((Initial::type)0), causality((Causality::type)0), variability((Variability::type)0) {
+  ScalarVariable() : valueReference(0), name(), description(), initial((Initial::type)0), causality((Causality::type)0), variability((Variability::type)0) {
   }
 
   virtual ~ScalarVariable() throw();
-  int32_t valueReference;
+  int64_t valueReference;
   std::string name;
   std::string description;
-  std::string declaredType;
   Initial::type initial;
   Causality::type causality;
   Variability::type variability;
@@ -477,13 +487,11 @@ class ScalarVariable : public virtual ::apache::thrift::TBase {
 
   _ScalarVariable__isset __isset;
 
-  void __set_valueReference(const int32_t val);
+  void __set_valueReference(const int64_t val);
 
   void __set_name(const std::string& val);
 
   void __set_description(const std::string& val);
-
-  void __set_declaredType(const std::string& val);
 
   void __set_initial(const Initial::type val);
 
@@ -502,10 +510,6 @@ class ScalarVariable : public virtual ::apache::thrift::TBase {
     if (__isset.description != rhs.__isset.description)
       return false;
     else if (__isset.description && !(description == rhs.description))
-      return false;
-    if (__isset.declaredType != rhs.__isset.declaredType)
-      return false;
-    else if (__isset.declaredType && !(declaredType == rhs.declaredType))
       return false;
     if (__isset.initial != rhs.__isset.initial)
       return false;
@@ -996,7 +1000,7 @@ void swap(Solver &a, Solver &b);
 std::ostream& operator<<(std::ostream& out, const Solver& obj);
 
 typedef struct _ModelDescription__isset {
-  _ModelDescription__isset() : guid(false), fmiVersion(false), modelName(false), license(false), copyright(false), author(false), version(false), description(false), generationTool(false), generationDateAndTime(false), defaultExperiment(false), variableNamingConvention(false), modelVariables(false), modelStructure(false), supportsCoSimulation(false), supportsModelExchange(false) {}
+  _ModelDescription__isset() : guid(false), fmiVersion(false), modelName(false), license(false), copyright(false), author(false), version(false), description(false), generationTool(false), generationDateAndTime(false), defaultExperiment(false), variableNamingConvention(false), modelVariables(false), modelStructure(false) {}
   bool guid :1;
   bool fmiVersion :1;
   bool modelName :1;
@@ -1011,8 +1015,6 @@ typedef struct _ModelDescription__isset {
   bool variableNamingConvention :1;
   bool modelVariables :1;
   bool modelStructure :1;
-  bool supportsCoSimulation :1;
-  bool supportsModelExchange :1;
 } _ModelDescription__isset;
 
 class ModelDescription : public virtual ::apache::thrift::TBase {
@@ -1020,7 +1022,7 @@ class ModelDescription : public virtual ::apache::thrift::TBase {
 
   ModelDescription(const ModelDescription&);
   ModelDescription& operator=(const ModelDescription&);
-  ModelDescription() : guid(), fmiVersion(), modelName(), license(), copyright(), author(), version(), description(), generationTool(), generationDateAndTime(), variableNamingConvention((VariableNamingConvention::type)0), supportsCoSimulation(0), supportsModelExchange(0) {
+  ModelDescription() : guid(), fmiVersion(), modelName(), license(), copyright(), author(), version(), description(), generationTool(), generationDateAndTime(), variableNamingConvention() {
   }
 
   virtual ~ModelDescription() throw();
@@ -1035,11 +1037,9 @@ class ModelDescription : public virtual ::apache::thrift::TBase {
   std::string generationTool;
   std::string generationDateAndTime;
   DefaultExperiment defaultExperiment;
-  VariableNamingConvention::type variableNamingConvention;
+  std::string variableNamingConvention;
   ModelVariables modelVariables;
   ModelStructure modelStructure;
-  bool supportsCoSimulation;
-  bool supportsModelExchange;
 
   _ModelDescription__isset __isset;
 
@@ -1065,15 +1065,11 @@ class ModelDescription : public virtual ::apache::thrift::TBase {
 
   void __set_defaultExperiment(const DefaultExperiment& val);
 
-  void __set_variableNamingConvention(const VariableNamingConvention::type val);
+  void __set_variableNamingConvention(const std::string& val);
 
   void __set_modelVariables(const ModelVariables& val);
 
   void __set_modelStructure(const ModelStructure& val);
-
-  void __set_supportsCoSimulation(const bool val);
-
-  void __set_supportsModelExchange(const bool val);
 
   bool operator == (const ModelDescription & rhs) const
   {
@@ -1123,10 +1119,6 @@ class ModelDescription : public virtual ::apache::thrift::TBase {
       return false;
     if (!(modelStructure == rhs.modelStructure))
       return false;
-    if (!(supportsCoSimulation == rhs.supportsCoSimulation))
-      return false;
-    if (!(supportsModelExchange == rhs.supportsModelExchange))
-      return false;
     return true;
   }
   bool operator != (const ModelDescription &rhs) const {
@@ -1144,6 +1136,84 @@ class ModelDescription : public virtual ::apache::thrift::TBase {
 void swap(ModelDescription &a, ModelDescription &b);
 
 std::ostream& operator<<(std::ostream& out, const ModelDescription& obj);
+
+typedef struct _CoSimulationAttributes__isset {
+  _CoSimulationAttributes__isset() : modelIdentifier(false), canGetAndSetFMUstate(false), canSerializeFMUstate(false), providesDirectionalDerivative(false), canHandleVariableCommunicationStepSize(false), canInterpolateInputs(false), maxOutputDerivativeOrder(false) {}
+  bool modelIdentifier :1;
+  bool canGetAndSetFMUstate :1;
+  bool canSerializeFMUstate :1;
+  bool providesDirectionalDerivative :1;
+  bool canHandleVariableCommunicationStepSize :1;
+  bool canInterpolateInputs :1;
+  bool maxOutputDerivativeOrder :1;
+} _CoSimulationAttributes__isset;
+
+class CoSimulationAttributes : public virtual ::apache::thrift::TBase {
+ public:
+
+  CoSimulationAttributes(const CoSimulationAttributes&);
+  CoSimulationAttributes& operator=(const CoSimulationAttributes&);
+  CoSimulationAttributes() : modelIdentifier(), canGetAndSetFMUstate(0), canSerializeFMUstate(0), providesDirectionalDerivative(0), canHandleVariableCommunicationStepSize(0), canInterpolateInputs(0), maxOutputDerivativeOrder(0) {
+  }
+
+  virtual ~CoSimulationAttributes() throw();
+  std::string modelIdentifier;
+  bool canGetAndSetFMUstate;
+  bool canSerializeFMUstate;
+  bool providesDirectionalDerivative;
+  bool canHandleVariableCommunicationStepSize;
+  bool canInterpolateInputs;
+  int32_t maxOutputDerivativeOrder;
+
+  _CoSimulationAttributes__isset __isset;
+
+  void __set_modelIdentifier(const std::string& val);
+
+  void __set_canGetAndSetFMUstate(const bool val);
+
+  void __set_canSerializeFMUstate(const bool val);
+
+  void __set_providesDirectionalDerivative(const bool val);
+
+  void __set_canHandleVariableCommunicationStepSize(const bool val);
+
+  void __set_canInterpolateInputs(const bool val);
+
+  void __set_maxOutputDerivativeOrder(const int32_t val);
+
+  bool operator == (const CoSimulationAttributes & rhs) const
+  {
+    if (!(modelIdentifier == rhs.modelIdentifier))
+      return false;
+    if (!(canGetAndSetFMUstate == rhs.canGetAndSetFMUstate))
+      return false;
+    if (!(canSerializeFMUstate == rhs.canSerializeFMUstate))
+      return false;
+    if (!(providesDirectionalDerivative == rhs.providesDirectionalDerivative))
+      return false;
+    if (!(canHandleVariableCommunicationStepSize == rhs.canHandleVariableCommunicationStepSize))
+      return false;
+    if (!(canInterpolateInputs == rhs.canInterpolateInputs))
+      return false;
+    if (!(maxOutputDerivativeOrder == rhs.maxOutputDerivativeOrder))
+      return false;
+    return true;
+  }
+  bool operator != (const CoSimulationAttributes &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const CoSimulationAttributes & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(CoSimulationAttributes &a, CoSimulationAttributes &b);
+
+std::ostream& operator<<(std::ostream& out, const CoSimulationAttributes& obj);
 
 }} // namespace
 

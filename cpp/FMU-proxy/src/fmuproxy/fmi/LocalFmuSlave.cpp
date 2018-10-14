@@ -47,18 +47,6 @@ LocalFmuSlave::LocalFmuSlave(fmi2_import_t *instance, ModelDescription &modelDes
     : FmuSlave(modelDescription), instance_(instance) {}
 
 
-bool LocalFmuSlave::canGetAndSetFMUstate() const {
-    return fmi2_import_get_capability(instance_, fmi2_cs_canGetAndSetFMUstate);
-}
-
-bool LocalFmuSlave::canSerializeFMUstate() const {
-    return fmi2_import_get_capability(instance_, fmi2_cs_canSerializeFMUstate);
-}
-
-bool LocalFmuSlave::providesDirectionalDerivatives() const {
-    return fmi2_import_get_capability(instance_, fmi2_cs_providesDirectionalDerivatives);
-}
-
 void LocalFmuSlave::init(double start, double stop) {
 
     fmi2_boolean_t stop_time_defined = start < stop;

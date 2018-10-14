@@ -76,10 +76,8 @@ namespace fmuproxy::fmi {
         std::string generationTool;
         std::string generationDateAndTime;
         DefaultExperiment defaultExperiment;
-        fmi2_variable_naming_convension_enu_t variableNamingConvention;
+        std::string variableNamingConvention;
         ModelVariables modelVariables;
-        bool supportsCoSimulation;
-        bool supportsModelExchange;
 
         fmi2_value_reference_t getValueReference(const std::string name) const {
             for (auto var : modelVariables) {

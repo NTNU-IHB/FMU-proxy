@@ -43,12 +43,6 @@ namespace fmuproxy::fmi {
 
         LocalFmuSlave(fmi2_import_t* instance, ModelDescription &md);
 
-        bool canGetAndSetFMUstate() const override;
-
-        bool canSerializeFMUstate() const override;
-
-        bool providesDirectionalDerivatives() const override;
-
         void init(double start = 0, double stop = 0) override;
 
         fmi2_status_t step(double step_size) override;

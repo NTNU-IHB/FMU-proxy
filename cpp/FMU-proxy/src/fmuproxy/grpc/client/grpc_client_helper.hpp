@@ -99,17 +99,6 @@ namespace {
         }
     }
 
-    fmi2_variable_naming_convension_enu_t convert(const fmuproxy::grpc::VariableNamingConvention convention) {
-        switch (convention) {
-            case fmuproxy::grpc::VariableNamingConvention::FLAT:
-                return fmi2_naming_enu_flat;
-            case fmuproxy::grpc::VariableNamingConvention::STRUCTURED:
-                return fmi2_naming_enu_structured;
-            default:
-                throw std::runtime_error("not a valid convention: " + convention);
-        }
-    }
-
     fmuproxy::fmi::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a1) {
         fmuproxy::fmi::IntegerAttribute a0;
 
@@ -215,16 +204,13 @@ namespace {
         to.copyright = from.copyright();
         to.generationTool = from.generation_tool();
         to.generationDateAndTime = from.generation_date_and_time();
-        to.variableNamingConvention = convert(from.variable_naming_convention());
+        to.variableNamingConvention = from.variable_naming_convention();
 
         copyToFrom(to.defaultExperiment, from.default_experiment());
 
         for (const auto &var : from.model_variables()) {
             to.modelVariables.push_back(convert(var));
         }
-
-        to.supportsCoSimulation = from.supports_co_simulation();
-        to.supportsModelExchange = from.supports_model_exchange();
 
     }
     
