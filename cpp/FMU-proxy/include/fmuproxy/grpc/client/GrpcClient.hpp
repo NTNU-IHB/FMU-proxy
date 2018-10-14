@@ -39,22 +39,16 @@ namespace fmuproxy::grpc::client {
 
         const std::string fmuId_;
         std::shared_ptr<fmuproxy::grpc::FmuService::Stub> stub_;
-        std::shared_ptr<fmuproxy::fmi::ModelDescription> modelDescription_;
+        std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> modelDescription_;
 
     public:
         GrpcClient(const std::string fmu_id, const std::string host, const unsigned int port);
 
-        fmuproxy::fmi::ModelDescription &getModelDescription();
-
-        void getModelDescriptionXml(std::string &_return);
+        std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> &getModelDescription();
 
         std::unique_ptr<RemoteFmuSlave> newInstance();
 
         void close();
-
-        ~GrpcClient() {
-            std::cout << "GrpcClient destructor called" << std::endl;
-        }
 
     };
 

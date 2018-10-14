@@ -46,14 +46,13 @@ ThriftClient::ThriftClient(const string fmu_id, const string host, const unsigne
 }
 
 
-fmuproxy::fmi::ModelDescription &ThriftClient::getModelDescription() {
+unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> &ThriftClient::getModelDescription() {
     if (!modelDescription_) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
         client_->getModelDescription(md, fmuId_);
-        modelDescription_ = std::make_shared<fmuproxy::fmi::ModelDescription>();
-        copyToFrom(*modelDescription_, md);
+        modelDescription_ = convert(md);
     }
-    return *modelDescription_;
+    return modelDescription_;
 }
 
 unique_ptr<RemoteFmuSlave> ThriftClient::newInstance() {

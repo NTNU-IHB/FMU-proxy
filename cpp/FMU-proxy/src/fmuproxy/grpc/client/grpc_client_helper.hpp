@@ -25,6 +25,7 @@
 #ifndef FMU_PROXY_GRPC_CLIENT_HELPER_HPP
 #define FMU_PROXY_GRPC_CLIENT_HELPER_HPP
 
+#include <string>
 #include <fmi4cpp/fmi2/fmi4cpp.hpp>
 #include <fmuproxy/grpc/common/definitions.pb.h>
 
@@ -52,125 +53,102 @@ namespace {
     fmi2Causality convert(const fmuproxy::grpc::Causality causality) {
         switch (causality) {
             case fmuproxy::grpc::Causality::LOCAL_CAUSALITY:
-                return fmi2Causality ::local;
+                return fmi2Causality::local;
             case fmuproxy::grpc::Causality::INDEPENDENT_CAUSALITY:
-                return fmi2Causality ::independent;
+                return fmi2Causality::independent;
             case fmuproxy::grpc::Causality::INPUT_CAUSALITY:
-                return fmi2Causality ::input;
+                return fmi2Causality::input;
             case fmuproxy::grpc::Causality::OUTPUT_CAUSALITY:
-                return fmi2Causality ::output;
+                return fmi2Causality::output;
             case fmuproxy::grpc::Causality::CALCULATED_PARAMETER_CAUSALITY:
-                return fmi2Causality ::calculatedParameter;
+                return fmi2Causality::calculatedParameter;
             case fmuproxy::grpc::Causality::PARAMETER_CAUSALITY:
-                return fmi2Causality ::parameter;
+                return fmi2Causality::parameter;
             default:
-                return fmi2Causality ::local;
+                return fmi2Causality::local;
         }
     }
 
     fmi2Variability convert(const fmuproxy::grpc::Variability variability) {
         switch (variability) {
             case fmuproxy::grpc::Variability::CONSTANT_VARIABILITY:
-                return fmi2Variability ::constant;
+                return fmi2Variability::constant;
             case fmuproxy::grpc::Variability::CONTINUOUS_VARIABILITY:
-                return fmi2Variability ::continuous;
+                return fmi2Variability::continuous;
             case fmuproxy::grpc::Variability::FIXED_VARIABILITY:
-                return fmi2Variability ::fixed;
+                return fmi2Variability::fixed;
             case fmuproxy::grpc::Variability::DISCRETE_VARIABILITY:
-                return fmi2Variability ::discrete;
+                return fmi2Variability::discrete;
             case fmuproxy::grpc::Variability::TUNABLE_VARIABILITY:
-                return fmi2Variability ::tunable;
+                return fmi2Variability::tunable;
             default:
-                return fmi2Variability ::continuous;
+                return fmi2Variability::continuous;
         }
     }
 
     fmi2Initial convert(const fmuproxy::grpc::Initial initial) {
         switch (initial) {
             case fmuproxy::grpc::Initial::APPROX_INITIAL:
-                return fmi2Initial ::approx;
+                return fmi2Initial::approx;
             case fmuproxy::grpc::Initial::CALCULATED_INITIAL:
-                return fmi2Initial ::calculated;
+                return fmi2Initial::calculated;
             case fmuproxy::grpc::Initial::EXACT_INITIAL:
-                return fmi2Initial ::exact;
+                return fmi2Initial::exact;
             default:
-                return fmi2Initial ::unknown;
+                return fmi2Initial::unknown;
         }
     }
 
-    std::string convert(const fmuproxy::grpc::VariableNamingConvention convention) {
-        switch (convention) {
-            case fmuproxy::grpc::VariableNamingConvention::FLAT:
-                return "flat";
-            case fmuproxy::grpc::VariableNamingConvention::STRUCTURED:
-                return "structured";
-            default:
-                throw std::runtime_error("not a valid convention: " + convention);
-        }
+    template<typename T, typename U>
+    fmi4cpp::fmi2::xml::ScalarVariableAttributes<T> toScalarVariableAttributes(U a) {
+        return {a.start()};
     }
 
-    fmi4cpp::fmi2::xml::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a1) {
+    template<typename T, typename U>
+    fmi4cpp::fmi2::xml::BoundedScalarVariableAttributes<T> toBoundedScalarVariableAttributes(U a) {
 
-        const auto min = a1.min();
-        const auto max = a1.max();
+        auto attributes = toScalarVariableAttributes<T>(a);
 
-        if (min < max) {
-            a0.setMin(a1.min());
-            a0.setMax(a1.max());
+        fmi4cpp::fmi2::xml::BoundedScalarVariableAttributes bounded(attributes);
+
+        if (a.max() > a.min()) {
+            bounded.min = a.min();
+            bounded.max = a.max();
         }
 
-        a0.setStart(a1.start());
-
-        ScalarVariableAttributes attributes(std::make_optional(0), {});
-
-        return IntegerAttribute(BoundedScalarVariableAttributes());
-    }
-
-    fmi4cpp::fmi2::xml::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a1) {
-        fmi4cpp::fmi2::xml::RealAttribute a0;
-        const auto min = a1.min();
-        const auto max = a1.max();
-
-        if (min < max) {
-            a0.setMin(a1.min());
-            a0.setMax(a1.max());
+        if (!a.quantity().empty()) {
+            bounded.quantity = a.quantity();
         }
 
-        a0.setStart(a1.start());
+        return bounded;
 
-        return a0;
     }
 
-    fmi4cpp::fmi2::xml::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a1) {
-        return
-        fmi4cpp::fmi2::xml::StringAttribute a0;
-        a0.setStart(a1.start());
-        return a0;
+    fmi4cpp::fmi2::xml::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a) {
+        return {toBoundedScalarVariableAttributes<int, fmuproxy::grpc::IntegerAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a1) {
-        fmi4cpp::fmi2::xml::BooleanAttribute a0;
-        a0.setStart(a1.start());
-        return a0;
+    fmi4cpp::fmi2::xml::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a) {
+        auto bounded = toBoundedScalarVariableAttributes<double, fmuproxy::grpc::RealAttribute>(a);
+
+        fmi4cpp::fmi2::xml::RealAttribute real(bounded);
+
+        return real;
     }
 
-    fmi4cpp::fmi2::xml::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a1) {
-        fmi4cpp::fmi2::xml::EnumerationAttribute a0;
-        const auto min = a1.min();
-        const auto max = a1.max();
+    fmi4cpp::fmi2::xml::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a) {
+        return {toScalarVariableAttributes<std::string, fmuproxy::grpc::StringAttribute>(a)};
+    }
 
-        if (min < max) {
-            a0.setMin(a1.min());
-            a0.setMax(a1.max());
-        }
+    fmi4cpp::fmi2::xml::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a) {
+        return {toScalarVariableAttributes<bool, fmuproxy::grpc::BooleanAttribute>(a)};
+    }
 
-        a0.setStart(a1.start());
-
-        return a0;
+    fmi4cpp::fmi2::xml::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a) {
+        return {toBoundedScalarVariableAttributes<int, fmuproxy::grpc::EnumerationAttribute>(a)};
     }
 
     fmi4cpp::fmi2::xml::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v1) {
-
 
         switch (v1.attribute_case()) {
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kIntegerAttribute:
@@ -199,36 +177,35 @@ namespace {
         v0.causality = convert(v1.causality());
         v0.initial = convert(v1.initial());
     }
-    
-    void copyToFrom(fmi4cpp::fmi2::xml::DefaultExperiment &to, const fmuproxy::grpc::DefaultExperiment &from) {
-        to.startTime = from.start_time();
-        to.stopTime = from.stop_time();
-        to.tolerance = from.tolerance();
-        to.stepSize = from.step_size();
+
+    fmi4cpp::fmi2::xml::DefaultExperiment convert(const fmuproxy::grpc::DefaultExperiment &from) {
+        return {from.start_time(), from.stop_time(), from.step_size(), from.tolerance()};
     }
 
-    void copyToFrom(fmi4cpp::fmi2::xml::ModelDescription &to, const fmuproxy::grpc::ModelDescription &from) {
-        to.guid = from.guid();
-        to.modelName = from.model_name();
-        to.version = from.version();
-        to.fmiVersion = from.fmi_version();
-        to.license = from.license();
-        to.copyright = from.copyright();
-        to.generationTool = from.generation_tool();
-        to.generationDateAndTime = from.generation_date_and_time();
-        to.variableNamingConvention = convert(from.variable_naming_convention());
-
-        copyToFrom(to.defaultExperiment, from.default_experiment());
-
-        for (const auto &var : from.model_variables()) {
-            to.modelVariables.push_back(convert(var));
+    std::unique_ptr<fmi4cpp::fmi2::xml::ModelVariables>
+    convert(const google::protobuf::RepeatedPtrField<fmuproxy::grpc::ScalarVariable> m) {
+        std::vector<fmi4cpp::fmi2::xml::ScalarVariable> variables;
+        for (const auto &var : m) {
+            variables.push_back(convert(var));
         }
+        return std::make_unique<fmi4cpp::fmi2::xml::ModelVariables>(variables);
+    }
 
-        to.supportsCoSimulation = from.supports_co_simulation();
-        to.supportsModelExchange = from.supports_model_exchange();
+    std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> convert(const fmuproxy::grpc::ModelDescription &from) {
+
+
+        std::shared_ptr<fmi4cpp::fmi2::xml::ModelVariables> mv = std::move(convert(from.model_variables()));
+
+        return std::make_unique<fmi4cpp::fmi2::xml::ModelDescriptionBase>(from.guid(), from.fmi_version(),
+                                                                          from.model_name(), from.description(),
+                                                                          from.version(), from.author(), from.license(),
+                                                                          from.copyright(), from.generation_tool(),
+                                                                          from.generation_date_and_time(),
+                                                                          from.variable_naming_convention(), 0, mv,
+                                                                          nullptr, convert(from.default_experiment()));
 
     }
-    
+
 }
 
 #endif //FMU_PROXY_GRPC_CLIENT_HELPER_HPP

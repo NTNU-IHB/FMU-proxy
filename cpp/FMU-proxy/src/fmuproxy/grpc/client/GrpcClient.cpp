@@ -36,17 +36,16 @@ GrpcClient::GrpcClient(const string fmu_id, const std::string host, const unsign
     stub_ = move(FmuService::NewStub(channel));
 }
 
-fmuproxy::fmi::ModelDescription &GrpcClient::getModelDescription() {
+std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> &GrpcClient::getModelDescription() {
     if(!modelDescription_) {
         ClientContext ctx;
         GetModelDescriptionRequest request;
         request.set_fmu_id(fmuId_);
         fmuproxy::grpc::ModelDescription md;
         stub_->GetModelDescription(&ctx, request, &md);
-        modelDescription_ = std::make_shared<fmuproxy::fmi::ModelDescription>();
-        copyToFrom(*modelDescription_, md);
+        modelDescription_ = convert(md);
     }
-    return *modelDescription_;
+    return modelDescription_;
 }
 
 unique_ptr<RemoteFmuSlave> GrpcClient::newInstance() {
