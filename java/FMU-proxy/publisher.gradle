@@ -27,7 +27,7 @@ class PublishPlugin implements Plugin<Project>{
 
 
             project.group = 'no.mechatronics.sfi.fmuproxy'
-            project.version = '0.1-SNAPSHOT'
+            project.version = 'dev-SNAPSHOT'
 
             println("maven version for ${project.archivesBaseName} is: ${project.version}")
 
