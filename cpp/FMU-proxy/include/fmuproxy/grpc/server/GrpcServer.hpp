@@ -50,7 +50,7 @@ namespace fmuproxy:: grpc::server {
 
     public:
         GrpcServer(std::unordered_map<std::string,
-                std::shared_ptr<fmi4cpp::fmi2::import::Fmu>> &fmu,
+                std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmu,
                 const unsigned int port);
 
         void start();

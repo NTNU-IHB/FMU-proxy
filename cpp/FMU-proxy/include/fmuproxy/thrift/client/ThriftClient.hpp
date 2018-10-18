@@ -40,12 +40,12 @@ namespace fmuproxy::thrift::client {
         const FmuId fmuId_;
         std::shared_ptr<FmuServiceClient> client_;
         std::shared_ptr<apache::thrift::transport::TTransport> transport_;
-        std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> modelDescription_;
+        std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
 
     public:
-        ThriftClient(const FmuId fmu_id, const std::string host, const unsigned int port);
+        ThriftClient(const FmuId &fmu_id, const std::string &host, const unsigned int port);
 
-        std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> &getModelDescription();
+        std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
 
         std::unique_ptr<RemoteFmuSlave> newInstance();
 

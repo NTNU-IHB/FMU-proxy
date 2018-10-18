@@ -58,7 +58,7 @@ void Heartbeat::run() {
 
     if (curl) {
 
-        string uuid = generate_simple_id();
+        string uuid = generate_simple_id(10);
         ltrim(uuid);
 
         json json = {

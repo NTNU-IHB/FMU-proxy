@@ -37,11 +37,10 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     const double step_size = 1.0/100;
-    auto fmu = import::Fmu(fmu_path).asCoSimulationFmu();
-
+    auto fmu = Fmu(fmu_path).asCoSimulationFmu();
     auto md = fmu->getModelDescription();
 
-    for (const auto &v : md->modelVariables()) {
+    for (const auto &v : *md->modelVariables()) {
         if (v.causality() == fmi2Causality::output) {
             cout << v.name() << endl;
         }

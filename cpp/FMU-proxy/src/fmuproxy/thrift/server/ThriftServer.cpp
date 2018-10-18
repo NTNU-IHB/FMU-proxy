@@ -31,7 +31,6 @@
 #include <thrift/protocol/TJSONProtocol.h>
 
 using namespace std;
-using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::server;
 
@@ -40,7 +39,7 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(unordered_map<FmuId, std::shared_ptr<Fmu>> &fmus, const unsigned int port, const bool http): port_(port), http_(http) {
+ThriftServer::ThriftServer(unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus, const unsigned int port, const bool http): port_(port), http_(http) {
 
     shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
     shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));

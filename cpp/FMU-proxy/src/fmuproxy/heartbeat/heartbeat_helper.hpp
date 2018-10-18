@@ -44,11 +44,11 @@ namespace {
 
     std::random_device rd;
     std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(0, 9);
 
-    inline std::string generate_simple_id() {
+    inline std::string generate_simple_id(unsigned int len) {
         std::string id;
-        std::uniform_int_distribution<int> dist(0, 9);
-        for (int i = 0; i < 10; i++) {
+        for (unsigned int i = 0; i < len; i++) {
             id += std::to_string(dist(mt));
         }
         return id;

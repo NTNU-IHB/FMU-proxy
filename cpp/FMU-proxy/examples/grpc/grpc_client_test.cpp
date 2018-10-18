@@ -36,26 +36,26 @@ int main() {
     GrpcClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9080);
 
     const auto md = fmu.getModelDescription();
-    cout << "GUID=" << md.guid << endl;
-    cout << "modelName=" << md.modelName << endl;
-    cout << "license=" << md.license << endl;
+    cout << "GUID=" << md->guid() << endl;
+    cout << "modelName=" << md->modelName() << endl;
+    cout << "license=" << md->license().value_or("") << endl;
 
-    for (const auto var : md.modelVariables) {
-        cout << "Name=" << var.name << ", " << var.attribute << endl;
+    for (const auto &var : *md->modelVariables()) {
+        cout << "Name=" << var.name() << endl;
     }
 
-    unique_ptr<RemoteFmuSlave> slave = fmu.newInstance();
+    auto slave = fmu.newInstance();
     slave->init();
 
     clock_t begin = clock();
 
-    vector<fmi2_value_reference_t> vr = {slave->getValueReference("Temperature_Reference"),
-                                         slave->getValueReference("Temperature_Room")};
-    vector<fmi2_real_t> ref(vr.size());
+    vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
+                                      md->getValueReference("Temperature_Room")};
+    vector<fmi2Real> ref(vr.size());
 
     double t;
     while ( (t=slave->getSimulationTime() ) < stop) {
-        slave->step(step_size);
+        slave->doStep(step_size);
         slave->readReal(vr, ref);
         cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
     }
@@ -66,7 +66,7 @@ int main() {
     cout << "elapsed=" << elapsed_secs << "s" << endl;
 
     auto status = slave->terminate();
-    cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
+    cout << "terminated FMU with status " << to_string(status) << endl;
 
     fmu.close();
 

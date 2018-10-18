@@ -31,24 +31,23 @@
 
 #include "../common/FmuService.h"
 
-using namespace fmuproxy;
-using namespace fmuproxy::thrift;
-
 namespace fmuproxy::thrift::client {
 
-    class RemoteFmuSlave: public fmi4cpp::fmi2::import::FmuSlave {
+    class RemoteFmuSlave : public fmi4cpp::fmi2::FmuSlave {
 
     private:
-        
+
         const InstanceId instanceId_;
         FmuServiceClient &client_;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription;
 
     public:
-        RemoteFmuSlave(InstanceId fmu_id, FmuServiceClient &client);
+        RemoteFmuSlave(const InstanceId &instanceId, FmuServiceClient &client,
+                       const fmi4cpp::fmi2::ModelDescriptionBase &modelDescription);
 
-        std::shared_ptr<CoSimulationModelDescription> getModelDescription() const override;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
 
-        void init(double start, double stop) override;
+        void init(const double start = 0, const double stop = 0) override;
 
         fmi2Status reset() override;
 
@@ -56,7 +55,7 @@ namespace fmuproxy::thrift::client {
 
         fmi2Status getFMUstate(fmi2FMUstate &state) override;
 
-        fmi2Status setFMUstate(fmi2FMUstate state) override;
+        fmi2Status setFMUstate(const fmi2FMUstate state) override;
 
         fmi2Status freeFMUstate(fmi2FMUstate &state) override;
 
@@ -69,41 +68,41 @@ namespace fmuproxy::thrift::client {
                                             const std::vector<fmi2Real> &dvKnownRef,
                                             std::vector<fmi2Real> &dvUnknownRef) const override;
 
-        fmi2Status doStep(double stepSize) override;
+        fmi2Status doStep(const double stepSize) override;
 
         fmi2Status cancelStep() override;
 
-        fmi2Status readInteger(fmi2ValueReference vr, fmi2Integer &ref) const override;
+        fmi2Status readInteger(const fmi2ValueReference vr, fmi2Integer &ref) const override;
 
         fmi2Status readInteger(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2Integer> &ref) const override;
 
-        fmi2Status readReal(fmi2ValueReference vr, fmi2Real &ref) const override;
+        fmi2Status readReal(const fmi2ValueReference vr, fmi2Real &ref) const override;
 
         fmi2Status readReal(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2Real> &ref) const override;
 
-        fmi2Status readString(fmi2ValueReference vr, fmi2String &ref) const override;
+        fmi2Status readString(const fmi2ValueReference vr, fmi2String &ref) const override;
 
         fmi2Status readString(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2String> &ref) const override;
 
-        fmi2Status readBoolean(fmi2ValueReference vr, fmi2Boolean &ref) const override;
+        fmi2Status readBoolean(const fmi2ValueReference vr, fmi2Boolean &ref) const override;
 
         fmi2Status readBoolean(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2Boolean> &ref) const override;
 
-        fmi2Status writeInteger(fmi2ValueReference vr, fmi2Integer value) override;
+        fmi2Status writeInteger(const fmi2ValueReference vr, fmi2Integer value) override;
 
         fmi2Status
         writeInteger(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Integer> &values) override;
 
-        fmi2Status writeReal(fmi2ValueReference vr, fmi2Real value) override;
+        fmi2Status writeReal(const fmi2ValueReference vr, fmi2Real value) override;
 
         fmi2Status writeReal(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Real> &values) override;
 
-        fmi2Status writeString(fmi2ValueReference vr, fmi2String value) override;
+        fmi2Status writeString(const fmi2ValueReference vr, fmi2String value) override;
 
         fmi2Status
         writeString(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2String> &values) override;
 
-        fmi2Status writeBoolean(fmi2ValueReference vr, fmi2Boolean value) override;
+        fmi2Status writeBoolean(const fmi2ValueReference vr, fmi2Boolean value) override;
 
         fmi2Status
         writeBoolean(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Boolean> &values) override;

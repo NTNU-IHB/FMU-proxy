@@ -31,19 +31,21 @@
 
 namespace fmuproxy::grpc::client {
 
-    class RemoteFmuSlave : public fmi4cpp::fmi2::import::FmuSlave {
+    class RemoteFmuSlave : public fmi4cpp::fmi2::FmuSlave {
 
     private:
-
+        
         const std::string instanceId_;
         fmuproxy::grpc::FmuService::Stub &stub_;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription;
 
     public:
-        RemoteFmuSlave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub);
+        RemoteFmuSlave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub,
+                       fmi4cpp::fmi2::ModelDescriptionBase &modelDescription);
 
-        std::shared_ptr<CoSimulationModelDescription> getModelDescription() const override;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
 
-        void init(double start, double stop) override;
+        void init(double start = 0, double stop = 0) override;
 
         fmi2Status reset() override;
 
@@ -102,7 +104,6 @@ namespace fmuproxy::grpc::client {
 
         fmi2Status
         writeBoolean(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Boolean> &values) override;
-
 
     };
 

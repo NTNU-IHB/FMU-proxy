@@ -50,66 +50,64 @@ namespace {
         }
     }
 
-    fmi2Causality convert(const fmuproxy::grpc::Causality causality) {
+    fmi4cpp::fmi2::fmi2Causality convert(const fmuproxy::grpc::Causality causality) {
         switch (causality) {
             case fmuproxy::grpc::Causality::LOCAL_CAUSALITY:
-                return fmi2Causality::local;
+                return fmi4cpp::fmi2::fmi2Causality::local;
             case fmuproxy::grpc::Causality::INDEPENDENT_CAUSALITY:
-                return fmi2Causality::independent;
+                return fmi4cpp::fmi2::fmi2Causality::independent;
             case fmuproxy::grpc::Causality::INPUT_CAUSALITY:
-                return fmi2Causality::input;
+                return fmi4cpp::fmi2::fmi2Causality::input;
             case fmuproxy::grpc::Causality::OUTPUT_CAUSALITY:
-                return fmi2Causality::output;
+                return fmi4cpp::fmi2::fmi2Causality::output;
             case fmuproxy::grpc::Causality::CALCULATED_PARAMETER_CAUSALITY:
-                return fmi2Causality::calculatedParameter;
+                return fmi4cpp::fmi2::fmi2Causality::calculatedParameter;
             case fmuproxy::grpc::Causality::PARAMETER_CAUSALITY:
-                return fmi2Causality::parameter;
+                return fmi4cpp::fmi2::fmi2Causality::parameter;
             default:
-                return fmi2Causality::local;
+                return fmi4cpp::fmi2::fmi2Causality::local;
         }
     }
 
-    fmi2Variability convert(const fmuproxy::grpc::Variability variability) {
+    fmi4cpp::fmi2::fmi2Variability convert(const fmuproxy::grpc::Variability variability) {
         switch (variability) {
             case fmuproxy::grpc::Variability::CONSTANT_VARIABILITY:
-                return fmi2Variability::constant;
+                return fmi4cpp::fmi2::fmi2Variability::constant;
             case fmuproxy::grpc::Variability::CONTINUOUS_VARIABILITY:
-                return fmi2Variability::continuous;
+                return fmi4cpp::fmi2::fmi2Variability::continuous;
             case fmuproxy::grpc::Variability::FIXED_VARIABILITY:
-                return fmi2Variability::fixed;
+                return fmi4cpp::fmi2::fmi2Variability::fixed;
             case fmuproxy::grpc::Variability::DISCRETE_VARIABILITY:
-                return fmi2Variability::discrete;
+                return fmi4cpp::fmi2::fmi2Variability::discrete;
             case fmuproxy::grpc::Variability::TUNABLE_VARIABILITY:
-                return fmi2Variability::tunable;
+                return fmi4cpp::fmi2::fmi2Variability::tunable;
             default:
-                return fmi2Variability::continuous;
+                return fmi4cpp::fmi2::fmi2Variability::continuous;
         }
     }
 
-    fmi2Initial convert(const fmuproxy::grpc::Initial initial) {
+    fmi4cpp::fmi2::fmi2Initial convert(const fmuproxy::grpc::Initial initial) {
         switch (initial) {
             case fmuproxy::grpc::Initial::APPROX_INITIAL:
-                return fmi2Initial::approx;
+                return fmi4cpp::fmi2::fmi2Initial::approx;
             case fmuproxy::grpc::Initial::CALCULATED_INITIAL:
-                return fmi2Initial::calculated;
+                return fmi4cpp::fmi2::fmi2Initial::calculated;
             case fmuproxy::grpc::Initial::EXACT_INITIAL:
-                return fmi2Initial::exact;
+                return fmi4cpp::fmi2::fmi2Initial::exact;
             default:
-                return fmi2Initial::unknown;
+                return fmi4cpp::fmi2::fmi2Initial::unknown;
         }
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::xml::ScalarVariableAttributes<T> toScalarVariableAttributes(U a) {
-        return {a.start()};
+    fmi4cpp::fmi2::ScalarVariableAttribute<T> toScalarVariableAttributes(const U &a) {
+        return fmi4cpp::fmi2::ScalarVariableAttribute<T>(a.start());
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::xml::BoundedScalarVariableAttributes<T> toBoundedScalarVariableAttributes(U a) {
+    fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> toBoundedScalarVariableAttributes(const U &a) {
 
-        auto attributes = toScalarVariableAttributes<T>(a);
-
-        fmi4cpp::fmi2::xml::BoundedScalarVariableAttributes bounded(attributes);
+        fmi4cpp::fmi2::BoundedScalarVariableAttribute bounded(toScalarVariableAttributes<T, U>(a));
 
         if (a.max() > a.min()) {
             bounded.min = a.min();
@@ -124,85 +122,86 @@ namespace {
 
     }
 
-    fmi4cpp::fmi2::xml::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a) {
+    fmi4cpp::fmi2::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a) {
         return {toBoundedScalarVariableAttributes<int, fmuproxy::grpc::IntegerAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a) {
-        auto bounded = toBoundedScalarVariableAttributes<double, fmuproxy::grpc::RealAttribute>(a);
-
-        fmi4cpp::fmi2::xml::RealAttribute real(bounded);
-
+    fmi4cpp::fmi2::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a) {
+        fmi4cpp::fmi2::RealAttribute real(toBoundedScalarVariableAttributes<double, fmuproxy::grpc::RealAttribute>(a));
         return real;
     }
 
-    fmi4cpp::fmi2::xml::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a) {
+    fmi4cpp::fmi2::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a) {
         return {toScalarVariableAttributes<std::string, fmuproxy::grpc::StringAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a) {
+    fmi4cpp::fmi2::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a) {
         return {toScalarVariableAttributes<bool, fmuproxy::grpc::BooleanAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a) {
+    fmi4cpp::fmi2::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a) {
         return {toBoundedScalarVariableAttributes<int, fmuproxy::grpc::EnumerationAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v1) {
+    fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v) {
 
-        switch (v1.attribute_case()) {
+        fmi4cpp::fmi2::ScalarVariableBase base(v.name(), v.description(), v.value_reference(), false,
+                                               convert(v.causality()), convert(v.variability()),
+                                               convert(v.initial()));
+
+        switch (v.attribute_case()) {
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kIntegerAttribute:
-                v0.attribute.setIntegerAttribute(convert(v1.integer_attribute()));
-                break;
+                return {base, convert(v.integer_attribute())};
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kRealAttribute:
-                v0.attribute.setRealAttribute(convert(v1.real_attribute()));
-                break;
+                return {base, convert(v.real_attribute())};
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kStringAttribute:
-                v0.attribute.setStringAttribute(convert(v1.string_attribute()));
-                break;
+                return {base, convert(v.string_attribute())};
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kBooleanAttribute:
-                v0.attribute.setBooleanAttribute(convert(v1.boolean_attribute()));
-                break;
+                return {base, convert(v.boolean_attribute())};
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kEnumerationAttribute:
-                v0.attribute.setEnumerationAttribute(convert(v1.enumeration_attribute()));
-                break;
+                return {base, convert(v.enumeration_attribute())};
             default:
-                throw std::runtime_error("no attribute set!");
+                throw std::runtime_error("Fatal: no attribute set!");
         }
 
-        v0.name = v1.name();
-        v0.valueReference = v1.value_reference();
-        v0.description = v1.description();
-        v0.variability = convert(v1.variability());
-        v0.causality = convert(v1.causality());
-        v0.initial = convert(v1.initial());
     }
 
-    fmi4cpp::fmi2::xml::DefaultExperiment convert(const fmuproxy::grpc::DefaultExperiment &from) {
+    fmi4cpp::fmi2::DefaultExperiment convert(const fmuproxy::grpc::DefaultExperiment &from) {
         return {from.start_time(), from.stop_time(), from.step_size(), from.tolerance()};
     }
 
-    std::unique_ptr<fmi4cpp::fmi2::xml::ModelVariables>
+    std::unique_ptr<fmi4cpp::fmi2::ModelVariables>
     convert(const google::protobuf::RepeatedPtrField<fmuproxy::grpc::ScalarVariable> m) {
-        std::vector<fmi4cpp::fmi2::xml::ScalarVariable> variables;
+        std::vector<fmi4cpp::fmi2::ScalarVariable> variables;
         for (const auto &var : m) {
             variables.push_back(convert(var));
         }
-        return std::make_unique<fmi4cpp::fmi2::xml::ModelVariables>(variables);
+        return std::make_unique<fmi4cpp::fmi2::ModelVariables>(variables);
     }
 
-    std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> convert(const fmuproxy::grpc::ModelDescription &from) {
+    fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::grpc::CoSimulationAttributes &a) {
 
+        fmi4cpp::fmi2::FmuAttributes attributes(a.modelidentifier(), a.cangetandsetfmustate(), a.canserializefmustate(),
+                                                false, false, false,
+                                                a.providesdirectionalderivative(), {});
 
-        std::shared_ptr<fmi4cpp::fmi2::xml::ModelVariables> mv = std::move(convert(from.model_variables()));
+        return {attributes, a.caninterpolateinputs(), false, a.canhandlevariablecommunicationstepsize(),
+                a.maxoutputderivativeorder()};
 
-        return std::make_unique<fmi4cpp::fmi2::xml::ModelDescriptionBase>(from.guid(), from.fmi_version(),
-                                                                          from.model_name(), from.description(),
-                                                                          from.version(), from.author(), from.license(),
-                                                                          from.copyright(), from.generation_tool(),
-                                                                          from.generation_date_and_time(),
-                                                                          from.variable_naming_convention(), 0, mv,
-                                                                          nullptr, convert(from.default_experiment()));
+    }
+
+    std::unique_ptr<fmi4cpp::fmi2::ModelDescriptionBase> convert(const fmuproxy::grpc::ModelDescription &from) {
+
+        std::shared_ptr<fmi4cpp::fmi2::ModelVariables> mv = std::move(convert(from.model_variables()));
+
+        return std::make_unique<fmi4cpp::fmi2::ModelDescriptionBase>(
+                from.guid(), from.fmi_version(),
+                from.model_name(), from.description(),
+                from.version(), from.author(), from.license(),
+                from.copyright(), from.generation_tool(),
+                from.generation_date_and_time(),
+                from.variable_naming_convention(), 0, mv,
+                nullptr, convert(from.default_experiment()));
 
     }
 

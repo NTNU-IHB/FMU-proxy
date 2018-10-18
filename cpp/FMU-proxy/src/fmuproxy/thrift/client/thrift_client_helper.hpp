@@ -60,74 +60,72 @@ namespace {
         }
     }
 
-    fmi2Causality convert(const Causality::type causality) {
+    fmi4cpp::fmi2::fmi2Causality convert(const Causality::type causality) {
         switch (causality) {
             case Causality::LOCAL_CAUSALITY:
-                return fmi2Causality::local;
+                return fmi4cpp::fmi2::fmi2Causality::local;
             case Causality::INDEPENDENT_CAUSALITY:
-                return fmi2Causality::independent;
+                return fmi4cpp::fmi2::fmi2Causality::independent;
             case Causality::INPUT_CAUSALITY:
-                return fmi2Causality::input;
+                return fmi4cpp::fmi2::fmi2Causality::input;
             case Causality::OUTPUT_CAUSALITY:
-                return fmi2Causality::output;
+                return fmi4cpp::fmi2::fmi2Causality::output;
             case Causality::CALCULATED_PARAMETER_CAUSALITY:
-                return fmi2Causality::calculatedParameter;
+                return fmi4cpp::fmi2::fmi2Causality::calculatedParameter;
             case Causality::PARAMETER_CAUSALITY:
-                return fmi2Causality::parameter;
+                return fmi4cpp::fmi2::fmi2Causality::parameter;
             default:
-                return fmi2Causality::local;
+                return fmi4cpp::fmi2::fmi2Causality::local;
         }
     }
 
-    fmi2Variability convert(const Variability::type variability) {
+    fmi4cpp::fmi2::fmi2Variability convert(const Variability::type variability) {
         switch (variability) {
             case Variability::CONSTANT_VARIABILITY:
-                return fmi2Variability::constant;
+                return fmi4cpp::fmi2::fmi2Variability::constant;
             case Variability::CONTINUOUS_VARIABILITY:
-                return fmi2Variability::continuous;
+                return fmi4cpp::fmi2::fmi2Variability::continuous;
             case Variability::FIXED_VARIABILITY:
-                return fmi2Variability::fixed;
+                return fmi4cpp::fmi2::fmi2Variability::fixed;
             case Variability::DISCRETE_VARIABILITY:
-                return fmi2Variability::discrete;
+                return fmi4cpp::fmi2::fmi2Variability::discrete;
             case Variability::TUNABLE_VARIABILITY:
-                return fmi2Variability::tunable;
+                return fmi4cpp::fmi2::fmi2Variability::tunable;
             default:
-                return fmi2Variability::continuous;
+                return fmi4cpp::fmi2::fmi2Variability::continuous;
         }
     }
 
-    fmi2Initial convert(const Initial::type initial) {
+    fmi4cpp::fmi2::fmi2Initial convert(const Initial::type initial) {
         switch (initial) {
             case Initial::APPROX_INITIAL:
-                return fmi2Initial::approx;
+                return fmi4cpp::fmi2::fmi2Initial::approx;
             case Initial::CALCULATED_INITIAL:
-                return fmi2Initial::calculated;
+                return fmi4cpp::fmi2::fmi2Initial::calculated;
             case Initial::EXACT_INITIAL:
-                return fmi2Initial::exact;
+                return fmi4cpp::fmi2::fmi2Initial::exact;
             default:
-                return fmi2Initial::unknown;
+                return fmi4cpp::fmi2::fmi2Initial::unknown;
         }
     }
 
-    fmi4cpp::fmi2::xml::DefaultExperiment convert(const fmuproxy::thrift::DefaultExperiment &d) {
+    fmi4cpp::fmi2::DefaultExperiment convert(const fmuproxy::thrift::DefaultExperiment &d) {
         return {d.startTime, d.stopTime, d.stepSize, d.tolerance};
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::xml::ScalarVariableAttributes<T> toScalarVariableAttributes(U a) {
+    fmi4cpp::fmi2::ScalarVariableAttribute<T> toScalarVariableAttributes(const U &a) {
         if (a.__isset.start) {
-            return {a.start};
+            return fmi4cpp::fmi2::ScalarVariableAttribute<T>(a.start);
         } else {
             return {};
         }
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::xml::BoundedScalarVariableAttributes<T> toBoundedScalarVariableAttributes(U a) {
+    fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> toBoundedScalarVariableAttributes(const U &a) {
 
-        auto attribute = toScalarVariableAttributes<T, U>(a);
-
-        fmi4cpp::fmi2::xml::BoundedScalarVariableAttributes<T> bounded(attribute);
+        fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> bounded(toScalarVariableAttributes<T, U>(a));
         if (a.__isset.min) {
             bounded.min = a.min;
         }
@@ -141,36 +139,36 @@ namespace {
         return bounded;
     }
 
-    fmi4cpp::fmi2::xml::IntegerAttribute convert(const fmuproxy::thrift::IntegerAttribute &a) {
+    fmi4cpp::fmi2::IntegerAttribute convert(const fmuproxy::thrift::IntegerAttribute &a) {
         return {toBoundedScalarVariableAttributes<int, fmuproxy::thrift::IntegerAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::RealAttribute convert(const fmuproxy::thrift::RealAttribute &a) {
-        auto bounded = toBoundedScalarVariableAttributes<double, fmuproxy::thrift::RealAttribute>(a);
-
-        fmi4cpp::fmi2::xml::RealAttribute real(bounded);
-
+    fmi4cpp::fmi2::RealAttribute convert(const fmuproxy::thrift::RealAttribute &a) {
+        fmi4cpp::fmi2::RealAttribute real(
+                toBoundedScalarVariableAttributes<double, fmuproxy::thrift::RealAttribute>(a));
         return real;
     }
 
-    fmi4cpp::fmi2::xml::StringAttribute convert(const fmuproxy::thrift::StringAttribute &a) {
+    fmi4cpp::fmi2::StringAttribute convert(const fmuproxy::thrift::StringAttribute &a) {
         return {toScalarVariableAttributes<std::string, fmuproxy::thrift::StringAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::BooleanAttribute convert(const fmuproxy::thrift::BooleanAttribute &a) {
+    fmi4cpp::fmi2::BooleanAttribute convert(const fmuproxy::thrift::BooleanAttribute &a) {
         return {toScalarVariableAttributes<bool, fmuproxy::thrift::BooleanAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::EnumerationAttribute convert(const fmuproxy::thrift::EnumerationAttribute &a) {
+    fmi4cpp::fmi2::EnumerationAttribute convert(const fmuproxy::thrift::EnumerationAttribute &a) {
         return {toBoundedScalarVariableAttributes<int, fmuproxy::thrift::EnumerationAttribute>(a)};
     }
 
-    fmi4cpp::fmi2::xml::ScalarVariable convert(const fmuproxy::thrift::ScalarVariable &v) {
+    fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::thrift::ScalarVariable &v) {
+
         auto variability = convert(v.variability);
         auto causality = convert(v.causality);
         auto initial = convert(v.initial);
 
-        ScalarVariableBase base(v.name, v.description, v.valueReference, false, causality, variability, initial);
+        fmi4cpp::fmi2::ScalarVariableBase base(v.name, v.description, (fmi2ValueReference) v.valueReference,
+                                               false, causality, variability, initial);
 
         if (v.attribute.__isset.integerAttribute) {
             return {base, convert(v.attribute.integerAttribute)};
@@ -188,30 +186,31 @@ namespace {
 
     }
 
-    fmi4cpp::fmi2::xml::CoSimulationAttributes convert(const fmuproxy::thrift::CoSimulationAttributes &a) {
+    fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::thrift::CoSimulationAttributes &a) {
 
-        FmuAttributes attributes(a.modelIdentifier, a.canGetAndSetFMUstate, a.canSerializeFMUstate, false, false, false,
-                                 a.providesDirectionalDerivative, {});
+        fmi4cpp::fmi2::FmuAttributes attributes(a.modelIdentifier, a.canGetAndSetFMUstate, a.canSerializeFMUstate,
+                                                false, false, false,
+                                                a.providesDirectionalDerivative, {});
 
         return {attributes, a.canInterpolateInputs, false, a.canHandleVariableCommunicationStepSize,
                 (size_t) a.maxOutputDerivativeOrder};
 
-
     }
 
-    std::unique_ptr<fmi4cpp::fmi2::xml::ModelVariables> convert(const fmuproxy::thrift::ModelVariables &m) {
-        std::vector<fmi4cpp::fmi2::xml::ScalarVariable> variables;
+    std::unique_ptr<fmi4cpp::fmi2::ModelVariables> convert(const fmuproxy::thrift::ModelVariables &m) {
+        std::vector<fmi4cpp::fmi2::ScalarVariable> variables;
         for (const auto &var : m) {
             variables.push_back(convert(var));
         }
-        return std::make_unique<fmi4cpp::fmi2::xml::ModelVariables>(variables);
+        return std::make_unique<fmi4cpp::fmi2::ModelVariables>(variables);
     }
 
-    std::unique_ptr<fmi4cpp::fmi2::xml::ModelDescriptionBase> convert(const fmuproxy::thrift::ModelDescription &from) {
+    std::unique_ptr<fmi4cpp::fmi2::ModelDescriptionBase> convert(const fmuproxy::thrift::ModelDescription &from) {
 
-        std::shared_ptr<fmi4cpp::fmi2::xml::ModelVariables> mv = std::move(convert(from.modelVariables));
+        std::shared_ptr<fmi4cpp::fmi2::ModelVariables> mv = std::move(convert(from.modelVariables));
 
-        return std::make_unique<fmi4cpp::fmi2::xml::ModelDescriptionBase>(from.guid, from.fmiVersion,
+        return std::make_unique<fmi4cpp::fmi2::ModelDescriptionBase>(
+                from.guid, from.fmiVersion,
                 from.modelName, from.description,
                 from.version, from.author, from.license,
                 from.copyright, from.generationTool,

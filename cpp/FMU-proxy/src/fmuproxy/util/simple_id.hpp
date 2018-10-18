@@ -22,35 +22,27 @@
  * THE SOFTWARE.
  */
 
-#include <unordered_map>
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
+#ifndef FMU_PROXY_SIMPLE_ID_HPP
+#define FMU_PROXY_SIMPLE_ID_HPP
 
-#include "../test_util.cpp"
+#include <random>
+#include <string>
 
-using namespace std;
-using namespace fmuproxy::fmi;
-using namespace fmuproxy::thrift::server;
+namespace {
 
-int main(int argc, char **argv) {
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(0, 9);
 
-    const string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() +
-                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+    const std::string generate_simple_id(unsigned int len) {
 
-    auto fmu = make_shared<fmi4cpp::fmi2::Fmu>(fmu_path);
-    auto md = fmu->getModelDescription();
-    unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmus = {{md.guid(), fmu}};
+        std::string id;
+        for (unsigned int i = 0; i < len; i++) {
+            id += std::to_string(dist(mt));
+        }
+        return id;
+    }
 
-    ThriftServer socket_server(fmus, 9090);
-    socket_server.start();
-
-    ThriftServer http_server(fmus, 9091, true);
-    http_server.start();
-
-    wait_for_input();
-
-    socket_server.stop();
-    http_server.stop();
-
-    return 0;
 }
+
+#endif //FMU_PROXY_SIMPLE_ID_HPP
