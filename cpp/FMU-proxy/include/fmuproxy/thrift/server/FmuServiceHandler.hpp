@@ -79,7 +79,7 @@ namespace fmuproxy::thrift::server {
                 const RealArray &value) override;
 
         Status::type writeString(const InstanceId &instance_id, const ValueReferences &vr,
-                const StringArray &value) override;
+                const StringArray &values) override;
 
         Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr,
                 const BooleanArray &value) override;

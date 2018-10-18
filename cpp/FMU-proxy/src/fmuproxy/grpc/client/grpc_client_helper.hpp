@@ -145,8 +145,8 @@ namespace {
 
     fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v) {
 
-        fmi4cpp::fmi2::ScalarVariableBase base(v.name(), v.description(), v.value_reference(), false,
-                                               convert(v.causality()), convert(v.variability()),
+        fmi4cpp::fmi2::ScalarVariableBase base(v.name(), v.description(), (fmi2ValueReference) v.value_reference(),
+                                               false, convert(v.causality()), convert(v.variability()),
                                                convert(v.initial()));
 
         switch (v.attribute_case()) {
@@ -181,8 +181,8 @@ namespace {
 
     fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::grpc::CoSimulationAttributes &a) {
 
-        fmi4cpp::fmi2::FmuAttributes attributes(a.modelidentifier(), a.cangetandsetfmustate(), a.canserializefmustate(),
-                                                false, false, false,
+        fmi4cpp::fmi2::FmuAttributes attributes(a.modelidentifier(), a.cangetandsetfmustate(),
+                                                a.canserializefmustate(), false, false, false,
                                                 a.providesdirectionalderivative(), {});
 
         return {attributes, a.caninterpolateinputs(), false, a.canhandlevariablecommunicationstepsize(),

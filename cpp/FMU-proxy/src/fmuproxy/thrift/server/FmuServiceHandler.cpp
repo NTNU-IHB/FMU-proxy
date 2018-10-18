@@ -24,17 +24,26 @@
 
 #include <iostream>
 
-#include "../../util/simple_id.hpp"
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
 
+#include "../../util/simple_id.hpp"
 #include "thrift_server_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy;
-using namespace fmi4cpp::fmi2;
 using namespace fmuproxy::thrift::server;
 
-FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<Fmu>> &fmus) : fmus_(fmus) {}
+namespace {
+
+    fmi2String strToChar(const std::string &s) {
+        char *pc = new char[s.size()+1];
+        std::strcpy(pc, s.c_str());
+        return pc;
+    }
+
+}
+
+FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus) : fmus_(fmus) {}
 
 void FmuServiceHandler::getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
                                                   const InstanceId &instanceId) {}
@@ -49,7 +58,7 @@ bool FmuServiceHandler::canCreateInstanceFromME(const FmuId &fmuId) {
     return fmu->supportsModelExchange();
 }
 
-void FmuServiceHandler::getModelDescription(ModelDescription &_return, const FmuId &id) {
+void FmuServiceHandler::getModelDescription(fmuproxy::thrift::ModelDescription &_return, const FmuId &id) {
     const auto &fmu = fmus_.at(id);
     thriftType(_return, *fmu->getModelDescription());
 }
@@ -142,11 +151,12 @@ FmuServiceHandler::writeReal(const InstanceId &slave_id, const ValueReferences &
 
 
 Status::type
-FmuServiceHandler::writeString(const InstanceId &slave_id, const ValueReferences &vr, const StringArray &value) {
+FmuServiceHandler::writeString(const InstanceId &slave_id, const ValueReferences &vr, const StringArray &values) {
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    const auto _value = vector<fmi2String >(value.begin(), value.end());
-    const auto status = slave->writeString(_vr, _value);
+    vector<fmi2String > _values;
+    std::transform(values.begin(), values.end(), std::back_inserter(_values), strToChar);
+    const auto status = slave->writeString(_vr, _values);
     return thriftType(status);
 }
 

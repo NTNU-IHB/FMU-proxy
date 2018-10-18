@@ -28,7 +28,6 @@
 #include "../test_util.cpp"
 
 using namespace std;
-using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift::server;
 
 int main(int argc, char **argv) {
@@ -39,7 +38,7 @@ int main(int argc, char **argv) {
 
     auto fmu = make_shared<fmi4cpp::fmi2::Fmu>(fmu_path);
     auto md = fmu->getModelDescription();
-    unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmus = {{md.guid(), fmu}};
+    unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmus = {{md->guid(), fmu}};
 
     ThriftServer socket_server(fmus, 9090);
     socket_server.start();
