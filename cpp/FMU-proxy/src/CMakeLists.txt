@@ -11,7 +11,7 @@ add_library(heartbeat ${HEARTBEAT_SRC})
 target_link_libraries(heartbeat PRIVATE ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
 target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
 if (UNIX)
-    target_link_libraries(heartbeat pthread)
+    target_link_libraries(heartbeat PUBLIC pthread)
 endif()
 
 ##################################################################
@@ -40,7 +40,7 @@ target_link_libraries(grpc-client PUBLIC grpc-common FMI4cpp::FMI4cpp)
 add_library(grpc-server ${FMI_HEADERS} ${GRPC_SERVER_SRC})
 target_link_libraries(grpc-server PUBLIC grpc-common FMI4cpp::FMI4cpp)
 if (UNIX)
-    target_link_libraries(grpc-server pthread)
+    target_link_libraries(grpc-server PUBLIC pthread)
 endif()
 
 
@@ -72,7 +72,7 @@ target_link_libraries(thrift-client PUBLIC thrift-common FMI4cpp::FMI4cpp)
 add_library(thrift-server ${THRIFT_SERVER_SRC})
 target_link_libraries(thrift-server PUBLIC thrift-common FMI4cpp::FMI4cpp)
 if (UNIX)
-    target_link_libraries(thrift-server pthread)
+    target_link_libraries(thrift-server PUBLIC pthread)
 endif()
 
 ##################################################################

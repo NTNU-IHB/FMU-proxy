@@ -193,7 +193,7 @@ namespace {
                                                 a.providesDirectionalDerivative, {});
 
         return {attributes, a.canInterpolateInputs, false, a.canHandleVariableCommunicationStepSize,
-                (size_t) a.maxOutputDerivativeOrder};
+                static_cast<unsigned int>(a.maxOutputDerivativeOrder)};
 
     }
 

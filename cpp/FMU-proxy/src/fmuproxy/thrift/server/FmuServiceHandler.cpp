@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <cstring>
 #include <iostream>
 
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
