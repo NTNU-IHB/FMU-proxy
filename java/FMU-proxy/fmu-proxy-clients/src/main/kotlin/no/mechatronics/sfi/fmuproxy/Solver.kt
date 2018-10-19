@@ -33,11 +33,15 @@ class Solver(
         val name: String
 ) {
 
-    val settings: String
-        get() = Gson().toJson(properties)
+    private val gson by lazy {
+        Gson()
+    }
 
     @Transient
     private var properties = mutableMapOf<String, Any>()
+
+    val settings: String
+        get() = gson.toJson(properties)
 
     fun addProperty(name: String, value: Any) {
         properties[name] = value
