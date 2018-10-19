@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory
 
 class GrpcFmuServiceImpl(
         private val fmus: Map<String, Fmu>
-): FmuServiceGrpc.FmuServiceImplBase() {
+) : FmuServiceGrpc.FmuServiceImplBase() {
 
     private inline fun getFmu(fmuId: String, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
         fmus[fmuId]?.apply(block) ?: noSuchFmuReply(fmuId, responseObserver)
@@ -52,7 +52,7 @@ class GrpcFmuServiceImpl(
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
     }
 
-    override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Proto.ModelDescription>) {
+    override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Service.ModelDescription>) {
         getFmu(request.fmuId, responseObserver) {
             responseObserver.onNext(modelDescription.protoType())
             responseObserver.onCompleted()
@@ -114,15 +114,15 @@ class GrpcFmuServiceImpl(
         }
     }
 
-    override fun getCoSimulationAttributes(request: Service.GetCoSimulationAttributesRequest, responseObserver: StreamObserver<Proto.CoSimulationAttributes>) {
+    override fun getCoSimulationAttributes(request: Service.GetCoSimulationAttributesRequest, responseObserver: StreamObserver<Service.CoSimulationAttributes>) {
         getSlave(request.instanceId, responseObserver) {
             responseObserver.onNext((modelDescription as CoSimulationAttributes).protoType())
             responseObserver.onCompleted()
         }
     }
-    
+
     override fun readInteger(request: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
-       
+
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = IntArray(vr.size)
@@ -151,7 +151,7 @@ class GrpcFmuServiceImpl(
     override fun readString(request: Service.ReadRequest, responseObserver: StreamObserver<Service.StringRead>) {
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
-            val values = StringArray(vr.size) {""}
+            val values = StringArray(vr.size) { "" }
             val status = variableAccessor.readString(vr, values)
             Service.StringRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
@@ -243,7 +243,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun reset(request: Service.ResetRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-       getSlave(request.instanceId, responseObserver) {
+        getSlave(request.instanceId, responseObserver) {
             reset().also {
                 statusReply(lastStatus, responseObserver)
             }
@@ -327,6 +327,29 @@ class GrpcFmuServiceImpl(
         }
     }
 
+    override fun getDirectionalDerivative(request: Service.GetDirectionalDerivativeRequest, responseObserver: StreamObserver<Service.GetDirectionalDerivativeResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+
+            if (!modelDescription.providesDirectionalDerivative) {
+                unSupportedOperationException(responseObserver, "FMU does not provide directional derivatives!")
+            } else {
+
+                val vUnknownRef = request.vUnknownRefList.toLongArray()
+                val vKnownRef = request.vKnownRefList.toLongArray()
+                val dvUnknownRef = request.dvKnownRefList.toDoubleArray()
+                val dvKnownRef = getDirectionalDerivative(vUnknownRef, vKnownRef, dvUnknownRef)
+
+                Service.GetDirectionalDerivativeResponse.newBuilder()
+                        .setStatus(lastStatus.protoType())
+                        .addAllDvKnownRef(dvKnownRef.toList()).also {
+                            responseObserver.onNext(it.build())
+                            responseObserver.onCompleted()
+                        }
+
+            }
+        }
+    }
+
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServiceImpl::class.java)
 
@@ -341,18 +364,18 @@ class GrpcFmuServiceImpl(
 
         fun noSuchFmuReply(id: String, responseObserver: StreamObserver<*>) {
             responseObserver.onError(Status.INVALID_ARGUMENT
-                            .augmentDescription("NoSuchFmuException")
-                            .withDescription("No FMU with id=$id!")
-                            .asRuntimeException()
+                    .augmentDescription("NoSuchFmuException")
+                    .withDescription("No FMU with id=$id!")
+                    .asRuntimeException()
             )
         }
 
 
         fun noSuchInstanceReply(id: String, responseObserver: StreamObserver<*>) {
             responseObserver.onError(Status.INVALID_ARGUMENT
-                            .augmentDescription("NoSuchInstanceException")
-                            .withDescription( "No instance with id=$id!")
-                            .asRuntimeException()
+                    .augmentDescription("NoSuchInstanceException")
+                    .withDescription("No instance with id=$id!")
+                    .asRuntimeException()
             )
         }
 

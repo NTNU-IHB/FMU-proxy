@@ -32,6 +32,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributesImpl
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
+import no.mechatronics.sfi.fmuproxy.InstanceId
 import no.mechatronics.sfi.fmuproxy.Solver
 
 private const val SERVICE = "FmuService"
@@ -172,6 +173,10 @@ class JsonRpcFmuClient(
     }
 
     override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

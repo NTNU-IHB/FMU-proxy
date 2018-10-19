@@ -31,28 +31,27 @@ import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import no.mechatronics.sfi.fmuproxy.grpc.Proto
 import no.mechatronics.sfi.fmuproxy.grpc.Service
 
 internal fun Boolean.protoType(): Service.Bool {
     return Service.Bool.newBuilder().setValue(this).build()
 }
 
-internal fun FmiStatus.protoType(): Proto.Status {
+internal fun FmiStatus.protoType(): Service.Status {
     return when (this) {
-        FmiStatus.OK -> Proto.Status.OK_STATUS
-        FmiStatus.Warning -> Proto.Status.WARNING_STATUS
-        FmiStatus.Discard -> Proto.Status.DISCARD_STATUS
-        FmiStatus.Error -> Proto.Status.ERROR_STATUS
-        FmiStatus.Fatal -> Proto.Status.FATAL_STATUS
-        FmiStatus.Pending -> Proto.Status.PENDING_STATUS
-        FmiStatus.NONE -> Proto.Status.UNRECOGNIZED
+        FmiStatus.OK -> Service.Status.OK_STATUS
+        FmiStatus.Warning -> Service.Status.WARNING_STATUS
+        FmiStatus.Discard -> Service.Status.DISCARD_STATUS
+        FmiStatus.Error -> Service.Status.ERROR_STATUS
+        FmiStatus.Fatal -> Service.Status.FATAL_STATUS
+        FmiStatus.Pending -> Service.Status.PENDING_STATUS
+        FmiStatus.NONE -> Service.Status.UNRECOGNIZED
     }
 }
 
-internal fun ModelDescription.protoType(): Proto.ModelDescription {
+internal fun ModelDescription.protoType(): Service.ModelDescription {
 
-    return Proto.ModelDescription.newBuilder().also { md ->
+    return Service.ModelDescription.newBuilder().also { md ->
 
         md.guid = guid
         md.modelName = modelName
@@ -74,9 +73,9 @@ internal fun ModelDescription.protoType(): Proto.ModelDescription {
 
 }
 
-internal fun DefaultExperiment.protoType(): Proto.DefaultExperiment {
+internal fun DefaultExperiment.protoType(): Service.DefaultExperiment {
 
-    return Proto.DefaultExperiment.newBuilder().also {
+    return Service.DefaultExperiment.newBuilder().also {
         it.startTime = startTime
         it.stopTime = stopTime
         it.stepSize = stepSize
@@ -85,9 +84,9 @@ internal fun DefaultExperiment.protoType(): Proto.DefaultExperiment {
 
 }
 
-internal fun CoSimulationAttributes.protoType(): Proto.CoSimulationAttributes {
+internal fun CoSimulationAttributes.protoType(): Service.CoSimulationAttributes {
 
-    return Proto.CoSimulationAttributes.newBuilder().also { a ->
+    return Service.CoSimulationAttributes.newBuilder().also { a ->
 
         a.canHandleVariableCommunicationStepSize = canHandleVariableCommunicationStepSize
         a.canInterpolateInputs = canInterpolateInputs
@@ -102,8 +101,8 @@ internal fun CoSimulationAttributes.protoType(): Proto.CoSimulationAttributes {
 
 }
 
-internal fun IntegerVariable.protoType(): Proto.IntegerAttribute {
-    return Proto.IntegerAttribute.newBuilder().also {builder ->
+internal fun IntegerVariable.protoType(): Service.IntegerAttribute {
+    return Service.IntegerAttribute.newBuilder().also {builder ->
         min?.also { builder.min = it }
         max?.also { builder.max = it }
         start?.also { builder.start = it }
@@ -111,8 +110,8 @@ internal fun IntegerVariable.protoType(): Proto.IntegerAttribute {
     }.build()
 }
 
-internal fun RealVariable.protoType(): Proto.RealAttribute {
-    return Proto.RealAttribute.newBuilder().also {builder ->
+internal fun RealVariable.protoType(): Service.RealAttribute {
+    return Service.RealAttribute.newBuilder().also {builder ->
         min?.also { builder.min = it }
         max?.also { builder.max = it }
         start?.also { builder.start = it }
@@ -120,20 +119,20 @@ internal fun RealVariable.protoType(): Proto.RealAttribute {
     }.build()
 }
 
-internal fun StringVariable.protoType(): Proto.StringAttribute {
-    return Proto.StringAttribute.newBuilder().also {builder ->
+internal fun StringVariable.protoType(): Service.StringAttribute {
+    return Service.StringAttribute.newBuilder().also {builder ->
         start?.also { builder.start = it }
     }.build()
 }
 
-internal fun BooleanVariable.protoType(): Proto.BooleanAttribute {
-    return Proto.BooleanAttribute.newBuilder().also {builder ->
+internal fun BooleanVariable.protoType(): Service.BooleanAttribute {
+    return Service.BooleanAttribute.newBuilder().also {builder ->
         start?.also { builder.start = it }
     }.build()
 }
 
-internal fun EnumerationVariable.protoType(): Proto.EnumerationAttribute {
-    return Proto.EnumerationAttribute.newBuilder().also {builder ->
+internal fun EnumerationVariable.protoType(): Service.EnumerationAttribute {
+    return Service.EnumerationAttribute.newBuilder().also {builder ->
         min?.also { builder.min = it }
         max?.also { builder.max = it }
         start?.also { builder.start = it }
@@ -141,8 +140,8 @@ internal fun EnumerationVariable.protoType(): Proto.EnumerationAttribute {
     }.build()
 }
 
-internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
-    return Proto.ScalarVariable.newBuilder().also { builder ->
+internal fun TypedScalarVariable<*>.protoType() : Service.ScalarVariable {
+    return Service.ScalarVariable.newBuilder().also { builder ->
 
         builder.name = name
         builder.valueReference = valueReference
@@ -165,16 +164,16 @@ internal fun TypedScalarVariable<*>.protoType() : Proto.ScalarVariable {
 
 }
 
-internal fun ModelStructure.protoType(): Proto.ModelStructure {
-    return Proto.ModelStructure.newBuilder()
+internal fun ModelStructure.protoType(): Service.ModelStructure {
+    return Service.ModelStructure.newBuilder()
             .addAllOutputs(outputs.map { it.protoType() })
             .addAllDerivatives(derivatives.map { it.protoType() })
             .addAllInitialUnknowns(initialUnknowns.map { it.protoType() })
             .build()
 }
 
-internal fun Unknown.protoType(): Proto.Unknown {
-    return Proto.Unknown.newBuilder().also { builder ->
+internal fun Unknown.protoType(): Service.Unknown {
+    return Service.Unknown.newBuilder().also { builder ->
         builder.index = index
         builder.addAllDependencies(dependencies)
 
@@ -183,40 +182,40 @@ internal fun Unknown.protoType(): Proto.Unknown {
     }.build()
 }
 
-internal fun Causality.protoType(): Proto.Causality {
+internal fun Causality.protoType(): Service.Causality {
 
     return when (this) {
-        Causality.INPUT -> Proto.Causality.INPUT_CAUSALITY
-        Causality.OUTPUT -> Proto.Causality.OUTPUT_CAUSALITY
-        Causality.CALCULATED_PARAMETER -> Proto.Causality.CALCULATED_PARAMETER_CAUSALITY
-        Causality.PARAMETER -> Proto.Causality.PARAMETER_CAUSALITY
-        Causality.LOCAL -> Proto.Causality.LOCAL_CAUSALITY
-        Causality.INDEPENDENT -> Proto.Causality.INDEPENDENT_CAUSALITY
-        else -> Proto.Causality.UNKNOWN_CAUSALITY
+        Causality.INPUT -> Service.Causality.INPUT_CAUSALITY
+        Causality.OUTPUT -> Service.Causality.OUTPUT_CAUSALITY
+        Causality.CALCULATED_PARAMETER -> Service.Causality.CALCULATED_PARAMETER_CAUSALITY
+        Causality.PARAMETER -> Service.Causality.PARAMETER_CAUSALITY
+        Causality.LOCAL -> Service.Causality.LOCAL_CAUSALITY
+        Causality.INDEPENDENT -> Service.Causality.INDEPENDENT_CAUSALITY
+        else -> Service.Causality.UNKNOWN_CAUSALITY
     }
 
 }
 
-internal fun Variability.protoType(): Proto.Variability {
+internal fun Variability.protoType(): Service.Variability {
 
     return when (this) {
-        Variability.CONSTANT -> Proto.Variability.CONSTANT_VARIABILITY
-        Variability.CONTINUOUS -> Proto.Variability.CONTINUOUS_VARIABILITY
-        Variability.DISCRETE -> Proto.Variability.DISCRETE_VARIABILITY
-        Variability.FIXED -> Proto.Variability.FIXED_VARIABILITY
-        Variability.TUNABLE -> Proto.Variability.TUNABLE_VARIABILITY
-        else -> Proto.Variability.UNKNOWN_VARIABILITY
+        Variability.CONSTANT -> Service.Variability.CONSTANT_VARIABILITY
+        Variability.CONTINUOUS -> Service.Variability.CONTINUOUS_VARIABILITY
+        Variability.DISCRETE -> Service.Variability.DISCRETE_VARIABILITY
+        Variability.FIXED -> Service.Variability.FIXED_VARIABILITY
+        Variability.TUNABLE -> Service.Variability.TUNABLE_VARIABILITY
+        else -> Service.Variability.UNKNOWN_VARIABILITY
     }
 
 }
 
-internal fun Initial.protoType(): Proto.Initial {
+internal fun Initial.protoType(): Service.Initial {
 
     return when (this) {
-        Initial.CALCULATED ->  Proto.Initial.CALCULATED_INITIAL
-        Initial.EXACT ->  Proto.Initial.EXACT_INITIAL
-        Initial.APPROX ->  Proto.Initial.APPROX_INITIAL
-        else ->  Proto.Initial.UNKNOWN_INITIAL
+        Initial.CALCULATED ->  Service.Initial.CALCULATED_INITIAL
+        Initial.EXACT ->  Service.Initial.EXACT_INITIAL
+        Initial.APPROX ->  Service.Initial.APPROX_INITIAL
+        else ->  Service.Initial.UNKNOWN_INITIAL
     }
 
 }

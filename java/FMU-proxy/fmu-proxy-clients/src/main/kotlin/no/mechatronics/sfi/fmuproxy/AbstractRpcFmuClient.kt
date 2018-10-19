@@ -31,6 +31,7 @@ import no.mechatronics.sfi.fmi4j.modeldescription.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+typealias InstanceId = String
 
 abstract class AbstractRpcFmuClient(
         val fmuId: String
@@ -42,33 +43,34 @@ abstract class AbstractRpcFmuClient(
     abstract val canCreateInstanceFromCS: Boolean
     abstract val canCreateInstanceFromME: Boolean
 
-    protected abstract fun createInstanceFromCS(): String
-    protected abstract fun createInstanceFromME(solver: Solver): String
+    protected abstract fun createInstanceFromCS(): InstanceId
+    protected abstract fun createInstanceFromME(solver: Solver): InstanceId
 
-    protected abstract fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes
+    protected abstract fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes
 
-    protected abstract fun init(instanceId: String, start: Double, stop: Double): FmiStatus
-    protected abstract fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus>
-    protected abstract fun reset(instanceId: String): FmiStatus
-    protected abstract fun terminate(instanceId: String): FmiStatus
+    protected abstract fun init(instanceId: InstanceId, start: Double, stop: Double): FmiStatus
+    protected abstract fun step(instanceId: InstanceId, stepSize: Double): Pair<Double, FmiStatus>
+    protected abstract fun reset(instanceId: InstanceId): FmiStatus
+    protected abstract fun terminate(instanceId: InstanceId): FmiStatus
 
-    internal abstract fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead
-    internal abstract fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead
-    internal abstract fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead
-    internal abstract fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead
+    internal abstract fun readInteger(instanceId: InstanceId, vr: List<ValueReference>): FmuIntegerArrayRead
+    internal abstract fun readReal(instanceId: InstanceId, vr: List<ValueReference>): FmuRealArrayRead
+    internal abstract fun readString(instanceId: InstanceId, vr: List<ValueReference>): FmuStringArrayRead
+    internal abstract fun readBoolean(instanceId: InstanceId, vr: List<ValueReference>): FmuBooleanArrayRead
 
-    internal abstract fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus
-    internal abstract fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus
-    internal abstract fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus
-    internal abstract fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
+    internal abstract fun writeInteger(instanceId: InstanceId, vr: List<ValueReference>, value: List<Int>): FmiStatus
+    internal abstract fun writeReal(instanceId: InstanceId, vr: List<ValueReference>, value: List<Real>): FmiStatus
+    internal abstract fun writeString(instanceId: InstanceId, vr: List<ValueReference>, value: List<String>): FmiStatus
+    internal abstract fun writeBoolean(instanceId: InstanceId, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
 
-    internal abstract fun getFMUstate(instanceId: String):  Pair<FmuState, FmiStatus>
-    internal abstract fun setFMUstate(instanceId: String, state: FmuState): FmiStatus
-    internal abstract fun freeFMUstate(instanceId: String, state: FmuState):  FmiStatus
+    internal abstract fun getFMUstate(instanceId: InstanceId):  Pair<FmuState, FmiStatus>
+    internal abstract fun setFMUstate(instanceId: InstanceId, state: FmuState): FmiStatus
+    internal abstract fun freeFMUstate(instanceId: InstanceId, state: FmuState):  FmiStatus
 
-    internal abstract fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus>
-    internal abstract fun deSerializeFMUstate(instanceId: String, state: ByteArray):  Pair<FmuState, FmiStatus>
+    internal abstract fun serializeFMUstate(instanceId: InstanceId, state: FmuState): Pair<ByteArray, FmiStatus>
+    internal abstract fun deSerializeFMUstate(instanceId: InstanceId, state: ByteArray):  Pair<FmuState, FmiStatus>
 
+    internal abstract fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus>
 
     @JvmOverloads
     fun newInstance(solver: Solver? = null): FmuInstance {
@@ -175,35 +177,47 @@ abstract class AbstractRpcFmuClient(
             terminate()
         }
 
-        override fun getFMUstate() = getFMUstate(instanceId).let {
-            lastStatus = it.second
-            it.first
+        override fun getFMUstate(): FmuState {
+            return getFMUstate(instanceId).let {
+                lastStatus = it.second
+                it.first
+            }
         }
 
-        override fun setFMUstate(state: FmuState) = setFMUstate(instanceId, state).let {
-            lastStatus = it
-            it == FmiStatus.OK
+        override fun setFMUstate(state: FmuState): Boolean {
+            return setFMUstate(instanceId, state).let {
+                lastStatus = it
+                it == FmiStatus.OK
+            }
         }
 
-        override fun freeFMUstate(state: FmuState) = freeFMUstate(instanceId, state).let {
-            lastStatus = it
-            it == FmiStatus.OK
+        override fun freeFMUstate(state: FmuState): Boolean {
+            return freeFMUstate(instanceId, state).let {
+                lastStatus = it
+                it == FmiStatus.OK
+            }
         }
 
 
-        override fun serializeFMUstate(state: FmuState) = serializeFMUstate(instanceId, state).let {
-            lastStatus = it.second
-            it.first
+        override fun serializeFMUstate(state: FmuState): ByteArray {
+            return serializeFMUstate(instanceId, state).let {
+                lastStatus = it.second
+                it.first
+            }
         }
 
-        override fun deSerializeFMUstate(state: ByteArray) = deSerializeFMUstate(instanceId, state).let {
-            lastStatus = it.second
-            it.first
+        override fun deSerializeFMUstate(state: ByteArray): FmuState {
+            return deSerializeFMUstate(instanceId, state).let {
+                lastStatus = it.second
+                it.first
+            }
         }
 
-        override fun getDirectionalDerivative(
-                vUnknownRef: IntArray, vKnownRef: IntArray, dvKnown: RealArray): RealArray {
-            TODO("not implemented")
+        override fun getDirectionalDerivative(vUnknownRef: ValueReferences, vKnownRef: ValueReferences, dvKnown: RealArray): RealArray {
+            return getDirectionalDerivative(instanceId, vKnownRef.toList(), vUnknownRef.toList(), dvKnown.toList()).let {
+                lastStatus = it.second
+                it.first.toDoubleArray()
+            }
         }
 
         inner class RemoteVariableAccessor: FmuVariableAccessorLite {

@@ -40,23 +40,19 @@ import java.nio.ByteBuffer
 
 class ThriftFmuServiceImpl(
         private val fmus: Map<String, Fmu>
-): FmuService.Iface {
+) : FmuService.Iface {
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
     }
-    
+
     private fun getFmu(fmuId: String): Fmu {
         return fmus[fmuId] ?: throw NoSuchFmuException("No such FMU with guid: '$fmuId'")
     }
-    
+
     private fun getSlave(instanceId: String): FmuSlave {
         return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
     }
-
-//    override fun getModelDescriptionXml(fmuId: String): String {
-//        return getFmu(fmuId).modelDescriptionXml
-//    }
 
     override fun getModelDescription(fmuId: String): ModelDescription {
         return getFmu(fmuId).modelDescription.thriftType()
@@ -71,7 +67,7 @@ class ThriftFmuServiceImpl(
     }
 
     override fun createInstanceFromCS(fmuId: String): String {
-        return getFmu(fmuId).let {fmu ->
+        return getFmu(fmuId).let { fmu ->
             if (!fmu.supportsCoSimulation) {
                 throw UnsupportedOperationException("FMU does not support Co-simulation!")
             }
@@ -107,7 +103,7 @@ class ThriftFmuServiceImpl(
         return getSlave(instanceId).let {
             it.init()
             it.lastStatus.thriftType()
-        } 
+        }
     }
 
     override fun step(instanceId: String, vr: Double): StepResult {
@@ -117,21 +113,21 @@ class ThriftFmuServiceImpl(
                 simulationTime = it.simulationTime
                 status = it.lastStatus.thriftType()
             }
-        } 
+        }
     }
 
     override fun terminate(instanceId: String): Status {
         return getSlave(instanceId).let {
             it.terminate()
             it.lastStatus.thriftType()
-        } 
+        }
     }
 
     override fun reset(instanceId: String): Status {
         return getSlave(instanceId).let {
             it.reset()
             it.lastStatus.thriftType()
-        } 
+        }
     }
 
     override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerRead {
@@ -151,7 +147,7 @@ class ThriftFmuServiceImpl(
     }
 
     override fun readString(instanceId: String, vr: List<ValueReference>): StringRead {
-        val values = StringArray(vr.size) {""}
+        val values = StringArray(vr.size) { "" }
         return getSlave(instanceId).let {
             val status = it.variableAccessor.readString(vr.toLongArray(), values).thriftType()
             StringRead(values.toList(), status)
@@ -176,28 +172,20 @@ class ThriftFmuServiceImpl(
     override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Double>): Status {
         return getSlave(instanceId).let {
             it.variableAccessor.writeReal(vr.toLongArray(), value.toDoubleArray()).thriftType()
-        } 
+        }
     }
 
     override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): Status {
         return getSlave(instanceId).let {
             it.variableAccessor.writeString(vr.toLongArray(), value.toTypedArray()).thriftType()
-        } 
+        }
     }
 
     override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): Status {
         return getSlave(instanceId).let {
             it.variableAccessor.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
-        } 
+        }
     }
-    
-//    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
-//        return getSlave(instanceId).canGetAndSetFMUstate
-//    }
-//
-//    override fun canSerializeFMUstate(instanceId: String): Boolean {
-//        return getSlave(instanceId).canSerializeFMUstate
-//    }
 
     override fun getFMUstate(instanceId: String): GetFmuStateResult {
         return getSlave(instanceId).let {
@@ -241,9 +229,19 @@ class ThriftFmuServiceImpl(
     override fun deSerializeFMUstate(instanceId: String, state: ByteBuffer): DeSerializeFmuStateResult {
         return getSlave(instanceId).let {
             if (!it.modelDescription.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance dos not have capability canGetAndSetFMUstate!")
+                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
             }
             DeSerializeFmuStateResult(it.deSerializeFMUstate(state.array()), it.lastStatus.thriftType())
+        }
+    }
+
+    override fun getDirectionalDerivative(instanceId: String, vUnkownRef: List<Long>, vKnownRef: List<Long>, dvUnkownRef: List<Double>): DirectionalDerivativeResult {
+        return getSlave(instanceId).let {
+            if (!it.modelDescription.providesDirectionalDerivative) {
+                throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
+            }
+            val dvUnknown = it.getDirectionalDerivative(vUnkownRef.toLongArray(), vKnownRef.toLongArray(), dvUnkownRef.toDoubleArray()).toList()
+            DirectionalDerivativeResult(dvUnknown, it.lastStatus.thriftType())
         }
     }
 

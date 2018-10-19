@@ -28,6 +28,7 @@ import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
+import no.mechatronics.sfi.fmuproxy.InstanceId
 import no.mechatronics.sfi.fmuproxy.Solver
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -131,14 +132,6 @@ class ThriftFmuClient(
         return client.writeBoolean(instanceId, vr, value).convert()
     }
 
-//    override fun canGetAndSetFMUstate(instanceId: String): Boolean {
-//        return client.canGetAndSetFMUstate(instanceId)
-//    }
-//
-//    override fun canSerializeFMUstate(instanceId: String): Boolean {
-//        return client.canSerializeFMUstate(instanceId)
-//    }
-
     override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
         return client.deSerializeFMUstate(instanceId, ByteBuffer.wrap(state)).let {
             it.state to it.status.convert()
@@ -164,7 +157,12 @@ class ThriftFmuClient(
 
     override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
         return client.setFMUstate(instanceId, state).convert()
+    }
 
+    override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
+        return client.getDirectionalDerivative(instanceId, vUnknownRef, vKnownRef, dvKnownRef).let {
+            it.dvUnkownRef to it.status.convert()
+        }
     }
 
     companion object {

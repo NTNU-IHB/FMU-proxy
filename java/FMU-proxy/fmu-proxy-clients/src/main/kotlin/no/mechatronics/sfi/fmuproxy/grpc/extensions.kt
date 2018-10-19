@@ -40,46 +40,46 @@ internal fun Service.StatusResponse.convert(): FmiStatus {
     return status.convert()
 }
 
-internal fun Proto.Status.convert(): FmiStatus {
+internal fun Service.Status.convert(): FmiStatus {
     return when(this) {
-        Proto.Status.OK_STATUS -> FmiStatus.OK
-        Proto.Status.DISCARD_STATUS -> FmiStatus.Discard
-        Proto.Status.ERROR_STATUS -> FmiStatus.Error
-        Proto.Status.WARNING_STATUS -> FmiStatus.Warning
-        Proto.Status.PENDING_STATUS -> FmiStatus.Pending
-        Proto.Status.FATAL_STATUS -> FmiStatus.Fatal
-        Proto.Status.UNRECOGNIZED -> throw AssertionError("Fatal: Unrecognized status type: $this")
+        Service.Status.OK_STATUS -> FmiStatus.OK
+        Service.Status.DISCARD_STATUS -> FmiStatus.Discard
+        Service.Status.ERROR_STATUS -> FmiStatus.Error
+        Service.Status.WARNING_STATUS -> FmiStatus.Warning
+        Service.Status.PENDING_STATUS -> FmiStatus.Pending
+        Service.Status.FATAL_STATUS -> FmiStatus.Fatal
+        Service.Status.UNRECOGNIZED -> throw AssertionError("Fatal: Unrecognized status type: $this")
     }
 }
 
-internal fun Proto.Causality.convert(): Causality? {
+internal fun Service.Causality.convert(): Causality? {
     return when(this) {
-        Proto.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
-        Proto.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
-        Proto.Causality.INPUT_CAUSALITY -> Causality.INPUT
-        Proto.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
-        Proto.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
-        Proto.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
+        Service.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
+        Service.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
+        Service.Causality.INPUT_CAUSALITY -> Causality.INPUT
+        Service.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
+        Service.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
+        Service.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
         else -> null
     }
 }
 
-internal fun Proto.Variability.convert(): Variability? {
+internal fun Service.Variability.convert(): Variability? {
     return when(this) {
-        Proto.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
-        Proto.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
-        Proto.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
-        Proto.Variability.FIXED_VARIABILITY -> Variability.FIXED
-        Proto.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
+        Service.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
+        Service.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
+        Service.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
+        Service.Variability.FIXED_VARIABILITY -> Variability.FIXED
+        Service.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
         else -> null
     }
 }
 
-internal fun Proto.Initial.convert(): Initial? {
+internal fun Service.Initial.convert(): Initial? {
     return when(this) {
-        Proto.Initial.APPROX_INITIAL -> Initial.APPROX
-        Proto.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
-        Proto.Initial.EXACT_INITIAL -> Initial.EXACT
+        Service.Initial.APPROX_INITIAL -> Initial.APPROX
+        Service.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
+        Service.Initial.EXACT_INITIAL -> Initial.EXACT
         else -> null
     }
 }
@@ -100,7 +100,7 @@ internal fun Service.BooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(valuesList.toBooleanArray(), status.convert())
 }
 
-internal fun Proto.DefaultExperiment.convert(): DefaultExperiment {
+internal fun Service.DefaultExperiment.convert(): DefaultExperiment {
     return DefaultExperiment(
             startTime = startTime,
             stopTime = stopTime,
@@ -109,7 +109,8 @@ internal fun Proto.DefaultExperiment.convert(): DefaultExperiment {
     )
 }
 
-internal fun Proto.Unknown.convert(): Unknown {
+
+internal fun Service.Unknown.convert(): Unknown {
     return object: Unknown {
         override val index: Int
             get() = getIndex()
@@ -120,7 +121,7 @@ internal fun Proto.Unknown.convert(): Unknown {
     }
 }
 
-internal fun Proto.ModelStructure.convert(): ModelStructure {
+internal fun Service.ModelStructure.convert(): ModelStructure {
     return object: ModelStructure {
         override val derivatives: List<Unknown>
             get() = derivativesList?.map { it.convert() } ?: emptyList()
@@ -131,7 +132,7 @@ internal fun Proto.ModelStructure.convert(): ModelStructure {
     }
 }
 
-internal fun Proto.IntegerAttribute.convert(): IntegerAttributeImpl {
+internal fun Service.IntegerAttribute.convert(): IntegerAttributeImpl {
     return IntegerAttributeImpl(
             min = min,
             max = max,
@@ -140,7 +141,7 @@ internal fun Proto.IntegerAttribute.convert(): IntegerAttributeImpl {
     )
 }
 
-internal fun Proto.RealAttribute.convert(): RealAttributeImpl {
+internal fun Service.RealAttribute.convert(): RealAttributeImpl {
     return RealAttributeImpl(
             min = min,
             max = max,
@@ -149,19 +150,19 @@ internal fun Proto.RealAttribute.convert(): RealAttributeImpl {
     )
 }
 
-internal fun Proto.StringAttribute.convert(): StringAttributeImpl {
+internal fun Service.StringAttribute.convert(): StringAttributeImpl {
     return StringAttributeImpl(
             start = start
     )
 }
 
-internal fun Proto.BooleanAttribute.convert(): BooleanAttributeImpl {
+internal fun Service.BooleanAttribute.convert(): BooleanAttributeImpl {
     return BooleanAttributeImpl(
             start = start
     )
 }
 
-internal fun Proto.EnumerationAttribute.convert(): EnumerationAttributeImpl {
+internal fun Service.EnumerationAttribute.convert(): EnumerationAttributeImpl {
     return EnumerationAttributeImpl(
             min = min,
             max = max,
@@ -170,7 +171,7 @@ internal fun Proto.EnumerationAttribute.convert(): EnumerationAttributeImpl {
     )
 }
 
-internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
+internal fun Service.ScalarVariable.convert(): TypedScalarVariable<*> {
 
     val v = ScalarVariableImpl(
             name = name,
@@ -182,11 +183,11 @@ internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
     )
 
     when(attributeCase) {
-        Proto.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> v.realAttribute = realAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
-        Proto.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
+        Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
+        Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> v.realAttribute = realAttribute.convert()
+        Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
+        Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
+        Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
         else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
     }
 
@@ -195,7 +196,7 @@ internal fun Proto.ScalarVariable.convert(): TypedScalarVariable<*> {
 }
 
 class MyModelVariables(
-        vars: List<Proto.ScalarVariable>
+        vars: List<Service.ScalarVariable>
 ) : ModelVariables {
 
     private val variables = vars.map { it.convert() }
@@ -206,15 +207,15 @@ class MyModelVariables(
 
 }
 
-internal fun List<Proto.ScalarVariable>.convert(): ModelVariables {
+internal fun List<Service.ScalarVariable>.convert(): ModelVariables {
     return MyModelVariables(this)
 }
 
-internal fun Proto.ModelDescription.convert(): ModelDescription {
+internal fun Service.ModelDescription.convert(): ModelDescription {
     return GrpcModelDescription(this)
 }
 
-internal fun Proto.CoSimulationAttributes.convert(): CoSimulationAttributes {
+internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
 
     return object: CoSimulationAttributes {
 
@@ -248,7 +249,7 @@ internal fun Proto.CoSimulationAttributes.convert(): CoSimulationAttributes {
 }
 
 class GrpcModelDescription(
-        private val modelDescription: Proto.ModelDescription
+        private val modelDescription: Service.ModelDescription
 ): ModelDescription {
 
     override val author: String?
