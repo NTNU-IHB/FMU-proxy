@@ -8,7 +8,7 @@ SET(HEARTBEAT_SRC
         fmuproxy/heartbeat/Heartbeat.cpp)
 
 add_library(heartbeat ${HEARTBEAT_SRC})
-target_link_libraries(heartbeat ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
+target_link_libraries(heartbeat PRIVATE ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
 target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
 if (UNIX)
     target_link_libraries(heartbeat pthread)
