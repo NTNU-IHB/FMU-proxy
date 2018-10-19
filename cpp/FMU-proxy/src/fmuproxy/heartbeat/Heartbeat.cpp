@@ -35,7 +35,7 @@ using namespace fmuproxy::heartbeat;
 
 using json = nlohmann::json;
 
-Heartbeat::Heartbeat(const RemoteAddress remote, const unordered_map<string, unsigned int> &ports,
+Heartbeat::Heartbeat(const RemoteAddress &remote, const unordered_map<string, unsigned int> &ports,
                      const vector<string> &modelDescriptions) : remote_(remote), ports_(ports),
                                                                 modelDescriptions_(modelDescriptions) {}
 
