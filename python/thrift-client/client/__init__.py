@@ -1,6 +1,6 @@
 
 from service import FmuService
-from definitions.ttypes import *
+from service.ttypes import *
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport

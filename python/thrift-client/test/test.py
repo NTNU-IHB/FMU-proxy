@@ -1,5 +1,5 @@
 import time
-from definitions.ttypes import *
+from service.ttypes import *
 from client import RemoteFmu
 
 if __name__ == '__main__':

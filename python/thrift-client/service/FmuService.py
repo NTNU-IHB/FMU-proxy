@@ -200,6 +200,16 @@ class Iface(object):
         """
         pass
 
+    def getDirectionalDerivative(self, instanceId, vUnknownRef, vKnownRef, dvKnownRef):
+        """
+        Parameters:
+         - instanceId
+         - vUnknownRef
+         - vKnownRef
+         - dvKnownRef
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -1037,6 +1047,47 @@ class Client(Iface):
             raise result.ex2
         raise TApplicationException(TApplicationException.MISSING_RESULT, "deSerializeFMUstate failed: unknown result")
 
+    def getDirectionalDerivative(self, instanceId, vUnknownRef, vKnownRef, dvKnownRef):
+        """
+        Parameters:
+         - instanceId
+         - vUnknownRef
+         - vKnownRef
+         - dvKnownRef
+        """
+        self.send_getDirectionalDerivative(instanceId, vUnknownRef, vKnownRef, dvKnownRef)
+        return self.recv_getDirectionalDerivative()
+
+    def send_getDirectionalDerivative(self, instanceId, vUnknownRef, vKnownRef, dvKnownRef):
+        self._oprot.writeMessageBegin('getDirectionalDerivative', TMessageType.CALL, self._seqid)
+        args = getDirectionalDerivative_args()
+        args.instanceId = instanceId
+        args.vUnknownRef = vUnknownRef
+        args.vKnownRef = vKnownRef
+        args.dvKnownRef = dvKnownRef
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getDirectionalDerivative(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getDirectionalDerivative_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.ex1 is not None:
+            raise result.ex1
+        if result.ex2 is not None:
+            raise result.ex2
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getDirectionalDerivative failed: unknown result")
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -1065,6 +1116,7 @@ class Processor(Iface, TProcessor):
         self._processMap["freeFMUstate"] = Processor.process_freeFMUstate
         self._processMap["serializeFMUstate"] = Processor.process_serializeFMUstate
         self._processMap["deSerializeFMUstate"] = Processor.process_deSerializeFMUstate
+        self._processMap["getDirectionalDerivative"] = Processor.process_getDirectionalDerivative
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -1724,6 +1776,35 @@ class Processor(Iface, TProcessor):
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
+    def process_getDirectionalDerivative(self, seqid, iprot, oprot):
+        args = getDirectionalDerivative_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = getDirectionalDerivative_result()
+        try:
+            result.success = self._handler.getDirectionalDerivative(args.instanceId, args.vUnknownRef, args.vKnownRef, args.dvKnownRef)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except NoSuchInstanceException as ex1:
+            msg_type = TMessageType.REPLY
+            result.ex1 = ex1
+        except UnsupportedOperationException as ex2:
+            msg_type = TMessageType.REPLY
+            result.ex2 = ex2
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("getDirectionalDerivative", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
 # HELPER FUNCTIONS AND STRUCTURES
 
 
@@ -1811,7 +1892,7 @@ class getModelDescription_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.ModelDescription()
+                    self.success = ModelDescription()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1857,7 +1938,7 @@ class getModelDescription_result(object):
         return not (self == other)
 all_structs.append(getModelDescription_result)
 getModelDescription_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.ModelDescription, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [ModelDescription, None], None, ),  # 0
     (1, TType.STRUCT, 'ex', [NoSuchFmuException, None], None, ),  # 1
 )
 
@@ -1946,7 +2027,7 @@ class getCoSimulationAttributes_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.CoSimulationAttributes()
+                    self.success = CoSimulationAttributes()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1992,7 +2073,7 @@ class getCoSimulationAttributes_result(object):
         return not (self == other)
 all_structs.append(getCoSimulationAttributes_result)
 getCoSimulationAttributes_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.CoSimulationAttributes, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [CoSimulationAttributes, None], None, ),  # 0
     (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
 )
 
@@ -2440,7 +2521,7 @@ class createInstanceFromME_args(object):
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.solver = definitions.ttypes.Solver()
+                    self.solver = Solver()
                     self.solver.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2482,7 +2563,7 @@ all_structs.append(createInstanceFromME_args)
 createInstanceFromME_args.thrift_spec = (
     None,  # 0
     (1, TType.STRING, 'fmuId', 'UTF8', None, ),  # 1
-    (2, TType.STRUCT, 'solver', [definitions.ttypes.Solver, None], None, ),  # 2
+    (2, TType.STRUCT, 'solver', [Solver, None], None, ),  # 2
 )
 
 
@@ -2826,7 +2907,7 @@ class step_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.StepResult()
+                    self.success = StepResult()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -2872,7 +2953,7 @@ class step_result(object):
         return not (self == other)
 all_structs.append(step_result)
 step_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.StepResult, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [StepResult, None], None, ),  # 0
     (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
 )
 
@@ -3174,10 +3255,10 @@ class readInteger_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype3, _size0) = iprot.readListBegin()
-                    for _i4 in range(_size0):
-                        _elem5 = iprot.readI64()
-                        self.vr.append(_elem5)
+                    (_etype73, _size70) = iprot.readListBegin()
+                    for _i74 in range(_size70):
+                        _elem75 = iprot.readI64()
+                        self.vr.append(_elem75)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3198,8 +3279,8 @@ class readInteger_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter6 in self.vr:
-                oprot.writeI64(iter6)
+            for iter76 in self.vr:
+                oprot.writeI64(iter76)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -3251,7 +3332,7 @@ class readInteger_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.IntegerRead()
+                    self.success = IntegerRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3307,7 +3388,7 @@ class readInteger_result(object):
         return not (self == other)
 all_structs.append(readInteger_result)
 readInteger_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.IntegerRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [IntegerRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
@@ -3342,10 +3423,10 @@ class readReal_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype10, _size7) = iprot.readListBegin()
-                    for _i11 in range(_size7):
-                        _elem12 = iprot.readI64()
-                        self.vr.append(_elem12)
+                    (_etype80, _size77) = iprot.readListBegin()
+                    for _i81 in range(_size77):
+                        _elem82 = iprot.readI64()
+                        self.vr.append(_elem82)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3366,8 +3447,8 @@ class readReal_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter13 in self.vr:
-                oprot.writeI64(iter13)
+            for iter83 in self.vr:
+                oprot.writeI64(iter83)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -3419,7 +3500,7 @@ class readReal_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.RealRead()
+                    self.success = RealRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3475,7 +3556,7 @@ class readReal_result(object):
         return not (self == other)
 all_structs.append(readReal_result)
 readReal_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.RealRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [RealRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
@@ -3510,10 +3591,10 @@ class readString_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype17, _size14) = iprot.readListBegin()
-                    for _i18 in range(_size14):
-                        _elem19 = iprot.readI64()
-                        self.vr.append(_elem19)
+                    (_etype87, _size84) = iprot.readListBegin()
+                    for _i88 in range(_size84):
+                        _elem89 = iprot.readI64()
+                        self.vr.append(_elem89)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3534,8 +3615,8 @@ class readString_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter20 in self.vr:
-                oprot.writeI64(iter20)
+            for iter90 in self.vr:
+                oprot.writeI64(iter90)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -3587,7 +3668,7 @@ class readString_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.StringRead()
+                    self.success = StringRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3643,7 +3724,7 @@ class readString_result(object):
         return not (self == other)
 all_structs.append(readString_result)
 readString_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.StringRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [StringRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
@@ -3678,10 +3759,10 @@ class readBoolean_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype24, _size21) = iprot.readListBegin()
-                    for _i25 in range(_size21):
-                        _elem26 = iprot.readI64()
-                        self.vr.append(_elem26)
+                    (_etype94, _size91) = iprot.readListBegin()
+                    for _i95 in range(_size91):
+                        _elem96 = iprot.readI64()
+                        self.vr.append(_elem96)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3702,8 +3783,8 @@ class readBoolean_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter27 in self.vr:
-                oprot.writeI64(iter27)
+            for iter97 in self.vr:
+                oprot.writeI64(iter97)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -3755,7 +3836,7 @@ class readBoolean_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = definitions.ttypes.BooleanRead()
+                    self.success = BooleanRead()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -3811,7 +3892,7 @@ class readBoolean_result(object):
         return not (self == other)
 all_structs.append(readBoolean_result)
 readBoolean_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [definitions.ttypes.BooleanRead, None], None, ),  # 0
+    (0, TType.STRUCT, 'success', [BooleanRead, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [NoSuchVariableException, None], None, ),  # 2
 )
@@ -3848,20 +3929,20 @@ class writeInteger_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype31, _size28) = iprot.readListBegin()
-                    for _i32 in range(_size28):
-                        _elem33 = iprot.readI64()
-                        self.vr.append(_elem33)
+                    (_etype101, _size98) = iprot.readListBegin()
+                    for _i102 in range(_size98):
+                        _elem103 = iprot.readI64()
+                        self.vr.append(_elem103)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype37, _size34) = iprot.readListBegin()
-                    for _i38 in range(_size34):
-                        _elem39 = iprot.readI32()
-                        self.value.append(_elem39)
+                    (_etype107, _size104) = iprot.readListBegin()
+                    for _i108 in range(_size104):
+                        _elem109 = iprot.readI32()
+                        self.value.append(_elem109)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -3882,15 +3963,15 @@ class writeInteger_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter40 in self.vr:
-                oprot.writeI64(iter40)
+            for iter110 in self.vr:
+                oprot.writeI64(iter110)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 3)
             oprot.writeListBegin(TType.I32, len(self.value))
-            for iter41 in self.value:
-                oprot.writeI32(iter41)
+            for iter111 in self.value:
+                oprot.writeI32(iter111)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -4035,20 +4116,20 @@ class writeReal_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype45, _size42) = iprot.readListBegin()
-                    for _i46 in range(_size42):
-                        _elem47 = iprot.readI64()
-                        self.vr.append(_elem47)
+                    (_etype115, _size112) = iprot.readListBegin()
+                    for _i116 in range(_size112):
+                        _elem117 = iprot.readI64()
+                        self.vr.append(_elem117)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype51, _size48) = iprot.readListBegin()
-                    for _i52 in range(_size48):
-                        _elem53 = iprot.readDouble()
-                        self.value.append(_elem53)
+                    (_etype121, _size118) = iprot.readListBegin()
+                    for _i122 in range(_size118):
+                        _elem123 = iprot.readDouble()
+                        self.value.append(_elem123)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4069,15 +4150,15 @@ class writeReal_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter54 in self.vr:
-                oprot.writeI64(iter54)
+            for iter124 in self.vr:
+                oprot.writeI64(iter124)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 3)
             oprot.writeListBegin(TType.DOUBLE, len(self.value))
-            for iter55 in self.value:
-                oprot.writeDouble(iter55)
+            for iter125 in self.value:
+                oprot.writeDouble(iter125)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -4222,20 +4303,20 @@ class writeString_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype59, _size56) = iprot.readListBegin()
-                    for _i60 in range(_size56):
-                        _elem61 = iprot.readI64()
-                        self.vr.append(_elem61)
+                    (_etype129, _size126) = iprot.readListBegin()
+                    for _i130 in range(_size126):
+                        _elem131 = iprot.readI64()
+                        self.vr.append(_elem131)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype65, _size62) = iprot.readListBegin()
-                    for _i66 in range(_size62):
-                        _elem67 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.value.append(_elem67)
+                    (_etype135, _size132) = iprot.readListBegin()
+                    for _i136 in range(_size132):
+                        _elem137 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.value.append(_elem137)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4256,15 +4337,15 @@ class writeString_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter68 in self.vr:
-                oprot.writeI64(iter68)
+            for iter138 in self.vr:
+                oprot.writeI64(iter138)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 3)
             oprot.writeListBegin(TType.STRING, len(self.value))
-            for iter69 in self.value:
-                oprot.writeString(iter69.encode('utf-8') if sys.version_info[0] == 2 else iter69)
+            for iter139 in self.value:
+                oprot.writeString(iter139.encode('utf-8') if sys.version_info[0] == 2 else iter139)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -4409,20 +4490,20 @@ class writeBoolean_args(object):
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.vr = []
-                    (_etype73, _size70) = iprot.readListBegin()
-                    for _i74 in range(_size70):
-                        _elem75 = iprot.readI64()
-                        self.vr.append(_elem75)
+                    (_etype143, _size140) = iprot.readListBegin()
+                    for _i144 in range(_size140):
+                        _elem145 = iprot.readI64()
+                        self.vr.append(_elem145)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype79, _size76) = iprot.readListBegin()
-                    for _i80 in range(_size76):
-                        _elem81 = iprot.readBool()
-                        self.value.append(_elem81)
+                    (_etype149, _size146) = iprot.readListBegin()
+                    for _i150 in range(_size146):
+                        _elem151 = iprot.readBool()
+                        self.value.append(_elem151)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -4443,15 +4524,15 @@ class writeBoolean_args(object):
         if self.vr is not None:
             oprot.writeFieldBegin('vr', TType.LIST, 2)
             oprot.writeListBegin(TType.I64, len(self.vr))
-            for iter82 in self.vr:
-                oprot.writeI64(iter82)
+            for iter152 in self.vr:
+                oprot.writeI64(iter152)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 3)
             oprot.writeListBegin(TType.BOOL, len(self.value))
-            for iter83 in self.value:
-                oprot.writeBool(iter83)
+            for iter153 in self.value:
+                oprot.writeBool(iter153)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -5346,6 +5427,214 @@ class deSerializeFMUstate_result(object):
 all_structs.append(deSerializeFMUstate_result)
 deSerializeFMUstate_result.thrift_spec = (
     (0, TType.STRUCT, 'success', [DeSerializeFmuStateResult, None], None, ),  # 0
+    (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
+    (2, TType.STRUCT, 'ex2', [UnsupportedOperationException, None], None, ),  # 2
+)
+
+
+class getDirectionalDerivative_args(object):
+    """
+    Attributes:
+     - instanceId
+     - vUnknownRef
+     - vKnownRef
+     - dvKnownRef
+    """
+
+
+    def __init__(self, instanceId=None, vUnknownRef=None, vKnownRef=None, dvKnownRef=None,):
+        self.instanceId = instanceId
+        self.vUnknownRef = vUnknownRef
+        self.vKnownRef = vKnownRef
+        self.dvKnownRef = dvKnownRef
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.instanceId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.vUnknownRef = []
+                    (_etype157, _size154) = iprot.readListBegin()
+                    for _i158 in range(_size154):
+                        _elem159 = iprot.readI64()
+                        self.vUnknownRef.append(_elem159)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.LIST:
+                    self.vKnownRef = []
+                    (_etype163, _size160) = iprot.readListBegin()
+                    for _i164 in range(_size160):
+                        _elem165 = iprot.readI64()
+                        self.vKnownRef.append(_elem165)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.LIST:
+                    self.dvKnownRef = []
+                    (_etype169, _size166) = iprot.readListBegin()
+                    for _i170 in range(_size166):
+                        _elem171 = iprot.readDouble()
+                        self.dvKnownRef.append(_elem171)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('getDirectionalDerivative_args')
+        if self.instanceId is not None:
+            oprot.writeFieldBegin('instanceId', TType.STRING, 1)
+            oprot.writeString(self.instanceId.encode('utf-8') if sys.version_info[0] == 2 else self.instanceId)
+            oprot.writeFieldEnd()
+        if self.vUnknownRef is not None:
+            oprot.writeFieldBegin('vUnknownRef', TType.LIST, 2)
+            oprot.writeListBegin(TType.I64, len(self.vUnknownRef))
+            for iter172 in self.vUnknownRef:
+                oprot.writeI64(iter172)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.vKnownRef is not None:
+            oprot.writeFieldBegin('vKnownRef', TType.LIST, 3)
+            oprot.writeListBegin(TType.I64, len(self.vKnownRef))
+            for iter173 in self.vKnownRef:
+                oprot.writeI64(iter173)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.dvKnownRef is not None:
+            oprot.writeFieldBegin('dvKnownRef', TType.LIST, 4)
+            oprot.writeListBegin(TType.DOUBLE, len(self.dvKnownRef))
+            for iter174 in self.dvKnownRef:
+                oprot.writeDouble(iter174)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(getDirectionalDerivative_args)
+getDirectionalDerivative_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'instanceId', 'UTF8', None, ),  # 1
+    (2, TType.LIST, 'vUnknownRef', (TType.I64, None, False), None, ),  # 2
+    (3, TType.LIST, 'vKnownRef', (TType.I64, None, False), None, ),  # 3
+    (4, TType.LIST, 'dvKnownRef', (TType.DOUBLE, None, False), None, ),  # 4
+)
+
+
+class getDirectionalDerivative_result(object):
+    """
+    Attributes:
+     - success
+     - ex1
+     - ex2
+    """
+
+
+    def __init__(self, success=None, ex1=None, ex2=None,):
+        self.success = success
+        self.ex1 = ex1
+        self.ex2 = ex2
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = DirectionalDerivativeResult()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.ex1 = NoSuchInstanceException()
+                    self.ex1.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.ex2 = UnsupportedOperationException()
+                    self.ex2.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('getDirectionalDerivative_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        if self.ex1 is not None:
+            oprot.writeFieldBegin('ex1', TType.STRUCT, 1)
+            self.ex1.write(oprot)
+            oprot.writeFieldEnd()
+        if self.ex2 is not None:
+            oprot.writeFieldBegin('ex2', TType.STRUCT, 2)
+            self.ex2.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(getDirectionalDerivative_result)
+getDirectionalDerivative_result.thrift_spec = (
+    (0, TType.STRUCT, 'success', [DirectionalDerivativeResult, None], None, ),  # 0
     (1, TType.STRUCT, 'ex1', [NoSuchInstanceException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [UnsupportedOperationException, None], None, ),  # 2
 )
