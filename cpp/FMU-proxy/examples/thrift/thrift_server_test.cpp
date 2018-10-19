@@ -23,13 +23,11 @@
  */
 
 #include <unordered_map>
-#include <fmuproxy/fmi/Fmu.hpp>
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 
 #include "../test_util.cpp"
 
 using namespace std;
-using namespace fmuproxy::fmi;
 using namespace fmuproxy::thrift::server;
 
 int main(int argc, char **argv) {
@@ -38,8 +36,9 @@ int main(int argc, char **argv) {
                       + "/FMI_2.0/CoSimulation/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    auto fmu = make_shared<Fmu>(fmu_path);
-    unordered_map<string, shared_ptr<Fmu>> fmus = {{fmu->getModelDescription().guid, fmu}};
+    auto fmu = make_shared<fmi4cpp::fmi2::Fmu>(fmu_path);
+    auto md = fmu->getModelDescription();
+    unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmus = {{md->guid(), fmu}};
 
     ThriftServer socket_server(fmus, 9090);
     socket_server.start();

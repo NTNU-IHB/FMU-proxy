@@ -26,7 +26,8 @@
 #define FMU_PROXY_GRPC_SERVER_HELPER_HPP
 
 #include <grpcpp/grpcpp.h>
-#include <fmuproxy/fmi/fmi_definitions.hpp>
+
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
 #include <fmuproxy/grpc/common/definitions.pb.h>
 #include <fmuproxy/thrift/common/definitions_types.h>
 
@@ -34,195 +35,197 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    const Status grpcType(fmi2_status_t status) {
+    const Status grpcType(fmi2Status status) {
         switch (status) {
-            case fmi2_status_ok:
+            case fmi2OK:
                 return Status::OK_STATUS;
-            case fmi2_status_warning:
+            case fmi2Warning:
                 return Status::WARNING_STATUS;
-            case fmi2_status_pending:
+            case fmi2Pending:
                 return Status::PENDING_STATUS;
-            case fmi2_status_discard:
+            case fmi2Discard:
                 return Status::DISCARD_STATUS;
-            case fmi2_status_error:
+            case fmi2Error:
                 return Status::ERROR_STATUS;
-            case fmi2_status_fatal:
+            case fmi2Fatal:
                 return Status::FATAL_STATUS;
             default:
                 throw std::runtime_error("Invalid status: " + status);
         }
     }
 
-    const Causality grpcType(fmi2_causality_enu_t causality) {
+    const Causality grpcType(fmi4cpp::fmi2::fmi2Causality causality) {
         switch (causality) {
-            case fmi2_causality_enu_input:
+            case fmi4cpp::fmi2::fmi2Causality ::input:
                 return Causality::INPUT_CAUSALITY;
-            case fmi2_causality_enu_output:
+            case fmi4cpp::fmi2::fmi2Causality ::output:
                 return Causality::OUTPUT_CAUSALITY;
-            case fmi2_causality_enu_parameter:
+            case fmi4cpp::fmi2::fmi2Causality ::parameter:
                 return Causality::PARAMETER_CAUSALITY;
-            case fmi2_causality_enu_local:
+            case fmi4cpp::fmi2::fmi2Causality ::local:
                 return Causality::LOCAL_CAUSALITY;
-            case fmi2_causality_enu_independent:
+            case fmi4cpp::fmi2::fmi2Causality ::independent:
                 return Causality::INDEPENDENT_CAUSALITY;
-            case fmi2_causality_enu_calculated_parameter:
+            case fmi4cpp::fmi2::fmi2Causality ::calculatedParameter:
                 return Causality::CALCULATED_PARAMETER_CAUSALITY;
-            case fmi2_causality_enu_unknown:
-                return Causality::LOCAL_CAUSALITY;
             default:
-                throw std::runtime_error("Invalid status: " + causality);
+                return Causality::UNKNOWN_CAUSALITY;
         }
     }
 
-    const Variability grpcType(fmi2_variability_enu_t variability) {
+    const Variability grpcType(fmi4cpp::fmi2::fmi2Variability variability) {
         switch (variability) {
-            case fmi2_variability_enu_constant:
+            case fmi4cpp::fmi2::fmi2Variability::constant:
                 return Variability::CONSTANT_VARIABILITY;
-            case fmi2_variability_enu_continuous:
+            case fmi4cpp::fmi2::fmi2Variability::continuous:
                 return Variability::CONTINUOUS_VARIABILITY;
-            case fmi2_variability_enu_discrete:
+            case fmi4cpp::fmi2::fmi2Variability::discrete:
                 return Variability::DISCRETE_VARIABILITY;
-            case fmi2_variability_enu_fixed:
+            case fmi4cpp::fmi2::fmi2Variability::fixed:
                 return Variability::FIXED_VARIABILITY;
-            case fmi2_variability_enu_tunable:
+            case fmi4cpp::fmi2::fmi2Variability::tunable:
                 return Variability::TUNABLE_VARIABILITY;;
-            case fmi2_variability_enu_unknown:
+            case fmi4cpp::fmi2::fmi2Variability::unknown:
                 return Variability::CONTINUOUS_VARIABILITY;
             default:
-                throw std::runtime_error("Invalid status: " + variability);
+                return Variability ::UNKNOWN_VARIABILITY;
         }
     }
 
-    const Initial grpcType(fmi2_initial_enu_t initial) {
+    const Initial grpcType(fmi4cpp::fmi2::fmi2Initial initial) {
         switch (initial) {
-            case fmi2_initial_enu_approx:
+            case fmi4cpp::fmi2::fmi2Initial ::approx:
                 return Initial::APPROX_INITIAL;
-            case fmi2_initial_enu_calculated:
+            case fmi4cpp::fmi2::fmi2Initial ::calculated:
                 return Initial::CALCULATED_INITIAL;
-            case fmi2_initial_enu_exact:
+            case fmi4cpp::fmi2::fmi2Initial ::exact:
                 return Initial::EXACT_INITIAL;
-            case fmi2_initial_enu_unknown:
-                return Initial::APPROX_INITIAL;
+            case fmi4cpp::fmi2::fmi2Initial ::unknown:
             default:
-                throw std::runtime_error("Invalid status: " + initial);
+                return Initial::UNKNOWN_INITIAL;
         }
     }
 
-    const VariableNamingConvention grpcType(fmi2_variable_naming_convension_enu_t convention) {
-        switch (convention) {
-            case fmi2_naming_enu_flat:
-                return VariableNamingConvention::FLAT;
-            case fmi2_naming_enu_structured:
-                return VariableNamingConvention::STRUCTURED;
-            case fmi2_naming_enu_unknown:
-                throw std::runtime_error("TODO handle unknown naming convention!");
-            default:
-                throw std::runtime_error("Invalid status: " + convention);
+    template <typename T, typename U>
+    void setScalarVariableAttributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
+        if (a.start) {
+            t.set_start(*a.start);
         }
     }
 
-    void grpcType(IntegerAttribute &attribute, const fmuproxy::fmi::IntegerAttribute &a) {
-        if (a.isStart_set()) {
-            attribute.set_start(a.getStart());
+    template <typename T, typename U>
+    void setBoundedScalarVariableAttributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
+        setScalarVariableAttributes<T, U>(t, a);
+        if (a.min) {
+            t.set_min(*a.min);
         }
-        if (a.isMin_set()) {
-            attribute.set_min(a.getMin());
+        if (a.max) {
+            t.set_max(*a.max);
         }
-        if (a.isMax_set()) {
-            attribute.set_max(a.getMax());
-        }
-    }
-
-    void grpcType(RealAttribute &attribute, const fmuproxy::fmi::RealAttribute &a) {
-        if (a.isStart_set()) {
-            attribute.set_start(a.getStart());
-        }
-        if (a.isMin_set()) {
-            attribute.set_min(a.getMin());
-        }
-        if (a.isMax_set()) {
-            attribute.set_max(a.getMax());
+        if (a.quantity) {
+            t.set_quantity(*a.quantity);
         }
     }
 
-    void grpcType(StringAttribute &attribute, const fmuproxy::fmi::StringAttribute &a) {
-        if (a.isStart_set()) {
-            attribute.set_start(a.getStart());
-        }
+    void grpcType(IntegerAttribute &attribute, const fmi4cpp::fmi2::IntegerAttribute &a) {
+        setBoundedScalarVariableAttributes<IntegerAttribute, int>(attribute, a);
     }
 
-    void grpcType( BooleanAttribute &attribute, const fmuproxy::fmi::BooleanAttribute &a) {
-        if (a.isStart_set()) {
-            attribute.set_start(a.getStart());
-        }
+    void grpcType(RealAttribute &attribute, const fmi4cpp::fmi2::RealAttribute &a) {
+        setBoundedScalarVariableAttributes<RealAttribute, double>(attribute, a);
     }
 
-    void grpcType(EnumerationAttribute &attribute, const fmuproxy::fmi::EnumerationAttribute &a) {
-        if (a.isStart_set()) {
-            attribute.set_start(a.getStart());
-        }
-        if (a.isMin_set()) {
-            attribute.set_min(a.getMin());
-        }
-        if (a.isMax_set()) {
-            attribute.set_max(a.getMax());
-        }
+    void grpcType(StringAttribute &attribute, const fmi4cpp::fmi2::StringAttribute &a) {
+        setScalarVariableAttributes<StringAttribute, std::string >(attribute, a);
     }
 
-    void grpcType(ScalarVariable &var, const fmuproxy::fmi::ScalarVariable &v) {
+    void grpcType(BooleanAttribute &attribute, const fmi4cpp::fmi2::BooleanAttribute &a) {
+        setScalarVariableAttributes<BooleanAttribute, bool>(attribute, a);
+    }
 
-        var.set_name(v.name);
-        var.set_value_reference(v.valueReference);
+    void grpcType(EnumerationAttribute &attribute, const fmi4cpp::fmi2::EnumerationAttribute &a) {
+        setBoundedScalarVariableAttributes<EnumerationAttribute, int>(attribute, a);
+    }
 
-        std::string description = v.description;
+    void grpcType(ScalarVariable &var, const fmi4cpp::fmi2::ScalarVariable &v) {
+
+        var.set_name(v.name());
+        var.set_value_reference(v.valueReference());
+
+        std::string description = v.description();
         if (!description.empty()) {
             var.set_description(description);
         }
 
-        var.set_causality(grpcType(v.causality));
-        var.set_variability(grpcType(v.variability));
-        var.set_initial(grpcType(v.initial));
+        var.set_causality(grpcType(v.causality()));
+        var.set_variability(grpcType(v.variability()));
+        var.set_initial(grpcType(v.initial()));
 
-        auto attribute = v.attribute;
-        if (attribute.isIntegerAttribute()) {
-            grpcType(*var.mutable_integer_attribute(), attribute.getIntegerAttribute());
-        } else if (attribute.isRealAttribute()) {
-            grpcType(*var.mutable_real_attribute(), attribute.getRealAttribute());
-        } else if (attribute.isStringAttribute()) {
-            grpcType(*var.mutable_string_attribute(), attribute.getStringAttribute());
-        } else if (attribute.isBooleanAttribute()) {
-            grpcType(*var.mutable_boolean_attribute(), attribute.getBooleanAttribute());
-        } else if (attribute.isEnumerationAttribute()) {
-            grpcType(*var.mutable_enumeration_attribute(), attribute.getEnumerationAttribute());
+        if (v.isInteger()) {
+            grpcType(*var.mutable_integer_attribute(), v.asInteger().attribute());
+        } else if (v.isReal()) {
+            grpcType(*var.mutable_real_attribute(), v.asReal().attribute());
+        } else if (v.isString()) {
+            grpcType(*var.mutable_string_attribute(), v.asString().attribute());
+        } else if (v.isBoolean()) {
+            grpcType(*var.mutable_boolean_attribute(), v.asBoolean().attribute());
+        } else if (v.isEnumeration()) {
+            grpcType(*var.mutable_enumeration_attribute(), v.asEnumeration().attribute());
         } else {
-            throw std::runtime_error("No valid attribute found..");
+            throw std::runtime_error("Fatal: No valid attribute found..");
         }
 
     }
 
-    void grpcType(ModelDescription &md, const fmuproxy::fmi::ModelDescription &m) {
+    void grpcType(ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
 
-        md.set_guid(m.guid);
-        md.set_version(m.version);
-        md.set_fmi_version(m.fmiVersion);
-        md.set_model_name(m.modelName);
-        md.set_author(m.author);
-        md.set_license(m.license);
-        md.set_copyright(m.copyright);
-        md.set_description(m.description);
-        md.set_generation_tool(m.generationTool);
-        md.set_generation_date_and_time(m.generationDateAndTime);
-        md.set_variable_naming_convention(grpcType(m.variableNamingConvention));
-        md.set_supports_co_simulation(true);
-        md.set_supports_model_exchange(false);
+        md.set_guid(m.guid());
+        md.set_fmi_version(m.fmiVersion());
+        md.set_model_name(m.modelName());
 
-        auto ex = md.default_experiment();
-        ex.set_start_time(m.defaultExperiment.startTime);
-        ex.set_stop_time(m.defaultExperiment.stopTime);
-        ex.set_tolerance(m.defaultExperiment.tolerance);
-        ex.set_step_size(m.defaultExperiment.stepSize);
+        if (m.license()) {
+            md.set_license(*m.license());
+        }
+        if (m.version()) {
+            md.set_version(*m.version());
+        }
+        if (m.author()) {
+            md.set_author(*m.author());
+        }
+        if (m.copyright()) {
+            md.set_copyright(*m.copyright());
+        }
+        if (m.description()) {
+            md.set_description(*m.description());
+        }
+        if (m.generationDateAndTime()) {
+            md.set_generation_date_and_time(*m.generationDateAndTime());
+        }
+        if (m.generationTool()) {
+            md.set_generation_tool(*m.generationTool());
+        }
+        if (m.variableNamingConvention()) {
+            md.set_variable_naming_convention(*m.variableNamingConvention());
+        }
 
-        for (const fmuproxy::fmi::ScalarVariable &var : m.modelVariables) {
+        if (m.defaultExperiment()) {
+            auto to = md.default_experiment();
+            auto from = *m.defaultExperiment();
+            if (from.startTime) {
+                to.set_start_time(*from.startTime);
+            }
+            if (from.stopTime) {
+                to.set_stop_time(*from.stopTime);
+            }
+            if (from.stepSize) {
+                to.set_step_size(*from.stepSize);
+            }
+            if (from.tolerance) {
+                to.set_tolerance(*from.tolerance);
+            }
+        }
+
+        for (const auto &var : *m.modelVariables()) {
             auto v = md.add_model_variables();
             grpcType(*v, var);
         }

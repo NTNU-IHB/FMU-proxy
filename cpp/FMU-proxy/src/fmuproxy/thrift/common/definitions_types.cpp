@@ -47,7 +47,8 @@ int _kCausalityValues[] = {
   Causality::PARAMETER_CAUSALITY,
   Causality::CALCULATED_PARAMETER_CAUSALITY,
   Causality::LOCAL_CAUSALITY,
-  Causality::INDEPENDENT_CAUSALITY
+  Causality::INDEPENDENT_CAUSALITY,
+  Causality::UNKNOWN_CAUSALITY
 };
 const char* _kCausalityNames[] = {
   "INPUT_CAUSALITY",
@@ -55,9 +56,10 @@ const char* _kCausalityNames[] = {
   "PARAMETER_CAUSALITY",
   "CALCULATED_PARAMETER_CAUSALITY",
   "LOCAL_CAUSALITY",
-  "INDEPENDENT_CAUSALITY"
+  "INDEPENDENT_CAUSALITY",
+  "UNKNOWN_CAUSALITY"
 };
-const std::map<int, const char*> _Causality_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(6, _kCausalityValues, _kCausalityNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _Causality_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(7, _kCausalityValues, _kCausalityNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 std::ostream& operator<<(std::ostream& out, const Causality::type& val) {
   std::map<int, const char*>::const_iterator it = _Causality_VALUES_TO_NAMES.find(val);
@@ -74,16 +76,18 @@ int _kVariabilityValues[] = {
   Variability::FIXED_VARIABILITY,
   Variability::CONTINUOUS_VARIABILITY,
   Variability::DISCRETE_VARIABILITY,
-  Variability::TUNABLE_VARIABILITY
+  Variability::TUNABLE_VARIABILITY,
+  Variability::UNKNOWN_VARIABILITY
 };
 const char* _kVariabilityNames[] = {
   "CONSTANT_VARIABILITY",
   "FIXED_VARIABILITY",
   "CONTINUOUS_VARIABILITY",
   "DISCRETE_VARIABILITY",
-  "TUNABLE_VARIABILITY"
+  "TUNABLE_VARIABILITY",
+  "UNKNOWN_VARIABILITY"
 };
-const std::map<int, const char*> _Variability_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(5, _kVariabilityValues, _kVariabilityNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _Variability_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(6, _kVariabilityValues, _kVariabilityNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 std::ostream& operator<<(std::ostream& out, const Variability::type& val) {
   std::map<int, const char*>::const_iterator it = _Variability_VALUES_TO_NAMES.find(val);
@@ -98,38 +102,20 @@ std::ostream& operator<<(std::ostream& out, const Variability::type& val) {
 int _kInitialValues[] = {
   Initial::EXACT_INITIAL,
   Initial::APPROX_INITIAL,
-  Initial::CALCULATED_INITIAL
+  Initial::CALCULATED_INITIAL,
+  Initial::UNKNOWN_INITIAL
 };
 const char* _kInitialNames[] = {
   "EXACT_INITIAL",
   "APPROX_INITIAL",
-  "CALCULATED_INITIAL"
+  "CALCULATED_INITIAL",
+  "UNKNOWN_INITIAL"
 };
-const std::map<int, const char*> _Initial_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kInitialValues, _kInitialNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+const std::map<int, const char*> _Initial_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(4, _kInitialValues, _kInitialNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
 std::ostream& operator<<(std::ostream& out, const Initial::type& val) {
   std::map<int, const char*>::const_iterator it = _Initial_VALUES_TO_NAMES.find(val);
   if (it != _Initial_VALUES_TO_NAMES.end()) {
-    out << it->second;
-  } else {
-    out << static_cast<int>(val);
-  }
-  return out;
-}
-
-int _kVariableNamingConventionValues[] = {
-  VariableNamingConvention::FLAT,
-  VariableNamingConvention::STRUCTURED
-};
-const char* _kVariableNamingConventionNames[] = {
-  "FLAT",
-  "STRUCTURED"
-};
-const std::map<int, const char*> _VariableNamingConvention_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kVariableNamingConventionValues, _kVariableNamingConventionNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
-
-std::ostream& operator<<(std::ostream& out, const VariableNamingConvention::type& val) {
-  std::map<int, const char*>::const_iterator it = _VariableNamingConvention_VALUES_TO_NAMES.find(val);
-  if (it != _VariableNamingConvention_VALUES_TO_NAMES.end()) {
     out << it->second;
   } else {
     out << static_cast<int>(val);
@@ -152,6 +138,10 @@ void IntegerAttribute::__set_max(const int32_t val) {
 
 void IntegerAttribute::__set_start(const int32_t val) {
   this->start = val;
+}
+
+void IntegerAttribute::__set_quantity(const std::string& val) {
+  this->quantity = val;
 }
 std::ostream& operator<<(std::ostream& out, const IntegerAttribute& obj)
 {
@@ -205,6 +195,14 @@ uint32_t IntegerAttribute::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->quantity);
+          this->__isset.quantity = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -234,6 +232,10 @@ uint32_t IntegerAttribute::write(::apache::thrift::protocol::TProtocol* oprot) c
   xfer += oprot->writeI32(this->start);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("quantity", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->quantity);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -244,6 +246,7 @@ void swap(IntegerAttribute &a, IntegerAttribute &b) {
   swap(a.min, b.min);
   swap(a.max, b.max);
   swap(a.start, b.start);
+  swap(a.quantity, b.quantity);
   swap(a.__isset, b.__isset);
 }
 
@@ -251,12 +254,14 @@ IntegerAttribute::IntegerAttribute(const IntegerAttribute& other0) {
   min = other0.min;
   max = other0.max;
   start = other0.start;
+  quantity = other0.quantity;
   __isset = other0.__isset;
 }
 IntegerAttribute& IntegerAttribute::operator=(const IntegerAttribute& other1) {
   min = other1.min;
   max = other1.max;
   start = other1.start;
+  quantity = other1.quantity;
   __isset = other1.__isset;
   return *this;
 }
@@ -266,6 +271,7 @@ void IntegerAttribute::printTo(std::ostream& out) const {
   out << "min=" << to_string(min);
   out << ", " << "max=" << to_string(max);
   out << ", " << "start=" << to_string(start);
+  out << ", " << "quantity=" << to_string(quantity);
   out << ")";
 }
 
@@ -284,6 +290,10 @@ void RealAttribute::__set_max(const double val) {
 
 void RealAttribute::__set_start(const double val) {
   this->start = val;
+}
+
+void RealAttribute::__set_quantity(const std::string& val) {
+  this->quantity = val;
 }
 std::ostream& operator<<(std::ostream& out, const RealAttribute& obj)
 {
@@ -337,6 +347,14 @@ uint32_t RealAttribute::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->quantity);
+          this->__isset.quantity = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -366,6 +384,10 @@ uint32_t RealAttribute::write(::apache::thrift::protocol::TProtocol* oprot) cons
   xfer += oprot->writeDouble(this->start);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("quantity", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->quantity);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -376,6 +398,7 @@ void swap(RealAttribute &a, RealAttribute &b) {
   swap(a.min, b.min);
   swap(a.max, b.max);
   swap(a.start, b.start);
+  swap(a.quantity, b.quantity);
   swap(a.__isset, b.__isset);
 }
 
@@ -383,12 +406,14 @@ RealAttribute::RealAttribute(const RealAttribute& other2) {
   min = other2.min;
   max = other2.max;
   start = other2.start;
+  quantity = other2.quantity;
   __isset = other2.__isset;
 }
 RealAttribute& RealAttribute::operator=(const RealAttribute& other3) {
   min = other3.min;
   max = other3.max;
   start = other3.start;
+  quantity = other3.quantity;
   __isset = other3.__isset;
   return *this;
 }
@@ -398,6 +423,7 @@ void RealAttribute::printTo(std::ostream& out) const {
   out << "min=" << to_string(min);
   out << ", " << "max=" << to_string(max);
   out << ", " << "start=" << to_string(start);
+  out << ", " << "quantity=" << to_string(quantity);
   out << ")";
 }
 
@@ -601,6 +627,10 @@ void EnumerationAttribute::__set_max(const int32_t val) {
 void EnumerationAttribute::__set_start(const int32_t val) {
   this->start = val;
 }
+
+void EnumerationAttribute::__set_quantity(const std::string& val) {
+  this->quantity = val;
+}
 std::ostream& operator<<(std::ostream& out, const EnumerationAttribute& obj)
 {
   obj.printTo(out);
@@ -653,6 +683,14 @@ uint32_t EnumerationAttribute::read(::apache::thrift::protocol::TProtocol* iprot
           xfer += iprot->skip(ftype);
         }
         break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->quantity);
+          this->__isset.quantity = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -682,6 +720,10 @@ uint32_t EnumerationAttribute::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI32(this->start);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("quantity", ::apache::thrift::protocol::T_STRING, 4);
+  xfer += oprot->writeString(this->quantity);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -692,6 +734,7 @@ void swap(EnumerationAttribute &a, EnumerationAttribute &b) {
   swap(a.min, b.min);
   swap(a.max, b.max);
   swap(a.start, b.start);
+  swap(a.quantity, b.quantity);
   swap(a.__isset, b.__isset);
 }
 
@@ -699,12 +742,14 @@ EnumerationAttribute::EnumerationAttribute(const EnumerationAttribute& other8) {
   min = other8.min;
   max = other8.max;
   start = other8.start;
+  quantity = other8.quantity;
   __isset = other8.__isset;
 }
 EnumerationAttribute& EnumerationAttribute::operator=(const EnumerationAttribute& other9) {
   min = other9.min;
   max = other9.max;
   start = other9.start;
+  quantity = other9.quantity;
   __isset = other9.__isset;
   return *this;
 }
@@ -714,6 +759,7 @@ void EnumerationAttribute::printTo(std::ostream& out) const {
   out << "min=" << to_string(min);
   out << ", " << "max=" << to_string(max);
   out << ", " << "start=" << to_string(start);
+  out << ", " << "quantity=" << to_string(quantity);
   out << ")";
 }
 
@@ -904,7 +950,7 @@ ScalarVariable::~ScalarVariable() throw() {
 }
 
 
-void ScalarVariable::__set_valueReference(const int32_t val) {
+void ScalarVariable::__set_valueReference(const int64_t val) {
   this->valueReference = val;
 }
 
@@ -915,11 +961,6 @@ void ScalarVariable::__set_name(const std::string& val) {
 void ScalarVariable::__set_description(const std::string& val) {
   this->description = val;
 __isset.description = true;
-}
-
-void ScalarVariable::__set_declaredType(const std::string& val) {
-  this->declaredType = val;
-__isset.declaredType = true;
 }
 
 void ScalarVariable::__set_initial(const Initial::type val) {
@@ -969,8 +1010,8 @@ uint32_t ScalarVariable::read(::apache::thrift::protocol::TProtocol* iprot) {
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->valueReference);
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->valueReference);
           this->__isset.valueReference = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -993,14 +1034,6 @@ uint32_t ScalarVariable::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 4:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->declaredType);
-          this->__isset.declaredType = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 5:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           int32_t ecast12;
           xfer += iprot->readI32(ecast12);
@@ -1010,7 +1043,7 @@ uint32_t ScalarVariable::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 6:
+      case 5:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           int32_t ecast13;
           xfer += iprot->readI32(ecast13);
@@ -1020,7 +1053,7 @@ uint32_t ScalarVariable::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 7:
+      case 6:
         if (ftype == ::apache::thrift::protocol::T_I32) {
           int32_t ecast14;
           xfer += iprot->readI32(ecast14);
@@ -1030,7 +1063,7 @@ uint32_t ScalarVariable::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 8:
+      case 7:
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
           xfer += this->attribute.read(iprot);
           this->__isset.attribute = true;
@@ -1055,8 +1088,8 @@ uint32_t ScalarVariable::write(::apache::thrift::protocol::TProtocol* oprot) con
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("ScalarVariable");
 
-  xfer += oprot->writeFieldBegin("valueReference", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->valueReference);
+  xfer += oprot->writeFieldBegin("valueReference", ::apache::thrift::protocol::T_I64, 1);
+  xfer += oprot->writeI64(this->valueReference);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 2);
@@ -1068,27 +1101,22 @@ uint32_t ScalarVariable::write(::apache::thrift::protocol::TProtocol* oprot) con
     xfer += oprot->writeString(this->description);
     xfer += oprot->writeFieldEnd();
   }
-  if (this->__isset.declaredType) {
-    xfer += oprot->writeFieldBegin("declaredType", ::apache::thrift::protocol::T_STRING, 4);
-    xfer += oprot->writeString(this->declaredType);
-    xfer += oprot->writeFieldEnd();
-  }
   if (this->__isset.initial) {
-    xfer += oprot->writeFieldBegin("initial", ::apache::thrift::protocol::T_I32, 5);
+    xfer += oprot->writeFieldBegin("initial", ::apache::thrift::protocol::T_I32, 4);
     xfer += oprot->writeI32((int32_t)this->initial);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.causality) {
-    xfer += oprot->writeFieldBegin("causality", ::apache::thrift::protocol::T_I32, 6);
+    xfer += oprot->writeFieldBegin("causality", ::apache::thrift::protocol::T_I32, 5);
     xfer += oprot->writeI32((int32_t)this->causality);
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.variability) {
-    xfer += oprot->writeFieldBegin("variability", ::apache::thrift::protocol::T_I32, 7);
+    xfer += oprot->writeFieldBegin("variability", ::apache::thrift::protocol::T_I32, 6);
     xfer += oprot->writeI32((int32_t)this->variability);
     xfer += oprot->writeFieldEnd();
   }
-  xfer += oprot->writeFieldBegin("attribute", ::apache::thrift::protocol::T_STRUCT, 8);
+  xfer += oprot->writeFieldBegin("attribute", ::apache::thrift::protocol::T_STRUCT, 7);
   xfer += this->attribute.write(oprot);
   xfer += oprot->writeFieldEnd();
 
@@ -1102,7 +1130,6 @@ void swap(ScalarVariable &a, ScalarVariable &b) {
   swap(a.valueReference, b.valueReference);
   swap(a.name, b.name);
   swap(a.description, b.description);
-  swap(a.declaredType, b.declaredType);
   swap(a.initial, b.initial);
   swap(a.causality, b.causality);
   swap(a.variability, b.variability);
@@ -1114,7 +1141,6 @@ ScalarVariable::ScalarVariable(const ScalarVariable& other15) {
   valueReference = other15.valueReference;
   name = other15.name;
   description = other15.description;
-  declaredType = other15.declaredType;
   initial = other15.initial;
   causality = other15.causality;
   variability = other15.variability;
@@ -1125,7 +1151,6 @@ ScalarVariable& ScalarVariable::operator=(const ScalarVariable& other16) {
   valueReference = other16.valueReference;
   name = other16.name;
   description = other16.description;
-  declaredType = other16.declaredType;
   initial = other16.initial;
   causality = other16.causality;
   variability = other16.variability;
@@ -1139,7 +1164,6 @@ void ScalarVariable::printTo(std::ostream& out) const {
   out << "valueReference=" << to_string(valueReference);
   out << ", " << "name=" << to_string(name);
   out << ", " << "description="; (__isset.description ? (out << to_string(description)) : (out << "<null>"));
-  out << ", " << "declaredType="; (__isset.declaredType ? (out << to_string(declaredType)) : (out << "<null>"));
   out << ", " << "initial="; (__isset.initial ? (out << to_string(initial)) : (out << "<null>"));
   out << ", " << "causality="; (__isset.causality ? (out << to_string(causality)) : (out << "<null>"));
   out << ", " << "variability="; (__isset.variability ? (out << to_string(variability)) : (out << "<null>"));
@@ -2462,7 +2486,7 @@ void ModelDescription::__set_defaultExperiment(const DefaultExperiment& val) {
 __isset.defaultExperiment = true;
 }
 
-void ModelDescription::__set_variableNamingConvention(const VariableNamingConvention::type val) {
+void ModelDescription::__set_variableNamingConvention(const std::string& val) {
   this->variableNamingConvention = val;
 __isset.variableNamingConvention = true;
 }
@@ -2473,14 +2497,6 @@ void ModelDescription::__set_modelVariables(const ModelVariables& val) {
 
 void ModelDescription::__set_modelStructure(const ModelStructure& val) {
   this->modelStructure = val;
-}
-
-void ModelDescription::__set_supportsCoSimulation(const bool val) {
-  this->supportsCoSimulation = val;
-}
-
-void ModelDescription::__set_supportsModelExchange(const bool val) {
-  this->supportsModelExchange = val;
 }
 std::ostream& operator<<(std::ostream& out, const ModelDescription& obj)
 {
@@ -2599,10 +2615,8 @@ uint32_t ModelDescription::read(::apache::thrift::protocol::TProtocol* iprot) {
         }
         break;
       case 12:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast88;
-          xfer += iprot->readI32(ecast88);
-          this->variableNamingConvention = (VariableNamingConvention::type)ecast88;
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->variableNamingConvention);
           this->__isset.variableNamingConvention = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -2612,14 +2626,14 @@ uint32_t ModelDescription::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->modelVariables.clear();
-            uint32_t _size89;
-            ::apache::thrift::protocol::TType _etype92;
-            xfer += iprot->readListBegin(_etype92, _size89);
-            this->modelVariables.resize(_size89);
-            uint32_t _i93;
-            for (_i93 = 0; _i93 < _size89; ++_i93)
+            uint32_t _size88;
+            ::apache::thrift::protocol::TType _etype91;
+            xfer += iprot->readListBegin(_etype91, _size88);
+            this->modelVariables.resize(_size88);
+            uint32_t _i92;
+            for (_i92 = 0; _i92 < _size88; ++_i92)
             {
-              xfer += this->modelVariables[_i93].read(iprot);
+              xfer += this->modelVariables[_i92].read(iprot);
             }
             xfer += iprot->readListEnd();
           }
@@ -2632,22 +2646,6 @@ uint32_t ModelDescription::read(::apache::thrift::protocol::TProtocol* iprot) {
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
           xfer += this->modelStructure.read(iprot);
           this->__isset.modelStructure = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 15:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->supportsCoSimulation);
-          this->__isset.supportsCoSimulation = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 16:
-        if (ftype == ::apache::thrift::protocol::T_BOOL) {
-          xfer += iprot->readBool(this->supportsModelExchange);
-          this->__isset.supportsModelExchange = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -2722,17 +2720,17 @@ uint32_t ModelDescription::write(::apache::thrift::protocol::TProtocol* oprot) c
     xfer += oprot->writeFieldEnd();
   }
   if (this->__isset.variableNamingConvention) {
-    xfer += oprot->writeFieldBegin("variableNamingConvention", ::apache::thrift::protocol::T_I32, 12);
-    xfer += oprot->writeI32((int32_t)this->variableNamingConvention);
+    xfer += oprot->writeFieldBegin("variableNamingConvention", ::apache::thrift::protocol::T_STRING, 12);
+    xfer += oprot->writeString(this->variableNamingConvention);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldBegin("modelVariables", ::apache::thrift::protocol::T_LIST, 13);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->modelVariables.size()));
-    std::vector<ScalarVariable> ::const_iterator _iter94;
-    for (_iter94 = this->modelVariables.begin(); _iter94 != this->modelVariables.end(); ++_iter94)
+    std::vector<ScalarVariable> ::const_iterator _iter93;
+    for (_iter93 = this->modelVariables.begin(); _iter93 != this->modelVariables.end(); ++_iter93)
     {
-      xfer += (*_iter94).write(oprot);
+      xfer += (*_iter93).write(oprot);
     }
     xfer += oprot->writeListEnd();
   }
@@ -2740,14 +2738,6 @@ uint32_t ModelDescription::write(::apache::thrift::protocol::TProtocol* oprot) c
 
   xfer += oprot->writeFieldBegin("modelStructure", ::apache::thrift::protocol::T_STRUCT, 14);
   xfer += this->modelStructure.write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("supportsCoSimulation", ::apache::thrift::protocol::T_BOOL, 15);
-  xfer += oprot->writeBool(this->supportsCoSimulation);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("supportsModelExchange", ::apache::thrift::protocol::T_BOOL, 16);
-  xfer += oprot->writeBool(this->supportsModelExchange);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2771,12 +2761,27 @@ void swap(ModelDescription &a, ModelDescription &b) {
   swap(a.variableNamingConvention, b.variableNamingConvention);
   swap(a.modelVariables, b.modelVariables);
   swap(a.modelStructure, b.modelStructure);
-  swap(a.supportsCoSimulation, b.supportsCoSimulation);
-  swap(a.supportsModelExchange, b.supportsModelExchange);
   swap(a.__isset, b.__isset);
 }
 
-ModelDescription::ModelDescription(const ModelDescription& other95) {
+ModelDescription::ModelDescription(const ModelDescription& other94) {
+  guid = other94.guid;
+  fmiVersion = other94.fmiVersion;
+  modelName = other94.modelName;
+  license = other94.license;
+  copyright = other94.copyright;
+  author = other94.author;
+  version = other94.version;
+  description = other94.description;
+  generationTool = other94.generationTool;
+  generationDateAndTime = other94.generationDateAndTime;
+  defaultExperiment = other94.defaultExperiment;
+  variableNamingConvention = other94.variableNamingConvention;
+  modelVariables = other94.modelVariables;
+  modelStructure = other94.modelStructure;
+  __isset = other94.__isset;
+}
+ModelDescription& ModelDescription::operator=(const ModelDescription& other95) {
   guid = other95.guid;
   fmiVersion = other95.fmiVersion;
   modelName = other95.modelName;
@@ -2791,28 +2796,7 @@ ModelDescription::ModelDescription(const ModelDescription& other95) {
   variableNamingConvention = other95.variableNamingConvention;
   modelVariables = other95.modelVariables;
   modelStructure = other95.modelStructure;
-  supportsCoSimulation = other95.supportsCoSimulation;
-  supportsModelExchange = other95.supportsModelExchange;
   __isset = other95.__isset;
-}
-ModelDescription& ModelDescription::operator=(const ModelDescription& other96) {
-  guid = other96.guid;
-  fmiVersion = other96.fmiVersion;
-  modelName = other96.modelName;
-  license = other96.license;
-  copyright = other96.copyright;
-  author = other96.author;
-  version = other96.version;
-  description = other96.description;
-  generationTool = other96.generationTool;
-  generationDateAndTime = other96.generationDateAndTime;
-  defaultExperiment = other96.defaultExperiment;
-  variableNamingConvention = other96.variableNamingConvention;
-  modelVariables = other96.modelVariables;
-  modelStructure = other96.modelStructure;
-  supportsCoSimulation = other96.supportsCoSimulation;
-  supportsModelExchange = other96.supportsModelExchange;
-  __isset = other96.__isset;
   return *this;
 }
 void ModelDescription::printTo(std::ostream& out) const {
@@ -2832,8 +2816,218 @@ void ModelDescription::printTo(std::ostream& out) const {
   out << ", " << "variableNamingConvention="; (__isset.variableNamingConvention ? (out << to_string(variableNamingConvention)) : (out << "<null>"));
   out << ", " << "modelVariables=" << to_string(modelVariables);
   out << ", " << "modelStructure=" << to_string(modelStructure);
-  out << ", " << "supportsCoSimulation=" << to_string(supportsCoSimulation);
-  out << ", " << "supportsModelExchange=" << to_string(supportsModelExchange);
+  out << ")";
+}
+
+
+CoSimulationAttributes::~CoSimulationAttributes() throw() {
+}
+
+
+void CoSimulationAttributes::__set_modelIdentifier(const std::string& val) {
+  this->modelIdentifier = val;
+}
+
+void CoSimulationAttributes::__set_canGetAndSetFMUstate(const bool val) {
+  this->canGetAndSetFMUstate = val;
+}
+
+void CoSimulationAttributes::__set_canSerializeFMUstate(const bool val) {
+  this->canSerializeFMUstate = val;
+}
+
+void CoSimulationAttributes::__set_providesDirectionalDerivative(const bool val) {
+  this->providesDirectionalDerivative = val;
+}
+
+void CoSimulationAttributes::__set_canHandleVariableCommunicationStepSize(const bool val) {
+  this->canHandleVariableCommunicationStepSize = val;
+}
+
+void CoSimulationAttributes::__set_canInterpolateInputs(const bool val) {
+  this->canInterpolateInputs = val;
+}
+
+void CoSimulationAttributes::__set_maxOutputDerivativeOrder(const int32_t val) {
+  this->maxOutputDerivativeOrder = val;
+}
+std::ostream& operator<<(std::ostream& out, const CoSimulationAttributes& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+uint32_t CoSimulationAttributes::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->modelIdentifier);
+          this->__isset.modelIdentifier = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->canGetAndSetFMUstate);
+          this->__isset.canGetAndSetFMUstate = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->canSerializeFMUstate);
+          this->__isset.canSerializeFMUstate = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->providesDirectionalDerivative);
+          this->__isset.providesDirectionalDerivative = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->canHandleVariableCommunicationStepSize);
+          this->__isset.canHandleVariableCommunicationStepSize = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->canInterpolateInputs);
+          this->__isset.canInterpolateInputs = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->maxOutputDerivativeOrder);
+          this->__isset.maxOutputDerivativeOrder = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t CoSimulationAttributes::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("CoSimulationAttributes");
+
+  xfer += oprot->writeFieldBegin("modelIdentifier", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->modelIdentifier);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("canGetAndSetFMUstate", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->canGetAndSetFMUstate);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("canSerializeFMUstate", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool(this->canSerializeFMUstate);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("providesDirectionalDerivative", ::apache::thrift::protocol::T_BOOL, 4);
+  xfer += oprot->writeBool(this->providesDirectionalDerivative);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("canHandleVariableCommunicationStepSize", ::apache::thrift::protocol::T_BOOL, 5);
+  xfer += oprot->writeBool(this->canHandleVariableCommunicationStepSize);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("canInterpolateInputs", ::apache::thrift::protocol::T_BOOL, 6);
+  xfer += oprot->writeBool(this->canInterpolateInputs);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("maxOutputDerivativeOrder", ::apache::thrift::protocol::T_I32, 7);
+  xfer += oprot->writeI32(this->maxOutputDerivativeOrder);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(CoSimulationAttributes &a, CoSimulationAttributes &b) {
+  using ::std::swap;
+  swap(a.modelIdentifier, b.modelIdentifier);
+  swap(a.canGetAndSetFMUstate, b.canGetAndSetFMUstate);
+  swap(a.canSerializeFMUstate, b.canSerializeFMUstate);
+  swap(a.providesDirectionalDerivative, b.providesDirectionalDerivative);
+  swap(a.canHandleVariableCommunicationStepSize, b.canHandleVariableCommunicationStepSize);
+  swap(a.canInterpolateInputs, b.canInterpolateInputs);
+  swap(a.maxOutputDerivativeOrder, b.maxOutputDerivativeOrder);
+  swap(a.__isset, b.__isset);
+}
+
+CoSimulationAttributes::CoSimulationAttributes(const CoSimulationAttributes& other96) {
+  modelIdentifier = other96.modelIdentifier;
+  canGetAndSetFMUstate = other96.canGetAndSetFMUstate;
+  canSerializeFMUstate = other96.canSerializeFMUstate;
+  providesDirectionalDerivative = other96.providesDirectionalDerivative;
+  canHandleVariableCommunicationStepSize = other96.canHandleVariableCommunicationStepSize;
+  canInterpolateInputs = other96.canInterpolateInputs;
+  maxOutputDerivativeOrder = other96.maxOutputDerivativeOrder;
+  __isset = other96.__isset;
+}
+CoSimulationAttributes& CoSimulationAttributes::operator=(const CoSimulationAttributes& other97) {
+  modelIdentifier = other97.modelIdentifier;
+  canGetAndSetFMUstate = other97.canGetAndSetFMUstate;
+  canSerializeFMUstate = other97.canSerializeFMUstate;
+  providesDirectionalDerivative = other97.providesDirectionalDerivative;
+  canHandleVariableCommunicationStepSize = other97.canHandleVariableCommunicationStepSize;
+  canInterpolateInputs = other97.canInterpolateInputs;
+  maxOutputDerivativeOrder = other97.maxOutputDerivativeOrder;
+  __isset = other97.__isset;
+  return *this;
+}
+void CoSimulationAttributes::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "CoSimulationAttributes(";
+  out << "modelIdentifier=" << to_string(modelIdentifier);
+  out << ", " << "canGetAndSetFMUstate=" << to_string(canGetAndSetFMUstate);
+  out << ", " << "canSerializeFMUstate=" << to_string(canSerializeFMUstate);
+  out << ", " << "providesDirectionalDerivative=" << to_string(providesDirectionalDerivative);
+  out << ", " << "canHandleVariableCommunicationStepSize=" << to_string(canHandleVariableCommunicationStepSize);
+  out << ", " << "canInterpolateInputs=" << to_string(canInterpolateInputs);
+  out << ", " << "maxOutputDerivativeOrder=" << to_string(maxOutputDerivativeOrder);
   out << ")";
 }
 

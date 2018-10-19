@@ -27,22 +27,21 @@
 
 #include <vector>
 #include <unordered_map>
+
+#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+
 #include "../common/FmuService.h"
-#include "../../fmi/Fmu.hpp"
-#include "../../fmi/FmuSlave.hpp"
 
 namespace fmuproxy::thrift::server {
 
     class FmuServiceHandler : virtual public FmuServiceIf {
 
     private:
-        std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus_;
-        std::unordered_map<InstanceId, std::unique_ptr<fmi::FmuSlave>> slaves_;
+        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus_;
+        std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::fmi2::FmuSlave>> slaves_;
 
     public:
-        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi::Fmu>> &fmus);
-
-        void getModelDescriptionXml(std::string &_return, const FmuId &fmu_id) override;
+        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus);
 
         void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
 
@@ -80,14 +79,10 @@ namespace fmuproxy::thrift::server {
                 const RealArray &value) override;
 
         Status::type writeString(const InstanceId &instance_id, const ValueReferences &vr,
-                const StringArray &value) override;
+                const StringArray &values) override;
 
         Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr,
                 const BooleanArray &value) override;
-
-        bool canGetAndSetFMUstate(const InstanceId &instance_id) override;
-
-        bool canSerializeFMUstate(const InstanceId &instance_id) override;
 
         void getFMUstate(GetFmuStateResult &_return, const InstanceId &instance_id) override;
 
@@ -100,6 +95,13 @@ namespace fmuproxy::thrift::server {
 
         void deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &instance_id,
                                  const std::string &state) override;
+
+        void getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
+                                       const InstanceId &instanceId) override;
+
+        bool canCreateInstanceFromCS(const FmuId &fmuId) override;
+
+        bool canCreateInstanceFromME(const FmuId &fmuId) override;
 
     };
 

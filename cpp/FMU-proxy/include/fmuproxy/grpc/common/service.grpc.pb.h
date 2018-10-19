@@ -66,12 +66,26 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescription>> PrepareAsyncGetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescription>>(PrepareAsyncGetModelDescriptionRaw(context, request, cq));
     }
-    virtual ::grpc::Status GetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::fmuproxy::grpc::ModelDescriptionXml* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescriptionXml>> AsyncGetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescriptionXml>>(AsyncGetModelDescriptionXmlRaw(context, request, cq));
+    virtual ::grpc::Status GetCoSimulationAttributes(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::fmuproxy::grpc::CoSimulationAttributes* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::CoSimulationAttributes>> AsyncGetCoSimulationAttributes(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::CoSimulationAttributes>>(AsyncGetCoSimulationAttributesRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescriptionXml>> PrepareAsyncGetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescriptionXml>>(PrepareAsyncGetModelDescriptionXmlRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::CoSimulationAttributes>> PrepareAsyncGetCoSimulationAttributes(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::CoSimulationAttributes>>(PrepareAsyncGetCoSimulationAttributesRaw(context, request, cq));
+    }
+    virtual ::grpc::Status CanCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::fmuproxy::grpc::Bool* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> AsyncCanCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(AsyncCanCreateInstanceFromCSRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> PrepareAsyncCanCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanCreateInstanceFromCSRaw(context, request, cq));
+    }
+    virtual ::grpc::Status CanCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::fmuproxy::grpc::Bool* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> AsyncCanCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(AsyncCanCreateInstanceFromMERaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> PrepareAsyncCanCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanCreateInstanceFromMERaw(context, request, cq));
     }
     virtual ::grpc::Status CreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::fmuproxy::grpc::InstanceId* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::InstanceId>> AsyncCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) {
@@ -171,20 +185,6 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::StatusResponse>> PrepareAsyncWriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::StatusResponse>>(PrepareAsyncWriteBooleanRaw(context, request, cq));
     }
-    virtual ::grpc::Status CanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::fmuproxy::grpc::Bool* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> AsyncCanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(AsyncCanGetAndSetFMUstateRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> PrepareAsyncCanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanGetAndSetFMUstateRaw(context, request, cq));
-    }
-    virtual ::grpc::Status CanSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::fmuproxy::grpc::Bool* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> AsyncCanSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(AsyncCanSerializeFMUstateRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>> PrepareAsyncCanSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanSerializeFMUstateRaw(context, request, cq));
-    }
     virtual ::grpc::Status GetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::fmuproxy::grpc::GetFMUstateResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetFMUstateResponse>> AsyncGetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetFMUstateResponse>>(AsyncGetFMUstateRaw(context, request, cq));
@@ -223,8 +223,12 @@ class FmuService final {
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescription>* AsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescription>* PrepareAsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescriptionXml>* AsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescriptionXml>* PrepareAsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::CoSimulationAttributes>* AsyncGetCoSimulationAttributesRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::CoSimulationAttributes>* PrepareAsyncGetCoSimulationAttributesRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* AsyncCanCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* PrepareAsyncCanCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* AsyncCanCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* PrepareAsyncCanCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::InstanceId>* AsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::InstanceId>* PrepareAsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::InstanceId>* AsyncCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -253,10 +257,6 @@ class FmuService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::StatusResponse>* PrepareAsyncWriteStringRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteStringRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::StatusResponse>* AsyncWriteBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::StatusResponse>* PrepareAsyncWriteBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* AsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* PrepareAsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* AsyncCanSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::Bool>* PrepareAsyncCanSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetFMUstateResponse>* AsyncGetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetFMUstateResponse>* PrepareAsyncGetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::StatusResponse>* AsyncSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -278,12 +278,26 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>> PrepareAsyncGetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>>(PrepareAsyncGetModelDescriptionRaw(context, request, cq));
     }
-    ::grpc::Status GetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::fmuproxy::grpc::ModelDescriptionXml* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescriptionXml>> AsyncGetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescriptionXml>>(AsyncGetModelDescriptionXmlRaw(context, request, cq));
+    ::grpc::Status GetCoSimulationAttributes(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::fmuproxy::grpc::CoSimulationAttributes* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::CoSimulationAttributes>> AsyncGetCoSimulationAttributes(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::CoSimulationAttributes>>(AsyncGetCoSimulationAttributesRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescriptionXml>> PrepareAsyncGetModelDescriptionXml(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescriptionXml>>(PrepareAsyncGetModelDescriptionXmlRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::CoSimulationAttributes>> PrepareAsyncGetCoSimulationAttributes(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::CoSimulationAttributes>>(PrepareAsyncGetCoSimulationAttributesRaw(context, request, cq));
+    }
+    ::grpc::Status CanCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::fmuproxy::grpc::Bool* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> AsyncCanCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(AsyncCanCreateInstanceFromCSRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> PrepareAsyncCanCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanCreateInstanceFromCSRaw(context, request, cq));
+    }
+    ::grpc::Status CanCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::fmuproxy::grpc::Bool* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> AsyncCanCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(AsyncCanCreateInstanceFromMERaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> PrepareAsyncCanCreateInstanceFromME(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanCreateInstanceFromMERaw(context, request, cq));
     }
     ::grpc::Status CreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::fmuproxy::grpc::InstanceId* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::InstanceId>> AsyncCreateInstanceFromCS(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) {
@@ -383,20 +397,6 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>> PrepareAsyncWriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>>(PrepareAsyncWriteBooleanRaw(context, request, cq));
     }
-    ::grpc::Status CanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::fmuproxy::grpc::Bool* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> AsyncCanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(AsyncCanGetAndSetFMUstateRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> PrepareAsyncCanGetAndSetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanGetAndSetFMUstateRaw(context, request, cq));
-    }
-    ::grpc::Status CanSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::fmuproxy::grpc::Bool* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> AsyncCanSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(AsyncCanSerializeFMUstateRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>> PrepareAsyncCanSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>>(PrepareAsyncCanSerializeFMUstateRaw(context, request, cq));
-    }
     ::grpc::Status GetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::fmuproxy::grpc::GetFMUstateResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetFMUstateResponse>> AsyncGetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetFMUstateResponse>>(AsyncGetFMUstateRaw(context, request, cq));
@@ -437,8 +437,12 @@ class FmuService final {
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>* AsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescription>* PrepareAsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescriptionXml>* AsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::ModelDescriptionXml>* PrepareAsyncGetModelDescriptionXmlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::CoSimulationAttributes>* AsyncGetCoSimulationAttributesRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::CoSimulationAttributes>* PrepareAsyncGetCoSimulationAttributesRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* AsyncCanCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* PrepareAsyncCanCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* AsyncCanCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* PrepareAsyncCanCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::InstanceId>* AsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::InstanceId>* PrepareAsyncCreateInstanceFromCSRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::InstanceId>* AsyncCreateInstanceFromMERaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceFromMERequest& request, ::grpc::CompletionQueue* cq) override;
@@ -467,10 +471,6 @@ class FmuService final {
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* PrepareAsyncWriteStringRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteStringRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* AsyncWriteBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* PrepareAsyncWriteBooleanRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* AsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* PrepareAsyncCanGetAndSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* AsyncCanSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::Bool>* PrepareAsyncCanSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetFMUstateResponse>* AsyncGetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetFMUstateResponse>* PrepareAsyncGetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* AsyncSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -482,7 +482,9 @@ class FmuService final {
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* AsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* PrepareAsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_GetModelDescription_;
-    const ::grpc::internal::RpcMethod rpcmethod_GetModelDescriptionXml_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetCoSimulationAttributes_;
+    const ::grpc::internal::RpcMethod rpcmethod_CanCreateInstanceFromCS_;
+    const ::grpc::internal::RpcMethod rpcmethod_CanCreateInstanceFromME_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateInstanceFromCS_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateInstanceFromME_;
     const ::grpc::internal::RpcMethod rpcmethod_Init_;
@@ -497,8 +499,6 @@ class FmuService final {
     const ::grpc::internal::RpcMethod rpcmethod_WriteReal_;
     const ::grpc::internal::RpcMethod rpcmethod_WriteString_;
     const ::grpc::internal::RpcMethod rpcmethod_WriteBoolean_;
-    const ::grpc::internal::RpcMethod rpcmethod_CanGetAndSetFMUstate_;
-    const ::grpc::internal::RpcMethod rpcmethod_CanSerializeFMUstate_;
     const ::grpc::internal::RpcMethod rpcmethod_GetFMUstate_;
     const ::grpc::internal::RpcMethod rpcmethod_SetFMUstate_;
     const ::grpc::internal::RpcMethod rpcmethod_FreeFMUstate_;
@@ -512,7 +512,9 @@ class FmuService final {
     Service();
     virtual ~Service();
     virtual ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response);
-    virtual ::grpc::Status GetModelDescriptionXml(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest* request, ::fmuproxy::grpc::ModelDescriptionXml* response);
+    virtual ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest* request, ::fmuproxy::grpc::CoSimulationAttributes* response);
+    virtual ::grpc::Status CanCreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request, ::fmuproxy::grpc::Bool* response);
+    virtual ::grpc::Status CanCreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest* request, ::fmuproxy::grpc::Bool* response);
     virtual ::grpc::Status CreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceFromCSRequest* request, ::fmuproxy::grpc::InstanceId* response);
     virtual ::grpc::Status CreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceFromMERequest* request, ::fmuproxy::grpc::InstanceId* response);
     virtual ::grpc::Status Init(::grpc::ServerContext* context, const ::fmuproxy::grpc::InitRequest* request, ::fmuproxy::grpc::StatusResponse* response);
@@ -527,8 +529,6 @@ class FmuService final {
     virtual ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response);
     virtual ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response);
     virtual ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response);
-    virtual ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest* request, ::fmuproxy::grpc::Bool* response);
-    virtual ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest* request, ::fmuproxy::grpc::Bool* response);
     virtual ::grpc::Status GetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetFMUstateRequest* request, ::fmuproxy::grpc::GetFMUstateResponse* response);
     virtual ::grpc::Status SetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetFMUstateRequest* request, ::fmuproxy::grpc::StatusResponse* response);
     virtual ::grpc::Status FreeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::FreeFMUstateRequest* request, ::fmuproxy::grpc::StatusResponse* response);
@@ -556,23 +556,63 @@ class FmuService final {
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_GetModelDescriptionXml : public BaseClass {
+  class WithAsyncMethod_GetCoSimulationAttributes : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_GetModelDescriptionXml() {
+    WithAsyncMethod_GetCoSimulationAttributes() {
       ::grpc::Service::MarkMethodAsync(1);
     }
-    ~WithAsyncMethod_GetModelDescriptionXml() override {
+    ~WithAsyncMethod_GetCoSimulationAttributes() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescriptionXml(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest* request, ::fmuproxy::grpc::ModelDescriptionXml* response) override {
+    ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest* request, ::fmuproxy::grpc::CoSimulationAttributes* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestGetModelDescriptionXml(::grpc::ServerContext* context, ::fmuproxy::grpc::GetModelDescriptionXmlRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::ModelDescriptionXml>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestGetCoSimulationAttributes(::grpc::ServerContext* context, ::fmuproxy::grpc::GetCoSimulationAttributesRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::CoSimulationAttributes>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_CanCreateInstanceFromCS : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_CanCreateInstanceFromCS() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_CanCreateInstanceFromCS() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CanCreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCanCreateInstanceFromCS(::grpc::ServerContext* context, ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::Bool>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_CanCreateInstanceFromME : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_CanCreateInstanceFromME() {
+      ::grpc::Service::MarkMethodAsync(3);
+    }
+    ~WithAsyncMethod_CanCreateInstanceFromME() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CanCreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCanCreateInstanceFromME(::grpc::ServerContext* context, ::fmuproxy::grpc::CanCreateInstanceFromMERequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::Bool>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -581,7 +621,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_CreateInstanceFromCS() {
-      ::grpc::Service::MarkMethodAsync(2);
+      ::grpc::Service::MarkMethodAsync(4);
     }
     ~WithAsyncMethod_CreateInstanceFromCS() override {
       BaseClassMustBeDerivedFromService(this);
@@ -592,7 +632,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateInstanceFromCS(::grpc::ServerContext* context, ::fmuproxy::grpc::CreateInstanceFromCSRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::InstanceId>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -601,7 +641,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_CreateInstanceFromME() {
-      ::grpc::Service::MarkMethodAsync(3);
+      ::grpc::Service::MarkMethodAsync(5);
     }
     ~WithAsyncMethod_CreateInstanceFromME() override {
       BaseClassMustBeDerivedFromService(this);
@@ -612,7 +652,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateInstanceFromME(::grpc::ServerContext* context, ::fmuproxy::grpc::CreateInstanceFromMERequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::InstanceId>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -621,7 +661,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_Init() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_Init() override {
       BaseClassMustBeDerivedFromService(this);
@@ -632,7 +672,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestInit(::grpc::ServerContext* context, ::fmuproxy::grpc::InitRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -641,7 +681,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_Step() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_Step() override {
       BaseClassMustBeDerivedFromService(this);
@@ -652,7 +692,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStep(::grpc::ServerContext* context, ::fmuproxy::grpc::StepRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StepResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -661,7 +701,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_Reset() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_Reset() override {
       BaseClassMustBeDerivedFromService(this);
@@ -672,7 +712,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReset(::grpc::ServerContext* context, ::fmuproxy::grpc::ResetRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -681,7 +721,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_Terminate() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(9);
     }
     ~WithAsyncMethod_Terminate() override {
       BaseClassMustBeDerivedFromService(this);
@@ -692,7 +732,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestTerminate(::grpc::ServerContext* context, ::fmuproxy::grpc::TerminateRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -701,7 +741,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadInteger() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(10);
     }
     ~WithAsyncMethod_ReadInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -712,7 +752,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadInteger(::grpc::ServerContext* context, ::fmuproxy::grpc::ReadRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::IntegerRead>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -721,7 +761,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadReal() {
-      ::grpc::Service::MarkMethodAsync(9);
+      ::grpc::Service::MarkMethodAsync(11);
     }
     ~WithAsyncMethod_ReadReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -732,7 +772,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadReal(::grpc::ServerContext* context, ::fmuproxy::grpc::ReadRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::RealRead>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -741,7 +781,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadString() {
-      ::grpc::Service::MarkMethodAsync(10);
+      ::grpc::Service::MarkMethodAsync(12);
     }
     ~WithAsyncMethod_ReadString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -752,7 +792,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadString(::grpc::ServerContext* context, ::fmuproxy::grpc::ReadRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StringRead>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -761,7 +801,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_ReadBoolean() {
-      ::grpc::Service::MarkMethodAsync(11);
+      ::grpc::Service::MarkMethodAsync(13);
     }
     ~WithAsyncMethod_ReadBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -772,7 +812,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadBoolean(::grpc::ServerContext* context, ::fmuproxy::grpc::ReadRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::BooleanRead>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -781,7 +821,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_WriteInteger() {
-      ::grpc::Service::MarkMethodAsync(12);
+      ::grpc::Service::MarkMethodAsync(14);
     }
     ~WithAsyncMethod_WriteInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -792,7 +832,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteInteger(::grpc::ServerContext* context, ::fmuproxy::grpc::WriteIntegerRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -801,7 +841,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_WriteReal() {
-      ::grpc::Service::MarkMethodAsync(13);
+      ::grpc::Service::MarkMethodAsync(15);
     }
     ~WithAsyncMethod_WriteReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -812,7 +852,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteReal(::grpc::ServerContext* context, ::fmuproxy::grpc::WriteRealRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -821,7 +861,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_WriteString() {
-      ::grpc::Service::MarkMethodAsync(14);
+      ::grpc::Service::MarkMethodAsync(16);
     }
     ~WithAsyncMethod_WriteString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -832,7 +872,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteString(::grpc::ServerContext* context, ::fmuproxy::grpc::WriteStringRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -841,7 +881,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithAsyncMethod_WriteBoolean() {
-      ::grpc::Service::MarkMethodAsync(15);
+      ::grpc::Service::MarkMethodAsync(17);
     }
     ~WithAsyncMethod_WriteBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -852,46 +892,6 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteBoolean(::grpc::ServerContext* context, ::fmuproxy::grpc::WriteBooleanRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::StatusResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_CanGetAndSetFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithAsyncMethod_CanGetAndSetFMUstate() {
-      ::grpc::Service::MarkMethodAsync(16);
-    }
-    ~WithAsyncMethod_CanGetAndSetFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestCanGetAndSetFMUstate(::grpc::ServerContext* context, ::fmuproxy::grpc::CanGetAndSetFMUstateRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::Bool>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithAsyncMethod_CanSerializeFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithAsyncMethod_CanSerializeFMUstate() {
-      ::grpc::Service::MarkMethodAsync(17);
-    }
-    ~WithAsyncMethod_CanSerializeFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestCanSerializeFMUstate(::grpc::ServerContext* context, ::fmuproxy::grpc::CanSerializeFMUstateRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::Bool>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -995,7 +995,7 @@ class FmuService final {
       ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetModelDescription<WithAsyncMethod_GetModelDescriptionXml<WithAsyncMethod_CreateInstanceFromCS<WithAsyncMethod_CreateInstanceFromME<WithAsyncMethod_Init<WithAsyncMethod_Step<WithAsyncMethod_Reset<WithAsyncMethod_Terminate<WithAsyncMethod_ReadInteger<WithAsyncMethod_ReadReal<WithAsyncMethod_ReadString<WithAsyncMethod_ReadBoolean<WithAsyncMethod_WriteInteger<WithAsyncMethod_WriteReal<WithAsyncMethod_WriteString<WithAsyncMethod_WriteBoolean<WithAsyncMethod_CanGetAndSetFMUstate<WithAsyncMethod_CanSerializeFMUstate<WithAsyncMethod_GetFMUstate<WithAsyncMethod_SetFMUstate<WithAsyncMethod_FreeFMUstate<WithAsyncMethod_SerializeFMUstate<WithAsyncMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_GetModelDescription<WithAsyncMethod_GetCoSimulationAttributes<WithAsyncMethod_CanCreateInstanceFromCS<WithAsyncMethod_CanCreateInstanceFromME<WithAsyncMethod_CreateInstanceFromCS<WithAsyncMethod_CreateInstanceFromME<WithAsyncMethod_Init<WithAsyncMethod_Step<WithAsyncMethod_Reset<WithAsyncMethod_Terminate<WithAsyncMethod_ReadInteger<WithAsyncMethod_ReadReal<WithAsyncMethod_ReadString<WithAsyncMethod_ReadBoolean<WithAsyncMethod_WriteInteger<WithAsyncMethod_WriteReal<WithAsyncMethod_WriteString<WithAsyncMethod_WriteBoolean<WithAsyncMethod_GetFMUstate<WithAsyncMethod_SetFMUstate<WithAsyncMethod_FreeFMUstate<WithAsyncMethod_SerializeFMUstate<WithAsyncMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_GetModelDescription : public BaseClass {
    private:
@@ -1014,18 +1014,52 @@ class FmuService final {
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_GetModelDescriptionXml : public BaseClass {
+  class WithGenericMethod_GetCoSimulationAttributes : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_GetModelDescriptionXml() {
+    WithGenericMethod_GetCoSimulationAttributes() {
       ::grpc::Service::MarkMethodGeneric(1);
     }
-    ~WithGenericMethod_GetModelDescriptionXml() override {
+    ~WithGenericMethod_GetCoSimulationAttributes() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescriptionXml(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest* request, ::fmuproxy::grpc::ModelDescriptionXml* response) override {
+    ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest* request, ::fmuproxy::grpc::CoSimulationAttributes* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_CanCreateInstanceFromCS : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_CanCreateInstanceFromCS() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_CanCreateInstanceFromCS() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CanCreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_CanCreateInstanceFromME : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_CanCreateInstanceFromME() {
+      ::grpc::Service::MarkMethodGeneric(3);
+    }
+    ~WithGenericMethod_CanCreateInstanceFromME() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CanCreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest* request, ::fmuproxy::grpc::Bool* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1036,7 +1070,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_CreateInstanceFromCS() {
-      ::grpc::Service::MarkMethodGeneric(2);
+      ::grpc::Service::MarkMethodGeneric(4);
     }
     ~WithGenericMethod_CreateInstanceFromCS() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1053,7 +1087,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_CreateInstanceFromME() {
-      ::grpc::Service::MarkMethodGeneric(3);
+      ::grpc::Service::MarkMethodGeneric(5);
     }
     ~WithGenericMethod_CreateInstanceFromME() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1070,7 +1104,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_Init() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_Init() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1087,7 +1121,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_Step() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_Step() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1104,7 +1138,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_Reset() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_Reset() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1121,7 +1155,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_Terminate() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(9);
     }
     ~WithGenericMethod_Terminate() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1138,7 +1172,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadInteger() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(10);
     }
     ~WithGenericMethod_ReadInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1155,7 +1189,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadReal() {
-      ::grpc::Service::MarkMethodGeneric(9);
+      ::grpc::Service::MarkMethodGeneric(11);
     }
     ~WithGenericMethod_ReadReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1172,7 +1206,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadString() {
-      ::grpc::Service::MarkMethodGeneric(10);
+      ::grpc::Service::MarkMethodGeneric(12);
     }
     ~WithGenericMethod_ReadString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1189,7 +1223,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_ReadBoolean() {
-      ::grpc::Service::MarkMethodGeneric(11);
+      ::grpc::Service::MarkMethodGeneric(13);
     }
     ~WithGenericMethod_ReadBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1206,7 +1240,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_WriteInteger() {
-      ::grpc::Service::MarkMethodGeneric(12);
+      ::grpc::Service::MarkMethodGeneric(14);
     }
     ~WithGenericMethod_WriteInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1223,7 +1257,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_WriteReal() {
-      ::grpc::Service::MarkMethodGeneric(13);
+      ::grpc::Service::MarkMethodGeneric(15);
     }
     ~WithGenericMethod_WriteReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1240,7 +1274,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_WriteString() {
-      ::grpc::Service::MarkMethodGeneric(14);
+      ::grpc::Service::MarkMethodGeneric(16);
     }
     ~WithGenericMethod_WriteString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1257,47 +1291,13 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithGenericMethod_WriteBoolean() {
-      ::grpc::Service::MarkMethodGeneric(15);
+      ::grpc::Service::MarkMethodGeneric(17);
     }
     ~WithGenericMethod_WriteBoolean() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
     ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_CanGetAndSetFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithGenericMethod_CanGetAndSetFMUstate() {
-      ::grpc::Service::MarkMethodGeneric(16);
-    }
-    ~WithGenericMethod_CanGetAndSetFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_CanSerializeFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithGenericMethod_CanSerializeFMUstate() {
-      ::grpc::Service::MarkMethodGeneric(17);
-    }
-    ~WithGenericMethod_CanSerializeFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1408,23 +1408,63 @@ class FmuService final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_GetModelDescriptionXml : public BaseClass {
+  class WithRawMethod_GetCoSimulationAttributes : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithRawMethod_GetModelDescriptionXml() {
+    WithRawMethod_GetCoSimulationAttributes() {
       ::grpc::Service::MarkMethodRaw(1);
     }
-    ~WithRawMethod_GetModelDescriptionXml() override {
+    ~WithRawMethod_GetCoSimulationAttributes() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescriptionXml(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest* request, ::fmuproxy::grpc::ModelDescriptionXml* response) override {
+    ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest* request, ::fmuproxy::grpc::CoSimulationAttributes* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestGetModelDescriptionXml(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestGetCoSimulationAttributes(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_CanCreateInstanceFromCS : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_CanCreateInstanceFromCS() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_CanCreateInstanceFromCS() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CanCreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCanCreateInstanceFromCS(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_CanCreateInstanceFromME : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_CanCreateInstanceFromME() {
+      ::grpc::Service::MarkMethodRaw(3);
+    }
+    ~WithRawMethod_CanCreateInstanceFromME() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CanCreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCanCreateInstanceFromME(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1433,7 +1473,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_CreateInstanceFromCS() {
-      ::grpc::Service::MarkMethodRaw(2);
+      ::grpc::Service::MarkMethodRaw(4);
     }
     ~WithRawMethod_CreateInstanceFromCS() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1444,7 +1484,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateInstanceFromCS(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1453,7 +1493,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_CreateInstanceFromME() {
-      ::grpc::Service::MarkMethodRaw(3);
+      ::grpc::Service::MarkMethodRaw(5);
     }
     ~WithRawMethod_CreateInstanceFromME() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1464,7 +1504,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateInstanceFromME(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1473,7 +1513,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_Init() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_Init() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1484,7 +1524,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestInit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1493,7 +1533,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_Step() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_Step() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1504,7 +1544,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStep(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1513,7 +1553,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_Reset() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_Reset() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1524,7 +1564,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReset(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1533,7 +1573,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_Terminate() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(9);
     }
     ~WithRawMethod_Terminate() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1544,7 +1584,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestTerminate(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1553,7 +1593,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadInteger() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(10);
     }
     ~WithRawMethod_ReadInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1564,7 +1604,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadInteger(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1573,7 +1613,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadReal() {
-      ::grpc::Service::MarkMethodRaw(9);
+      ::grpc::Service::MarkMethodRaw(11);
     }
     ~WithRawMethod_ReadReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1584,7 +1624,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadReal(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1593,7 +1633,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadString() {
-      ::grpc::Service::MarkMethodRaw(10);
+      ::grpc::Service::MarkMethodRaw(12);
     }
     ~WithRawMethod_ReadString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1604,7 +1644,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadString(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1613,7 +1653,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_ReadBoolean() {
-      ::grpc::Service::MarkMethodRaw(11);
+      ::grpc::Service::MarkMethodRaw(13);
     }
     ~WithRawMethod_ReadBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1624,7 +1664,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestReadBoolean(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1633,7 +1673,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_WriteInteger() {
-      ::grpc::Service::MarkMethodRaw(12);
+      ::grpc::Service::MarkMethodRaw(14);
     }
     ~WithRawMethod_WriteInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1644,7 +1684,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteInteger(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1653,7 +1693,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_WriteReal() {
-      ::grpc::Service::MarkMethodRaw(13);
+      ::grpc::Service::MarkMethodRaw(15);
     }
     ~WithRawMethod_WriteReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1664,7 +1704,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteReal(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1673,7 +1713,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_WriteString() {
-      ::grpc::Service::MarkMethodRaw(14);
+      ::grpc::Service::MarkMethodRaw(16);
     }
     ~WithRawMethod_WriteString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1684,7 +1724,7 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteString(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1693,7 +1733,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithRawMethod_WriteBoolean() {
-      ::grpc::Service::MarkMethodRaw(15);
+      ::grpc::Service::MarkMethodRaw(17);
     }
     ~WithRawMethod_WriteBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1704,46 +1744,6 @@ class FmuService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestWriteBoolean(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_CanGetAndSetFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithRawMethod_CanGetAndSetFMUstate() {
-      ::grpc::Service::MarkMethodRaw(16);
-    }
-    ~WithRawMethod_CanGetAndSetFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestCanGetAndSetFMUstate(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
-  class WithRawMethod_CanSerializeFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithRawMethod_CanSerializeFMUstate() {
-      ::grpc::Service::MarkMethodRaw(17);
-    }
-    ~WithRawMethod_CanSerializeFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestCanSerializeFMUstate(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -1868,24 +1868,64 @@ class FmuService final {
     virtual ::grpc::Status StreamedGetModelDescription(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::GetModelDescriptionRequest,::fmuproxy::grpc::ModelDescription>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_GetModelDescriptionXml : public BaseClass {
+  class WithStreamedUnaryMethod_GetCoSimulationAttributes : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithStreamedUnaryMethod_GetModelDescriptionXml() {
+    WithStreamedUnaryMethod_GetCoSimulationAttributes() {
       ::grpc::Service::MarkMethodStreamed(1,
-        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::GetModelDescriptionXmlRequest, ::fmuproxy::grpc::ModelDescriptionXml>(std::bind(&WithStreamedUnaryMethod_GetModelDescriptionXml<BaseClass>::StreamedGetModelDescriptionXml, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::GetCoSimulationAttributesRequest, ::fmuproxy::grpc::CoSimulationAttributes>(std::bind(&WithStreamedUnaryMethod_GetCoSimulationAttributes<BaseClass>::StreamedGetCoSimulationAttributes, this, std::placeholders::_1, std::placeholders::_2)));
     }
-    ~WithStreamedUnaryMethod_GetModelDescriptionXml() override {
+    ~WithStreamedUnaryMethod_GetCoSimulationAttributes() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status GetModelDescriptionXml(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionXmlRequest* request, ::fmuproxy::grpc::ModelDescriptionXml* response) override {
+    ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetCoSimulationAttributesRequest* request, ::fmuproxy::grpc::CoSimulationAttributes* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedGetModelDescriptionXml(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::GetModelDescriptionXmlRequest,::fmuproxy::grpc::ModelDescriptionXml>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedGetCoSimulationAttributes(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::GetCoSimulationAttributesRequest,::fmuproxy::grpc::CoSimulationAttributes>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_CanCreateInstanceFromCS : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_CanCreateInstanceFromCS() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::CanCreateInstanceFromCSRequest, ::fmuproxy::grpc::Bool>(std::bind(&WithStreamedUnaryMethod_CanCreateInstanceFromCS<BaseClass>::StreamedCanCreateInstanceFromCS, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_CanCreateInstanceFromCS() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status CanCreateInstanceFromCS(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedCanCreateInstanceFromCS(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::CanCreateInstanceFromCSRequest,::fmuproxy::grpc::Bool>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_CanCreateInstanceFromME : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_CanCreateInstanceFromME() {
+      ::grpc::Service::MarkMethodStreamed(3,
+        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::CanCreateInstanceFromMERequest, ::fmuproxy::grpc::Bool>(std::bind(&WithStreamedUnaryMethod_CanCreateInstanceFromME<BaseClass>::StreamedCanCreateInstanceFromME, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_CanCreateInstanceFromME() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status CanCreateInstanceFromME(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanCreateInstanceFromMERequest* request, ::fmuproxy::grpc::Bool* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedCanCreateInstanceFromME(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::CanCreateInstanceFromMERequest,::fmuproxy::grpc::Bool>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_CreateInstanceFromCS : public BaseClass {
@@ -1893,7 +1933,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_CreateInstanceFromCS() {
-      ::grpc::Service::MarkMethodStreamed(2,
+      ::grpc::Service::MarkMethodStreamed(4,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::CreateInstanceFromCSRequest, ::fmuproxy::grpc::InstanceId>(std::bind(&WithStreamedUnaryMethod_CreateInstanceFromCS<BaseClass>::StreamedCreateInstanceFromCS, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_CreateInstanceFromCS() override {
@@ -1913,7 +1953,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_CreateInstanceFromME() {
-      ::grpc::Service::MarkMethodStreamed(3,
+      ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::CreateInstanceFromMERequest, ::fmuproxy::grpc::InstanceId>(std::bind(&WithStreamedUnaryMethod_CreateInstanceFromME<BaseClass>::StreamedCreateInstanceFromME, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_CreateInstanceFromME() override {
@@ -1933,7 +1973,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_Init() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::InitRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_Init<BaseClass>::StreamedInit, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_Init() override {
@@ -1953,7 +1993,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_Step() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResponse>(std::bind(&WithStreamedUnaryMethod_Step<BaseClass>::StreamedStep, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_Step() override {
@@ -1973,7 +2013,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_Reset() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::ResetRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_Reset<BaseClass>::StreamedReset, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_Reset() override {
@@ -1993,7 +2033,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_Terminate() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(9,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::TerminateRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_Terminate<BaseClass>::StreamedTerminate, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_Terminate() override {
@@ -2013,7 +2053,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_ReadInteger() {
-      ::grpc::Service::MarkMethodStreamed(8,
+      ::grpc::Service::MarkMethodStreamed(10,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>(std::bind(&WithStreamedUnaryMethod_ReadInteger<BaseClass>::StreamedReadInteger, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_ReadInteger() override {
@@ -2033,7 +2073,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_ReadReal() {
-      ::grpc::Service::MarkMethodStreamed(9,
+      ::grpc::Service::MarkMethodStreamed(11,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>(std::bind(&WithStreamedUnaryMethod_ReadReal<BaseClass>::StreamedReadReal, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_ReadReal() override {
@@ -2053,7 +2093,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_ReadString() {
-      ::grpc::Service::MarkMethodStreamed(10,
+      ::grpc::Service::MarkMethodStreamed(12,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>(std::bind(&WithStreamedUnaryMethod_ReadString<BaseClass>::StreamedReadString, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_ReadString() override {
@@ -2073,7 +2113,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_ReadBoolean() {
-      ::grpc::Service::MarkMethodStreamed(11,
+      ::grpc::Service::MarkMethodStreamed(13,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>(std::bind(&WithStreamedUnaryMethod_ReadBoolean<BaseClass>::StreamedReadBoolean, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_ReadBoolean() override {
@@ -2093,7 +2133,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_WriteInteger() {
-      ::grpc::Service::MarkMethodStreamed(12,
+      ::grpc::Service::MarkMethodStreamed(14,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_WriteInteger<BaseClass>::StreamedWriteInteger, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_WriteInteger() override {
@@ -2113,7 +2153,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_WriteReal() {
-      ::grpc::Service::MarkMethodStreamed(13,
+      ::grpc::Service::MarkMethodStreamed(15,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_WriteReal<BaseClass>::StreamedWriteReal, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_WriteReal() override {
@@ -2133,7 +2173,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_WriteString() {
-      ::grpc::Service::MarkMethodStreamed(14,
+      ::grpc::Service::MarkMethodStreamed(16,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_WriteString<BaseClass>::StreamedWriteString, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_WriteString() override {
@@ -2153,7 +2193,7 @@ class FmuService final {
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
     WithStreamedUnaryMethod_WriteBoolean() {
-      ::grpc::Service::MarkMethodStreamed(15,
+      ::grpc::Service::MarkMethodStreamed(17,
         new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>(std::bind(&WithStreamedUnaryMethod_WriteBoolean<BaseClass>::StreamedWriteBoolean, this, std::placeholders::_1, std::placeholders::_2)));
     }
     ~WithStreamedUnaryMethod_WriteBoolean() override {
@@ -2166,46 +2206,6 @@ class FmuService final {
     }
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedWriteBoolean(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::WriteBooleanRequest,::fmuproxy::grpc::StatusResponse>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_CanGetAndSetFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithStreamedUnaryMethod_CanGetAndSetFMUstate() {
-      ::grpc::Service::MarkMethodStreamed(16,
-        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::CanGetAndSetFMUstateRequest, ::fmuproxy::grpc::Bool>(std::bind(&WithStreamedUnaryMethod_CanGetAndSetFMUstate<BaseClass>::StreamedCanGetAndSetFMUstate, this, std::placeholders::_1, std::placeholders::_2)));
-    }
-    ~WithStreamedUnaryMethod_CanGetAndSetFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status CanGetAndSetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanGetAndSetFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedCanGetAndSetFMUstate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::CanGetAndSetFMUstateRequest,::fmuproxy::grpc::Bool>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
-  class WithStreamedUnaryMethod_CanSerializeFMUstate : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithStreamedUnaryMethod_CanSerializeFMUstate() {
-      ::grpc::Service::MarkMethodStreamed(17,
-        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::CanSerializeFMUstateRequest, ::fmuproxy::grpc::Bool>(std::bind(&WithStreamedUnaryMethod_CanSerializeFMUstate<BaseClass>::StreamedCanSerializeFMUstate, this, std::placeholders::_1, std::placeholders::_2)));
-    }
-    ~WithStreamedUnaryMethod_CanSerializeFMUstate() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status CanSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::CanSerializeFMUstateRequest* request, ::fmuproxy::grpc::Bool* response) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedCanSerializeFMUstate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::CanSerializeFMUstateRequest,::fmuproxy::grpc::Bool>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_GetFMUstate : public BaseClass {
@@ -2307,9 +2307,9 @@ class FmuService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedDeSerializeFMUstate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::DeSerializeFMUstateRequest,::fmuproxy::grpc::DeSerializeFMUstateResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetModelDescriptionXml<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_CanGetAndSetFMUstate<WithStreamedUnaryMethod_CanSerializeFMUstate<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetCoSimulationAttributes<WithStreamedUnaryMethod_CanCreateInstanceFromCS<WithStreamedUnaryMethod_CanCreateInstanceFromME<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetModelDescriptionXml<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_CanGetAndSetFMUstate<WithStreamedUnaryMethod_CanSerializeFMUstate<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetCoSimulationAttributes<WithStreamedUnaryMethod_CanCreateInstanceFromCS<WithStreamedUnaryMethod_CanCreateInstanceFromME<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace grpc

@@ -39,7 +39,7 @@ namespace protobuf_definitions_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[10];
+  static const ::google::protobuf::internal::ParseTable schema[11];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -51,6 +51,9 @@ namespace grpc {
 class BooleanAttribute;
 class BooleanAttributeDefaultTypeInternal;
 extern BooleanAttributeDefaultTypeInternal _BooleanAttribute_default_instance_;
+class CoSimulationAttributes;
+class CoSimulationAttributesDefaultTypeInternal;
+extern CoSimulationAttributesDefaultTypeInternal _CoSimulationAttributes_default_instance_;
 class DefaultExperiment;
 class DefaultExperimentDefaultTypeInternal;
 extern DefaultExperimentDefaultTypeInternal _DefaultExperiment_default_instance_;
@@ -83,6 +86,7 @@ extern UnknownDefaultTypeInternal _Unknown_default_instance_;
 namespace google {
 namespace protobuf {
 template<> ::fmuproxy::grpc::BooleanAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::BooleanAttribute>(Arena*);
+template<> ::fmuproxy::grpc::CoSimulationAttributes* Arena::CreateMaybeMessage<::fmuproxy::grpc::CoSimulationAttributes>(Arena*);
 template<> ::fmuproxy::grpc::DefaultExperiment* Arena::CreateMaybeMessage<::fmuproxy::grpc::DefaultExperiment>(Arena*);
 template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnumerationAttribute>(Arena*);
 template<> ::fmuproxy::grpc::IntegerAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::IntegerAttribute>(Arena*);
@@ -104,12 +108,13 @@ enum Causality {
   CALCULATED_PARAMETER_CAUSALITY = 3,
   LOCAL_CAUSALITY = 4,
   INDEPENDENT_CAUSALITY = 5,
+  UNKNOWN_CAUSALITY = 6,
   Causality_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Causality_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Causality_IsValid(int value);
 const Causality Causality_MIN = INPUT_CAUSALITY;
-const Causality Causality_MAX = INDEPENDENT_CAUSALITY;
+const Causality Causality_MAX = UNKNOWN_CAUSALITY;
 const int Causality_ARRAYSIZE = Causality_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Causality_descriptor();
@@ -128,12 +133,13 @@ enum Variability {
   CONTINUOUS_VARIABILITY = 2,
   DISCRETE_VARIABILITY = 3,
   TUNABLE_VARIABILITY = 4,
+  UNKNOWN_VARIABILITY = 5,
   Variability_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Variability_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Variability_IsValid(int value);
 const Variability Variability_MIN = CONSTANT_VARIABILITY;
-const Variability Variability_MAX = TUNABLE_VARIABILITY;
+const Variability Variability_MAX = UNKNOWN_VARIABILITY;
 const int Variability_ARRAYSIZE = Variability_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Variability_descriptor();
@@ -150,12 +156,13 @@ enum Initial {
   EXACT_INITIAL = 0,
   APPROX_INITIAL = 1,
   CALCULATED_INITIAL = 2,
+  UNKNOWN_INITIAL = 3,
   Initial_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   Initial_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool Initial_IsValid(int value);
 const Initial Initial_MIN = EXACT_INITIAL;
-const Initial Initial_MAX = CALCULATED_INITIAL;
+const Initial Initial_MAX = UNKNOWN_INITIAL;
 const int Initial_ARRAYSIZE = Initial_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Initial_descriptor();
@@ -192,27 +199,6 @@ inline bool Status_Parse(
     const ::std::string& name, Status* value) {
   return ::google::protobuf::internal::ParseNamedEnum<Status>(
     Status_descriptor(), name, value);
-}
-enum VariableNamingConvention {
-  FLAT = 0,
-  STRUCTURED = 1,
-  VariableNamingConvention_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  VariableNamingConvention_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool VariableNamingConvention_IsValid(int value);
-const VariableNamingConvention VariableNamingConvention_MIN = FLAT;
-const VariableNamingConvention VariableNamingConvention_MAX = STRUCTURED;
-const int VariableNamingConvention_ARRAYSIZE = VariableNamingConvention_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* VariableNamingConvention_descriptor();
-inline const ::std::string& VariableNamingConvention_Name(VariableNamingConvention value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    VariableNamingConvention_descriptor(), value);
-}
-inline bool VariableNamingConvention_Parse(
-    const ::std::string& name, VariableNamingConvention* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<VariableNamingConvention>(
-    VariableNamingConvention_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -455,6 +441,20 @@ class ModelDescription : public ::google::protobuf::Message /* @@protoc_insertio
   ::std::string* release_generation_date_and_time();
   void set_allocated_generation_date_and_time(::std::string* generation_date_and_time);
 
+  // string variable_naming_convention = 12;
+  void clear_variable_naming_convention();
+  static const int kVariableNamingConventionFieldNumber = 12;
+  const ::std::string& variable_naming_convention() const;
+  void set_variable_naming_convention(const ::std::string& value);
+  #if LANG_CXX11
+  void set_variable_naming_convention(::std::string&& value);
+  #endif
+  void set_variable_naming_convention(const char* value);
+  void set_variable_naming_convention(const char* value, size_t size);
+  ::std::string* mutable_variable_naming_convention();
+  ::std::string* release_variable_naming_convention();
+  void set_allocated_variable_naming_convention(::std::string* variable_naming_convention);
+
   // .fmuproxy.grpc.DefaultExperiment default_experiment = 11;
   bool has_default_experiment() const;
   void clear_default_experiment();
@@ -479,24 +479,6 @@ class ModelDescription : public ::google::protobuf::Message /* @@protoc_insertio
   ::fmuproxy::grpc::ModelStructure* mutable_model_structure();
   void set_allocated_model_structure(::fmuproxy::grpc::ModelStructure* model_structure);
 
-  // .fmuproxy.grpc.VariableNamingConvention variable_naming_convention = 12;
-  void clear_variable_naming_convention();
-  static const int kVariableNamingConventionFieldNumber = 12;
-  ::fmuproxy::grpc::VariableNamingConvention variable_naming_convention() const;
-  void set_variable_naming_convention(::fmuproxy::grpc::VariableNamingConvention value);
-
-  // bool supports_co_simulation = 15;
-  void clear_supports_co_simulation();
-  static const int kSupportsCoSimulationFieldNumber = 15;
-  bool supports_co_simulation() const;
-  void set_supports_co_simulation(bool value);
-
-  // bool supports_model_exchange = 16;
-  void clear_supports_model_exchange();
-  static const int kSupportsModelExchangeFieldNumber = 16;
-  bool supports_model_exchange() const;
-  void set_supports_model_exchange(bool value);
-
   // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ModelDescription)
  private:
 
@@ -512,11 +494,162 @@ class ModelDescription : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::ArenaStringPtr description_;
   ::google::protobuf::internal::ArenaStringPtr generation_tool_;
   ::google::protobuf::internal::ArenaStringPtr generation_date_and_time_;
+  ::google::protobuf::internal::ArenaStringPtr variable_naming_convention_;
   ::fmuproxy::grpc::DefaultExperiment* default_experiment_;
   ::fmuproxy::grpc::ModelStructure* model_structure_;
-  int variable_naming_convention_;
-  bool supports_co_simulation_;
-  bool supports_model_exchange_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_definitions_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class CoSimulationAttributes : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.CoSimulationAttributes) */ {
+ public:
+  CoSimulationAttributes();
+  virtual ~CoSimulationAttributes();
+
+  CoSimulationAttributes(const CoSimulationAttributes& from);
+
+  inline CoSimulationAttributes& operator=(const CoSimulationAttributes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CoSimulationAttributes(CoSimulationAttributes&& from) noexcept
+    : CoSimulationAttributes() {
+    *this = ::std::move(from);
+  }
+
+  inline CoSimulationAttributes& operator=(CoSimulationAttributes&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CoSimulationAttributes& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CoSimulationAttributes* internal_default_instance() {
+    return reinterpret_cast<const CoSimulationAttributes*>(
+               &_CoSimulationAttributes_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  void Swap(CoSimulationAttributes* other);
+  friend void swap(CoSimulationAttributes& a, CoSimulationAttributes& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CoSimulationAttributes* New() const final {
+    return CreateMaybeMessage<CoSimulationAttributes>(NULL);
+  }
+
+  CoSimulationAttributes* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CoSimulationAttributes>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CoSimulationAttributes& from);
+  void MergeFrom(const CoSimulationAttributes& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CoSimulationAttributes* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string modelIdentifier = 1;
+  void clear_modelidentifier();
+  static const int kModelIdentifierFieldNumber = 1;
+  const ::std::string& modelidentifier() const;
+  void set_modelidentifier(const ::std::string& value);
+  #if LANG_CXX11
+  void set_modelidentifier(::std::string&& value);
+  #endif
+  void set_modelidentifier(const char* value);
+  void set_modelidentifier(const char* value, size_t size);
+  ::std::string* mutable_modelidentifier();
+  ::std::string* release_modelidentifier();
+  void set_allocated_modelidentifier(::std::string* modelidentifier);
+
+  // bool canGetAndSetFMUstate = 2;
+  void clear_cangetandsetfmustate();
+  static const int kCanGetAndSetFMUstateFieldNumber = 2;
+  bool cangetandsetfmustate() const;
+  void set_cangetandsetfmustate(bool value);
+
+  // bool canSerializeFMUstate = 3;
+  void clear_canserializefmustate();
+  static const int kCanSerializeFMUstateFieldNumber = 3;
+  bool canserializefmustate() const;
+  void set_canserializefmustate(bool value);
+
+  // bool providesDirectionalDerivative = 4;
+  void clear_providesdirectionalderivative();
+  static const int kProvidesDirectionalDerivativeFieldNumber = 4;
+  bool providesdirectionalderivative() const;
+  void set_providesdirectionalderivative(bool value);
+
+  // bool canHandleVariableCommunicationStepSize = 5;
+  void clear_canhandlevariablecommunicationstepsize();
+  static const int kCanHandleVariableCommunicationStepSizeFieldNumber = 5;
+  bool canhandlevariablecommunicationstepsize() const;
+  void set_canhandlevariablecommunicationstepsize(bool value);
+
+  // bool canInterpolateInputs = 6;
+  void clear_caninterpolateinputs();
+  static const int kCanInterpolateInputsFieldNumber = 6;
+  bool caninterpolateinputs() const;
+  void set_caninterpolateinputs(bool value);
+
+  // uint32 maxOutputDerivativeOrder = 7;
+  void clear_maxoutputderivativeorder();
+  static const int kMaxOutputDerivativeOrderFieldNumber = 7;
+  ::google::protobuf::uint32 maxoutputderivativeorder() const;
+  void set_maxoutputderivativeorder(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.CoSimulationAttributes)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr modelidentifier_;
+  bool cangetandsetfmustate_;
+  bool canserializefmustate_;
+  bool providesdirectionalderivative_;
+  bool canhandlevariablecommunicationstepsize_;
+  bool caninterpolateinputs_;
+  ::google::protobuf::uint32 maxoutputderivativeorder_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_definitions_2eproto::TableStruct;
 };
@@ -557,7 +690,7 @@ class IntegerAttribute : public ::google::protobuf::Message /* @@protoc_insertio
                &_IntegerAttribute_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(IntegerAttribute* other);
   friend void swap(IntegerAttribute& a, IntegerAttribute& b) {
@@ -609,6 +742,20 @@ class IntegerAttribute : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
+  // string quantity = 4;
+  void clear_quantity();
+  static const int kQuantityFieldNumber = 4;
+  const ::std::string& quantity() const;
+  void set_quantity(const ::std::string& value);
+  #if LANG_CXX11
+  void set_quantity(::std::string&& value);
+  #endif
+  void set_quantity(const char* value);
+  void set_quantity(const char* value, size_t size);
+  ::std::string* mutable_quantity();
+  ::std::string* release_quantity();
+  void set_allocated_quantity(::std::string* quantity);
+
   // int32 min = 1;
   void clear_min();
   static const int kMinFieldNumber = 1;
@@ -631,6 +778,7 @@ class IntegerAttribute : public ::google::protobuf::Message /* @@protoc_insertio
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr quantity_;
   ::google::protobuf::int32 min_;
   ::google::protobuf::int32 max_;
   ::google::protobuf::int32 start_;
@@ -674,7 +822,7 @@ class RealAttribute : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_RealAttribute_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(RealAttribute* other);
   friend void swap(RealAttribute& a, RealAttribute& b) {
@@ -726,6 +874,20 @@ class RealAttribute : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // string quantity = 4;
+  void clear_quantity();
+  static const int kQuantityFieldNumber = 4;
+  const ::std::string& quantity() const;
+  void set_quantity(const ::std::string& value);
+  #if LANG_CXX11
+  void set_quantity(::std::string&& value);
+  #endif
+  void set_quantity(const char* value);
+  void set_quantity(const char* value, size_t size);
+  ::std::string* mutable_quantity();
+  ::std::string* release_quantity();
+  void set_allocated_quantity(::std::string* quantity);
+
   // double min = 1;
   void clear_min();
   static const int kMinFieldNumber = 1;
@@ -748,6 +910,7 @@ class RealAttribute : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr quantity_;
   double min_;
   double max_;
   double start_;
@@ -791,7 +954,7 @@ class StringAttribute : public ::google::protobuf::Message /* @@protoc_insertion
                &_StringAttribute_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(StringAttribute* other);
   friend void swap(StringAttribute& a, StringAttribute& b) {
@@ -902,7 +1065,7 @@ class BooleanAttribute : public ::google::protobuf::Message /* @@protoc_insertio
                &_BooleanAttribute_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(BooleanAttribute* other);
   friend void swap(BooleanAttribute& a, BooleanAttribute& b) {
@@ -1005,7 +1168,7 @@ class EnumerationAttribute : public ::google::protobuf::Message /* @@protoc_inse
                &_EnumerationAttribute_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(EnumerationAttribute* other);
   friend void swap(EnumerationAttribute& a, EnumerationAttribute& b) {
@@ -1057,6 +1220,20 @@ class EnumerationAttribute : public ::google::protobuf::Message /* @@protoc_inse
 
   // accessors -------------------------------------------------------
 
+  // string quantity = 4;
+  void clear_quantity();
+  static const int kQuantityFieldNumber = 4;
+  const ::std::string& quantity() const;
+  void set_quantity(const ::std::string& value);
+  #if LANG_CXX11
+  void set_quantity(::std::string&& value);
+  #endif
+  void set_quantity(const char* value);
+  void set_quantity(const char* value, size_t size);
+  ::std::string* mutable_quantity();
+  ::std::string* release_quantity();
+  void set_allocated_quantity(::std::string* quantity);
+
   // int32 min = 1;
   void clear_min();
   static const int kMinFieldNumber = 1;
@@ -1079,6 +1256,7 @@ class EnumerationAttribute : public ::google::protobuf::Message /* @@protoc_inse
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr quantity_;
   ::google::protobuf::int32 min_;
   ::google::protobuf::int32 max_;
   ::google::protobuf::int32 start_;
@@ -1131,7 +1309,7 @@ class ScalarVariable : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ScalarVariable_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(ScalarVariable* other);
   friend void swap(ScalarVariable& a, ScalarVariable& b) {
@@ -1211,41 +1389,27 @@ class ScalarVariable : public ::google::protobuf::Message /* @@protoc_insertion_
   ::std::string* release_description();
   void set_allocated_description(::std::string* description);
 
-  // string declared_type = 4;
-  void clear_declared_type();
-  static const int kDeclaredTypeFieldNumber = 4;
-  const ::std::string& declared_type() const;
-  void set_declared_type(const ::std::string& value);
-  #if LANG_CXX11
-  void set_declared_type(::std::string&& value);
-  #endif
-  void set_declared_type(const char* value);
-  void set_declared_type(const char* value, size_t size);
-  ::std::string* mutable_declared_type();
-  ::std::string* release_declared_type();
-  void set_allocated_declared_type(::std::string* declared_type);
-
-  // uint32 value_reference = 1;
+  // uint64 value_reference = 1;
   void clear_value_reference();
   static const int kValueReferenceFieldNumber = 1;
-  ::google::protobuf::uint32 value_reference() const;
-  void set_value_reference(::google::protobuf::uint32 value);
+  ::google::protobuf::uint64 value_reference() const;
+  void set_value_reference(::google::protobuf::uint64 value);
 
-  // .fmuproxy.grpc.Initial initial = 5;
+  // .fmuproxy.grpc.Initial initial = 4;
   void clear_initial();
-  static const int kInitialFieldNumber = 5;
+  static const int kInitialFieldNumber = 4;
   ::fmuproxy::grpc::Initial initial() const;
   void set_initial(::fmuproxy::grpc::Initial value);
 
-  // .fmuproxy.grpc.Causality causality = 6;
+  // .fmuproxy.grpc.Causality causality = 5;
   void clear_causality();
-  static const int kCausalityFieldNumber = 6;
+  static const int kCausalityFieldNumber = 5;
   ::fmuproxy::grpc::Causality causality() const;
   void set_causality(::fmuproxy::grpc::Causality value);
 
-  // .fmuproxy.grpc.Variability variability = 7;
+  // .fmuproxy.grpc.Variability variability = 6;
   void clear_variability();
-  static const int kVariabilityFieldNumber = 7;
+  static const int kVariabilityFieldNumber = 6;
   ::fmuproxy::grpc::Variability variability() const;
   void set_variability(::fmuproxy::grpc::Variability value);
 
@@ -1325,8 +1489,7 @@ class ScalarVariable : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr description_;
-  ::google::protobuf::internal::ArenaStringPtr declared_type_;
-  ::google::protobuf::uint32 value_reference_;
+  ::google::protobuf::uint64 value_reference_;
   int initial_;
   int causality_;
   int variability_;
@@ -1380,7 +1543,7 @@ class DefaultExperiment : public ::google::protobuf::Message /* @@protoc_inserti
                &_DefaultExperiment_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   void Swap(DefaultExperiment* other);
   friend void swap(DefaultExperiment& a, DefaultExperiment& b) {
@@ -1504,7 +1667,7 @@ class Unknown : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_Unknown_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(Unknown* other);
   friend void swap(Unknown& a, Unknown& b) {
@@ -1636,7 +1799,7 @@ class ModelStructure : public ::google::protobuf::Message /* @@protoc_insertion_
                &_ModelStructure_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(ModelStructure* other);
   friend void swap(ModelStructure& a, ModelStructure& b) {
@@ -2329,18 +2492,57 @@ inline void ModelDescription::set_allocated_default_experiment(::fmuproxy::grpc:
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.default_experiment)
 }
 
-// .fmuproxy.grpc.VariableNamingConvention variable_naming_convention = 12;
+// string variable_naming_convention = 12;
 inline void ModelDescription::clear_variable_naming_convention() {
-  variable_naming_convention_ = 0;
+  variable_naming_convention_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::fmuproxy::grpc::VariableNamingConvention ModelDescription::variable_naming_convention() const {
+inline const ::std::string& ModelDescription::variable_naming_convention() const {
   // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.variable_naming_convention)
-  return static_cast< ::fmuproxy::grpc::VariableNamingConvention >(variable_naming_convention_);
+  return variable_naming_convention_.GetNoArena();
 }
-inline void ModelDescription::set_variable_naming_convention(::fmuproxy::grpc::VariableNamingConvention value) {
+inline void ModelDescription::set_variable_naming_convention(const ::std::string& value) {
   
-  variable_naming_convention_ = value;
+  variable_naming_convention_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_variable_naming_convention(::std::string&& value) {
+  
+  variable_naming_convention_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+#endif
+inline void ModelDescription::set_variable_naming_convention(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  variable_naming_convention_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+inline void ModelDescription::set_variable_naming_convention(const char* value, size_t size) {
+  
+  variable_naming_convention_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+inline ::std::string* ModelDescription::mutable_variable_naming_convention() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+  return variable_naming_convention_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_variable_naming_convention() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+  
+  return variable_naming_convention_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_variable_naming_convention(::std::string* variable_naming_convention) {
+  if (variable_naming_convention != NULL) {
+    
+  } else {
+    
+  }
+  variable_naming_convention_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), variable_naming_convention);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.variable_naming_convention)
 }
 
 // repeated .fmuproxy.grpc.ScalarVariable model_variables = 13;
@@ -2427,32 +2629,145 @@ inline void ModelDescription::set_allocated_model_structure(::fmuproxy::grpc::Mo
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.model_structure)
 }
 
-// bool supports_co_simulation = 15;
-inline void ModelDescription::clear_supports_co_simulation() {
-  supports_co_simulation_ = false;
+// -------------------------------------------------------------------
+
+// CoSimulationAttributes
+
+// string modelIdentifier = 1;
+inline void CoSimulationAttributes::clear_modelidentifier() {
+  modelidentifier_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline bool ModelDescription::supports_co_simulation() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.supports_co_simulation)
-  return supports_co_simulation_;
+inline const ::std::string& CoSimulationAttributes::modelidentifier() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+  return modelidentifier_.GetNoArena();
 }
-inline void ModelDescription::set_supports_co_simulation(bool value) {
+inline void CoSimulationAttributes::set_modelidentifier(const ::std::string& value) {
   
-  supports_co_simulation_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.supports_co_simulation)
+  modelidentifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+}
+#if LANG_CXX11
+inline void CoSimulationAttributes::set_modelidentifier(::std::string&& value) {
+  
+  modelidentifier_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+}
+#endif
+inline void CoSimulationAttributes::set_modelidentifier(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  modelidentifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+}
+inline void CoSimulationAttributes::set_modelidentifier(const char* value, size_t size) {
+  
+  modelidentifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+}
+inline ::std::string* CoSimulationAttributes::mutable_modelidentifier() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+  return modelidentifier_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CoSimulationAttributes::release_modelidentifier() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
+  
+  return modelidentifier_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CoSimulationAttributes::set_allocated_modelidentifier(::std::string* modelidentifier) {
+  if (modelidentifier != NULL) {
+    
+  } else {
+    
+  }
+  modelidentifier_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), modelidentifier);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.CoSimulationAttributes.modelIdentifier)
 }
 
-// bool supports_model_exchange = 16;
-inline void ModelDescription::clear_supports_model_exchange() {
-  supports_model_exchange_ = false;
+// bool canGetAndSetFMUstate = 2;
+inline void CoSimulationAttributes::clear_cangetandsetfmustate() {
+  cangetandsetfmustate_ = false;
 }
-inline bool ModelDescription::supports_model_exchange() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.supports_model_exchange)
-  return supports_model_exchange_;
+inline bool CoSimulationAttributes::cangetandsetfmustate() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.canGetAndSetFMUstate)
+  return cangetandsetfmustate_;
 }
-inline void ModelDescription::set_supports_model_exchange(bool value) {
+inline void CoSimulationAttributes::set_cangetandsetfmustate(bool value) {
   
-  supports_model_exchange_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.supports_model_exchange)
+  cangetandsetfmustate_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.canGetAndSetFMUstate)
+}
+
+// bool canSerializeFMUstate = 3;
+inline void CoSimulationAttributes::clear_canserializefmustate() {
+  canserializefmustate_ = false;
+}
+inline bool CoSimulationAttributes::canserializefmustate() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.canSerializeFMUstate)
+  return canserializefmustate_;
+}
+inline void CoSimulationAttributes::set_canserializefmustate(bool value) {
+  
+  canserializefmustate_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.canSerializeFMUstate)
+}
+
+// bool providesDirectionalDerivative = 4;
+inline void CoSimulationAttributes::clear_providesdirectionalderivative() {
+  providesdirectionalderivative_ = false;
+}
+inline bool CoSimulationAttributes::providesdirectionalderivative() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.providesDirectionalDerivative)
+  return providesdirectionalderivative_;
+}
+inline void CoSimulationAttributes::set_providesdirectionalderivative(bool value) {
+  
+  providesdirectionalderivative_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.providesDirectionalDerivative)
+}
+
+// bool canHandleVariableCommunicationStepSize = 5;
+inline void CoSimulationAttributes::clear_canhandlevariablecommunicationstepsize() {
+  canhandlevariablecommunicationstepsize_ = false;
+}
+inline bool CoSimulationAttributes::canhandlevariablecommunicationstepsize() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.canHandleVariableCommunicationStepSize)
+  return canhandlevariablecommunicationstepsize_;
+}
+inline void CoSimulationAttributes::set_canhandlevariablecommunicationstepsize(bool value) {
+  
+  canhandlevariablecommunicationstepsize_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.canHandleVariableCommunicationStepSize)
+}
+
+// bool canInterpolateInputs = 6;
+inline void CoSimulationAttributes::clear_caninterpolateinputs() {
+  caninterpolateinputs_ = false;
+}
+inline bool CoSimulationAttributes::caninterpolateinputs() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.canInterpolateInputs)
+  return caninterpolateinputs_;
+}
+inline void CoSimulationAttributes::set_caninterpolateinputs(bool value) {
+  
+  caninterpolateinputs_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.canInterpolateInputs)
+}
+
+// uint32 maxOutputDerivativeOrder = 7;
+inline void CoSimulationAttributes::clear_maxoutputderivativeorder() {
+  maxoutputderivativeorder_ = 0u;
+}
+inline ::google::protobuf::uint32 CoSimulationAttributes::maxoutputderivativeorder() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.maxOutputDerivativeOrder)
+  return maxoutputderivativeorder_;
+}
+inline void CoSimulationAttributes::set_maxoutputderivativeorder(::google::protobuf::uint32 value) {
+  
+  maxoutputderivativeorder_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.maxOutputDerivativeOrder)
 }
 
 // -------------------------------------------------------------------
@@ -2501,6 +2816,59 @@ inline void IntegerAttribute::set_start(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerAttribute.start)
 }
 
+// string quantity = 4;
+inline void IntegerAttribute::clear_quantity() {
+  quantity_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& IntegerAttribute::quantity() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerAttribute.quantity)
+  return quantity_.GetNoArena();
+}
+inline void IntegerAttribute::set_quantity(const ::std::string& value) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+#if LANG_CXX11
+inline void IntegerAttribute::set_quantity(::std::string&& value) {
+  
+  quantity_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+#endif
+inline void IntegerAttribute::set_quantity(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+inline void IntegerAttribute::set_quantity(const char* value, size_t size) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+inline ::std::string* IntegerAttribute::mutable_quantity() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.IntegerAttribute.quantity)
+  return quantity_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* IntegerAttribute::release_quantity() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.IntegerAttribute.quantity)
+  
+  return quantity_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void IntegerAttribute::set_allocated_quantity(::std::string* quantity) {
+  if (quantity != NULL) {
+    
+  } else {
+    
+  }
+  quantity_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), quantity);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+
 // -------------------------------------------------------------------
 
 // RealAttribute
@@ -2545,6 +2913,59 @@ inline void RealAttribute::set_start(double value) {
   
   start_ = value;
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealAttribute.start)
+}
+
+// string quantity = 4;
+inline void RealAttribute::clear_quantity() {
+  quantity_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& RealAttribute::quantity() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealAttribute.quantity)
+  return quantity_.GetNoArena();
+}
+inline void RealAttribute::set_quantity(const ::std::string& value) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealAttribute.quantity)
+}
+#if LANG_CXX11
+inline void RealAttribute::set_quantity(::std::string&& value) {
+  
+  quantity_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.RealAttribute.quantity)
+}
+#endif
+inline void RealAttribute::set_quantity(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.RealAttribute.quantity)
+}
+inline void RealAttribute::set_quantity(const char* value, size_t size) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.RealAttribute.quantity)
+}
+inline ::std::string* RealAttribute::mutable_quantity() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.RealAttribute.quantity)
+  return quantity_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RealAttribute::release_quantity() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.RealAttribute.quantity)
+  
+  return quantity_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RealAttribute::set_allocated_quantity(::std::string* quantity) {
+  if (quantity != NULL) {
+    
+  } else {
+    
+  }
+  quantity_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), quantity);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.RealAttribute.quantity)
 }
 
 // -------------------------------------------------------------------
@@ -2668,19 +3089,72 @@ inline void EnumerationAttribute::set_start(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnumerationAttribute.start)
 }
 
+// string quantity = 4;
+inline void EnumerationAttribute::clear_quantity() {
+  quantity_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& EnumerationAttribute::quantity() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.EnumerationAttribute.quantity)
+  return quantity_.GetNoArena();
+}
+inline void EnumerationAttribute::set_quantity(const ::std::string& value) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+#if LANG_CXX11
+inline void EnumerationAttribute::set_quantity(::std::string&& value) {
+  
+  quantity_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+#endif
+inline void EnumerationAttribute::set_quantity(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+inline void EnumerationAttribute::set_quantity(const char* value, size_t size) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+inline ::std::string* EnumerationAttribute::mutable_quantity() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.EnumerationAttribute.quantity)
+  return quantity_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* EnumerationAttribute::release_quantity() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.EnumerationAttribute.quantity)
+  
+  return quantity_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void EnumerationAttribute::set_allocated_quantity(::std::string* quantity) {
+  if (quantity != NULL) {
+    
+  } else {
+    
+  }
+  quantity_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), quantity);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+
 // -------------------------------------------------------------------
 
 // ScalarVariable
 
-// uint32 value_reference = 1;
+// uint64 value_reference = 1;
 inline void ScalarVariable::clear_value_reference() {
-  value_reference_ = 0u;
+  value_reference_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint32 ScalarVariable::value_reference() const {
+inline ::google::protobuf::uint64 ScalarVariable::value_reference() const {
   // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.value_reference)
   return value_reference_;
 }
-inline void ScalarVariable::set_value_reference(::google::protobuf::uint32 value) {
+inline void ScalarVariable::set_value_reference(::google::protobuf::uint64 value) {
   
   value_reference_ = value;
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.value_reference)
@@ -2792,60 +3266,7 @@ inline void ScalarVariable::set_allocated_description(::std::string* description
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.description)
 }
 
-// string declared_type = 4;
-inline void ScalarVariable::clear_declared_type() {
-  declared_type_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& ScalarVariable::declared_type() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.declared_type)
-  return declared_type_.GetNoArena();
-}
-inline void ScalarVariable::set_declared_type(const ::std::string& value) {
-  
-  declared_type_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.declared_type)
-}
-#if LANG_CXX11
-inline void ScalarVariable::set_declared_type(::std::string&& value) {
-  
-  declared_type_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ScalarVariable.declared_type)
-}
-#endif
-inline void ScalarVariable::set_declared_type(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  declared_type_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ScalarVariable.declared_type)
-}
-inline void ScalarVariable::set_declared_type(const char* value, size_t size) {
-  
-  declared_type_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ScalarVariable.declared_type)
-}
-inline ::std::string* ScalarVariable::mutable_declared_type() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.declared_type)
-  return declared_type_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* ScalarVariable::release_declared_type() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.declared_type)
-  
-  return declared_type_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void ScalarVariable::set_allocated_declared_type(::std::string* declared_type) {
-  if (declared_type != NULL) {
-    
-  } else {
-    
-  }
-  declared_type_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), declared_type);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.declared_type)
-}
-
-// .fmuproxy.grpc.Initial initial = 5;
+// .fmuproxy.grpc.Initial initial = 4;
 inline void ScalarVariable::clear_initial() {
   initial_ = 0;
 }
@@ -2859,7 +3280,7 @@ inline void ScalarVariable::set_initial(::fmuproxy::grpc::Initial value) {
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.initial)
 }
 
-// .fmuproxy.grpc.Causality causality = 6;
+// .fmuproxy.grpc.Causality causality = 5;
 inline void ScalarVariable::clear_causality() {
   causality_ = 0;
 }
@@ -2873,7 +3294,7 @@ inline void ScalarVariable::set_causality(::fmuproxy::grpc::Causality value) {
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.causality)
 }
 
-// .fmuproxy.grpc.Variability variability = 7;
+// .fmuproxy.grpc.Variability variability = 6;
 inline void ScalarVariable::clear_variability() {
   variability_ = 0;
 }
@@ -3392,6 +3813,8 @@ ModelStructure::initial_unknowns() const {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -3420,11 +3843,6 @@ template <> struct is_proto_enum< ::fmuproxy::grpc::Status> : ::std::true_type {
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Status>() {
   return ::fmuproxy::grpc::Status_descriptor();
-}
-template <> struct is_proto_enum< ::fmuproxy::grpc::VariableNamingConvention> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::VariableNamingConvention>() {
-  return ::fmuproxy::grpc::VariableNamingConvention_descriptor();
 }
 
 }  // namespace protobuf

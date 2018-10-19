@@ -22,24 +22,27 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_FMUSLAVE_HPP
-#define FMU_PROXY_FMUSLAVE_HPP
+#ifndef FMU_PROXY_SIMPLE_ID_HPP
+#define FMU_PROXY_SIMPLE_ID_HPP
 
-#include "FmuInstance.hpp"
+#include <random>
+#include <string>
 
-namespace fmuproxy::fmi {
+namespace {
 
-    class FmuSlave: public FmuInstance {
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(0, 9);
 
-    public:
-        explicit FmuSlave(ModelDescription &modelDescription) : FmuInstance(modelDescription) {}
+    const std::string generate_simple_id(unsigned int len) {
 
-        virtual fmi2_status_t step(fmi2_real_t step_size) = 0;
-
-        virtual fmi2_status_t cancelStep() = 0;
-
-    };
+        std::string id;
+        for (unsigned int i = 0; i < len; i++) {
+            id += std::to_string(dist(mt));
+        }
+        return id;
+    }
 
 }
 
-#endif //FMU_PROXY_FMUSLAVE_HPP
+#endif //FMU_PROXY_SIMPLE_ID_HPP

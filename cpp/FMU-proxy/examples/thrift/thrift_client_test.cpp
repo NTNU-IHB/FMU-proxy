@@ -22,11 +22,10 @@
  * THE SOFTWARE.
  */
 
-#include <iostream>
 #include <ctime>
+#include <iostream>
 
 #include <fmuproxy/thrift/common/FmuService.h>
-
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
 
 using namespace std;
@@ -45,12 +44,12 @@ int main() {
         ThriftClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9090);
 
         const auto md = fmu.getModelDescription();
-        cout << "GUID=" << md.guid << endl;
-        cout << "modelName=" << md.modelName << endl;
-        cout << "license=" << md.license << endl;
+        cout << "GUID=" << md->guid() << endl;
+        cout << "modelName=" << md->modelName() << endl;
+        cout << "license=" << md->license().value_or("") << endl;
 
-        for (const auto var : md.modelVariables) {
-            cout << "Name=" << var.name << ", " << var.attribute << endl;
+        for (const auto &var : *md->modelVariables()) {
+            cout << "Name=" << var.name() << endl;
         }
 
         auto slave = fmu.newInstance();
@@ -58,13 +57,13 @@ int main() {
 
         auto begin = clock();
 
-        vector<fmi2_real_t> ref(2);
-        vector<fmi2_value_reference_t> vr = {slave->getValueReference("Temperature_Reference"),
-                                             slave->getValueReference("Temperature_Room")};
+        vector<fmi2Real > ref(2);
+        vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
+                                          md->getValueReference("Temperature_Room")};
 
         double t;
         while ( (t=slave->getSimulationTime() ) < stop) {
-            slave->step(step_size);
+            slave->doStep(step_size);
             slave->readReal(vr, ref);
             cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
         }
@@ -75,7 +74,7 @@ int main() {
         cout << "elapsed=" << elapsed_secs << "s" << endl;
 
         auto status = slave->terminate();
-        cout << "terminated FMU with status " << fmi2_status_to_string(status) << endl;
+        cout << "terminated FMU with status " << to_string(status) << endl;
 
         fmu.close();
 
