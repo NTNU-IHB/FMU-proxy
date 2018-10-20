@@ -1,1 +1,0 @@
-__all__= ['definitions_pb2', 'service_pb2_grpc', 'service_pb2']

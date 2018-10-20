@@ -1,8 +1,7 @@
 import grpc
 
-from definitions.service_pb2 import *
-from definitions.definitions_pb2 import *
-from definitions.service_pb2_grpc import FmuServiceStub
+from service.service_pb2 import *
+from service.service_pb2_grpc import FmuServiceStub
 
 
 class VariableReader:
