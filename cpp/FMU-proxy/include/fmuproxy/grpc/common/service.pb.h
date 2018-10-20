@@ -29,8 +29,8 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
-#include "definitions.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_service_2eproto 
 
@@ -39,7 +39,7 @@ namespace protobuf_service_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[34];
+  static const ::google::protobuf::internal::ParseTable schema[47];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -51,6 +51,9 @@ namespace grpc {
 class Bool;
 class BoolDefaultTypeInternal;
 extern BoolDefaultTypeInternal _Bool_default_instance_;
+class BooleanAttribute;
+class BooleanAttributeDefaultTypeInternal;
+extern BooleanAttributeDefaultTypeInternal _BooleanAttribute_default_instance_;
 class BooleanRead;
 class BooleanReadDefaultTypeInternal;
 extern BooleanReadDefaultTypeInternal _BooleanRead_default_instance_;
@@ -60,6 +63,9 @@ extern CanCreateInstanceFromCSRequestDefaultTypeInternal _CanCreateInstanceFromC
 class CanCreateInstanceFromMERequest;
 class CanCreateInstanceFromMERequestDefaultTypeInternal;
 extern CanCreateInstanceFromMERequestDefaultTypeInternal _CanCreateInstanceFromMERequest_default_instance_;
+class CoSimulationAttributes;
+class CoSimulationAttributesDefaultTypeInternal;
+extern CoSimulationAttributesDefaultTypeInternal _CoSimulationAttributes_default_instance_;
 class CreateInstanceFromCSRequest;
 class CreateInstanceFromCSRequestDefaultTypeInternal;
 extern CreateInstanceFromCSRequestDefaultTypeInternal _CreateInstanceFromCSRequest_default_instance_;
@@ -72,6 +78,12 @@ extern DeSerializeFMUstateRequestDefaultTypeInternal _DeSerializeFMUstateRequest
 class DeSerializeFMUstateResponse;
 class DeSerializeFMUstateResponseDefaultTypeInternal;
 extern DeSerializeFMUstateResponseDefaultTypeInternal _DeSerializeFMUstateResponse_default_instance_;
+class DefaultExperiment;
+class DefaultExperimentDefaultTypeInternal;
+extern DefaultExperimentDefaultTypeInternal _DefaultExperiment_default_instance_;
+class EnumerationAttribute;
+class EnumerationAttributeDefaultTypeInternal;
+extern EnumerationAttributeDefaultTypeInternal _EnumerationAttribute_default_instance_;
 class FmuId;
 class FmuIdDefaultTypeInternal;
 extern FmuIdDefaultTypeInternal _FmuId_default_instance_;
@@ -81,6 +93,12 @@ extern FreeFMUstateRequestDefaultTypeInternal _FreeFMUstateRequest_default_insta
 class GetCoSimulationAttributesRequest;
 class GetCoSimulationAttributesRequestDefaultTypeInternal;
 extern GetCoSimulationAttributesRequestDefaultTypeInternal _GetCoSimulationAttributesRequest_default_instance_;
+class GetDirectionalDerivativeRequest;
+class GetDirectionalDerivativeRequestDefaultTypeInternal;
+extern GetDirectionalDerivativeRequestDefaultTypeInternal _GetDirectionalDerivativeRequest_default_instance_;
+class GetDirectionalDerivativeResponse;
+class GetDirectionalDerivativeResponseDefaultTypeInternal;
+extern GetDirectionalDerivativeResponseDefaultTypeInternal _GetDirectionalDerivativeResponse_default_instance_;
 class GetFMUstateRequest;
 class GetFMUstateRequestDefaultTypeInternal;
 extern GetFMUstateRequestDefaultTypeInternal _GetFMUstateRequest_default_instance_;
@@ -96,21 +114,36 @@ extern InitRequestDefaultTypeInternal _InitRequest_default_instance_;
 class InstanceId;
 class InstanceIdDefaultTypeInternal;
 extern InstanceIdDefaultTypeInternal _InstanceId_default_instance_;
+class IntegerAttribute;
+class IntegerAttributeDefaultTypeInternal;
+extern IntegerAttributeDefaultTypeInternal _IntegerAttribute_default_instance_;
 class IntegerRead;
 class IntegerReadDefaultTypeInternal;
 extern IntegerReadDefaultTypeInternal _IntegerRead_default_instance_;
+class ModelDescription;
+class ModelDescriptionDefaultTypeInternal;
+extern ModelDescriptionDefaultTypeInternal _ModelDescription_default_instance_;
 class ModelDescriptionXml;
 class ModelDescriptionXmlDefaultTypeInternal;
 extern ModelDescriptionXmlDefaultTypeInternal _ModelDescriptionXml_default_instance_;
+class ModelStructure;
+class ModelStructureDefaultTypeInternal;
+extern ModelStructureDefaultTypeInternal _ModelStructure_default_instance_;
 class ReadRequest;
 class ReadRequestDefaultTypeInternal;
 extern ReadRequestDefaultTypeInternal _ReadRequest_default_instance_;
+class RealAttribute;
+class RealAttributeDefaultTypeInternal;
+extern RealAttributeDefaultTypeInternal _RealAttribute_default_instance_;
 class RealRead;
 class RealReadDefaultTypeInternal;
 extern RealReadDefaultTypeInternal _RealRead_default_instance_;
 class ResetRequest;
 class ResetRequestDefaultTypeInternal;
 extern ResetRequestDefaultTypeInternal _ResetRequest_default_instance_;
+class ScalarVariable;
+class ScalarVariableDefaultTypeInternal;
+extern ScalarVariableDefaultTypeInternal _ScalarVariable_default_instance_;
 class SerializeFMUstateRequest;
 class SerializeFMUstateRequestDefaultTypeInternal;
 extern SerializeFMUstateRequestDefaultTypeInternal _SerializeFMUstateRequest_default_instance_;
@@ -132,12 +165,18 @@ extern StepRequestDefaultTypeInternal _StepRequest_default_instance_;
 class StepResponse;
 class StepResponseDefaultTypeInternal;
 extern StepResponseDefaultTypeInternal _StepResponse_default_instance_;
+class StringAttribute;
+class StringAttributeDefaultTypeInternal;
+extern StringAttributeDefaultTypeInternal _StringAttribute_default_instance_;
 class StringRead;
 class StringReadDefaultTypeInternal;
 extern StringReadDefaultTypeInternal _StringRead_default_instance_;
 class TerminateRequest;
 class TerminateRequestDefaultTypeInternal;
 extern TerminateRequestDefaultTypeInternal _TerminateRequest_default_instance_;
+class Unknown;
+class UnknownDefaultTypeInternal;
+extern UnknownDefaultTypeInternal _Unknown_default_instance_;
 class WriteBooleanRequest;
 class WriteBooleanRequestDefaultTypeInternal;
 extern WriteBooleanRequestDefaultTypeInternal _WriteBooleanRequest_default_instance_;
@@ -155,26 +194,37 @@ extern WriteStringRequestDefaultTypeInternal _WriteStringRequest_default_instanc
 namespace google {
 namespace protobuf {
 template<> ::fmuproxy::grpc::Bool* Arena::CreateMaybeMessage<::fmuproxy::grpc::Bool>(Arena*);
+template<> ::fmuproxy::grpc::BooleanAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::BooleanAttribute>(Arena*);
 template<> ::fmuproxy::grpc::BooleanRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::BooleanRead>(Arena*);
 template<> ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::CanCreateInstanceFromCSRequest>(Arena*);
 template<> ::fmuproxy::grpc::CanCreateInstanceFromMERequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::CanCreateInstanceFromMERequest>(Arena*);
+template<> ::fmuproxy::grpc::CoSimulationAttributes* Arena::CreateMaybeMessage<::fmuproxy::grpc::CoSimulationAttributes>(Arena*);
 template<> ::fmuproxy::grpc::CreateInstanceFromCSRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::CreateInstanceFromCSRequest>(Arena*);
 template<> ::fmuproxy::grpc::CreateInstanceFromMERequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::CreateInstanceFromMERequest>(Arena*);
 template<> ::fmuproxy::grpc::DeSerializeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::DeSerializeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::DeSerializeFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::DeSerializeFMUstateResponse>(Arena*);
+template<> ::fmuproxy::grpc::DefaultExperiment* Arena::CreateMaybeMessage<::fmuproxy::grpc::DefaultExperiment>(Arena*);
+template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnumerationAttribute>(Arena*);
 template<> ::fmuproxy::grpc::FmuId* Arena::CreateMaybeMessage<::fmuproxy::grpc::FmuId>(Arena*);
 template<> ::fmuproxy::grpc::FreeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::FreeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetCoSimulationAttributesRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetCoSimulationAttributesRequest>(Arena*);
+template<> ::fmuproxy::grpc::GetDirectionalDerivativeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetDirectionalDerivativeRequest>(Arena*);
+template<> ::fmuproxy::grpc::GetDirectionalDerivativeResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetDirectionalDerivativeResponse>(Arena*);
 template<> ::fmuproxy::grpc::GetFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::GetModelDescriptionRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetModelDescriptionRequest>(Arena*);
 template<> ::fmuproxy::grpc::InitRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::InitRequest>(Arena*);
 template<> ::fmuproxy::grpc::InstanceId* Arena::CreateMaybeMessage<::fmuproxy::grpc::InstanceId>(Arena*);
+template<> ::fmuproxy::grpc::IntegerAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::IntegerAttribute>(Arena*);
 template<> ::fmuproxy::grpc::IntegerRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::IntegerRead>(Arena*);
+template<> ::fmuproxy::grpc::ModelDescription* Arena::CreateMaybeMessage<::fmuproxy::grpc::ModelDescription>(Arena*);
 template<> ::fmuproxy::grpc::ModelDescriptionXml* Arena::CreateMaybeMessage<::fmuproxy::grpc::ModelDescriptionXml>(Arena*);
+template<> ::fmuproxy::grpc::ModelStructure* Arena::CreateMaybeMessage<::fmuproxy::grpc::ModelStructure>(Arena*);
 template<> ::fmuproxy::grpc::ReadRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ReadRequest>(Arena*);
+template<> ::fmuproxy::grpc::RealAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::RealAttribute>(Arena*);
 template<> ::fmuproxy::grpc::RealRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::RealRead>(Arena*);
 template<> ::fmuproxy::grpc::ResetRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ResetRequest>(Arena*);
+template<> ::fmuproxy::grpc::ScalarVariable* Arena::CreateMaybeMessage<::fmuproxy::grpc::ScalarVariable>(Arena*);
 template<> ::fmuproxy::grpc::SerializeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SerializeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::SerializeFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::SerializeFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::SetFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SetFMUstateRequest>(Arena*);
@@ -182,8 +232,10 @@ template<> ::fmuproxy::grpc::Solver* Arena::CreateMaybeMessage<::fmuproxy::grpc:
 template<> ::fmuproxy::grpc::StatusResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::StatusResponse>(Arena*);
 template<> ::fmuproxy::grpc::StepRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::StepRequest>(Arena*);
 template<> ::fmuproxy::grpc::StepResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::StepResponse>(Arena*);
+template<> ::fmuproxy::grpc::StringAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::StringAttribute>(Arena*);
 template<> ::fmuproxy::grpc::StringRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::StringRead>(Arena*);
 template<> ::fmuproxy::grpc::TerminateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::TerminateRequest>(Arena*);
+template<> ::fmuproxy::grpc::Unknown* Arena::CreateMaybeMessage<::fmuproxy::grpc::Unknown>(Arena*);
 template<> ::fmuproxy::grpc::WriteBooleanRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteBooleanRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteIntegerRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteIntegerRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteRealRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteRealRequest>(Arena*);
@@ -193,7 +245,1803 @@ template<> ::fmuproxy::grpc::WriteStringRequest* Arena::CreateMaybeMessage<::fmu
 namespace fmuproxy {
 namespace grpc {
 
+enum Causality {
+  INPUT_CAUSALITY = 0,
+  OUTPUT_CAUSALITY = 1,
+  PARAMETER_CAUSALITY = 2,
+  CALCULATED_PARAMETER_CAUSALITY = 3,
+  LOCAL_CAUSALITY = 4,
+  INDEPENDENT_CAUSALITY = 5,
+  UNKNOWN_CAUSALITY = 6,
+  Causality_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Causality_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool Causality_IsValid(int value);
+const Causality Causality_MIN = INPUT_CAUSALITY;
+const Causality Causality_MAX = UNKNOWN_CAUSALITY;
+const int Causality_ARRAYSIZE = Causality_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Causality_descriptor();
+inline const ::std::string& Causality_Name(Causality value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Causality_descriptor(), value);
+}
+inline bool Causality_Parse(
+    const ::std::string& name, Causality* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Causality>(
+    Causality_descriptor(), name, value);
+}
+enum Variability {
+  CONSTANT_VARIABILITY = 0,
+  FIXED_VARIABILITY = 1,
+  CONTINUOUS_VARIABILITY = 2,
+  DISCRETE_VARIABILITY = 3,
+  TUNABLE_VARIABILITY = 4,
+  UNKNOWN_VARIABILITY = 5,
+  Variability_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Variability_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool Variability_IsValid(int value);
+const Variability Variability_MIN = CONSTANT_VARIABILITY;
+const Variability Variability_MAX = UNKNOWN_VARIABILITY;
+const int Variability_ARRAYSIZE = Variability_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Variability_descriptor();
+inline const ::std::string& Variability_Name(Variability value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Variability_descriptor(), value);
+}
+inline bool Variability_Parse(
+    const ::std::string& name, Variability* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Variability>(
+    Variability_descriptor(), name, value);
+}
+enum Initial {
+  EXACT_INITIAL = 0,
+  APPROX_INITIAL = 1,
+  CALCULATED_INITIAL = 2,
+  UNKNOWN_INITIAL = 3,
+  Initial_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Initial_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool Initial_IsValid(int value);
+const Initial Initial_MIN = EXACT_INITIAL;
+const Initial Initial_MAX = UNKNOWN_INITIAL;
+const int Initial_ARRAYSIZE = Initial_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Initial_descriptor();
+inline const ::std::string& Initial_Name(Initial value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Initial_descriptor(), value);
+}
+inline bool Initial_Parse(
+    const ::std::string& name, Initial* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Initial>(
+    Initial_descriptor(), name, value);
+}
+enum Status {
+  OK_STATUS = 0,
+  WARNING_STATUS = 1,
+  DISCARD_STATUS = 2,
+  ERROR_STATUS = 3,
+  FATAL_STATUS = 4,
+  PENDING_STATUS = 5,
+  Status_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Status_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool Status_IsValid(int value);
+const Status Status_MIN = OK_STATUS;
+const Status Status_MAX = PENDING_STATUS;
+const int Status_ARRAYSIZE = Status_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Status_descriptor();
+inline const ::std::string& Status_Name(Status value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Status_descriptor(), value);
+}
+inline bool Status_Parse(
+    const ::std::string& name, Status* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Status>(
+    Status_descriptor(), name, value);
+}
 // ===================================================================
+
+class ModelDescription : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.ModelDescription) */ {
+ public:
+  ModelDescription();
+  virtual ~ModelDescription();
+
+  ModelDescription(const ModelDescription& from);
+
+  inline ModelDescription& operator=(const ModelDescription& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ModelDescription(ModelDescription&& from) noexcept
+    : ModelDescription() {
+    *this = ::std::move(from);
+  }
+
+  inline ModelDescription& operator=(ModelDescription&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ModelDescription& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ModelDescription* internal_default_instance() {
+    return reinterpret_cast<const ModelDescription*>(
+               &_ModelDescription_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  void Swap(ModelDescription* other);
+  friend void swap(ModelDescription& a, ModelDescription& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ModelDescription* New() const final {
+    return CreateMaybeMessage<ModelDescription>(NULL);
+  }
+
+  ModelDescription* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ModelDescription>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ModelDescription& from);
+  void MergeFrom(const ModelDescription& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ModelDescription* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .fmuproxy.grpc.ScalarVariable model_variables = 13;
+  int model_variables_size() const;
+  void clear_model_variables();
+  static const int kModelVariablesFieldNumber = 13;
+  ::fmuproxy::grpc::ScalarVariable* mutable_model_variables(int index);
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::ScalarVariable >*
+      mutable_model_variables();
+  const ::fmuproxy::grpc::ScalarVariable& model_variables(int index) const;
+  ::fmuproxy::grpc::ScalarVariable* add_model_variables();
+  const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::ScalarVariable >&
+      model_variables() const;
+
+  // string fmi_version = 1;
+  void clear_fmi_version();
+  static const int kFmiVersionFieldNumber = 1;
+  const ::std::string& fmi_version() const;
+  void set_fmi_version(const ::std::string& value);
+  #if LANG_CXX11
+  void set_fmi_version(::std::string&& value);
+  #endif
+  void set_fmi_version(const char* value);
+  void set_fmi_version(const char* value, size_t size);
+  ::std::string* mutable_fmi_version();
+  ::std::string* release_fmi_version();
+  void set_allocated_fmi_version(::std::string* fmi_version);
+
+  // string guid = 2;
+  void clear_guid();
+  static const int kGuidFieldNumber = 2;
+  const ::std::string& guid() const;
+  void set_guid(const ::std::string& value);
+  #if LANG_CXX11
+  void set_guid(::std::string&& value);
+  #endif
+  void set_guid(const char* value);
+  void set_guid(const char* value, size_t size);
+  ::std::string* mutable_guid();
+  ::std::string* release_guid();
+  void set_allocated_guid(::std::string* guid);
+
+  // string model_name = 3;
+  void clear_model_name();
+  static const int kModelNameFieldNumber = 3;
+  const ::std::string& model_name() const;
+  void set_model_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_model_name(::std::string&& value);
+  #endif
+  void set_model_name(const char* value);
+  void set_model_name(const char* value, size_t size);
+  ::std::string* mutable_model_name();
+  ::std::string* release_model_name();
+  void set_allocated_model_name(::std::string* model_name);
+
+  // string license = 4;
+  void clear_license();
+  static const int kLicenseFieldNumber = 4;
+  const ::std::string& license() const;
+  void set_license(const ::std::string& value);
+  #if LANG_CXX11
+  void set_license(::std::string&& value);
+  #endif
+  void set_license(const char* value);
+  void set_license(const char* value, size_t size);
+  ::std::string* mutable_license();
+  ::std::string* release_license();
+  void set_allocated_license(::std::string* license);
+
+  // string copyright = 5;
+  void clear_copyright();
+  static const int kCopyrightFieldNumber = 5;
+  const ::std::string& copyright() const;
+  void set_copyright(const ::std::string& value);
+  #if LANG_CXX11
+  void set_copyright(::std::string&& value);
+  #endif
+  void set_copyright(const char* value);
+  void set_copyright(const char* value, size_t size);
+  ::std::string* mutable_copyright();
+  ::std::string* release_copyright();
+  void set_allocated_copyright(::std::string* copyright);
+
+  // string author = 6;
+  void clear_author();
+  static const int kAuthorFieldNumber = 6;
+  const ::std::string& author() const;
+  void set_author(const ::std::string& value);
+  #if LANG_CXX11
+  void set_author(::std::string&& value);
+  #endif
+  void set_author(const char* value);
+  void set_author(const char* value, size_t size);
+  ::std::string* mutable_author();
+  ::std::string* release_author();
+  void set_allocated_author(::std::string* author);
+
+  // string version = 7;
+  void clear_version();
+  static const int kVersionFieldNumber = 7;
+  const ::std::string& version() const;
+  void set_version(const ::std::string& value);
+  #if LANG_CXX11
+  void set_version(::std::string&& value);
+  #endif
+  void set_version(const char* value);
+  void set_version(const char* value, size_t size);
+  ::std::string* mutable_version();
+  ::std::string* release_version();
+  void set_allocated_version(::std::string* version);
+
+  // string description = 8;
+  void clear_description();
+  static const int kDescriptionFieldNumber = 8;
+  const ::std::string& description() const;
+  void set_description(const ::std::string& value);
+  #if LANG_CXX11
+  void set_description(::std::string&& value);
+  #endif
+  void set_description(const char* value);
+  void set_description(const char* value, size_t size);
+  ::std::string* mutable_description();
+  ::std::string* release_description();
+  void set_allocated_description(::std::string* description);
+
+  // string generation_tool = 9;
+  void clear_generation_tool();
+  static const int kGenerationToolFieldNumber = 9;
+  const ::std::string& generation_tool() const;
+  void set_generation_tool(const ::std::string& value);
+  #if LANG_CXX11
+  void set_generation_tool(::std::string&& value);
+  #endif
+  void set_generation_tool(const char* value);
+  void set_generation_tool(const char* value, size_t size);
+  ::std::string* mutable_generation_tool();
+  ::std::string* release_generation_tool();
+  void set_allocated_generation_tool(::std::string* generation_tool);
+
+  // string generation_date_and_time = 10;
+  void clear_generation_date_and_time();
+  static const int kGenerationDateAndTimeFieldNumber = 10;
+  const ::std::string& generation_date_and_time() const;
+  void set_generation_date_and_time(const ::std::string& value);
+  #if LANG_CXX11
+  void set_generation_date_and_time(::std::string&& value);
+  #endif
+  void set_generation_date_and_time(const char* value);
+  void set_generation_date_and_time(const char* value, size_t size);
+  ::std::string* mutable_generation_date_and_time();
+  ::std::string* release_generation_date_and_time();
+  void set_allocated_generation_date_and_time(::std::string* generation_date_and_time);
+
+  // string variable_naming_convention = 12;
+  void clear_variable_naming_convention();
+  static const int kVariableNamingConventionFieldNumber = 12;
+  const ::std::string& variable_naming_convention() const;
+  void set_variable_naming_convention(const ::std::string& value);
+  #if LANG_CXX11
+  void set_variable_naming_convention(::std::string&& value);
+  #endif
+  void set_variable_naming_convention(const char* value);
+  void set_variable_naming_convention(const char* value, size_t size);
+  ::std::string* mutable_variable_naming_convention();
+  ::std::string* release_variable_naming_convention();
+  void set_allocated_variable_naming_convention(::std::string* variable_naming_convention);
+
+  // .fmuproxy.grpc.DefaultExperiment default_experiment = 11;
+  bool has_default_experiment() const;
+  void clear_default_experiment();
+  static const int kDefaultExperimentFieldNumber = 11;
+  private:
+  const ::fmuproxy::grpc::DefaultExperiment& _internal_default_experiment() const;
+  public:
+  const ::fmuproxy::grpc::DefaultExperiment& default_experiment() const;
+  ::fmuproxy::grpc::DefaultExperiment* release_default_experiment();
+  ::fmuproxy::grpc::DefaultExperiment* mutable_default_experiment();
+  void set_allocated_default_experiment(::fmuproxy::grpc::DefaultExperiment* default_experiment);
+
+  // .fmuproxy.grpc.ModelStructure model_structure = 14;
+  bool has_model_structure() const;
+  void clear_model_structure();
+  static const int kModelStructureFieldNumber = 14;
+  private:
+  const ::fmuproxy::grpc::ModelStructure& _internal_model_structure() const;
+  public:
+  const ::fmuproxy::grpc::ModelStructure& model_structure() const;
+  ::fmuproxy::grpc::ModelStructure* release_model_structure();
+  ::fmuproxy::grpc::ModelStructure* mutable_model_structure();
+  void set_allocated_model_structure(::fmuproxy::grpc::ModelStructure* model_structure);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ModelDescription)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::ScalarVariable > model_variables_;
+  ::google::protobuf::internal::ArenaStringPtr fmi_version_;
+  ::google::protobuf::internal::ArenaStringPtr guid_;
+  ::google::protobuf::internal::ArenaStringPtr model_name_;
+  ::google::protobuf::internal::ArenaStringPtr license_;
+  ::google::protobuf::internal::ArenaStringPtr copyright_;
+  ::google::protobuf::internal::ArenaStringPtr author_;
+  ::google::protobuf::internal::ArenaStringPtr version_;
+  ::google::protobuf::internal::ArenaStringPtr description_;
+  ::google::protobuf::internal::ArenaStringPtr generation_tool_;
+  ::google::protobuf::internal::ArenaStringPtr generation_date_and_time_;
+  ::google::protobuf::internal::ArenaStringPtr variable_naming_convention_;
+  ::fmuproxy::grpc::DefaultExperiment* default_experiment_;
+  ::fmuproxy::grpc::ModelStructure* model_structure_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class CoSimulationAttributes : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.CoSimulationAttributes) */ {
+ public:
+  CoSimulationAttributes();
+  virtual ~CoSimulationAttributes();
+
+  CoSimulationAttributes(const CoSimulationAttributes& from);
+
+  inline CoSimulationAttributes& operator=(const CoSimulationAttributes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CoSimulationAttributes(CoSimulationAttributes&& from) noexcept
+    : CoSimulationAttributes() {
+    *this = ::std::move(from);
+  }
+
+  inline CoSimulationAttributes& operator=(CoSimulationAttributes&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CoSimulationAttributes& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CoSimulationAttributes* internal_default_instance() {
+    return reinterpret_cast<const CoSimulationAttributes*>(
+               &_CoSimulationAttributes_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  void Swap(CoSimulationAttributes* other);
+  friend void swap(CoSimulationAttributes& a, CoSimulationAttributes& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CoSimulationAttributes* New() const final {
+    return CreateMaybeMessage<CoSimulationAttributes>(NULL);
+  }
+
+  CoSimulationAttributes* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CoSimulationAttributes>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CoSimulationAttributes& from);
+  void MergeFrom(const CoSimulationAttributes& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CoSimulationAttributes* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string model_identifier = 1;
+  void clear_model_identifier();
+  static const int kModelIdentifierFieldNumber = 1;
+  const ::std::string& model_identifier() const;
+  void set_model_identifier(const ::std::string& value);
+  #if LANG_CXX11
+  void set_model_identifier(::std::string&& value);
+  #endif
+  void set_model_identifier(const char* value);
+  void set_model_identifier(const char* value, size_t size);
+  ::std::string* mutable_model_identifier();
+  ::std::string* release_model_identifier();
+  void set_allocated_model_identifier(::std::string* model_identifier);
+
+  // bool can_get_and_set_FMUstate = 2;
+  void clear_can_get_and_set_fmustate();
+  static const int kCanGetAndSetFMUstateFieldNumber = 2;
+  bool can_get_and_set_fmustate() const;
+  void set_can_get_and_set_fmustate(bool value);
+
+  // bool can_serialize_FMUstate = 3;
+  void clear_can_serialize_fmustate();
+  static const int kCanSerializeFMUstateFieldNumber = 3;
+  bool can_serialize_fmustate() const;
+  void set_can_serialize_fmustate(bool value);
+
+  // bool provides_directional_derivative = 4;
+  void clear_provides_directional_derivative();
+  static const int kProvidesDirectionalDerivativeFieldNumber = 4;
+  bool provides_directional_derivative() const;
+  void set_provides_directional_derivative(bool value);
+
+  // bool can_handle_variable_communication_step_size = 5;
+  void clear_can_handle_variable_communication_step_size();
+  static const int kCanHandleVariableCommunicationStepSizeFieldNumber = 5;
+  bool can_handle_variable_communication_step_size() const;
+  void set_can_handle_variable_communication_step_size(bool value);
+
+  // bool can_interpolate_inputs = 6;
+  void clear_can_interpolate_inputs();
+  static const int kCanInterpolateInputsFieldNumber = 6;
+  bool can_interpolate_inputs() const;
+  void set_can_interpolate_inputs(bool value);
+
+  // uint32 max_output_derivative_order = 7;
+  void clear_max_output_derivative_order();
+  static const int kMaxOutputDerivativeOrderFieldNumber = 7;
+  ::google::protobuf::uint32 max_output_derivative_order() const;
+  void set_max_output_derivative_order(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.CoSimulationAttributes)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr model_identifier_;
+  bool can_get_and_set_fmustate_;
+  bool can_serialize_fmustate_;
+  bool provides_directional_derivative_;
+  bool can_handle_variable_communication_step_size_;
+  bool can_interpolate_inputs_;
+  ::google::protobuf::uint32 max_output_derivative_order_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class IntegerAttribute : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.IntegerAttribute) */ {
+ public:
+  IntegerAttribute();
+  virtual ~IntegerAttribute();
+
+  IntegerAttribute(const IntegerAttribute& from);
+
+  inline IntegerAttribute& operator=(const IntegerAttribute& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  IntegerAttribute(IntegerAttribute&& from) noexcept
+    : IntegerAttribute() {
+    *this = ::std::move(from);
+  }
+
+  inline IntegerAttribute& operator=(IntegerAttribute&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const IntegerAttribute& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const IntegerAttribute* internal_default_instance() {
+    return reinterpret_cast<const IntegerAttribute*>(
+               &_IntegerAttribute_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(IntegerAttribute* other);
+  friend void swap(IntegerAttribute& a, IntegerAttribute& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline IntegerAttribute* New() const final {
+    return CreateMaybeMessage<IntegerAttribute>(NULL);
+  }
+
+  IntegerAttribute* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<IntegerAttribute>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const IntegerAttribute& from);
+  void MergeFrom(const IntegerAttribute& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(IntegerAttribute* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string quantity = 4;
+  void clear_quantity();
+  static const int kQuantityFieldNumber = 4;
+  const ::std::string& quantity() const;
+  void set_quantity(const ::std::string& value);
+  #if LANG_CXX11
+  void set_quantity(::std::string&& value);
+  #endif
+  void set_quantity(const char* value);
+  void set_quantity(const char* value, size_t size);
+  ::std::string* mutable_quantity();
+  ::std::string* release_quantity();
+  void set_allocated_quantity(::std::string* quantity);
+
+  // int32 min = 1;
+  void clear_min();
+  static const int kMinFieldNumber = 1;
+  ::google::protobuf::int32 min() const;
+  void set_min(::google::protobuf::int32 value);
+
+  // int32 max = 2;
+  void clear_max();
+  static const int kMaxFieldNumber = 2;
+  ::google::protobuf::int32 max() const;
+  void set_max(::google::protobuf::int32 value);
+
+  // int32 start = 3;
+  void clear_start();
+  static const int kStartFieldNumber = 3;
+  ::google::protobuf::int32 start() const;
+  void set_start(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.IntegerAttribute)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr quantity_;
+  ::google::protobuf::int32 min_;
+  ::google::protobuf::int32 max_;
+  ::google::protobuf::int32 start_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class RealAttribute : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.RealAttribute) */ {
+ public:
+  RealAttribute();
+  virtual ~RealAttribute();
+
+  RealAttribute(const RealAttribute& from);
+
+  inline RealAttribute& operator=(const RealAttribute& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RealAttribute(RealAttribute&& from) noexcept
+    : RealAttribute() {
+    *this = ::std::move(from);
+  }
+
+  inline RealAttribute& operator=(RealAttribute&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RealAttribute& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RealAttribute* internal_default_instance() {
+    return reinterpret_cast<const RealAttribute*>(
+               &_RealAttribute_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(RealAttribute* other);
+  friend void swap(RealAttribute& a, RealAttribute& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RealAttribute* New() const final {
+    return CreateMaybeMessage<RealAttribute>(NULL);
+  }
+
+  RealAttribute* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<RealAttribute>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const RealAttribute& from);
+  void MergeFrom(const RealAttribute& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RealAttribute* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string quantity = 4;
+  void clear_quantity();
+  static const int kQuantityFieldNumber = 4;
+  const ::std::string& quantity() const;
+  void set_quantity(const ::std::string& value);
+  #if LANG_CXX11
+  void set_quantity(::std::string&& value);
+  #endif
+  void set_quantity(const char* value);
+  void set_quantity(const char* value, size_t size);
+  ::std::string* mutable_quantity();
+  ::std::string* release_quantity();
+  void set_allocated_quantity(::std::string* quantity);
+
+  // double min = 1;
+  void clear_min();
+  static const int kMinFieldNumber = 1;
+  double min() const;
+  void set_min(double value);
+
+  // double max = 2;
+  void clear_max();
+  static const int kMaxFieldNumber = 2;
+  double max() const;
+  void set_max(double value);
+
+  // double start = 3;
+  void clear_start();
+  static const int kStartFieldNumber = 3;
+  double start() const;
+  void set_start(double value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.RealAttribute)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr quantity_;
+  double min_;
+  double max_;
+  double start_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class StringAttribute : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.StringAttribute) */ {
+ public:
+  StringAttribute();
+  virtual ~StringAttribute();
+
+  StringAttribute(const StringAttribute& from);
+
+  inline StringAttribute& operator=(const StringAttribute& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  StringAttribute(StringAttribute&& from) noexcept
+    : StringAttribute() {
+    *this = ::std::move(from);
+  }
+
+  inline StringAttribute& operator=(StringAttribute&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const StringAttribute& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const StringAttribute* internal_default_instance() {
+    return reinterpret_cast<const StringAttribute*>(
+               &_StringAttribute_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(StringAttribute* other);
+  friend void swap(StringAttribute& a, StringAttribute& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline StringAttribute* New() const final {
+    return CreateMaybeMessage<StringAttribute>(NULL);
+  }
+
+  StringAttribute* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<StringAttribute>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const StringAttribute& from);
+  void MergeFrom(const StringAttribute& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(StringAttribute* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string start = 1;
+  void clear_start();
+  static const int kStartFieldNumber = 1;
+  const ::std::string& start() const;
+  void set_start(const ::std::string& value);
+  #if LANG_CXX11
+  void set_start(::std::string&& value);
+  #endif
+  void set_start(const char* value);
+  void set_start(const char* value, size_t size);
+  ::std::string* mutable_start();
+  ::std::string* release_start();
+  void set_allocated_start(::std::string* start);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.StringAttribute)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr start_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class BooleanAttribute : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.BooleanAttribute) */ {
+ public:
+  BooleanAttribute();
+  virtual ~BooleanAttribute();
+
+  BooleanAttribute(const BooleanAttribute& from);
+
+  inline BooleanAttribute& operator=(const BooleanAttribute& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  BooleanAttribute(BooleanAttribute&& from) noexcept
+    : BooleanAttribute() {
+    *this = ::std::move(from);
+  }
+
+  inline BooleanAttribute& operator=(BooleanAttribute&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const BooleanAttribute& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const BooleanAttribute* internal_default_instance() {
+    return reinterpret_cast<const BooleanAttribute*>(
+               &_BooleanAttribute_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(BooleanAttribute* other);
+  friend void swap(BooleanAttribute& a, BooleanAttribute& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline BooleanAttribute* New() const final {
+    return CreateMaybeMessage<BooleanAttribute>(NULL);
+  }
+
+  BooleanAttribute* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<BooleanAttribute>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const BooleanAttribute& from);
+  void MergeFrom(const BooleanAttribute& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(BooleanAttribute* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // bool start = 1;
+  void clear_start();
+  static const int kStartFieldNumber = 1;
+  bool start() const;
+  void set_start(bool value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.BooleanAttribute)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool start_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class EnumerationAttribute : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.EnumerationAttribute) */ {
+ public:
+  EnumerationAttribute();
+  virtual ~EnumerationAttribute();
+
+  EnumerationAttribute(const EnumerationAttribute& from);
+
+  inline EnumerationAttribute& operator=(const EnumerationAttribute& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EnumerationAttribute(EnumerationAttribute&& from) noexcept
+    : EnumerationAttribute() {
+    *this = ::std::move(from);
+  }
+
+  inline EnumerationAttribute& operator=(EnumerationAttribute&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EnumerationAttribute& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EnumerationAttribute* internal_default_instance() {
+    return reinterpret_cast<const EnumerationAttribute*>(
+               &_EnumerationAttribute_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  void Swap(EnumerationAttribute* other);
+  friend void swap(EnumerationAttribute& a, EnumerationAttribute& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EnumerationAttribute* New() const final {
+    return CreateMaybeMessage<EnumerationAttribute>(NULL);
+  }
+
+  EnumerationAttribute* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<EnumerationAttribute>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const EnumerationAttribute& from);
+  void MergeFrom(const EnumerationAttribute& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EnumerationAttribute* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string quantity = 4;
+  void clear_quantity();
+  static const int kQuantityFieldNumber = 4;
+  const ::std::string& quantity() const;
+  void set_quantity(const ::std::string& value);
+  #if LANG_CXX11
+  void set_quantity(::std::string&& value);
+  #endif
+  void set_quantity(const char* value);
+  void set_quantity(const char* value, size_t size);
+  ::std::string* mutable_quantity();
+  ::std::string* release_quantity();
+  void set_allocated_quantity(::std::string* quantity);
+
+  // int32 min = 1;
+  void clear_min();
+  static const int kMinFieldNumber = 1;
+  ::google::protobuf::int32 min() const;
+  void set_min(::google::protobuf::int32 value);
+
+  // int32 max = 2;
+  void clear_max();
+  static const int kMaxFieldNumber = 2;
+  ::google::protobuf::int32 max() const;
+  void set_max(::google::protobuf::int32 value);
+
+  // int32 start = 3;
+  void clear_start();
+  static const int kStartFieldNumber = 3;
+  ::google::protobuf::int32 start() const;
+  void set_start(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.EnumerationAttribute)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr quantity_;
+  ::google::protobuf::int32 min_;
+  ::google::protobuf::int32 max_;
+  ::google::protobuf::int32 start_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ScalarVariable : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.ScalarVariable) */ {
+ public:
+  ScalarVariable();
+  virtual ~ScalarVariable();
+
+  ScalarVariable(const ScalarVariable& from);
+
+  inline ScalarVariable& operator=(const ScalarVariable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ScalarVariable(ScalarVariable&& from) noexcept
+    : ScalarVariable() {
+    *this = ::std::move(from);
+  }
+
+  inline ScalarVariable& operator=(ScalarVariable&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ScalarVariable& default_instance();
+
+  enum AttributeCase {
+    kIntegerAttribute = 10,
+    kRealAttribute = 11,
+    kStringAttribute = 12,
+    kBooleanAttribute = 13,
+    kEnumerationAttribute = 14,
+    ATTRIBUTE_NOT_SET = 0,
+  };
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ScalarVariable* internal_default_instance() {
+    return reinterpret_cast<const ScalarVariable*>(
+               &_ScalarVariable_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  void Swap(ScalarVariable* other);
+  friend void swap(ScalarVariable& a, ScalarVariable& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ScalarVariable* New() const final {
+    return CreateMaybeMessage<ScalarVariable>(NULL);
+  }
+
+  ScalarVariable* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ScalarVariable>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ScalarVariable& from);
+  void MergeFrom(const ScalarVariable& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ScalarVariable* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string name = 2;
+  void clear_name();
+  static const int kNameFieldNumber = 2;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
+  // string description = 3;
+  void clear_description();
+  static const int kDescriptionFieldNumber = 3;
+  const ::std::string& description() const;
+  void set_description(const ::std::string& value);
+  #if LANG_CXX11
+  void set_description(::std::string&& value);
+  #endif
+  void set_description(const char* value);
+  void set_description(const char* value, size_t size);
+  ::std::string* mutable_description();
+  ::std::string* release_description();
+  void set_allocated_description(::std::string* description);
+
+  // uint64 value_reference = 1;
+  void clear_value_reference();
+  static const int kValueReferenceFieldNumber = 1;
+  ::google::protobuf::uint64 value_reference() const;
+  void set_value_reference(::google::protobuf::uint64 value);
+
+  // .fmuproxy.grpc.Initial initial = 4;
+  void clear_initial();
+  static const int kInitialFieldNumber = 4;
+  ::fmuproxy::grpc::Initial initial() const;
+  void set_initial(::fmuproxy::grpc::Initial value);
+
+  // .fmuproxy.grpc.Causality causality = 5;
+  void clear_causality();
+  static const int kCausalityFieldNumber = 5;
+  ::fmuproxy::grpc::Causality causality() const;
+  void set_causality(::fmuproxy::grpc::Causality value);
+
+  // .fmuproxy.grpc.Variability variability = 6;
+  void clear_variability();
+  static const int kVariabilityFieldNumber = 6;
+  ::fmuproxy::grpc::Variability variability() const;
+  void set_variability(::fmuproxy::grpc::Variability value);
+
+  // .fmuproxy.grpc.IntegerAttribute integer_attribute = 10;
+  bool has_integer_attribute() const;
+  void clear_integer_attribute();
+  static const int kIntegerAttributeFieldNumber = 10;
+  private:
+  const ::fmuproxy::grpc::IntegerAttribute& _internal_integer_attribute() const;
+  public:
+  const ::fmuproxy::grpc::IntegerAttribute& integer_attribute() const;
+  ::fmuproxy::grpc::IntegerAttribute* release_integer_attribute();
+  ::fmuproxy::grpc::IntegerAttribute* mutable_integer_attribute();
+  void set_allocated_integer_attribute(::fmuproxy::grpc::IntegerAttribute* integer_attribute);
+
+  // .fmuproxy.grpc.RealAttribute real_attribute = 11;
+  bool has_real_attribute() const;
+  void clear_real_attribute();
+  static const int kRealAttributeFieldNumber = 11;
+  private:
+  const ::fmuproxy::grpc::RealAttribute& _internal_real_attribute() const;
+  public:
+  const ::fmuproxy::grpc::RealAttribute& real_attribute() const;
+  ::fmuproxy::grpc::RealAttribute* release_real_attribute();
+  ::fmuproxy::grpc::RealAttribute* mutable_real_attribute();
+  void set_allocated_real_attribute(::fmuproxy::grpc::RealAttribute* real_attribute);
+
+  // .fmuproxy.grpc.StringAttribute string_attribute = 12;
+  bool has_string_attribute() const;
+  void clear_string_attribute();
+  static const int kStringAttributeFieldNumber = 12;
+  private:
+  const ::fmuproxy::grpc::StringAttribute& _internal_string_attribute() const;
+  public:
+  const ::fmuproxy::grpc::StringAttribute& string_attribute() const;
+  ::fmuproxy::grpc::StringAttribute* release_string_attribute();
+  ::fmuproxy::grpc::StringAttribute* mutable_string_attribute();
+  void set_allocated_string_attribute(::fmuproxy::grpc::StringAttribute* string_attribute);
+
+  // .fmuproxy.grpc.BooleanAttribute boolean_attribute = 13;
+  bool has_boolean_attribute() const;
+  void clear_boolean_attribute();
+  static const int kBooleanAttributeFieldNumber = 13;
+  private:
+  const ::fmuproxy::grpc::BooleanAttribute& _internal_boolean_attribute() const;
+  public:
+  const ::fmuproxy::grpc::BooleanAttribute& boolean_attribute() const;
+  ::fmuproxy::grpc::BooleanAttribute* release_boolean_attribute();
+  ::fmuproxy::grpc::BooleanAttribute* mutable_boolean_attribute();
+  void set_allocated_boolean_attribute(::fmuproxy::grpc::BooleanAttribute* boolean_attribute);
+
+  // .fmuproxy.grpc.EnumerationAttribute enumeration_attribute = 14;
+  bool has_enumeration_attribute() const;
+  void clear_enumeration_attribute();
+  static const int kEnumerationAttributeFieldNumber = 14;
+  private:
+  const ::fmuproxy::grpc::EnumerationAttribute& _internal_enumeration_attribute() const;
+  public:
+  const ::fmuproxy::grpc::EnumerationAttribute& enumeration_attribute() const;
+  ::fmuproxy::grpc::EnumerationAttribute* release_enumeration_attribute();
+  ::fmuproxy::grpc::EnumerationAttribute* mutable_enumeration_attribute();
+  void set_allocated_enumeration_attribute(::fmuproxy::grpc::EnumerationAttribute* enumeration_attribute);
+
+  void clear_attribute();
+  AttributeCase attribute_case() const;
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ScalarVariable)
+ private:
+  void set_has_integer_attribute();
+  void set_has_real_attribute();
+  void set_has_string_attribute();
+  void set_has_boolean_attribute();
+  void set_has_enumeration_attribute();
+
+  inline bool has_attribute() const;
+  inline void clear_has_attribute();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::internal::ArenaStringPtr description_;
+  ::google::protobuf::uint64 value_reference_;
+  int initial_;
+  int causality_;
+  int variability_;
+  union AttributeUnion {
+    AttributeUnion() {}
+    ::fmuproxy::grpc::IntegerAttribute* integer_attribute_;
+    ::fmuproxy::grpc::RealAttribute* real_attribute_;
+    ::fmuproxy::grpc::StringAttribute* string_attribute_;
+    ::fmuproxy::grpc::BooleanAttribute* boolean_attribute_;
+    ::fmuproxy::grpc::EnumerationAttribute* enumeration_attribute_;
+  } attribute_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::google::protobuf::uint32 _oneof_case_[1];
+
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class DefaultExperiment : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.DefaultExperiment) */ {
+ public:
+  DefaultExperiment();
+  virtual ~DefaultExperiment();
+
+  DefaultExperiment(const DefaultExperiment& from);
+
+  inline DefaultExperiment& operator=(const DefaultExperiment& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DefaultExperiment(DefaultExperiment&& from) noexcept
+    : DefaultExperiment() {
+    *this = ::std::move(from);
+  }
+
+  inline DefaultExperiment& operator=(DefaultExperiment&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DefaultExperiment& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DefaultExperiment* internal_default_instance() {
+    return reinterpret_cast<const DefaultExperiment*>(
+               &_DefaultExperiment_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  void Swap(DefaultExperiment* other);
+  friend void swap(DefaultExperiment& a, DefaultExperiment& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DefaultExperiment* New() const final {
+    return CreateMaybeMessage<DefaultExperiment>(NULL);
+  }
+
+  DefaultExperiment* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<DefaultExperiment>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const DefaultExperiment& from);
+  void MergeFrom(const DefaultExperiment& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DefaultExperiment* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // double start_time = 1;
+  void clear_start_time();
+  static const int kStartTimeFieldNumber = 1;
+  double start_time() const;
+  void set_start_time(double value);
+
+  // double stop_time = 2;
+  void clear_stop_time();
+  static const int kStopTimeFieldNumber = 2;
+  double stop_time() const;
+  void set_stop_time(double value);
+
+  // double tolerance = 3;
+  void clear_tolerance();
+  static const int kToleranceFieldNumber = 3;
+  double tolerance() const;
+  void set_tolerance(double value);
+
+  // double step_size = 4;
+  void clear_step_size();
+  static const int kStepSizeFieldNumber = 4;
+  double step_size() const;
+  void set_step_size(double value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.DefaultExperiment)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  double start_time_;
+  double stop_time_;
+  double tolerance_;
+  double step_size_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class Unknown : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Unknown) */ {
+ public:
+  Unknown();
+  virtual ~Unknown();
+
+  Unknown(const Unknown& from);
+
+  inline Unknown& operator=(const Unknown& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Unknown(Unknown&& from) noexcept
+    : Unknown() {
+    *this = ::std::move(from);
+  }
+
+  inline Unknown& operator=(Unknown&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Unknown& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Unknown* internal_default_instance() {
+    return reinterpret_cast<const Unknown*>(
+               &_Unknown_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  void Swap(Unknown* other);
+  friend void swap(Unknown& a, Unknown& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Unknown* New() const final {
+    return CreateMaybeMessage<Unknown>(NULL);
+  }
+
+  Unknown* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Unknown>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const Unknown& from);
+  void MergeFrom(const Unknown& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Unknown* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated uint32 dependencies = 2;
+  int dependencies_size() const;
+  void clear_dependencies();
+  static const int kDependenciesFieldNumber = 2;
+  ::google::protobuf::uint32 dependencies(int index) const;
+  void set_dependencies(int index, ::google::protobuf::uint32 value);
+  void add_dependencies(::google::protobuf::uint32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      dependencies() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_dependencies();
+
+  // string dependencies_kind = 3;
+  void clear_dependencies_kind();
+  static const int kDependenciesKindFieldNumber = 3;
+  const ::std::string& dependencies_kind() const;
+  void set_dependencies_kind(const ::std::string& value);
+  #if LANG_CXX11
+  void set_dependencies_kind(::std::string&& value);
+  #endif
+  void set_dependencies_kind(const char* value);
+  void set_dependencies_kind(const char* value, size_t size);
+  ::std::string* mutable_dependencies_kind();
+  ::std::string* release_dependencies_kind();
+  void set_allocated_dependencies_kind(::std::string* dependencies_kind);
+
+  // uint32 index = 1;
+  void clear_index();
+  static const int kIndexFieldNumber = 1;
+  ::google::protobuf::uint32 index() const;
+  void set_index(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Unknown)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > dependencies_;
+  mutable int _dependencies_cached_byte_size_;
+  ::google::protobuf::internal::ArenaStringPtr dependencies_kind_;
+  ::google::protobuf::uint32 index_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ModelStructure : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.ModelStructure) */ {
+ public:
+  ModelStructure();
+  virtual ~ModelStructure();
+
+  ModelStructure(const ModelStructure& from);
+
+  inline ModelStructure& operator=(const ModelStructure& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ModelStructure(ModelStructure&& from) noexcept
+    : ModelStructure() {
+    *this = ::std::move(from);
+  }
+
+  inline ModelStructure& operator=(ModelStructure&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ModelStructure& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ModelStructure* internal_default_instance() {
+    return reinterpret_cast<const ModelStructure*>(
+               &_ModelStructure_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  void Swap(ModelStructure* other);
+  friend void swap(ModelStructure& a, ModelStructure& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ModelStructure* New() const final {
+    return CreateMaybeMessage<ModelStructure>(NULL);
+  }
+
+  ModelStructure* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ModelStructure>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ModelStructure& from);
+  void MergeFrom(const ModelStructure& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ModelStructure* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .fmuproxy.grpc.Unknown outputs = 1;
+  int outputs_size() const;
+  void clear_outputs();
+  static const int kOutputsFieldNumber = 1;
+  ::fmuproxy::grpc::Unknown* mutable_outputs(int index);
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >*
+      mutable_outputs();
+  const ::fmuproxy::grpc::Unknown& outputs(int index) const;
+  ::fmuproxy::grpc::Unknown* add_outputs();
+  const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >&
+      outputs() const;
+
+  // repeated .fmuproxy.grpc.Unknown derivatives = 2;
+  int derivatives_size() const;
+  void clear_derivatives();
+  static const int kDerivativesFieldNumber = 2;
+  ::fmuproxy::grpc::Unknown* mutable_derivatives(int index);
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >*
+      mutable_derivatives();
+  const ::fmuproxy::grpc::Unknown& derivatives(int index) const;
+  ::fmuproxy::grpc::Unknown* add_derivatives();
+  const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >&
+      derivatives() const;
+
+  // repeated .fmuproxy.grpc.Unknown initial_unknowns = 3;
+  int initial_unknowns_size() const;
+  void clear_initial_unknowns();
+  static const int kInitialUnknownsFieldNumber = 3;
+  ::fmuproxy::grpc::Unknown* mutable_initial_unknowns(int index);
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >*
+      mutable_initial_unknowns();
+  const ::fmuproxy::grpc::Unknown& initial_unknowns(int index) const;
+  ::fmuproxy::grpc::Unknown* add_initial_unknowns();
+  const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >&
+      initial_unknowns() const;
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ModelStructure)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown > outputs_;
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown > derivatives_;
+  ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown > initial_unknowns_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
 
 class FmuId : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.FmuId) */ {
  public:
@@ -230,7 +2078,7 @@ class FmuId : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
                &_FmuId_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    11;
 
   void Swap(FmuId* other);
   friend void swap(FmuId& a, FmuId& b) {
@@ -341,7 +2189,7 @@ class InstanceId : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_InstanceId_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    12;
 
   void Swap(InstanceId* other);
   friend void swap(InstanceId& a, InstanceId& b) {
@@ -452,7 +2300,7 @@ class ModelDescriptionXml : public ::google::protobuf::Message /* @@protoc_inser
                &_ModelDescriptionXml_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    13;
 
   void Swap(ModelDescriptionXml* other);
   friend void swap(ModelDescriptionXml& a, ModelDescriptionXml& b) {
@@ -563,7 +2411,7 @@ class StatusResponse : public ::google::protobuf::Message /* @@protoc_insertion_
                &_StatusResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    14;
 
   void Swap(StatusResponse* other);
   friend void swap(StatusResponse& a, StatusResponse& b) {
@@ -666,7 +2514,7 @@ class StepResponse : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_StepResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    15;
 
   void Swap(StepResponse* other);
   friend void swap(StepResponse& a, StepResponse& b) {
@@ -776,7 +2624,7 @@ class CreateInstanceFromCSRequest : public ::google::protobuf::Message /* @@prot
                &_CreateInstanceFromCSRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    16;
 
   void Swap(CreateInstanceFromCSRequest* other);
   friend void swap(CreateInstanceFromCSRequest& a, CreateInstanceFromCSRequest& b) {
@@ -887,7 +2735,7 @@ class CreateInstanceFromMERequest : public ::google::protobuf::Message /* @@prot
                &_CreateInstanceFromMERequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    17;
 
   void Swap(CreateInstanceFromMERequest* other);
   friend void swap(CreateInstanceFromMERequest& a, CreateInstanceFromMERequest& b) {
@@ -1011,7 +2859,7 @@ class GetModelDescriptionRequest : public ::google::protobuf::Message /* @@proto
                &_GetModelDescriptionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    18;
 
   void Swap(GetModelDescriptionRequest* other);
   friend void swap(GetModelDescriptionRequest& a, GetModelDescriptionRequest& b) {
@@ -1122,7 +2970,7 @@ class GetCoSimulationAttributesRequest : public ::google::protobuf::Message /* @
                &_GetCoSimulationAttributesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    19;
 
   void Swap(GetCoSimulationAttributesRequest* other);
   friend void swap(GetCoSimulationAttributesRequest& a, GetCoSimulationAttributesRequest& b) {
@@ -1233,7 +3081,7 @@ class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_InitRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    20;
 
   void Swap(InitRequest* other);
   friend void swap(InitRequest& a, InitRequest& b) {
@@ -1358,7 +3206,7 @@ class StepRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StepRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    21;
 
   void Swap(StepRequest* other);
   friend void swap(StepRequest& a, StepRequest& b) {
@@ -1476,7 +3324,7 @@ class ResetRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_ResetRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    22;
 
   void Swap(ResetRequest* other);
   friend void swap(ResetRequest& a, ResetRequest& b) {
@@ -1587,7 +3435,7 @@ class TerminateRequest : public ::google::protobuf::Message /* @@protoc_insertio
                &_TerminateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    23;
 
   void Swap(TerminateRequest* other);
   friend void swap(TerminateRequest& a, TerminateRequest& b) {
@@ -1698,7 +3546,7 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ReadRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    24;
 
   void Swap(ReadRequest* other);
   friend void swap(ReadRequest& a, ReadRequest& b) {
@@ -1823,7 +3671,7 @@ class WriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_WriteIntegerRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    25;
 
   void Swap(WriteIntegerRequest* other);
   friend void swap(WriteIntegerRequest& a, WriteIntegerRequest& b) {
@@ -1962,7 +3810,7 @@ class WriteRealRequest : public ::google::protobuf::Message /* @@protoc_insertio
                &_WriteRealRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    26;
 
   void Swap(WriteRealRequest* other);
   friend void swap(WriteRealRequest& a, WriteRealRequest& b) {
@@ -2101,7 +3949,7 @@ class WriteStringRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_WriteStringRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    27;
 
   void Swap(WriteStringRequest* other);
   friend void swap(WriteStringRequest& a, WriteStringRequest& b) {
@@ -2249,7 +4097,7 @@ class WriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_WriteBooleanRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    28;
 
   void Swap(WriteBooleanRequest* other);
   friend void swap(WriteBooleanRequest& a, WriteBooleanRequest& b) {
@@ -2388,7 +4236,7 @@ class IntegerRead : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_IntegerRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    29;
 
   void Swap(IntegerRead* other);
   friend void swap(IntegerRead& a, IntegerRead& b) {
@@ -2505,7 +4353,7 @@ class RealRead : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_RealRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    30;
 
   void Swap(RealRead* other);
   friend void swap(RealRead& a, RealRead& b) {
@@ -2622,7 +4470,7 @@ class StringRead : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_StringRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    31;
 
   void Swap(StringRead* other);
   friend void swap(StringRead& a, StringRead& b) {
@@ -2748,7 +4596,7 @@ class BooleanRead : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_BooleanRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    32;
 
   void Swap(BooleanRead* other);
   friend void swap(BooleanRead& a, BooleanRead& b) {
@@ -2865,7 +4713,7 @@ class Solver : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Solver_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    33;
 
   void Swap(Solver* other);
   friend void swap(Solver& a, Solver& b) {
@@ -2991,7 +4839,7 @@ class Bool : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
                &_Bool_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    34;
 
   void Swap(Bool* other);
   friend void swap(Bool& a, Bool& b) {
@@ -3094,7 +4942,7 @@ class GetFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_GetFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    35;
 
   void Swap(GetFMUstateRequest* other);
   friend void swap(GetFMUstateRequest& a, GetFMUstateRequest& b) {
@@ -3205,7 +5053,7 @@ class GetFMUstateResponse : public ::google::protobuf::Message /* @@protoc_inser
                &_GetFMUstateResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    36;
 
   void Swap(GetFMUstateResponse* other);
   friend void swap(GetFMUstateResponse& a, GetFMUstateResponse& b) {
@@ -3315,7 +5163,7 @@ class SetFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_SetFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    37;
 
   void Swap(SetFMUstateRequest* other);
   friend void swap(SetFMUstateRequest& a, SetFMUstateRequest& b) {
@@ -3433,7 +5281,7 @@ class FreeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_FreeFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    38;
 
   void Swap(FreeFMUstateRequest* other);
   friend void swap(FreeFMUstateRequest& a, FreeFMUstateRequest& b) {
@@ -3551,7 +5399,7 @@ class SerializeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_
                &_SerializeFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    39;
 
   void Swap(SerializeFMUstateRequest* other);
   friend void swap(SerializeFMUstateRequest& a, SerializeFMUstateRequest& b) {
@@ -3669,7 +5517,7 @@ class SerializeFMUstateResponse : public ::google::protobuf::Message /* @@protoc
                &_SerializeFMUstateResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    40;
 
   void Swap(SerializeFMUstateResponse* other);
   friend void swap(SerializeFMUstateResponse& a, SerializeFMUstateResponse& b) {
@@ -3787,7 +5635,7 @@ class DeSerializeFMUstateRequest : public ::google::protobuf::Message /* @@proto
                &_DeSerializeFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    41;
 
   void Swap(DeSerializeFMUstateRequest* other);
   friend void swap(DeSerializeFMUstateRequest& a, DeSerializeFMUstateRequest& b) {
@@ -3913,7 +5761,7 @@ class DeSerializeFMUstateResponse : public ::google::protobuf::Message /* @@prot
                &_DeSerializeFMUstateResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    42;
 
   void Swap(DeSerializeFMUstateResponse* other);
   friend void swap(DeSerializeFMUstateResponse& a, DeSerializeFMUstateResponse& b) {
@@ -4023,7 +5871,7 @@ class CanCreateInstanceFromCSRequest : public ::google::protobuf::Message /* @@p
                &_CanCreateInstanceFromCSRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    43;
 
   void Swap(CanCreateInstanceFromCSRequest* other);
   friend void swap(CanCreateInstanceFromCSRequest& a, CanCreateInstanceFromCSRequest& b) {
@@ -4134,7 +5982,7 @@ class CanCreateInstanceFromMERequest : public ::google::protobuf::Message /* @@p
                &_CanCreateInstanceFromMERequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    44;
 
   void Swap(CanCreateInstanceFromMERequest* other);
   friend void swap(CanCreateInstanceFromMERequest& a, CanCreateInstanceFromMERequest& b) {
@@ -4208,6 +6056,276 @@ class CanCreateInstanceFromMERequest : public ::google::protobuf::Message /* @@p
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class GetDirectionalDerivativeRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.GetDirectionalDerivativeRequest) */ {
+ public:
+  GetDirectionalDerivativeRequest();
+  virtual ~GetDirectionalDerivativeRequest();
+
+  GetDirectionalDerivativeRequest(const GetDirectionalDerivativeRequest& from);
+
+  inline GetDirectionalDerivativeRequest& operator=(const GetDirectionalDerivativeRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  GetDirectionalDerivativeRequest(GetDirectionalDerivativeRequest&& from) noexcept
+    : GetDirectionalDerivativeRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline GetDirectionalDerivativeRequest& operator=(GetDirectionalDerivativeRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GetDirectionalDerivativeRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GetDirectionalDerivativeRequest* internal_default_instance() {
+    return reinterpret_cast<const GetDirectionalDerivativeRequest*>(
+               &_GetDirectionalDerivativeRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    45;
+
+  void Swap(GetDirectionalDerivativeRequest* other);
+  friend void swap(GetDirectionalDerivativeRequest& a, GetDirectionalDerivativeRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GetDirectionalDerivativeRequest* New() const final {
+    return CreateMaybeMessage<GetDirectionalDerivativeRequest>(NULL);
+  }
+
+  GetDirectionalDerivativeRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<GetDirectionalDerivativeRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const GetDirectionalDerivativeRequest& from);
+  void MergeFrom(const GetDirectionalDerivativeRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetDirectionalDerivativeRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated uint64 v_unknown_ref = 2;
+  int v_unknown_ref_size() const;
+  void clear_v_unknown_ref();
+  static const int kVUnknownRefFieldNumber = 2;
+  ::google::protobuf::uint64 v_unknown_ref(int index) const;
+  void set_v_unknown_ref(int index, ::google::protobuf::uint64 value);
+  void add_v_unknown_ref(::google::protobuf::uint64 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      v_unknown_ref() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_v_unknown_ref();
+
+  // repeated uint64 v_known_ref = 3;
+  int v_known_ref_size() const;
+  void clear_v_known_ref();
+  static const int kVKnownRefFieldNumber = 3;
+  ::google::protobuf::uint64 v_known_ref(int index) const;
+  void set_v_known_ref(int index, ::google::protobuf::uint64 value);
+  void add_v_known_ref(::google::protobuf::uint64 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      v_known_ref() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_v_known_ref();
+
+  // repeated double dv_known_ref = 4;
+  int dv_known_ref_size() const;
+  void clear_dv_known_ref();
+  static const int kDvKnownRefFieldNumber = 4;
+  double dv_known_ref(int index) const;
+  void set_dv_known_ref(int index, double value);
+  void add_dv_known_ref(double value);
+  const ::google::protobuf::RepeatedField< double >&
+      dv_known_ref() const;
+  ::google::protobuf::RepeatedField< double >*
+      mutable_dv_known_ref();
+
+  // string instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  const ::std::string& instance_id() const;
+  void set_instance_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_instance_id(::std::string&& value);
+  #endif
+  void set_instance_id(const char* value);
+  void set_instance_id(const char* value, size_t size);
+  ::std::string* mutable_instance_id();
+  ::std::string* release_instance_id();
+  void set_allocated_instance_id(::std::string* instance_id);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.GetDirectionalDerivativeRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > v_unknown_ref_;
+  mutable int _v_unknown_ref_cached_byte_size_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > v_known_ref_;
+  mutable int _v_known_ref_cached_byte_size_;
+  ::google::protobuf::RepeatedField< double > dv_known_ref_;
+  mutable int _dv_known_ref_cached_byte_size_;
+  ::google::protobuf::internal::ArenaStringPtr instance_id_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.GetDirectionalDerivativeResponse) */ {
+ public:
+  GetDirectionalDerivativeResponse();
+  virtual ~GetDirectionalDerivativeResponse();
+
+  GetDirectionalDerivativeResponse(const GetDirectionalDerivativeResponse& from);
+
+  inline GetDirectionalDerivativeResponse& operator=(const GetDirectionalDerivativeResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  GetDirectionalDerivativeResponse(GetDirectionalDerivativeResponse&& from) noexcept
+    : GetDirectionalDerivativeResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline GetDirectionalDerivativeResponse& operator=(GetDirectionalDerivativeResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GetDirectionalDerivativeResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GetDirectionalDerivativeResponse* internal_default_instance() {
+    return reinterpret_cast<const GetDirectionalDerivativeResponse*>(
+               &_GetDirectionalDerivativeResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    46;
+
+  void Swap(GetDirectionalDerivativeResponse* other);
+  friend void swap(GetDirectionalDerivativeResponse& a, GetDirectionalDerivativeResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GetDirectionalDerivativeResponse* New() const final {
+    return CreateMaybeMessage<GetDirectionalDerivativeResponse>(NULL);
+  }
+
+  GetDirectionalDerivativeResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<GetDirectionalDerivativeResponse>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const GetDirectionalDerivativeResponse& from);
+  void MergeFrom(const GetDirectionalDerivativeResponse& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetDirectionalDerivativeResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated double dv_known_ref = 1;
+  int dv_known_ref_size() const;
+  void clear_dv_known_ref();
+  static const int kDvKnownRefFieldNumber = 1;
+  double dv_known_ref(int index) const;
+  void set_dv_known_ref(int index, double value);
+  void add_dv_known_ref(double value);
+  const ::google::protobuf::RepeatedField< double >&
+      dv_known_ref() const;
+  ::google::protobuf::RepeatedField< double >*
+      mutable_dv_known_ref();
+
+  // .fmuproxy.grpc.Status status = 2;
+  void clear_status();
+  static const int kStatusFieldNumber = 2;
+  ::fmuproxy::grpc::Status status() const;
+  void set_status(::fmuproxy::grpc::Status value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.GetDirectionalDerivativeResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedField< double > dv_known_ref_;
+  mutable int _dv_known_ref_cached_byte_size_;
+  int status_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -4217,6 +6335,1894 @@ class CanCreateInstanceFromMERequest : public ::google::protobuf::Message /* @@p
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// ModelDescription
+
+// string fmi_version = 1;
+inline void ModelDescription::clear_fmi_version() {
+  fmi_version_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::fmi_version() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.fmi_version)
+  return fmi_version_.GetNoArena();
+}
+inline void ModelDescription::set_fmi_version(const ::std::string& value) {
+  
+  fmi_version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.fmi_version)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_fmi_version(::std::string&& value) {
+  
+  fmi_version_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.fmi_version)
+}
+#endif
+inline void ModelDescription::set_fmi_version(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  fmi_version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.fmi_version)
+}
+inline void ModelDescription::set_fmi_version(const char* value, size_t size) {
+  
+  fmi_version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.fmi_version)
+}
+inline ::std::string* ModelDescription::mutable_fmi_version() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.fmi_version)
+  return fmi_version_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_fmi_version() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.fmi_version)
+  
+  return fmi_version_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_fmi_version(::std::string* fmi_version) {
+  if (fmi_version != NULL) {
+    
+  } else {
+    
+  }
+  fmi_version_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), fmi_version);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.fmi_version)
+}
+
+// string guid = 2;
+inline void ModelDescription::clear_guid() {
+  guid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::guid() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.guid)
+  return guid_.GetNoArena();
+}
+inline void ModelDescription::set_guid(const ::std::string& value) {
+  
+  guid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.guid)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_guid(::std::string&& value) {
+  
+  guid_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.guid)
+}
+#endif
+inline void ModelDescription::set_guid(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  guid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.guid)
+}
+inline void ModelDescription::set_guid(const char* value, size_t size) {
+  
+  guid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.guid)
+}
+inline ::std::string* ModelDescription::mutable_guid() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.guid)
+  return guid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_guid() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.guid)
+  
+  return guid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_guid(::std::string* guid) {
+  if (guid != NULL) {
+    
+  } else {
+    
+  }
+  guid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), guid);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.guid)
+}
+
+// string model_name = 3;
+inline void ModelDescription::clear_model_name() {
+  model_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::model_name() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.model_name)
+  return model_name_.GetNoArena();
+}
+inline void ModelDescription::set_model_name(const ::std::string& value) {
+  
+  model_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.model_name)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_model_name(::std::string&& value) {
+  
+  model_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.model_name)
+}
+#endif
+inline void ModelDescription::set_model_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  model_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.model_name)
+}
+inline void ModelDescription::set_model_name(const char* value, size_t size) {
+  
+  model_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.model_name)
+}
+inline ::std::string* ModelDescription::mutable_model_name() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.model_name)
+  return model_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_model_name() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.model_name)
+  
+  return model_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_model_name(::std::string* model_name) {
+  if (model_name != NULL) {
+    
+  } else {
+    
+  }
+  model_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), model_name);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.model_name)
+}
+
+// string license = 4;
+inline void ModelDescription::clear_license() {
+  license_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::license() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.license)
+  return license_.GetNoArena();
+}
+inline void ModelDescription::set_license(const ::std::string& value) {
+  
+  license_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.license)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_license(::std::string&& value) {
+  
+  license_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.license)
+}
+#endif
+inline void ModelDescription::set_license(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  license_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.license)
+}
+inline void ModelDescription::set_license(const char* value, size_t size) {
+  
+  license_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.license)
+}
+inline ::std::string* ModelDescription::mutable_license() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.license)
+  return license_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_license() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.license)
+  
+  return license_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_license(::std::string* license) {
+  if (license != NULL) {
+    
+  } else {
+    
+  }
+  license_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), license);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.license)
+}
+
+// string copyright = 5;
+inline void ModelDescription::clear_copyright() {
+  copyright_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::copyright() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.copyright)
+  return copyright_.GetNoArena();
+}
+inline void ModelDescription::set_copyright(const ::std::string& value) {
+  
+  copyright_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.copyright)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_copyright(::std::string&& value) {
+  
+  copyright_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.copyright)
+}
+#endif
+inline void ModelDescription::set_copyright(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  copyright_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.copyright)
+}
+inline void ModelDescription::set_copyright(const char* value, size_t size) {
+  
+  copyright_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.copyright)
+}
+inline ::std::string* ModelDescription::mutable_copyright() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.copyright)
+  return copyright_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_copyright() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.copyright)
+  
+  return copyright_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_copyright(::std::string* copyright) {
+  if (copyright != NULL) {
+    
+  } else {
+    
+  }
+  copyright_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), copyright);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.copyright)
+}
+
+// string author = 6;
+inline void ModelDescription::clear_author() {
+  author_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::author() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.author)
+  return author_.GetNoArena();
+}
+inline void ModelDescription::set_author(const ::std::string& value) {
+  
+  author_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.author)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_author(::std::string&& value) {
+  
+  author_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.author)
+}
+#endif
+inline void ModelDescription::set_author(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  author_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.author)
+}
+inline void ModelDescription::set_author(const char* value, size_t size) {
+  
+  author_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.author)
+}
+inline ::std::string* ModelDescription::mutable_author() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.author)
+  return author_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_author() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.author)
+  
+  return author_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_author(::std::string* author) {
+  if (author != NULL) {
+    
+  } else {
+    
+  }
+  author_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), author);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.author)
+}
+
+// string version = 7;
+inline void ModelDescription::clear_version() {
+  version_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::version() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.version)
+  return version_.GetNoArena();
+}
+inline void ModelDescription::set_version(const ::std::string& value) {
+  
+  version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.version)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_version(::std::string&& value) {
+  
+  version_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.version)
+}
+#endif
+inline void ModelDescription::set_version(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.version)
+}
+inline void ModelDescription::set_version(const char* value, size_t size) {
+  
+  version_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.version)
+}
+inline ::std::string* ModelDescription::mutable_version() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.version)
+  return version_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_version() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.version)
+  
+  return version_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_version(::std::string* version) {
+  if (version != NULL) {
+    
+  } else {
+    
+  }
+  version_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), version);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.version)
+}
+
+// string description = 8;
+inline void ModelDescription::clear_description() {
+  description_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::description() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.description)
+  return description_.GetNoArena();
+}
+inline void ModelDescription::set_description(const ::std::string& value) {
+  
+  description_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.description)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_description(::std::string&& value) {
+  
+  description_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.description)
+}
+#endif
+inline void ModelDescription::set_description(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  description_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.description)
+}
+inline void ModelDescription::set_description(const char* value, size_t size) {
+  
+  description_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.description)
+}
+inline ::std::string* ModelDescription::mutable_description() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.description)
+  return description_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_description() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.description)
+  
+  return description_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_description(::std::string* description) {
+  if (description != NULL) {
+    
+  } else {
+    
+  }
+  description_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), description);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.description)
+}
+
+// string generation_tool = 9;
+inline void ModelDescription::clear_generation_tool() {
+  generation_tool_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::generation_tool() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.generation_tool)
+  return generation_tool_.GetNoArena();
+}
+inline void ModelDescription::set_generation_tool(const ::std::string& value) {
+  
+  generation_tool_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.generation_tool)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_generation_tool(::std::string&& value) {
+  
+  generation_tool_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.generation_tool)
+}
+#endif
+inline void ModelDescription::set_generation_tool(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  generation_tool_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.generation_tool)
+}
+inline void ModelDescription::set_generation_tool(const char* value, size_t size) {
+  
+  generation_tool_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.generation_tool)
+}
+inline ::std::string* ModelDescription::mutable_generation_tool() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.generation_tool)
+  return generation_tool_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_generation_tool() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.generation_tool)
+  
+  return generation_tool_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_generation_tool(::std::string* generation_tool) {
+  if (generation_tool != NULL) {
+    
+  } else {
+    
+  }
+  generation_tool_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), generation_tool);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.generation_tool)
+}
+
+// string generation_date_and_time = 10;
+inline void ModelDescription::clear_generation_date_and_time() {
+  generation_date_and_time_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::generation_date_and_time() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+  return generation_date_and_time_.GetNoArena();
+}
+inline void ModelDescription::set_generation_date_and_time(const ::std::string& value) {
+  
+  generation_date_and_time_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_generation_date_and_time(::std::string&& value) {
+  
+  generation_date_and_time_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+}
+#endif
+inline void ModelDescription::set_generation_date_and_time(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  generation_date_and_time_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+}
+inline void ModelDescription::set_generation_date_and_time(const char* value, size_t size) {
+  
+  generation_date_and_time_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+}
+inline ::std::string* ModelDescription::mutable_generation_date_and_time() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+  return generation_date_and_time_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_generation_date_and_time() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+  
+  return generation_date_and_time_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_generation_date_and_time(::std::string* generation_date_and_time) {
+  if (generation_date_and_time != NULL) {
+    
+  } else {
+    
+  }
+  generation_date_and_time_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), generation_date_and_time);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.generation_date_and_time)
+}
+
+// .fmuproxy.grpc.DefaultExperiment default_experiment = 11;
+inline bool ModelDescription::has_default_experiment() const {
+  return this != internal_default_instance() && default_experiment_ != NULL;
+}
+inline void ModelDescription::clear_default_experiment() {
+  if (GetArenaNoVirtual() == NULL && default_experiment_ != NULL) {
+    delete default_experiment_;
+  }
+  default_experiment_ = NULL;
+}
+inline const ::fmuproxy::grpc::DefaultExperiment& ModelDescription::_internal_default_experiment() const {
+  return *default_experiment_;
+}
+inline const ::fmuproxy::grpc::DefaultExperiment& ModelDescription::default_experiment() const {
+  const ::fmuproxy::grpc::DefaultExperiment* p = default_experiment_;
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.default_experiment)
+  return p != NULL ? *p : *reinterpret_cast<const ::fmuproxy::grpc::DefaultExperiment*>(
+      &::fmuproxy::grpc::_DefaultExperiment_default_instance_);
+}
+inline ::fmuproxy::grpc::DefaultExperiment* ModelDescription::release_default_experiment() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.default_experiment)
+  
+  ::fmuproxy::grpc::DefaultExperiment* temp = default_experiment_;
+  default_experiment_ = NULL;
+  return temp;
+}
+inline ::fmuproxy::grpc::DefaultExperiment* ModelDescription::mutable_default_experiment() {
+  
+  if (default_experiment_ == NULL) {
+    auto* p = CreateMaybeMessage<::fmuproxy::grpc::DefaultExperiment>(GetArenaNoVirtual());
+    default_experiment_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.default_experiment)
+  return default_experiment_;
+}
+inline void ModelDescription::set_allocated_default_experiment(::fmuproxy::grpc::DefaultExperiment* default_experiment) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete default_experiment_;
+  }
+  if (default_experiment) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      default_experiment = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, default_experiment, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  default_experiment_ = default_experiment;
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.default_experiment)
+}
+
+// string variable_naming_convention = 12;
+inline void ModelDescription::clear_variable_naming_convention() {
+  variable_naming_convention_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ModelDescription::variable_naming_convention() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+  return variable_naming_convention_.GetNoArena();
+}
+inline void ModelDescription::set_variable_naming_convention(const ::std::string& value) {
+  
+  variable_naming_convention_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+#if LANG_CXX11
+inline void ModelDescription::set_variable_naming_convention(::std::string&& value) {
+  
+  variable_naming_convention_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+#endif
+inline void ModelDescription::set_variable_naming_convention(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  variable_naming_convention_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+inline void ModelDescription::set_variable_naming_convention(const char* value, size_t size) {
+  
+  variable_naming_convention_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+inline ::std::string* ModelDescription::mutable_variable_naming_convention() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+  return variable_naming_convention_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ModelDescription::release_variable_naming_convention() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+  
+  return variable_naming_convention_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ModelDescription::set_allocated_variable_naming_convention(::std::string* variable_naming_convention) {
+  if (variable_naming_convention != NULL) {
+    
+  } else {
+    
+  }
+  variable_naming_convention_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), variable_naming_convention);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.variable_naming_convention)
+}
+
+// repeated .fmuproxy.grpc.ScalarVariable model_variables = 13;
+inline int ModelDescription::model_variables_size() const {
+  return model_variables_.size();
+}
+inline void ModelDescription::clear_model_variables() {
+  model_variables_.Clear();
+}
+inline ::fmuproxy::grpc::ScalarVariable* ModelDescription::mutable_model_variables(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.model_variables)
+  return model_variables_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::ScalarVariable >*
+ModelDescription::mutable_model_variables() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.ModelDescription.model_variables)
+  return &model_variables_;
+}
+inline const ::fmuproxy::grpc::ScalarVariable& ModelDescription::model_variables(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.model_variables)
+  return model_variables_.Get(index);
+}
+inline ::fmuproxy::grpc::ScalarVariable* ModelDescription::add_model_variables() {
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.ModelDescription.model_variables)
+  return model_variables_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::ScalarVariable >&
+ModelDescription::model_variables() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.ModelDescription.model_variables)
+  return model_variables_;
+}
+
+// .fmuproxy.grpc.ModelStructure model_structure = 14;
+inline bool ModelDescription::has_model_structure() const {
+  return this != internal_default_instance() && model_structure_ != NULL;
+}
+inline void ModelDescription::clear_model_structure() {
+  if (GetArenaNoVirtual() == NULL && model_structure_ != NULL) {
+    delete model_structure_;
+  }
+  model_structure_ = NULL;
+}
+inline const ::fmuproxy::grpc::ModelStructure& ModelDescription::_internal_model_structure() const {
+  return *model_structure_;
+}
+inline const ::fmuproxy::grpc::ModelStructure& ModelDescription::model_structure() const {
+  const ::fmuproxy::grpc::ModelStructure* p = model_structure_;
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelDescription.model_structure)
+  return p != NULL ? *p : *reinterpret_cast<const ::fmuproxy::grpc::ModelStructure*>(
+      &::fmuproxy::grpc::_ModelStructure_default_instance_);
+}
+inline ::fmuproxy::grpc::ModelStructure* ModelDescription::release_model_structure() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ModelDescription.model_structure)
+  
+  ::fmuproxy::grpc::ModelStructure* temp = model_structure_;
+  model_structure_ = NULL;
+  return temp;
+}
+inline ::fmuproxy::grpc::ModelStructure* ModelDescription::mutable_model_structure() {
+  
+  if (model_structure_ == NULL) {
+    auto* p = CreateMaybeMessage<::fmuproxy::grpc::ModelStructure>(GetArenaNoVirtual());
+    model_structure_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelDescription.model_structure)
+  return model_structure_;
+}
+inline void ModelDescription::set_allocated_model_structure(::fmuproxy::grpc::ModelStructure* model_structure) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete model_structure_;
+  }
+  if (model_structure) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      model_structure = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, model_structure, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  model_structure_ = model_structure;
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ModelDescription.model_structure)
+}
+
+// -------------------------------------------------------------------
+
+// CoSimulationAttributes
+
+// string model_identifier = 1;
+inline void CoSimulationAttributes::clear_model_identifier() {
+  model_identifier_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CoSimulationAttributes::model_identifier() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+  return model_identifier_.GetNoArena();
+}
+inline void CoSimulationAttributes::set_model_identifier(const ::std::string& value) {
+  
+  model_identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+}
+#if LANG_CXX11
+inline void CoSimulationAttributes::set_model_identifier(::std::string&& value) {
+  
+  model_identifier_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+}
+#endif
+inline void CoSimulationAttributes::set_model_identifier(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  model_identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+}
+inline void CoSimulationAttributes::set_model_identifier(const char* value, size_t size) {
+  
+  model_identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+}
+inline ::std::string* CoSimulationAttributes::mutable_model_identifier() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+  return model_identifier_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CoSimulationAttributes::release_model_identifier() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+  
+  return model_identifier_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CoSimulationAttributes::set_allocated_model_identifier(::std::string* model_identifier) {
+  if (model_identifier != NULL) {
+    
+  } else {
+    
+  }
+  model_identifier_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), model_identifier);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
+}
+
+// bool can_get_and_set_FMUstate = 2;
+inline void CoSimulationAttributes::clear_can_get_and_set_fmustate() {
+  can_get_and_set_fmustate_ = false;
+}
+inline bool CoSimulationAttributes::can_get_and_set_fmustate() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_get_and_set_FMUstate)
+  return can_get_and_set_fmustate_;
+}
+inline void CoSimulationAttributes::set_can_get_and_set_fmustate(bool value) {
+  
+  can_get_and_set_fmustate_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_get_and_set_FMUstate)
+}
+
+// bool can_serialize_FMUstate = 3;
+inline void CoSimulationAttributes::clear_can_serialize_fmustate() {
+  can_serialize_fmustate_ = false;
+}
+inline bool CoSimulationAttributes::can_serialize_fmustate() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_serialize_FMUstate)
+  return can_serialize_fmustate_;
+}
+inline void CoSimulationAttributes::set_can_serialize_fmustate(bool value) {
+  
+  can_serialize_fmustate_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_serialize_FMUstate)
+}
+
+// bool provides_directional_derivative = 4;
+inline void CoSimulationAttributes::clear_provides_directional_derivative() {
+  provides_directional_derivative_ = false;
+}
+inline bool CoSimulationAttributes::provides_directional_derivative() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.provides_directional_derivative)
+  return provides_directional_derivative_;
+}
+inline void CoSimulationAttributes::set_provides_directional_derivative(bool value) {
+  
+  provides_directional_derivative_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.provides_directional_derivative)
+}
+
+// bool can_handle_variable_communication_step_size = 5;
+inline void CoSimulationAttributes::clear_can_handle_variable_communication_step_size() {
+  can_handle_variable_communication_step_size_ = false;
+}
+inline bool CoSimulationAttributes::can_handle_variable_communication_step_size() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_handle_variable_communication_step_size)
+  return can_handle_variable_communication_step_size_;
+}
+inline void CoSimulationAttributes::set_can_handle_variable_communication_step_size(bool value) {
+  
+  can_handle_variable_communication_step_size_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_handle_variable_communication_step_size)
+}
+
+// bool can_interpolate_inputs = 6;
+inline void CoSimulationAttributes::clear_can_interpolate_inputs() {
+  can_interpolate_inputs_ = false;
+}
+inline bool CoSimulationAttributes::can_interpolate_inputs() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_interpolate_inputs)
+  return can_interpolate_inputs_;
+}
+inline void CoSimulationAttributes::set_can_interpolate_inputs(bool value) {
+  
+  can_interpolate_inputs_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_interpolate_inputs)
+}
+
+// uint32 max_output_derivative_order = 7;
+inline void CoSimulationAttributes::clear_max_output_derivative_order() {
+  max_output_derivative_order_ = 0u;
+}
+inline ::google::protobuf::uint32 CoSimulationAttributes::max_output_derivative_order() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.max_output_derivative_order)
+  return max_output_derivative_order_;
+}
+inline void CoSimulationAttributes::set_max_output_derivative_order(::google::protobuf::uint32 value) {
+  
+  max_output_derivative_order_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.max_output_derivative_order)
+}
+
+// -------------------------------------------------------------------
+
+// IntegerAttribute
+
+// int32 min = 1;
+inline void IntegerAttribute::clear_min() {
+  min_ = 0;
+}
+inline ::google::protobuf::int32 IntegerAttribute::min() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerAttribute.min)
+  return min_;
+}
+inline void IntegerAttribute::set_min(::google::protobuf::int32 value) {
+  
+  min_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerAttribute.min)
+}
+
+// int32 max = 2;
+inline void IntegerAttribute::clear_max() {
+  max_ = 0;
+}
+inline ::google::protobuf::int32 IntegerAttribute::max() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerAttribute.max)
+  return max_;
+}
+inline void IntegerAttribute::set_max(::google::protobuf::int32 value) {
+  
+  max_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerAttribute.max)
+}
+
+// int32 start = 3;
+inline void IntegerAttribute::clear_start() {
+  start_ = 0;
+}
+inline ::google::protobuf::int32 IntegerAttribute::start() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerAttribute.start)
+  return start_;
+}
+inline void IntegerAttribute::set_start(::google::protobuf::int32 value) {
+  
+  start_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerAttribute.start)
+}
+
+// string quantity = 4;
+inline void IntegerAttribute::clear_quantity() {
+  quantity_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& IntegerAttribute::quantity() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.IntegerAttribute.quantity)
+  return quantity_.GetNoArena();
+}
+inline void IntegerAttribute::set_quantity(const ::std::string& value) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+#if LANG_CXX11
+inline void IntegerAttribute::set_quantity(::std::string&& value) {
+  
+  quantity_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+#endif
+inline void IntegerAttribute::set_quantity(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+inline void IntegerAttribute::set_quantity(const char* value, size_t size) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+inline ::std::string* IntegerAttribute::mutable_quantity() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.IntegerAttribute.quantity)
+  return quantity_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* IntegerAttribute::release_quantity() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.IntegerAttribute.quantity)
+  
+  return quantity_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void IntegerAttribute::set_allocated_quantity(::std::string* quantity) {
+  if (quantity != NULL) {
+    
+  } else {
+    
+  }
+  quantity_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), quantity);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.IntegerAttribute.quantity)
+}
+
+// -------------------------------------------------------------------
+
+// RealAttribute
+
+// double min = 1;
+inline void RealAttribute::clear_min() {
+  min_ = 0;
+}
+inline double RealAttribute::min() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealAttribute.min)
+  return min_;
+}
+inline void RealAttribute::set_min(double value) {
+  
+  min_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealAttribute.min)
+}
+
+// double max = 2;
+inline void RealAttribute::clear_max() {
+  max_ = 0;
+}
+inline double RealAttribute::max() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealAttribute.max)
+  return max_;
+}
+inline void RealAttribute::set_max(double value) {
+  
+  max_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealAttribute.max)
+}
+
+// double start = 3;
+inline void RealAttribute::clear_start() {
+  start_ = 0;
+}
+inline double RealAttribute::start() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealAttribute.start)
+  return start_;
+}
+inline void RealAttribute::set_start(double value) {
+  
+  start_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealAttribute.start)
+}
+
+// string quantity = 4;
+inline void RealAttribute::clear_quantity() {
+  quantity_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& RealAttribute::quantity() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.RealAttribute.quantity)
+  return quantity_.GetNoArena();
+}
+inline void RealAttribute::set_quantity(const ::std::string& value) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.RealAttribute.quantity)
+}
+#if LANG_CXX11
+inline void RealAttribute::set_quantity(::std::string&& value) {
+  
+  quantity_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.RealAttribute.quantity)
+}
+#endif
+inline void RealAttribute::set_quantity(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.RealAttribute.quantity)
+}
+inline void RealAttribute::set_quantity(const char* value, size_t size) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.RealAttribute.quantity)
+}
+inline ::std::string* RealAttribute::mutable_quantity() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.RealAttribute.quantity)
+  return quantity_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RealAttribute::release_quantity() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.RealAttribute.quantity)
+  
+  return quantity_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RealAttribute::set_allocated_quantity(::std::string* quantity) {
+  if (quantity != NULL) {
+    
+  } else {
+    
+  }
+  quantity_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), quantity);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.RealAttribute.quantity)
+}
+
+// -------------------------------------------------------------------
+
+// StringAttribute
+
+// string start = 1;
+inline void StringAttribute::clear_start() {
+  start_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& StringAttribute::start() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.StringAttribute.start)
+  return start_.GetNoArena();
+}
+inline void StringAttribute::set_start(const ::std::string& value) {
+  
+  start_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.StringAttribute.start)
+}
+#if LANG_CXX11
+inline void StringAttribute::set_start(::std::string&& value) {
+  
+  start_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.StringAttribute.start)
+}
+#endif
+inline void StringAttribute::set_start(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  start_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.StringAttribute.start)
+}
+inline void StringAttribute::set_start(const char* value, size_t size) {
+  
+  start_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.StringAttribute.start)
+}
+inline ::std::string* StringAttribute::mutable_start() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.StringAttribute.start)
+  return start_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* StringAttribute::release_start() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.StringAttribute.start)
+  
+  return start_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void StringAttribute::set_allocated_start(::std::string* start) {
+  if (start != NULL) {
+    
+  } else {
+    
+  }
+  start_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), start);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.StringAttribute.start)
+}
+
+// -------------------------------------------------------------------
+
+// BooleanAttribute
+
+// bool start = 1;
+inline void BooleanAttribute::clear_start() {
+  start_ = false;
+}
+inline bool BooleanAttribute::start() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.BooleanAttribute.start)
+  return start_;
+}
+inline void BooleanAttribute::set_start(bool value) {
+  
+  start_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.BooleanAttribute.start)
+}
+
+// -------------------------------------------------------------------
+
+// EnumerationAttribute
+
+// int32 min = 1;
+inline void EnumerationAttribute::clear_min() {
+  min_ = 0;
+}
+inline ::google::protobuf::int32 EnumerationAttribute::min() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.EnumerationAttribute.min)
+  return min_;
+}
+inline void EnumerationAttribute::set_min(::google::protobuf::int32 value) {
+  
+  min_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnumerationAttribute.min)
+}
+
+// int32 max = 2;
+inline void EnumerationAttribute::clear_max() {
+  max_ = 0;
+}
+inline ::google::protobuf::int32 EnumerationAttribute::max() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.EnumerationAttribute.max)
+  return max_;
+}
+inline void EnumerationAttribute::set_max(::google::protobuf::int32 value) {
+  
+  max_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnumerationAttribute.max)
+}
+
+// int32 start = 3;
+inline void EnumerationAttribute::clear_start() {
+  start_ = 0;
+}
+inline ::google::protobuf::int32 EnumerationAttribute::start() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.EnumerationAttribute.start)
+  return start_;
+}
+inline void EnumerationAttribute::set_start(::google::protobuf::int32 value) {
+  
+  start_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnumerationAttribute.start)
+}
+
+// string quantity = 4;
+inline void EnumerationAttribute::clear_quantity() {
+  quantity_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& EnumerationAttribute::quantity() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.EnumerationAttribute.quantity)
+  return quantity_.GetNoArena();
+}
+inline void EnumerationAttribute::set_quantity(const ::std::string& value) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+#if LANG_CXX11
+inline void EnumerationAttribute::set_quantity(::std::string&& value) {
+  
+  quantity_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+#endif
+inline void EnumerationAttribute::set_quantity(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+inline void EnumerationAttribute::set_quantity(const char* value, size_t size) {
+  
+  quantity_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+inline ::std::string* EnumerationAttribute::mutable_quantity() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.EnumerationAttribute.quantity)
+  return quantity_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* EnumerationAttribute::release_quantity() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.EnumerationAttribute.quantity)
+  
+  return quantity_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void EnumerationAttribute::set_allocated_quantity(::std::string* quantity) {
+  if (quantity != NULL) {
+    
+  } else {
+    
+  }
+  quantity_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), quantity);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.EnumerationAttribute.quantity)
+}
+
+// -------------------------------------------------------------------
+
+// ScalarVariable
+
+// uint64 value_reference = 1;
+inline void ScalarVariable::clear_value_reference() {
+  value_reference_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 ScalarVariable::value_reference() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.value_reference)
+  return value_reference_;
+}
+inline void ScalarVariable::set_value_reference(::google::protobuf::uint64 value) {
+  
+  value_reference_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.value_reference)
+}
+
+// string name = 2;
+inline void ScalarVariable::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ScalarVariable::name() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.name)
+  return name_.GetNoArena();
+}
+inline void ScalarVariable::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.name)
+}
+#if LANG_CXX11
+inline void ScalarVariable::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ScalarVariable.name)
+}
+#endif
+inline void ScalarVariable::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ScalarVariable.name)
+}
+inline void ScalarVariable::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ScalarVariable.name)
+}
+inline ::std::string* ScalarVariable::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ScalarVariable::release_name() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ScalarVariable::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.name)
+}
+
+// string description = 3;
+inline void ScalarVariable::clear_description() {
+  description_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ScalarVariable::description() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.description)
+  return description_.GetNoArena();
+}
+inline void ScalarVariable::set_description(const ::std::string& value) {
+  
+  description_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.description)
+}
+#if LANG_CXX11
+inline void ScalarVariable::set_description(::std::string&& value) {
+  
+  description_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ScalarVariable.description)
+}
+#endif
+inline void ScalarVariable::set_description(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  description_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ScalarVariable.description)
+}
+inline void ScalarVariable::set_description(const char* value, size_t size) {
+  
+  description_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ScalarVariable.description)
+}
+inline ::std::string* ScalarVariable::mutable_description() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.description)
+  return description_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ScalarVariable::release_description() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.description)
+  
+  return description_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ScalarVariable::set_allocated_description(::std::string* description) {
+  if (description != NULL) {
+    
+  } else {
+    
+  }
+  description_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), description);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.description)
+}
+
+// .fmuproxy.grpc.Initial initial = 4;
+inline void ScalarVariable::clear_initial() {
+  initial_ = 0;
+}
+inline ::fmuproxy::grpc::Initial ScalarVariable::initial() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.initial)
+  return static_cast< ::fmuproxy::grpc::Initial >(initial_);
+}
+inline void ScalarVariable::set_initial(::fmuproxy::grpc::Initial value) {
+  
+  initial_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.initial)
+}
+
+// .fmuproxy.grpc.Causality causality = 5;
+inline void ScalarVariable::clear_causality() {
+  causality_ = 0;
+}
+inline ::fmuproxy::grpc::Causality ScalarVariable::causality() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.causality)
+  return static_cast< ::fmuproxy::grpc::Causality >(causality_);
+}
+inline void ScalarVariable::set_causality(::fmuproxy::grpc::Causality value) {
+  
+  causality_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.causality)
+}
+
+// .fmuproxy.grpc.Variability variability = 6;
+inline void ScalarVariable::clear_variability() {
+  variability_ = 0;
+}
+inline ::fmuproxy::grpc::Variability ScalarVariable::variability() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.variability)
+  return static_cast< ::fmuproxy::grpc::Variability >(variability_);
+}
+inline void ScalarVariable::set_variability(::fmuproxy::grpc::Variability value) {
+  
+  variability_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.variability)
+}
+
+// .fmuproxy.grpc.IntegerAttribute integer_attribute = 10;
+inline bool ScalarVariable::has_integer_attribute() const {
+  return attribute_case() == kIntegerAttribute;
+}
+inline void ScalarVariable::set_has_integer_attribute() {
+  _oneof_case_[0] = kIntegerAttribute;
+}
+inline void ScalarVariable::clear_integer_attribute() {
+  if (has_integer_attribute()) {
+    delete attribute_.integer_attribute_;
+    clear_has_attribute();
+  }
+}
+inline const ::fmuproxy::grpc::IntegerAttribute& ScalarVariable::_internal_integer_attribute() const {
+  return *attribute_.integer_attribute_;
+}
+inline ::fmuproxy::grpc::IntegerAttribute* ScalarVariable::release_integer_attribute() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.integer_attribute)
+  if (has_integer_attribute()) {
+    clear_has_attribute();
+      ::fmuproxy::grpc::IntegerAttribute* temp = attribute_.integer_attribute_;
+    attribute_.integer_attribute_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::fmuproxy::grpc::IntegerAttribute& ScalarVariable::integer_attribute() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.integer_attribute)
+  return has_integer_attribute()
+      ? *attribute_.integer_attribute_
+      : *reinterpret_cast< ::fmuproxy::grpc::IntegerAttribute*>(&::fmuproxy::grpc::_IntegerAttribute_default_instance_);
+}
+inline ::fmuproxy::grpc::IntegerAttribute* ScalarVariable::mutable_integer_attribute() {
+  if (!has_integer_attribute()) {
+    clear_attribute();
+    set_has_integer_attribute();
+    attribute_.integer_attribute_ = CreateMaybeMessage< ::fmuproxy::grpc::IntegerAttribute >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.integer_attribute)
+  return attribute_.integer_attribute_;
+}
+
+// .fmuproxy.grpc.RealAttribute real_attribute = 11;
+inline bool ScalarVariable::has_real_attribute() const {
+  return attribute_case() == kRealAttribute;
+}
+inline void ScalarVariable::set_has_real_attribute() {
+  _oneof_case_[0] = kRealAttribute;
+}
+inline void ScalarVariable::clear_real_attribute() {
+  if (has_real_attribute()) {
+    delete attribute_.real_attribute_;
+    clear_has_attribute();
+  }
+}
+inline const ::fmuproxy::grpc::RealAttribute& ScalarVariable::_internal_real_attribute() const {
+  return *attribute_.real_attribute_;
+}
+inline ::fmuproxy::grpc::RealAttribute* ScalarVariable::release_real_attribute() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.real_attribute)
+  if (has_real_attribute()) {
+    clear_has_attribute();
+      ::fmuproxy::grpc::RealAttribute* temp = attribute_.real_attribute_;
+    attribute_.real_attribute_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::fmuproxy::grpc::RealAttribute& ScalarVariable::real_attribute() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.real_attribute)
+  return has_real_attribute()
+      ? *attribute_.real_attribute_
+      : *reinterpret_cast< ::fmuproxy::grpc::RealAttribute*>(&::fmuproxy::grpc::_RealAttribute_default_instance_);
+}
+inline ::fmuproxy::grpc::RealAttribute* ScalarVariable::mutable_real_attribute() {
+  if (!has_real_attribute()) {
+    clear_attribute();
+    set_has_real_attribute();
+    attribute_.real_attribute_ = CreateMaybeMessage< ::fmuproxy::grpc::RealAttribute >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.real_attribute)
+  return attribute_.real_attribute_;
+}
+
+// .fmuproxy.grpc.StringAttribute string_attribute = 12;
+inline bool ScalarVariable::has_string_attribute() const {
+  return attribute_case() == kStringAttribute;
+}
+inline void ScalarVariable::set_has_string_attribute() {
+  _oneof_case_[0] = kStringAttribute;
+}
+inline void ScalarVariable::clear_string_attribute() {
+  if (has_string_attribute()) {
+    delete attribute_.string_attribute_;
+    clear_has_attribute();
+  }
+}
+inline const ::fmuproxy::grpc::StringAttribute& ScalarVariable::_internal_string_attribute() const {
+  return *attribute_.string_attribute_;
+}
+inline ::fmuproxy::grpc::StringAttribute* ScalarVariable::release_string_attribute() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.string_attribute)
+  if (has_string_attribute()) {
+    clear_has_attribute();
+      ::fmuproxy::grpc::StringAttribute* temp = attribute_.string_attribute_;
+    attribute_.string_attribute_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::fmuproxy::grpc::StringAttribute& ScalarVariable::string_attribute() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.string_attribute)
+  return has_string_attribute()
+      ? *attribute_.string_attribute_
+      : *reinterpret_cast< ::fmuproxy::grpc::StringAttribute*>(&::fmuproxy::grpc::_StringAttribute_default_instance_);
+}
+inline ::fmuproxy::grpc::StringAttribute* ScalarVariable::mutable_string_attribute() {
+  if (!has_string_attribute()) {
+    clear_attribute();
+    set_has_string_attribute();
+    attribute_.string_attribute_ = CreateMaybeMessage< ::fmuproxy::grpc::StringAttribute >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.string_attribute)
+  return attribute_.string_attribute_;
+}
+
+// .fmuproxy.grpc.BooleanAttribute boolean_attribute = 13;
+inline bool ScalarVariable::has_boolean_attribute() const {
+  return attribute_case() == kBooleanAttribute;
+}
+inline void ScalarVariable::set_has_boolean_attribute() {
+  _oneof_case_[0] = kBooleanAttribute;
+}
+inline void ScalarVariable::clear_boolean_attribute() {
+  if (has_boolean_attribute()) {
+    delete attribute_.boolean_attribute_;
+    clear_has_attribute();
+  }
+}
+inline const ::fmuproxy::grpc::BooleanAttribute& ScalarVariable::_internal_boolean_attribute() const {
+  return *attribute_.boolean_attribute_;
+}
+inline ::fmuproxy::grpc::BooleanAttribute* ScalarVariable::release_boolean_attribute() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.boolean_attribute)
+  if (has_boolean_attribute()) {
+    clear_has_attribute();
+      ::fmuproxy::grpc::BooleanAttribute* temp = attribute_.boolean_attribute_;
+    attribute_.boolean_attribute_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::fmuproxy::grpc::BooleanAttribute& ScalarVariable::boolean_attribute() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.boolean_attribute)
+  return has_boolean_attribute()
+      ? *attribute_.boolean_attribute_
+      : *reinterpret_cast< ::fmuproxy::grpc::BooleanAttribute*>(&::fmuproxy::grpc::_BooleanAttribute_default_instance_);
+}
+inline ::fmuproxy::grpc::BooleanAttribute* ScalarVariable::mutable_boolean_attribute() {
+  if (!has_boolean_attribute()) {
+    clear_attribute();
+    set_has_boolean_attribute();
+    attribute_.boolean_attribute_ = CreateMaybeMessage< ::fmuproxy::grpc::BooleanAttribute >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.boolean_attribute)
+  return attribute_.boolean_attribute_;
+}
+
+// .fmuproxy.grpc.EnumerationAttribute enumeration_attribute = 14;
+inline bool ScalarVariable::has_enumeration_attribute() const {
+  return attribute_case() == kEnumerationAttribute;
+}
+inline void ScalarVariable::set_has_enumeration_attribute() {
+  _oneof_case_[0] = kEnumerationAttribute;
+}
+inline void ScalarVariable::clear_enumeration_attribute() {
+  if (has_enumeration_attribute()) {
+    delete attribute_.enumeration_attribute_;
+    clear_has_attribute();
+  }
+}
+inline const ::fmuproxy::grpc::EnumerationAttribute& ScalarVariable::_internal_enumeration_attribute() const {
+  return *attribute_.enumeration_attribute_;
+}
+inline ::fmuproxy::grpc::EnumerationAttribute* ScalarVariable::release_enumeration_attribute() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.enumeration_attribute)
+  if (has_enumeration_attribute()) {
+    clear_has_attribute();
+      ::fmuproxy::grpc::EnumerationAttribute* temp = attribute_.enumeration_attribute_;
+    attribute_.enumeration_attribute_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::fmuproxy::grpc::EnumerationAttribute& ScalarVariable::enumeration_attribute() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.enumeration_attribute)
+  return has_enumeration_attribute()
+      ? *attribute_.enumeration_attribute_
+      : *reinterpret_cast< ::fmuproxy::grpc::EnumerationAttribute*>(&::fmuproxy::grpc::_EnumerationAttribute_default_instance_);
+}
+inline ::fmuproxy::grpc::EnumerationAttribute* ScalarVariable::mutable_enumeration_attribute() {
+  if (!has_enumeration_attribute()) {
+    clear_attribute();
+    set_has_enumeration_attribute();
+    attribute_.enumeration_attribute_ = CreateMaybeMessage< ::fmuproxy::grpc::EnumerationAttribute >(
+        GetArenaNoVirtual());
+  }
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.enumeration_attribute)
+  return attribute_.enumeration_attribute_;
+}
+
+inline bool ScalarVariable::has_attribute() const {
+  return attribute_case() != ATTRIBUTE_NOT_SET;
+}
+inline void ScalarVariable::clear_has_attribute() {
+  _oneof_case_[0] = ATTRIBUTE_NOT_SET;
+}
+inline ScalarVariable::AttributeCase ScalarVariable::attribute_case() const {
+  return ScalarVariable::AttributeCase(_oneof_case_[0]);
+}
+// -------------------------------------------------------------------
+
+// DefaultExperiment
+
+// double start_time = 1;
+inline void DefaultExperiment::clear_start_time() {
+  start_time_ = 0;
+}
+inline double DefaultExperiment::start_time() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DefaultExperiment.start_time)
+  return start_time_;
+}
+inline void DefaultExperiment::set_start_time(double value) {
+  
+  start_time_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DefaultExperiment.start_time)
+}
+
+// double stop_time = 2;
+inline void DefaultExperiment::clear_stop_time() {
+  stop_time_ = 0;
+}
+inline double DefaultExperiment::stop_time() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DefaultExperiment.stop_time)
+  return stop_time_;
+}
+inline void DefaultExperiment::set_stop_time(double value) {
+  
+  stop_time_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DefaultExperiment.stop_time)
+}
+
+// double tolerance = 3;
+inline void DefaultExperiment::clear_tolerance() {
+  tolerance_ = 0;
+}
+inline double DefaultExperiment::tolerance() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DefaultExperiment.tolerance)
+  return tolerance_;
+}
+inline void DefaultExperiment::set_tolerance(double value) {
+  
+  tolerance_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DefaultExperiment.tolerance)
+}
+
+// double step_size = 4;
+inline void DefaultExperiment::clear_step_size() {
+  step_size_ = 0;
+}
+inline double DefaultExperiment::step_size() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DefaultExperiment.step_size)
+  return step_size_;
+}
+inline void DefaultExperiment::set_step_size(double value) {
+  
+  step_size_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DefaultExperiment.step_size)
+}
+
+// -------------------------------------------------------------------
+
+// Unknown
+
+// uint32 index = 1;
+inline void Unknown::clear_index() {
+  index_ = 0u;
+}
+inline ::google::protobuf::uint32 Unknown::index() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.Unknown.index)
+  return index_;
+}
+inline void Unknown::set_index(::google::protobuf::uint32 value) {
+  
+  index_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.Unknown.index)
+}
+
+// repeated uint32 dependencies = 2;
+inline int Unknown::dependencies_size() const {
+  return dependencies_.size();
+}
+inline void Unknown::clear_dependencies() {
+  dependencies_.Clear();
+}
+inline ::google::protobuf::uint32 Unknown::dependencies(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.Unknown.dependencies)
+  return dependencies_.Get(index);
+}
+inline void Unknown::set_dependencies(int index, ::google::protobuf::uint32 value) {
+  dependencies_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.Unknown.dependencies)
+}
+inline void Unknown::add_dependencies(::google::protobuf::uint32 value) {
+  dependencies_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.Unknown.dependencies)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+Unknown::dependencies() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.Unknown.dependencies)
+  return dependencies_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+Unknown::mutable_dependencies() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.Unknown.dependencies)
+  return &dependencies_;
+}
+
+// string dependencies_kind = 3;
+inline void Unknown::clear_dependencies_kind() {
+  dependencies_kind_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Unknown::dependencies_kind() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.Unknown.dependencies_kind)
+  return dependencies_kind_.GetNoArena();
+}
+inline void Unknown::set_dependencies_kind(const ::std::string& value) {
+  
+  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+#if LANG_CXX11
+inline void Unknown::set_dependencies_kind(::std::string&& value) {
+  
+  dependencies_kind_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+#endif
+inline void Unknown::set_dependencies_kind(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+inline void Unknown::set_dependencies_kind(const char* value, size_t size) {
+  
+  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+inline ::std::string* Unknown::mutable_dependencies_kind() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.Unknown.dependencies_kind)
+  return dependencies_kind_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Unknown::release_dependencies_kind() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.Unknown.dependencies_kind)
+  
+  return dependencies_kind_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Unknown::set_allocated_dependencies_kind(::std::string* dependencies_kind) {
+  if (dependencies_kind != NULL) {
+    
+  } else {
+    
+  }
+  dependencies_kind_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dependencies_kind);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+
+// -------------------------------------------------------------------
+
+// ModelStructure
+
+// repeated .fmuproxy.grpc.Unknown outputs = 1;
+inline int ModelStructure::outputs_size() const {
+  return outputs_.size();
+}
+inline void ModelStructure::clear_outputs() {
+  outputs_.Clear();
+}
+inline ::fmuproxy::grpc::Unknown* ModelStructure::mutable_outputs(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelStructure.outputs)
+  return outputs_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >*
+ModelStructure::mutable_outputs() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.ModelStructure.outputs)
+  return &outputs_;
+}
+inline const ::fmuproxy::grpc::Unknown& ModelStructure::outputs(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelStructure.outputs)
+  return outputs_.Get(index);
+}
+inline ::fmuproxy::grpc::Unknown* ModelStructure::add_outputs() {
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.ModelStructure.outputs)
+  return outputs_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >&
+ModelStructure::outputs() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.ModelStructure.outputs)
+  return outputs_;
+}
+
+// repeated .fmuproxy.grpc.Unknown derivatives = 2;
+inline int ModelStructure::derivatives_size() const {
+  return derivatives_.size();
+}
+inline void ModelStructure::clear_derivatives() {
+  derivatives_.Clear();
+}
+inline ::fmuproxy::grpc::Unknown* ModelStructure::mutable_derivatives(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelStructure.derivatives)
+  return derivatives_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >*
+ModelStructure::mutable_derivatives() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.ModelStructure.derivatives)
+  return &derivatives_;
+}
+inline const ::fmuproxy::grpc::Unknown& ModelStructure::derivatives(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelStructure.derivatives)
+  return derivatives_.Get(index);
+}
+inline ::fmuproxy::grpc::Unknown* ModelStructure::add_derivatives() {
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.ModelStructure.derivatives)
+  return derivatives_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >&
+ModelStructure::derivatives() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.ModelStructure.derivatives)
+  return derivatives_;
+}
+
+// repeated .fmuproxy.grpc.Unknown initial_unknowns = 3;
+inline int ModelStructure::initial_unknowns_size() const {
+  return initial_unknowns_.size();
+}
+inline void ModelStructure::clear_initial_unknowns() {
+  initial_unknowns_.Clear();
+}
+inline ::fmuproxy::grpc::Unknown* ModelStructure::mutable_initial_unknowns(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ModelStructure.initial_unknowns)
+  return initial_unknowns_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >*
+ModelStructure::mutable_initial_unknowns() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.ModelStructure.initial_unknowns)
+  return &initial_unknowns_;
+}
+inline const ::fmuproxy::grpc::Unknown& ModelStructure::initial_unknowns(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ModelStructure.initial_unknowns)
+  return initial_unknowns_.Get(index);
+}
+inline ::fmuproxy::grpc::Unknown* ModelStructure::add_initial_unknowns() {
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.ModelStructure.initial_unknowns)
+  return initial_unknowns_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::fmuproxy::grpc::Unknown >&
+ModelStructure::initial_unknowns() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.ModelStructure.initial_unknowns)
+  return initial_unknowns_;
+}
+
+// -------------------------------------------------------------------
+
 // FmuId
 
 // string value = 1;
@@ -6570,9 +10576,230 @@ inline void CanCreateInstanceFromMERequest::set_allocated_fmu_id(::std::string* 
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.CanCreateInstanceFromMERequest.fmu_id)
 }
 
+// -------------------------------------------------------------------
+
+// GetDirectionalDerivativeRequest
+
+// string instance_id = 1;
+inline void GetDirectionalDerivativeRequest::clear_instance_id() {
+  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GetDirectionalDerivativeRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+  return instance_id_.GetNoArena();
+}
+inline void GetDirectionalDerivativeRequest::set_instance_id(const ::std::string& value) {
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+}
+#if LANG_CXX11
+inline void GetDirectionalDerivativeRequest::set_instance_id(::std::string&& value) {
+  
+  instance_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+}
+#endif
+inline void GetDirectionalDerivativeRequest::set_instance_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+}
+inline void GetDirectionalDerivativeRequest::set_instance_id(const char* value, size_t size) {
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+}
+inline ::std::string* GetDirectionalDerivativeRequest::mutable_instance_id() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GetDirectionalDerivativeRequest::release_instance_id() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+  
+  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GetDirectionalDerivativeRequest::set_allocated_instance_id(::std::string* instance_id) {
+  if (instance_id != NULL) {
+    
+  } else {
+    
+  }
+  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.GetDirectionalDerivativeRequest.instance_id)
+}
+
+// repeated uint64 v_unknown_ref = 2;
+inline int GetDirectionalDerivativeRequest::v_unknown_ref_size() const {
+  return v_unknown_ref_.size();
+}
+inline void GetDirectionalDerivativeRequest::clear_v_unknown_ref() {
+  v_unknown_ref_.Clear();
+}
+inline ::google::protobuf::uint64 GetDirectionalDerivativeRequest::v_unknown_ref(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_unknown_ref)
+  return v_unknown_ref_.Get(index);
+}
+inline void GetDirectionalDerivativeRequest::set_v_unknown_ref(int index, ::google::protobuf::uint64 value) {
+  v_unknown_ref_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_unknown_ref)
+}
+inline void GetDirectionalDerivativeRequest::add_v_unknown_ref(::google::protobuf::uint64 value) {
+  v_unknown_ref_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_unknown_ref)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+GetDirectionalDerivativeRequest::v_unknown_ref() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_unknown_ref)
+  return v_unknown_ref_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+GetDirectionalDerivativeRequest::mutable_v_unknown_ref() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_unknown_ref)
+  return &v_unknown_ref_;
+}
+
+// repeated uint64 v_known_ref = 3;
+inline int GetDirectionalDerivativeRequest::v_known_ref_size() const {
+  return v_known_ref_.size();
+}
+inline void GetDirectionalDerivativeRequest::clear_v_known_ref() {
+  v_known_ref_.Clear();
+}
+inline ::google::protobuf::uint64 GetDirectionalDerivativeRequest::v_known_ref(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_known_ref)
+  return v_known_ref_.Get(index);
+}
+inline void GetDirectionalDerivativeRequest::set_v_known_ref(int index, ::google::protobuf::uint64 value) {
+  v_known_ref_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_known_ref)
+}
+inline void GetDirectionalDerivativeRequest::add_v_known_ref(::google::protobuf::uint64 value) {
+  v_known_ref_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_known_ref)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+GetDirectionalDerivativeRequest::v_known_ref() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_known_ref)
+  return v_known_ref_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+GetDirectionalDerivativeRequest::mutable_v_known_ref() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.GetDirectionalDerivativeRequest.v_known_ref)
+  return &v_known_ref_;
+}
+
+// repeated double dv_known_ref = 4;
+inline int GetDirectionalDerivativeRequest::dv_known_ref_size() const {
+  return dv_known_ref_.size();
+}
+inline void GetDirectionalDerivativeRequest::clear_dv_known_ref() {
+  dv_known_ref_.Clear();
+}
+inline double GetDirectionalDerivativeRequest::dv_known_ref(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeRequest.dv_known_ref)
+  return dv_known_ref_.Get(index);
+}
+inline void GetDirectionalDerivativeRequest::set_dv_known_ref(int index, double value) {
+  dv_known_ref_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeRequest.dv_known_ref)
+}
+inline void GetDirectionalDerivativeRequest::add_dv_known_ref(double value) {
+  dv_known_ref_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.GetDirectionalDerivativeRequest.dv_known_ref)
+}
+inline const ::google::protobuf::RepeatedField< double >&
+GetDirectionalDerivativeRequest::dv_known_ref() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.GetDirectionalDerivativeRequest.dv_known_ref)
+  return dv_known_ref_;
+}
+inline ::google::protobuf::RepeatedField< double >*
+GetDirectionalDerivativeRequest::mutable_dv_known_ref() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.GetDirectionalDerivativeRequest.dv_known_ref)
+  return &dv_known_ref_;
+}
+
+// -------------------------------------------------------------------
+
+// GetDirectionalDerivativeResponse
+
+// repeated double dv_known_ref = 1;
+inline int GetDirectionalDerivativeResponse::dv_known_ref_size() const {
+  return dv_known_ref_.size();
+}
+inline void GetDirectionalDerivativeResponse::clear_dv_known_ref() {
+  dv_known_ref_.Clear();
+}
+inline double GetDirectionalDerivativeResponse::dv_known_ref(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+  return dv_known_ref_.Get(index);
+}
+inline void GetDirectionalDerivativeResponse::set_dv_known_ref(int index, double value) {
+  dv_known_ref_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+}
+inline void GetDirectionalDerivativeResponse::add_dv_known_ref(double value) {
+  dv_known_ref_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+}
+inline const ::google::protobuf::RepeatedField< double >&
+GetDirectionalDerivativeResponse::dv_known_ref() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+  return dv_known_ref_;
+}
+inline ::google::protobuf::RepeatedField< double >*
+GetDirectionalDerivativeResponse::mutable_dv_known_ref() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+  return &dv_known_ref_;
+}
+
+// .fmuproxy.grpc.Status status = 2;
+inline void GetDirectionalDerivativeResponse::clear_status() {
+  status_ = 0;
+}
+inline ::fmuproxy::grpc::Status GetDirectionalDerivativeResponse::status() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeResponse.status)
+  return static_cast< ::fmuproxy::grpc::Status >(status_);
+}
+inline void GetDirectionalDerivativeResponse::set_status(::fmuproxy::grpc::Status value) {
+  
+  status_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeResponse.status)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -6644,6 +10871,33 @@ inline void CanCreateInstanceFromMERequest::set_allocated_fmu_id(::std::string* 
 
 }  // namespace grpc
 }  // namespace fmuproxy
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::fmuproxy::grpc::Causality> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Causality>() {
+  return ::fmuproxy::grpc::Causality_descriptor();
+}
+template <> struct is_proto_enum< ::fmuproxy::grpc::Variability> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Variability>() {
+  return ::fmuproxy::grpc::Variability_descriptor();
+}
+template <> struct is_proto_enum< ::fmuproxy::grpc::Initial> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Initial>() {
+  return ::fmuproxy::grpc::Initial_descriptor();
+}
+template <> struct is_proto_enum< ::fmuproxy::grpc::Status> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Status>() {
+  return ::fmuproxy::grpc::Status_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

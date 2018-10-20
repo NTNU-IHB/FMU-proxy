@@ -220,6 +220,13 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::DeSerializeFMUstateResponse>> PrepareAsyncDeSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::DeSerializeFMUstateResponse>>(PrepareAsyncDeSerializeFMUstateRaw(context, request, cq));
     }
+    virtual ::grpc::Status GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>> AsyncGetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>>(AsyncGetDirectionalDerivativeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>> PrepareAsyncGetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>>(PrepareAsyncGetDirectionalDerivativeRaw(context, request, cq));
+    }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescription>* AsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::ModelDescription>* PrepareAsyncGetModelDescriptionRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -267,6 +274,8 @@ class FmuService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::SerializeFMUstateResponse>* PrepareAsyncSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* AsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* PrepareAsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* AsyncGetDirectionalDerivativeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* PrepareAsyncGetDirectionalDerivativeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -432,6 +441,13 @@ class FmuService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>> PrepareAsyncDeSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>>(PrepareAsyncDeSerializeFMUstateRaw(context, request, cq));
     }
+    ::grpc::Status GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>> AsyncGetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>>(AsyncGetDirectionalDerivativeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>> PrepareAsyncGetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>>(PrepareAsyncGetDirectionalDerivativeRaw(context, request, cq));
+    }
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
@@ -481,6 +497,8 @@ class FmuService final {
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::SerializeFMUstateResponse>* PrepareAsyncSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* AsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* PrepareAsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* AsyncGetDirectionalDerivativeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* PrepareAsyncGetDirectionalDerivativeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_GetModelDescription_;
     const ::grpc::internal::RpcMethod rpcmethod_GetCoSimulationAttributes_;
     const ::grpc::internal::RpcMethod rpcmethod_CanCreateInstanceFromCS_;
@@ -504,6 +522,7 @@ class FmuService final {
     const ::grpc::internal::RpcMethod rpcmethod_FreeFMUstate_;
     const ::grpc::internal::RpcMethod rpcmethod_SerializeFMUstate_;
     const ::grpc::internal::RpcMethod rpcmethod_DeSerializeFMUstate_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetDirectionalDerivative_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -534,6 +553,7 @@ class FmuService final {
     virtual ::grpc::Status FreeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::FreeFMUstateRequest* request, ::fmuproxy::grpc::StatusResponse* response);
     virtual ::grpc::Status SerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest* request, ::fmuproxy::grpc::SerializeFMUstateResponse* response);
     virtual ::grpc::Status DeSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest* request, ::fmuproxy::grpc::DeSerializeFMUstateResponse* response);
+    virtual ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_GetModelDescription : public BaseClass {
@@ -995,7 +1015,27 @@ class FmuService final {
       ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetModelDescription<WithAsyncMethod_GetCoSimulationAttributes<WithAsyncMethod_CanCreateInstanceFromCS<WithAsyncMethod_CanCreateInstanceFromME<WithAsyncMethod_CreateInstanceFromCS<WithAsyncMethod_CreateInstanceFromME<WithAsyncMethod_Init<WithAsyncMethod_Step<WithAsyncMethod_Reset<WithAsyncMethod_Terminate<WithAsyncMethod_ReadInteger<WithAsyncMethod_ReadReal<WithAsyncMethod_ReadString<WithAsyncMethod_ReadBoolean<WithAsyncMethod_WriteInteger<WithAsyncMethod_WriteReal<WithAsyncMethod_WriteString<WithAsyncMethod_WriteBoolean<WithAsyncMethod_GetFMUstate<WithAsyncMethod_SetFMUstate<WithAsyncMethod_FreeFMUstate<WithAsyncMethod_SerializeFMUstate<WithAsyncMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_GetDirectionalDerivative : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithAsyncMethod_GetDirectionalDerivative() {
+      ::grpc::Service::MarkMethodAsync(23);
+    }
+    ~WithAsyncMethod_GetDirectionalDerivative() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetDirectionalDerivative(::grpc::ServerContext* context, ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::grpc::ServerAsyncResponseWriter< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_GetModelDescription<WithAsyncMethod_GetCoSimulationAttributes<WithAsyncMethod_CanCreateInstanceFromCS<WithAsyncMethod_CanCreateInstanceFromME<WithAsyncMethod_CreateInstanceFromCS<WithAsyncMethod_CreateInstanceFromME<WithAsyncMethod_Init<WithAsyncMethod_Step<WithAsyncMethod_Reset<WithAsyncMethod_Terminate<WithAsyncMethod_ReadInteger<WithAsyncMethod_ReadReal<WithAsyncMethod_ReadString<WithAsyncMethod_ReadBoolean<WithAsyncMethod_WriteInteger<WithAsyncMethod_WriteReal<WithAsyncMethod_WriteString<WithAsyncMethod_WriteBoolean<WithAsyncMethod_GetFMUstate<WithAsyncMethod_SetFMUstate<WithAsyncMethod_FreeFMUstate<WithAsyncMethod_SerializeFMUstate<WithAsyncMethod_DeSerializeFMUstate<WithAsyncMethod_GetDirectionalDerivative<Service > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_GetModelDescription : public BaseClass {
    private:
@@ -1383,6 +1423,23 @@ class FmuService final {
     }
     // disable synchronous version of this method
     ::grpc::Status DeSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest* request, ::fmuproxy::grpc::DeSerializeFMUstateResponse* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetDirectionalDerivative : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithGenericMethod_GetDirectionalDerivative() {
+      ::grpc::Service::MarkMethodGeneric(23);
+    }
+    ~WithGenericMethod_GetDirectionalDerivative() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1848,6 +1905,26 @@ class FmuService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_GetDirectionalDerivative : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithRawMethod_GetDirectionalDerivative() {
+      ::grpc::Service::MarkMethodRaw(23);
+    }
+    ~WithRawMethod_GetDirectionalDerivative() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetDirectionalDerivative(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_GetModelDescription : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
@@ -2307,9 +2384,29 @@ class FmuService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedDeSerializeFMUstate(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::DeSerializeFMUstateRequest,::fmuproxy::grpc::DeSerializeFMUstateResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetCoSimulationAttributes<WithStreamedUnaryMethod_CanCreateInstanceFromCS<WithStreamedUnaryMethod_CanCreateInstanceFromME<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetDirectionalDerivative : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service *service) {}
+   public:
+    WithStreamedUnaryMethod_GetDirectionalDerivative() {
+      ::grpc::Service::MarkMethodStreamed(23,
+        new ::grpc::internal::StreamedUnaryHandler< ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>(std::bind(&WithStreamedUnaryMethod_GetDirectionalDerivative<BaseClass>::StreamedGetDirectionalDerivative, this, std::placeholders::_1, std::placeholders::_2)));
+    }
+    ~WithStreamedUnaryMethod_GetDirectionalDerivative() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetDirectionalDerivative(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::fmuproxy::grpc::GetDirectionalDerivativeRequest,::fmuproxy::grpc::GetDirectionalDerivativeResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetCoSimulationAttributes<WithStreamedUnaryMethod_CanCreateInstanceFromCS<WithStreamedUnaryMethod_CanCreateInstanceFromME<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<WithStreamedUnaryMethod_GetDirectionalDerivative<Service > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetCoSimulationAttributes<WithStreamedUnaryMethod_CanCreateInstanceFromCS<WithStreamedUnaryMethod_CanCreateInstanceFromME<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<Service > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_GetModelDescription<WithStreamedUnaryMethod_GetCoSimulationAttributes<WithStreamedUnaryMethod_CanCreateInstanceFromCS<WithStreamedUnaryMethod_CanCreateInstanceFromME<WithStreamedUnaryMethod_CreateInstanceFromCS<WithStreamedUnaryMethod_CreateInstanceFromME<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Step<WithStreamedUnaryMethod_Reset<WithStreamedUnaryMethod_Terminate<WithStreamedUnaryMethod_ReadInteger<WithStreamedUnaryMethod_ReadReal<WithStreamedUnaryMethod_ReadString<WithStreamedUnaryMethod_ReadBoolean<WithStreamedUnaryMethod_WriteInteger<WithStreamedUnaryMethod_WriteReal<WithStreamedUnaryMethod_WriteString<WithStreamedUnaryMethod_WriteBoolean<WithStreamedUnaryMethod_GetFMUstate<WithStreamedUnaryMethod_SetFMUstate<WithStreamedUnaryMethod_FreeFMUstate<WithStreamedUnaryMethod_SerializeFMUstate<WithStreamedUnaryMethod_DeSerializeFMUstate<WithStreamedUnaryMethod_GetDirectionalDerivative<Service > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace grpc

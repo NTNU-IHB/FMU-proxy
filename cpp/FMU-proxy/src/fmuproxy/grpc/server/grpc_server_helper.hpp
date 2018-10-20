@@ -28,8 +28,7 @@
 #include <grpcpp/grpcpp.h>
 
 #include <fmi4cpp/fmi2/fmi4cpp.hpp>
-#include <fmuproxy/grpc/common/definitions.pb.h>
-#include <fmuproxy/thrift/common/definitions_types.h>
+#include <fmuproxy/grpc/common/service.pb.h>
 
 using namespace fmuproxy::grpc;
 

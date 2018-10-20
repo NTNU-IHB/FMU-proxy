@@ -26,7 +26,7 @@
 #define FMU_PROXY_THRIFT_SERVER_HELPER_HPP
 
 #include <cfloat>
-#include <fmuproxy/thrift/common/definitions_types.h>
+#include <fmuproxy/thrift/common/service_types.h>
 
 #include <fmi4cpp/fmi2/fmi4cpp.hpp>
 #include <fmi4cpp/fmi2/xml/ScalarVariableAttribute.hpp>

@@ -40,6 +40,7 @@ static const char* FmuService_method_names[] = {
   "/fmuproxy.grpc.FmuService/FreeFMUstate",
   "/fmuproxy.grpc.FmuService/SerializeFMUstate",
   "/fmuproxy.grpc.FmuService/DeSerializeFMUstate",
+  "/fmuproxy.grpc.FmuService/GetDirectionalDerivative",
 };
 
 std::unique_ptr< FmuService::Stub> FmuService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -72,6 +73,7 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   , rpcmethod_FreeFMUstate_(FmuService_method_names[20], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SerializeFMUstate_(FmuService_method_names[21], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_DeSerializeFMUstate_(FmuService_method_names[22], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetDirectionalDerivative_(FmuService_method_names[23], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status FmuService::Stub::GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::fmuproxy::grpc::ModelDescription* response) {
@@ -350,6 +352,18 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::DeSerializeFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_DeSerializeFMUstate_, context, request, false);
 }
 
+::grpc::Status FmuService::Stub::GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetDirectionalDerivative_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* FmuService::Stub::AsyncGetDirectionalDerivativeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>::Create(channel_.get(), cq, rpcmethod_GetDirectionalDerivative_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* FmuService::Stub::PrepareAsyncGetDirectionalDerivativeRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::GetDirectionalDerivativeResponse>::Create(channel_.get(), cq, rpcmethod_GetDirectionalDerivative_, context, request, false);
+}
+
 FmuService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[0],
@@ -466,6 +480,11 @@ FmuService::Service::Service() {
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::DeSerializeFMUstateRequest, ::fmuproxy::grpc::DeSerializeFMUstateResponse>(
           std::mem_fn(&FmuService::Service::DeSerializeFMUstate), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FmuService_method_names[23],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>(
+          std::mem_fn(&FmuService::Service::GetDirectionalDerivative), this)));
 }
 
 FmuService::Service::~Service() {
@@ -626,6 +645,13 @@ FmuService::Service::~Service() {
 }
 
 ::grpc::Status FmuService::Service::DeSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest* request, ::fmuproxy::grpc::DeSerializeFMUstateResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status FmuService::Service::GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) {
   (void) context;
   (void) request;
   (void) response;

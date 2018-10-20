@@ -18,7 +18,6 @@ endif()
 #########################GRPC#####################################
 
 SET(GRPC_COMMON_SRC
-        fmuproxy/grpc/common/definitions.pb.cc
         fmuproxy/grpc/common/service.pb.cc
         fmuproxy/grpc/common/service.grpc.pb.cc)
 
@@ -49,7 +48,6 @@ endif()
 
 SET(THRIFT_COMMON_SRC
         fmuproxy/thrift/common/service_types.cpp
-        fmuproxy/thrift/common/definitions_types.cpp
         fmuproxy/thrift/common/FmuService.cpp)
 
 SET(THRIFT_CLIENT_SRC

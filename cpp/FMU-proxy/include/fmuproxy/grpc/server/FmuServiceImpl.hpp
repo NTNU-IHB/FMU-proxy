@@ -27,7 +27,7 @@
 
 #include <memory>
 #include <unordered_map>
-#include "../common/definitions.pb.h"
+#include "../common/service.pb.h"
 #include "../common/service.grpc.pb.h"
 
 #include <fmi4cpp/fmi2/fmi4cpp.hpp>
@@ -112,11 +112,13 @@ namespace fmuproxy::grpc::server {
         WriteBoolean(::grpc::ServerContext *context, const ::fmuproxy::grpc::WriteBooleanRequest *request,
                      ::fmuproxy::grpc::StatusResponse *response) override;
 
-        ::grpc::Status GetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetFMUstateRequest *request,
-                                   ::fmuproxy::grpc::GetFMUstateResponse *response) override;
+        ::grpc::Status
+        GetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetFMUstateRequest *request,
+                    ::fmuproxy::grpc::GetFMUstateResponse *response) override;
 
-        ::grpc::Status SetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetFMUstateRequest *request,
-                                   ::fmuproxy::grpc::StatusResponse *response) override;
+        ::grpc::Status
+        SetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetFMUstateRequest *request,
+                    ::fmuproxy::grpc::StatusResponse *response) override;
 
         ::grpc::Status
         FreeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::FreeFMUstateRequest *request,
@@ -129,6 +131,11 @@ namespace fmuproxy::grpc::server {
         ::grpc::Status
         DeSerializeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest *request,
                             ::fmuproxy::grpc::DeSerializeFMUstateResponse *response) override;
+
+        ::grpc::Status
+        GetDirectionalDerivative(::grpc::ServerContext *context,
+                                 const ::fmuproxy::grpc::GetDirectionalDerivativeRequest *request,
+                                 ::fmuproxy::grpc::GetDirectionalDerivativeResponse *response) override;
 
 
     };

@@ -103,6 +103,10 @@ namespace fmuproxy::thrift::server {
 
         bool canCreateInstanceFromME(const FmuId &fmuId) override;
 
+        void getDirectionalDerivative(DirectionalDerivativeResult &_return, const InstanceId &slave_id,
+                                      const ValueReferences &vUnknownRef, const ValueReferences &vKnownRef,
+                                      const std::vector<double> &dvKnownRef) override;
+
     };
 
 }

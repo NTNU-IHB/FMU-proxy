@@ -27,7 +27,7 @@
 
 #include <string>
 #include <fmi4cpp/fmi2/fmi4cpp.hpp>
-#include <fmuproxy/grpc/common/definitions.pb.h>
+#include <fmuproxy/grpc/common/service.pb.h>
 
 namespace {
 
@@ -181,12 +181,12 @@ namespace {
 
     fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::grpc::CoSimulationAttributes &a) {
 
-        fmi4cpp::fmi2::FmuAttributes attributes(a.modelidentifier(), a.cangetandsetfmustate(),
-                                                a.canserializefmustate(), false, false, false,
-                                                a.providesdirectionalderivative(), {});
+        fmi4cpp::fmi2::FmuAttributes attributes(a.model_identifier(), a.can_get_and_set_fmustate(),
+                                                a.can_serialize_fmustate(), false, false, false,
+                                                a.provides_directional_derivative(), {});
 
-        return {attributes, a.caninterpolateinputs(), false, a.canhandlevariablecommunicationstepsize(),
-                a.maxoutputderivativeorder()};
+        return {attributes, a.can_interpolate_inputs(), false, a.can_handle_variable_communication_step_size(),
+                a.max_output_derivative_order()};
 
     }
 

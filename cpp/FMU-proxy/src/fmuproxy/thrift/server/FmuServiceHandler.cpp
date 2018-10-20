@@ -179,6 +179,8 @@ void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId
         throw ex;
     }
 
+    //TODO
+
 //    const auto status = slave->getFMUstate(_return.state);
 //    _return.status = thriftType(status);
     _return.__set_status(Status::type::ERROR_STATUS);
@@ -192,6 +194,8 @@ Status::type FmuServiceHandler::setFMUstate(const InstanceId &slave_id, const Fm
         throw ex;
     }
 
+    //TODO
+
 //    return thriftType(slave->setFMUstate(state));
     return Status::type::ERROR_STATUS;
 }
@@ -203,6 +207,8 @@ Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuStat
         ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
         throw ex;
     }
+
+    //TODO
 
 //    return thriftType(slave->freeFMUstate(state));
     return Status::type::ERROR_STATUS;
@@ -217,6 +223,8 @@ void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, cons
         throw ex;
     }
 
+    //TODO
+
 //    string serializedState;
 //    const auto status = thriftType(slave->serializeFMUstate(state, serializedState));
 //
@@ -230,9 +238,11 @@ void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, 
     auto &slave = slaves_[slave_id];
     if (!slave->getModelDescription()->canSerializeFMUstate()) {
         auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'SerializeFMUstate'";
+        ex.message = "FMU does not have capability 'deSerializeFMUstate'";
         throw ex;
     }
+
+    //TODO
 
 //    int64_t state;
 //    const auto status = thriftType(slave->deSerializeFMUstate(serializedState, state));
@@ -240,5 +250,19 @@ void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, 
 //    _return.__set_state(state);
 //    _return.__set_status(status);
     _return.__set_status(Status::type::ERROR_STATUS);
+
+}
+
+void FmuServiceHandler::getDirectionalDerivative(DirectionalDerivativeResult &_return, const InstanceId &slave_id,
+                                                 const ValueReferences &vUnknownRef, const ValueReferences &vKnownRef,
+                                                 const std::vector<double> &dvKnownRef) {
+    auto &slave = slaves_[slave_id];
+    if (!slave->getModelDescription()->providesDirectionalDerivative()) {
+        auto ex = UnsupportedOperationException();
+        ex.message = "FMU does not have capability 'getDirectionalDerivative'";
+        throw ex;
+    }
+
+    //TODO
 
 }
