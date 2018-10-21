@@ -48,7 +48,10 @@ abstract class AbstractRpcFmuClient(
 
     protected abstract fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes
 
-    protected abstract fun init(instanceId: InstanceId, start: Double, stop: Double): FmiStatus
+    protected abstract fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
+    protected abstract fun enterInitializationMode(instanceId: InstanceId): FmiStatus
+    protected abstract fun exitInitializationMode(instanceId: InstanceId): FmiStatus
+
     protected abstract fun step(instanceId: InstanceId, stepSize: Double): Pair<Double, FmiStatus>
     protected abstract fun reset(instanceId: InstanceId): FmiStatus
     protected abstract fun terminate(instanceId: InstanceId): FmiStatus
@@ -104,9 +107,6 @@ abstract class AbstractRpcFmuClient(
             private val instanceId: String
     ): FmuSlave  {
 
-        override var isInitialized = false
-            private set
-
         override var isTerminated = false
             private set
 
@@ -126,14 +126,24 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun init() = init(0.0)
-        override fun init(start: Double) = init(start, 0.0)
-        override fun init(start: Double, stop: Double) {
-            init(instanceId, start, stop).also {
-                lastStatus = it
+
+        override fun setupExperiment(start: Double, stop: Double, tolerance: Double): Boolean {
+            return setupExperiment(instanceId, start, stop, tolerance).also {
                 simulationTime = start
-                isInitialized = true
-            }
+                lastStatus = it
+            }.isOK()
+        }
+
+        override fun enterInitializationMode(): Boolean {
+            return enterInitializationMode(instanceId).also {
+                lastStatus = it
+            }.isOK()
+        }
+
+        override fun exitInitializationMode(): Boolean {
+            return exitInitializationMode(instanceId).also {
+                lastStatus = it
+            }.isOK()
         }
 
         override fun doStep(stepSize: Double): Boolean {

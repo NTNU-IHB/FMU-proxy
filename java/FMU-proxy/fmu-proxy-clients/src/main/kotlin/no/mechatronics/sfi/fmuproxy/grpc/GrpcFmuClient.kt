@@ -100,13 +100,30 @@ class GrpcFmuClient(
                 }
     }
 
-    override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
-        return Service.InitRequest.newBuilder()
+    override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+        return Service.SetupExperimentRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .setStart(start)
                 .setStop(stop)
+                .setTolerance(tolerance)
                 .build().let {
-                    blockingStub.init(it).convert()
+                    blockingStub.setupExperiment(it).convert()
+                }
+    }
+
+    override fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
+        return Service.EnterInitializationModeRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .build().let {
+                    blockingStub.enterInitializationMode(it).convert()
+                }
+    }
+
+    override fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
+        return Service.ExitInitializationModeRequest.newBuilder()
+                .setInstanceId(instanceId)
+                .build().let {
+                    blockingStub.exitInitializationMode(it).convert()
                 }
     }
 
@@ -215,7 +232,7 @@ class GrpcFmuClient(
     override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
         return Service.GetFMUstateRequest.newBuilder()
                 .setInstanceId(instanceId)
-                .build().let {request ->
+                .build().let { request ->
                     blockingStub.getFMUstate(request).let { response ->
                         response.state to response.status.convert()
                     }

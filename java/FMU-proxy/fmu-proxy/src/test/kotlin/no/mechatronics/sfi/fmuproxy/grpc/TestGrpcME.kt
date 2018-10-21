@@ -64,7 +64,9 @@ class TestGrpcME {
 
         client.newInstance(solver).use { slave ->
 
-            slave.init()
+            slave.setupExperiment()
+            slave.enterInitializationMode()
+            slave.exitInitializationMode()
             Assertions.assertEquals(FmiStatus.OK, slave.lastStatus)
 
             val variableName = "x0"

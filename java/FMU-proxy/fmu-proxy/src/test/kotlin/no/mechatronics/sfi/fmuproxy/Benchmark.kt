@@ -54,7 +54,7 @@ class Benchmark {
     fun measureTimeLocal() {
 
         fmu.asCoSimulationFmu().newInstance().use { instance ->
-            runInstance(instance, stepSize, stop) {
+            runSlave(instance, stepSize, stop) {
                 val read = instance.variableAccessor.readReal("Temperature_Room")
                 Assertions.assertEquals(FmiStatus.OK, read.status)
                 Assertions.assertTrue(read.value > 0)
@@ -72,7 +72,7 @@ class Benchmark {
             val port = server.start()
             val client = ThriftFmuClient.socketClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, stepSize, stop) {
+                runSlave(instance, stepSize, stop) {
                     val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -102,7 +102,7 @@ class Benchmark {
             val port = server.start()
             val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, stepSize, 1.0) {
+                runSlave(instance, stepSize, 1.0) {
                     val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -121,7 +121,7 @@ class Benchmark {
             val port = server.start()
             val client = GrpcFmuClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runInstance(instance, stepSize, stop) {
+                runSlave(instance, stepSize, stop) {
                     val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
@@ -168,7 +168,7 @@ class Benchmark {
 
             it.use { client ->
                 client.newInstance().use { slave ->
-                    runInstance(slave, stepSize, stop) {
+                    runSlave(slave, stepSize, stop) {
                         val read = slave.variableAccessor.readReal("Temperature_Room")
                         Assertions.assertTrue(read.value > 0)
                     }.also {

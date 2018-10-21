@@ -239,6 +239,8 @@ internal fun CoSimulationAttributes.convert(): no.mechatronics.sfi.fmi4j.modelde
             get() = false
         override val maxOutputDerivativeOrder: Int
             get() = this@convert.maxOutputDerivativeOrder
+        override val canProvideMaxStepSize: Boolean
+            get() = false
     }
 }
 

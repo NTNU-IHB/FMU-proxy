@@ -27,7 +27,7 @@ package no.mechatronics.sfi.fmuproxy.grpc
 import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
-import no.mechatronics.sfi.fmuproxy.runInstance
+import no.mechatronics.sfi.fmuproxy.runSlave
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -88,7 +88,7 @@ class TestGrpcCS {
 
             val stop = 2.0
             val stepSize = 1E-2
-            runInstance(slave, stepSize, stop) {
+            runSlave(slave, stepSize, stop) {
                 variable.read(slave)
             }.also {
                 LOG.info("Duration: ${it}ms")

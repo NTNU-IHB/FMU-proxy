@@ -29,7 +29,10 @@ class BenchmarkControlledTemperature {
 
     private fun runInstance(slave: FmuSlave, stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
-        slave.init()
+        slave.setupExperiment()
+        slave.enterInitializationMode()
+        slave.exitInitializationMode()
+
         return measureTimeMillis {
             while (slave.simulationTime < stop) {
                 val status = slave.doStep(stepSize)

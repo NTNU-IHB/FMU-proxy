@@ -64,8 +64,10 @@ class TestThriftME {
 
         client.newInstance(solver).use { slave ->
 
-            slave.init()
-            Assertions.assertEquals(FmiStatus.OK, slave.lastStatus)
+            slave.setupExperiment()
+            slave.enterInitializationMode()
+            slave.exitInitializationMode()
+            Assertions.assertTrue(slave.lastStatus.isOK())
 
             val variableName = "x0"
             val variable = slave.modelDescription

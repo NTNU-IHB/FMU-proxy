@@ -99,9 +99,23 @@ class ThriftFmuServiceImpl(
         return attributes.thriftType()
     }
 
-    override fun init(instanceId: String, startTime: Double, endTime: Double): Status {
+    override fun setupExperiment(instanceId: String, start: Double, stop: Double, tolerance: Double): Status {
+        return getSlave(instanceId).let { slave ->
+            slave.setupExperiment(start, stop, tolerance)
+            slave.lastStatus.thriftType()
+        }
+    }
+
+    override fun enterInitializationMode(instanceId: String): Status {
+        return getSlave(instanceId).let { slave ->
+            slave.enterInitializationMode()
+            slave.lastStatus.thriftType()
+        }
+    }
+
+    override fun exitInitializationMode(instanceId: String): Status {
         return getSlave(instanceId).let {
-            it.init()
+            it.exitInitializationMode()
             it.lastStatus.thriftType()
         }
     }

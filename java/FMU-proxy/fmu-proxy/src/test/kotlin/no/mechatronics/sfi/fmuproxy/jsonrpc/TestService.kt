@@ -39,26 +39,26 @@ class TestService {
         fmu.close()
     }
 
-    @Test
-    fun testModelDescriptionXml() {
-
-        val xml = """
-        {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "FmuService.getModelDescriptionXml",
-            "params": ["${fmu.guid}"]
-        }
-        """.let {
-            RpcResponse.fromJson(handler.handle(it)!!)
-                    .getResult<String>()!!
-        }
-
-        ModelDescriptionParser.parse(xml).asCoSimulationModelDescription().also {
-            LOG.debug("$it")
-        }
-
-    }
+//    @Test
+//    fun testModelDescriptionXml() {
+//
+//        val xml = """
+//        {
+//            "jsonrpc": "2.0",
+//            "id": 1,
+//            "method": "FmuService.getModelDescriptionXml",
+//            "params": ["${fmu.guid}"]
+//        }
+//        """.let {
+//            RpcResponse.fromJson(handler.handle(it)!!)
+//                    .getResult<String>()!!
+//        }
+//
+//        ModelDescriptionParser.parse(xml).asCoSimulationModelDescription().also {
+//            LOG.debug("$it")
+//        }
+//
+//    }
 
     @Test
     fun testModelDescription() {
@@ -89,13 +89,29 @@ class TestService {
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult<String>()!!
 
-        val init = RpcRequestOut(
-                methodName = "FmuService.init",
-                params = RpcParams.listParams(instanceId, 0.0)
+        val setupExperiment = RpcRequestOut(
+                methodName = "FmuService.setupExperiment",
+                params = RpcParams.listParams(instanceId)
         ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
 
-        Assertions.assertEquals(FmiStatus.OK, init)
+        Assertions.assertEquals(FmiStatus.OK, setupExperiment)
+
+        val enterInitializationMode = RpcRequestOut(
+                methodName = "FmuService.enterInitializationMode",
+                params = RpcParams.listParams(instanceId)
+        ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
+                .getResult<FmiStatus>()!!
+
+        Assertions.assertEquals(FmiStatus.OK, enterInitializationMode)
+
+        val exitInitializationMode = RpcRequestOut(
+                methodName = "FmuService.exitInitializationMode",
+                params = RpcParams.listParams(instanceId)
+        ).toJson().let { RpcResponse.fromJson(handler.handle(it)!!) }
+                .getResult<FmiStatus>()!!
+
+        Assertions.assertEquals(FmiStatus.OK, exitInitializationMode)
 
         val h = RpcRequestOut(
                 methodName = "FmuService.readReal",

@@ -87,7 +87,7 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    runInstance(instance, stepSize, stopTime).also {
+                    runSlave(instance, stepSize, stopTime).also {
                         LOG.info("gRPC duration: ${it}ms")
                     }
 
@@ -112,7 +112,7 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    runInstance(instance, stepSize, stopTime).also {
+                    runSlave(instance, stepSize, stopTime).also {
                         LOG.info("Thrift (socket) duration: ${it}ms")
                     }
 
@@ -137,7 +137,7 @@ class TestProxy {
 
                 client.newInstance().use { instance ->
 
-                    runInstance(instance, stepSize, stopTime).also {
+                    runSlave(instance, stepSize, stopTime).also {
                         LOG.info("Thrift (servlet) duration: ${it}ms")
                     }
 
@@ -173,7 +173,7 @@ class TestProxy {
                 Assertions.assertEquals(mdLocal.fmiVersion, client.fmiVersion)
 
                 client.newInstance().use { instance ->
-                    runInstance(instance, stepSize, stopTime).also {
+                    runSlave(instance, stepSize, stopTime).also {
                         LOG.info("${client.implementationName} duration: ${it}ms")
                     }
                 }

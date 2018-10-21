@@ -202,19 +202,25 @@ class GrpcFmuServiceImpl(
         }
     }
 
-    override fun init(request: Service.InitRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+
+
+    override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val start = request.start
-            val stop = request.stop
-            val hasStart = start > 0
-            val hasStop = stop > start
-            if (hasStart && hasStop) {
-                init(start, stop)
-            } else if (hasStart) {
-                init(start)
-            } else {
-                init()
-            }
+            setupExperiment(request.start, request.stop, request.tolerance)
+            statusReply(lastStatus, responseObserver)
+        }
+    }
+
+    override fun enterInitializationMode(request: Service.EnterInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            enterInitializationMode()
+            statusReply(lastStatus, responseObserver)
+        }
+    }
+
+    override fun exitInitializationMode(request: Service.ExitInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            exitInitializationMode()
             statusReply(lastStatus, responseObserver)
         }
     }

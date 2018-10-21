@@ -52,11 +52,6 @@ class JsonRpcFmuClient(
                 .getResult<ModelDescriptionImpl>()!!
     }
 
-    val modelDescriptionXml: String by lazy {
-        client.write("$SERVICE.getModelDescriptionXml", RpcParams.listParams(fmuId))
-                .getResult<String>()!!
-    }
-
     override val canCreateInstanceFromCS: Boolean
         get() = client.write("$SERVICE.canCreateInstanceFromCS", RpcParams.listParams(fmuId))
                 .getResult<Boolean>()!!
@@ -80,9 +75,18 @@ class JsonRpcFmuClient(
                 .getResult<String>()!!
     }
 
+    override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+        return client.write("$SERVICE.setupExperiment", RpcParams.listParams(instanceId, start, stop, tolerance))
+                .getResult<FmiStatus>()!!
+    }
 
-    override fun init(instanceId: String, start: Double, stop: Double): FmiStatus {
-        return client.write("$SERVICE.init", RpcParams.listParams(instanceId, start))
+    override fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
+        return client.write("$SERVICE.enterInitializationMode", RpcParams.listParams(instanceId))
+                .getResult<FmiStatus>()!!
+    }
+
+    override fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
+        return client.write("$SERVICE.exitInitializationMode", RpcParams.listParams(instanceId))
                 .getResult<FmiStatus>()!!
     }
 

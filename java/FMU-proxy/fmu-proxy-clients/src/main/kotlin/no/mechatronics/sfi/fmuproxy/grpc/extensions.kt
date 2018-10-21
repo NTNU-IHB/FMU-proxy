@@ -244,6 +244,8 @@ internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
             get() = false
         override val maxOutputDerivativeOrder: Int
             get() = this@convert.maxOutputDerivativeOrder
+        override val canProvideMaxStepSize: Boolean
+            get() = false
     }
 
 }

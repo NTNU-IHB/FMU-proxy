@@ -117,15 +117,31 @@ class RpcFmuService(
 
     @RpcMethod
     @JvmOverloads
-    fun init(instanceId: String, startTime: Double = 0.0, stopTime: Double = 0.0): FmiStatus {
+    fun setupExperiment(instanceId: InstanceId, startTime: Double = 0.0, stopTime: Double = 0.0, tolerance: Double = 0.0): FmiStatus {
         return getSlave(instanceId).let {
-            it.init(startTime, stopTime)
+            it.setupExperiment(startTime, stopTime, tolerance)
             it.lastStatus
         }
     }
 
     @RpcMethod
-    fun step(instanceId: String, stepSize: Double): StepResult {
+    fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
+        return getSlave(instanceId).let {
+            it.enterInitializationMode()
+            it.lastStatus
+        }
+    }
+
+    @RpcMethod
+    fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
+        return getSlave(instanceId).let {
+            it.exitInitializationMode()
+            it.lastStatus
+        }
+    }
+
+    @RpcMethod
+    fun step(instanceId: InstanceId, stepSize: Double): StepResult {
         return getSlave(instanceId).let {
             it.doStep(stepSize)
             StepResult(
@@ -136,7 +152,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun reset(instanceId: String): FmiStatus {
+    fun reset(instanceId: InstanceId): FmiStatus {
         return getSlave(instanceId).let {
             it.reset()
             it.lastStatus
@@ -144,7 +160,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun terminate(instanceId: String): FmiStatus {
+    fun terminate(instanceId: InstanceId): FmiStatus {
         return getSlave(instanceId).let {
             it.terminate()
             it.lastStatus
@@ -152,7 +168,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun readInteger(instanceId: String, vr: ValueReferences): FmuIntegerArrayRead {
+    fun readInteger(instanceId: InstanceId, vr: ValueReferences): FmuIntegerArrayRead {
         val values = IntArray(vr.size)
         return getSlave(instanceId).variableAccessor.readInteger(vr, values).let {
             FmuIntegerArrayRead(values, it)
@@ -160,7 +176,7 @@ class RpcFmuService(
     }
     
     @RpcMethod
-    fun readReal(instanceId: String, vr: ValueReferences): FmuRealArrayRead {
+    fun readReal(instanceId: InstanceId, vr: ValueReferences): FmuRealArrayRead {
         val values = RealArray(vr.size)
         return getSlave(instanceId).variableAccessor.readReal(vr, values).let {
             FmuRealArrayRead(values, it)
@@ -168,7 +184,7 @@ class RpcFmuService(
     }
     
     @RpcMethod
-    fun readString(instanceId: String, vr: ValueReferences): FmuStringArrayRead {
+    fun readString(instanceId: InstanceId, vr: ValueReferences): FmuStringArrayRead {
         val values = StringArray(vr.size) {""}
         return getSlave(instanceId).variableAccessor.readString(vr, values).let {
             FmuStringArrayRead(values, it)
@@ -176,7 +192,7 @@ class RpcFmuService(
     }
     
     @RpcMethod
-    fun readBoolean(instanceId: String, vr: ValueReferences): FmuBooleanArrayRead {
+    fun readBoolean(instanceId: InstanceId, vr: ValueReferences): FmuBooleanArrayRead {
         val values = BooleanArray(vr.size)
         return getSlave(instanceId).variableAccessor.readBoolean(vr, values).let {
             FmuBooleanArrayRead(values, it)
@@ -184,28 +200,28 @@ class RpcFmuService(
     }
     
     @RpcMethod
-    fun writeInteger(instanceId: String, vr: ValueReferences, value: IntArray): FmiStatus {
+    fun writeInteger(instanceId: InstanceId, vr: ValueReferences, value: IntArray): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeInteger(vr, value)
     }
 
     @RpcMethod
-    fun writeReal(instanceId: String, vr: ValueReferences, value: DoubleArray): FmiStatus {
+    fun writeReal(instanceId: InstanceId, vr: ValueReferences, value: DoubleArray): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeReal(vr, value)
     }
     
 
     @RpcMethod
-    fun writeString(instanceId: String, vr: ValueReferences, value: StringArray): FmiStatus {
+    fun writeString(instanceId: InstanceId, vr: ValueReferences, value: StringArray): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeString(vr, value)
     }
 
     @RpcMethod
-    fun writeBoolean(instanceId: String, vr: ValueReference, value: Boolean): FmiStatus {
+    fun writeBoolean(instanceId: InstanceId, vr: ValueReference, value: Boolean): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 
     @RpcMethod
-    fun writeBoolean(instanceId: String, vr: ValueReferences, value: BooleanArray): FmiStatus {
+    fun writeBoolean(instanceId: InstanceId, vr: ValueReferences, value: BooleanArray): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
     }
 

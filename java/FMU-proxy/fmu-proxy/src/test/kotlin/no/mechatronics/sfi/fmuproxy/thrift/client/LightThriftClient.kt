@@ -40,7 +40,7 @@ class LightThriftClient(
 
     internal object FmuInstances: ArrayList<FmuInstance>() {
         internal fun terminateAll() {
-            forEach{ it.terminate() }
+            forEach { it.terminate() }
         }
     }
 
@@ -58,8 +58,10 @@ class LightThriftClient(
         client.getModelDescription(fmuId)
     }
 
-    fun init(instanceId: String, start: Double, stop: Double): Status {
-        return client.init(instanceId, start, stop)
+    fun init(instanceId: String, start: Double = 0.0, stop: Double = 0.0, tolerance: Double = 0.0) {
+        client.setupExperiment(instanceId, start, stop, tolerance)
+        client.enterInitializationMode(instanceId)
+        client.exitInitializationMode(instanceId)
     }
 
     fun terminate(instanceId: String): Status {

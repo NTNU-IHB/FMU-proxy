@@ -10,7 +10,7 @@ import no.mechatronics.sfi.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
-import no.mechatronics.sfi.fmuproxy.runInstance
+import no.mechatronics.sfi.fmuproxy.runSlave
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -83,7 +83,7 @@ class TestJsonRpcClients {
 
                     val stop = 1.0
                     val stepSize = 1E-4
-                    runInstance(slave, stepSize, stop) {
+                    runSlave(slave, stepSize, stop) {
                         temp.read(slave)
                     }.also { LOG.info(" ${client.implementationName} duration: ${it}ms") }
 
