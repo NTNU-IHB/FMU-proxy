@@ -51,7 +51,12 @@ namespace fmuproxy::thrift::server {
         void createInstanceFromME(InstanceId &_return, const FmuId &fmu_id,
                                   const ::fmuproxy::thrift::Solver &solver) override;
 
-        Status::type init(const InstanceId &instance_id, const double start, const double stop) override;
+        Status::type setupExperiment(const InstanceId &instanceId, const double start, const double stop,
+                                     const double tolerance) override;
+
+        Status::type enterInitializationMode(const InstanceId &instanceId) override;
+
+        Status::type exitInitializationMode(const InstanceId &instanceId) override;
 
         void step(::fmuproxy::thrift::StepResult &_return, const InstanceId &instance_id,
                 const double step_size) override;

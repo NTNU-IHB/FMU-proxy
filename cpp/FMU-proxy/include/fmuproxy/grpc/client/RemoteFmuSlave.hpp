@@ -45,7 +45,11 @@ namespace fmuproxy::grpc::client {
 
         std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
 
-        void init(double start = 0, double stop = 0) override;
+        fmi2Status setupExperiment(double startTime = 0, double stopTime = 0, double tolerance = 0) override;
+
+        fmi2Status enterInitializationMode() override;
+
+        fmi2Status exitInitializationMode() override;
 
         fmi2Status reset() override;
 

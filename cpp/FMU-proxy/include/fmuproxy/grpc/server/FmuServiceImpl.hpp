@@ -70,8 +70,17 @@ namespace fmuproxy::grpc::server {
                              const ::fmuproxy::grpc::CreateInstanceFromMERequest *request,
                              ::fmuproxy::grpc::InstanceId *response) override;
 
-        ::grpc::Status Init(::grpc::ServerContext *context, const ::fmuproxy::grpc::InitRequest *request,
-                            ::fmuproxy::grpc::StatusResponse *response) override;
+        ::grpc::Status
+        SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetupExperimentRequest *request,
+                        ::fmuproxy::grpc::StatusResponse *response) override;
+
+        ::grpc::Status EnterInitializationMode(::grpc::ServerContext *context,
+                                             const ::fmuproxy::grpc::EnterInitializationModeRequest *request,
+                                             ::fmuproxy::grpc::StatusResponse *response) override;
+
+        ::grpc::Status ExitInitializationMode(::grpc::ServerContext *context,
+                                            const ::fmuproxy::grpc::ExitInitializationModeRequest *request,
+                                            ::fmuproxy::grpc::StatusResponse *response) override;
 
         ::grpc::Status Step(::grpc::ServerContext *context, const ::fmuproxy::grpc::StepRequest *request,
                             ::fmuproxy::grpc::StepResponse *response) override;

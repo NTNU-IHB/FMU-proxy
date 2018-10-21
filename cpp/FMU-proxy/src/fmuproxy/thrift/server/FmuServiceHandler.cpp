@@ -75,11 +75,26 @@ void FmuServiceHandler::createInstanceFromME(InstanceId &_return, const FmuId &i
     throw UnsupportedOperationException();
 }
 
-Status::type FmuServiceHandler::init(const InstanceId &slave_id, const double start, const double stop) {
-    auto &slave = slaves_[slave_id];
-    slave->init(start, stop);
-    return ::Status::OK_STATUS;
+
+Status::type FmuServiceHandler::setupExperiment(const InstanceId &instanceId, const double start, const double stop,
+                                                const double tolerance) {
+    auto &slave = slaves_[instanceId];
+    auto status = slave->setupExperiment(start, stop, tolerance);
+    return thriftType(status);
 }
+
+Status::type FmuServiceHandler::enterInitializationMode(const InstanceId &instanceId) {
+    auto &slave = slaves_[instanceId];
+    auto status = slave->enterInitializationMode();
+    return thriftType(status);
+}
+
+Status::type FmuServiceHandler::exitInitializationMode(const InstanceId &instanceId) {
+    auto &slave = slaves_[instanceId];
+    auto status = slave->exitInitializationMode();
+    return thriftType(status);
+}
+
 
 void FmuServiceHandler::step(StepResult &_return, const InstanceId &slave_id, const double step_size) {
     auto &slave = slaves_[slave_id];

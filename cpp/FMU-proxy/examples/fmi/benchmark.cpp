@@ -45,7 +45,9 @@ int main(int argc, char **argv) {
     auto fmu = Fmu(fmu_path).asCoSimulationFmu();
     auto slave = fmu->newInstance();
     auto md = slave->getModelDescription();
-    slave->init();
+    slave->setupExperiment();
+    slave->enterInitializationMode();
+    slave->exitInitializationMode();
 
     clock_t begin = clock();
 
