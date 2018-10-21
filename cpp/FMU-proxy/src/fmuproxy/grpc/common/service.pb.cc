@@ -138,11 +138,21 @@ class GetCoSimulationAttributesRequestDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<GetCoSimulationAttributesRequest>
       _instance;
 } _GetCoSimulationAttributesRequest_default_instance_;
-class InitRequestDefaultTypeInternal {
+class SetupExperimentRequestDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<InitRequest>
+  ::google::protobuf::internal::ExplicitlyConstructed<SetupExperimentRequest>
       _instance;
-} _InitRequest_default_instance_;
+} _SetupExperimentRequest_default_instance_;
+class EnterInitializationModeRequestDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<EnterInitializationModeRequest>
+      _instance;
+} _EnterInitializationModeRequest_default_instance_;
+class ExitInitializationModeRequestDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<ExitInitializationModeRequest>
+      _instance;
+} _ExitInitializationModeRequest_default_instance_;
 class StepRequestDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<StepRequest>
@@ -273,6 +283,11 @@ class GetDirectionalDerivativeResponseDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<GetDirectionalDerivativeResponse>
       _instance;
 } _GetDirectionalDerivativeResponse_default_instance_;
+class VoidDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<Void>
+      _instance;
+} _Void_default_instance_;
 }  // namespace grpc
 }  // namespace fmuproxy
 namespace protobuf_service_2eproto {
@@ -566,19 +581,47 @@ static void InitDefaultsGetCoSimulationAttributesRequest() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_GetCoSimulationAttributesRequest =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsGetCoSimulationAttributesRequest}, {}};
 
-static void InitDefaultsInitRequest() {
+static void InitDefaultsSetupExperimentRequest() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::fmuproxy::grpc::_InitRequest_default_instance_;
-    new (ptr) ::fmuproxy::grpc::InitRequest();
+    void* ptr = &::fmuproxy::grpc::_SetupExperimentRequest_default_instance_;
+    new (ptr) ::fmuproxy::grpc::SetupExperimentRequest();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::fmuproxy::grpc::InitRequest::InitAsDefaultInstance();
+  ::fmuproxy::grpc::SetupExperimentRequest::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_InitRequest =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsInitRequest}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_SetupExperimentRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetupExperimentRequest}, {}};
+
+static void InitDefaultsEnterInitializationModeRequest() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::fmuproxy::grpc::_EnterInitializationModeRequest_default_instance_;
+    new (ptr) ::fmuproxy::grpc::EnterInitializationModeRequest();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::fmuproxy::grpc::EnterInitializationModeRequest::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_EnterInitializationModeRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsEnterInitializationModeRequest}, {}};
+
+static void InitDefaultsExitInitializationModeRequest() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::fmuproxy::grpc::_ExitInitializationModeRequest_default_instance_;
+    new (ptr) ::fmuproxy::grpc::ExitInitializationModeRequest();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::fmuproxy::grpc::ExitInitializationModeRequest::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_ExitInitializationModeRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsExitInitializationModeRequest}, {}};
 
 static void InitDefaultsStepRequest() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -944,6 +987,20 @@ static void InitDefaultsGetDirectionalDerivativeResponse() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_GetDirectionalDerivativeResponse =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsGetDirectionalDerivativeResponse}, {}};
 
+static void InitDefaultsVoid() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::fmuproxy::grpc::_Void_default_instance_;
+    new (ptr) ::fmuproxy::grpc::Void();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::fmuproxy::grpc::Void::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_Void =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsVoid}, {}};
+
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_ModelDescription.base);
   ::google::protobuf::internal::InitSCC(&scc_info_CoSimulationAttributes.base);
@@ -965,7 +1022,9 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_CreateInstanceFromMERequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GetModelDescriptionRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GetCoSimulationAttributesRequest.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_InitRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetupExperimentRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_EnterInitializationModeRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_ExitInitializationModeRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_StepRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_ResetRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_TerminateRequest.base);
@@ -992,9 +1051,10 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_CanCreateInstanceFromMERequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GetDirectionalDerivativeRequest.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GetDirectionalDerivativeResponse.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Void.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[47];
+::google::protobuf::Metadata file_level_metadata[50];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[4];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -1167,13 +1227,26 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::GetCoSimulationAttributesRequest, instance_id_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::InitRequest, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::SetupExperimentRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::InitRequest, instance_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::InitRequest, start_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::InitRequest, stop_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::SetupExperimentRequest, instance_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::SetupExperimentRequest, start_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::SetupExperimentRequest, stop_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::SetupExperimentRequest, tolerance_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::EnterInitializationModeRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::EnterInitializationModeRequest, instance_id_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::ExitInitializationModeRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::ExitInitializationModeRequest, instance_id_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::StepRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1356,6 +1429,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::GetDirectionalDerivativeResponse, dv_known_ref_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::GetDirectionalDerivativeResponse, status_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::Void, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::fmuproxy::grpc::ModelDescription)},
@@ -1378,33 +1456,36 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 149, -1, sizeof(::fmuproxy::grpc::CreateInstanceFromMERequest)},
   { 156, -1, sizeof(::fmuproxy::grpc::GetModelDescriptionRequest)},
   { 162, -1, sizeof(::fmuproxy::grpc::GetCoSimulationAttributesRequest)},
-  { 168, -1, sizeof(::fmuproxy::grpc::InitRequest)},
-  { 176, -1, sizeof(::fmuproxy::grpc::StepRequest)},
-  { 183, -1, sizeof(::fmuproxy::grpc::ResetRequest)},
-  { 189, -1, sizeof(::fmuproxy::grpc::TerminateRequest)},
-  { 195, -1, sizeof(::fmuproxy::grpc::ReadRequest)},
-  { 202, -1, sizeof(::fmuproxy::grpc::WriteIntegerRequest)},
-  { 210, -1, sizeof(::fmuproxy::grpc::WriteRealRequest)},
-  { 218, -1, sizeof(::fmuproxy::grpc::WriteStringRequest)},
-  { 226, -1, sizeof(::fmuproxy::grpc::WriteBooleanRequest)},
-  { 234, -1, sizeof(::fmuproxy::grpc::IntegerRead)},
-  { 241, -1, sizeof(::fmuproxy::grpc::RealRead)},
-  { 248, -1, sizeof(::fmuproxy::grpc::StringRead)},
-  { 255, -1, sizeof(::fmuproxy::grpc::BooleanRead)},
-  { 262, -1, sizeof(::fmuproxy::grpc::Solver)},
-  { 269, -1, sizeof(::fmuproxy::grpc::Bool)},
-  { 275, -1, sizeof(::fmuproxy::grpc::GetFMUstateRequest)},
-  { 281, -1, sizeof(::fmuproxy::grpc::GetFMUstateResponse)},
-  { 288, -1, sizeof(::fmuproxy::grpc::SetFMUstateRequest)},
-  { 295, -1, sizeof(::fmuproxy::grpc::FreeFMUstateRequest)},
-  { 302, -1, sizeof(::fmuproxy::grpc::SerializeFMUstateRequest)},
-  { 309, -1, sizeof(::fmuproxy::grpc::SerializeFMUstateResponse)},
-  { 316, -1, sizeof(::fmuproxy::grpc::DeSerializeFMUstateRequest)},
-  { 323, -1, sizeof(::fmuproxy::grpc::DeSerializeFMUstateResponse)},
-  { 330, -1, sizeof(::fmuproxy::grpc::CanCreateInstanceFromCSRequest)},
-  { 336, -1, sizeof(::fmuproxy::grpc::CanCreateInstanceFromMERequest)},
-  { 342, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeRequest)},
-  { 351, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeResponse)},
+  { 168, -1, sizeof(::fmuproxy::grpc::SetupExperimentRequest)},
+  { 177, -1, sizeof(::fmuproxy::grpc::EnterInitializationModeRequest)},
+  { 183, -1, sizeof(::fmuproxy::grpc::ExitInitializationModeRequest)},
+  { 189, -1, sizeof(::fmuproxy::grpc::StepRequest)},
+  { 196, -1, sizeof(::fmuproxy::grpc::ResetRequest)},
+  { 202, -1, sizeof(::fmuproxy::grpc::TerminateRequest)},
+  { 208, -1, sizeof(::fmuproxy::grpc::ReadRequest)},
+  { 215, -1, sizeof(::fmuproxy::grpc::WriteIntegerRequest)},
+  { 223, -1, sizeof(::fmuproxy::grpc::WriteRealRequest)},
+  { 231, -1, sizeof(::fmuproxy::grpc::WriteStringRequest)},
+  { 239, -1, sizeof(::fmuproxy::grpc::WriteBooleanRequest)},
+  { 247, -1, sizeof(::fmuproxy::grpc::IntegerRead)},
+  { 254, -1, sizeof(::fmuproxy::grpc::RealRead)},
+  { 261, -1, sizeof(::fmuproxy::grpc::StringRead)},
+  { 268, -1, sizeof(::fmuproxy::grpc::BooleanRead)},
+  { 275, -1, sizeof(::fmuproxy::grpc::Solver)},
+  { 282, -1, sizeof(::fmuproxy::grpc::Bool)},
+  { 288, -1, sizeof(::fmuproxy::grpc::GetFMUstateRequest)},
+  { 294, -1, sizeof(::fmuproxy::grpc::GetFMUstateResponse)},
+  { 301, -1, sizeof(::fmuproxy::grpc::SetFMUstateRequest)},
+  { 308, -1, sizeof(::fmuproxy::grpc::FreeFMUstateRequest)},
+  { 315, -1, sizeof(::fmuproxy::grpc::SerializeFMUstateRequest)},
+  { 322, -1, sizeof(::fmuproxy::grpc::SerializeFMUstateResponse)},
+  { 329, -1, sizeof(::fmuproxy::grpc::DeSerializeFMUstateRequest)},
+  { 336, -1, sizeof(::fmuproxy::grpc::DeSerializeFMUstateResponse)},
+  { 343, -1, sizeof(::fmuproxy::grpc::CanCreateInstanceFromCSRequest)},
+  { 349, -1, sizeof(::fmuproxy::grpc::CanCreateInstanceFromMERequest)},
+  { 355, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeRequest)},
+  { 364, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeResponse)},
+  { 371, -1, sizeof(::fmuproxy::grpc::Void)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -1428,7 +1509,9 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_CreateInstanceFromMERequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_GetModelDescriptionRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_GetCoSimulationAttributesRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_InitRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_SetupExperimentRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_EnterInitializationModeRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_ExitInitializationModeRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_StepRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_ResetRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_TerminateRequest_default_instance_),
@@ -1455,6 +1538,7 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_CanCreateInstanceFromMERequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_GetDirectionalDerivativeRequest_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_GetDirectionalDerivativeResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::fmuproxy::grpc::_Void_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -1472,7 +1556,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 47);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 50);
 }
 
 void AddDescriptorsImpl() {
@@ -1537,122 +1621,132 @@ void AddDescriptorsImpl() {
       "%\n\006solver\030\002 \001(\0132\025.fmuproxy.grpc.Solver\","
       "\n\032GetModelDescriptionRequest\022\016\n\006fmu_id\030\001"
       " \001(\t\"7\n GetCoSimulationAttributesRequest"
-      "\022\023\n\013instance_id\030\001 \001(\t\"\?\n\013InitRequest\022\023\n\013"
-      "instance_id\030\001 \001(\t\022\r\n\005start\030\002 \001(\001\022\014\n\004stop"
-      "\030\003 \001(\001\"5\n\013StepRequest\022\023\n\013instance_id\030\001 \001"
-      "(\t\022\021\n\tstep_size\030\002 \001(\001\"#\n\014ResetRequest\022\023\n"
-      "\013instance_id\030\001 \001(\t\"\'\n\020TerminateRequest\022\023"
-      "\n\013instance_id\030\001 \001(\t\"<\n\013ReadRequest\022\023\n\013in"
-      "stance_id\030\001 \001(\t\022\030\n\020value_references\030\002 \003("
-      "\004\"T\n\023WriteIntegerRequest\022\023\n\013instance_id\030"
-      "\001 \001(\t\022\030\n\020value_references\030\002 \003(\004\022\016\n\006value"
-      "s\030\003 \003(\005\"Q\n\020WriteRealRequest\022\023\n\013instance_"
-      "id\030\001 \001(\t\022\030\n\020value_references\030\002 \003(\004\022\016\n\006va"
-      "lues\030\003 \003(\001\"S\n\022WriteStringRequest\022\023\n\013inst"
-      "ance_id\030\001 \001(\t\022\030\n\020value_references\030\002 \003(\004\022"
-      "\016\n\006values\030\003 \003(\t\"T\n\023WriteBooleanRequest\022\023"
-      "\n\013instance_id\030\001 \001(\t\022\030\n\020value_references\030"
-      "\002 \003(\004\022\016\n\006values\030\003 \003(\010\"D\n\013IntegerRead\022\016\n\006"
-      "values\030\001 \003(\005\022%\n\006status\030\002 \001(\0162\025.fmuproxy."
-      "grpc.Status\"A\n\010RealRead\022\016\n\006values\030\001 \003(\001\022"
-      "%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"C"
-      "\n\nStringRead\022\016\n\006values\030\001 \003(\t\022%\n\006status\030\002"
-      " \001(\0162\025.fmuproxy.grpc.Status\"D\n\013BooleanRe"
-      "ad\022\016\n\006values\030\001 \003(\010\022%\n\006status\030\002 \001(\0162\025.fmu"
-      "proxy.grpc.Status\"(\n\006Solver\022\014\n\004name\030\001 \001("
-      "\t\022\020\n\010settings\030\002 \001(\t\"\025\n\004Bool\022\r\n\005value\030\001 \001"
-      "(\010\")\n\022GetFMUstateRequest\022\023\n\013instance_id\030"
-      "\001 \001(\t\"K\n\023GetFMUstateResponse\022\r\n\005state\030\001 "
-      "\001(\003\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Stat"
-      "us\"8\n\022SetFMUstateRequest\022\023\n\013instance_id\030"
-      "\001 \001(\t\022\r\n\005state\030\002 \001(\003\"9\n\023FreeFMUstateRequ"
+      "\022\023\n\013instance_id\030\001 \001(\t\"]\n\026SetupExperiment"
+      "Request\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005start\030\002 "
+      "\001(\001\022\014\n\004stop\030\003 \001(\001\022\021\n\ttolerance\030\004 \001(\001\"5\n\036"
+      "EnterInitializationModeRequest\022\023\n\013instan"
+      "ce_id\030\001 \001(\t\"4\n\035ExitInitializationModeReq"
+      "uest\022\023\n\013instance_id\030\001 \001(\t\"5\n\013StepRequest"
+      "\022\023\n\013instance_id\030\001 \001(\t\022\021\n\tstep_size\030\002 \001(\001"
+      "\"#\n\014ResetRequest\022\023\n\013instance_id\030\001 \001(\t\"\'\n"
+      "\020TerminateRequest\022\023\n\013instance_id\030\001 \001(\t\"<"
+      "\n\013ReadRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020va"
+      "lue_references\030\002 \003(\004\"T\n\023WriteIntegerRequ"
+      "est\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_refere"
+      "nces\030\002 \003(\004\022\016\n\006values\030\003 \003(\005\"Q\n\020WriteRealR"
+      "equest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_ref"
+      "erences\030\002 \003(\004\022\016\n\006values\030\003 \003(\001\"S\n\022WriteSt"
+      "ringRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020valu"
+      "e_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\t\"T\n\023Wr"
+      "iteBooleanRequest\022\023\n\013instance_id\030\001 \001(\t\022\030"
+      "\n\020value_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\010"
+      "\"D\n\013IntegerRead\022\016\n\006values\030\001 \003(\005\022%\n\006statu"
+      "s\030\002 \001(\0162\025.fmuproxy.grpc.Status\"A\n\010RealRe"
+      "ad\022\016\n\006values\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.fmu"
+      "proxy.grpc.Status\"C\n\nStringRead\022\016\n\006value"
+      "s\030\001 \003(\t\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc."
+      "Status\"D\n\013BooleanRead\022\016\n\006values\030\001 \003(\010\022%\n"
+      "\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"(\n\006"
+      "Solver\022\014\n\004name\030\001 \001(\t\022\020\n\010settings\030\002 \001(\t\"\025"
+      "\n\004Bool\022\r\n\005value\030\001 \001(\010\")\n\022GetFMUstateRequ"
+      "est\022\023\n\013instance_id\030\001 \001(\t\"K\n\023GetFMUstateR"
+      "esponse\022\r\n\005state\030\001 \001(\003\022%\n\006status\030\002 \001(\0162\025"
+      ".fmuproxy.grpc.Status\"8\n\022SetFMUstateRequ"
       "est\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\003\""
-      ">\n\030SerializeFMUstateRequest\022\023\n\013instance_"
-      "id\030\001 \001(\t\022\r\n\005state\030\002 \001(\003\"Q\n\031SerializeFMUs"
-      "tateResponse\022\r\n\005state\030\001 \001(\014\022%\n\006status\030\002 "
-      "\001(\0162\025.fmuproxy.grpc.Status\"@\n\032DeSerializ"
-      "eFMUstateRequest\022\023\n\013instance_id\030\001 \001(\t\022\r\n"
-      "\005state\030\002 \001(\014\"S\n\033DeSerializeFMUstateRespo"
-      "nse\022\r\n\005state\030\001 \001(\003\022%\n\006status\030\002 \001(\0162\025.fmu"
-      "proxy.grpc.Status\"0\n\036CanCreateInstanceFr"
-      "omCSRequest\022\016\n\006fmu_id\030\001 \001(\t\"0\n\036CanCreate"
-      "InstanceFromMERequest\022\016\n\006fmu_id\030\001 \001(\t\"x\n"
-      "\037GetDirectionalDerivativeRequest\022\023\n\013inst"
-      "ance_id\030\001 \001(\t\022\025\n\rv_unknown_ref\030\002 \003(\004\022\023\n\013"
-      "v_known_ref\030\003 \003(\004\022\024\n\014dv_known_ref\030\004 \003(\001\""
-      "_\n GetDirectionalDerivativeResponse\022\024\n\014d"
-      "v_known_ref\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.fmup"
-      "roxy.grpc.Status*\272\001\n\tCausality\022\023\n\017INPUT_"
-      "CAUSALITY\020\000\022\024\n\020OUTPUT_CAUSALITY\020\001\022\027\n\023PAR"
-      "AMETER_CAUSALITY\020\002\022\"\n\036CALCULATED_PARAMET"
-      "ER_CAUSALITY\020\003\022\023\n\017LOCAL_CAUSALITY\020\004\022\031\n\025I"
-      "NDEPENDENT_CAUSALITY\020\005\022\025\n\021UNKNOWN_CAUSAL"
-      "ITY\020\006*\246\001\n\013Variability\022\030\n\024CONSTANT_VARIAB"
-      "ILITY\020\000\022\025\n\021FIXED_VARIABILITY\020\001\022\032\n\026CONTIN"
-      "UOUS_VARIABILITY\020\002\022\030\n\024DISCRETE_VARIABILI"
-      "TY\020\003\022\027\n\023TUNABLE_VARIABILITY\020\004\022\027\n\023UNKNOWN"
-      "_VARIABILITY\020\005*]\n\007Initial\022\021\n\rEXACT_INITI"
-      "AL\020\000\022\022\n\016APPROX_INITIAL\020\001\022\026\n\022CALCULATED_I"
-      "NITIAL\020\002\022\023\n\017UNKNOWN_INITIAL\020\003*w\n\006Status\022"
-      "\r\n\tOK_STATUS\020\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DI"
-      "SCARD_STATUS\020\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATA"
-      "L_STATUS\020\004\022\022\n\016PENDING_STATUS\020\0052\233\020\n\nFmuSe"
-      "rvice\022a\n\023GetModelDescription\022).fmuproxy."
-      "grpc.GetModelDescriptionRequest\032\037.fmupro"
-      "xy.grpc.ModelDescription\022s\n\031GetCoSimulat"
-      "ionAttributes\022/.fmuproxy.grpc.GetCoSimul"
-      "ationAttributesRequest\032%.fmuproxy.grpc.C"
-      "oSimulationAttributes\022]\n\027CanCreateInstan"
-      "ceFromCS\022-.fmuproxy.grpc.CanCreateInstan"
-      "ceFromCSRequest\032\023.fmuproxy.grpc.Bool\022]\n\027"
-      "CanCreateInstanceFromME\022-.fmuproxy.grpc."
-      "CanCreateInstanceFromMERequest\032\023.fmuprox"
-      "y.grpc.Bool\022]\n\024CreateInstanceFromCS\022*.fm"
-      "uproxy.grpc.CreateInstanceFromCSRequest\032"
-      "\031.fmuproxy.grpc.InstanceId\022]\n\024CreateInst"
-      "anceFromME\022*.fmuproxy.grpc.CreateInstanc"
-      "eFromMERequest\032\031.fmuproxy.grpc.InstanceI"
-      "d\022A\n\004Init\022\032.fmuproxy.grpc.InitRequest\032\035."
-      "fmuproxy.grpc.StatusResponse\022\?\n\004Step\022\032.f"
-      "muproxy.grpc.StepRequest\032\033.fmuproxy.grpc"
-      ".StepResponse\022C\n\005Reset\022\033.fmuproxy.grpc.R"
-      "esetRequest\032\035.fmuproxy.grpc.StatusRespon"
-      "se\022K\n\tTerminate\022\037.fmuproxy.grpc.Terminat"
-      "eRequest\032\035.fmuproxy.grpc.StatusResponse\022"
-      "E\n\013ReadInteger\022\032.fmuproxy.grpc.ReadReque"
-      "st\032\032.fmuproxy.grpc.IntegerRead\022\?\n\010ReadRe"
-      "al\022\032.fmuproxy.grpc.ReadRequest\032\027.fmuprox"
-      "y.grpc.RealRead\022C\n\nReadString\022\032.fmuproxy"
-      ".grpc.ReadRequest\032\031.fmuproxy.grpc.String"
-      "Read\022E\n\013ReadBoolean\022\032.fmuproxy.grpc.Read"
-      "Request\032\032.fmuproxy.grpc.BooleanRead\022Q\n\014W"
-      "riteInteger\022\".fmuproxy.grpc.WriteInteger"
-      "Request\032\035.fmuproxy.grpc.StatusResponse\022K"
-      "\n\tWriteReal\022\037.fmuproxy.grpc.WriteRealReq"
-      "uest\032\035.fmuproxy.grpc.StatusResponse\022O\n\013W"
-      "riteString\022!.fmuproxy.grpc.WriteStringRe"
-      "quest\032\035.fmuproxy.grpc.StatusResponse\022Q\n\014"
-      "WriteBoolean\022\".fmuproxy.grpc.WriteBoolea"
-      "nRequest\032\035.fmuproxy.grpc.StatusResponse\022"
-      "T\n\013GetFMUstate\022!.fmuproxy.grpc.GetFMUsta"
-      "teRequest\032\".fmuproxy.grpc.GetFMUstateRes"
-      "ponse\022O\n\013SetFMUstate\022!.fmuproxy.grpc.Set"
-      "FMUstateRequest\032\035.fmuproxy.grpc.StatusRe"
-      "sponse\022Q\n\014FreeFMUstate\022\".fmuproxy.grpc.F"
-      "reeFMUstateRequest\032\035.fmuproxy.grpc.Statu"
-      "sResponse\022f\n\021SerializeFMUstate\022\'.fmuprox"
-      "y.grpc.SerializeFMUstateRequest\032(.fmupro"
-      "xy.grpc.SerializeFMUstateResponse\022l\n\023DeS"
-      "erializeFMUstate\022).fmuproxy.grpc.DeSeria"
-      "lizeFMUstateRequest\032*.fmuproxy.grpc.DeSe"
-      "rializeFMUstateResponse\022{\n\030GetDirectiona"
-      "lDerivative\022..fmuproxy.grpc.GetDirection"
-      "alDerivativeRequest\032/.fmuproxy.grpc.GetD"
-      "irectionalDerivativeResponseB#\n!no.mecha"
-      "tronics.sfi.fmuproxy.grpcb\006proto3"
+      "9\n\023FreeFMUstateRequest\022\023\n\013instance_id\030\001 "
+      "\001(\t\022\r\n\005state\030\002 \001(\003\">\n\030SerializeFMUstateR"
+      "equest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001"
+      "(\003\"Q\n\031SerializeFMUstateResponse\022\r\n\005state"
+      "\030\001 \001(\014\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.S"
+      "tatus\"@\n\032DeSerializeFMUstateRequest\022\023\n\013i"
+      "nstance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\014\"S\n\033DeSer"
+      "ializeFMUstateResponse\022\r\n\005state\030\001 \001(\003\022%\n"
+      "\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"0\n\036"
+      "CanCreateInstanceFromCSRequest\022\016\n\006fmu_id"
+      "\030\001 \001(\t\"0\n\036CanCreateInstanceFromMERequest"
+      "\022\016\n\006fmu_id\030\001 \001(\t\"x\n\037GetDirectionalDeriva"
+      "tiveRequest\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_un"
+      "known_ref\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024\n\014"
+      "dv_known_ref\030\004 \003(\001\"_\n GetDirectionalDeri"
+      "vativeResponse\022\024\n\014dv_known_ref\030\001 \003(\001\022%\n\006"
+      "status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"\006\n\004V"
+      "oid*\272\001\n\tCausality\022\023\n\017INPUT_CAUSALITY\020\000\022\024"
+      "\n\020OUTPUT_CAUSALITY\020\001\022\027\n\023PARAMETER_CAUSAL"
+      "ITY\020\002\022\"\n\036CALCULATED_PARAMETER_CAUSALITY\020"
+      "\003\022\023\n\017LOCAL_CAUSALITY\020\004\022\031\n\025INDEPENDENT_CA"
+      "USALITY\020\005\022\025\n\021UNKNOWN_CAUSALITY\020\006*\246\001\n\013Var"
+      "iability\022\030\n\024CONSTANT_VARIABILITY\020\000\022\025\n\021FI"
+      "XED_VARIABILITY\020\001\022\032\n\026CONTINUOUS_VARIABIL"
+      "ITY\020\002\022\030\n\024DISCRETE_VARIABILITY\020\003\022\027\n\023TUNAB"
+      "LE_VARIABILITY\020\004\022\027\n\023UNKNOWN_VARIABILITY\020"
+      "\005*]\n\007Initial\022\021\n\rEXACT_INITIAL\020\000\022\022\n\016APPRO"
+      "X_INITIAL\020\001\022\026\n\022CALCULATED_INITIAL\020\002\022\023\n\017U"
+      "NKNOWN_INITIAL\020\003*w\n\006Status\022\r\n\tOK_STATUS\020"
+      "\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISCARD_STATUS\020"
+      "\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n"
+      "\016PENDING_STATUS\020\0052\201\022\n\nFmuService\022a\n\023GetM"
+      "odelDescription\022).fmuproxy.grpc.GetModel"
+      "DescriptionRequest\032\037.fmuproxy.grpc.Model"
+      "Description\022s\n\031GetCoSimulationAttributes"
+      "\022/.fmuproxy.grpc.GetCoSimulationAttribut"
+      "esRequest\032%.fmuproxy.grpc.CoSimulationAt"
+      "tributes\022]\n\027CanCreateInstanceFromCS\022-.fm"
+      "uproxy.grpc.CanCreateInstanceFromCSReque"
+      "st\032\023.fmuproxy.grpc.Bool\022]\n\027CanCreateInst"
+      "anceFromME\022-.fmuproxy.grpc.CanCreateInst"
+      "anceFromMERequest\032\023.fmuproxy.grpc.Bool\022]"
+      "\n\024CreateInstanceFromCS\022*.fmuproxy.grpc.C"
+      "reateInstanceFromCSRequest\032\031.fmuproxy.gr"
+      "pc.InstanceId\022]\n\024CreateInstanceFromME\022*."
+      "fmuproxy.grpc.CreateInstanceFromMEReques"
+      "t\032\031.fmuproxy.grpc.InstanceId\022W\n\017SetupExp"
+      "eriment\022%.fmuproxy.grpc.SetupExperimentR"
+      "equest\032\035.fmuproxy.grpc.StatusResponse\022g\n"
+      "\027EnterInitializationMode\022-.fmuproxy.grpc"
+      ".EnterInitializationModeRequest\032\035.fmupro"
+      "xy.grpc.StatusResponse\022e\n\026ExitInitializa"
+      "tionMode\022,.fmuproxy.grpc.ExitInitializat"
+      "ionModeRequest\032\035.fmuproxy.grpc.StatusRes"
+      "ponse\022\?\n\004Step\022\032.fmuproxy.grpc.StepReques"
+      "t\032\033.fmuproxy.grpc.StepResponse\022C\n\005Reset\022"
+      "\033.fmuproxy.grpc.ResetRequest\032\035.fmuproxy."
+      "grpc.StatusResponse\022K\n\tTerminate\022\037.fmupr"
+      "oxy.grpc.TerminateRequest\032\035.fmuproxy.grp"
+      "c.StatusResponse\022E\n\013ReadInteger\022\032.fmupro"
+      "xy.grpc.ReadRequest\032\032.fmuproxy.grpc.Inte"
+      "gerRead\022\?\n\010ReadReal\022\032.fmuproxy.grpc.Read"
+      "Request\032\027.fmuproxy.grpc.RealRead\022C\n\nRead"
+      "String\022\032.fmuproxy.grpc.ReadRequest\032\031.fmu"
+      "proxy.grpc.StringRead\022E\n\013ReadBoolean\022\032.f"
+      "muproxy.grpc.ReadRequest\032\032.fmuproxy.grpc"
+      ".BooleanRead\022Q\n\014WriteInteger\022\".fmuproxy."
+      "grpc.WriteIntegerRequest\032\035.fmuproxy.grpc"
+      ".StatusResponse\022K\n\tWriteReal\022\037.fmuproxy."
+      "grpc.WriteRealRequest\032\035.fmuproxy.grpc.St"
+      "atusResponse\022O\n\013WriteString\022!.fmuproxy.g"
+      "rpc.WriteStringRequest\032\035.fmuproxy.grpc.S"
+      "tatusResponse\022Q\n\014WriteBoolean\022\".fmuproxy"
+      ".grpc.WriteBooleanRequest\032\035.fmuproxy.grp"
+      "c.StatusResponse\022T\n\013GetFMUstate\022!.fmupro"
+      "xy.grpc.GetFMUstateRequest\032\".fmuproxy.gr"
+      "pc.GetFMUstateResponse\022O\n\013SetFMUstate\022!."
+      "fmuproxy.grpc.SetFMUstateRequest\032\035.fmupr"
+      "oxy.grpc.StatusResponse\022Q\n\014FreeFMUstate\022"
+      "\".fmuproxy.grpc.FreeFMUstateRequest\032\035.fm"
+      "uproxy.grpc.StatusResponse\022f\n\021SerializeF"
+      "MUstate\022\'.fmuproxy.grpc.SerializeFMUstat"
+      "eRequest\032(.fmuproxy.grpc.SerializeFMUsta"
+      "teResponse\022l\n\023DeSerializeFMUstate\022).fmup"
+      "roxy.grpc.DeSerializeFMUstateRequest\032*.f"
+      "muproxy.grpc.DeSerializeFMUstateResponse"
+      "\022{\n\030GetDirectionalDerivative\022..fmuproxy."
+      "grpc.GetDirectionalDerivativeRequest\032/.f"
+      "muproxy.grpc.GetDirectionalDerivativeRes"
+      "ponseB#\n!no.mechatronics.sfi.fmuproxy.gr"
+      "pcb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 6873);
+      descriptor, 7250);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "service.proto", &protobuf_RegisterTypes);
 }
@@ -8728,22 +8822,23 @@ void GetCoSimulationAttributesRequest::InternalSwap(GetCoSimulationAttributesReq
 
 // ===================================================================
 
-void InitRequest::InitAsDefaultInstance() {
+void SetupExperimentRequest::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int InitRequest::kInstanceIdFieldNumber;
-const int InitRequest::kStartFieldNumber;
-const int InitRequest::kStopFieldNumber;
+const int SetupExperimentRequest::kInstanceIdFieldNumber;
+const int SetupExperimentRequest::kStartFieldNumber;
+const int SetupExperimentRequest::kStopFieldNumber;
+const int SetupExperimentRequest::kToleranceFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-InitRequest::InitRequest()
+SetupExperimentRequest::SetupExperimentRequest()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_service_2eproto::scc_info_InitRequest.base);
+      &protobuf_service_2eproto::scc_info_SetupExperimentRequest.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(constructor:fmuproxy.grpc.SetupExperimentRequest)
 }
-InitRequest::InitRequest(const InitRequest& from)
+SetupExperimentRequest::SetupExperimentRequest(const SetupExperimentRequest& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
@@ -8752,59 +8847,59 @@ InitRequest::InitRequest(const InitRequest& from)
     instance_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
   }
   ::memcpy(&start_, &from.start_,
-    static_cast<size_t>(reinterpret_cast<char*>(&stop_) -
-    reinterpret_cast<char*>(&start_)) + sizeof(stop_));
-  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.InitRequest)
+    static_cast<size_t>(reinterpret_cast<char*>(&tolerance_) -
+    reinterpret_cast<char*>(&start_)) + sizeof(tolerance_));
+  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.SetupExperimentRequest)
 }
 
-void InitRequest::SharedCtor() {
+void SetupExperimentRequest::SharedCtor() {
   instance_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&start_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&stop_) -
-      reinterpret_cast<char*>(&start_)) + sizeof(stop_));
+      reinterpret_cast<char*>(&tolerance_) -
+      reinterpret_cast<char*>(&start_)) + sizeof(tolerance_));
 }
 
-InitRequest::~InitRequest() {
-  // @@protoc_insertion_point(destructor:fmuproxy.grpc.InitRequest)
+SetupExperimentRequest::~SetupExperimentRequest() {
+  // @@protoc_insertion_point(destructor:fmuproxy.grpc.SetupExperimentRequest)
   SharedDtor();
 }
 
-void InitRequest::SharedDtor() {
+void SetupExperimentRequest::SharedDtor() {
   instance_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void InitRequest::SetCachedSize(int size) const {
+void SetupExperimentRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* InitRequest::descriptor() {
+const ::google::protobuf::Descriptor* SetupExperimentRequest::descriptor() {
   ::protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const InitRequest& InitRequest::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_service_2eproto::scc_info_InitRequest.base);
+const SetupExperimentRequest& SetupExperimentRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_service_2eproto::scc_info_SetupExperimentRequest.base);
   return *internal_default_instance();
 }
 
 
-void InitRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.InitRequest)
+void SetupExperimentRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.SetupExperimentRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&start_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&stop_) -
-      reinterpret_cast<char*>(&start_)) + sizeof(stop_));
+      reinterpret_cast<char*>(&tolerance_) -
+      reinterpret_cast<char*>(&start_)) + sizeof(tolerance_));
   _internal_metadata_.Clear();
 }
 
-bool InitRequest::MergePartialFromCodedStream(
+bool SetupExperimentRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.SetupExperimentRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -8819,7 +8914,7 @@ bool InitRequest::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->instance_id().data(), static_cast<int>(this->instance_id().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "fmuproxy.grpc.InitRequest.instance_id"));
+            "fmuproxy.grpc.SetupExperimentRequest.instance_id"));
         } else {
           goto handle_unusual;
         }
@@ -8854,6 +8949,20 @@ bool InitRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // double tolerance = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(33u /* 33 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &tolerance_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -8866,17 +8975,17 @@ bool InitRequest::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.SetupExperimentRequest)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.SetupExperimentRequest)
   return false;
 #undef DO_
 }
 
-void InitRequest::SerializeWithCachedSizes(
+void SetupExperimentRequest::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.SetupExperimentRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -8885,7 +8994,7 @@ void InitRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->instance_id().data(), static_cast<int>(this->instance_id().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "fmuproxy.grpc.InitRequest.instance_id");
+      "fmuproxy.grpc.SetupExperimentRequest.instance_id");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->instance_id(), output);
   }
@@ -8900,17 +9009,22 @@ void InitRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(3, this->stop(), output);
   }
 
+  // double tolerance = 4;
+  if (this->tolerance() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(4, this->tolerance(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.SetupExperimentRequest)
 }
 
-::google::protobuf::uint8* InitRequest::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* SetupExperimentRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.SetupExperimentRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -8919,7 +9033,7 @@ void InitRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->instance_id().data(), static_cast<int>(this->instance_id().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "fmuproxy.grpc.InitRequest.instance_id");
+      "fmuproxy.grpc.SetupExperimentRequest.instance_id");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->instance_id(), target);
@@ -8935,16 +9049,21 @@ void InitRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(3, this->stop(), target);
   }
 
+  // double tolerance = 4;
+  if (this->tolerance() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(4, this->tolerance(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.SetupExperimentRequest)
   return target;
 }
 
-size_t InitRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.InitRequest)
+size_t SetupExperimentRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.SetupExperimentRequest)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -8969,28 +9088,33 @@ size_t InitRequest::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
+  // double tolerance = 4;
+  if (this->tolerance() != 0) {
+    total_size += 1 + 8;
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void InitRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.InitRequest)
+void SetupExperimentRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.SetupExperimentRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  const InitRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const InitRequest>(
+  const SetupExperimentRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetupExperimentRequest>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.SetupExperimentRequest)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.InitRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.SetupExperimentRequest)
     MergeFrom(*source);
   }
 }
 
-void InitRequest::MergeFrom(const InitRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.InitRequest)
+void SetupExperimentRequest::MergeFrom(const SetupExperimentRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.SetupExperimentRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -9006,40 +9130,528 @@ void InitRequest::MergeFrom(const InitRequest& from) {
   if (from.stop() != 0) {
     set_stop(from.stop());
   }
+  if (from.tolerance() != 0) {
+    set_tolerance(from.tolerance());
+  }
 }
 
-void InitRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.InitRequest)
+void SetupExperimentRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.SetupExperimentRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void InitRequest::CopyFrom(const InitRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.InitRequest)
+void SetupExperimentRequest::CopyFrom(const SetupExperimentRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.SetupExperimentRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool InitRequest::IsInitialized() const {
+bool SetupExperimentRequest::IsInitialized() const {
   return true;
 }
 
-void InitRequest::Swap(InitRequest* other) {
+void SetupExperimentRequest::Swap(SetupExperimentRequest* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void InitRequest::InternalSwap(InitRequest* other) {
+void SetupExperimentRequest::InternalSwap(SetupExperimentRequest* other) {
   using std::swap;
   instance_id_.Swap(&other->instance_id_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(start_, other->start_);
   swap(stop_, other->stop_);
+  swap(tolerance_, other->tolerance_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata InitRequest::GetMetadata() const {
+::google::protobuf::Metadata SetupExperimentRequest::GetMetadata() const {
+  protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void EnterInitializationModeRequest::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int EnterInitializationModeRequest::kInstanceIdFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+EnterInitializationModeRequest::EnterInitializationModeRequest()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_service_2eproto::scc_info_EnterInitializationModeRequest.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:fmuproxy.grpc.EnterInitializationModeRequest)
+}
+EnterInitializationModeRequest::EnterInitializationModeRequest(const EnterInitializationModeRequest& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  instance_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.instance_id().size() > 0) {
+    instance_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
+  }
+  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.EnterInitializationModeRequest)
+}
+
+void EnterInitializationModeRequest::SharedCtor() {
+  instance_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+EnterInitializationModeRequest::~EnterInitializationModeRequest() {
+  // @@protoc_insertion_point(destructor:fmuproxy.grpc.EnterInitializationModeRequest)
+  SharedDtor();
+}
+
+void EnterInitializationModeRequest::SharedDtor() {
+  instance_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void EnterInitializationModeRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* EnterInitializationModeRequest::descriptor() {
+  ::protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const EnterInitializationModeRequest& EnterInitializationModeRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_service_2eproto::scc_info_EnterInitializationModeRequest.base);
+  return *internal_default_instance();
+}
+
+
+void EnterInitializationModeRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+bool EnterInitializationModeRequest::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // string instance_id = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_instance_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.EnterInitializationModeRequest.instance_id"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.EnterInitializationModeRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.EnterInitializationModeRequest)
+  return false;
+#undef DO_
+}
+
+void EnterInitializationModeRequest::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.EnterInitializationModeRequest.instance_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->instance_id(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.EnterInitializationModeRequest)
+}
+
+::google::protobuf::uint8* EnterInitializationModeRequest::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.EnterInitializationModeRequest.instance_id");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->instance_id(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.EnterInitializationModeRequest)
+  return target;
+}
+
+size_t EnterInitializationModeRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->instance_id());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void EnterInitializationModeRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const EnterInitializationModeRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const EnterInitializationModeRequest>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.EnterInitializationModeRequest)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.EnterInitializationModeRequest)
+    MergeFrom(*source);
+  }
+}
+
+void EnterInitializationModeRequest::MergeFrom(const EnterInitializationModeRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.instance_id().size() > 0) {
+
+    instance_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
+  }
+}
+
+void EnterInitializationModeRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void EnterInitializationModeRequest::CopyFrom(const EnterInitializationModeRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.EnterInitializationModeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool EnterInitializationModeRequest::IsInitialized() const {
+  return true;
+}
+
+void EnterInitializationModeRequest::Swap(EnterInitializationModeRequest* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void EnterInitializationModeRequest::InternalSwap(EnterInitializationModeRequest* other) {
+  using std::swap;
+  instance_id_.Swap(&other->instance_id_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata EnterInitializationModeRequest::GetMetadata() const {
+  protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void ExitInitializationModeRequest::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ExitInitializationModeRequest::kInstanceIdFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+ExitInitializationModeRequest::ExitInitializationModeRequest()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_service_2eproto::scc_info_ExitInitializationModeRequest.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:fmuproxy.grpc.ExitInitializationModeRequest)
+}
+ExitInitializationModeRequest::ExitInitializationModeRequest(const ExitInitializationModeRequest& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  instance_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.instance_id().size() > 0) {
+    instance_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
+  }
+  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.ExitInitializationModeRequest)
+}
+
+void ExitInitializationModeRequest::SharedCtor() {
+  instance_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+ExitInitializationModeRequest::~ExitInitializationModeRequest() {
+  // @@protoc_insertion_point(destructor:fmuproxy.grpc.ExitInitializationModeRequest)
+  SharedDtor();
+}
+
+void ExitInitializationModeRequest::SharedDtor() {
+  instance_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void ExitInitializationModeRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* ExitInitializationModeRequest::descriptor() {
+  ::protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const ExitInitializationModeRequest& ExitInitializationModeRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_service_2eproto::scc_info_ExitInitializationModeRequest.base);
+  return *internal_default_instance();
+}
+
+
+void ExitInitializationModeRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+bool ExitInitializationModeRequest::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // string instance_id = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_instance_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.ExitInitializationModeRequest.instance_id"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.ExitInitializationModeRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.ExitInitializationModeRequest)
+  return false;
+#undef DO_
+}
+
+void ExitInitializationModeRequest::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ExitInitializationModeRequest.instance_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->instance_id(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.ExitInitializationModeRequest)
+}
+
+::google::protobuf::uint8* ExitInitializationModeRequest::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ExitInitializationModeRequest.instance_id");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->instance_id(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.ExitInitializationModeRequest)
+  return target;
+}
+
+size_t ExitInitializationModeRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->instance_id());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ExitInitializationModeRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ExitInitializationModeRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ExitInitializationModeRequest>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.ExitInitializationModeRequest)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.ExitInitializationModeRequest)
+    MergeFrom(*source);
+  }
+}
+
+void ExitInitializationModeRequest::MergeFrom(const ExitInitializationModeRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.instance_id().size() > 0) {
+
+    instance_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
+  }
+}
+
+void ExitInitializationModeRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ExitInitializationModeRequest::CopyFrom(const ExitInitializationModeRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.ExitInitializationModeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ExitInitializationModeRequest::IsInitialized() const {
+  return true;
+}
+
+void ExitInitializationModeRequest::Swap(ExitInitializationModeRequest* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ExitInitializationModeRequest::InternalSwap(ExitInitializationModeRequest* other) {
+  using std::swap;
+  instance_id_.Swap(&other->instance_id_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata ExitInitializationModeRequest::GetMetadata() const {
   protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -16616,6 +17228,185 @@ void GetDirectionalDerivativeResponse::InternalSwap(GetDirectionalDerivativeResp
 }
 
 
+// ===================================================================
+
+void Void::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+Void::Void()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_service_2eproto::scc_info_Void.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:fmuproxy.grpc.Void)
+}
+Void::Void(const Void& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.Void)
+}
+
+void Void::SharedCtor() {
+}
+
+Void::~Void() {
+  // @@protoc_insertion_point(destructor:fmuproxy.grpc.Void)
+  SharedDtor();
+}
+
+void Void::SharedDtor() {
+}
+
+void Void::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* Void::descriptor() {
+  ::protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const Void& Void::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_service_2eproto::scc_info_Void.base);
+  return *internal_default_instance();
+}
+
+
+void Void::Clear() {
+// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.Void)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool Void::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.Void)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.Void)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.Void)
+  return false;
+#undef DO_
+}
+
+void Void::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.Void)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.Void)
+}
+
+::google::protobuf::uint8* Void::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.Void)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.Void)
+  return target;
+}
+
+size_t Void::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.Void)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void Void::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.Void)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Void* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Void>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.Void)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.Void)
+    MergeFrom(*source);
+  }
+}
+
+void Void::MergeFrom(const Void& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.Void)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void Void::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.Void)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Void::CopyFrom(const Void& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.Void)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Void::IsInitialized() const {
+  return true;
+}
+
+void Void::Swap(Void* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Void::InternalSwap(Void* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata Void::GetMetadata() const {
+  protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_service_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace grpc
 }  // namespace fmuproxy
@@ -16681,8 +17472,14 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::GetModelDescript
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::GetCoSimulationAttributesRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::GetCoSimulationAttributesRequest >(Arena* arena) {
   return Arena::CreateInternal< ::fmuproxy::grpc::GetCoSimulationAttributesRequest >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::InitRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::InitRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::fmuproxy::grpc::InitRequest >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::SetupExperimentRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::SetupExperimentRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::fmuproxy::grpc::SetupExperimentRequest >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::EnterInitializationModeRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::EnterInitializationModeRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::fmuproxy::grpc::EnterInitializationModeRequest >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::ExitInitializationModeRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::ExitInitializationModeRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::fmuproxy::grpc::ExitInitializationModeRequest >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::StepRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::StepRequest >(Arena* arena) {
   return Arena::CreateInternal< ::fmuproxy::grpc::StepRequest >(arena);
@@ -16761,6 +17558,9 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::GetDirectionalDe
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::GetDirectionalDerivativeResponse* Arena::CreateMaybeMessage< ::fmuproxy::grpc::GetDirectionalDerivativeResponse >(Arena* arena) {
   return Arena::CreateInternal< ::fmuproxy::grpc::GetDirectionalDerivativeResponse >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::fmuproxy::grpc::Void* Arena::CreateMaybeMessage< ::fmuproxy::grpc::Void >(Arena* arena) {
+  return Arena::CreateInternal< ::fmuproxy::grpc::Void >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

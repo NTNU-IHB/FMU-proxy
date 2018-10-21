@@ -39,7 +39,7 @@ namespace protobuf_service_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[47];
+  static const ::google::protobuf::internal::ParseTable schema[50];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -81,9 +81,15 @@ extern DeSerializeFMUstateResponseDefaultTypeInternal _DeSerializeFMUstateRespon
 class DefaultExperiment;
 class DefaultExperimentDefaultTypeInternal;
 extern DefaultExperimentDefaultTypeInternal _DefaultExperiment_default_instance_;
+class EnterInitializationModeRequest;
+class EnterInitializationModeRequestDefaultTypeInternal;
+extern EnterInitializationModeRequestDefaultTypeInternal _EnterInitializationModeRequest_default_instance_;
 class EnumerationAttribute;
 class EnumerationAttributeDefaultTypeInternal;
 extern EnumerationAttributeDefaultTypeInternal _EnumerationAttribute_default_instance_;
+class ExitInitializationModeRequest;
+class ExitInitializationModeRequestDefaultTypeInternal;
+extern ExitInitializationModeRequestDefaultTypeInternal _ExitInitializationModeRequest_default_instance_;
 class FmuId;
 class FmuIdDefaultTypeInternal;
 extern FmuIdDefaultTypeInternal _FmuId_default_instance_;
@@ -108,9 +114,6 @@ extern GetFMUstateResponseDefaultTypeInternal _GetFMUstateResponse_default_insta
 class GetModelDescriptionRequest;
 class GetModelDescriptionRequestDefaultTypeInternal;
 extern GetModelDescriptionRequestDefaultTypeInternal _GetModelDescriptionRequest_default_instance_;
-class InitRequest;
-class InitRequestDefaultTypeInternal;
-extern InitRequestDefaultTypeInternal _InitRequest_default_instance_;
 class InstanceId;
 class InstanceIdDefaultTypeInternal;
 extern InstanceIdDefaultTypeInternal _InstanceId_default_instance_;
@@ -153,6 +156,9 @@ extern SerializeFMUstateResponseDefaultTypeInternal _SerializeFMUstateResponse_d
 class SetFMUstateRequest;
 class SetFMUstateRequestDefaultTypeInternal;
 extern SetFMUstateRequestDefaultTypeInternal _SetFMUstateRequest_default_instance_;
+class SetupExperimentRequest;
+class SetupExperimentRequestDefaultTypeInternal;
+extern SetupExperimentRequestDefaultTypeInternal _SetupExperimentRequest_default_instance_;
 class Solver;
 class SolverDefaultTypeInternal;
 extern SolverDefaultTypeInternal _Solver_default_instance_;
@@ -177,6 +183,9 @@ extern TerminateRequestDefaultTypeInternal _TerminateRequest_default_instance_;
 class Unknown;
 class UnknownDefaultTypeInternal;
 extern UnknownDefaultTypeInternal _Unknown_default_instance_;
+class Void;
+class VoidDefaultTypeInternal;
+extern VoidDefaultTypeInternal _Void_default_instance_;
 class WriteBooleanRequest;
 class WriteBooleanRequestDefaultTypeInternal;
 extern WriteBooleanRequestDefaultTypeInternal _WriteBooleanRequest_default_instance_;
@@ -204,7 +213,9 @@ template<> ::fmuproxy::grpc::CreateInstanceFromMERequest* Arena::CreateMaybeMess
 template<> ::fmuproxy::grpc::DeSerializeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::DeSerializeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::DeSerializeFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::DeSerializeFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::DefaultExperiment* Arena::CreateMaybeMessage<::fmuproxy::grpc::DefaultExperiment>(Arena*);
+template<> ::fmuproxy::grpc::EnterInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnterInitializationModeRequest>(Arena*);
 template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnumerationAttribute>(Arena*);
+template<> ::fmuproxy::grpc::ExitInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ExitInitializationModeRequest>(Arena*);
 template<> ::fmuproxy::grpc::FmuId* Arena::CreateMaybeMessage<::fmuproxy::grpc::FmuId>(Arena*);
 template<> ::fmuproxy::grpc::FreeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::FreeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetCoSimulationAttributesRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetCoSimulationAttributesRequest>(Arena*);
@@ -213,7 +224,6 @@ template<> ::fmuproxy::grpc::GetDirectionalDerivativeResponse* Arena::CreateMayb
 template<> ::fmuproxy::grpc::GetFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::GetModelDescriptionRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetModelDescriptionRequest>(Arena*);
-template<> ::fmuproxy::grpc::InitRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::InitRequest>(Arena*);
 template<> ::fmuproxy::grpc::InstanceId* Arena::CreateMaybeMessage<::fmuproxy::grpc::InstanceId>(Arena*);
 template<> ::fmuproxy::grpc::IntegerAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::IntegerAttribute>(Arena*);
 template<> ::fmuproxy::grpc::IntegerRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::IntegerRead>(Arena*);
@@ -228,6 +238,7 @@ template<> ::fmuproxy::grpc::ScalarVariable* Arena::CreateMaybeMessage<::fmuprox
 template<> ::fmuproxy::grpc::SerializeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SerializeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::SerializeFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::SerializeFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::SetFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SetFMUstateRequest>(Arena*);
+template<> ::fmuproxy::grpc::SetupExperimentRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SetupExperimentRequest>(Arena*);
 template<> ::fmuproxy::grpc::Solver* Arena::CreateMaybeMessage<::fmuproxy::grpc::Solver>(Arena*);
 template<> ::fmuproxy::grpc::StatusResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::StatusResponse>(Arena*);
 template<> ::fmuproxy::grpc::StepRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::StepRequest>(Arena*);
@@ -236,6 +247,7 @@ template<> ::fmuproxy::grpc::StringAttribute* Arena::CreateMaybeMessage<::fmupro
 template<> ::fmuproxy::grpc::StringRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::StringRead>(Arena*);
 template<> ::fmuproxy::grpc::TerminateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::TerminateRequest>(Arena*);
 template<> ::fmuproxy::grpc::Unknown* Arena::CreateMaybeMessage<::fmuproxy::grpc::Unknown>(Arena*);
+template<> ::fmuproxy::grpc::Void* Arena::CreateMaybeMessage<::fmuproxy::grpc::Void>(Arena*);
 template<> ::fmuproxy::grpc::WriteBooleanRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteBooleanRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteIntegerRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteIntegerRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteRealRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteRealRequest>(Arena*);
@@ -3046,24 +3058,24 @@ class GetCoSimulationAttributesRequest : public ::google::protobuf::Message /* @
 };
 // -------------------------------------------------------------------
 
-class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.InitRequest) */ {
+class SetupExperimentRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.SetupExperimentRequest) */ {
  public:
-  InitRequest();
-  virtual ~InitRequest();
+  SetupExperimentRequest();
+  virtual ~SetupExperimentRequest();
 
-  InitRequest(const InitRequest& from);
+  SetupExperimentRequest(const SetupExperimentRequest& from);
 
-  inline InitRequest& operator=(const InitRequest& from) {
+  inline SetupExperimentRequest& operator=(const SetupExperimentRequest& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  InitRequest(InitRequest&& from) noexcept
-    : InitRequest() {
+  SetupExperimentRequest(SetupExperimentRequest&& from) noexcept
+    : SetupExperimentRequest() {
     *this = ::std::move(from);
   }
 
-  inline InitRequest& operator=(InitRequest&& from) noexcept {
+  inline SetupExperimentRequest& operator=(SetupExperimentRequest&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -3073,34 +3085,34 @@ class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const InitRequest& default_instance();
+  static const SetupExperimentRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const InitRequest* internal_default_instance() {
-    return reinterpret_cast<const InitRequest*>(
-               &_InitRequest_default_instance_);
+  static inline const SetupExperimentRequest* internal_default_instance() {
+    return reinterpret_cast<const SetupExperimentRequest*>(
+               &_SetupExperimentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     20;
 
-  void Swap(InitRequest* other);
-  friend void swap(InitRequest& a, InitRequest& b) {
+  void Swap(SetupExperimentRequest* other);
+  friend void swap(SetupExperimentRequest& a, SetupExperimentRequest& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline InitRequest* New() const final {
-    return CreateMaybeMessage<InitRequest>(NULL);
+  inline SetupExperimentRequest* New() const final {
+    return CreateMaybeMessage<SetupExperimentRequest>(NULL);
   }
 
-  InitRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<InitRequest>(arena);
+  SetupExperimentRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<SetupExperimentRequest>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const InitRequest& from);
-  void MergeFrom(const InitRequest& from);
+  void CopyFrom(const SetupExperimentRequest& from);
+  void MergeFrom(const SetupExperimentRequest& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -3117,7 +3129,7 @@ class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(InitRequest* other);
+  void InternalSwap(SetupExperimentRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -3159,13 +3171,242 @@ class InitRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   double stop() const;
   void set_stop(double value);
 
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.InitRequest)
+  // double tolerance = 4;
+  void clear_tolerance();
+  static const int kToleranceFieldNumber = 4;
+  double tolerance() const;
+  void set_tolerance(double value);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.SetupExperimentRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr instance_id_;
   double start_;
   double stop_;
+  double tolerance_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class EnterInitializationModeRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.EnterInitializationModeRequest) */ {
+ public:
+  EnterInitializationModeRequest();
+  virtual ~EnterInitializationModeRequest();
+
+  EnterInitializationModeRequest(const EnterInitializationModeRequest& from);
+
+  inline EnterInitializationModeRequest& operator=(const EnterInitializationModeRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EnterInitializationModeRequest(EnterInitializationModeRequest&& from) noexcept
+    : EnterInitializationModeRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline EnterInitializationModeRequest& operator=(EnterInitializationModeRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EnterInitializationModeRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EnterInitializationModeRequest* internal_default_instance() {
+    return reinterpret_cast<const EnterInitializationModeRequest*>(
+               &_EnterInitializationModeRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    21;
+
+  void Swap(EnterInitializationModeRequest* other);
+  friend void swap(EnterInitializationModeRequest& a, EnterInitializationModeRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EnterInitializationModeRequest* New() const final {
+    return CreateMaybeMessage<EnterInitializationModeRequest>(NULL);
+  }
+
+  EnterInitializationModeRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<EnterInitializationModeRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const EnterInitializationModeRequest& from);
+  void MergeFrom(const EnterInitializationModeRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EnterInitializationModeRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  const ::std::string& instance_id() const;
+  void set_instance_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_instance_id(::std::string&& value);
+  #endif
+  void set_instance_id(const char* value);
+  void set_instance_id(const char* value, size_t size);
+  ::std::string* mutable_instance_id();
+  ::std::string* release_instance_id();
+  void set_allocated_instance_id(::std::string* instance_id);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.EnterInitializationModeRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr instance_id_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class ExitInitializationModeRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.ExitInitializationModeRequest) */ {
+ public:
+  ExitInitializationModeRequest();
+  virtual ~ExitInitializationModeRequest();
+
+  ExitInitializationModeRequest(const ExitInitializationModeRequest& from);
+
+  inline ExitInitializationModeRequest& operator=(const ExitInitializationModeRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  ExitInitializationModeRequest(ExitInitializationModeRequest&& from) noexcept
+    : ExitInitializationModeRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ExitInitializationModeRequest& operator=(ExitInitializationModeRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ExitInitializationModeRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ExitInitializationModeRequest* internal_default_instance() {
+    return reinterpret_cast<const ExitInitializationModeRequest*>(
+               &_ExitInitializationModeRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    22;
+
+  void Swap(ExitInitializationModeRequest* other);
+  friend void swap(ExitInitializationModeRequest& a, ExitInitializationModeRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ExitInitializationModeRequest* New() const final {
+    return CreateMaybeMessage<ExitInitializationModeRequest>(NULL);
+  }
+
+  ExitInitializationModeRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<ExitInitializationModeRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const ExitInitializationModeRequest& from);
+  void MergeFrom(const ExitInitializationModeRequest& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExitInitializationModeRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string instance_id = 1;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 1;
+  const ::std::string& instance_id() const;
+  void set_instance_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_instance_id(::std::string&& value);
+  #endif
+  void set_instance_id(const char* value);
+  void set_instance_id(const char* value, size_t size);
+  ::std::string* mutable_instance_id();
+  ::std::string* release_instance_id();
+  void set_allocated_instance_id(::std::string* instance_id);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.ExitInitializationModeRequest)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr instance_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
@@ -3206,7 +3447,7 @@ class StepRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_StepRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    23;
 
   void Swap(StepRequest* other);
   friend void swap(StepRequest& a, StepRequest& b) {
@@ -3324,7 +3565,7 @@ class ResetRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_ResetRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    24;
 
   void Swap(ResetRequest* other);
   friend void swap(ResetRequest& a, ResetRequest& b) {
@@ -3435,7 +3676,7 @@ class TerminateRequest : public ::google::protobuf::Message /* @@protoc_insertio
                &_TerminateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    25;
 
   void Swap(TerminateRequest* other);
   friend void swap(TerminateRequest& a, TerminateRequest& b) {
@@ -3546,7 +3787,7 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_ReadRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    26;
 
   void Swap(ReadRequest* other);
   friend void swap(ReadRequest& a, ReadRequest& b) {
@@ -3671,7 +3912,7 @@ class WriteIntegerRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_WriteIntegerRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    27;
 
   void Swap(WriteIntegerRequest* other);
   friend void swap(WriteIntegerRequest& a, WriteIntegerRequest& b) {
@@ -3810,7 +4051,7 @@ class WriteRealRequest : public ::google::protobuf::Message /* @@protoc_insertio
                &_WriteRealRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    28;
 
   void Swap(WriteRealRequest* other);
   friend void swap(WriteRealRequest& a, WriteRealRequest& b) {
@@ -3949,7 +4190,7 @@ class WriteStringRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_WriteStringRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    29;
 
   void Swap(WriteStringRequest* other);
   friend void swap(WriteStringRequest& a, WriteStringRequest& b) {
@@ -4097,7 +4338,7 @@ class WriteBooleanRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_WriteBooleanRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    30;
 
   void Swap(WriteBooleanRequest* other);
   friend void swap(WriteBooleanRequest& a, WriteBooleanRequest& b) {
@@ -4236,7 +4477,7 @@ class IntegerRead : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_IntegerRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    31;
 
   void Swap(IntegerRead* other);
   friend void swap(IntegerRead& a, IntegerRead& b) {
@@ -4353,7 +4594,7 @@ class RealRead : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_RealRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    32;
 
   void Swap(RealRead* other);
   friend void swap(RealRead& a, RealRead& b) {
@@ -4470,7 +4711,7 @@ class StringRead : public ::google::protobuf::Message /* @@protoc_insertion_poin
                &_StringRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    33;
 
   void Swap(StringRead* other);
   friend void swap(StringRead& a, StringRead& b) {
@@ -4596,7 +4837,7 @@ class BooleanRead : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_BooleanRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    34;
 
   void Swap(BooleanRead* other);
   friend void swap(BooleanRead& a, BooleanRead& b) {
@@ -4713,7 +4954,7 @@ class Solver : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Solver_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    35;
 
   void Swap(Solver* other);
   friend void swap(Solver& a, Solver& b) {
@@ -4839,7 +5080,7 @@ class Bool : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
                &_Bool_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    36;
 
   void Swap(Bool* other);
   friend void swap(Bool& a, Bool& b) {
@@ -4942,7 +5183,7 @@ class GetFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_GetFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    37;
 
   void Swap(GetFMUstateRequest* other);
   friend void swap(GetFMUstateRequest& a, GetFMUstateRequest& b) {
@@ -5053,7 +5294,7 @@ class GetFMUstateResponse : public ::google::protobuf::Message /* @@protoc_inser
                &_GetFMUstateResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    38;
 
   void Swap(GetFMUstateResponse* other);
   friend void swap(GetFMUstateResponse& a, GetFMUstateResponse& b) {
@@ -5163,7 +5404,7 @@ class SetFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insert
                &_SetFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    39;
 
   void Swap(SetFMUstateRequest* other);
   friend void swap(SetFMUstateRequest& a, SetFMUstateRequest& b) {
@@ -5281,7 +5522,7 @@ class FreeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_inser
                &_FreeFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    40;
 
   void Swap(FreeFMUstateRequest* other);
   friend void swap(FreeFMUstateRequest& a, FreeFMUstateRequest& b) {
@@ -5399,7 +5640,7 @@ class SerializeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_
                &_SerializeFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    41;
 
   void Swap(SerializeFMUstateRequest* other);
   friend void swap(SerializeFMUstateRequest& a, SerializeFMUstateRequest& b) {
@@ -5517,7 +5758,7 @@ class SerializeFMUstateResponse : public ::google::protobuf::Message /* @@protoc
                &_SerializeFMUstateResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    42;
 
   void Swap(SerializeFMUstateResponse* other);
   friend void swap(SerializeFMUstateResponse& a, SerializeFMUstateResponse& b) {
@@ -5635,7 +5876,7 @@ class DeSerializeFMUstateRequest : public ::google::protobuf::Message /* @@proto
                &_DeSerializeFMUstateRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    43;
 
   void Swap(DeSerializeFMUstateRequest* other);
   friend void swap(DeSerializeFMUstateRequest& a, DeSerializeFMUstateRequest& b) {
@@ -5761,7 +6002,7 @@ class DeSerializeFMUstateResponse : public ::google::protobuf::Message /* @@prot
                &_DeSerializeFMUstateResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    44;
 
   void Swap(DeSerializeFMUstateResponse* other);
   friend void swap(DeSerializeFMUstateResponse& a, DeSerializeFMUstateResponse& b) {
@@ -5871,7 +6112,7 @@ class CanCreateInstanceFromCSRequest : public ::google::protobuf::Message /* @@p
                &_CanCreateInstanceFromCSRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    45;
 
   void Swap(CanCreateInstanceFromCSRequest* other);
   friend void swap(CanCreateInstanceFromCSRequest& a, CanCreateInstanceFromCSRequest& b) {
@@ -5982,7 +6223,7 @@ class CanCreateInstanceFromMERequest : public ::google::protobuf::Message /* @@p
                &_CanCreateInstanceFromMERequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    46;
 
   void Swap(CanCreateInstanceFromMERequest* other);
   friend void swap(CanCreateInstanceFromMERequest& a, CanCreateInstanceFromMERequest& b) {
@@ -6093,7 +6334,7 @@ class GetDirectionalDerivativeRequest : public ::google::protobuf::Message /* @@
                &_GetDirectionalDerivativeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    47;
 
   void Swap(GetDirectionalDerivativeRequest* other);
   friend void swap(GetDirectionalDerivativeRequest& a, GetDirectionalDerivativeRequest& b) {
@@ -6246,7 +6487,7 @@ class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @
                &_GetDirectionalDerivativeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    48;
 
   void Swap(GetDirectionalDerivativeResponse* other);
   friend void swap(GetDirectionalDerivativeResponse& a, GetDirectionalDerivativeResponse& b) {
@@ -6323,6 +6564,102 @@ class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @
   ::google::protobuf::RepeatedField< double > dv_known_ref_;
   mutable int _dv_known_ref_cached_byte_size_;
   int status_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class Void : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Void) */ {
+ public:
+  Void();
+  virtual ~Void();
+
+  Void(const Void& from);
+
+  inline Void& operator=(const Void& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Void(Void&& from) noexcept
+    : Void() {
+    *this = ::std::move(from);
+  }
+
+  inline Void& operator=(Void&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Void& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Void* internal_default_instance() {
+    return reinterpret_cast<const Void*>(
+               &_Void_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    49;
+
+  void Swap(Void* other);
+  friend void swap(Void& a, Void& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Void* New() const final {
+    return CreateMaybeMessage<Void>(NULL);
+  }
+
+  Void* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Void>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const Void& from);
+  void MergeFrom(const Void& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Void* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Void)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
@@ -8726,87 +9063,215 @@ inline void GetCoSimulationAttributesRequest::set_allocated_instance_id(::std::s
 
 // -------------------------------------------------------------------
 
-// InitRequest
+// SetupExperimentRequest
 
 // string instance_id = 1;
-inline void InitRequest::clear_instance_id() {
+inline void SetupExperimentRequest::clear_instance_id() {
   instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& InitRequest::instance_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.InitRequest.instance_id)
+inline const ::std::string& SetupExperimentRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SetupExperimentRequest.instance_id)
   return instance_id_.GetNoArena();
 }
-inline void InitRequest::set_instance_id(const ::std::string& value) {
+inline void SetupExperimentRequest::set_instance_id(const ::std::string& value) {
   
   instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.InitRequest.instance_id)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SetupExperimentRequest.instance_id)
 }
 #if LANG_CXX11
-inline void InitRequest::set_instance_id(::std::string&& value) {
+inline void SetupExperimentRequest::set_instance_id(::std::string&& value) {
   
   instance_id_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.InitRequest.instance_id)
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.SetupExperimentRequest.instance_id)
 }
 #endif
-inline void InitRequest::set_instance_id(const char* value) {
+inline void SetupExperimentRequest::set_instance_id(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.InitRequest.instance_id)
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.SetupExperimentRequest.instance_id)
 }
-inline void InitRequest::set_instance_id(const char* value, size_t size) {
+inline void SetupExperimentRequest::set_instance_id(const char* value, size_t size) {
   
   instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.InitRequest.instance_id)
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.SetupExperimentRequest.instance_id)
 }
-inline ::std::string* InitRequest::mutable_instance_id() {
+inline ::std::string* SetupExperimentRequest::mutable_instance_id() {
   
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.InitRequest.instance_id)
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.SetupExperimentRequest.instance_id)
   return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* InitRequest::release_instance_id() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.InitRequest.instance_id)
+inline ::std::string* SetupExperimentRequest::release_instance_id() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.SetupExperimentRequest.instance_id)
   
   return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void InitRequest::set_allocated_instance_id(::std::string* instance_id) {
+inline void SetupExperimentRequest::set_allocated_instance_id(::std::string* instance_id) {
   if (instance_id != NULL) {
     
   } else {
     
   }
   instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.InitRequest.instance_id)
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.SetupExperimentRequest.instance_id)
 }
 
 // double start = 2;
-inline void InitRequest::clear_start() {
+inline void SetupExperimentRequest::clear_start() {
   start_ = 0;
 }
-inline double InitRequest::start() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.InitRequest.start)
+inline double SetupExperimentRequest::start() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SetupExperimentRequest.start)
   return start_;
 }
-inline void InitRequest::set_start(double value) {
+inline void SetupExperimentRequest::set_start(double value) {
   
   start_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.InitRequest.start)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SetupExperimentRequest.start)
 }
 
 // double stop = 3;
-inline void InitRequest::clear_stop() {
+inline void SetupExperimentRequest::clear_stop() {
   stop_ = 0;
 }
-inline double InitRequest::stop() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.InitRequest.stop)
+inline double SetupExperimentRequest::stop() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SetupExperimentRequest.stop)
   return stop_;
 }
-inline void InitRequest::set_stop(double value) {
+inline void SetupExperimentRequest::set_stop(double value) {
   
   stop_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.InitRequest.stop)
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SetupExperimentRequest.stop)
+}
+
+// double tolerance = 4;
+inline void SetupExperimentRequest::clear_tolerance() {
+  tolerance_ = 0;
+}
+inline double SetupExperimentRequest::tolerance() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SetupExperimentRequest.tolerance)
+  return tolerance_;
+}
+inline void SetupExperimentRequest::set_tolerance(double value) {
+  
+  tolerance_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SetupExperimentRequest.tolerance)
+}
+
+// -------------------------------------------------------------------
+
+// EnterInitializationModeRequest
+
+// string instance_id = 1;
+inline void EnterInitializationModeRequest::clear_instance_id() {
+  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& EnterInitializationModeRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+  return instance_id_.GetNoArena();
+}
+inline void EnterInitializationModeRequest::set_instance_id(const ::std::string& value) {
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+}
+#if LANG_CXX11
+inline void EnterInitializationModeRequest::set_instance_id(::std::string&& value) {
+  
+  instance_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+}
+#endif
+inline void EnterInitializationModeRequest::set_instance_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+}
+inline void EnterInitializationModeRequest::set_instance_id(const char* value, size_t size) {
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+}
+inline ::std::string* EnterInitializationModeRequest::mutable_instance_id() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* EnterInitializationModeRequest::release_instance_id() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+  
+  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void EnterInitializationModeRequest::set_allocated_instance_id(::std::string* instance_id) {
+  if (instance_id != NULL) {
+    
+  } else {
+    
+  }
+  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.EnterInitializationModeRequest.instance_id)
+}
+
+// -------------------------------------------------------------------
+
+// ExitInitializationModeRequest
+
+// string instance_id = 1;
+inline void ExitInitializationModeRequest::clear_instance_id() {
+  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ExitInitializationModeRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+  return instance_id_.GetNoArena();
+}
+inline void ExitInitializationModeRequest::set_instance_id(const ::std::string& value) {
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+}
+#if LANG_CXX11
+inline void ExitInitializationModeRequest::set_instance_id(::std::string&& value) {
+  
+  instance_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+}
+#endif
+inline void ExitInitializationModeRequest::set_instance_id(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+}
+inline void ExitInitializationModeRequest::set_instance_id(const char* value, size_t size) {
+  
+  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+}
+inline ::std::string* ExitInitializationModeRequest::mutable_instance_id() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ExitInitializationModeRequest::release_instance_id() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
+  
+  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ExitInitializationModeRequest::set_allocated_instance_id(::std::string* instance_id) {
+  if (instance_id != NULL) {
+    
+  } else {
+    
+  }
+  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ExitInitializationModeRequest.instance_id)
 }
 
 // -------------------------------------------------------------------
@@ -10771,9 +11236,19 @@ inline void GetDirectionalDerivativeResponse::set_status(::fmuproxy::grpc::Statu
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeResponse.status)
 }
 
+// -------------------------------------------------------------------
+
+// Void
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

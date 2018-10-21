@@ -49,8 +49,13 @@ int main(int argc, char **argv) {
     const auto slave1 = fmu->newInstance();
     const auto slave2 = fmu->newInstance();
 
-    slave1->init();
-    slave2->init();
+    slave1->setupExperiment();
+    slave1->enterInitializationMode();
+    slave1->exitInitializationMode();
+
+    slave2->setupExperiment();
+    slave2->enterInitializationMode();
+    slave2->exitInitializationMode();
 
     double temperature_room;
     int vr = md->getValueReference("Temperature_Room");

@@ -84,16 +84,40 @@ FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::F
     return ::Status(::grpc::StatusCode::UNIMPLEMENTED, "Model Exchange wrapper not available!");
 }
 
-::Status FmuServiceImpl::Init(ServerContext *context, const InitRequest *request, StatusResponse *response) {
+
+::Status
+FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetupExperimentRequest *request,
+                                ::fmuproxy::grpc::StatusResponse *response) {
     auto& slave = slaves_[request->instance_id()];
-    slave->init(request->start(), request->stop());
-    response->set_status(Status::OK_STATUS);
+    auto status = slave->setupExperiment(request->start(), request->stop(), request->tolerance());
+    response->set_status(grpcType(status));
+    return ::Status::OK;
+}
+
+::Status FmuServiceImpl::EnterInitializationMode(::grpc::ServerContext *context,
+                                               const ::fmuproxy::grpc::EnterInitializationModeRequest *request,
+                                               ::fmuproxy::grpc::StatusResponse *response) {
+
+
+    auto& slave = slaves_[request->instance_id()];
+    auto status = slave->enterInitializationMode();
+    response->set_status(grpcType(status));
+    return ::Status::OK;
+}
+
+::Status FmuServiceImpl::ExitInitializationMode(::grpc::ServerContext *context,
+                                              const ::fmuproxy::grpc::ExitInitializationModeRequest *request,
+                                              ::fmuproxy::grpc::StatusResponse *response) {
+    auto& slave = slaves_[request->instance_id()];
+    auto status = slave->exitInitializationMode();
+    response->set_status(grpcType(status));
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::Step(ServerContext *context, const StepRequest *request, StepResponse *response) {
     auto& slave = slaves_[request->instance_id()];
-    response->set_status(grpcType(slave->doStep(request->step_size())));
+    auto status = slave->doStep(request->step_size());
+    response->set_status(grpcType(status));
     response->set_simulation_time(slave->getSimulationTime());
     return ::Status::OK;
 }

@@ -44,9 +44,17 @@ std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::get
     return csModelDescription;
 }
 
-void RemoteFmuSlave::init(const double start, const double stop) {
-    simulationTime_ = start;
-    convert(client_.init(instanceId_, start, stop));
+
+fmi2Status RemoteFmuSlave::setupExperiment(double startTime, double stopTime, double tolerance) {
+    return convert(client_.setupExperiment(instanceId_, startTime, stopTime, tolerance));
+}
+
+fmi2Status RemoteFmuSlave::enterInitializationMode() {
+    return convert(client_.enterInitializationMode(instanceId_));
+}
+
+fmi2Status RemoteFmuSlave::exitInitializationMode() {
+    return convert(client_.exitInitializationMode(instanceId_));
 }
 
 fmi2Status RemoteFmuSlave::doStep(const double step_size) {

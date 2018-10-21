@@ -50,24 +50,41 @@ shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModel
     return std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription>();
 }
 
-
-fmi2Status RemoteFmuSlave::cancelStep() {
-    return fmi2Discard;
-}
-
-void RemoteFmuSlave::init(const double start, const double stop) {
-
+fmi2Status RemoteFmuSlave::setupExperiment(double startTime, double stopTime, double tolerance) {
     ClientContext ctx;
     StatusResponse response;
 
-    InitRequest request;
+    SetupExperimentRequest request;
     request.set_instance_id(instanceId_);
-    request.set_start(start);
-    request.set_stop(stop);
+    request.set_start(startTime);
+    request.set_stop(stopTime);
 
-    stub_.Init(&ctx, request, &response);
-    simulationTime_ = start;
+    stub_.SetupExperiment(&ctx, request, &response);
+    simulationTime_ = startTime;
 }
+
+fmi2Status RemoteFmuSlave::enterInitializationMode() {
+    ClientContext ctx;
+    StatusResponse response;
+
+    EnterInitializationModeRequest request;
+    request.set_instance_id(instanceId_);
+
+    stub_.EnterInitializationMode(&ctx, request, &response);
+    return convert(response.status());
+}
+
+fmi2Status RemoteFmuSlave::exitInitializationMode() {
+    ClientContext ctx;
+    StatusResponse response;
+
+    ExitInitializationModeRequest request;
+    request.set_instance_id(instanceId_);
+
+    stub_.ExitInitializationMode(&ctx, request, &response);
+    return convert(response.status());
+}
+
 
 fmi2Status RemoteFmuSlave::doStep(const double step_size) {
 
@@ -93,6 +110,10 @@ fmi2Status RemoteFmuSlave::terminate() {
 
     stub_.Terminate(&ctx, request, &response);
     return convert(response.status());
+}
+
+fmi2Status RemoteFmuSlave::cancelStep() {
+    return fmi2Discard;
 }
 
 fmi2Status RemoteFmuSlave::reset() {
