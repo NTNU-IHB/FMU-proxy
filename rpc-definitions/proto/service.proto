@@ -192,10 +192,19 @@ message GetCoSimulationAttributesRequest {
     string instance_id = 1;
 }
 
-message InitRequest {
+message SetupExperimentRequest {
     string instance_id = 1;
     double start = 2;
     double stop = 3;
+    double tolerance = 4;
+}
+
+message EnterInitializationModeRequest {
+    string instance_id = 1;
+}
+
+message ExitInitializationModeRequest {
+    string instance_id = 1;
 }
 
 message StepRequest {
@@ -328,6 +337,8 @@ message GetDirectionalDerivativeResponse {
     Status status = 2;
 }
 
+message Void {}
+
 service FmuService {
 
     rpc GetModelDescription (GetModelDescriptionRequest) returns (ModelDescription);
@@ -339,7 +350,10 @@ service FmuService {
     rpc CreateInstanceFromCS (CreateInstanceFromCSRequest) returns (InstanceId);
     rpc CreateInstanceFromME (CreateInstanceFromMERequest) returns (InstanceId);
 
-    rpc Init (InitRequest) returns (StatusResponse);
+    rpc SetupExperiment (SetupExperimentRequest) returns (StatusResponse);
+    rpc EnterInitializationMode (EnterInitializationModeRequest) returns (StatusResponse);
+    rpc ExitInitializationMode (ExitInitializationModeRequest) returns (StatusResponse);
+    
     rpc Step (StepRequest) returns (StepResponse);
     rpc Reset(ResetRequest) returns (StatusResponse);
     rpc Terminate (TerminateRequest) returns (StatusResponse);

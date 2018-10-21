@@ -244,7 +244,10 @@ service FmuService {
     InstanceId createInstanceFromCS(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
     InstanceId createInstanceFromME(1: FmuId fmuId, 2: Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
 
-    Status init(1: InstanceId instanceId, 2: double start, 3: double stop) throws (1: NoSuchInstanceException ex)
+    Status setupExperiment(1: InstanceId instanceId, 2: double start, 3: double stop, 4: double tolerance) throws (1: NoSuchInstanceException ex)
+    Status enterInitializationMode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    Status exitInitializationMode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    
     StepResult step(1: InstanceId instanceId, 2: double stepSize) throws (1: NoSuchInstanceException ex)
     Status reset(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
     Status terminate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
