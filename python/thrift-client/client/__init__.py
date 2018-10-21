@@ -11,7 +11,7 @@ class VariableReader:
 
     def __init__(self, instance_id: int, value_reference: int, client: FmuService.Client):
         self.client = client  # type: FmuService.Client
-        self.instance_id = instance_id  # type: int
+        self.instance_id = instance_id  # type: str
         self.value_reference = [value_reference]  # type: [int]
 
     def read_int(self) -> IntegerRead:
@@ -31,7 +31,7 @@ class VariableWriter:
 
     def __init__(self, instance_id: int, value_reference: int, client: FmuService.Client):
         self.client = client  # type: FmuService.Client
-        self.instance_id = instance_id  # type: int
+        self.instance_id = instance_id  # type: str
         self.value_reference = [value_reference]  # type: [int]
 
     def write_int(self, value: int) -> Status:
@@ -49,16 +49,22 @@ class VariableWriter:
 
 class RemoteFmuInstance:
 
-    def __init__(self, remote_fmu, instance_id):
+    def __init__(self, remote_fmu, instance_id: str):
         self.instance_id = instance_id
         self.remote_fmu = remote_fmu
         self.client = remote_fmu.client  # type: FmuService.Client
         self.model_description = remote_fmu.model_description  # type: ModelDescription
         self.simulation_time = None  # type: float
 
-    def init(self, start: float = 0.0, stop: float = 0.0) -> Status:
+    def setup_experiment(self, start: float = 0.0, stop: float = 0.0, tolerance: float = 0.0) -> Status:
         self.simulation_time = start
-        return self.client.init(self.instance_id, start, stop)
+        return self.client.setupExperiment(self.instance_id, start, stop, tolerance)
+
+    def enter_initialization_mode(self) -> Status:
+        return self.client.enterInitializationMode(self.instance_id)
+
+    def exit_initialization_mode(self) -> Status:
+        return self.client.exitInitializationMode(self.instance_id)
 
     def step(self, step_size: float) -> Status:
         response = self.client.step(self.instance_id, step_size)  # type: StepResult

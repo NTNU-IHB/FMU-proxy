@@ -44,9 +44,19 @@ class FmuServiceStub(object):
         request_serializer=service__pb2.CreateInstanceFromMERequest.SerializeToString,
         response_deserializer=service__pb2.InstanceId.FromString,
         )
-    self.Init = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/Init',
-        request_serializer=service__pb2.InitRequest.SerializeToString,
+    self.SetupExperiment = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/SetupExperiment',
+        request_serializer=service__pb2.SetupExperimentRequest.SerializeToString,
+        response_deserializer=service__pb2.StatusResponse.FromString,
+        )
+    self.EnterInitializationMode = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/EnterInitializationMode',
+        request_serializer=service__pb2.EnterInitializationModeRequest.SerializeToString,
+        response_deserializer=service__pb2.StatusResponse.FromString,
+        )
+    self.ExitInitializationMode = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/ExitInitializationMode',
+        request_serializer=service__pb2.ExitInitializationModeRequest.SerializeToString,
         response_deserializer=service__pb2.StatusResponse.FromString,
         )
     self.Step = channel.unary_unary(
@@ -182,7 +192,21 @@ class FmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def Init(self, request, context):
+  def SetupExperiment(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def EnterInitializationMode(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def ExitInitializationMode(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -341,9 +365,19 @@ def add_FmuServiceServicer_to_server(servicer, server):
           request_deserializer=service__pb2.CreateInstanceFromMERequest.FromString,
           response_serializer=service__pb2.InstanceId.SerializeToString,
       ),
-      'Init': grpc.unary_unary_rpc_method_handler(
-          servicer.Init,
-          request_deserializer=service__pb2.InitRequest.FromString,
+      'SetupExperiment': grpc.unary_unary_rpc_method_handler(
+          servicer.SetupExperiment,
+          request_deserializer=service__pb2.SetupExperimentRequest.FromString,
+          response_serializer=service__pb2.StatusResponse.SerializeToString,
+      ),
+      'EnterInitializationMode': grpc.unary_unary_rpc_method_handler(
+          servicer.EnterInitializationMode,
+          request_deserializer=service__pb2.EnterInitializationModeRequest.FromString,
+          response_serializer=service__pb2.StatusResponse.SerializeToString,
+      ),
+      'ExitInitializationMode': grpc.unary_unary_rpc_method_handler(
+          servicer.ExitInitializationMode,
+          request_deserializer=service__pb2.ExitInitializationModeRequest.FromString,
           response_serializer=service__pb2.StatusResponse.SerializeToString,
       ),
       'Step': grpc.unary_unary_rpc_method_handler(

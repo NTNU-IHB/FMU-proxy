@@ -70,13 +70,24 @@ class RemoteFmuInstance:
         self.model_description = remote_fmu.model_description  # type: ModelDescription
         self.simulation_time = None  # type: float
 
-    def init(self, start=0.0, stop=0.0) -> Status:
+    def setup_experiment(self, start=0.0, stop=0.0, tolerance=0.0) -> Status:
         self.simulation_time = start
-        request = InitRequest()
+        request = SetupExperimentRequest()
         request.instance_id = self.instance_id
         request.start = start
         request.stop = stop
-        return self.stub.Init(request).status
+        request.tolerance = tolerance
+        return self.stub.SetupExperiment(request).status
+
+    def enter_initialization_mode(self) -> Status:
+        request = EnterInitializationModeRequest()
+        request.instance_id = self.instance_id
+        return self.stub.EnterInitializationMode(request).status
+
+    def exit_initialization_mode(self) -> Status:
+        request = ExitInitializationModeRequest()
+        request.instance_id = self.instance_id
+        return self.stub.ExitInitializationMode(request).status
 
     def step(self, step_size) -> Status:
         request = StepRequest()

@@ -30,7 +30,9 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  bool canCreateInstanceFromME(FmuId fmuId)')
     print('  InstanceId createInstanceFromCS(FmuId fmuId)')
     print('  InstanceId createInstanceFromME(FmuId fmuId, Solver solver)')
-    print('  Status init(InstanceId instanceId, double start, double stop)')
+    print('  Status setupExperiment(InstanceId instanceId, double start, double stop, double tolerance)')
+    print('  Status enterInitializationMode(InstanceId instanceId)')
+    print('  Status exitInitializationMode(InstanceId instanceId)')
     print('  StepResult step(InstanceId instanceId, double stepSize)')
     print('  Status reset(InstanceId instanceId)')
     print('  Status terminate(InstanceId instanceId)')
@@ -163,11 +165,23 @@ elif cmd == 'createInstanceFromME':
         sys.exit(1)
     pp.pprint(client.createInstanceFromME(eval(args[0]), eval(args[1]),))
 
-elif cmd == 'init':
-    if len(args) != 3:
-        print('init requires 3 args')
+elif cmd == 'setupExperiment':
+    if len(args) != 4:
+        print('setupExperiment requires 4 args')
         sys.exit(1)
-    pp.pprint(client.init(eval(args[0]), eval(args[1]), eval(args[2]),))
+    pp.pprint(client.setupExperiment(eval(args[0]), eval(args[1]), eval(args[2]), eval(args[3]),))
+
+elif cmd == 'enterInitializationMode':
+    if len(args) != 1:
+        print('enterInitializationMode requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.enterInitializationMode(eval(args[0]),))
+
+elif cmd == 'exitInitializationMode':
+    if len(args) != 1:
+        print('exitInitializationMode requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.exitInitializationMode(eval(args[0]),))
 
 elif cmd == 'step':
     if len(args) != 2:
