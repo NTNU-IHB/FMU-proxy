@@ -81,11 +81,8 @@ class TestGrpcME {
             val stop = 2.0
             val stepSize = 1E-2
             while (slave.simulationTime <= stop) {
-                val step = slave.doStep(stepSize)
-                Assertions.assertTrue(step)
-
+                Assertions.assertTrue(slave.doStep(stepSize))
                 LOG.info("$variableName=${variable.read(slave)}")
-
             }
 
         }
