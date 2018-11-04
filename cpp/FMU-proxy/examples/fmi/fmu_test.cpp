@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
     auto md = fmu->getModelDescription();
 
     for (const auto &v : *md->modelVariables()) {
-        if (v.causality() == fmi2Causality::output) {
+        if (v.causality() == Causality::output) {
             cout << v.name() << endl;
         }
     }

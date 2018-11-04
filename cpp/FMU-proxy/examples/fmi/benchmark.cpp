@@ -57,9 +57,8 @@ int main(int argc, char **argv) {
 
     double t;
     while ( (t = slave->getSimulationTime() ) <= (stop-step_size) ) {
-        fmi2Status status = slave->doStep(step_size);
-        if (status != fmi2OK) {
-            cout << "Error! step returned with status: " << to_string(status) << endl;
+        if (!slave->doStep(step_size)) {
+            cout << "Error! doStep returned with status: " << to_string(slave->getLastStatus()) << endl;
             break;
         }
         slave->readReal(vr, ref);

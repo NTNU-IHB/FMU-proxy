@@ -31,71 +31,71 @@
 
 namespace {
 
-    fmi2Status convert(const fmuproxy::grpc::Status status) {
+    fmi4cpp::Status convert(const fmuproxy::grpc::Status status) {
         switch (status) {
             case fmuproxy::grpc::Status::OK_STATUS:
-                return fmi2OK;
+                return fmi4cpp::Status::OK;
             case fmuproxy::grpc::Status::WARNING_STATUS:
-                return fmi2Warning;
+                return fmi4cpp::Status::Warning;
             case fmuproxy::grpc::Status::DISCARD_STATUS:
-                return fmi2Discard;
+                return fmi4cpp::Status::Discard;
             case fmuproxy::grpc::Status::ERROR_STATUS:
-                return fmi2Error;
+                return fmi4cpp::Status::Error;
             case fmuproxy::grpc::Status::FATAL_STATUS:
-                return fmi2Fatal;
+                return fmi4cpp::Status::Fatal;
             case fmuproxy::grpc::Status::PENDING_STATUS:
-                return fmi2Pending;
+                return fmi4cpp::Status::Pending;
             default:
-                throw std::runtime_error("not a valid status: " + status);
+                return fmi4cpp::Status::Unknown;
         }
     }
 
-    fmi4cpp::fmi2::fmi2Causality convert(const fmuproxy::grpc::Causality causality) {
+    fmi4cpp::fmi2::Causality convert(const fmuproxy::grpc::Causality causality) {
         switch (causality) {
             case fmuproxy::grpc::Causality::LOCAL_CAUSALITY:
-                return fmi4cpp::fmi2::fmi2Causality::local;
+                return fmi4cpp::fmi2::Causality::local;
             case fmuproxy::grpc::Causality::INDEPENDENT_CAUSALITY:
-                return fmi4cpp::fmi2::fmi2Causality::independent;
+                return fmi4cpp::fmi2::Causality::independent;
             case fmuproxy::grpc::Causality::INPUT_CAUSALITY:
-                return fmi4cpp::fmi2::fmi2Causality::input;
+                return fmi4cpp::fmi2::Causality::input;
             case fmuproxy::grpc::Causality::OUTPUT_CAUSALITY:
-                return fmi4cpp::fmi2::fmi2Causality::output;
+                return fmi4cpp::fmi2::Causality::output;
             case fmuproxy::grpc::Causality::CALCULATED_PARAMETER_CAUSALITY:
-                return fmi4cpp::fmi2::fmi2Causality::calculatedParameter;
+                return fmi4cpp::fmi2::Causality::calculatedParameter;
             case fmuproxy::grpc::Causality::PARAMETER_CAUSALITY:
-                return fmi4cpp::fmi2::fmi2Causality::parameter;
+                return fmi4cpp::fmi2::Causality::parameter;
             default:
-                return fmi4cpp::fmi2::fmi2Causality::local;
+                return fmi4cpp::fmi2::Causality::local;
         }
     }
 
-    fmi4cpp::fmi2::fmi2Variability convert(const fmuproxy::grpc::Variability variability) {
+    fmi4cpp::fmi2::Variability convert(const fmuproxy::grpc::Variability variability) {
         switch (variability) {
             case fmuproxy::grpc::Variability::CONSTANT_VARIABILITY:
-                return fmi4cpp::fmi2::fmi2Variability::constant;
+                return fmi4cpp::fmi2::Variability::constant;
             case fmuproxy::grpc::Variability::CONTINUOUS_VARIABILITY:
-                return fmi4cpp::fmi2::fmi2Variability::continuous;
+                return fmi4cpp::fmi2::Variability::continuous;
             case fmuproxy::grpc::Variability::FIXED_VARIABILITY:
-                return fmi4cpp::fmi2::fmi2Variability::fixed;
+                return fmi4cpp::fmi2::Variability::fixed;
             case fmuproxy::grpc::Variability::DISCRETE_VARIABILITY:
-                return fmi4cpp::fmi2::fmi2Variability::discrete;
+                return fmi4cpp::fmi2::Variability::discrete;
             case fmuproxy::grpc::Variability::TUNABLE_VARIABILITY:
-                return fmi4cpp::fmi2::fmi2Variability::tunable;
+                return fmi4cpp::fmi2::Variability::tunable;
             default:
-                return fmi4cpp::fmi2::fmi2Variability::continuous;
+                return fmi4cpp::fmi2::Variability::continuous;
         }
     }
 
-    fmi4cpp::fmi2::fmi2Initial convert(const fmuproxy::grpc::Initial initial) {
+    fmi4cpp::fmi2::Initial convert(const fmuproxy::grpc::Initial initial) {
         switch (initial) {
             case fmuproxy::grpc::Initial::APPROX_INITIAL:
-                return fmi4cpp::fmi2::fmi2Initial::approx;
+                return fmi4cpp::fmi2::Initial::approx;
             case fmuproxy::grpc::Initial::CALCULATED_INITIAL:
-                return fmi4cpp::fmi2::fmi2Initial::calculated;
+                return fmi4cpp::fmi2::Initial::calculated;
             case fmuproxy::grpc::Initial::EXACT_INITIAL:
-                return fmi4cpp::fmi2::fmi2Initial::exact;
+                return fmi4cpp::fmi2::Initial::exact;
             default:
-                return fmi4cpp::fmi2::fmi2Initial::unknown;
+                return fmi4cpp::fmi2::Initial::unknown;
         }
     }
 

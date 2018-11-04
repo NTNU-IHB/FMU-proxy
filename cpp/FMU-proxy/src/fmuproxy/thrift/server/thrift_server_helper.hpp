@@ -36,72 +36,72 @@ using namespace fmi4cpp::fmi2;
 
 namespace {
 
-    const Status::type thriftType(fmi2Status status) {
+    const Status::type thriftType(fmi4cpp::Status status) {
         switch (status) {
-            case fmi2OK:
+            case fmi4cpp::Status::OK:
                 return Status::type::OK_STATUS;
-            case fmi2Warning:
+            case fmi4cpp::Status::Warning:
                 return Status::type::WARNING_STATUS;
-            case fmi2Pending:
+            case fmi4cpp::Status::Pending:
                 return Status::type::PENDING_STATUS;
-            case fmi2Discard:
+            case fmi4cpp::Status::Discard:
                 return Status::type::DISCARD_STATUS;
-            case fmi2Error:
+            case fmi4cpp::Status::Error:
                 return Status::type::ERROR_STATUS;
-            case fmi2Fatal:
+            case fmi4cpp::Status::Fatal:
                 return Status::type::FATAL_STATUS;
             default:
                 throw std::runtime_error("Fatal: Unknown status type!");
         }
     }
 
-    const Causality::type thriftType(fmi2Causality causality) {
+    const fmuproxy::thrift::Causality::type thriftType(fmi4cpp::fmi2::Causality causality) {
         switch (causality) {
-            case fmi2Causality ::input:
-                return Causality::type::INPUT_CAUSALITY;
-            case fmi2Causality ::output:
-                return Causality::type::OUTPUT_CAUSALITY;
-            case fmi2Causality ::parameter:
-                return Causality::type::PARAMETER_CAUSALITY;
-            case fmi2Causality ::local:
-                return Causality::type::LOCAL_CAUSALITY;
-            case fmi2Causality ::independent:
-                return Causality::type::INDEPENDENT_CAUSALITY;
-            case fmi2Causality ::calculatedParameter:
-                return Causality::type::CALCULATED_PARAMETER_CAUSALITY;
+            case fmi4cpp::fmi2::Causality ::input:
+                return fmuproxy::thrift::Causality::type::INPUT_CAUSALITY;
+            case fmi4cpp::fmi2::Causality ::output:
+                return fmuproxy::thrift::Causality::type::OUTPUT_CAUSALITY;
+            case fmi4cpp::fmi2::Causality ::parameter:
+                return fmuproxy::thrift::Causality::type::PARAMETER_CAUSALITY;
+            case fmi4cpp::fmi2::Causality ::local:
+                return fmuproxy::thrift::Causality::type::LOCAL_CAUSALITY;
+            case fmi4cpp::fmi2::Causality ::independent:
+                return fmuproxy::thrift::Causality::type::INDEPENDENT_CAUSALITY;
+            case fmi4cpp::fmi2::Causality ::calculatedParameter:
+                return fmuproxy::thrift::Causality::type::CALCULATED_PARAMETER_CAUSALITY;
             default:
-                return Causality::type::LOCAL_CAUSALITY;
+                return fmuproxy::thrift::Causality::type::LOCAL_CAUSALITY;
         }
     }
 
-    const Variability::type thriftType(fmi2Variability variability) {
+    const fmuproxy::thrift::Variability::type thriftType(fmi4cpp::fmi2::Variability variability) {
         switch (variability) {
-            case fmi2Variability ::constant:
-                return Variability::type::CONSTANT_VARIABILITY;
-            case fmi2Variability ::continuous:
-                return Variability::type::CONTINUOUS_VARIABILITY;
-            case fmi2Variability ::discrete:
-                return Variability::type::DISCRETE_VARIABILITY;
-            case fmi2Variability ::fixed:
-                return Variability::type::FIXED_VARIABILITY;
-            case fmi2Variability ::tunable:
-                return Variability::type::TUNABLE_VARIABILITY;;
+            case fmi4cpp::fmi2::Variability ::constant:
+                return fmuproxy::thrift::Variability::type::CONSTANT_VARIABILITY;
+            case fmi4cpp::fmi2::Variability ::continuous:
+                return fmuproxy::thrift::Variability::type::CONTINUOUS_VARIABILITY;
+            case fmi4cpp::fmi2::Variability ::discrete:
+                return fmuproxy::thrift::Variability::type::DISCRETE_VARIABILITY;
+            case fmi4cpp::fmi2::Variability ::fixed:
+                return fmuproxy::thrift::Variability::type::FIXED_VARIABILITY;
+            case fmi4cpp::fmi2::Variability ::tunable:
+                return fmuproxy::thrift::Variability::type::TUNABLE_VARIABILITY;;
             default:
-                return Variability::type::CONTINUOUS_VARIABILITY;
+                return fmuproxy::thrift::Variability::type::CONTINUOUS_VARIABILITY;
         }
     }
 
-    const Initial::type thriftType(fmi2Initial initial) {
+    const fmuproxy::thrift::Initial::type thriftType(fmi4cpp::fmi2::Initial initial) {
         switch (initial) {
-            case fmi2Initial ::approx:
-                return Initial::type::APPROX_INITIAL;
-            case fmi2Initial ::calculated:
-                return Initial::type::CALCULATED_INITIAL;
-            case fmi2Initial ::exact:
-                return Initial::type::EXACT_INITIAL;
-            case fmi2Initial ::unknown:
+            case fmi4cpp::fmi2::Initial ::approx:
+                return fmuproxy::thrift::Initial::type::APPROX_INITIAL;
+            case fmi4cpp::fmi2::Initial ::calculated:
+                return fmuproxy::thrift::Initial::type::CALCULATED_INITIAL;
+            case fmi4cpp::fmi2::Initial ::exact:
+                return fmuproxy::thrift::Initial::type::EXACT_INITIAL;
+            case fmi4cpp::fmi2::Initial ::unknown:
             default:
-                return Initial::type::UNKNOWN_INITIAL;
+                return fmuproxy::thrift::Initial::type::UNKNOWN_INITIAL;
         }
     }
 

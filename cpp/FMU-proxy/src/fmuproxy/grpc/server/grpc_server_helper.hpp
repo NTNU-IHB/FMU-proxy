@@ -34,72 +34,72 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    const Status grpcType(fmi2Status status) {
+    const Status grpcType(fmi4cpp::Status status) {
         switch (status) {
-            case fmi2OK:
+            case fmi4cpp::Status::OK:
                 return Status::OK_STATUS;
-            case fmi2Warning:
+            case fmi4cpp::Status::Warning:
                 return Status::WARNING_STATUS;
-            case fmi2Pending:
+            case fmi4cpp::Status::Pending:
                 return Status::PENDING_STATUS;
-            case fmi2Discard:
+            case fmi4cpp::Status::Discard:
                 return Status::DISCARD_STATUS;
-            case fmi2Error:
+            case fmi4cpp::Status::Error:
                 return Status::ERROR_STATUS;
-            case fmi2Fatal:
+            case fmi4cpp::Status::Fatal:
                 return Status::FATAL_STATUS;
             default:
-                throw std::runtime_error("Invalid status: " + status);
+                throw std::runtime_error("Invalid status!");
         }
     }
 
-    const Causality grpcType(fmi4cpp::fmi2::fmi2Causality causality) {
+    const Causality grpcType(fmi4cpp::fmi2::Causality causality) {
         switch (causality) {
-            case fmi4cpp::fmi2::fmi2Causality ::input:
+            case fmi4cpp::fmi2::Causality ::input:
                 return Causality::INPUT_CAUSALITY;
-            case fmi4cpp::fmi2::fmi2Causality ::output:
+            case fmi4cpp::fmi2::Causality ::output:
                 return Causality::OUTPUT_CAUSALITY;
-            case fmi4cpp::fmi2::fmi2Causality ::parameter:
+            case fmi4cpp::fmi2::Causality ::parameter:
                 return Causality::PARAMETER_CAUSALITY;
-            case fmi4cpp::fmi2::fmi2Causality ::local:
+            case fmi4cpp::fmi2::Causality ::local:
                 return Causality::LOCAL_CAUSALITY;
-            case fmi4cpp::fmi2::fmi2Causality ::independent:
+            case fmi4cpp::fmi2::Causality ::independent:
                 return Causality::INDEPENDENT_CAUSALITY;
-            case fmi4cpp::fmi2::fmi2Causality ::calculatedParameter:
+            case fmi4cpp::fmi2::Causality ::calculatedParameter:
                 return Causality::CALCULATED_PARAMETER_CAUSALITY;
             default:
                 return Causality::UNKNOWN_CAUSALITY;
         }
     }
 
-    const Variability grpcType(fmi4cpp::fmi2::fmi2Variability variability) {
+    const Variability grpcType(fmi4cpp::fmi2::Variability variability) {
         switch (variability) {
-            case fmi4cpp::fmi2::fmi2Variability::constant:
+            case fmi4cpp::fmi2::Variability::constant:
                 return Variability::CONSTANT_VARIABILITY;
-            case fmi4cpp::fmi2::fmi2Variability::continuous:
+            case fmi4cpp::fmi2::Variability::continuous:
                 return Variability::CONTINUOUS_VARIABILITY;
-            case fmi4cpp::fmi2::fmi2Variability::discrete:
+            case fmi4cpp::fmi2::Variability::discrete:
                 return Variability::DISCRETE_VARIABILITY;
-            case fmi4cpp::fmi2::fmi2Variability::fixed:
+            case fmi4cpp::fmi2::Variability::fixed:
                 return Variability::FIXED_VARIABILITY;
-            case fmi4cpp::fmi2::fmi2Variability::tunable:
+            case fmi4cpp::fmi2::Variability::tunable:
                 return Variability::TUNABLE_VARIABILITY;;
-            case fmi4cpp::fmi2::fmi2Variability::unknown:
+            case fmi4cpp::fmi2::Variability::unknown:
                 return Variability::CONTINUOUS_VARIABILITY;
             default:
                 return Variability ::UNKNOWN_VARIABILITY;
         }
     }
 
-    const Initial grpcType(fmi4cpp::fmi2::fmi2Initial initial) {
+    const Initial grpcType(fmi4cpp::fmi2::Initial initial) {
         switch (initial) {
-            case fmi4cpp::fmi2::fmi2Initial ::approx:
+            case fmi4cpp::fmi2::Initial ::approx:
                 return Initial::APPROX_INITIAL;
-            case fmi4cpp::fmi2::fmi2Initial ::calculated:
+            case fmi4cpp::fmi2::Initial ::calculated:
                 return Initial::CALCULATED_INITIAL;
-            case fmi4cpp::fmi2::fmi2Initial ::exact:
+            case fmi4cpp::fmi2::Initial ::exact:
                 return Initial::EXACT_INITIAL;
-            case fmi4cpp::fmi2::fmi2Initial ::unknown:
+            case fmi4cpp::fmi2::Initial ::unknown:
             default:
                 return Initial::UNKNOWN_INITIAL;
         }

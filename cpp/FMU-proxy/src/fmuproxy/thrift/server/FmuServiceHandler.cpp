@@ -71,7 +71,7 @@ void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &i
     cout << "Created new FMU slave with id=" << _return << endl;
 }
 
-void FmuServiceHandler::createInstanceFromME(InstanceId &_return, const FmuId &id, const Solver &solver) {
+void FmuServiceHandler::createInstanceFromME(InstanceId &_return, const FmuId &id, const fmuproxy::thrift::Solver &solver) {
     throw UnsupportedOperationException();
 }
 
@@ -80,46 +80,49 @@ Status::type FmuServiceHandler::setupExperiment(const InstanceId &instanceId, co
                                                 const double tolerance) {
     auto &slave = slaves_[instanceId];
     auto status = slave->setupExperiment(start, stop, tolerance);
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 Status::type FmuServiceHandler::enterInitializationMode(const InstanceId &instanceId) {
     auto &slave = slaves_[instanceId];
     auto status = slave->enterInitializationMode();
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 Status::type FmuServiceHandler::exitInitializationMode(const InstanceId &instanceId) {
     auto &slave = slaves_[instanceId];
     auto status = slave->exitInitializationMode();
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 
 void FmuServiceHandler::step(StepResult &_return, const InstanceId &slave_id, const double step_size) {
     auto &slave = slaves_[slave_id];
-    fmi2Status status = slave->doStep(step_size);
+    auto status = slave->doStep(step_size);
     _return.simulationTime = slave->getSimulationTime();
-    _return.status = thriftType(status);
+    _return.status = thriftType(slave->getLastStatus());
 }
 
 Status::type FmuServiceHandler::terminate(const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    Status::type status = thriftType(slave->terminate());
+    auto staus = slave->terminate();
+    Status::type status = thriftType(slave->getLastStatus());
     slaves_.erase(slave_id);
     return status;
 }
 
 Status::type FmuServiceHandler::reset(const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    return thriftType(slave->reset());
+    auto status = slave->reset();
+    return thriftType(slave->getLastStatus());
 }
 
 void FmuServiceHandler::readInteger(IntegerRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     auto _value = vector<fmi2Integer>(vr.size());
-    _return.status = thriftType(slave->readInteger(_vr, _value));
+    auto status = slave->readInteger(_vr, _value);
+    _return.status = thriftType(slave->getLastStatus());
     _return.value = _value;
 }
 
@@ -127,7 +130,8 @@ void FmuServiceHandler::readReal(RealRead &_return, const InstanceId &slave_id, 
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     auto _value = vector<fmi2Real>(vr.size());
-    _return.status = thriftType(slave->readReal(_vr, _value));
+    auto status = slave->readReal(_vr, _value);
+    _return.status = thriftType(slave->getLastStatus());
     _return.value = _value;
 }
 
@@ -136,7 +140,8 @@ void FmuServiceHandler::readString(StringRead &_return, const InstanceId &slave_
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     auto _value = vector<fmi2String>(vr.size());
-    _return.status = thriftType(slave->readString(_vr, _value));
+    auto status = slave->readString(_vr, _value);
+    _return.status = thriftType(slave->getLastStatus());
     _return.value = vector<string>(_value.begin(), _value.end());
 }
 
@@ -144,7 +149,8 @@ void FmuServiceHandler::readBoolean(BooleanRead &_return, const InstanceId &slav
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     auto _value = vector<fmi2Boolean>(vr.size());
-    _return.status = thriftType(slave->readBoolean(_vr, _value));
+    auto status = slave->readBoolean(_vr, _value);
+    _return.status = thriftType(slave->getLastStatus());
     _return.value = vector<bool>(_value.begin(), _value.end());
 }
 
@@ -153,7 +159,7 @@ FmuServiceHandler::writeInteger(const InstanceId &slave_id, const ValueReference
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     const auto status = slave->writeInteger(_vr, value);
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 
@@ -162,7 +168,7 @@ FmuServiceHandler::writeReal(const InstanceId &slave_id, const ValueReferences &
     auto &slave = slaves_[slave_id];
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     const auto status = slave->writeReal(_vr, value);
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 
@@ -173,7 +179,7 @@ FmuServiceHandler::writeString(const InstanceId &slave_id, const ValueReferences
     vector<fmi2String > _values;
     std::transform(values.begin(), values.end(), std::back_inserter(_values), strToChar);
     const auto status = slave->writeString(_vr, _values);
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 
@@ -183,7 +189,7 @@ FmuServiceHandler::writeBoolean(const InstanceId &slave_id, const ValueReference
     const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
     const auto _value = vector<int>(value.begin(), value.end());
     const auto status = slave->writeBoolean(_vr, _value);
-    return thriftType(status);
+    return thriftType(slave->getLastStatus());
 }
 
 void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId &slave_id) {
