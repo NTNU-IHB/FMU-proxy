@@ -26,7 +26,7 @@
 #include <algorithm>
 
 #include <fmuproxy/thrift/client/RemoteFmuSlave.hpp>
-#include <winioctl.h>
+
 #include "thrift_client_helper.hpp"
 
 using namespace fmuproxy::thrift::client;

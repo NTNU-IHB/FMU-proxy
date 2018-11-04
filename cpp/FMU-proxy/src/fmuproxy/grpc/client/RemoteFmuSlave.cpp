@@ -23,7 +23,7 @@
  */
 
 #include <fmuproxy/grpc/client/RemoteFmuSlave.hpp>
-#include <winioctl.h>
+
 #include "grpc_client_helper.hpp"
 
 using namespace std;
