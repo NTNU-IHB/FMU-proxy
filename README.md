@@ -101,8 +101,7 @@ When using JSON-RPC, no schema is required.
 It is no surprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented in C++. 
 
-The implementation uses the C-library [_FMI-Library_](https://jmodelica.org/) for interacting with FMUs. 
-An object oriented wrapper is available making it easier to work with.
+The implementation uses the C++-library [_FMI4cpp](https://github.com/SFI-Mechatronics/FMI4cpp) for interacting with FMUs. 
 
 The implementation supports Thrift and gRPC. Both servers and clients are available. 
 The clients share a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
