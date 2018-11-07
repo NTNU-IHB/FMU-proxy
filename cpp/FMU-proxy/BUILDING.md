@@ -14,7 +14,6 @@ Using vcpkg, installing the required dependencies is as easy as:
 ```
 ./vcpkg install fmi4cpp curl thrift grpc boost-program-options
 ```
-If thrift gives you an error regarding flex or bison on linux, see this [issue](https://github.com/Microsoft/vcpkg/issues/4042)
 
 If you also want to build the tests, add:
 
