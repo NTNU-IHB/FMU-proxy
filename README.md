@@ -44,7 +44,7 @@ The available **client** implementations are given in the table below:
 |:--------:	|:---:	|:---:	|:------:	|:------:		|
 |   gRPC   	|  x  	|  x  	|    x   	|  			|
 |  Thrift/TCP  	|  x  	|  x  	|    x   	|  			|  
-|  Thrift/HTTP  |  x  	|    	|       	|	x		|
+|  Thrift/HTTP  |  x  	|   x 	|       	|	x		|
 | JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
 
@@ -101,7 +101,7 @@ When using JSON-RPC, no schema is required.
 It is no surprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented in C++. 
 
-The implementation uses the C++-library [_FMI4cpp](https://github.com/SFI-Mechatronics/FMI4cpp) for interacting with FMUs. 
+The implementation uses the C++ library [FMI4cpp](https://github.com/SFI-Mechatronics/FMI4cpp) for interacting with FMUs. 
 
 The implementation supports Thrift and gRPC. Both servers and clients are available. 
 The clients share a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
