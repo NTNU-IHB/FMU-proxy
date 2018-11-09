@@ -79,58 +79,57 @@ void FmuServiceHandler::createInstanceFromME(InstanceId &_return, const FmuId &i
 Status::type FmuServiceHandler::setupExperiment(const InstanceId &instanceId, const double start, const double stop,
                                                 const double tolerance) {
     auto &slave = slaves_[instanceId];
-    auto status = slave->setupExperiment(start, stop, tolerance);
+    bool status = slave->setupExperiment(start, stop, tolerance);
     return thriftType(slave->getLastStatus());
 }
 
 Status::type FmuServiceHandler::enterInitializationMode(const InstanceId &instanceId) {
     auto &slave = slaves_[instanceId];
-    auto status = slave->enterInitializationMode();
+    bool status = slave->enterInitializationMode();
     return thriftType(slave->getLastStatus());
 }
 
 Status::type FmuServiceHandler::exitInitializationMode(const InstanceId &instanceId) {
     auto &slave = slaves_[instanceId];
-    auto status = slave->exitInitializationMode();
+    bool status = slave->exitInitializationMode();
     return thriftType(slave->getLastStatus());
 }
 
 
 void FmuServiceHandler::step(StepResult &_return, const InstanceId &slave_id, const double step_size) {
     auto &slave = slaves_[slave_id];
-    auto status = slave->doStep(step_size);
+    bool status = slave->doStep(step_size);
     _return.simulationTime = slave->getSimulationTime();
     _return.status = thriftType(slave->getLastStatus());
 }
 
 Status::type FmuServiceHandler::terminate(const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    auto staus = slave->terminate();
-    Status::type status = thriftType(slave->getLastStatus());
+    bool status = slave->terminate();
     slaves_.erase(slave_id);
-    return status;
+    return thriftType(slave->getLastStatus());;
 }
 
 Status::type FmuServiceHandler::reset(const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    auto status = slave->reset();
+    bool status = slave->reset();
     return thriftType(slave->getLastStatus());
 }
 
 void FmuServiceHandler::readInteger(IntegerRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    auto _value = vector<fmi2Integer>(vr.size());
-    auto status = slave->readInteger(_vr, _value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    vector<fmi2Integer> _value(vr.size());
+    bool status = slave->readInteger(_vr, _value);
     _return.status = thriftType(slave->getLastStatus());
     _return.value = _value;
 }
 
 void FmuServiceHandler::readReal(RealRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    auto _value = vector<fmi2Real>(vr.size());
-    auto status = slave->readReal(_vr, _value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    vector<fmi2Real> _value(vr.size());
+    bool status = slave->readReal(_vr, _value);
     _return.status = thriftType(slave->getLastStatus());
     _return.value = _value;
 }
@@ -138,18 +137,18 @@ void FmuServiceHandler::readReal(RealRead &_return, const InstanceId &slave_id, 
 
 void FmuServiceHandler::readString(StringRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    auto _value = vector<fmi2String>(vr.size());
-    auto status = slave->readString(_vr, _value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    vector<fmi2String> _value(vr.size());
+    bool status = slave->readString(_vr, _value);
     _return.status = thriftType(slave->getLastStatus());
     _return.value = vector<string>(_value.begin(), _value.end());
 }
 
 void FmuServiceHandler::readBoolean(BooleanRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    auto _value = vector<fmi2Boolean>(vr.size());
-    auto status = slave->readBoolean(_vr, _value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    vector<fmi2Boolean> _value(vr.size());
+    bool status = slave->readBoolean(_vr, _value);
     _return.status = thriftType(slave->getLastStatus());
     _return.value = vector<bool>(_value.begin(), _value.end());
 }
@@ -157,8 +156,8 @@ void FmuServiceHandler::readBoolean(BooleanRead &_return, const InstanceId &slav
 Status::type
 FmuServiceHandler::writeInteger(const InstanceId &slave_id, const ValueReferences &vr, const IntArray &value) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    const auto status = slave->writeInteger(_vr, value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    bool status = slave->writeInteger(_vr, value);
     return thriftType(slave->getLastStatus());
 }
 
@@ -166,8 +165,8 @@ FmuServiceHandler::writeInteger(const InstanceId &slave_id, const ValueReference
 Status::type
 FmuServiceHandler::writeReal(const InstanceId &slave_id, const ValueReferences &vr, const RealArray &value) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    const auto status = slave->writeReal(_vr, value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    bool status = slave->writeReal(_vr, value);
     return thriftType(slave->getLastStatus());
 }
 
@@ -175,10 +174,10 @@ FmuServiceHandler::writeReal(const InstanceId &slave_id, const ValueReferences &
 Status::type
 FmuServiceHandler::writeString(const InstanceId &slave_id, const ValueReferences &vr, const StringArray &values) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    vector<fmi2String > _values;
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    vector<fmi2String > _values(_vr.size());
     std::transform(values.begin(), values.end(), std::back_inserter(_values), strToChar);
-    const auto status = slave->writeString(_vr, _values);
+    bool status = slave->writeString(_vr, _values);
     return thriftType(slave->getLastStatus());
 }
 
@@ -186,9 +185,9 @@ FmuServiceHandler::writeString(const InstanceId &slave_id, const ValueReferences
 Status::type
 FmuServiceHandler::writeBoolean(const InstanceId &slave_id, const ValueReferences &vr, const BooleanArray &value) {
     auto &slave = slaves_[slave_id];
-    const auto _vr = vector<fmi2ValueReference>(vr.begin(), vr.end());
-    const auto _value = vector<int>(value.begin(), value.end());
-    const auto status = slave->writeBoolean(_vr, _value);
+    const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
+    const vector<int> _value(value.begin(), value.end());
+    bool status = slave->writeBoolean(_vr, _value);
     return thriftType(slave->getLastStatus());
 }
 
@@ -202,7 +201,7 @@ void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId
 
     //TODO
 
-//    const auto status = slave->getFMUstate(_return.state);
+//    bool status = slave->getFMUstate(_return.state);
 //    _return.status = thriftType(status);
     _return.__set_status(Status::type::ERROR_STATUS);
 }
@@ -247,7 +246,7 @@ void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, cons
     //TODO
 
 //    string serializedState;
-//    const auto status = thriftType(slave->serializeFMUstate(state, serializedState));
+//    bool status = thriftType(slave->serializeFMUstate(state, serializedState));
 //
 //    _return.__set_status(status);
 //    _return.__set_state(serializedState.data());
@@ -266,7 +265,7 @@ void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, 
     //TODO
 
 //    int64_t state;
-//    const auto status = thriftType(slave->deSerializeFMUstate(serializedState, state));
+//    bool status = thriftType(slave->deSerializeFMUstate(serializedState, state));
 //
 //    _return.__set_state(state);
 //    _return.__set_status(status);
