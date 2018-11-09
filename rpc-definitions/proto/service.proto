@@ -228,7 +228,7 @@ message ReadRequest {
 message WriteIntegerRequest {
     string instance_id = 1;
     repeated uint64 value_references = 2;
-    repeated int32 values =3;
+    repeated int32 values = 3;
 }
 
 message WriteRealRequest {
