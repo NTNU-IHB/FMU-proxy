@@ -167,13 +167,27 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
 
 ::Status FmuServiceImpl::ReadString(ServerContext *context, const ReadRequest *request, StringRead *response) {
     auto &slave = slaves_[request->instance_id()];
-    //TODO
+    const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
+    vector<fmi2String> read(vr.size());
+    auto status = slave->readString(vr, read);
+    response->set_status(grpcType(slave->getLastStatus()));
+    auto values = response->mutable_values();
+    for (const auto value : read) {
+        values->Add(value);
+    }
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::ReadBoolean(ServerContext *context, const ReadRequest *request, BooleanRead *response) {
     auto &slave = slaves_[request->instance_id()];
-    //TODO
+    const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
+    vector<fmi2Boolean> read(vr.size());
+    auto status = slave->readBoolean(vr, read);
+    response->set_status(grpcType(slave->getLastStatus()));
+    auto values = response->mutable_values();
+    for (const auto value : read) {
+        values->Add(value);
+    }
     return ::Status::OK;
 }
 
