@@ -3790,8 +3790,8 @@ DirectionalDerivativeResult::~DirectionalDerivativeResult() throw() {
 }
 
 
-void DirectionalDerivativeResult::__set_dvUnkownRef(const DirectionalDerivative& val) {
-  this->dvUnkownRef = val;
+void DirectionalDerivativeResult::__set_dvUnknownRef(const DirectionalDerivative& val) {
+  this->dvUnknownRef = val;
 }
 
 void DirectionalDerivativeResult::__set_status(const Status::type val) {
@@ -3828,19 +3828,19 @@ uint32_t DirectionalDerivativeResult::read(::apache::thrift::protocol::TProtocol
       case 1:
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
-            this->dvUnkownRef.clear();
+            this->dvUnknownRef.clear();
             uint32_t _size115;
             ::apache::thrift::protocol::TType _etype118;
             xfer += iprot->readListBegin(_etype118, _size115);
-            this->dvUnkownRef.resize(_size115);
+            this->dvUnknownRef.resize(_size115);
             uint32_t _i119;
             for (_i119 = 0; _i119 < _size115; ++_i119)
             {
-              xfer += iprot->readDouble(this->dvUnkownRef[_i119]);
+              xfer += iprot->readDouble(this->dvUnknownRef[_i119]);
             }
             xfer += iprot->readListEnd();
           }
-          this->__isset.dvUnkownRef = true;
+          this->__isset.dvUnknownRef = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -3872,11 +3872,11 @@ uint32_t DirectionalDerivativeResult::write(::apache::thrift::protocol::TProtoco
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("DirectionalDerivativeResult");
 
-  xfer += oprot->writeFieldBegin("dvUnkownRef", ::apache::thrift::protocol::T_LIST, 1);
+  xfer += oprot->writeFieldBegin("dvUnknownRef", ::apache::thrift::protocol::T_LIST, 1);
   {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->dvUnkownRef.size()));
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->dvUnknownRef.size()));
     std::vector<double> ::const_iterator _iter121;
-    for (_iter121 = this->dvUnkownRef.begin(); _iter121 != this->dvUnkownRef.end(); ++_iter121)
+    for (_iter121 = this->dvUnknownRef.begin(); _iter121 != this->dvUnknownRef.end(); ++_iter121)
     {
       xfer += oprot->writeDouble((*_iter121));
     }
@@ -3895,18 +3895,18 @@ uint32_t DirectionalDerivativeResult::write(::apache::thrift::protocol::TProtoco
 
 void swap(DirectionalDerivativeResult &a, DirectionalDerivativeResult &b) {
   using ::std::swap;
-  swap(a.dvUnkownRef, b.dvUnkownRef);
+  swap(a.dvUnknownRef, b.dvUnknownRef);
   swap(a.status, b.status);
   swap(a.__isset, b.__isset);
 }
 
 DirectionalDerivativeResult::DirectionalDerivativeResult(const DirectionalDerivativeResult& other122) {
-  dvUnkownRef = other122.dvUnkownRef;
+  dvUnknownRef = other122.dvUnknownRef;
   status = other122.status;
   __isset = other122.__isset;
 }
 DirectionalDerivativeResult& DirectionalDerivativeResult::operator=(const DirectionalDerivativeResult& other123) {
-  dvUnkownRef = other123.dvUnkownRef;
+  dvUnknownRef = other123.dvUnknownRef;
   status = other123.status;
   __isset = other123.__isset;
   return *this;
@@ -3914,7 +3914,7 @@ DirectionalDerivativeResult& DirectionalDerivativeResult::operator=(const Direct
 void DirectionalDerivativeResult::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "DirectionalDerivativeResult(";
-  out << "dvUnkownRef=" << to_string(dvUnkownRef);
+  out << "dvUnknownRef=" << to_string(dvUnknownRef);
   out << ", " << "status=" << to_string(status);
   out << ")";
 }
