@@ -229,7 +229,7 @@ struct DeSerializeFmuStateResult {
 }
 
 struct DirectionalDerivativeResult {
-    1: DirectionalDerivative dvUnkownRef
+    1: DirectionalDerivative dvUnknownRef
     2: Status status
 }
 
