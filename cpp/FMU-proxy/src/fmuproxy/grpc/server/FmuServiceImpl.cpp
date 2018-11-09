@@ -341,7 +341,15 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetDirectionalDerivative'!");
     }
 
-    //TODO
+    vector<fmi2ValueReference> vKnownRef = vector<fmi2ValueReference>(request->v_known_ref().begin(), request->v_known_ref().end());
+    vector<fmi2ValueReference> vUnknownRef = vector<fmi2ValueReference>(request->v_unknown_ref().begin(), request->v_unknown_ref().end());
+    vector<fmi2Real> dvKnownRef = vector<fmi2Real>(request->dv_known_ref().begin(), request->dv_known_ref().end());
+    vector<fmi2Real> dvUknownRef;
+    slave->getDirectionalDerivative(vKnownRef, vUnknownRef, dvKnownRef, dvUknownRef);
 
-    return ::Status::CANCELLED;
+    for (const auto &ref : dvUknownRef) {
+        response->add_dv_unknown_ref(ref);
+    }
+
+    return ::Status::OK;
 }
