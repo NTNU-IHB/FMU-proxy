@@ -39,7 +39,7 @@ using ::grpc::ServerContext;
 namespace {
 
     fmi2String strToChar(const std::string &s) {
-        char *pc = new char[s.size()+1];
+        char *pc = new char[s.size() + 1];
         std::strcpy(pc, s.c_str());
         return pc;
     }
@@ -63,13 +63,15 @@ FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::F
     return ::Status::OK;
 }
 
-::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const GetModelDescriptionRequest *request, ModelDescription *response) {
+::Status FmuServiceImpl::GetModelDescription(ServerContext *context, const GetModelDescriptionRequest *request,
+                                             ModelDescription *response) {
     const auto &fmu = fmus_[request->fmu_id()];
     grpcType(*response, *fmu->getModelDescription());
     return ::Status::OK;
 }
 
-::Status FmuServiceImpl::CreateInstanceFromCS(ServerContext *context, const CreateInstanceFromCSRequest *request, InstanceId *response) {
+::Status FmuServiceImpl::CreateInstanceFromCS(ServerContext *context, const CreateInstanceFromCSRequest *request,
+                                              InstanceId *response) {
     auto &fmu = fmus_[request->fmu_id()];
 
     const string instance_id = generate_simple_id(10);
@@ -79,7 +81,8 @@ FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::F
     return ::Status::OK;
 }
 
-::Status FmuServiceImpl::CreateInstanceFromME(ServerContext *context, const CreateInstanceFromMERequest *request, InstanceId *response) {
+::Status FmuServiceImpl::CreateInstanceFromME(ServerContext *context, const CreateInstanceFromMERequest *request,
+                                              InstanceId *response) {
     //TODO implement from Model Exchange
     return ::Status(::grpc::StatusCode::UNIMPLEMENTED, "Model Exchange wrapper not available!");
 }
@@ -88,34 +91,32 @@ FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::F
 ::Status
 FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetupExperimentRequest *request,
                                 ::fmuproxy::grpc::StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     auto status = slave->setupExperiment(request->start(), request->stop(), request->tolerance());
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::EnterInitializationMode(::grpc::ServerContext *context,
-                                               const ::fmuproxy::grpc::EnterInitializationModeRequest *request,
-                                               ::fmuproxy::grpc::StatusResponse *response) {
-
-
-    auto& slave = slaves_[request->instance_id()];
+                                                 const ::fmuproxy::grpc::EnterInitializationModeRequest *request,
+                                                 ::fmuproxy::grpc::StatusResponse *response) {
+    auto &slave = slaves_[request->instance_id()];
     auto status = slave->enterInitializationMode();
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::ExitInitializationMode(::grpc::ServerContext *context,
-                                              const ::fmuproxy::grpc::ExitInitializationModeRequest *request,
-                                              ::fmuproxy::grpc::StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+                                                const ::fmuproxy::grpc::ExitInitializationModeRequest *request,
+                                                ::fmuproxy::grpc::StatusResponse *response) {
+    auto &slave = slaves_[request->instance_id()];
     auto status = slave->exitInitializationMode();
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::Step(ServerContext *context, const StepRequest *request, StepResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     auto status = slave->doStep(request->step_size());
     response->set_status(grpcType(slave->getLastStatus()));
     response->set_simulation_time(slave->getSimulationTime());
@@ -124,7 +125,7 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
 
 ::Status FmuServiceImpl::Terminate(ServerContext *context, const TerminateRequest *request, StatusResponse *response) {
     const auto instance_id = request->instance_id();
-    auto& slave = slaves_[instance_id];
+    auto &slave = slaves_[instance_id];
     auto status = slave->terminate();
     response->set_status(grpcType(slave->getLastStatus()));
     slaves_.erase(instance_id);
@@ -132,16 +133,16 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
 }
 
 ::Status FmuServiceImpl::Reset(ServerContext *context, const ResetRequest *request, StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     auto status = slave->reset();
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::ReadInteger(ServerContext *context, const ReadRequest *request, IntegerRead *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
-    auto read = vector<fmi2Integer >(vr.size());
+    auto read = vector<fmi2Integer>(vr.size());
     auto status = slave->readInteger(vr, read);
     response->set_status(grpcType(slave->getLastStatus()));
     auto values = response->mutable_values();
@@ -152,9 +153,9 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
 }
 
 ::Status FmuServiceImpl::ReadReal(ServerContext *context, const ReadRequest *request, RealRead *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
-    auto read = vector<fmi2Real >(vr.size());
+    auto read = vector<fmi2Real>(vr.size());
     auto status = slave->readReal(vr, read);
     response->set_status(grpcType(slave->getLastStatus()));
     auto values = response->mutable_values();
@@ -165,22 +166,22 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
 }
 
 ::Status FmuServiceImpl::ReadString(ServerContext *context, const ReadRequest *request, StringRead *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     //TODO
     return ::Status::OK;
 }
 
 ::Status FmuServiceImpl::ReadBoolean(ServerContext *context, const ReadRequest *request, BooleanRead *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     //TODO
     return ::Status::OK;
 }
 
 ::Status
 FmuServiceImpl::WriteInteger(ServerContext *context, const WriteIntegerRequest *request, StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
-    const auto values = vector<fmi2Integer >(request->values().begin(), request->values().end());
+    const auto values = vector<fmi2Integer>(request->values().begin(), request->values().end());
     auto status = slave->writeInteger(vr, values);
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
@@ -188,9 +189,9 @@ FmuServiceImpl::WriteInteger(ServerContext *context, const WriteIntegerRequest *
 
 ::Status
 FmuServiceImpl::WriteReal(ServerContext *context, const WriteRealRequest *request, StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
-    const auto values = vector<fmi2Real >(request->values().begin(), request->values().end());
+    const auto values = vector<fmi2Real>(request->values().begin(), request->values().end());
     auto status = slave->writeReal(vr, values);
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
@@ -198,9 +199,9 @@ FmuServiceImpl::WriteReal(ServerContext *context, const WriteRealRequest *reques
 
 ::Status
 FmuServiceImpl::WriteString(ServerContext *context, const WriteStringRequest *request, StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
-    vector<fmi2String > values;
+    vector<fmi2String> values;
     std::transform(request->values().begin(), request->values().end(), std::back_inserter(values), strToChar);
     auto status = slave->writeString(vr, values);
     response->set_status(grpcType(slave->getLastStatus()));
@@ -209,9 +210,9 @@ FmuServiceImpl::WriteString(ServerContext *context, const WriteStringRequest *re
 
 ::Status
 FmuServiceImpl::WriteBoolean(ServerContext *context, const WriteBooleanRequest *request, StatusResponse *response) {
-    auto& slave = slaves_[request->instance_id()];
+    auto &slave = slaves_[request->instance_id()];
     const auto vr = vector<fmi2ValueReference>(request->value_references().begin(), request->value_references().end());
-    const auto values = vector<fmi2Boolean >(request->values().begin(), request->values().end());
+    const auto values = vector<fmi2Boolean>(request->values().begin(), request->values().end());
     auto status = slave->writeBoolean(vr, values);
     response->set_status(grpcType(slave->getLastStatus()));
     return ::Status::OK;
@@ -272,7 +273,7 @@ FmuServiceImpl::FreeFMUstate(ServerContext *context, const FreeFMUstateRequest *
 
 ::Status
 FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstateRequest *request,
-        SerializeFMUstateResponse *response) {
+                                  SerializeFMUstateResponse *response) {
 
     auto &slave = slaves_[request->instance_id()];
 
@@ -294,7 +295,7 @@ FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstat
 
 ::Status
 FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMUstateRequest *request,
-        DeSerializeFMUstateResponse *response) {
+                                    DeSerializeFMUstateResponse *response) {
 
     auto &slave = slaves_[request->instance_id()];
 
@@ -314,8 +315,8 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
 }
 
 ::Status FmuServiceImpl::GetCoSimulationAttributes(ServerContext *context,
-                                                 const GetCoSimulationAttributesRequest *request,
-                                                 CoSimulationAttributes *response) {
+                                                   const GetCoSimulationAttributesRequest *request,
+                                                   CoSimulationAttributes *response) {
     auto &slave = slaves_[request->instance_id()];
     auto md = slave->getModelDescription();
 
@@ -325,15 +326,14 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
     response->set_can_handle_variable_communication_step_size(md->canHandleVariableCommunicationStepSize());
     response->set_max_output_derivative_order(md->maxOutputDerivativeOrder());
     response->set_provides_directional_derivative(md->providesDirectionalDerivative());
-    
+
     return ::Status::OK;
 }
 
 
-
 ::Status FmuServiceImpl::GetDirectionalDerivative(ServerContext *context,
-                                                const ::fmuproxy::grpc::GetDirectionalDerivativeRequest *request,
-                                                GetDirectionalDerivativeResponse *response) {
+                                                  const ::fmuproxy::grpc::GetDirectionalDerivativeRequest *request,
+                                                  GetDirectionalDerivativeResponse *response) {
 
     auto &slave = slaves_[request->instance_id()];
 
@@ -341,8 +341,10 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetDirectionalDerivative'!");
     }
 
-    vector<fmi2ValueReference> vKnownRef = vector<fmi2ValueReference>(request->v_known_ref().begin(), request->v_known_ref().end());
-    vector<fmi2ValueReference> vUnknownRef = vector<fmi2ValueReference>(request->v_unknown_ref().begin(), request->v_unknown_ref().end());
+    vector<fmi2ValueReference> vKnownRef = vector<fmi2ValueReference>(request->v_known_ref().begin(),
+                                                                      request->v_known_ref().end());
+    vector<fmi2ValueReference> vUnknownRef = vector<fmi2ValueReference>(request->v_unknown_ref().begin(),
+                                                                        request->v_unknown_ref().end());
     vector<fmi2Real> dvKnownRef = vector<fmi2Real>(request->dv_known_ref().begin(), request->dv_known_ref().end());
     vector<fmi2Real> dvUknownRef;
     slave->getDirectionalDerivative(vKnownRef, vUnknownRef, dvKnownRef, dvUknownRef);
