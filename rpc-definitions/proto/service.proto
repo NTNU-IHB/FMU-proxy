@@ -333,7 +333,7 @@ message GetDirectionalDerivativeRequest {
 }
 
 message GetDirectionalDerivativeResponse {
-    repeated double dv_known_ref = 1;
+    repeated double dv_unknown_ref = 1;
     Status status = 2;
 }
 
