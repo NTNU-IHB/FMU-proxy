@@ -2383,11 +2383,11 @@ DeSerializeFmuStateResult.prototype.write = function(output) {
 };
 
 DirectionalDerivativeResult = function(args) {
-  this.dvUnkownRef = null;
+  this.dvUnknownRef = null;
   this.status = null;
   if (args) {
-    if (args.dvUnkownRef !== undefined && args.dvUnkownRef !== null) {
-      this.dvUnkownRef = Thrift.copyList(args.dvUnkownRef, [null]);
+    if (args.dvUnknownRef !== undefined && args.dvUnknownRef !== null) {
+      this.dvUnknownRef = Thrift.copyList(args.dvUnknownRef, [null]);
     }
     if (args.status !== undefined && args.status !== null) {
       this.status = args.status;
@@ -2412,7 +2412,7 @@ DirectionalDerivativeResult.prototype.read = function(input) {
       if (ftype == Thrift.Type.LIST) {
         var _size72 = 0;
         var _rtmp376;
-        this.dvUnkownRef = [];
+        this.dvUnknownRef = [];
         var _etype75 = 0;
         _rtmp376 = input.readListBegin();
         _etype75 = _rtmp376.etype;
@@ -2421,7 +2421,7 @@ DirectionalDerivativeResult.prototype.read = function(input) {
         {
           var elem78 = null;
           elem78 = input.readDouble().value;
-          this.dvUnkownRef.push(elem78);
+          this.dvUnknownRef.push(elem78);
         }
         input.readListEnd();
       } else {
@@ -2446,14 +2446,14 @@ DirectionalDerivativeResult.prototype.read = function(input) {
 
 DirectionalDerivativeResult.prototype.write = function(output) {
   output.writeStructBegin('DirectionalDerivativeResult');
-  if (this.dvUnkownRef !== null && this.dvUnkownRef !== undefined) {
-    output.writeFieldBegin('dvUnkownRef', Thrift.Type.LIST, 1);
-    output.writeListBegin(Thrift.Type.DOUBLE, this.dvUnkownRef.length);
-    for (var iter79 in this.dvUnkownRef)
+  if (this.dvUnknownRef !== null && this.dvUnknownRef !== undefined) {
+    output.writeFieldBegin('dvUnknownRef', Thrift.Type.LIST, 1);
+    output.writeListBegin(Thrift.Type.DOUBLE, this.dvUnknownRef.length);
+    for (var iter79 in this.dvUnknownRef)
     {
-      if (this.dvUnkownRef.hasOwnProperty(iter79))
+      if (this.dvUnknownRef.hasOwnProperty(iter79))
       {
-        iter79 = this.dvUnkownRef[iter79];
+        iter79 = this.dvUnknownRef[iter79];
         output.writeDouble(iter79);
       }
     }
