@@ -290,6 +290,6 @@ void FmuServiceHandler::getDirectionalDerivative(DirectionalDerivativeResult &_r
     bool status = slave->getDirectionalDerivative(_vUnknownRef, _vKnownRef, dvKnownRef, dvUnknownRef);
 
     _return.status = thriftType(slave->getLastStatus());
-    _return.dvUnkownRef = dvUnknownRef;
+    _return.dvUnknownRef = dvUnknownRef;
 
 }
