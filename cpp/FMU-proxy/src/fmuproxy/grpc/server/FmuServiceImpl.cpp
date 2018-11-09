@@ -361,11 +361,12 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
                                                                         request->v_unknown_ref().end());
     vector<fmi2Real> dvKnownRef = vector<fmi2Real>(request->dv_known_ref().begin(), request->dv_known_ref().end());
     vector<fmi2Real> dvUnknownRef;
-    slave->getDirectionalDerivative(vKnownRef, vUnknownRef, dvKnownRef, dvUnknownRef);
+    auto status = slave->getDirectionalDerivative(vKnownRef, vUnknownRef, dvKnownRef, dvUnknownRef);
 
     for (const auto &ref : dvUnknownRef) {
         response->add_dv_unknown_ref(ref);
     }
+    response->set_status(grpcType(slave->getLastStatus()));
 
     return ::Status::OK;
 }
