@@ -1572,8 +1572,8 @@ void swap(DeSerializeFmuStateResult &a, DeSerializeFmuStateResult &b);
 std::ostream& operator<<(std::ostream& out, const DeSerializeFmuStateResult& obj);
 
 typedef struct _DirectionalDerivativeResult__isset {
-  _DirectionalDerivativeResult__isset() : dvUnkownRef(false), status(false) {}
-  bool dvUnkownRef :1;
+  _DirectionalDerivativeResult__isset() : dvUnknownRef(false), status(false) {}
+  bool dvUnknownRef :1;
   bool status :1;
 } _DirectionalDerivativeResult__isset;
 
@@ -1586,18 +1586,18 @@ class DirectionalDerivativeResult : public virtual ::apache::thrift::TBase {
   }
 
   virtual ~DirectionalDerivativeResult() throw();
-  DirectionalDerivative dvUnkownRef;
+  DirectionalDerivative dvUnknownRef;
   Status::type status;
 
   _DirectionalDerivativeResult__isset __isset;
 
-  void __set_dvUnkownRef(const DirectionalDerivative& val);
+  void __set_dvUnknownRef(const DirectionalDerivative& val);
 
   void __set_status(const Status::type val);
 
   bool operator == (const DirectionalDerivativeResult & rhs) const
   {
-    if (!(dvUnkownRef == rhs.dvUnkownRef))
+    if (!(dvUnknownRef == rhs.dvUnknownRef))
       return false;
     if (!(status == rhs.status))
       return false;
