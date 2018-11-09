@@ -6539,17 +6539,17 @@ class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @
 
   // accessors -------------------------------------------------------
 
-  // repeated double dv_known_ref = 1;
-  int dv_known_ref_size() const;
-  void clear_dv_known_ref();
-  static const int kDvKnownRefFieldNumber = 1;
-  double dv_known_ref(int index) const;
-  void set_dv_known_ref(int index, double value);
-  void add_dv_known_ref(double value);
+  // repeated double dv_unknown_ref = 1;
+  int dv_unknown_ref_size() const;
+  void clear_dv_unknown_ref();
+  static const int kDvUnknownRefFieldNumber = 1;
+  double dv_unknown_ref(int index) const;
+  void set_dv_unknown_ref(int index, double value);
+  void add_dv_unknown_ref(double value);
   const ::google::protobuf::RepeatedField< double >&
-      dv_known_ref() const;
+      dv_unknown_ref() const;
   ::google::protobuf::RepeatedField< double >*
-      mutable_dv_known_ref();
+      mutable_dv_unknown_ref();
 
   // .fmuproxy.grpc.Status status = 2;
   void clear_status();
@@ -6561,8 +6561,8 @@ class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedField< double > dv_known_ref_;
-  mutable int _dv_known_ref_cached_byte_size_;
+  ::google::protobuf::RepeatedField< double > dv_unknown_ref_;
+  mutable int _dv_unknown_ref_cached_byte_size_;
   int status_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
@@ -11192,34 +11192,34 @@ GetDirectionalDerivativeRequest::mutable_dv_known_ref() {
 
 // GetDirectionalDerivativeResponse
 
-// repeated double dv_known_ref = 1;
-inline int GetDirectionalDerivativeResponse::dv_known_ref_size() const {
-  return dv_known_ref_.size();
+// repeated double dv_unknown_ref = 1;
+inline int GetDirectionalDerivativeResponse::dv_unknown_ref_size() const {
+  return dv_unknown_ref_.size();
 }
-inline void GetDirectionalDerivativeResponse::clear_dv_known_ref() {
-  dv_known_ref_.Clear();
+inline void GetDirectionalDerivativeResponse::clear_dv_unknown_ref() {
+  dv_unknown_ref_.Clear();
 }
-inline double GetDirectionalDerivativeResponse::dv_known_ref(int index) const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
-  return dv_known_ref_.Get(index);
+inline double GetDirectionalDerivativeResponse::dv_unknown_ref(int index) const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_unknown_ref)
+  return dv_unknown_ref_.Get(index);
 }
-inline void GetDirectionalDerivativeResponse::set_dv_known_ref(int index, double value) {
-  dv_known_ref_.Set(index, value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+inline void GetDirectionalDerivativeResponse::set_dv_unknown_ref(int index, double value) {
+  dv_unknown_ref_.Set(index, value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_unknown_ref)
 }
-inline void GetDirectionalDerivativeResponse::add_dv_known_ref(double value) {
-  dv_known_ref_.Add(value);
-  // @@protoc_insertion_point(field_add:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
+inline void GetDirectionalDerivativeResponse::add_dv_unknown_ref(double value) {
+  dv_unknown_ref_.Add(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_unknown_ref)
 }
 inline const ::google::protobuf::RepeatedField< double >&
-GetDirectionalDerivativeResponse::dv_known_ref() const {
-  // @@protoc_insertion_point(field_list:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
-  return dv_known_ref_;
+GetDirectionalDerivativeResponse::dv_unknown_ref() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_unknown_ref)
+  return dv_unknown_ref_;
 }
 inline ::google::protobuf::RepeatedField< double >*
-GetDirectionalDerivativeResponse::mutable_dv_known_ref() {
-  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_known_ref)
-  return &dv_known_ref_;
+GetDirectionalDerivativeResponse::mutable_dv_unknown_ref() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.GetDirectionalDerivativeResponse.dv_unknown_ref)
+  return &dv_unknown_ref_;
 }
 
 // .fmuproxy.grpc.Status status = 2;
