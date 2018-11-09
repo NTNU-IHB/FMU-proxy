@@ -342,15 +342,18 @@ class GrpcFmuServiceImpl(
 
                 val vUnknownRef = request.vUnknownRefList.toLongArray()
                 val vKnownRef = request.vKnownRefList.toLongArray()
-                val dvUnknownRef = request.dvKnownRefList.toDoubleArray()
-                val dvKnownRef = getDirectionalDerivative(vUnknownRef, vKnownRef, dvUnknownRef)
+                val dvKnownRef = request.dvKnownRefList.toDoubleArray()
+                val dvUnknownRef = getDirectionalDerivative(vUnknownRef, vKnownRef, dvKnownRef)
 
-                Service.GetDirectionalDerivativeResponse.newBuilder()
-                        .setStatus(lastStatus.protoType())
-                        .addAllDvKnownRef(dvKnownRef.toList()).also {
-                            responseObserver.onNext(it.build())
-                            responseObserver.onCompleted()
-                        }
+                Service.GetDirectionalDerivativeResponse.newBuilder().apply {
+                    status = lastStatus.protoType()
+                    dvUnknownRef.forEach {
+                        addDvUnknownRef(it)
+                    }
+                }.also {
+                    responseObserver.onNext(it.build())
+                    responseObserver.onCompleted()
+                }
 
             }
         }
