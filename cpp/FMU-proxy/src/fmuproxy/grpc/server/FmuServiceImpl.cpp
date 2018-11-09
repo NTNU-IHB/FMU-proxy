@@ -360,10 +360,10 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
     vector<fmi2ValueReference> vUnknownRef = vector<fmi2ValueReference>(request->v_unknown_ref().begin(),
                                                                         request->v_unknown_ref().end());
     vector<fmi2Real> dvKnownRef = vector<fmi2Real>(request->dv_known_ref().begin(), request->dv_known_ref().end());
-    vector<fmi2Real> dvUknownRef;
-    slave->getDirectionalDerivative(vKnownRef, vUnknownRef, dvKnownRef, dvUknownRef);
+    vector<fmi2Real> dvUnknownRef;
+    slave->getDirectionalDerivative(vKnownRef, vUnknownRef, dvKnownRef, dvUnknownRef);
 
-    for (const auto &ref : dvUknownRef) {
+    for (const auto &ref : dvUnknownRef) {
         response->add_dv_unknown_ref(ref);
     }
 
