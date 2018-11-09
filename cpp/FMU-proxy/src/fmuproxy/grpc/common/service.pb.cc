@@ -1427,7 +1427,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::GetDirectionalDerivativeResponse, dv_known_ref_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::GetDirectionalDerivativeResponse, dv_unknown_ref_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::GetDirectionalDerivativeResponse, status_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::fmuproxy::grpc::Void, _internal_metadata_),
@@ -1667,86 +1667,86 @@ void AddDescriptorsImpl() {
       "\022\016\n\006fmu_id\030\001 \001(\t\"x\n\037GetDirectionalDeriva"
       "tiveRequest\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_un"
       "known_ref\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024\n\014"
-      "dv_known_ref\030\004 \003(\001\"_\n GetDirectionalDeri"
-      "vativeResponse\022\024\n\014dv_known_ref\030\001 \003(\001\022%\n\006"
-      "status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"\006\n\004V"
-      "oid*\272\001\n\tCausality\022\023\n\017INPUT_CAUSALITY\020\000\022\024"
-      "\n\020OUTPUT_CAUSALITY\020\001\022\027\n\023PARAMETER_CAUSAL"
-      "ITY\020\002\022\"\n\036CALCULATED_PARAMETER_CAUSALITY\020"
-      "\003\022\023\n\017LOCAL_CAUSALITY\020\004\022\031\n\025INDEPENDENT_CA"
-      "USALITY\020\005\022\025\n\021UNKNOWN_CAUSALITY\020\006*\246\001\n\013Var"
-      "iability\022\030\n\024CONSTANT_VARIABILITY\020\000\022\025\n\021FI"
-      "XED_VARIABILITY\020\001\022\032\n\026CONTINUOUS_VARIABIL"
-      "ITY\020\002\022\030\n\024DISCRETE_VARIABILITY\020\003\022\027\n\023TUNAB"
-      "LE_VARIABILITY\020\004\022\027\n\023UNKNOWN_VARIABILITY\020"
-      "\005*]\n\007Initial\022\021\n\rEXACT_INITIAL\020\000\022\022\n\016APPRO"
-      "X_INITIAL\020\001\022\026\n\022CALCULATED_INITIAL\020\002\022\023\n\017U"
-      "NKNOWN_INITIAL\020\003*w\n\006Status\022\r\n\tOK_STATUS\020"
-      "\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISCARD_STATUS\020"
-      "\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n"
-      "\016PENDING_STATUS\020\0052\201\022\n\nFmuService\022a\n\023GetM"
-      "odelDescription\022).fmuproxy.grpc.GetModel"
-      "DescriptionRequest\032\037.fmuproxy.grpc.Model"
-      "Description\022s\n\031GetCoSimulationAttributes"
-      "\022/.fmuproxy.grpc.GetCoSimulationAttribut"
-      "esRequest\032%.fmuproxy.grpc.CoSimulationAt"
-      "tributes\022]\n\027CanCreateInstanceFromCS\022-.fm"
-      "uproxy.grpc.CanCreateInstanceFromCSReque"
-      "st\032\023.fmuproxy.grpc.Bool\022]\n\027CanCreateInst"
-      "anceFromME\022-.fmuproxy.grpc.CanCreateInst"
-      "anceFromMERequest\032\023.fmuproxy.grpc.Bool\022]"
-      "\n\024CreateInstanceFromCS\022*.fmuproxy.grpc.C"
-      "reateInstanceFromCSRequest\032\031.fmuproxy.gr"
-      "pc.InstanceId\022]\n\024CreateInstanceFromME\022*."
-      "fmuproxy.grpc.CreateInstanceFromMEReques"
-      "t\032\031.fmuproxy.grpc.InstanceId\022W\n\017SetupExp"
-      "eriment\022%.fmuproxy.grpc.SetupExperimentR"
-      "equest\032\035.fmuproxy.grpc.StatusResponse\022g\n"
-      "\027EnterInitializationMode\022-.fmuproxy.grpc"
-      ".EnterInitializationModeRequest\032\035.fmupro"
-      "xy.grpc.StatusResponse\022e\n\026ExitInitializa"
-      "tionMode\022,.fmuproxy.grpc.ExitInitializat"
-      "ionModeRequest\032\035.fmuproxy.grpc.StatusRes"
-      "ponse\022\?\n\004Step\022\032.fmuproxy.grpc.StepReques"
-      "t\032\033.fmuproxy.grpc.StepResponse\022C\n\005Reset\022"
-      "\033.fmuproxy.grpc.ResetRequest\032\035.fmuproxy."
-      "grpc.StatusResponse\022K\n\tTerminate\022\037.fmupr"
-      "oxy.grpc.TerminateRequest\032\035.fmuproxy.grp"
-      "c.StatusResponse\022E\n\013ReadInteger\022\032.fmupro"
-      "xy.grpc.ReadRequest\032\032.fmuproxy.grpc.Inte"
-      "gerRead\022\?\n\010ReadReal\022\032.fmuproxy.grpc.Read"
-      "Request\032\027.fmuproxy.grpc.RealRead\022C\n\nRead"
-      "String\022\032.fmuproxy.grpc.ReadRequest\032\031.fmu"
-      "proxy.grpc.StringRead\022E\n\013ReadBoolean\022\032.f"
-      "muproxy.grpc.ReadRequest\032\032.fmuproxy.grpc"
-      ".BooleanRead\022Q\n\014WriteInteger\022\".fmuproxy."
-      "grpc.WriteIntegerRequest\032\035.fmuproxy.grpc"
-      ".StatusResponse\022K\n\tWriteReal\022\037.fmuproxy."
-      "grpc.WriteRealRequest\032\035.fmuproxy.grpc.St"
-      "atusResponse\022O\n\013WriteString\022!.fmuproxy.g"
-      "rpc.WriteStringRequest\032\035.fmuproxy.grpc.S"
-      "tatusResponse\022Q\n\014WriteBoolean\022\".fmuproxy"
-      ".grpc.WriteBooleanRequest\032\035.fmuproxy.grp"
-      "c.StatusResponse\022T\n\013GetFMUstate\022!.fmupro"
-      "xy.grpc.GetFMUstateRequest\032\".fmuproxy.gr"
-      "pc.GetFMUstateResponse\022O\n\013SetFMUstate\022!."
-      "fmuproxy.grpc.SetFMUstateRequest\032\035.fmupr"
-      "oxy.grpc.StatusResponse\022Q\n\014FreeFMUstate\022"
-      "\".fmuproxy.grpc.FreeFMUstateRequest\032\035.fm"
-      "uproxy.grpc.StatusResponse\022f\n\021SerializeF"
-      "MUstate\022\'.fmuproxy.grpc.SerializeFMUstat"
-      "eRequest\032(.fmuproxy.grpc.SerializeFMUsta"
-      "teResponse\022l\n\023DeSerializeFMUstate\022).fmup"
-      "roxy.grpc.DeSerializeFMUstateRequest\032*.f"
-      "muproxy.grpc.DeSerializeFMUstateResponse"
-      "\022{\n\030GetDirectionalDerivative\022..fmuproxy."
-      "grpc.GetDirectionalDerivativeRequest\032/.f"
-      "muproxy.grpc.GetDirectionalDerivativeRes"
-      "ponseB#\n!no.mechatronics.sfi.fmuproxy.gr"
-      "pcb\006proto3"
+      "dv_known_ref\030\004 \003(\001\"a\n GetDirectionalDeri"
+      "vativeResponse\022\026\n\016dv_unknown_ref\030\001 \003(\001\022%"
+      "\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"\006\n"
+      "\004Void*\272\001\n\tCausality\022\023\n\017INPUT_CAUSALITY\020\000"
+      "\022\024\n\020OUTPUT_CAUSALITY\020\001\022\027\n\023PARAMETER_CAUS"
+      "ALITY\020\002\022\"\n\036CALCULATED_PARAMETER_CAUSALIT"
+      "Y\020\003\022\023\n\017LOCAL_CAUSALITY\020\004\022\031\n\025INDEPENDENT_"
+      "CAUSALITY\020\005\022\025\n\021UNKNOWN_CAUSALITY\020\006*\246\001\n\013V"
+      "ariability\022\030\n\024CONSTANT_VARIABILITY\020\000\022\025\n\021"
+      "FIXED_VARIABILITY\020\001\022\032\n\026CONTINUOUS_VARIAB"
+      "ILITY\020\002\022\030\n\024DISCRETE_VARIABILITY\020\003\022\027\n\023TUN"
+      "ABLE_VARIABILITY\020\004\022\027\n\023UNKNOWN_VARIABILIT"
+      "Y\020\005*]\n\007Initial\022\021\n\rEXACT_INITIAL\020\000\022\022\n\016APP"
+      "ROX_INITIAL\020\001\022\026\n\022CALCULATED_INITIAL\020\002\022\023\n"
+      "\017UNKNOWN_INITIAL\020\003*w\n\006Status\022\r\n\tOK_STATU"
+      "S\020\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISCARD_STATU"
+      "S\020\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022"
+      "\022\n\016PENDING_STATUS\020\0052\201\022\n\nFmuService\022a\n\023Ge"
+      "tModelDescription\022).fmuproxy.grpc.GetMod"
+      "elDescriptionRequest\032\037.fmuproxy.grpc.Mod"
+      "elDescription\022s\n\031GetCoSimulationAttribut"
+      "es\022/.fmuproxy.grpc.GetCoSimulationAttrib"
+      "utesRequest\032%.fmuproxy.grpc.CoSimulation"
+      "Attributes\022]\n\027CanCreateInstanceFromCS\022-."
+      "fmuproxy.grpc.CanCreateInstanceFromCSReq"
+      "uest\032\023.fmuproxy.grpc.Bool\022]\n\027CanCreateIn"
+      "stanceFromME\022-.fmuproxy.grpc.CanCreateIn"
+      "stanceFromMERequest\032\023.fmuproxy.grpc.Bool"
+      "\022]\n\024CreateInstanceFromCS\022*.fmuproxy.grpc"
+      ".CreateInstanceFromCSRequest\032\031.fmuproxy."
+      "grpc.InstanceId\022]\n\024CreateInstanceFromME\022"
+      "*.fmuproxy.grpc.CreateInstanceFromMERequ"
+      "est\032\031.fmuproxy.grpc.InstanceId\022W\n\017SetupE"
+      "xperiment\022%.fmuproxy.grpc.SetupExperimen"
+      "tRequest\032\035.fmuproxy.grpc.StatusResponse\022"
+      "g\n\027EnterInitializationMode\022-.fmuproxy.gr"
+      "pc.EnterInitializationModeRequest\032\035.fmup"
+      "roxy.grpc.StatusResponse\022e\n\026ExitInitiali"
+      "zationMode\022,.fmuproxy.grpc.ExitInitializ"
+      "ationModeRequest\032\035.fmuproxy.grpc.StatusR"
+      "esponse\022\?\n\004Step\022\032.fmuproxy.grpc.StepRequ"
+      "est\032\033.fmuproxy.grpc.StepResponse\022C\n\005Rese"
+      "t\022\033.fmuproxy.grpc.ResetRequest\032\035.fmuprox"
+      "y.grpc.StatusResponse\022K\n\tTerminate\022\037.fmu"
+      "proxy.grpc.TerminateRequest\032\035.fmuproxy.g"
+      "rpc.StatusResponse\022E\n\013ReadInteger\022\032.fmup"
+      "roxy.grpc.ReadRequest\032\032.fmuproxy.grpc.In"
+      "tegerRead\022\?\n\010ReadReal\022\032.fmuproxy.grpc.Re"
+      "adRequest\032\027.fmuproxy.grpc.RealRead\022C\n\nRe"
+      "adString\022\032.fmuproxy.grpc.ReadRequest\032\031.f"
+      "muproxy.grpc.StringRead\022E\n\013ReadBoolean\022\032"
+      ".fmuproxy.grpc.ReadRequest\032\032.fmuproxy.gr"
+      "pc.BooleanRead\022Q\n\014WriteInteger\022\".fmuprox"
+      "y.grpc.WriteIntegerRequest\032\035.fmuproxy.gr"
+      "pc.StatusResponse\022K\n\tWriteReal\022\037.fmuprox"
+      "y.grpc.WriteRealRequest\032\035.fmuproxy.grpc."
+      "StatusResponse\022O\n\013WriteString\022!.fmuproxy"
+      ".grpc.WriteStringRequest\032\035.fmuproxy.grpc"
+      ".StatusResponse\022Q\n\014WriteBoolean\022\".fmupro"
+      "xy.grpc.WriteBooleanRequest\032\035.fmuproxy.g"
+      "rpc.StatusResponse\022T\n\013GetFMUstate\022!.fmup"
+      "roxy.grpc.GetFMUstateRequest\032\".fmuproxy."
+      "grpc.GetFMUstateResponse\022O\n\013SetFMUstate\022"
+      "!.fmuproxy.grpc.SetFMUstateRequest\032\035.fmu"
+      "proxy.grpc.StatusResponse\022Q\n\014FreeFMUstat"
+      "e\022\".fmuproxy.grpc.FreeFMUstateRequest\032\035."
+      "fmuproxy.grpc.StatusResponse\022f\n\021Serializ"
+      "eFMUstate\022\'.fmuproxy.grpc.SerializeFMUst"
+      "ateRequest\032(.fmuproxy.grpc.SerializeFMUs"
+      "tateResponse\022l\n\023DeSerializeFMUstate\022).fm"
+      "uproxy.grpc.DeSerializeFMUstateRequest\032*"
+      ".fmuproxy.grpc.DeSerializeFMUstateRespon"
+      "se\022{\n\030GetDirectionalDerivative\022..fmuprox"
+      "y.grpc.GetDirectionalDerivativeRequest\032/"
+      ".fmuproxy.grpc.GetDirectionalDerivativeR"
+      "esponseB#\n!no.mechatronics.sfi.fmuproxy."
+      "grpcb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 7250);
+      descriptor, 7252);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "service.proto", &protobuf_RegisterTypes);
 }
@@ -16946,7 +16946,7 @@ void GetDirectionalDerivativeRequest::InternalSwap(GetDirectionalDerivativeReque
 void GetDirectionalDerivativeResponse::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int GetDirectionalDerivativeResponse::kDvKnownRefFieldNumber;
+const int GetDirectionalDerivativeResponse::kDvUnknownRefFieldNumber;
 const int GetDirectionalDerivativeResponse::kStatusFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -16960,7 +16960,7 @@ GetDirectionalDerivativeResponse::GetDirectionalDerivativeResponse()
 GetDirectionalDerivativeResponse::GetDirectionalDerivativeResponse(const GetDirectionalDerivativeResponse& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      dv_known_ref_(from.dv_known_ref_) {
+      dv_unknown_ref_(from.dv_unknown_ref_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   status_ = from.status_;
   // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.GetDirectionalDerivativeResponse)
@@ -16998,7 +16998,7 @@ void GetDirectionalDerivativeResponse::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  dv_known_ref_.Clear();
+  dv_unknown_ref_.Clear();
   status_ = 0;
   _internal_metadata_.Clear();
 }
@@ -17013,19 +17013,19 @@ bool GetDirectionalDerivativeResponse::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated double dv_known_ref = 1;
+      // repeated double dv_unknown_ref = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 input, this->mutable_dv_known_ref())));
+                 input, this->mutable_dv_unknown_ref())));
         } else if (
             static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(9u /* 9 & 0xFF */)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
-                 1, 10u, input, this->mutable_dv_known_ref())));
+                 1, 10u, input, this->mutable_dv_unknown_ref())));
         } else {
           goto handle_unusual;
         }
@@ -17073,13 +17073,13 @@ void GetDirectionalDerivativeResponse::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated double dv_known_ref = 1;
-  if (this->dv_known_ref_size() > 0) {
+  // repeated double dv_unknown_ref = 1;
+  if (this->dv_unknown_ref_size() > 0) {
     ::google::protobuf::internal::WireFormatLite::WriteTag(1, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(static_cast< ::google::protobuf::uint32>(
-        _dv_known_ref_cached_byte_size_));
+        _dv_unknown_ref_cached_byte_size_));
     ::google::protobuf::internal::WireFormatLite::WriteDoubleArray(
-      this->dv_known_ref().data(), this->dv_known_ref_size(), output);
+      this->dv_unknown_ref().data(), this->dv_unknown_ref_size(), output);
   }
 
   // .fmuproxy.grpc.Status status = 2;
@@ -17102,17 +17102,17 @@ void GetDirectionalDerivativeResponse::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated double dv_known_ref = 1;
-  if (this->dv_known_ref_size() > 0) {
+  // repeated double dv_unknown_ref = 1;
+  if (this->dv_unknown_ref_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
       1,
       ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
       target);
     target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
         static_cast< ::google::protobuf::int32>(
-            _dv_known_ref_cached_byte_size_), target);
+            _dv_unknown_ref_cached_byte_size_), target);
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteDoubleNoTagToArray(this->dv_known_ref_, target);
+      WriteDoubleNoTagToArray(this->dv_unknown_ref_, target);
   }
 
   // .fmuproxy.grpc.Status status = 2;
@@ -17138,9 +17138,9 @@ size_t GetDirectionalDerivativeResponse::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated double dv_known_ref = 1;
+  // repeated double dv_unknown_ref = 1;
   {
-    unsigned int count = static_cast<unsigned int>(this->dv_known_ref_size());
+    unsigned int count = static_cast<unsigned int>(this->dv_unknown_ref_size());
     size_t data_size = 8UL * count;
     if (data_size > 0) {
       total_size += 1 +
@@ -17149,7 +17149,7 @@ size_t GetDirectionalDerivativeResponse::ByteSizeLong() const {
     }
     int cached_size = ::google::protobuf::internal::ToCachedSize(data_size);
     GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-    _dv_known_ref_cached_byte_size_ = cached_size;
+    _dv_unknown_ref_cached_byte_size_ = cached_size;
     GOOGLE_SAFE_CONCURRENT_WRITES_END();
     total_size += data_size;
   }
@@ -17187,7 +17187,7 @@ void GetDirectionalDerivativeResponse::MergeFrom(const GetDirectionalDerivativeR
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  dv_known_ref_.MergeFrom(from.dv_known_ref_);
+  dv_unknown_ref_.MergeFrom(from.dv_unknown_ref_);
   if (from.status() != 0) {
     set_status(from.status());
   }
@@ -17217,7 +17217,7 @@ void GetDirectionalDerivativeResponse::Swap(GetDirectionalDerivativeResponse* ot
 }
 void GetDirectionalDerivativeResponse::InternalSwap(GetDirectionalDerivativeResponse* other) {
   using std::swap;
-  dv_known_ref_.InternalSwap(&other->dv_known_ref_);
+  dv_unknown_ref_.InternalSwap(&other->dv_unknown_ref_);
   swap(status_, other->status_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
