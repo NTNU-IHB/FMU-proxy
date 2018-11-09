@@ -284,6 +284,13 @@ void FmuServiceHandler::getDirectionalDerivative(DirectionalDerivativeResult &_r
         throw ex;
     }
 
-    //TODO
+    vector<fmi2ValueReference> _vUnknownRef(vUnknownRef.begin(), vUnknownRef.end());
+    vector<fmi2ValueReference> _vKnownRef(vKnownRef.begin(), vKnownRef.end());
+
+    std::vector<double> dvUnknownRef(vUnknownRef.size());
+    bool status = slave->getDirectionalDerivative(_vUnknownRef, _vKnownRef, dvKnownRef, dvUnknownRef);
+
+    _return.status = thriftType(slave->getLastStatus());
+    _return.dvUnkownRef = dvUnknownRef;
 
 }
