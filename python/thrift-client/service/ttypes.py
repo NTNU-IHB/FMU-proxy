@@ -2214,13 +2214,13 @@ class DeSerializeFmuStateResult(object):
 class DirectionalDerivativeResult(object):
     """
     Attributes:
-     - dvUnkownRef
+     - dvUnknownRef
      - status
     """
 
 
-    def __init__(self, dvUnkownRef=None, status=None,):
-        self.dvUnkownRef = dvUnkownRef
+    def __init__(self, dvUnknownRef=None, status=None,):
+        self.dvUnknownRef = dvUnknownRef
         self.status = status
 
     def read(self, iprot):
@@ -2234,11 +2234,11 @@ class DirectionalDerivativeResult(object):
                 break
             if fid == 1:
                 if ftype == TType.LIST:
-                    self.dvUnkownRef = []
+                    self.dvUnknownRef = []
                     (_etype66, _size63) = iprot.readListBegin()
                     for _i67 in range(_size63):
                         _elem68 = iprot.readDouble()
-                        self.dvUnkownRef.append(_elem68)
+                        self.dvUnknownRef.append(_elem68)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -2257,10 +2257,10 @@ class DirectionalDerivativeResult(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('DirectionalDerivativeResult')
-        if self.dvUnkownRef is not None:
-            oprot.writeFieldBegin('dvUnkownRef', TType.LIST, 1)
-            oprot.writeListBegin(TType.DOUBLE, len(self.dvUnkownRef))
-            for iter69 in self.dvUnkownRef:
+        if self.dvUnknownRef is not None:
+            oprot.writeFieldBegin('dvUnknownRef', TType.LIST, 1)
+            oprot.writeListBegin(TType.DOUBLE, len(self.dvUnknownRef))
+            for iter69 in self.dvUnknownRef:
                 oprot.writeDouble(iter69)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
@@ -2466,7 +2466,7 @@ DeSerializeFmuStateResult.thrift_spec = (
 all_structs.append(DirectionalDerivativeResult)
 DirectionalDerivativeResult.thrift_spec = (
     None,  # 0
-    (1, TType.LIST, 'dvUnkownRef', (TType.DOUBLE, None, False), None, ),  # 1
+    (1, TType.LIST, 'dvUnknownRef', (TType.DOUBLE, None, False), None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
 )
 fix_spec(all_structs)
