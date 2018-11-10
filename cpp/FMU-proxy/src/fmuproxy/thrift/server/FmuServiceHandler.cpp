@@ -105,9 +105,11 @@ void FmuServiceHandler::step(StepResult &_return, const InstanceId &slave_id, co
 
 Status::type FmuServiceHandler::terminate(const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    bool status = slave->terminate();
+    bool success = slave->terminate();
+    auto status = thriftType(slave->getLastStatus());
     slaves_.erase(slave_id);
-    return thriftType(slave->getLastStatus());;
+    cout << "Terminated FMU slave with id=" << slave_id << endl;
+    return status;
 }
 
 Status::type FmuServiceHandler::reset(const InstanceId &slave_id) {
