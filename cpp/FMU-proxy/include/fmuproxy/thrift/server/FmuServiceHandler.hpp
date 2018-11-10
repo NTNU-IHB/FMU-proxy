@@ -44,7 +44,6 @@ namespace fmuproxy::thrift::server {
         explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus);
 
 
-
         void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
 
         void createInstanceFromCS(InstanceId &_return, const FmuId &fmu_id) override;
@@ -53,15 +52,15 @@ namespace fmuproxy::thrift::server {
         void createInstanceFromME(InstanceId &_return, const FmuId &fmu_id,
                                   const ::fmuproxy::thrift::Solver &solver) override;
 
-        Status::type setupExperiment(const InstanceId &instanceId, const double start, const double stop,
-                                     const double tolerance) override;
+        Status::type setupExperiment(const InstanceId &instanceId, double start, double stop,
+                                     double tolerance) override;
 
         Status::type enterInitializationMode(const InstanceId &instanceId) override;
 
         Status::type exitInitializationMode(const InstanceId &instanceId) override;
 
         void step(::fmuproxy::thrift::StepResult &_return, const InstanceId &instance_id,
-                const double step_size) override;
+                  double step_size) override;
 
         Status::type reset(const InstanceId &instance_id) override;
 
@@ -80,25 +79,25 @@ namespace fmuproxy::thrift::server {
                          const ValueReferences &vr) override;
 
         Status::type writeInteger(const InstanceId &instance_id, const ValueReferences &vr,
-                const IntArray &value) override;
+                                  const IntArray &value) override;
 
         Status::type writeReal(const InstanceId &instance_id, const ValueReferences &vr,
-                const RealArray &value) override;
+                               const RealArray &value) override;
 
         Status::type writeString(const InstanceId &instance_id, const ValueReferences &vr,
-                const StringArray &values) override;
+                                 const StringArray &values) override;
 
         Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr,
-                const BooleanArray &value) override;
+                                  const BooleanArray &value) override;
 
         void getFMUstate(GetFmuStateResult &_return, const InstanceId &instance_id) override;
 
-        Status::type setFMUstate(const InstanceId &instance_id, const FmuState state) override;
+        Status::type setFMUstate(const InstanceId &instance_id, FmuState state) override;
 
-        Status::type freeFMUstate(const InstanceId &instance_id, const FmuState state) override;
+        Status::type freeFMUstate(const InstanceId &instance_id, FmuState state) override;
 
         void serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &instance_id,
-                               const FmuState state) override;
+                               FmuState state) override;
 
         void deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &instance_id,
                                  const std::string &state) override;
