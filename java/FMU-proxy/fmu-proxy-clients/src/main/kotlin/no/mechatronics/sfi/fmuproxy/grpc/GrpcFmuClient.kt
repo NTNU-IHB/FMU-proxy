@@ -42,6 +42,8 @@ class GrpcFmuClient(
         port: Int
 ) : AbstractRpcFmuClient(fmuId) {
 
+    override val implementationName: String = "GrpcClient"
+
     private val channel = ManagedChannelBuilder
             .forAddress(host, port)
             .usePlaintext()
@@ -266,7 +268,7 @@ class GrpcFmuClient(
                 .addAllVKnownRef(vKnownRef)
                 .addAllDvKnownRef(dvKnownRef).build().let { request ->
                     blockingStub.getDirectionalDerivative(request).let { response ->
-                        response.dvKnownRefList.toList() to response.status.convert()
+                        response.dvUnknownRefList to response.status.convert()
                     }
                 }
 

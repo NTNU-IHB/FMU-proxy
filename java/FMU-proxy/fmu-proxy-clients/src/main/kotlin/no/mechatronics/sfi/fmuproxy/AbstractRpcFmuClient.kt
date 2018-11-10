@@ -37,8 +37,7 @@ abstract class AbstractRpcFmuClient(
         val fmuId: String
 ): IFmu {
 
-    val fmiVersion: String
-        get() = modelDescription.fmiVersion
+    abstract val implementationName: String
 
     abstract val canCreateInstanceFromCS: Boolean
     abstract val canCreateInstanceFromME: Boolean
@@ -88,7 +87,7 @@ abstract class AbstractRpcFmuClient(
     }
 
     override fun close() {
-        LOG.debug("Closing..")
+        LOG.debug("Closing '$implementationName' ...")
         FmuInstances.terminateAll()
     }
 

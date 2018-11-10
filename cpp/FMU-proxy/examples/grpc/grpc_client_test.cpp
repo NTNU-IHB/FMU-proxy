@@ -67,8 +67,8 @@ int main() {
     double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
     cout << "elapsed=" << elapsed_secs << "s" << endl;
 
-    auto status = slave->terminate();
-    cout << "terminated FMU with status " << to_string(status) << endl;
+    bool status = slave->terminate();
+    cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;
 
     fmu.close();
 

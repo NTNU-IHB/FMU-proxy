@@ -45,6 +45,8 @@ class ThriftFmuClient(
 
     private val client = FmuService.Client(protocol)
 
+    override val implementationName: String = "ThriftClient"
+
     init {
         protocol.transport.apply {
             if (!isOpen) {
@@ -169,7 +171,7 @@ class ThriftFmuClient(
 
     override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
         return client.getDirectionalDerivative(instanceId, vUnknownRef, vKnownRef, dvKnownRef).let {
-            it.dvUnkownRef to it.status.convert()
+            it.dvUnknownRef to it.status.convert()
         }
     }
 
