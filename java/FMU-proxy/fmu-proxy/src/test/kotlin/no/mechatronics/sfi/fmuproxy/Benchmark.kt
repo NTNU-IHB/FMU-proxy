@@ -137,9 +137,9 @@ class Benchmark {
     fun measureTimeJson() {
 
         var httpPort: Int = -1
-        var wsPort: Int = -1
-        var tcpPort: Int = -1
-        var zmqPort: Int = -1
+        var wsPort: Int
+        var tcpPort: Int
+        var zmqPort: Int
         val handler = RpcHandler(RpcFmuService(fmu))
 
         val servers = mutableListOf(

@@ -170,7 +170,7 @@ class TestProxy {
 
                 Assertions.assertEquals(mdLocal.guid, client.guid)
                 Assertions.assertEquals(mdLocal.modelName, client.modelName)
-                Assertions.assertEquals(mdLocal.fmiVersion, client.fmiVersion)
+                Assertions.assertEquals(mdLocal.fmiVersion, client.modelDescription.fmiVersion)
 
                 client.newInstance().use { instance ->
                     runSlave(instance, stepSize, stopTime).also {
