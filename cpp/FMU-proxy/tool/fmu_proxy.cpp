@@ -50,7 +50,7 @@ namespace {
 
     const char* THRIFT_TCP = "thrift/tcp";
     const char* THRIFT_HTTP = "thrift/http";
-    const char* GRPC_HTTP2 = "grpc/http2";
+    const char* GRPC_HTTP2 = "grpc";
 
     void wait_for_input() {
         do {
@@ -71,9 +71,9 @@ namespace {
             modelDescriptions.push_back(fmu->getModelDescriptionXml());
         }
 
-        bool enable_grpc = ports.count(GRPC_HTTP2);
-        bool enable_thrift_tcp = ports.count(THRIFT_TCP);
-        bool enable_thrift_http = ports.count(THRIFT_HTTP);
+        bool enable_grpc = ports.count(GRPC_HTTP2) == 1;
+        bool enable_thrift_tcp = ports.count(THRIFT_TCP) == 1;
+        bool enable_thrift_http = ports.count(THRIFT_HTTP) == 1;
 
         unordered_map<string, unsigned int> servers;
 
@@ -119,7 +119,7 @@ namespace {
         if (enable_thrift_tcp) {
             thrift_socket_server->stop();
         }
-        if (enable_thrift_tcp) {
+        if (enable_thrift_http) {
             thrift_http_server->stop();
         }
 
