@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <optional>
 #include <iostream>
 #include <unordered_map>
 
@@ -61,7 +62,7 @@ namespace {
     int run_application(
             vector<shared_ptr<fmi4cpp::fmi2::Fmu>> fmus,
             unordered_map<string, unsigned int> ports,
-            const shared_ptr<RemoteAddress> remote) {
+            const optional<RemoteAddress> remote) {
 
         unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmu_map;
         vector<string> modelDescriptions;
@@ -69,7 +70,7 @@ namespace {
             fmu_map[fmu->getModelDescription()->guid()] = fmu;
             modelDescriptions.push_back(fmu->getModelDescriptionXml());
         }
-        bool has_remote = remote != nullptr;
+
         bool enable_grpc = ports.count(GRPC_HTTP2);
         bool enable_thrift_tcp = ports.count(THRIFT_TCP);
         bool enable_thrift_http = ports.count(THRIFT_HTTP);
@@ -101,14 +102,14 @@ namespace {
         }
 
         unique_ptr<Heartbeat> beat = nullptr;
-        if (has_remote) {
+        if (remote) {
             beat = make_unique<Heartbeat>(*remote, servers, modelDescriptions);
             beat->start();
         }
 
         wait_for_input();
 
-        if (has_remote) {
+        if (remote) {
             beat->stop();
         }
 
@@ -182,10 +183,10 @@ int main(int argc, char** argv) {
             ports[GRPC_HTTP2] = vm[GRPC_HTTP2].as<unsigned int>();
         }
 
-        shared_ptr<RemoteAddress> remote = nullptr;
+        optional<RemoteAddress> remote;
         if (vm.count("remote")) {
             string str = vm["remote"].as<string>();
-            remote = make_shared<RemoteAddress>(RemoteAddress::parse (str));
+            remote = RemoteAddress(RemoteAddress::parse (str));
         }
 
         return run_application(fmus, ports, remote);

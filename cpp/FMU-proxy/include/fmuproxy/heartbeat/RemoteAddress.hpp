@@ -33,8 +33,8 @@ namespace fmuproxy {
 
     struct RemoteAddress {
 
-        const std::string host;
-        const unsigned int port;
+        std::string host;
+        unsigned int port;
 
         RemoteAddress(const std::string &host, const unsigned int port)
                 : host(host), port(port) {}

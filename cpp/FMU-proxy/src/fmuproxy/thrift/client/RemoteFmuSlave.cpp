@@ -158,8 +158,7 @@ bool RemoteFmuSlave::writeInteger(const fmi2ValueReference vr, const fmi2Integer
     return writeInteger(_vr, _value);
 }
 
-bool
-RemoteFmuSlave::writeInteger(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Integer> &value) {
+bool RemoteFmuSlave::writeInteger(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Integer> &value) {
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     return updateStatusAndReturnTrueOnOK(client_.writeInteger(instanceId_, _vr, value));
 }
@@ -199,6 +198,33 @@ bool RemoteFmuSlave::writeBoolean(const std::vector<fmi2ValueReference> &vr, con
     return updateStatusAndReturnTrueOnOK(client_.writeBoolean(instanceId_, _vr, _value));
 }
 
+bool RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2ValueReference> &vUnknownRef,
+                                                    const std::vector<fmi2ValueReference> &vKnownRef,
+                                                    const std::vector<fmi2Real> &dvKnownRef,
+                                                    std::vector<fmi2Real> &dvUnknown) {
+    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
+bool RemoteFmuSlave::getFMUstate(fmi2FMUstate &state) {
+    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
+bool RemoteFmuSlave::setFMUstate(const fmi2FMUstate state) {
+    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
+bool RemoteFmuSlave::freeFMUstate(fmi2FMUstate &state) {
+    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
+bool RemoteFmuSlave::serializeFMUstate(const fmi2FMUstate &state, std::vector<fmi2Byte> &serializedState) {
+    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
+bool RemoteFmuSlave::deSerializeFMUstate(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
+    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
 
 //bool RemoteFmuSlave::getFMUstate(int64_t &state) {
 //    GetFmuStateResult _return;
@@ -229,29 +255,3 @@ bool RemoteFmuSlave::writeBoolean(const std::vector<fmi2ValueReference> &vr, con
 //    return convert(result.status);
 //}
 
-bool RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2ValueReference> &vUnknownRef,
-                                                    const std::vector<fmi2ValueReference> &vKnownRef,
-                                                    const std::vector<fmi2Real> &dvKnownRef,
-                                                    std::vector<fmi2Real> &dvUnknown) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
-}
-
-bool RemoteFmuSlave::getFMUstate(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
-}
-
-bool RemoteFmuSlave::setFMUstate(const fmi2FMUstate state) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
-}
-
-bool RemoteFmuSlave::freeFMUstate(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
-}
-
-bool RemoteFmuSlave::serializeFMUstate(const fmi2FMUstate &state, std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
-}
-
-bool RemoteFmuSlave::deSerializeFMUstate(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
-}
