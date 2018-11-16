@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
         po::options_description desc("Options");
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
-                ("fmu,", po::value<vector<string>>()->multitoken(), "Path to FMUs.")
+                ("fmu,f", po::value<vector<string>>()->multitoken(), "Path to FMUs.")
                 ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
 
                 (THRIFT_TCP, po::value<unsigned int>(), "Specify the network port to be used by the Thrift (TCP/IP) server.")
@@ -163,15 +163,23 @@ int main(int argc, char** argv) {
             return COMMANDLINE_ERROR;
         }
 
+        if (!vm.count("fmu")) {
+            cout << "Missing path to FMUs.. Please try again." << endl;
+            cout << "FMU-proxy" << endl << desc << endl;
+            return COMMANDLINE_ERROR;
+        }
+
+
         const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
         vector<shared_ptr<fmi4cpp::fmi2::Fmu>> fmus;
         for (const auto fmu_path : fmu_paths) {
             fmus.push_back(make_shared<fmi4cpp::fmi2::Fmu>(fmu_path));
         }
 
+
         auto ports = unordered_map<string, unsigned int>();
 
-        if (vm.count(THRIFT_HTTP)) {
+        if (vm.count(THRIFT_TCP)) {
             ports[THRIFT_TCP] = vm[THRIFT_TCP].as<unsigned int>();
         }
 
