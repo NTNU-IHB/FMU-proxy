@@ -20,18 +20,18 @@ class PublishPlugin implements Plugin<Project>{
     }
 
     void apply(Project project) {
+
+        def extension = project.extensions.create('pomDescription', PublishPluginExtension)
+
         if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
 
             project.apply(plugin: MavenPublishPlugin)
             project.apply(plugin: SigningPlugin)
-
-
+            
             project.group = 'no.mechatronics.sfi.fmuproxy'
             project.version = 'dev-SNAPSHOT'
 
             println("maven version for ${project.archivesBaseName} is: ${project.version}")
-
-            def extension = project.extensions.create('pomDescription', PublishPluginExtension)
 
             project.publishing {
                 publications {
