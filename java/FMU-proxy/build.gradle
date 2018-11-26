@@ -31,8 +31,6 @@ subprojects { sub ->
 
         sub.plugins.withId('kotlin') {
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            implementation "org.jetbrains.kotlin:kotlin-reflect"
-
         }
 
         def junit_version = '5.3.1'
