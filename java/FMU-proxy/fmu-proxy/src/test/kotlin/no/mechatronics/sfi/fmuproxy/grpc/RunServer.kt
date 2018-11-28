@@ -9,7 +9,7 @@ import java.util.*
 object RunServer {
 
     private val fmuPath = File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/$currentOS" +
+            "2.0/cs/$currentOS" +
                     "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     @JvmStatic

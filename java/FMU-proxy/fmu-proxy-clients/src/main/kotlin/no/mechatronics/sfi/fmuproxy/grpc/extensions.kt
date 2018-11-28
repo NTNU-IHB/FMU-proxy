@@ -101,7 +101,7 @@ internal fun Service.BooleanRead.convert(): FmuBooleanArrayRead {
 }
 
 internal fun Service.DefaultExperiment.convert(): DefaultExperiment {
-    return DefaultExperiment(
+    return DefaultExperimentImpl(
             startTime = startTime,
             stopTime = stopTime,
             tolerance = tolerance,
@@ -273,9 +273,9 @@ class GrpcModelDescription(
         get() = modelDescription.license
     override val logCategories: LogCategories?
         get() = null
-    override val typeDefinitions: List<SimpleType>?
+    override val typeDefinitions: TypeDefinitions?
         get() = null
-    override val unitDefinitions: List<Unit>?
+    override val unitDefinitions: UnitDefinitions?
         get() = null
     override val modelName: String
         get() = modelDescription.modelName

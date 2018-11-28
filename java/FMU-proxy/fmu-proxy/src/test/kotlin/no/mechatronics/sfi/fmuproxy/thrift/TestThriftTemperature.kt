@@ -22,7 +22,7 @@ class TestThriftTemperature {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "FMI_2.0/CoSimulation/$currentOS/20sim/4.6.4.8004/" +
+            "2.0/cs/$currentOS/20sim/4.6.4.8004/" +
                     "ControlledTemperature/ControlledTemperature.fmu"))
     private val server = ThriftFmuSocketServer(fmu)
     private val client = ThriftFmuClient.socketClient(fmu.guid, "localhost", server.start())

@@ -29,9 +29,7 @@ class BenchmarkControlledTemperature {
 
     private fun runInstance(slave: FmuSlave, stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
-        slave.setupExperiment()
-        slave.enterInitializationMode()
-        slave.exitInitializationMode()
+        slave.simpleSetup()
 
         return measureTimeMillis {
             while (slave.simulationTime < stop) {
@@ -47,7 +45,7 @@ class BenchmarkControlledTemperature {
     fun benchmark() {
 
         Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "FMI_2.0/CoSimulation/$currentOS" +
+                "2.0/cs/$currentOS" +
                         "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
             val vr = longArrayOf(46)

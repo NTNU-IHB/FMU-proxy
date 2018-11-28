@@ -79,7 +79,7 @@ class ThriftFmuClient(
         return client.getCoSimulationAttributes(instanceId).convert();
     }
 
-    override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+    override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
         return client.setupExperiment(instanceId, start, stop, tolerance).convert()
     }
 

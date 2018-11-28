@@ -119,7 +119,7 @@ class RpcFmuService(
     @JvmOverloads
     fun setupExperiment(instanceId: InstanceId, startTime: Double = 0.0, stopTime: Double = 0.0, tolerance: Double = 0.0): FmiStatus {
         return getSlave(instanceId).let {
-            it.setupExperiment(startTime, stopTime, tolerance)
+            it.setup(startTime, stopTime, tolerance)
             it.lastStatus
         }
     }

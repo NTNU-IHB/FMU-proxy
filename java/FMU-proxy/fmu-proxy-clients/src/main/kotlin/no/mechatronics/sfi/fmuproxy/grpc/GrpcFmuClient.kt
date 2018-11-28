@@ -102,7 +102,7 @@ class GrpcFmuClient(
                 }
     }
 
-    override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+    override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
         return Service.SetupExperimentRequest.newBuilder()
                 .setInstanceId(instanceId)
                 .setStart(start)

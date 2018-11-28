@@ -47,7 +47,7 @@ abstract class AbstractRpcFmuClient(
 
     protected abstract fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes
 
-    protected abstract fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
+    protected abstract fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
     protected abstract fun enterInitializationMode(instanceId: InstanceId): FmiStatus
     protected abstract fun exitInitializationMode(instanceId: InstanceId): FmiStatus
 
@@ -126,8 +126,8 @@ abstract class AbstractRpcFmuClient(
         }
 
 
-        override fun setupExperiment(start: Double, stop: Double, tolerance: Double): Boolean {
-            return setupExperiment(instanceId, start, stop, tolerance).also {
+        override fun setup(start: Double, stop: Double, tolerance: Double): Boolean {
+            return setup(instanceId, start, stop, tolerance).also {
                 simulationTime = start
                 lastStatus = it
             }.isOK()

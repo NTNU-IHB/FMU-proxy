@@ -26,8 +26,7 @@ package no.mechatronics.sfi.fmuproxy.thrift
 
 import no.mechatronics.sfi.fmi4j.common.*
 import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.SimpleType
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.SourceFile
+import no.mechatronics.sfi.fmi4j.modeldescription.misc.*
 import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
 import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
 import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
@@ -97,7 +96,7 @@ internal fun BooleanRead.convert(): FmuBooleanArrayRead {
 }
 
 internal fun DefaultExperiment.convert(): no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment {
-    return no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment(
+    return DefaultExperimentImpl(
             startTime = startTime,
             stopTime = stopTime,
             tolerance = tolerance,
@@ -267,9 +266,9 @@ class ThriftModelDescription(
         get() = modelDescription.license
     override val logCategories: LogCategories?
         get() = null
-    override val typeDefinitions: List<SimpleType>?
+    override val typeDefinitions: TypeDefinitions?
         get() = null
-    override val unitDefinitions: List<Unit>?
+    override val unitDefinitions: UnitDefinitions?
         get() = null
     override val modelName: String
         get() = modelDescription.modelName

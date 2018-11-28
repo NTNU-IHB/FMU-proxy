@@ -75,7 +75,7 @@ class JsonRpcFmuClient(
                 .getResult<String>()!!
     }
 
-    override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+    override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
         return client.write("$SERVICE.setupExperiment", RpcParams.listParams(instanceId, start, stop, tolerance)).get()
                 .getResult<FmiStatus>()!!
     }

@@ -206,7 +206,7 @@ class GrpcFmuServiceImpl(
 
     override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            setupExperiment(request.start, request.stop, request.tolerance)
+            setup(request.start, request.stop, request.tolerance)
             statusReply(lastStatus, responseObserver)
         }
     }

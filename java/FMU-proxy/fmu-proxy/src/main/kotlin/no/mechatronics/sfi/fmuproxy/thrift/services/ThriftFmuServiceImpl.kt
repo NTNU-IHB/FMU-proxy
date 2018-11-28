@@ -101,7 +101,7 @@ class ThriftFmuServiceImpl(
 
     override fun setupExperiment(instanceId: String, start: Double, stop: Double, tolerance: Double): Status {
         return getSlave(instanceId).let { slave ->
-            slave.setupExperiment(start, stop, tolerance)
+            slave.setup(start, stop, tolerance)
             slave.lastStatus.thriftType()
         }
     }
