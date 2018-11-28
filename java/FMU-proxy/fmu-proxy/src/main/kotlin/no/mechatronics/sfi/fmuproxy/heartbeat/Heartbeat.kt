@@ -25,7 +25,6 @@
 package no.mechatronics.sfi.fmuproxy.heartbeat
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.google.gson.GsonBuilder
 import no.mechatronics.sfi.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
