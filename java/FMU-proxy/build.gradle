@@ -9,7 +9,7 @@ ext.fmi4j_snapshot = false
 ext.fmi4j_version = fmi4j_snapshot ? 'dev-SNAPSHOT' : '0.13.1'
 
 ext.grpc_version = '1.16.1'
-ext.yajrpc_version = '0.10.0'
+ext.yajrpc_version = '0.10.1'
 ext.slf4j_version = '1.7.25'
 
 subprojects { sub ->
