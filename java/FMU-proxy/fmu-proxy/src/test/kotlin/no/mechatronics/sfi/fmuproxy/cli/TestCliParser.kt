@@ -15,8 +15,8 @@ class TestCliParser {
         private val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
-                "2.0/cs/$currentOS" +
-                        "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
+                "2.0/cs/$currentOS/20sim/4.6.4.8004/" +
+                        "ControlledTemperature/ControlledTemperature.fmu")
 
     }
 
