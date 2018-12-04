@@ -72,11 +72,6 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun getModelDescriptionXml(fmuId: String): String {
-        return getFmu(fmuId).modelDescriptionXml
-    }
-
-    @RpcMethod
     fun canCreateInstanceFromCS(fmuId: String): Boolean {
         return getFmu(fmuId).supportsCoSimulation
     }
