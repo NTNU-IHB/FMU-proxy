@@ -102,7 +102,7 @@ class Benchmark {
             val port = server.start()
             val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
             client.newInstance().use { instance ->
-                runSlave(instance, stepSize, 1.0) {
+                runSlave(instance, stepSize, stop) {
                     val read = instance.variableAccessor.readReal("Temperature_Room")
                     Assertions.assertTrue(read.value > 0)
                 }.also {
