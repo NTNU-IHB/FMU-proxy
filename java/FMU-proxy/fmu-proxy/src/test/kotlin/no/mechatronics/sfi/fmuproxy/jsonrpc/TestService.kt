@@ -43,7 +43,7 @@ class TestService {
         {
             "jsonrpc": "2.0",
             "id": 1,
-            "method": "FmuService.getModelDescription",
+            "method": "getModelDescription",
             "params": ["${fmu.guid}"]
         }
         """.let {
@@ -60,13 +60,13 @@ class TestService {
     fun testInstance() {
 
         val instanceId = RpcRequestOut(
-                methodName = "FmuService.createInstanceFromCS",
+                methodName = "createInstanceFromCS",
                 params = RpcParams.listParams(fmu.guid)
         ).toJson().let { YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
                 .getResult<String>()!!
 
         val setupExperiment = RpcRequestOut(
-                methodName = "FmuService.setupExperiment",
+                methodName = "setupExperiment",
                 params = RpcParams.listParams(instanceId)
         ).toJson().let { YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
@@ -74,7 +74,7 @@ class TestService {
         Assertions.assertEquals(FmiStatus.OK, setupExperiment)
 
         val enterInitializationMode = RpcRequestOut(
-                methodName = "FmuService.enterInitializationMode",
+                methodName = "enterInitializationMode",
                 params = RpcParams.listParams(instanceId)
         ).toJson().let { YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
@@ -82,7 +82,7 @@ class TestService {
         Assertions.assertEquals(FmiStatus.OK, enterInitializationMode)
 
         val exitInitializationMode = RpcRequestOut(
-                methodName = "FmuService.exitInitializationMode",
+                methodName = "exitInitializationMode",
                 params = RpcParams.listParams(instanceId)
         ).toJson().let { YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
@@ -90,16 +90,17 @@ class TestService {
         Assertions.assertEquals(FmiStatus.OK, exitInitializationMode)
 
         val h = RpcRequestOut(
-                methodName = "FmuService.readReal",
+                methodName = "readReal",
                 params = RpcParams.listParams(instanceId, listOf(0))
         ).toJson().let{ YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
                 .getResult<FmuRealArrayRead>()!!
 
         Assertions.assertEquals(0.1, h.value[0])
 
+        val stepSize = 1.0/100
         val stepMsg = RpcRequestOut(
-                methodName = "FmuService.step",
-                params = RpcParams.mapParams("instanceId" to instanceId, "stepSize" to  1.0/100)
+                methodName = "doStep",
+                params = RpcParams.mapParams("instanceId" to instanceId, "stepSize" to  stepSize)
         ).toJson()
 
         for (i in 0 until 3) {
@@ -113,7 +114,7 @@ class TestService {
         }
 
         val terminateMsg = RpcRequestOut(
-                methodName = "FmuService.terminate",
+                methodName = "terminate",
                 params = RpcParams.listParams(instanceId)
         ).toJson()
 

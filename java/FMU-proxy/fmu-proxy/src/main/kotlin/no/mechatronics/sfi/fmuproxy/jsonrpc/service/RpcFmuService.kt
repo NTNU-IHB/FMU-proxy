@@ -136,7 +136,7 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun step(instanceId: InstanceId, stepSize: Double): StepResult {
+    fun doStep(instanceId: InstanceId, stepSize: Double): StepResult {
         return getSlave(instanceId).let {
             it.doStep(stepSize)
             StepResult(
