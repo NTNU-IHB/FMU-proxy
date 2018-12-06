@@ -10,6 +10,7 @@ option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
 option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
 
 if(MSVC)
+    set(CMAKE_DEBUG_POSTFIX "d")
     add_definitions(-DNOMINMAX)
     add_definitions(-D_WIN32_WINNT=0x600)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
