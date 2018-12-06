@@ -33,7 +33,7 @@ using namespace fmuproxy::thrift::server;
 int main(int argc, char **argv) {
 
     const string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/FMI_2.0/CoSimulation/" + getOs() +
+                      + "/2.0/cs/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     auto fmu = make_shared<fmi4cpp::fmi2::Fmu>(fmu_path);
