@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(FMU_PROXY)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
