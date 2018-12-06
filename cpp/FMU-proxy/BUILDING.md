@@ -4,10 +4,9 @@
 See below for notes on building the project for both Windows and Unix.
 
 
-Download and install the vcpkg package system from [GitHub](https://github.com/Microsoft/vcpkg).
+Download and install the [vcpkg package system from GitHub](https://github.com/Microsoft/vcpkg).
 
-Create an environmental variable that points to the vcpkg installation root named _VCPKG_ROOT_ 
-or pass it in as a option to CMake (-DVCPKG_ROOT=...)
+Then tell CMake about your vcpkg installation by passing <br> ```-DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake``` to it. 
 
 Using vcpkg, installing the required dependencies is as easy as:
 
