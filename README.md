@@ -55,7 +55,7 @@ The available **client** implementations are given in the table below:
 
 The JVM implementation of FMU-proxy is written in Kotlin and uses the gradle build system. 
 
-It features a server implementation that supports Apache Thrift (HTTP/JSON), TCP/IP/binary), gRPC(HTTP2) and JSON-RPC(HTTP, WebSockets, TCP/IP, ZMQ) RPCs.
+It features a server implementation that supports Apache Thrift (HTTP/JSON, TCP/IP/binary), gRPC(HTTP2) and JSON-RPC(HTTP, WebSockets, TCP/IP, ZMQ) RPCs.
 
 For interacting with the FMUs on the JVM, [FMI4j](https://sfi-mechatronics.github.io/FMI4j/) is used. 
 The JSON-RPC client and server implementation can be found [here](https://github.com/markaren/YAJ-RPC).
@@ -68,7 +68,7 @@ The interface is specified by FMI4j, allowing local and remote FMU instances to 
 #### FMU-proxy executable
 
 ```
-Usage: fmu-proxy [-h] [-avro=<avroPort>] [-grpc=<grpcPort>]
+Usage: fmu-proxy [-h] [-grpc=<grpcPort>]
                  [-jsonrpc/http=<jsonHttpPort>] [-jsonrpc/tcp=<jsonTcpPort>]
                  [-jsonrpc/ws=<jsonWsPort>] [-jsonrpc/zmq=<jsonZmqPort>]
                  [-r=<remote>] [-thrift/http=<thriftHttpPort>]
