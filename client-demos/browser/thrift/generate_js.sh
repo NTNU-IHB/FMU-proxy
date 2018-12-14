@@ -1,1 +1,1 @@
-thrift --gen js -out js ../../rpc-definitions/thrift/service.thrift
+thrift --gen js -out js ../../../rpc-definitions/thrift/service.thrift
