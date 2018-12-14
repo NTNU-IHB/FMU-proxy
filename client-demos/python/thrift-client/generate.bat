@@ -1,4 +1,4 @@
-thrift --gen py ../../rpc-definitions/thrift/service.thrift
+thrift --gen py ../../../rpc-definitions/thrift/service.thrift
 rmdir /Q /S service
 move gen-py/service service
 rmdir /Q /S gen-py
