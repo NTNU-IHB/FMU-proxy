@@ -1,12 +1,9 @@
 
 plugins {
     id "kotlin"
-    id "org.jruyi.thrift" version "0.4.0"
-    id "com.google.protobuf" version "0.8.6"
 }
 
 apply from: rootProject.file('publisher.gradle')
-apply from: rootProject.file('rpc-gen.gradle')
 
 pomDescription {
     description 'A collection of clients for talking to FMU-proxy servers'
@@ -28,8 +25,9 @@ dependencies {
 
     implementation group: 'com.github.SFI-Mechatronics.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 
+    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
+
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
 }
-

@@ -1,4 +1,19 @@
 
+plugins {
+    id "org.jruyi.thrift" version "0.4.0"
+    id "com.google.protobuf" version "0.8.6"
+}
+
+apply from: rootProject.file('publisher.gradle')
+
+dependencies {
+
+    implementation group: 'io.grpc', name: 'grpc-stub', version: grpc_version
+    implementation group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
+
+    implementation group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
+}
+
 def definitions = "../../../rpc-definitions"
 
 compileThrift {
@@ -34,5 +49,3 @@ sourceSets {
         }
     }
 }
-
-compileKotlin.dependsOn(compileThrift)

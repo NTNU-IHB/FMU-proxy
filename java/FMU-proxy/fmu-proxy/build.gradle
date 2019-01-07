@@ -3,13 +3,7 @@ plugins {
     id "kotlin"
     id "application"
     id "com.github.johnrengelman.shadow" version "4.0.3"
-
-    id "org.jruyi.thrift" version "0.4.0"
-    id "com.google.protobuf" version "0.8.6"
-
 }
-
-apply from: rootProject.file('rpc-gen.gradle')
 
 def group = "no.mechatronics.sfi.fmuproxy"
 mainClassName = "${group}.FmuProxy"
@@ -40,7 +34,9 @@ dependencies {
 
     implementation group: 'com.github.SFI-Mechatronics.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
     implementation group: 'com.github.SFI-Mechatronics.FMI4j', name: 'fmi-import-solvers-apache-math3', version: fmi4j_version, changing: fmi4j_snapshot
-    
+
+    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
+
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
