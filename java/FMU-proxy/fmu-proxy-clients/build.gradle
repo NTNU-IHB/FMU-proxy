@@ -19,8 +19,8 @@ dependencies {
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-zmq', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-http', version: yajrpc_version
 
-    implementation group: 'no.mechatronics.sfi.fmi4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
-    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
+    implementation group: 'com.github.SFI-Mechatronics.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
+    implementation group: 'com.github.SFI-Mechatronics.FMU-proxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
