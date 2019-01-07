@@ -16,10 +16,19 @@ dependencies {
 
 def definitions = "../../../rpc-definitions"
 
-compileThrift {
-    createGenFolder false
-    generator 'java', 'private-members'
-    sourceItems "${definitions}/thrift"
+
+try  {
+    
+    'thrift'.execute()
+
+    compileThrift {
+        createGenFolder false
+        generator 'java', 'private-members'
+        sourceItems "${definitions}/thrift"
+    }
+
+} catch (Exception ex) {
+    println ex
 }
 
 protobuf {
