@@ -21,54 +21,58 @@ class PublishPlugin implements Plugin<Project>{
 
     void apply(Project project) {
 
+        project.apply(plugin: MavenPublishPlugin)
+
+        project.group = 'no.mechatronics.sfi.fmuproxy'
+        project.version = 'dev-SNAPSHOT'
+
+        println("maven version for ${project.archivesBaseName} is: ${project.version}")
+
         def extension = project.extensions.create('pomDescription', PublishPluginExtension)
+        
+        project.publishing {
+            publications {
+                mavenJava(MavenPublication) {
 
-        if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+                    from project.components.java
+                    artifact sourcesJar(project)
+                    artifact javadocJar(project)
 
-            project.apply(plugin: MavenPublishPlugin)
-            project.apply(plugin: SigningPlugin)
-            
-            project.group = 'no.mechatronics.sfi.fmuproxy'
-            project.version = 'dev-SNAPSHOT'
+                    pom {
+                        name = project.archivesBaseName
+                        description = extension.description
+                        url = 'https://github.com/SFI-Mechatronics/FMU-proxy'
 
-            println("maven version for ${project.archivesBaseName} is: ${project.version}")
+                        scm {
+                            connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
+                            developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
+                            url = 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
+                        }
 
-            project.publishing {
-                publications {
-                    mavenJava(MavenPublication) {
-
-                        from project.components.java
-                        artifact sourcesJar(project)
-                        artifact javadocJar(project)
-
-                        pom {
-                            name = project.archivesBaseName
-                            description = extension.description
-                            url = 'https://github.com/SFI-Mechatronics/FMU-proxy'
-
-                            scm {
-                                connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
-                                developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
-                                url = 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
+                        licenses {
+                            license {
+                                name = 'The MIT License'
+                                url = 'https://opensource.org/licenses/mit-license.php'
                             }
+                        }
 
-                            licenses {
-                                license {
-                                    name = 'The MIT License'
-                                    url = 'https://opensource.org/licenses/mit-license.php'
-                                }
-                            }
-
-                            developers {
-                                developer {
-                                    id = 'laht'
-                                    name = 'Lars Ivar Hatledal'
-                                    email = 'laht@ntnu.no'
-                                }
+                        developers {
+                            developer {
+                                id = 'laht'
+                                name = 'Lars Ivar Hatledal'
+                                email = 'laht@ntnu.no'
                             }
                         }
                     }
                 }
+            }
+        }
+        
+        if (project.hasProperty("ossrhUsername") && project.hasProperty("ossrhPassword")) {
+
+            project.apply(plugin: SigningPlugin)
+
+            project.publishing {
                 repositories {
                     maven {
                         def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
