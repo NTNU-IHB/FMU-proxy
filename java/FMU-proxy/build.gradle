@@ -9,7 +9,7 @@ ext.fmi4j_snapshot = false
 ext.fmi4j_version = fmi4j_snapshot ? 'dev-SNAPSHOT' : '0.13.1'
 
 ext.grpc_version = '1.17.1'
-ext.yajrpc_version = '0.10.2'
+ext.yajrpc_version = 'v0.10.2'
 ext.slf4j_version = '1.7.25'
 
 subprojects { sub ->
@@ -18,9 +18,8 @@ subprojects { sub ->
 
     repositories {
         mavenCentral()
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven { url 'https://jitpack.io' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
     configurations.all {
