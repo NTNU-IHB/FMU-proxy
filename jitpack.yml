@@ -1,4 +1,4 @@
 install:
    - echo "Running a custom install command"
-   - ./java/FMU-proxy/gradlew -p library/FMI4j clean publishToMavenLocal
+   - ./java/FMU-proxy/gradlew -p java/FMU-proxy clean publishToMavenLocal
 
