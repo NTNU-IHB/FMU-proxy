@@ -16,7 +16,6 @@ dependencies {
 
 def definitions = "../../../rpc-definitions"
 
-
 try  {
     
     'thrift'.execute()
