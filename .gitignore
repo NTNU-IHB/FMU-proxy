@@ -61,3 +61,5 @@ __pycache__
 
 /**/grpc_cpp_plugin
 /**/protoc
+
+/cpp/FMU-proxy/vcpkg
