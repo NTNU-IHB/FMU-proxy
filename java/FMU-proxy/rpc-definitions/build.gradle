@@ -1,10 +1,7 @@
 
 plugins {
-    id "org.jruyi.thrift" version "0.4.0"
-    id "com.google.protobuf" version "0.8.6"
+    id "com.google.protobuf"
 }
-
-apply from: rootProject.file('publisher.gradle')
 
 dependencies {
 
@@ -16,22 +13,27 @@ dependencies {
 
 def definitions = "../../../rpc-definitions"
 
-try  {
-    
-    'thrift'.execute()
+task generateThrift(type: Exec) {
 
-    compileThrift {
-        createGenFolder false
-        generator 'java', 'private-members'
-        sourceItems "${definitions}/thrift"
+    def out = new File("src/main/java")
+    if (!out.exists()) {
+        out.mkdirs()
     }
 
-} catch (Exception ex) {
-    println ex
+    try {
+
+        commandLine 'thrift',
+                '-r',
+                '-out', 'src/main/java',
+                '--gen', 'java', "$definitions/thrift/service.thrift"
+
+    } catch (Exception ex) {
+        println ex
+    }
 }
 
 protobuf {
-    generatedFilesBaseDir = "$projectDir/build"
+    generatedFilesBaseDir = "$projectDir/src"
     protoc {
         artifact = 'com.google.protobuf:protoc:3.6.1'
     }
@@ -53,7 +55,7 @@ protobuf {
 sourceSets {
     main {
         proto {
-            srcDir "${definitions}/proto"
+            srcDir "$definitions/proto"
         }
     }
 }

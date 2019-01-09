@@ -1,6 +1,7 @@
 
 class PublishPluginExtension {
-    String description = ""
+    String description = ''
+    String group = 'no.ntnu.ihb.fmuproxy'
 }
 
 class PublishPlugin implements Plugin<Project>{
@@ -8,29 +9,34 @@ class PublishPlugin implements Plugin<Project>{
     protected Jar sourcesJar(Project project) {
         Jar task = project.tasks.create("sourcesJar", Jar.class)
         task.from project.sourceSets.main.allSource
-        task.classifier = 'sources'
+        task.archiveClassifier = 'sources'
         return task
     }
 
     protected Jar javadocJar(Project project) {
         Jar task = project.tasks.create("javadocJar", Jar.class)
         task.from project.javadoc.destinationDir
-        task.classifier = 'javadoc'
+        task.archiveClassifier = 'javadoc'
         return task
     }
 
     void apply(Project project) {
 
+        def extension = project.extensions
+                .create('pomDescription', PublishPluginExtension)
+
         project.apply(plugin: MavenPublishPlugin)
 
-        project.group = 'no.mechatronics.sfi.fmuproxy'
+        
         project.version = 'dev-SNAPSHOT'
 
         println("maven version for ${project.archivesBaseName} is: ${project.version}")
 
-        def extension = project.extensions.create('pomDescription', PublishPluginExtension)
         
         project.publishing {
+
+            project.group = extension.group
+            
             publications {
                 mavenJava(MavenPublication) {
 
@@ -41,12 +47,12 @@ class PublishPlugin implements Plugin<Project>{
                     pom {
                         name = project.archivesBaseName
                         description = extension.description
-                        url = 'https://github.com/SFI-Mechatronics/FMU-proxy'
+                        url = 'https://github.com/NTNU-IHB/FMU-proxy'
 
                         scm {
-                            connection = 'scm:git:git://github.com/SFI-Mechatronics/FMU-proxy.git'
-                            developerConnection = 'scm:git:ssh://github.com/SFI-Mechatronics/FMU-proxy.git'
-                            url = 'https://github.com/SFI-Mechatronics/FMU-proxy/tree/master'
+                            connection = 'scm:git:git://github.com/NTNU-IHB/FMU-proxy.git'
+                            developerConnection = 'scm:git:ssh://github.com/NTNU-IHB/FMU-proxy.git'
+                            url = 'https://github.com/NTNU-IHB/FMU-proxy/tree/master'
                         }
 
                         licenses {

@@ -1,21 +1,17 @@
 
 plugins {
     id "kotlin"
+    id 'maven-publish'
+    id "no.ntnu.ihb.fmuproxy.RpcCompiler"
 }
 
-apply from: rootProject.file('publisher.gradle')
-
-pomDescription {
-    description 'A collection of clients for talking to FMU-proxy servers'
-}
+version = "0.1"
 
 dependencies {
 
-    implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
-    implementation group: 'io.grpc', name: 'grpc-stub', version: grpc_version
-    implementation group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
+    implementation project(":rpc-definitions")
 
-    implementation group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
+    implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
 
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-ws', version: yajrpc_version
@@ -25,9 +21,15 @@ dependencies {
 
     implementation group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 
-    implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
-
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }

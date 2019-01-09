@@ -14,12 +14,13 @@ ext.slf4j_version = '1.7.25'
 
 subprojects { sub ->
 
-    apply plugin: 'java'
+    apply plugin: "java"
+
+    group = "no.ntnu.ihb.fmuproxy"
 
     repositories {
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
     configurations.all {
