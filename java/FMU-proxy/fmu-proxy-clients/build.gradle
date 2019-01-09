@@ -2,7 +2,6 @@
 plugins {
     id "kotlin"
     id 'maven-publish'
-    id "no.ntnu.ihb.fmuproxy.RpcCompiler"
 }
 
 version = "0.1"

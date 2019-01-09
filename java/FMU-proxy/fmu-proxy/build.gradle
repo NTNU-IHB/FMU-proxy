@@ -2,7 +2,6 @@
 plugins {
     id "kotlin"
     id "application"
-    id "no.ntnu.ihb.fmuproxy.RpcCompiler"
     id "com.github.johnrengelman.shadow" version "4.0.3"
 }
 
