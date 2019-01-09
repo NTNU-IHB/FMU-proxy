@@ -161,7 +161,7 @@ class ThriftFmuClient(
 
     override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
         return client.serializeFMUstate(instanceId, state).let {
-            it.state to it.status.convert()
+            it.state.array() to it.status.convert()
         }
     }
 
