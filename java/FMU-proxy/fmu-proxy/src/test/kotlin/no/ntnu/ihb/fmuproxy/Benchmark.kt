@@ -114,7 +114,7 @@ class Benchmark {
                 }
                 client.close()
             }
-        } catch (ex: ConnectException) {
+        } catch (ex: Exception) {
             LOG.error("Unable to connect..")
         }
 
