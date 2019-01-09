@@ -59,3 +59,7 @@ sourceSets {
         }
     }
 }
+
+task generateAll {
+    dependsOn 'generateProto', 'generateThrift'
+}
