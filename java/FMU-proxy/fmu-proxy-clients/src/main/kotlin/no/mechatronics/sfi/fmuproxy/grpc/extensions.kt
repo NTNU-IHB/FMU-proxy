@@ -24,15 +24,15 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc
 
-import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.*
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
+import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.logging.LogCategories
+import no.ntnu.ihb.fmi4j.modeldescription.misc.*
+import no.ntnu.ihb.fmi4j.modeldescription.misc.Unit
+import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
+import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmuproxy.Solver
 
 

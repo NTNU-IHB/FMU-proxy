@@ -26,14 +26,14 @@ package no.mechatronics.sfi.fmuproxy.jsonrpc.service
 
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
-import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.InstanceId
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
-import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -91,7 +91,7 @@ class RpcFmuService(
     @RpcMethod
     fun createInstanceFromME(fmuId: String, solver: Solver): String {
         return getFmu(fmuId).let { fmu ->
-            fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
+            fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
                 LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
                 return ApacheSolvers.euler(stepSize)

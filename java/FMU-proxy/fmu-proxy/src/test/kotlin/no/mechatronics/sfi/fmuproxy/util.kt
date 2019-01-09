@@ -1,6 +1,6 @@
 package no.mechatronics.sfi.fmuproxy
 
-import no.mechatronics.sfi.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.common.FmuSlave
 import org.junit.jupiter.api.Assertions
 import kotlin.system.measureTimeMillis
 

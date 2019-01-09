@@ -24,15 +24,15 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift
 
-import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.logging.LogCategories
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.*
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.Unit
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
+import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.modeldescription.logging.LogCategories
+import no.ntnu.ihb.fmi4j.modeldescription.misc.*
+import no.ntnu.ihb.fmi4j.modeldescription.misc.Unit
+import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
+import no.ntnu.ihb.fmi4j.modeldescription.variables.*
+import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
+import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
+import no.ntnu.ihb.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.Solver
 
 internal fun Status.convert(): FmiStatus {
@@ -95,7 +95,7 @@ internal fun BooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(value.toBooleanArray(), status.convert())
 }
 
-internal fun DefaultExperiment.convert(): no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment {
+internal fun DefaultExperiment.convert(): no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment {
     return DefaultExperimentImpl(
             startTime = startTime,
             stopTime = stopTime,
@@ -104,8 +104,8 @@ internal fun DefaultExperiment.convert(): no.mechatronics.sfi.fmi4j.modeldescrip
     )
 }
 
-internal fun Unknown.convert(): no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown {
-    return object: no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown {
+internal fun Unknown.convert(): no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown {
+    return object: no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown {
         override val dependencies: List<Int>
             get() = getDependencies() ?: emptyList()
         override val dependenciesKind: String?
@@ -117,11 +117,11 @@ internal fun Unknown.convert(): no.mechatronics.sfi.fmi4j.modeldescription.struc
 
 internal fun no.mechatronics.sfi.fmuproxy.thrift.ModelStructure.convert(): ModelStructure {
     return object: ModelStructure {
-        override val derivatives: List<no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown>
+        override val derivatives: List<no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown>
             get() = getDerivatives()?.map { it.convert() } ?: emptyList()
-        override val initialUnknowns: List<no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown>
+        override val initialUnknowns: List<no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown>
             get() = getInitialUnknowns()?.map { it.convert() } ?: emptyList()
-        override val outputs: List<no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown>
+        override val outputs: List<no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown>
             get() = getOutputs()?.map { it.convert() } ?: emptyList()
     }
 }
@@ -205,13 +205,13 @@ internal fun List<ScalarVariable>.convert(): ModelVariables {
     return MyModelVariables(this)
 }
 
-internal fun ModelDescription.convert(): no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription {
+internal fun ModelDescription.convert(): no.ntnu.ihb.fmi4j.modeldescription.ModelDescription {
     return ThriftModelDescription(this)
 }
 
-internal fun CoSimulationAttributes.convert(): no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes {
+internal fun CoSimulationAttributes.convert(): no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes {
 
-    return object :no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes {
+    return object :no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes {
 
         override val canBeInstantiatedOnlyOncePerProcess: Boolean
             get() = false
@@ -245,13 +245,13 @@ internal fun CoSimulationAttributes.convert(): no.mechatronics.sfi.fmi4j.modelde
 
 class ThriftModelDescription(
         private val modelDescription: ModelDescription
-): no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription {
+): no.ntnu.ihb.fmi4j.modeldescription.ModelDescription {
 
     override val author: String?
         get() = modelDescription.author
     override val copyright: String?
         get() = modelDescription.copyright
-    override val defaultExperiment: no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment? = modelDescription.defaultExperiment?.convert()
+    override val defaultExperiment: no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment? = modelDescription.defaultExperiment?.convert()
     override val description: String?
         get() = modelDescription.description
     override val fmiVersion: String

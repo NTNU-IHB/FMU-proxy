@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.fmu
 
-import no.mechatronics.sfi.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.common.FmuSlave
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*

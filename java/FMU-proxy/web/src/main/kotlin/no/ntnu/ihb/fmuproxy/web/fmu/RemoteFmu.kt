@@ -22,39 +22,36 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.web
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import javax.servlet.ServletContextEvent
-import javax.servlet.ServletContextListener
+package no.ntnu.ihb.fmuproxy.web.fmu
 
-typealias ContextListener = () -> Unit
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.variables.TypedScalarVariable
 
 /**
+ * Represents a remote Fmu
  * @author Lars Ivar Hatledal
  */
-class ServletContextListenerImpl : ServletContextListener  {
+class RemoteFmu(
+        val host: String,
+        val ports: Map<String, Int>,
+        val modelDescription: ModelDescription
+) {
 
-    companion object {
-        
-        private val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
-        private val listeners = mutableListOf<ContextListener>()
+    val guid: String
+        get() = modelDescription.guid
 
-        fun onDestroy(action: () -> Unit) = listeners.add(action)
+    val modelName: String
+        get() = modelDescription.modelName
 
-    }
+    val description: String
+        get() = modelDescription.description ?: "-"
 
-    override fun contextInitialized(sce: ServletContextEvent?) {
-       LOG.debug("contextInitialized")
-    }
+    val modelVariables: List<TypedScalarVariable<*>>
+        get() = modelDescription.modelVariables.getVariables()
 
-    override fun contextDestroyed(sce: ServletContextEvent?) {
-        listeners.apply {
-            forEach{ it.invoke() }
-            clear()
-        }
-        LOG.debug("contextDestroyed")
+    override fun toString(): String {
+        return "RemoteFmu(guid=$guid, modelName=$modelName, description=$description)"
     }
 
 }

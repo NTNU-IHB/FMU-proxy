@@ -5,8 +5,8 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.common.currentOS
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*

@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy
 
-import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.cli.CommandLineParser
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.heartbeat.Heartbeat

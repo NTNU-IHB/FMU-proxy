@@ -1,7 +1,7 @@
 package no.mechatronics.sfi.fmuproxy.thrift
 
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.common.currentOS
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.thrift.client.LightThriftClient
 import org.apache.thrift.transport.TTransportException

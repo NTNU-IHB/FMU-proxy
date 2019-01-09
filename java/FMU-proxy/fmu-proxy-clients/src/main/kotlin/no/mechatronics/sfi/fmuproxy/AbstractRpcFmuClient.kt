@@ -24,10 +24,10 @@
 
 package no.mechatronics.sfi.fmuproxy
 
-import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.importer.IFmu
-import no.mechatronics.sfi.fmi4j.importer.misc.FmuVariableAccessorImpl
-import no.mechatronics.sfi.fmi4j.modeldescription.*
+import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.importer.IFmu
+import no.ntnu.ihb.fmi4j.importer.misc.FmuVariableAccessorImpl
+import no.ntnu.ihb.fmi4j.modeldescription.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

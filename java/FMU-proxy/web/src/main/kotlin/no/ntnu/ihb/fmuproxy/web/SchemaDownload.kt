@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.web
+package no.ntnu.ihb.fmuproxy.web
 
 import org.primefaces.model.DefaultStreamedContent
 import org.primefaces.model.StreamedContent

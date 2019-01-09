@@ -27,16 +27,16 @@ package no.mechatronics.sfi.fmuproxy.grpc.services
 import com.google.protobuf.ByteString
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.common.FmuSlave
-import no.mechatronics.sfi.fmi4j.common.RealArray
-import no.mechatronics.sfi.fmi4j.common.StringArray
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.common.RealArray
+import no.ntnu.ihb.fmi4j.common.StringArray
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.grpc.*
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
-import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -95,7 +95,7 @@ class GrpcFmuServiceImpl(
             if (!supportsModelExchange) {
                 unSupportedOperationException(responseObserver, "FMU does not support Model Exchange!")
             } else {
-                fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
+                fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                     val stepSize = modelDescription.defaultExperiment?.stepSize ?: 1E-3
                     LOG.warn("No valid solver found.. Defaulting to Euler with $stepSize stepSize")
                     return ApacheSolvers.euler(stepSize)

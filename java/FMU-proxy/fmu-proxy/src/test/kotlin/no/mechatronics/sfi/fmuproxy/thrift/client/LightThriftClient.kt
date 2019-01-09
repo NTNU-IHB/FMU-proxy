@@ -24,7 +24,7 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift.client
 
-import no.mechatronics.sfi.fmi4j.common.ValueReference
+import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.mechatronics.sfi.fmuproxy.Solver
 import no.mechatronics.sfi.fmuproxy.thrift.*
 import org.apache.thrift.protocol.TBinaryProtocol

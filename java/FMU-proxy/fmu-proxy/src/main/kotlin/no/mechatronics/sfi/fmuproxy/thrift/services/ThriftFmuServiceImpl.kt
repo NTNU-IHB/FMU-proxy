@@ -24,16 +24,15 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift.services
 
-import no.mechatronics.sfi.fmi4j.common.FmuSlave
-import no.mechatronics.sfi.fmi4j.common.RealArray
-import no.mechatronics.sfi.fmi4j.common.StringArray
-import no.mechatronics.sfi.fmi4j.common.ValueReference
-import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.common.RealArray
+import no.ntnu.ihb.fmi4j.common.StringArray
+import no.ntnu.ihb.fmi4j.common.ValueReference
+import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.fmu.FmuSlaves
 import no.mechatronics.sfi.fmuproxy.solver.parseSolver
 import no.mechatronics.sfi.fmuproxy.thrift.*
-import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
-import org.apache.commons.math3.analysis.function.Cos
+import no.ntnu.ihb.fmi4j.me.ApacheSolvers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.ByteBuffer
@@ -80,7 +79,7 @@ class ThriftFmuServiceImpl(
             if (!fmu.supportsModelExchange) {
                 throw UnsupportedOperationException("FMU does not support Model Exchange!")
             }
-            fun selectDefaultIntegrator(): no.mechatronics.sfi.fmi4j.solvers.Solver {
+            fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
                 LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
                 return ApacheSolvers.euler(stepSize)
@@ -95,7 +94,7 @@ class ThriftFmuServiceImpl(
 
     override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
         val attributes = getSlave(instanceId).modelDescription
-                as no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
+                as no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
         return attributes.thriftType()
     }
 

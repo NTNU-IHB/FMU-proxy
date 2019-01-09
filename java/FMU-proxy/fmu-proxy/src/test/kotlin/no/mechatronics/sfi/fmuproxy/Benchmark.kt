@@ -5,9 +5,9 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.common.currentOS
+import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuClient
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer
 import no.mechatronics.sfi.fmuproxy.jsonrpc.*
@@ -26,6 +26,7 @@ import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.net.ConnectException
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
@@ -98,18 +99,22 @@ class Benchmark {
             }
         }
 
-        ThriftFmuServlet(fmu).use { server ->
-            val port = server.start()
-            val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
-            client.newInstance().use { instance ->
-                runSlave(instance, stepSize, stop) {
-                    val read = instance.variableAccessor.readReal("Temperature_Room")
-                    Assertions.assertTrue(read.value > 0)
-                }.also {
-                    LOG.info("Thrift/http duration=${it}ms")
+        try {
+            ThriftFmuServlet(fmu).use { server ->
+                val port = server.start()
+                val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
+                client.newInstance().use { instance ->
+                    runSlave(instance, stepSize, stop) {
+                        val read = instance.variableAccessor.readReal("Temperature_Room")
+                        Assertions.assertTrue(read.value > 0)
+                    }.also {
+                        LOG.info("Thrift/http duration=${it}ms")
+                    }
                 }
+                client.close()
             }
-            client.close()
+        } catch (ex: ConnectException) {
+            LOG.error("Unable to connect..")
         }
 
     }

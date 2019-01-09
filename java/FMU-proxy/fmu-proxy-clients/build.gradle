@@ -23,7 +23,7 @@ dependencies {
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-zmq', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-http', version: yajrpc_version
 
-    implementation group: 'com.github.SFI-Mechatronics.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
+    implementation group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 
     implementation group: 'no.mechatronics.sfi.fmuproxy', name: 'rpc-definitions', version: 'dev-SNAPSHOT', changing: true
 

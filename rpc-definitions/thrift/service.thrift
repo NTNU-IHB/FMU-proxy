@@ -23,7 +23,7 @@
  */
 
 namespace cpp fmuproxy.thrift
-namespace java no.mechatronics.sfi.fmuproxy.thrift
+namespace java no.ntnu.ihb.fmuproxy.thrift
 
 typedef string FmuId
 typedef string InstanceId

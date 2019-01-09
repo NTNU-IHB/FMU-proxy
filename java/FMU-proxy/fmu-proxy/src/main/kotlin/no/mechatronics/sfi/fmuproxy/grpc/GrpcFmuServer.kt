@@ -26,7 +26,7 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.grpc.services.GrpcFmuServiceImpl
 import no.mechatronics.sfi.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger

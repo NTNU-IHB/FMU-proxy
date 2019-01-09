@@ -25,8 +25,8 @@
 package no.mechatronics.sfi.fmuproxy.cli
 
 import info.laht.yajrpc.RpcHandler
-import no.mechatronics.sfi.fmi4j.common.isLinux
-import no.mechatronics.sfi.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.isLinux
+import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.mechatronics.sfi.fmuproxy.FmuProxy
 import no.mechatronics.sfi.fmuproxy.FmuProxyBuilder
 import no.mechatronics.sfi.fmuproxy.grpc.GrpcFmuServer

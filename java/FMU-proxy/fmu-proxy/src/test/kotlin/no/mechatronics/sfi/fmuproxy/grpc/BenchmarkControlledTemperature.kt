@@ -1,11 +1,11 @@
 package no.mechatronics.sfi.fmuproxy.grpc
 
 import io.grpc.StatusRuntimeException
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.common.FmuSlave
-import no.mechatronics.sfi.fmi4j.common.RealArray
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.common.currentOS
+import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.common.RealArray
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.currentOS
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test

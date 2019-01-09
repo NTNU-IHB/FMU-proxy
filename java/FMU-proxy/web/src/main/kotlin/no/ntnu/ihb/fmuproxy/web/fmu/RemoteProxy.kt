@@ -22,27 +22,42 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.web.fmu
+package no.ntnu.ihb.fmuproxy.web.fmu
 
+import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
 import java.io.Serializable
+import java.net.InetAddress
 import javax.faces.bean.ManagedBean
-import javax.faces.bean.ManagedProperty
-import javax.faces.bean.ViewScoped
 
 /**
+ * Represents a remote FMU-proxy
+ *
  * @author Lars Ivar Hatledal
  */
 @ManagedBean
-@ViewScoped
-class FmuView: Serializable {
+class RemoteProxy(
+        val uuid: String,
+        private val ports: Map<String, Int>,
+        modelDescriptions: List<String>
+): Serializable {
 
-    @ManagedProperty("#{fmuService}")
-    lateinit var service: FmuService
+    var host: String? = null
+        set(value) {
+            field = if (value != "127.0.0.1") {
+                value
+            } else {
+                InetAddress.getLocalHost().hostAddress
+            }
+        }
 
-    var selectedFmu: RemoteFmu? = null
+    val fmus: List<RemoteFmu> by lazy {
+        modelDescriptions.map {
+            RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
+        }
+    }
 
     override fun toString(): String {
-        return "FmuView(selectedFmu=$selectedFmu)"
+        return "RemoteProxy(uuid='$uuid', numFmus='${fmus.size}', host=$host, ports=$ports)"
     }
 
 }

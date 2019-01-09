@@ -11,7 +11,7 @@
 
     <listener>
       <listener-class>
-          no.mechatronics.sfi.fmuproxy.web.ServletContextListenerImpl
+          no.ntnu.ihb.fmuproxy.web.ServletContextListenerImpl
       </listener-class>
     </listener>
 

@@ -25,7 +25,7 @@
 syntax = "proto3";
 
 package fmuproxy.grpc;
-option java_package = "no.mechatronics.sfi.fmuproxy.grpc";
+option java_package = "no.ntnu.ihb.fmuproxy.grpc";
 
 message ModelDescription {
     string fmi_version = 1;

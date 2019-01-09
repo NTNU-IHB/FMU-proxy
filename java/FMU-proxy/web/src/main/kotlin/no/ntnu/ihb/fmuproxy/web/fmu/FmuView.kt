@@ -22,36 +22,27 @@
  * THE SOFTWARE.
  */
 
+package no.ntnu.ihb.fmuproxy.web.fmu
 
-package no.mechatronics.sfi.fmuproxy.web.fmu
-
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.TypedScalarVariable
+import java.io.Serializable
+import javax.faces.bean.ManagedBean
+import javax.faces.bean.ManagedProperty
+import javax.faces.bean.ViewScoped
 
 /**
- * Represents a remote Fmu
  * @author Lars Ivar Hatledal
  */
-class RemoteFmu(
-        val host: String,
-        val ports: Map<String, Int>,
-        val modelDescription: ModelDescription
-) {
+@ManagedBean
+@ViewScoped
+class FmuView: Serializable {
 
-    val guid: String
-        get() = modelDescription.guid
+    @ManagedProperty("#{fmuService}")
+    lateinit var service: FmuService
 
-    val modelName: String
-        get() = modelDescription.modelName
-
-    val description: String
-        get() = modelDescription.description ?: "-"
-
-    val modelVariables: List<TypedScalarVariable<*>>
-        get() = modelDescription.modelVariables.getVariables()
+    var selectedFmu: RemoteFmu? = null
 
     override fun toString(): String {
-        return "RemoteFmu(guid=$guid, modelName=$modelName, description=$description)"
+        return "FmuView(selectedFmu=$selectedFmu)"
     }
 
 }

@@ -22,10 +22,10 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.web.fmu
+package no.ntnu.ihb.fmuproxy.web.fmu
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import no.mechatronics.sfi.fmuproxy.web.ServletContextListenerImpl
+import no.ntnu.ihb.fmuproxy.web.ServletContextListenerImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Serializable
@@ -54,7 +54,7 @@ class FmuService: Serializable {
      * instance access to static field
      */
     val fmus: List<RemoteFmu>
-        get() = FmuService.fmus
+        get() = Companion.fmus
 
     @PostConstruct
     fun setup() {
@@ -92,7 +92,7 @@ class FmuService: Serializable {
             get() = map.values.map { it.remoteFmu }
 
         val fmus: List<RemoteFmu>
-            get() = FmuService.proxies.flatMap { it.fmus }
+            get() = proxies.flatMap { it.fmus }
 
     }
 

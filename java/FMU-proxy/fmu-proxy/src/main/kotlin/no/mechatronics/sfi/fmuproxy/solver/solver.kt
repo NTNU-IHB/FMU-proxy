@@ -26,8 +26,8 @@ package no.mechatronics.sfi.fmuproxy.solver
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import no.mechatronics.sfi.fmi4j.solvers.Solver
-import no.sfi.mechatronics.fmi4j.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.solvers.Solver
 
 private const val STEP_SIZE = "step_size"
 

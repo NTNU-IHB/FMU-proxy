@@ -26,9 +26,9 @@ package no.mechatronics.sfi.fmuproxy.grpc
 
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
-import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.mechatronics.sfi.fmuproxy.AbstractRpcFmuClient
 import no.mechatronics.sfi.fmuproxy.InstanceId
 import no.mechatronics.sfi.fmuproxy.Solver

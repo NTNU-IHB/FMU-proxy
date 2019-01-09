@@ -22,42 +22,39 @@
  * THE SOFTWARE.
  */
 
-package no.mechatronics.sfi.fmuproxy.web.fmu
+package no.ntnu.ihb.fmuproxy.web
 
-import no.mechatronics.sfi.fmi4j.modeldescription.parser.ModelDescriptionParser
-import java.io.Serializable
-import java.net.InetAddress
-import javax.faces.bean.ManagedBean
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import javax.servlet.ServletContextEvent
+import javax.servlet.ServletContextListener
+
+typealias ContextListener = () -> Unit
 
 /**
- * Represents a remote FMU-proxy
- *
  * @author Lars Ivar Hatledal
  */
-@ManagedBean
-class RemoteProxy(
-        val uuid: String,
-        private val ports: Map<String, Int>,
-        modelDescriptions: List<String>
-): Serializable {
+class ServletContextListenerImpl : ServletContextListener  {
 
-    var host: String? = null
-        set(value) {
-            field = if (value != "127.0.0.1") {
-                value
-            } else {
-                InetAddress.getLocalHost().hostAddress
-            }
-        }
+    companion object {
+        
+        private val LOG: Logger = LoggerFactory.getLogger(ServletContextListenerImpl::class.java)
+        private val listeners = mutableListOf<ContextListener>()
 
-    val fmus: List<RemoteFmu> by lazy {
-        modelDescriptions.map {
-            RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
-        }
+        fun onDestroy(action: () -> Unit) = listeners.add(action)
+
     }
 
-    override fun toString(): String {
-        return "RemoteProxy(uuid='$uuid', numFmus='${fmus.size}', host=$host, ports=$ports)"
+    override fun contextInitialized(sce: ServletContextEvent?) {
+       LOG.debug("contextInitialized")
+    }
+
+    override fun contextDestroyed(sce: ServletContextEvent?) {
+        listeners.apply {
+            forEach{ it.invoke() }
+            clear()
+        }
+        LOG.debug("contextDestroyed")
     }
 
 }

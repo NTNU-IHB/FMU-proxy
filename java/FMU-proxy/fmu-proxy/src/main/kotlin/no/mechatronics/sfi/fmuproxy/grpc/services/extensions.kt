@@ -24,13 +24,13 @@
 
 package no.mechatronics.sfi.fmuproxy.grpc.services
 
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
+import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment
+import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
+import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.mechatronics.sfi.fmuproxy.grpc.Service
 
 internal fun Boolean.protoType(): Service.Bool {

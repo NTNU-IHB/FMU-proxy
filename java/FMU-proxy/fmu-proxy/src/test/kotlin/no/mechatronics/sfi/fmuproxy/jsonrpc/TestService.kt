@@ -1,12 +1,12 @@
 package no.mechatronics.sfi.fmuproxy.jsonrpc
 
 import info.laht.yajrpc.*
-import no.mechatronics.sfi.fmi4j.common.FmiStatus
-import no.mechatronics.sfi.fmi4j.common.FmuRealArrayRead
-import no.mechatronics.sfi.fmi4j.importer.Fmu
-import no.mechatronics.sfi.fmi4j.common.currentOS
-import no.mechatronics.sfi.fmi4j.modeldescription.ModelDescriptionImpl
-import no.mechatronics.sfi.fmi4j.modeldescription.parser.ModelDescriptionParser
+import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.common.FmuRealArrayRead
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.common.currentOS
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionImpl
+import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
 import no.mechatronics.sfi.fmuproxy.TestUtils
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.RpcFmuService
 import no.mechatronics.sfi.fmuproxy.jsonrpc.service.StepResult

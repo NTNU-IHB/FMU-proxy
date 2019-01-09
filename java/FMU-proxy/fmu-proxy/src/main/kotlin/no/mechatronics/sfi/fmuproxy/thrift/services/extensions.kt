@@ -24,14 +24,14 @@
 
 package no.mechatronics.sfi.fmuproxy.thrift.services
 
-import no.mechatronics.sfi.fmi4j.common.*
-import no.mechatronics.sfi.fmi4j.modeldescription.misc.DefaultExperiment
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.ModelStructure
-import no.mechatronics.sfi.fmi4j.modeldescription.structure.Unknown
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.*
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.Causality
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.Initial
-import no.mechatronics.sfi.fmi4j.modeldescription.variables.Variability
+import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment
+import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
+import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.variables.*
+import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
+import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
+import no.ntnu.ihb.fmi4j.modeldescription.variables.Variability
 import no.mechatronics.sfi.fmuproxy.thrift.*
 import no.mechatronics.sfi.fmuproxy.thrift.ScalarVariable
 
@@ -124,7 +124,7 @@ internal fun ModelStructure.thriftType(): no.mechatronics.sfi.fmuproxy.thrift.Mo
     }
 }
 
-internal fun no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription.thriftType(): ModelDescription {
+internal fun no.ntnu.ihb.fmi4j.modeldescription.ModelDescription.thriftType(): ModelDescription {
     return ModelDescription().also { md ->
 
         md.guid = guid
@@ -146,7 +146,7 @@ internal fun no.mechatronics.sfi.fmi4j.modeldescription.ModelDescription.thriftT
     }
 }
 
-internal fun no.mechatronics.sfi.fmi4j.modeldescription.CoSimulationAttributes.thriftType(): CoSimulationAttributes {
+internal fun no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes.thriftType(): CoSimulationAttributes {
     return CoSimulationAttributes().also { a ->
 
         a.isCanHandleVariableCommunicationStepSize = canHandleVariableCommunicationStepSize
