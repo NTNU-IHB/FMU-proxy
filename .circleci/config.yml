@@ -39,4 +39,4 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
       # run tests!
-      - run: d java/FMU-proxy && gradlew test
+      - run: cd java/FMU-proxy && gradlew test
