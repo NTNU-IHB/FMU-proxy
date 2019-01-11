@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SFI-Mechatronics/FMU-proxy/issues)
 
+[![CircleCI](https://circleci.com/gh/NTNU-IHB/FMU-proxy.svg?style=svg)](https://circleci.com/gh/NTNU-IHB/FMU-proxy)
+
 The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models to be shared across tools. 
 To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. 
 This archive is called an Functional Mock-up Unit (FMU) and uses the extension .fmu. 
