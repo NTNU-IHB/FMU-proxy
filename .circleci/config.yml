@@ -31,13 +31,13 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: cd java/FMU-proxy && ./gradlew dependencies
+      - run: cd java/FMU-proxy && gradle dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
         
       # run tests!
-      - run: cd java/FMU-proxy && ./gradlew test
+      - run: cd java/FMU-proxy && gradle test
 
