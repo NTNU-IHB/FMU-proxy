@@ -31,7 +31,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: d java/FMU-proxy && ./gradlew dependencies
+      - run: cd java/FMU-proxy && ./gradlew dependencies
 
       - save_cache:
           paths:
