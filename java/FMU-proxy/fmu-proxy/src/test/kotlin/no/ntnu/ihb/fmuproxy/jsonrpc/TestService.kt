@@ -14,22 +14,25 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestService {
 
     private companion object {
        private val LOG: Logger = LoggerFactory.getLogger(TestService::class.java)
+
+        private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+                "2.0/cs/$currentOS/20sim/4.6.4.8004/" +
+                        "ControlledTemperature/ControlledTemperature.fmu"))
+
+        private val handler = RpcHandler(RpcFmuService(fmu))
+
     }
-
-    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/cs/$currentOS/20sim/4.6.4.8004/" +
-                    "ControlledTemperature/ControlledTemperature.fmu"))
-
-    private val handler = RpcHandler(RpcFmuService(fmu))
 
     @AfterAll
     fun tearDown() {
