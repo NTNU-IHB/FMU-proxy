@@ -43,7 +43,7 @@ jobs:
           - checkout
           - run:
               name: Creating Build Files
-              command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON
+              command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake
           - run:
               name: Creating Binary Files
               command: cd cpp/FMU-proxy && cmake --build build
