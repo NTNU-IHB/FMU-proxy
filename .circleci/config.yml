@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-    "java"
+    "java":
         docker:
           # specify the version you desire here
           - image: circleci/openjdk:8-jdk
@@ -43,7 +43,7 @@ jobs:
 
     version: 2
 jobs:
-    "cpp"
+    "cpp":
         docker:
           - image: ubuntu:18.04
         steps:
