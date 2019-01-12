@@ -38,7 +38,7 @@ jobs:
 
     "cpp":
         docker:
-          - image: laht/fmu-proxy:latest
+          - image: laht/fmu-proxy-cpp:latest
         steps:
           - checkout
           - run:
