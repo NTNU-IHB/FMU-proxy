@@ -1,7 +1,7 @@
 ## FMU-proxy (work in progress)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SFI-Mechatronics/FMU-proxy/issues)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SFI-Mechatronics/FMU-proxy/issues) [![Join the chat at https://gitter.im/NTNU-IHB/FMU-proxy](https://badges.gitter.im/NTNU-IHB/FMU-proxy.svg)](https://gitter.im/NTNU-IHB/FMU-proxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![CircleCI](https://circleci.com/gh/NTNU-IHB/FMU-proxy.svg?style=svg)](https://circleci.com/gh/NTNU-IHB/FMU-proxy)
 
