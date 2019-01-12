@@ -21,7 +21,3 @@ If you also want to build the tests, add:
 ```
 
 That's it!
-
-
-
-

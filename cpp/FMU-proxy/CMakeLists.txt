@@ -44,4 +44,3 @@ endif()
 if (FMU_PROXY_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
-
