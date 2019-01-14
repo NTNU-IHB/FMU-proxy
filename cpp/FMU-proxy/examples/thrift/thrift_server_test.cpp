@@ -36,9 +36,9 @@ int main(int argc, char **argv) {
                       + "/2.0/cs/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    auto fmu = make_shared<fmi4cpp::fmi2::Fmu>(fmu_path);
+    auto fmu = make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path);
     auto md = fmu->getModelDescription();
-    unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmus = {{md->guid(), fmu}};
+    unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus = {{md->guid(), fmu}};
 
     ThriftServer socket_server(fmus, 9090);
     socket_server.start();

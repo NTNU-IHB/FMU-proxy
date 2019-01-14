@@ -23,7 +23,7 @@
  */
 
 #include <iostream>
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 #include "../test_util.cpp"
 
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
     const double step_size = 1.0/100;
-    auto fmu = Fmu(fmu_path).asCoSimulationFmu();
+    auto fmu = fmi2Fmu(fmu_path).asCoSimulationFmu();
     auto md = fmu->getModelDescription();
 
     for (const auto &v : *md->modelVariables()) {

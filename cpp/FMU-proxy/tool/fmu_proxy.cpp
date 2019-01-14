@@ -33,7 +33,7 @@
 
 #include <boost/program_options.hpp>
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 using namespace std;
 using namespace fmuproxy::heartbeat;
@@ -60,11 +60,11 @@ namespace {
     }
 
     int run_application(
-            vector<shared_ptr<fmi4cpp::fmi2::Fmu>> fmus,
+            vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus,
             unordered_map<string, unsigned int> ports,
             const optional<RemoteAddress> remote) {
 
-        unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> fmu_map;
+        unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmu_map;
         vector<string> modelDescriptions;
         for (const auto fmu : fmus) {
             fmu_map[fmu->getModelDescription()->guid()] = fmu;
@@ -171,9 +171,9 @@ int main(int argc, char** argv) {
 
 
         const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
-        vector<shared_ptr<fmi4cpp::fmi2::Fmu>> fmus;
+        vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus;
         for (const auto fmu_path : fmu_paths) {
-            fmus.push_back(make_shared<fmi4cpp::fmi2::Fmu>(fmu_path));
+            fmus.push_back(make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path));
         }
 
 

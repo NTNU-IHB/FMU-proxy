@@ -28,7 +28,7 @@
 #include <cfloat>
 #include <fmuproxy/thrift/common/service_types.h>
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmi4cpp/fmi2/xml/ScalarVariableAttribute.hpp>
 
 using namespace fmuproxy::thrift;

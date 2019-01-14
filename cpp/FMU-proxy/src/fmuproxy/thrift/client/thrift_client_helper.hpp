@@ -31,7 +31,7 @@
 
 #include <fmuproxy/thrift/common/service_types.h>
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 using namespace fmuproxy::thrift;
 

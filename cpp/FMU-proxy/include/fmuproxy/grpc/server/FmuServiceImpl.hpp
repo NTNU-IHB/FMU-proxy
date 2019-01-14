@@ -30,19 +30,19 @@
 #include "../common/service.pb.h"
 #include "../common/service.grpc.pb.h"
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 namespace fmuproxy::grpc::server {
 
     class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
 
     private:
-        std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::Fmu>> fmus_;
-        std::unordered_map<std::string, std::unique_ptr<fmi4cpp::fmi2::FmuSlave>> slaves_;
+        std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus_;
+        std::unordered_map<std::string, std::unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>>> slaves_;
 
     public:
 
-        explicit FmuServiceImpl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus);
+        explicit FmuServiceImpl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
 
         ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext *context,
                                                  const ::fmuproxy::grpc::GetCoSimulationAttributesRequest *request,

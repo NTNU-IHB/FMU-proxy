@@ -25,7 +25,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include <fmi4cpp/fmi2/import/Fmu.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/heartbeat/RemoteAddress.hpp>
 #include "../test_util.cpp"
@@ -40,7 +40,7 @@ int main() {
                           + "/2.0/cs/" + getOs() +
                           "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    fmi4cpp::fmi2::Fmu fmu(fmu_path);
+    auto fmu = fmi4cpp::fmi2::fmi2Fmu(fmu_path);
     const RemoteAddress remote("localhost", 8080);
     
     const unordered_map<string, unsigned int> servers = {{"thrift/tcp", 9090}};

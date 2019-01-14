@@ -25,13 +25,13 @@
 #ifndef FMU_PROXY_REMOTEFMUINSTANCE_HPP
 #define FMU_PROXY_REMOTEFMUINSTANCE_HPP
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 #include "../common/service.grpc.pb.h"
 
 namespace fmuproxy::grpc::client {
 
-    class RemoteFmuSlave : public fmi4cpp::fmi2::FmuSlave {
+class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription> {
 
     private:
         

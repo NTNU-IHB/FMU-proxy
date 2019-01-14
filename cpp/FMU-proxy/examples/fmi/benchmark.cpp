@@ -27,7 +27,7 @@
 #include <iostream>
 
 #include "../test_util.cpp"
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 using namespace std;
 using namespace fmi4cpp::fmi2;
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
                       + "/2.0/cs/" + getOs() +
                       "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
 
-    auto fmu = Fmu(fmu_path).asCoSimulationFmu();
+    auto fmu = fmi2Fmu(fmu_path).asCoSimulationFmu();
     auto slave = fmu->newInstance();
     auto md = slave->getModelDescription();
     slave->setupExperiment();
