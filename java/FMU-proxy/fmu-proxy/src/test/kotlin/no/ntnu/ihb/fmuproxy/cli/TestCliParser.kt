@@ -9,15 +9,13 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestCliParser {
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(TestCliParser::class.java)
 
         private val fmuPath = File(TestUtils.getTEST_FMUs(),
-                "2.0/cs/$currentOS/20sim/4.6.4.8004/" +
-                        "ControlledTemperature/ControlledTemperature.fmu")
+                "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     }
 

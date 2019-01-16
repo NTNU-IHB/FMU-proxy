@@ -1,10 +1,11 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
+import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.common.currentOS
+import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
 import no.ntnu.ihb.fmuproxy.thrift.client.LightThriftClient
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import org.apache.thrift.transport.TTransportException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -25,8 +26,8 @@ class BenchmarkControlledTemperature {
 
     }
 
-    private fun runInstance(slave: LightThriftClient.FmuInstance,
-                            stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
+    private fun runLightInstance(slave: LightThriftClient.FmuInstance,
+                                 stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
 
         slave.init()
         return measureTimeMillis {
@@ -44,8 +45,7 @@ class BenchmarkControlledTemperature {
     fun benchmark() {
 
        Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "2.0/cs/$currentOS" +
-                        "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
+                "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
            ThriftFmuSocketServer(fmu).use { server ->
                val port = server.start()
@@ -53,7 +53,7 @@ class BenchmarkControlledTemperature {
                    LightThriftClient(fmu.guid, "localhost", port).use { client ->
 
                        client.newInstance().use { slave ->
-                           runInstance(slave, stepSize, stop) {
+                           runLightInstance(slave, stepSize, stop) {
                                val read = slave.readReal(listOf(46))
                                Assertions.assertTrue(read.value[0] > 0)
                            }.also {
@@ -79,9 +79,39 @@ class BenchmarkControlledTemperature {
         for (i in 0..2) {
             try {
 
+                ThriftFmuClient.socketClient(guid, host, port).use { client ->
+                    client.newInstance().use { instance ->
+                        runSlave(instance, stepSize, stop) {
+                            val read = instance.variableAccessor.readReal(46)
+                            Assertions.assertTrue(read.value > 0)
+                        }.also {
+                            LOG.info("Thrift remote duration=${it}ms")
+                        }
+                    }
+                }
+
+            } catch (ex: TTransportException) {
+                LOG.warn("Could not connect to remote server..")
+                break
+            }
+
+        }
+
+    }
+
+    @Test
+    fun benchmarkRemoteLight() {
+
+        val port = 9090
+        val host = "localhost"
+        val guid = "{06c2700b-b39c-4895-9151-304ddde28443}" //20Sim ControlledTemperature FMU
+
+        for (i in 0..2) {
+            try {
+
                LightThriftClient(guid, host, port).use { client ->
                    client.newInstance().use { instance ->
-                       runInstance(instance, stepSize, stop) {
+                       runLightInstance(instance, stepSize, stop) {
                            val read = instance.readReal(listOf(46))
                            Assertions.assertTrue(read.value[0] > 0)
                        }.also {

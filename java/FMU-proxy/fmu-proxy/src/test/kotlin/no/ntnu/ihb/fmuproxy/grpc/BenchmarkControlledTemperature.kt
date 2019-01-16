@@ -43,12 +43,10 @@ class BenchmarkControlledTemperature {
     }
 
     @Test
-    @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
     fun benchmark() {
 
-        Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "2.0/cs/$currentOS" +
-                        "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
+        Fmu.from(File(TestUtils.getTEST_FMUs(), "2.0/cs/20sim/4.6.4.8004/" +
+                "ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
             val vr = longArrayOf(46)
             val buffer = RealArray(vr.size)

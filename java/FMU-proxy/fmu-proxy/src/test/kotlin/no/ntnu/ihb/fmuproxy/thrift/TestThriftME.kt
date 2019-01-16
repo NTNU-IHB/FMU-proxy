@@ -18,7 +18,6 @@ import java.io.File
 
 @EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestThriftME {
 
     private companion object {
@@ -27,6 +26,7 @@ class TestThriftME {
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "2.0/me/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+
     private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer(fmu)
     private val client = ThriftFmuClient.socketClient(fmu.guid, "127.0.0.1", server.start())

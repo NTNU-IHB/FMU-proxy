@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestProxy {
 
     companion object {
@@ -44,8 +43,7 @@ class TestProxy {
     private val proxy: FmuProxy
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/cs/$currentOS" +
-                    "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+            "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
     init {
 

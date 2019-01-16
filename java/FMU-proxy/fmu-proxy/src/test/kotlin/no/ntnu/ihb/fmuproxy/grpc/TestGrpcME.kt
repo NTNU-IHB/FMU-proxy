@@ -19,7 +19,6 @@ import java.io.File
 
 @EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestGrpcME {
 
     private companion object {
@@ -28,6 +27,7 @@ class TestGrpcME {
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "2.0/me/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+
     private val modelDescription = fmu.modelDescription
     private val server = GrpcFmuServer(fmu)
     private val client = GrpcFmuClient(fmu.guid, "localhost", server.start())
