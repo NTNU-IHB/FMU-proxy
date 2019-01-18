@@ -25,7 +25,7 @@ find_package(Boost 1.65 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(JSON REQUIRED)
-find_package(FMI4cpp CONFIG REQUIRED)
+find_package(FMI4cpp 0.5.3 CONFIG REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Thrift REQUIRED)
