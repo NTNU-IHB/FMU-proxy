@@ -41,7 +41,6 @@ class BenchmarkControlledTemperature {
     }
 
     @Test
-    @EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
     fun benchmark() {
 
        Fmu.from(File(TestUtils.getTEST_FMUs(),
