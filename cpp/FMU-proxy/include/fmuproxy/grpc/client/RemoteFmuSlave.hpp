@@ -37,7 +37,7 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
         
         const std::string instanceId_;
         fmuproxy::grpc::FmuService::Stub &stub_;
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
         fmuproxy::grpc::Status lastStatus_;
 

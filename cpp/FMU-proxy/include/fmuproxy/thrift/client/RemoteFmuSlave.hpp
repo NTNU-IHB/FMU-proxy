@@ -37,7 +37,7 @@ namespace fmuproxy::thrift::client {
 
         const InstanceId instanceId_;
         FmuServiceClient &client_;
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
         Status::type lastStatus_;
 
