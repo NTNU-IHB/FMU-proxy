@@ -25,19 +25,19 @@
 #ifndef FMU_PROXY_REMOTEFMUINSTANCE_HPP
 #define FMU_PROXY_REMOTEFMUINSTANCE_HPP
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 #include "../common/FmuService.h"
 
 namespace fmuproxy::thrift::client {
 
-    class RemoteFmuSlave : public fmi4cpp::fmi2::FmuSlave {
+    class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription> {
 
     private:
 
         const InstanceId instanceId_;
         FmuServiceClient &client_;
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription;
+        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
         Status::type lastStatus_;
 

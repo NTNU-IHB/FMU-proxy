@@ -23,16 +23,17 @@
  */
  
 #include <iostream>
-
-using namespace std;
+#include <string>
 
 namespace {
 
     std::string getOs() {
-#ifdef _WIN32
-        return "win32";
-#elif _WIN64
+#if _WIN32 || _WIN64
+        #if _WIN64
         return "win64";
+#else
+        return "win32";
+#endif
 #elif __linux__
         return "linux64";
 #endif
@@ -40,9 +41,9 @@ namespace {
 
     void wait_for_input() {
         do {
-            cout << '\n' << "Press a key to continue...\n";
-        } while (cin.get() != '\n');
-        cout << "Done." << endl;
+            std::cout << '\n' << "Press a key to continue...\n";
+        } while (std::cin.get() != '\n');
+        std::cout << "Done." << std::endl;
     }
 
 }

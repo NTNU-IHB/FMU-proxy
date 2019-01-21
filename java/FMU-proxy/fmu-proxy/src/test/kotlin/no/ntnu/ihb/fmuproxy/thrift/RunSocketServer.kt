@@ -1,17 +1,14 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.common.currentOS
 import no.ntnu.sfi.fmuproxy.TestUtils
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
 import java.util.*
 
 object RunSocketServer {
 
     private val fmuPath = File(TestUtils.getTEST_FMUs(),
-            "2.0/cs/$currentOS" +
-                    "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
+            "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     @JvmStatic
     fun main(args: Array<String>) {

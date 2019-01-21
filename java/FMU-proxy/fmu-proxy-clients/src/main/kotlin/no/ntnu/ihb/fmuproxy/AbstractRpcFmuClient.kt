@@ -27,7 +27,8 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.IFmu
 import no.ntnu.ihb.fmi4j.importer.misc.FmuVariableAccessorImpl
-import no.ntnu.ihb.fmi4j.modeldescription.*
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationModelDescriptionImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

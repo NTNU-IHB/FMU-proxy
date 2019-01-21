@@ -26,7 +26,10 @@ package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.logging.LogCategories
-import no.ntnu.ihb.fmi4j.modeldescription.misc.*
+import no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperimentImpl
+import no.ntnu.ihb.fmi4j.modeldescription.misc.SourceFile
+import no.ntnu.ihb.fmi4j.modeldescription.misc.TypeDefinitions
+import no.ntnu.ihb.fmi4j.modeldescription.misc.UnitDefinitions
 import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality

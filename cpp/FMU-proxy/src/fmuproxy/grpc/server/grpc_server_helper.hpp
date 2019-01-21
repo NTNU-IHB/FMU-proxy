@@ -27,7 +27,7 @@
 
 #include <grpcpp/grpcpp.h>
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmuproxy/grpc/common/service.pb.h>
 
 using namespace fmuproxy::grpc;

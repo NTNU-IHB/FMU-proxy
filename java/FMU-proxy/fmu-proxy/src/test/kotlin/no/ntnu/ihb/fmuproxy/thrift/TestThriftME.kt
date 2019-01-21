@@ -2,14 +2,11 @@ package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.Solver
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.sfi.fmuproxy.TestUtils
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
@@ -18,7 +15,6 @@ import java.io.File
 
 @EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestThriftME {
 
     private companion object {
@@ -27,6 +23,7 @@ class TestThriftME {
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "2.0/me/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+
     private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer(fmu)
     private val client = ThriftFmuClient.socketClient(fmu.guid, "127.0.0.1", server.start())

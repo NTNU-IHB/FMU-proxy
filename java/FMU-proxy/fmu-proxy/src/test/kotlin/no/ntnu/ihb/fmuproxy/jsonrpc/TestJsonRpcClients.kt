@@ -5,29 +5,21 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
-import no.ntnu.ihb.fmi4j.common.currentOS
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
-import no.ntnu.sfi.fmuproxy.TestUtils
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.runSlave
-import no.ntnu.ihb.fmuproxy.jsonrpc.JsonRpcFmuClient
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonHttpServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonTcpServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonWsServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonZmqServer
+import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@EnabledIfEnvironmentVariable(named = "TEST_FMUs", matches = ".*")
 class TestJsonRpcClients {
 
     private companion object {
@@ -37,8 +29,7 @@ class TestJsonRpcClients {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/cs/$currentOS/20sim/4.6.4.8004/" +
-                    "ControlledTemperature/ControlledTemperature.fmu"))
+            "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
     private  val handler = RpcHandler(RpcFmuService(fmu))
 
