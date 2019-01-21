@@ -24,8 +24,6 @@
  
 #include <iostream>
 
-using namespace std;
-
 namespace {
 
     std::string getOs() {
@@ -40,9 +38,9 @@ namespace {
 
     void wait_for_input() {
         do {
-            cout << '\n' << "Press a key to continue...\n";
-        } while (cin.get() != '\n');
-        cout << "Done." << endl;
+            std::cout << '\n' << "Press a key to continue...\n";
+        } while (std::cin.get() != '\n');
+        std::cout << "Done." << std::endl;
     }
 
 }
