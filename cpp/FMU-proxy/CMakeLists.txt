@@ -37,6 +37,10 @@ find_package(gRPC CONFIG REQUIRED)
 add_subdirectory(src)
 add_subdirectory(tool)
 
+if (FMU_PROXY_BUILD_TESTS OR FMU_PROXY_BUILD_EXAMPLES)
+    file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
 if (FMU_PROXY_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
