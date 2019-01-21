@@ -26,7 +26,7 @@
 #define FMU_PROXY_GRPC_CLIENT_HELPER_HPP
 
 #include <string>
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmuproxy/grpc/common/service.pb.h>
 
 namespace {

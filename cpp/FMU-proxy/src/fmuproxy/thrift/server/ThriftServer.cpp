@@ -40,7 +40,7 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 
-ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus,
+ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
                            unsigned int port, bool http) : port_(port), http_(http) {
 
     std::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));

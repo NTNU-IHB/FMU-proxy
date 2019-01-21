@@ -28,7 +28,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include <fmi4cpp/fmi2/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
 #include "../common/FmuService.h"
 
@@ -37,11 +37,11 @@ namespace fmuproxy::thrift::server {
     class FmuServiceHandler : virtual public FmuServiceIf {
 
     private:
-        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus_;
-        std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::fmi2::FmuSlave>> slaves_;
+        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus_;
+        std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>>> slaves_;
 
     public:
-        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus);
+        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
 
 
         void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;

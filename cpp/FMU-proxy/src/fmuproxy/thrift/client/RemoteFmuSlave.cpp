@@ -37,7 +37,7 @@ RemoteFmuSlave::RemoteFmuSlave(const InstanceId &instanceId, FmuServiceClient &c
 
     CoSimulationAttributes attributes;
     client_.getCoSimulationAttributes(attributes, instanceId_);
-    csModelDescription = std::make_shared<fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
+    csModelDescription_ = std::make_shared<fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
                                                                                        convert(attributes));
 }
 
@@ -51,7 +51,7 @@ fmi4cpp::Status RemoteFmuSlave::getLastStatus() const {
 }
 
 std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModelDescription() const {
-    return csModelDescription;
+    return csModelDescription_;
 }
 
 

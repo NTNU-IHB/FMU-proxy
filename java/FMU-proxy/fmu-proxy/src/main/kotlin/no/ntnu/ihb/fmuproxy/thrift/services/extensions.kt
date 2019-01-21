@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.thrift.services
 
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
 import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown

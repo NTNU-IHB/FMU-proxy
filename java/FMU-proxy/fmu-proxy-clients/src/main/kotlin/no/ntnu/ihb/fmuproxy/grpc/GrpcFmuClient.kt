@@ -26,8 +26,6 @@ package no.ntnu.ihb.fmuproxy.grpc
 
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
-import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
-import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription

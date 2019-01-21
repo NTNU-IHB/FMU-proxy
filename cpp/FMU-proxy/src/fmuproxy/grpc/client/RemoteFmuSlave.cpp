@@ -42,7 +42,7 @@ RemoteFmuSlave::RemoteFmuSlave(const string &instance_id, FmuService::Stub &stub
     request.set_instance_id(instance_id);
     stub.GetCoSimulationAttributes(&ctx, request, &response);
 
-    csModelDescription = std::make_shared<fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
+    csModelDescription_ = std::make_shared<fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
                                                                                        convert(response));
 
 }

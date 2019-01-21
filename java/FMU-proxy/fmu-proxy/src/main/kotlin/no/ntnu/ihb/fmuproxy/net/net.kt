@@ -25,7 +25,6 @@
 package no.ntnu.ihb.fmuproxy.net
 
 import info.laht.yajrpc.net.RpcServer
-import java.net.ServerSocket
 
 
 /**

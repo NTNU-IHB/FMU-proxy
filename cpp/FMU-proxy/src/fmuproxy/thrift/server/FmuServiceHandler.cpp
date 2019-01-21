@@ -36,7 +36,7 @@ using namespace fmuproxy::thrift::server;
 
 namespace {
 
-    fmi2String strToChar(const std::string &s) {
+    const char* strToChar(const std::string &s) {
         char *pc = new char[s.size()+1];
         std::strcpy(pc, s.c_str());
         return pc;
@@ -44,7 +44,7 @@ namespace {
 
 }
 
-FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus) : fmus_(fmus) {}
+FmuServiceHandler::FmuServiceHandler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus) : fmus_(fmus) {}
 
 void FmuServiceHandler::getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
                                                   const InstanceId &instanceId) {}

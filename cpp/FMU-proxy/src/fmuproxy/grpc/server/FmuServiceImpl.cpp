@@ -38,15 +38,15 @@ using ::grpc::ServerContext;
 
 namespace {
 
-    fmi2String strToChar(const std::string &s) {
-        char *pc = new char[s.size() + 1];
+    const char* strToChar(const std::string &s) {
+        auto *pc = new char[s.size() + 1];
         std::strcpy(pc, s.c_str());
         return pc;
     }
 
 }
 
-FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::Fmu>> &fmus) : fmus_(fmus) {}
+FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus) : fmus_(fmus) {}
 
 ::Status FmuServiceImpl::CanCreateInstanceFromCS(ServerContext *context,
                                                  const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest *request,
@@ -186,7 +186,7 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
     response->set_status(grpcType(slave->getLastStatus()));
     auto values = response->mutable_values();
     for (const auto value : read) {
-        values->Add(value);
+        values->Add((const bool &) value);
     }
     return ::Status::OK;
 }
