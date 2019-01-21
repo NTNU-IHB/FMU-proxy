@@ -25,7 +25,6 @@ find_package(Boost 1.65 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(JSON REQUIRED)
-find_package(FMI4cpp 0.5.3 CONFIG REQUIRED)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Thrift REQUIRED)
@@ -34,6 +33,8 @@ find_package(gRPC CONFIG REQUIRED)
 
 
 # add subdiretories
+add_subdirectory(FMI4cpp)
+
 add_subdirectory(src)
 add_subdirectory(tool)
 
