@@ -5,17 +5,13 @@ import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.common.currentOS
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.sfi.fmuproxy.TestUtils
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import kotlin.system.measureTimeMillis
 import java.io.File
+import kotlin.system.measureTimeMillis
 
 
 class BenchmarkControlledTemperature {

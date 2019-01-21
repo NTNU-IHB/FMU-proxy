@@ -25,16 +25,12 @@
 package no.ntnu.ihb.fmuproxy.grpc
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.common.currentOS
-import no.ntnu.sfi.fmuproxy.TestUtils
 import no.ntnu.ihb.fmuproxy.runSlave
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
+import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File

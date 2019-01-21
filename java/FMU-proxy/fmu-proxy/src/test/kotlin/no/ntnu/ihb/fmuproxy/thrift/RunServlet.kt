@@ -1,9 +1,7 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.common.currentOS
 import no.ntnu.sfi.fmuproxy.TestUtils
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import java.io.File
 import java.util.*
 
