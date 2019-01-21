@@ -41,6 +41,9 @@ jobs:
           - image: laht/fmu-proxy-cpp:latest
         steps:
           - checkout
+	  - run:
+	      name: Initialize git sub-modules
+	      command: git submodule update --init --recursive
           - run:
               name: Creating Build Files
               command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake
