@@ -25,7 +25,7 @@
 #include <unordered_map>
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
 
-#include "../test_util.cpp"
+#include "../example_util.cpp"
 
 using namespace std;
 using namespace fmuproxy::grpc::server;

@@ -26,7 +26,7 @@
 #include <vector>
 #include <iostream>
 
-#include "../test_util.cpp"
+#include "../example_util.cpp"
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
 using namespace std;

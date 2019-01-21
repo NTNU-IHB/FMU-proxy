@@ -25,7 +25,7 @@
 #include <iostream>
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
-#include "../test_util.cpp"
+#include "../example_util.cpp"
 
 using namespace std;
 using namespace fmi4cpp::fmi2;

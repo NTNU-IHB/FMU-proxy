@@ -28,7 +28,7 @@
 #include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/heartbeat/RemoteAddress.hpp>
-#include "../test_util.cpp"
+#include "../example_util.cpp"
 
 using namespace std;
 using namespace fmuproxy;
