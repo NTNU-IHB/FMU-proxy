@@ -39,7 +39,7 @@ using ::grpc::ServerContext;
 namespace {
 
     const char* strToChar(const std::string &s) {
-        char *pc = new char[s.size() + 1];
+        auto *pc = new char[s.size() + 1];
         std::strcpy(pc, s.c_str());
         return pc;
     }
@@ -186,7 +186,7 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
     response->set_status(grpcType(slave->getLastStatus()));
     auto values = response->mutable_values();
     for (const auto value : read) {
-        values->Add(value);
+        values->Add((const bool &) value);
     }
     return ::Status::OK;
 }
