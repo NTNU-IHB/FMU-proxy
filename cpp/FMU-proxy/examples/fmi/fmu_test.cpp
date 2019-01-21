@@ -32,9 +32,8 @@ using namespace fmi4cpp::fmi2;
 
 int main(int argc, char **argv) {
 
-    const string fmu_path = string(getenv("TEST_FMUs"))
-                      + "/2.0/cs/" + getOs() +
-                      "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+    const string fmu_path = "../resources/2.0/cs/20sim/4.6.4.8004/"
+                            "ControlledTemperature/ControlledTemperature.fmu";
 
     const double step_size = 1.0/100;
     auto fmu = fmi2Fmu(fmu_path).asCoSimulationFmu();
