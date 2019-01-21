@@ -2,7 +2,7 @@
 plugins {
     id "kotlin"
     id "application"
-    id "com.github.johnrengelman.shadow" version "4.0.3"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
 mainClassName = "${group}.FmuProxy"
@@ -11,14 +11,10 @@ dependencies {
 
     implementation project(":rpc-definitions")
     
-    implementation group: 'info.picocli', name: 'picocli', version: '3.8.1'
+    implementation group: 'info.picocli', name: 'picocli', version: '3.9.2'
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
-    implementation group: 'io.grpc', name: 'grpc-stub', version: grpc_version
-    implementation group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
-
-    implementation group: 'org.apache.thrift', name: 'libthrift', version: '0.11.0'
-
+    
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-ws', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-tcp', version: yajrpc_version
