@@ -28,7 +28,7 @@ import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.ntnu.ihb.fmuproxy.InstanceId

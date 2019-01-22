@@ -29,7 +29,7 @@ import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.common.StringArray
 import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import no.ntnu.ihb.fmuproxy.thrift.*
