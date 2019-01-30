@@ -6,12 +6,12 @@ See below for notes on building the project for both Windows and Unix.
 
 Download and install the [vcpkg package system from GitHub](https://github.com/Microsoft/vcpkg).
 
-Then tell CMake about your vcpkg installation by passing <br> ```-DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake``` to it. 
+Then tell CMake about your vcpkg installation by passing <br> ```-DCMAKE_TOOLCHAIN_FILE=<path/to/vcpkg>\scripts\buildsystems\vcpkg.cmake``` to it. 
 
 Using vcpkg, installing the required dependencies is as easy as:
 
 ```
-./vcpkg install curl thrift grpc boost-program-options
+./vcpkg install curl thrift grpc boost-program-options coost-ublas boost-odeint
 ```
 
 ```fmi4cpp``` is bundled as a git sub-module, so you'll need to ensure that you are also keeping the FMI4cpp sub-folder up-to-date.
