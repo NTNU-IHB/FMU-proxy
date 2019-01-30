@@ -34,6 +34,8 @@ find_package(gRPC CONFIG REQUIRED)
 
 # add subdiretories
 option(FMI4CPP_BUILD_EXAMPLES "" OFF)
+option(FMI4CPP_BUILD_TESTS "" OFF)
+option(FMI4CPP_BUILD_TOOL "" OFF)
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)
