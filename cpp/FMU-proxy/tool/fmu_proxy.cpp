@@ -39,8 +39,13 @@ using namespace std;
 using namespace fmuproxy::heartbeat;
 
 using fmuproxy::RemoteAddress;
+
+#ifdef FMU_PROXY_WITH_GRPC
 using fmuproxy::grpc::server::GrpcServer;
+#endif
+#ifdef FMU_PROXY_WITH_THRIFT
 using fmuproxy::thrift::server::ThriftServer;
+#endif
 
 namespace {
 
@@ -77,6 +82,7 @@ namespace {
 
         unordered_map<string, unsigned int> servers;
 
+#ifdef FMU_PROXY_WITH_THRIFT
         unique_ptr<ThriftServer> thrift_socket_server = nullptr;
         if (enable_thrift_tcp) {
             const unsigned int port = ports[THRIFT_TCP];
@@ -92,7 +98,7 @@ namespace {
             thrift_http_server->start();
             servers[THRIFT_HTTP] = port;
         }
-
+#endif
         unique_ptr<GrpcServer> grpc_server = nullptr;
         if (enable_grpc) {
             const unsigned int port = ports[GRPC_HTTP2];
@@ -100,13 +106,13 @@ namespace {
             grpc_server->start();
             servers[GRPC_HTTP2] = port;
         }
-
+#ifdef FMU_PROXY_WITH_GRPC
         unique_ptr<Heartbeat> beat = nullptr;
         if (remote) {
             beat = make_unique<Heartbeat>(*remote, servers, modelDescriptions);
             beat->start();
         }
-
+#endif
         wait_for_input();
 
         if (remote) {
@@ -116,13 +122,15 @@ namespace {
         if (enable_grpc) {
             grpc_server->stop();
         }
+
+#ifdef FMU_PROXY_WITH_THRIFT
         if (enable_thrift_tcp) {
             thrift_socket_server->stop();
         }
         if (enable_thrift_http) {
             thrift_http_server->stop();
         }
-
+#endif
         return 0;
 
     }
@@ -139,11 +147,18 @@ int main(int argc, char** argv) {
         desc.add_options()
                 ("help,h", "Print this help message and quits.")
                 ("fmu,f", po::value<vector<string>>()->multitoken(), "Path to FMUs.")
-                ("remote,r", po::value<string>(), "IP address of the remote tracking server.")
+                ("remote,r", po::value<string>(), "IP address of the remote tracking server.");
 
+#ifdef FMU_PROXY_WITH_THRIFT
+        desc.add_options()
                 (THRIFT_TCP, po::value<unsigned int>(), "Specify the network port to be used by the Thrift (TCP/IP) server.")
-                (THRIFT_HTTP, po::value<unsigned int>(), "Specify the network port to be used by the Thrift (HTTP) server.")
+                (THRIFT_HTTP, po::value<unsigned int>(), "Specify the network port to be used by the Thrift (HTTP) server.");
+#endif
+
+#ifdef FMU_PROXY_WITH_GRPC
+        desc.add_options()
                 (GRPC_HTTP2, po::value<unsigned int>(), "Specify the network port to be used by the gRPC server.");
+#endif
 
         po::variables_map vm;
         try {
