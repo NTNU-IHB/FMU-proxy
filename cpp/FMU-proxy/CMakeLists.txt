@@ -19,7 +19,6 @@ if(MSVC)
     #https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4996?view=vs-2017
 endif()
 
-set(BOOST_COMPONENTS atomic)
 if (FMU_PROXY_BUILD_TESTS)
     list(APPEND BOOST_COMPONENTS unit_test_framework)
 endif()
@@ -52,7 +51,7 @@ option(FMI4CPP_WITH_ODEINT "" ON)
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)
-add_subdirectory(tool)
+
 
 if (FMU_PROXY_BUILD_TESTS OR FMU_PROXY_BUILD_EXAMPLES)
     file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
@@ -65,4 +64,8 @@ if (FMU_PROXY_BUILD_TESTS OR FMU_PROXY_BUILD_EXAMPLES)
         add_subdirectory(examples)
     endif()
 
+endif()
+
+if (FMU_PROXY_BUILD_TOOL)
+    add_subdirectory(tool)
 endif()
