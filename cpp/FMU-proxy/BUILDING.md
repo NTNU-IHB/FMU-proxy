@@ -11,7 +11,7 @@ Then tell CMake about your vcpkg installation by passing <br> ```-DCMAKE_TOOLCHA
 Using vcpkg, installing the required dependencies is as easy as:
 
 ```
-./vcpkg install curl thrift grpc boost-program-options boost-ublas boost-odeint
+./vcpkg install curl thrift grpc nlohmann-json libzip[core] spdlog boost-program-options boost-ublas boost-odeint
 ```
 
 On windows you might want to specify the target architecture (defaults to x86) by appending
@@ -28,6 +28,10 @@ _Note: `thrift` or `grpc` may be enabled/disabled using the following CMake comm
 
 
 ```fmi4cpp``` is bundled as a git sub-module, so you'll need to ensure that you are also keeping the FMI4cpp sub-folder up-to-date.
+To initialize the sub-module you can run:
+```bash
+git submodule update --init --recursive
+```
 
 If you also want to build the tests, add:
 
