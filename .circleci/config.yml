@@ -50,6 +50,9 @@ jobs:
           - run:
               name: Creating Binary Files
               command: cd cpp/FMU-proxy && cmake --build build
+          - store_artifacts:
+              path: tool/fmu_proxy
+              destination: fmu_proxy_cpp
 
 workflows:
     version: 2
