@@ -34,7 +34,7 @@ jobs:
               key: v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
 
           - run: cd java/FMU-proxy && gradle test
-            -
+
           - run: cd java/FMU-proxy && gradle shadowJar
           - store_artifacts:
               path: java/FMU-proxy/build/libs/fmu-proxy.jar
