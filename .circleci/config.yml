@@ -32,9 +32,13 @@ jobs:
               paths:
                 - ~/.gradle
               key: v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
-            
-          # run tests!
+
           - run: cd java/FMU-proxy && gradle test
+            -
+          - run: cd java/FMU-proxy && gradle shadowJar
+          - store_artifacts:
+              path: java/FMU-proxy/build/libs/fmu-proxy.jar
+              destination: fmu-proxy.jar
 
     "cpp":
         docker:
@@ -46,12 +50,12 @@ jobs:
               command: git submodule update --init --recursive
           - run:
               name: Creating Build Files
-              command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake
+              command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake
           - run:
               name: Creating Binary Files
               command: cd cpp/FMU-proxy && cmake --build build
           - store_artifacts:
-              path: tool/fmu_proxy
+              path: cpp/FMU-proxy/tool/fmu_proxy
               destination: fmu_proxy_cpp
 
 workflows:
