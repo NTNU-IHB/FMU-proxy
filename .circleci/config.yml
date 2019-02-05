@@ -37,7 +37,7 @@ jobs:
 
           - run: cd java/FMU-proxy && gradle shadowJar
           - store_artifacts:
-              path: java/FMU-proxy/build/libs/fmu-proxy.jar
+              path: java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar
               destination: fmu-proxy.jar
 
     "cpp":
@@ -55,7 +55,7 @@ jobs:
               name: Creating Binary Files
               command: cd cpp/FMU-proxy && cmake --build build
           - store_artifacts:
-              path: cpp/FMU-proxy/tool/fmu_proxy
+              path: cpp/FMU-proxy/build/tool/fmu_proxy
               destination: fmu_proxy_cpp
 
 workflows:
