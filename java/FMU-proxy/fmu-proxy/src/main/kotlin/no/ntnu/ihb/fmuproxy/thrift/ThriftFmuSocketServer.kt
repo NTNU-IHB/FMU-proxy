@@ -27,10 +27,11 @@ package no.ntnu.ihb.fmuproxy.thrift
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.services.ThriftFmuServiceImpl
+import org.apache.thrift.protocol.TCompactProtocol
 import org.apache.thrift.protocol.TJSONProtocol
-import org.apache.thrift.server.TServer
-import org.apache.thrift.server.TServlet
-import org.apache.thrift.server.TSimpleServer
+import org.apache.thrift.server.*
+import org.apache.thrift.transport.TFramedTransport
+import org.apache.thrift.transport.TNonblockingServerSocket
 import org.apache.thrift.transport.TServerSocket
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder
@@ -50,7 +51,7 @@ interface IServer {
 
 abstract class ThriftFmuServer(
         fmus: Map<String, Fmu>
-): FmuProxyServer {
+) : FmuProxyServer {
 
     companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
@@ -66,20 +67,20 @@ abstract class ThriftFmuServer(
 
     override fun start(port: Int) {
 
-       if (server == null) {
-           this.port = port
-           this.server = setup(port, FmuService.Processor(handler)).apply {
-               Thread { serve() }.start()
-           }
+        if (server == null) {
+            this.port = port
+            this.server = setup(port, FmuService.Processor(handler)).apply {
+                Thread { serve() }.start()
+            }
 
-           LOG.info("${javaClass.simpleName} listening for connections on port: $port")
-       } else {
-           LOG.warn("Server already started!")
-       }
+            LOG.info("${javaClass.simpleName} listening for connections on port: $port")
+        } else {
+            LOG.warn("Server already started!")
+        }
 
     }
 
-    abstract fun setup(port: Int, processor: FmuService.Processor<ThriftFmuServiceImpl>) : IServer
+    abstract fun setup(port: Int, processor: FmuService.Processor<ThriftFmuServiceImpl>): IServer
 
     override fun stop() {
         server?.also {
@@ -94,17 +95,19 @@ abstract class ThriftFmuServer(
 
 class ThriftFmuSocketServer(
         fmus: Map<String, Fmu>
-): ThriftFmuServer(fmus) {
+) : ThriftFmuServer(fmus) {
 
-    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
+    constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))
 
     override val simpleName = "thrift/tcp"
 
     override fun setup(port: Int, processor: FmuService.Processor<ThriftFmuServiceImpl>): IServer {
-        val transport = TServerSocket(port)
-        val server = TSimpleServer(TServer.Args(transport).processor(processor))
+        val transport = TNonblockingServerSocket(port)
+        val server = TNonblockingServer(TNonblockingServer.Args(transport)
+                        .processor(processor)
+                        .protocolFactory(TCompactProtocol.Factory()))
 
-        return object: IServer {
+        return object : IServer {
 
             override fun serve() {
                 server.serve()
@@ -121,9 +124,9 @@ class ThriftFmuSocketServer(
 
 class ThriftFmuServlet(
         fmus: Map<String, Fmu>
-):  ThriftFmuServer(fmus) {
+) : ThriftFmuServer(fmus) {
 
-    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
+    constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))
 
     override val simpleName = "thrift/http"
 
@@ -159,7 +162,7 @@ class ThriftFmuServlet(
             it.handler = handler
         }
 
-        return object: IServer {
+        return object : IServer {
 
             override fun serve() {
                 server.start()
