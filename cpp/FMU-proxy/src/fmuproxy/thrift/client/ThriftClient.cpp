@@ -25,7 +25,7 @@
 #include <iostream>
 
 #include <thrift/transport/TSocket.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
 #include <fmuproxy/thrift/common/FmuService.h>
@@ -39,8 +39,8 @@ using namespace fmuproxy::thrift::client;
 
 ThriftClient::ThriftClient(const string &fmu_id, const string &host, const unsigned int port) : fmuId_(fmu_id) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
-    this->transport_ = std::make_shared<TBufferedTransport>(socket);
-    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport_));
+    this->transport_ = std::make_shared<TFramedTransport>(socket);
+    shared_ptr<TProtocol> protocol(new TCompactProtocol(transport_));
     this->client_ = std::make_shared<FmuServiceClient>(protocol);
     this->transport_->open();
 }
