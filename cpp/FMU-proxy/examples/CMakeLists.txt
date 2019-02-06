@@ -20,23 +20,27 @@ target_link_libraries(heartbeat_test PUBLIC heartbeat FMI4cpp::fmi4cpp)
 ###########################################################
 #########################Thrift############################
 
-add_executable(thrift_client_test
-        thrift/thrift_client_test.cpp)
-target_link_libraries(thrift_client_test PUBLIC thrift-client)
+if (FMU_PROXY_WITH_THRIFT)
+    add_executable(thrift_client_test
+            thrift/thrift_client_test.cpp)
+    target_link_libraries(thrift_client_test PUBLIC thrift-client)
 
-add_executable(thrift_server_test
-        thrift/thrift_server_test.cpp)
-target_link_libraries(thrift_server_test PUBLIC thrift-server)
+    add_executable(thrift_server_test
+            thrift/thrift_server_test.cpp)
+    target_link_libraries(thrift_server_test PUBLIC thrift-server)
+endif ()
 
 ###########################################################
 #########################gRPC##############################
 
-add_executable(grpc_client_test
-        grpc/grpc_client_test.cpp)
-target_link_libraries(grpc_client_test PUBLIC grpc-client)
+if (FMU_PROXY_WITH_THRIFT)
+    add_executable(grpc_client_test
+            grpc/grpc_client_test.cpp)
+    target_link_libraries(grpc_client_test PUBLIC grpc-client)
 
-add_executable(grpc_server_test
-        grpc/grpc_server_test.cpp)
-target_link_libraries(grpc_server_test PUBLIC grpc-server)
+    add_executable(grpc_server_test
+            grpc/grpc_server_test.cpp)
+    target_link_libraries(grpc_server_test PUBLIC grpc-server)
+endif ()
 
 ###########################################################
