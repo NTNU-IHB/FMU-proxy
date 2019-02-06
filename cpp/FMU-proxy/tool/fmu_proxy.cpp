@@ -25,27 +25,25 @@
 #include <optional>
 #include <iostream>
 #include <unordered_map>
+#include <boost/program_options.hpp>
 
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/heartbeat/RemoteAddress.hpp>
-#include <fmuproxy/grpc/server/GrpcServer.hpp>
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
-
-#include <boost/program_options.hpp>
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
-using namespace std;
-using namespace fmuproxy::heartbeat;
-
-using fmuproxy::RemoteAddress;
-
 #ifdef FMU_PROXY_WITH_GRPC
+#include <fmuproxy/grpc/server/GrpcServer.hpp>
 using fmuproxy::grpc::server::GrpcServer;
 #endif
+
 #ifdef FMU_PROXY_WITH_THRIFT
+#include <fmuproxy/thrift/server/ThriftServer.hpp>
 using fmuproxy::thrift::server::ThriftServer;
 #endif
+
+using namespace std;
+using namespace fmuproxy::heartbeat;
 
 namespace {
 
@@ -67,7 +65,7 @@ namespace {
     int run_application(
             vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus,
             unordered_map<string, unsigned int> ports,
-            const optional<RemoteAddress> remote) {
+            const optional<fmuproxy::RemoteAddress> remote) {
 
         unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmu_map;
         vector<string> modelDescriptions;
@@ -99,6 +97,8 @@ namespace {
             servers[THRIFT_HTTP] = port;
         }
 #endif
+
+#ifdef FMU_PROXY_WITH_GRPC
         unique_ptr<GrpcServer> grpc_server = nullptr;
         if (enable_grpc) {
             const unsigned int port = ports[GRPC_HTTP2];
@@ -106,23 +106,23 @@ namespace {
             grpc_server->start();
             servers[GRPC_HTTP2] = port;
         }
-#ifdef FMU_PROXY_WITH_GRPC
+#endif
         unique_ptr<Heartbeat> beat = nullptr;
         if (remote) {
             beat = make_unique<Heartbeat>(*remote, servers, modelDescriptions);
             beat->start();
         }
-#endif
+
         wait_for_input();
 
         if (remote) {
             beat->stop();
         }
-
+#ifdef FMU_PROXY_WITH_GRPC
         if (enable_grpc) {
             grpc_server->stop();
         }
-
+#endif
 #ifdef FMU_PROXY_WITH_THRIFT
         if (enable_thrift_tcp) {
             thrift_socket_server->stop();
@@ -206,10 +206,10 @@ int main(int argc, char** argv) {
             ports[GRPC_HTTP2] = vm[GRPC_HTTP2].as<unsigned int>();
         }
 
-        optional<RemoteAddress> remote;
+        optional<fmuproxy::RemoteAddress> remote;
         if (vm.count("remote")) {
             string str = vm["remote"].as<string>();
-            remote = RemoteAddress(RemoteAddress::parse (str));
+            remote = fmuproxy::RemoteAddress(fmuproxy::RemoteAddress::parse (str));
         }
 
         return run_application(fmus, ports, remote);
