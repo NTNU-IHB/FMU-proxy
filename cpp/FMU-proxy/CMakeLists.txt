@@ -15,8 +15,7 @@ option(FMU_PROXY_WITH_THRIFT "Build with Trift support" ON)
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
     add_definitions("-DNOMINMAX" "-D_WIN32_WINNT=0x600" "-D_CRT_SECURE_NO_WARNINGS")
-    add_compile_options(/wd4996) # suppress warning appearing in boost headers under MSVC.
-    #https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4996?view=vs-2017
+    add_compile_options("/wd4996" "/wd4251")
 endif()
 
 if (FMU_PROXY_BUILD_TESTS)
