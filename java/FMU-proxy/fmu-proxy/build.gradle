@@ -52,7 +52,14 @@ jar {
 }
 
 shadowJar {
-    baseName = 'fmu-proxy'
-    classifier = null
+    archiveBaseName = 'fmu-proxy'
+    archiveClassifier = null
     version = null
 }
+
+task copyTestFmus(type: Copy) {
+    from '../../../test/fmus'
+    into 'build/resources/test/fmus'
+}
+
+testClasses.dependsOn(copyTestFmus)

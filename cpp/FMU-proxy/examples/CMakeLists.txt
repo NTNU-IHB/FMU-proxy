@@ -6,7 +6,7 @@ include_directories(${FMU_PROXY_SOURCE_DIR}/include)
 
 add_executable(benchmark
         fmi/benchmark.cpp
-        example_util.cpp)
+        example_util.hpp)
 target_link_libraries(benchmark PUBLIC FMI4cpp::fmi4cpp)
 
 ###########################################################
@@ -14,7 +14,7 @@ target_link_libraries(benchmark PUBLIC FMI4cpp::fmi4cpp)
 
 add_executable(heartbeat_test
         heartbeat/heartbeat_test.cpp
-        example_util.cpp)
+        example_util.hpp)
 target_link_libraries(heartbeat_test PUBLIC heartbeat FMI4cpp::fmi4cpp)
 
 ###########################################################

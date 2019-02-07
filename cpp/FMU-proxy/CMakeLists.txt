@@ -53,7 +53,7 @@ add_subdirectory(src)
 
 
 if (FMU_PROXY_BUILD_TESTS OR FMU_PROXY_BUILD_EXAMPLES)
-    file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    file(COPY ../../test/fmus DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
     if (FMU_PROXY_BUILD_TESTS)
         add_subdirectory(tests)

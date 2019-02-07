@@ -28,7 +28,7 @@
 #include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmuproxy/heartbeat/Heartbeat.hpp>
 #include <fmuproxy/heartbeat/RemoteAddress.hpp>
-#include "../example_util.cpp"
+#include "../example_util.hpp"
 
 using namespace std;
 using namespace fmuproxy;
@@ -36,9 +36,8 @@ using namespace fmuproxy::heartbeat;
 
 int main() {
 
-    const string fmu_path = string(getenv("TEST_FMUs"))
-                          + "/2.0/cs/" + getOs() +
-                          "/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu";
+    const string fmu_path = "../fmus/2.0/cs/20sim/4.6.4.8004/"
+                            "ControlledTemperature/ControlledTemperature.fmu";
 
     auto fmu = fmi4cpp::fmi2::fmi2Fmu(fmu_path);
     const RemoteAddress remote("localhost", 8080);

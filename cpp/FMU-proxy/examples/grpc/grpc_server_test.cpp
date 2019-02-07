@@ -25,14 +25,14 @@
 #include <unordered_map>
 #include <fmuproxy/grpc/server/GrpcServer.hpp>
 
-#include "../example_util.cpp"
+#include "../example_util.hpp"
 
 using namespace std;
 using namespace fmuproxy::grpc::server;
 
 int main(int argc, char **argv) {
     
-    const string fmu_path = "../resources/2.0/cs/20sim/4.6.4.8004/"
+    const string fmu_path = "../fmus/2.0/cs/20sim/4.6.4.8004/"
                             "ControlledTemperature/ControlledTemperature.fmu";
 
     auto fmu = make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path);
