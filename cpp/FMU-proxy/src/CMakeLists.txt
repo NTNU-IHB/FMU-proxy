@@ -62,8 +62,7 @@ if (FMU_PROXY_WITH_THRIFT)
             fmuproxy/thrift/server/ThriftServer.cpp)
 
     add_library(thrift-common ${THRIFT_COMMON_SRC})
-    target_link_libraries(thrift-common PUBLIC ${THRIFT_LIBRARIES} PRIVATE ${OPENSSL_LIBRARIES})
-    target_include_directories(thrift-common PUBLIC ${THRIFT_INCLUDE_DIRS})
+    target_link_libraries(thrift-common PUBLIC thrift::thrift PRIVATE ${OPENSSL_LIBRARIES})
 
     add_library(thrift-client ${THRIFT_CLIENT_SRC})
     target_link_libraries(thrift-client PUBLIC thrift-common FMI4cpp::fmi4cpp)
