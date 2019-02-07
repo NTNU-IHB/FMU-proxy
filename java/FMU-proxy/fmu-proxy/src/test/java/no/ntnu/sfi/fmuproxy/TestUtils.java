@@ -4,7 +4,7 @@ package no.ntnu.sfi.fmuproxy;
 public class TestUtils {
 
     public static String getTEST_FMUs() {
-        return TestUtils.class.getClassLoader().getResource("fmus/").getFile();
+        return "../../../test/fmus";
     }
 
 }
