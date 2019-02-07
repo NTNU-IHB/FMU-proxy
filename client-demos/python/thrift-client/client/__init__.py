@@ -4,7 +4,7 @@ from service.ttypes import *
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
-from thrift.protocol import TBinaryProtocol
+from thrift.protocol import TCompactProtocol
 
 
 class VariableReader:
@@ -99,14 +99,10 @@ class RemoteFmuInstance:
 class RemoteFmu:
 
     def __init__(self, fmu_id: str, host_address: str, port: int):
-        # Make socket
+
         self.transport = TSocket.TSocket(host_address, port)
-
-        # Buffering is critical. Raw sockets are very slow
-        self.transport = TTransport.TBufferedTransport(self.transport)
-
-        # Wrap in a protocol
-        self.protocol = TBinaryProtocol.TBinaryProtocol(self.transport)
+        self.transport = TTransport.TFramedTransport(self.transport)
+        self.protocol = TCompactProtocol.TCompactProtocol(self.transport)
 
         self.client = FmuService.Client(self.protocol)
 
