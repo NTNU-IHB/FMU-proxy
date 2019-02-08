@@ -49,25 +49,37 @@ using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::concurrency;
 
 ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
-                           unsigned int port, bool http) : port_(port), http_(http) {
+                           unsigned int port, bool http, bool multiThreaded) : port_(port), http_(http) {
 
     std::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
     std::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
 
     if (http) {
-        std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+
         std::shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
         std::shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
-        server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+        if (multiThreaded) {
+            std::shared_ptr<TNonblockingServerTransport> serverTransport(new TNonblockingServerSocket(port));
+            server_= std::make_unique<TNonblockingServer>(processor, protocolFactory, serverTransport);
+        } else {
+            std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+            server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+        }
+
     } else {
 
-
-        std::shared_ptr<TNonblockingServerTransport> serverTransport(new TNonblockingServerSocket(port));
         std::shared_ptr<TTransportFactory> transportFactory(new TFramedTransportFactory());
         std::shared_ptr<TProtocolFactory> protocolFactory(new TCompactProtocolFactory());
-        auto server = std::make_unique<TNonblockingServer>(processor, protocolFactory, serverTransport);
-        server->setNumIOThreads(5);
-        server_ = std::move(server);
+        if (multiThreaded) {
+            std::shared_ptr<TNonblockingServerTransport> serverTransport(new TNonblockingServerSocket(port));
+            auto server = std::make_unique<TNonblockingServer>(processor, protocolFactory, serverTransport);
+            server->setNumIOThreads(5);
+            server_ = std::move(server);
+        } else {
+            std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+            server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+        }
+
     }
 
 }

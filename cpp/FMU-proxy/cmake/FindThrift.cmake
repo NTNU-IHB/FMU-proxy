@@ -16,11 +16,6 @@ mark_as_advanced(THRIFT_LIBRARY)
 find_library(THRIFT_LIBRARY_NB NAMES thriftnb thriftnbmd)
 mark_as_advanced(THRIFT_LIBRARY_NB)
 
-if (UNIX)
-    find_library(THRIFT_LIBRARY_THREAD NAMES boost_thread)
-    mark_as_advanced(THRIFT_LIBRARY_THREAD)
-endif()
-
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(THRIFT
         REQUIRED_VARS THRIFT_LIBRARY THRIFT_LIBRARY_NB THRIFT_INCLUDE_DIR)
@@ -47,10 +42,5 @@ if (THRIFT_FOUND)
                 IMPORTED_LOCATION "${THRIFT_LIBRARY_NB}")
     endif()
 
-    if (UNIX AND NOT TARGET thrift::thriftthread)
-        add_library(thrift::thriftthread UNKNOWN IMPORTED)
-        set_property(TARGET thrift::thriftthread APPEND PROPERTY
-                IMPORTED_LOCATION "${THRIFT_LIBRARY_THREAD}")
-    endif()
 
 endif()

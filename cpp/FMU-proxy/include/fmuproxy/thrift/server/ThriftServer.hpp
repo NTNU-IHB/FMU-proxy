@@ -52,7 +52,7 @@ namespace fmuproxy::thrift::server {
 
         ThriftServer(std::unordered_map<fmuproxy::thrift::FmuId,
                 std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
-                unsigned int port, bool http=false);
+                unsigned int port, bool http=false, bool multiThreaded = false);
 
         void start();
 

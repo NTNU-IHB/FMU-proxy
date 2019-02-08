@@ -70,7 +70,7 @@ if (FMU_PROXY_WITH_THRIFT)
     add_library(thrift-server ${THRIFT_SERVER_SRC})
     target_link_libraries(thrift-server PUBLIC thrift-common FMI4cpp::fmi4cpp PRIVATE thrift::thriftnb event)
     if (UNIX)
-        target_link_libraries(thrift-server PRIVATE pthread thrift::thriftthread)
+        target_link_libraries(thrift-server PRIVATE pthread)
     endif()
 endif()
 

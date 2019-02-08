@@ -7,7 +7,7 @@ include_directories(${FMU_PROXY_SOURCE_DIR}/include)
 add_executable(benchmark
         fmi/benchmark.cpp
         example_util.hpp)
-target_link_libraries(benchmark PUBLIC FMI4cpp::fmi4cpp)
+target_link_libraries(benchmark PRIVATE FMI4cpp::fmi4cpp)
 
 ###########################################################
 #########################Heartbetaing######################
@@ -15,7 +15,7 @@ target_link_libraries(benchmark PUBLIC FMI4cpp::fmi4cpp)
 add_executable(heartbeat_test
         heartbeat/heartbeat_test.cpp
         example_util.hpp)
-target_link_libraries(heartbeat_test PUBLIC heartbeat FMI4cpp::fmi4cpp)
+target_link_libraries(heartbeat_test PRIVATE heartbeat FMI4cpp::fmi4cpp)
 
 ###########################################################
 #########################Thrift############################
@@ -23,24 +23,24 @@ target_link_libraries(heartbeat_test PUBLIC heartbeat FMI4cpp::fmi4cpp)
 if (FMU_PROXY_WITH_THRIFT)
     add_executable(thrift_client_test
             thrift/thrift_client_test.cpp)
-    target_link_libraries(thrift_client_test PUBLIC thrift-client)
+    target_link_libraries(thrift_client_test PRIVATE thrift-client)
 
     add_executable(thrift_server_test
             thrift/thrift_server_test.cpp)
-    target_link_libraries(thrift_server_test PUBLIC thrift-server)
+    target_link_libraries(thrift_server_test PRIVATE thrift-server thrift::thriftnb)
 endif ()
 
 ###########################################################
 #########################gRPC##############################
 
-if (FMU_PROXY_WITH_THRIFT)
+if (FMU_PROXY_WITH_GRPC)
     add_executable(grpc_client_test
             grpc/grpc_client_test.cpp)
-    target_link_libraries(grpc_client_test PUBLIC grpc-client)
+    target_link_libraries(grpc_client_test PRIVATE grpc-client)
 
     add_executable(grpc_server_test
             grpc/grpc_server_test.cpp)
-    target_link_libraries(grpc_server_test PUBLIC grpc-server)
+    target_link_libraries(grpc_server_test PRIVATE grpc-server)
 endif ()
 
 ###########################################################
