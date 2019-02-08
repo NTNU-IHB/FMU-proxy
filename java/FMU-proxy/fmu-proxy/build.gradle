@@ -54,5 +54,5 @@ jar {
 shadowJar {
     archiveBaseName = 'fmu-proxy'
     archiveClassifier = null
-    version = null
+    archiveVersion = null
 }
