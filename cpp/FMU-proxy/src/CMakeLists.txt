@@ -68,9 +68,9 @@ if (FMU_PROXY_WITH_THRIFT)
     target_link_libraries(thrift-client PUBLIC thrift-common FMI4cpp::fmi4cpp)
 
     add_library(thrift-server ${THRIFT_SERVER_SRC})
-    target_link_libraries(thrift-server PUBLIC thrift-common FMI4cpp::fmi4cpp PRIVATE thrift::thriftnb thrift::thriftthread event)
+    target_link_libraries(thrift-server PUBLIC thrift-common FMI4cpp::fmi4cpp PRIVATE thrift::thriftnb event)
     if (UNIX)
-        target_link_libraries(thrift-server PRIVATE pthread)
+        target_link_libraries(thrift-server PRIVATE pthread thrift::thriftthread)
     endif()
 endif()
 
