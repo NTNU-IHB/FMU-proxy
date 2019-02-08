@@ -23,16 +23,21 @@
  */
 
 #include <iostream>
+#include <utility>
 
 #include <fmuproxy/thrift/server/ThriftServer.hpp>
 
 #include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/TNonblockingServerSocket.h>
 #include <thrift/transport/THttpTransport.h>
-#include <thrift/transport/TBufferTransports.h>
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/transport/THttpServer.h>
 #include <thrift/protocol/TJSONProtocol.h>
 #include <thrift/protocol/TCompactProtocol.h>
+#include <thrift/concurrency/ThreadManager.h>
+#include <thrift/server/TThreadedServer.h>
+#include <thrift/server/TSimpleServer.h>
+#include <thrift/server/TNonblockingServer.h>
 
 using namespace fmuproxy::thrift;
 using namespace fmuproxy::thrift::server;
@@ -41,22 +46,28 @@ using namespace ::apache::thrift;
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
+using namespace ::apache::thrift::concurrency;
 
 ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
                            unsigned int port, bool http) : port_(port), http_(http) {
 
     std::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
     std::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
-    std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
 
     if (http) {
+        std::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
         std::shared_ptr<TTransportFactory> transportFactory(new THttpServerTransportFactory());
         std::shared_ptr<TProtocolFactory> protocolFactory(new TJSONProtocolFactory());
         server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
     } else {
+
+
+        std::shared_ptr<TNonblockingServerTransport> serverTransport(new TNonblockingServerSocket(port));
         std::shared_ptr<TTransportFactory> transportFactory(new TFramedTransportFactory());
         std::shared_ptr<TProtocolFactory> protocolFactory(new TCompactProtocolFactory());
-        server_ = std::make_unique<TSimpleServer>(processor, serverTransport, transportFactory, protocolFactory);
+        auto server = std::make_unique<TNonblockingServer>(processor, protocolFactory, serverTransport);
+        server->setNumIOThreads(5);
+        server_ = std::move(server);
     }
 
 }

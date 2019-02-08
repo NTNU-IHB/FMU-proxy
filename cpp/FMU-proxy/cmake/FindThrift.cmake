@@ -11,18 +11,27 @@ find_path(THRIFT_INCLUDE_DIR NAMES thrift/thrift.h)
 mark_as_advanced(THRIFT_INCLUDE_DIR)
 
 find_library(THRIFT_LIBRARY NAMES thrift thriftmd)
-mark_as_advanced(THRIFT_LIBRARY)
+mark_as_advanced(THRIFT_LIBRARY_NB)
+
+find_library(THRIFT_LIBRARY_NB NAMES thriftnb)
+mark_as_advanced(THRIFT_LIBRARY_NB)
+
+find_library(THRIFT_LIBRARY_Z NAMES thriftz)
+mark_as_advanced(THRIFT_LIBRARY_Z)
+
+find_library(THRIFT_LIBRARY_THREAD NAMES boost_thread)
+mark_as_advanced(THRIFT_LIBRARY_THREAD)
 
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(THRIFT
-        REQUIRED_VARS THRIFT_LIBRARY THRIFT_INCLUDE_DIR)
+        REQUIRED_VARS THRIFT_LIBRARY THRIFT_LIBRARY_NB THRIFT_INCLUDE_DIR)
 
 if (THRIFT_FOUND)
 
     set(THRIFT_INCLUDE_DIRS ${THRIFT_INCLUDE_DIR})
 
     if (NOT THRIFT_LIBRARIES)
-        set(THRIFT_LIBRARIES ${THRIFT_LIBRARY})
+        set(THRIFT_LIBRARIES ${THRIFT_LIBRARY} ${THRIFT_LIBRARY_NB})
     endif()
 
     if (NOT TARGET thrift::thrift)
@@ -31,6 +40,24 @@ if (THRIFT_FOUND)
                 INTERFACE_INCLUDE_DIRECTORIES "${THRIFT_INCLUDE_DIR}")
         set_property(TARGET thrift::thrift APPEND PROPERTY
                 IMPORTED_LOCATION "${THRIFT_LIBRARY}")
+    endif()
+
+    if (NOT TARGET thrift::thriftnb)
+        add_library(thrift::thriftnb UNKNOWN IMPORTED)
+        set_property(TARGET thrift::thriftnb APPEND PROPERTY
+                IMPORTED_LOCATION "${THRIFT_LIBRARY_NB}")
+    endif()
+
+    if (NOT TARGET thrift::thriftz)
+        add_library(thrift::thriftz UNKNOWN IMPORTED)
+        set_property(TARGET thrift::thriftz APPEND PROPERTY
+                IMPORTED_LOCATION "${THRIFT_LIBRARY_Z}")
+    endif()
+
+    if (NOT TARGET thrift::thriftthread)
+        add_library(thrift::thriftthread UNKNOWN IMPORTED)
+        set_property(TARGET thrift::thriftthread APPEND PROPERTY
+                IMPORTED_LOCATION "${THRIFT_LIBRARY_THREAD}")
     endif()
 
 endif()

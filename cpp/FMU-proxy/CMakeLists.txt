@@ -33,6 +33,7 @@ find_package(CURL REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
     find_package(Thrift REQUIRED)
+    find_package(Libevent CONFIG REQUIRED)
     add_definitions(-DFMU_PROXY_WITH_THRIFT)
 endif()
 

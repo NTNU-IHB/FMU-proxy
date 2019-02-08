@@ -28,8 +28,8 @@
 #include <thread>
 #include <unordered_map>
 
-#include <fmi4cpp/fmi2/fmi2.hpp>
-#include <thrift/server/TSimpleServer.h>
+#include <fmi4cpp/fmi2/import/fmi2Fmu.hpp>
+#include <thrift/server/TServer.h>
 
 #include "../common/service_types.h"
 #include "FmuServiceHandler.hpp"
@@ -44,11 +44,12 @@ namespace fmuproxy::thrift::server {
         const bool http_;
         const unsigned int port_;
         std::unique_ptr<std::thread> thread_;
-        std::unique_ptr<apache::thrift::server::TSimpleServer> server_;
+        std::unique_ptr<apache::thrift::server::TServer> server_;
 
         void serve();
 
     public:
+
         ThriftServer(std::unordered_map<fmuproxy::thrift::FmuId,
                 std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
                 unsigned int port, bool http=false);
