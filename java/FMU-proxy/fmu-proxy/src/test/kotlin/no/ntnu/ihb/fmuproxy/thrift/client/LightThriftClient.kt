@@ -45,16 +45,11 @@ class LightThriftClient(
         }
     }
 
-    private val transport: TTransport
-    private val client: FmuService.Client
-
-    init {
-        transport = TFramedTransport.Factory().getTransport(TSocket(host, port)).apply {
-            open()
-        }
-
-        client = FmuService.Client( TCompactProtocol(transport))
+    private val transport= TFramedTransport.Factory().getTransport(TSocket(host, port)).apply {
+        open()
     }
+    private val client = FmuService.Client( TCompactProtocol(transport))
+
 
     val modelDescription: ModelDescription by lazy {
         client.getModelDescription(fmuId)

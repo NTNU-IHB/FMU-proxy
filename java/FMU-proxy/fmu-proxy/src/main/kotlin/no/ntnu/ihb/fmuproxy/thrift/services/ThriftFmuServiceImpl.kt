@@ -29,16 +29,22 @@ import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.common.StringArray
 import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import no.ntnu.ihb.fmuproxy.thrift.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.net.URL
 import java.nio.ByteBuffer
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class ThriftFmuServiceImpl(
-        private val fmus: Map<String, Fmu>
+        private val fmus: MutableMap<String, Fmu>
 ) : FmuService.Iface {
 
     private companion object {
@@ -51,6 +57,21 @@ class ThriftFmuServiceImpl(
 
     private fun getSlave(instanceId: String): FmuSlave {
         return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
+    }
+
+    override fun load(url: String): String {
+        @Suppress("NAME_SHADOWING") val url = URL(url)
+        val md = ModelDescriptionParser.parse(url)
+        val guid = md.guid
+        if (guid in fmus) {
+            LOG.info("FMU with guid=$guid already loaded, re-using it!")
+            return guid
+        }
+        val fmu = Fmu.from(url)
+        LOG.info("Loaded FMU with guid=$guid!")
+        return guid.also {
+            fmus[it] = fmu
+        }
     }
 
     override fun getModelDescription(fmuId: String): ModelDescription {

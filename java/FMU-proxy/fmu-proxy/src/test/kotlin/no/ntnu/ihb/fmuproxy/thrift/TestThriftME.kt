@@ -26,7 +26,7 @@ class TestThriftME {
 
     private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer(fmu)
-    private val client = ThriftFmuClient.socketClient(fmu.guid, "127.0.0.1", server.start())
+    private val client = ThriftFmuClient.socketClient("127.0.0.1", server.start()).load(fmu.guid)
 
     @AfterAll
     fun tearDown() {

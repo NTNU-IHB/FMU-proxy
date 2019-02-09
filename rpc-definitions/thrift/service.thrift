@@ -29,7 +29,7 @@ typedef string FmuId
 typedef string InstanceId
 typedef i64 ValueReference
 typedef i64 FmuState
-typedef list<double> DirectionalDerivative;
+typedef list<double> DirectionalDerivative
 typedef list<ValueReference> ValueReferences
 typedef list<i32> IntArray
 typedef list<double> RealArray
@@ -234,6 +234,8 @@ struct DirectionalDerivativeResult {
 }
 
 service FmuService {
+
+    FmuId load(1: string url);
 
     ModelDescription getModelDescription(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
     CoSimulationAttributes getCoSimulationAttributes(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)

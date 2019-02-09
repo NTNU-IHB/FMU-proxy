@@ -53,7 +53,9 @@ abstract class ThriftFmuServer(
         fmus: Map<String, Fmu>
 ) : FmuProxyServer {
 
+
     companion object {
+
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
 
         fun socketServer(fmus: Map<String, Fmu>) = ThriftFmuSocketServer(fmus)
@@ -63,7 +65,7 @@ abstract class ThriftFmuServer(
 
     override var port: Int? = null
     private var server: IServer? = null
-    private val handler = ThriftFmuServiceImpl(fmus)
+    private val handler = ThriftFmuServiceImpl(fmus.toMutableMap())
 
     override fun start(port: Int) {
 
@@ -94,7 +96,7 @@ abstract class ThriftFmuServer(
 
 
 class ThriftFmuSocketServer(
-        fmus: Map<String, Fmu>
+        fmus: Map<String, Fmu> = mapOf()
 ) : ThriftFmuServer(fmus) {
 
     constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))
@@ -123,7 +125,7 @@ class ThriftFmuSocketServer(
 }
 
 class ThriftFmuServlet(
-        fmus: Map<String, Fmu>
+        fmus: Map<String, Fmu> = mapOf()
 ) : ThriftFmuServer(fmus) {
 
     constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))

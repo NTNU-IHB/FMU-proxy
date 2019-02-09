@@ -75,7 +75,7 @@ class BenchmarkControlledTemperature {
         for (i in 0..2) {
             try {
 
-                ThriftFmuClient.socketClient(guid, host, port).use { client ->
+                ThriftFmuClient.socketClient(host, port).load(guid).use { client ->
                     client.newInstance().use { instance ->
                         runSlave(instance, stepSize, stop) {
                             val read = instance.variableAccessor.readReal(46)

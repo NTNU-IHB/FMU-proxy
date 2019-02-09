@@ -67,7 +67,7 @@ class Benchmark {
 
         ThriftFmuSocketServer(fmu).use { server ->
             val port = server.start()
-            val client = ThriftFmuClient.socketClient(fmu.guid, host, port)
+            val client = ThriftFmuClient.socketClient(host, port).load(fmu.guid)
             client.newInstance().use { instance ->
                 runSlave(instance, stepSize, stop) {
                     val read = instance.variableAccessor.readReal("Temperature_Room")
@@ -98,7 +98,7 @@ class Benchmark {
         try {
             ThriftFmuServlet(fmu).use { server ->
                 val port = server.start()
-                val client = ThriftFmuClient.servletClient(fmu.guid, host, port)
+                val client = ThriftFmuClient.servletClient(host, port).load(fmu.guid)
                 client.newInstance().use { instance ->
                     runSlave(instance, stepSize, stop) {
                         val read = instance.variableAccessor.readReal("Temperature_Room")

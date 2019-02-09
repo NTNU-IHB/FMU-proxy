@@ -103,7 +103,7 @@ abstract class AbstractRpcFmuClient(
         }
     }
 
-    inner class FmuInstance(
+    inner class FmuInstance internal constructor(
             private val instanceId: String
     ): FmuSlave  {
 
@@ -230,7 +230,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        inner class RemoteVariableAccessor: FmuVariableAccessorLite {
+        private inner class RemoteVariableAccessor: FmuVariableAccessorLite {
 
             override fun readInteger(vr: ValueReferences, value: IntArray): FmiStatus {
                 return readInteger(instanceId, vr.toList()).let {

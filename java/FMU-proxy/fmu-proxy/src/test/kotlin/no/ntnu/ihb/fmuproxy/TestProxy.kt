@@ -98,7 +98,7 @@ class TestProxy {
     fun testThriftSocket() {
 
         proxy.getPortFor<ThriftFmuSocketServer>()?.also { port ->
-            ThriftFmuClient.socketClient(fmu.guid, host, port).use { client ->
+            ThriftFmuClient.socketClient(host, port).load(fmu.guid).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
@@ -123,7 +123,7 @@ class TestProxy {
     fun testThriftServlet() {
 
         proxy.getPortFor<ThriftFmuServlet>()?.also { port ->
-            ThriftFmuClient.servletClient(fmu.guid, host, port).use { client ->
+            ThriftFmuClient.servletClient(host, port).load(fmu.guid).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription
