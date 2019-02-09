@@ -49,7 +49,7 @@ class BenchmarkControlledTemperature {
             GrpcFmuServer(fmu).use { server ->
                 val port = server.start()
                 for (i in 0..2) {
-                    GrpcFmuClient(fmu.guid, "localhost", port).use { client ->
+                    GrpcFmuClient("localhost", port).load(fmu.guid).use { client ->
 
                         client.newInstance().use { slave ->
                             runInstance(slave, stepSize, stop) {
@@ -79,7 +79,7 @@ class BenchmarkControlledTemperature {
         for (i in 0..2) {
             try {
 
-                GrpcFmuClient(guid, host, port).use { client ->
+                GrpcFmuClient(host, port).load(guid).use { client ->
                     client.newInstance().use { slave ->
                         runInstance(slave, stepSize, stop) {
                             val read = slave.variableAccessor.readReal(46)

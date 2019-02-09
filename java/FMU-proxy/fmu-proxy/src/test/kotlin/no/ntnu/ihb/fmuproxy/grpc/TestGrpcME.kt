@@ -27,7 +27,7 @@ class TestGrpcME {
 
     private val modelDescription = fmu.modelDescription
     private val server = GrpcFmuServer(fmu)
-    private val client = GrpcFmuClient(fmu.guid, "localhost", server.start())
+    private val client = GrpcFmuClient("localhost", server.start()).load(fmu.guid)
 
     @AfterAll
     fun tearDown() {

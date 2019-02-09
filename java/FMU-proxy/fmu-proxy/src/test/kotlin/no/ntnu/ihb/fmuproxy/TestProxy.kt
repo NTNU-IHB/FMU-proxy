@@ -73,7 +73,7 @@ class TestProxy {
 
         proxy.getPortFor<GrpcFmuServer>()?.also { port ->
 
-            GrpcFmuClient(fmu.guid, host, port).use { client ->
+            GrpcFmuClient(host, port).load(fmu.guid).use { client ->
 
                 val mdLocal = fmu.modelDescription
                 val mdRemote = client.modelDescription

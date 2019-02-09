@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        fmus: Map<String, Fmu>
+        fmus: Map<String, Fmu> = mapOf()
 ): FmuProxyServer {
 
     constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
@@ -47,12 +47,14 @@ class GrpcFmuServer(
     }
 
     override var port: Int? = null
+    private set
+
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
-    private val service = GrpcFmuServiceImpl(fmus)
+    private val service = GrpcFmuServiceImpl(fmus.toMutableMap())
 
-    val isRunning: Boolean
+    private val isRunning: Boolean
         get() = server != null
 
     override fun start(port: Int) {

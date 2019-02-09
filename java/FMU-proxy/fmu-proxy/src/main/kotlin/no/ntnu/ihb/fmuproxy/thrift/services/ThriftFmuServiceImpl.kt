@@ -64,11 +64,11 @@ class ThriftFmuServiceImpl(
         val md = ModelDescriptionParser.parse(url)
         val guid = md.guid
         if (guid in fmus) {
-            LOG.info("FMU with guid=$guid already loaded, re-using it!")
+            LOG.debug("FMU with guid=$guid already loaded, re-using it!")
             return guid
         }
         val fmu = Fmu.from(url)
-        LOG.info("Loaded FMU with guid=$guid!")
+        LOG.info("Loaded new FMU with guid=$guid!")
         return guid.also {
             fmus[it] = fmu
         }

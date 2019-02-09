@@ -32,17 +32,15 @@ import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
+import java.net.URL
 
 /**
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuClient(
-        fmuId: String,
         host: String,
         port: Int
-) : AbstractRpcFmuClient(fmuId) {
-
-    override val implementationName: String = "GrpcClient"
+)  {
 
     private val channel = ManagedChannelBuilder
             .forAddress(host, port)
@@ -50,236 +48,258 @@ class GrpcFmuClient(
             .directExecutor()
             .build()
 
-    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub = FmuServiceGrpc.newBlockingStub(channel)
+    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
+            = FmuServiceGrpc.newBlockingStub(channel)
 
-    override val modelDescription: ModelDescription by lazy {
-        Service.GetModelDescriptionRequest.newBuilder()
-                .setFmuId(fmuId)
+    fun load(fmuId: String): AbstractRpcFmuClient {
+        return GrpcFmu(fmuId);
+    }
+
+    fun load(url: URL): AbstractRpcFmuClient {
+        return Service.Url.newBuilder()
+                .setUrl(url.toString())
                 .build().let {
-                    blockingStub.getModelDescription(it).convert()
+                    blockingStub.load(it).value
+                }.let {
+                    load(it)
                 }
     }
 
-    override val canCreateInstanceFromCS: Boolean by lazy {
-        Service.CanCreateInstanceFromCSRequest.newBuilder()
-                .setFmuId(fmuId)
-                .build().let {
-                    blockingStub.canCreateInstanceFromCS(it).value
-                }
+    private inner class GrpcFmu(
+            fmuId: String
+    ): AbstractRpcFmuClient(fmuId) {
 
-    }
+        override val implementationName: String = "GrpcClient"
 
-    override val canCreateInstanceFromME: Boolean by lazy {
-        Service.CanCreateInstanceFromMERequest.newBuilder()
-                .setFmuId(fmuId)
-                .build().let {
-                    blockingStub.canCreateInstanceFromME(it).value
-                }
-    }
-
-    override fun createInstanceFromCS(): String {
-        return Service.CreateInstanceFromCSRequest.newBuilder()
-                .setFmuId(fmuId)
-                .build().let {
-                    blockingStub.createInstanceFromCS(it).value
-                }
-    }
-
-    override fun createInstanceFromME(solver: Solver): String {
-        return Service.CreateInstanceFromMERequest.newBuilder()
-                .setFmuId(fmuId)
-                .setSolver(solver.protoType())
-                .build().let {
-                    blockingStub.createInstanceFromME(it).value
-                }
-    }
-
-    override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
-        return Service.GetCoSimulationAttributesRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .build().let {
-                    blockingStub.getCoSimulationAttributes(it).convert()
-                }
-    }
-
-    override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
-        return Service.SetupExperimentRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .setStart(start)
-                .setStop(stop)
-                .setTolerance(tolerance)
-                .build().let {
-                    blockingStub.setupExperiment(it).convert()
-                }
-    }
-
-    override fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
-        return Service.EnterInitializationModeRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .build().let {
-                    blockingStub.enterInitializationMode(it).convert()
-                }
-    }
-
-    override fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
-        return Service.ExitInitializationModeRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .build().let {
-                    blockingStub.exitInitializationMode(it).convert()
-                }
-    }
-
-    override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
-        return Service.StepRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .setStepSize(stepSize)
-                .build().let {
-                    blockingStub.step(it).let {
-                        it.simulationTime to it.status.convert()
+        override val modelDescription: ModelDescription by lazy {
+            Service.GetModelDescriptionRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .build().let {
+                        blockingStub.getModelDescription(it).convert()
                     }
-                }
-    }
-
-    override fun reset(instanceId: String): FmiStatus {
-        return Service.ResetRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .build().let {
-                    blockingStub.reset(it).status.convert()
-                }
-    }
-
-    override fun terminate(instanceId: String): FmiStatus {
-        return Service.TerminateRequest.newBuilder().setInstanceId(instanceId).build().let {
-            blockingStub.terminate(it).status.convert()
         }
-    }
 
-    override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
-        return blockingStub.readInteger(getReadRequest(instanceId, vr)).convert()
-    }
-
-    override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
-        return blockingStub.readReal(getReadRequest(instanceId, vr)).convert()
-    }
-
-    override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
-        return blockingStub.readString(getReadRequest(instanceId, vr)).convert()
-    }
-
-    override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
-        return blockingStub.readBoolean(getReadRequest(instanceId, vr)).convert()
-    }
-
-    override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
-        return Service.WriteIntegerRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .addAllValueReferences(vr)
-                .addAllValues(value)
-                .build().let { request ->
-                    blockingStub.writeInteger(request).convert()
-                }
-    }
-
-
-    override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
-        return Service.WriteRealRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .addAllValueReferences(vr)
-                .addAllValues(value)
-                .build().let { request ->
-                    blockingStub.writeReal(request).convert()
-                }
-    }
-
-    override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
-        return Service.WriteStringRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .addAllValueReferences(vr)
-                .addAllValues(value)
-                .build().let { request ->
-                    blockingStub.writeString(request).convert()
-                }
-    }
-
-    override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
-        return Service.WriteBooleanRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .addAllValueReferences(vr)
-                .addAllValues(value)
-                .build().let { request ->
-                    blockingStub.writeBoolean(request).convert()
-                }
-    }
-
-    override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
-        return Service.DeSerializeFMUstateRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .setState(ByteString.copyFrom(state))
-                .build().let { request ->
-                    blockingStub.deSerializeFMUstate(request).let { response ->
-                        response.state to response.status.convert()
+        override val canCreateInstanceFromCS: Boolean by lazy {
+            Service.CanCreateInstanceFromCSRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .build().let {
+                        blockingStub.canCreateInstanceFromCS(it).value
                     }
-                }
-    }
 
-    override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
-        return Service.FreeFMUstateRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .setState(state)
-                .build().let { request ->
-                    blockingStub.freeFMUstate(request).convert()
-                }
-    }
+        }
 
-    override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
-        return Service.GetFMUstateRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .build().let { request ->
-                    blockingStub.getFMUstate(request).let { response ->
-                        response.state to response.status.convert()
+        override val canCreateInstanceFromME: Boolean by lazy {
+            Service.CanCreateInstanceFromMERequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .build().let {
+                        blockingStub.canCreateInstanceFromME(it).value
                     }
-                }
-    }
+        }
 
-    override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
-        return Service.SerializeFMUstateRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .setState(state)
-                .build().let { request ->
-                    blockingStub.serializeFMUstate(request).let { response ->
-                        response.state.toByteArray() to response.status.convert()
+        override fun createInstanceFromCS(): String {
+            return Service.CreateInstanceFromCSRequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .build().let {
+                        blockingStub.createInstanceFromCS(it).value
                     }
-                }
-    }
+        }
 
-    override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
-        return Service.SetFMUstateRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .setState(state)
-                .build().let { request ->
-                    blockingStub.setFMUstate(request).convert()
-                }
-    }
-
-    override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
-        return Service.GetDirectionalDerivativeRequest.newBuilder()
-                .setInstanceId(instanceId)
-                .addAllVUnknownRef(vUnknownRef)
-                .addAllVKnownRef(vKnownRef)
-                .addAllDvKnownRef(dvKnownRef).build().let { request ->
-                    blockingStub.getDirectionalDerivative(request).let { response ->
-                        response.dvUnknownRefList to response.status.convert()
+        override fun createInstanceFromME(solver: Solver): String {
+            return Service.CreateInstanceFromMERequest.newBuilder()
+                    .setFmuId(fmuId)
+                    .setSolver(solver.protoType())
+                    .build().let {
+                        blockingStub.createInstanceFromME(it).value
                     }
-                }
+        }
 
+        override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
+            return Service.GetCoSimulationAttributesRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .build().let {
+                        blockingStub.getCoSimulationAttributes(it).convert()
+                    }
+        }
+
+        override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+            return Service.SetupExperimentRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .setStart(start)
+                    .setStop(stop)
+                    .setTolerance(tolerance)
+                    .build().let {
+                        blockingStub.setupExperiment(it).convert()
+                    }
+        }
+
+        override fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
+            return Service.EnterInitializationModeRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .build().let {
+                        blockingStub.enterInitializationMode(it).convert()
+                    }
+        }
+
+        override fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
+            return Service.ExitInitializationModeRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .build().let {
+                        blockingStub.exitInitializationMode(it).convert()
+                    }
+        }
+
+        override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
+            return Service.StepRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .setStepSize(stepSize)
+                    .build().let {
+                        blockingStub.step(it).let {
+                            it.simulationTime to it.status.convert()
+                        }
+                    }
+        }
+
+        override fun reset(instanceId: String): FmiStatus {
+            return Service.ResetRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .build().let {
+                        blockingStub.reset(it).status.convert()
+                    }
+        }
+
+        override fun terminate(instanceId: String): FmiStatus {
+            return Service.TerminateRequest.newBuilder().setInstanceId(instanceId).build().let {
+                blockingStub.terminate(it).status.convert()
+            }
+        }
+
+        override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
+            return blockingStub.readInteger(getReadRequest(instanceId, vr)).convert()
+        }
+
+        override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
+            return blockingStub.readReal(getReadRequest(instanceId, vr)).convert()
+        }
+
+        override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
+            return blockingStub.readString(getReadRequest(instanceId, vr)).convert()
+        }
+
+        override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
+            return blockingStub.readBoolean(getReadRequest(instanceId, vr)).convert()
+        }
+
+        override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
+            return Service.WriteIntegerRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .addAllValueReferences(vr)
+                    .addAllValues(value)
+                    .build().let { request ->
+                        blockingStub.writeInteger(request).convert()
+                    }
+        }
+
+
+        override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+            return Service.WriteRealRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .addAllValueReferences(vr)
+                    .addAllValues(value)
+                    .build().let { request ->
+                        blockingStub.writeReal(request).convert()
+                    }
+        }
+
+        override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
+            return Service.WriteStringRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .addAllValueReferences(vr)
+                    .addAllValues(value)
+                    .build().let { request ->
+                        blockingStub.writeString(request).convert()
+                    }
+        }
+
+        override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+            return Service.WriteBooleanRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .addAllValueReferences(vr)
+                    .addAllValues(value)
+                    .build().let { request ->
+                        blockingStub.writeBoolean(request).convert()
+                    }
+        }
+
+        override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
+            return Service.DeSerializeFMUstateRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .setState(ByteString.copyFrom(state))
+                    .build().let { request ->
+                        blockingStub.deSerializeFMUstate(request).let { response ->
+                            response.state to response.status.convert()
+                        }
+                    }
+        }
+
+        override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
+            return Service.FreeFMUstateRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .setState(state)
+                    .build().let { request ->
+                        blockingStub.freeFMUstate(request).convert()
+                    }
+        }
+
+        override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
+            return Service.GetFMUstateRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .build().let { request ->
+                        blockingStub.getFMUstate(request).let { response ->
+                            response.state to response.status.convert()
+                        }
+                    }
+        }
+
+        override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
+            return Service.SerializeFMUstateRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .setState(state)
+                    .build().let { request ->
+                        blockingStub.serializeFMUstate(request).let { response ->
+                            response.state.toByteArray() to response.status.convert()
+                        }
+                    }
+        }
+
+        override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+            return Service.SetFMUstateRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .setState(state)
+                    .build().let { request ->
+                        blockingStub.setFMUstate(request).convert()
+                    }
+        }
+
+        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
+            return Service.GetDirectionalDerivativeRequest.newBuilder()
+                    .setInstanceId(instanceId)
+                    .addAllVUnknownRef(vUnknownRef)
+                    .addAllVKnownRef(vKnownRef)
+                    .addAllDvKnownRef(dvKnownRef).build().let { request ->
+                        blockingStub.getDirectionalDerivative(request).let { response ->
+                            response.dvUnknownRefList to response.status.convert()
+                        }
+                    }
+
+
+        }
+
+        override fun close() {
+            super.close()
+            channel.shutdownNow()
+        }
 
     }
-
-    override fun close() {
-        super.close()
-        channel.shutdownNow()
-    }
-
 
     private companion object {
 

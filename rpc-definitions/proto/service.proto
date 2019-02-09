@@ -339,7 +339,13 @@ message GetDirectionalDerivativeResponse {
 
 message Void {}
 
+message Url {
+    string url = 1;
+}
+
 service FmuService {
+
+    rpc Load(Url) returns (FmuId);
 
     rpc GetModelDescription (GetModelDescriptionRequest) returns (ModelDescription);
     rpc GetCoSimulationAttributes (GetCoSimulationAttributesRequest) returns (CoSimulationAttributes);

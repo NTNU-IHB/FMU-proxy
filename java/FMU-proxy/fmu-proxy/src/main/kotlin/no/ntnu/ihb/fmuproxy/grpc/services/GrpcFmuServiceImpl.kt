@@ -34,15 +34,21 @@ import no.ntnu.ihb.fmi4j.common.StringArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
 import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.net.URL
 
+/**
+ *
+ * @author Lars Ivar Hatledal
+ */
 class GrpcFmuServiceImpl(
-        private val fmus: Map<String, Fmu>
+        private val fmus: MutableMap<String, Fmu>
 ) : FmuServiceGrpc.FmuServiceImplBase() {
 
     private inline fun getFmu(fmuId: String, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
@@ -51,6 +57,22 @@ class GrpcFmuServiceImpl(
 
     private inline fun getSlave(instanceId: String, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
+    }
+
+    override fun load(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
+        val url = URL(request.url)
+        val md = ModelDescriptionParser.parse(url)
+        val guid = md.guid
+        if (guid in fmus) {
+            LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+        } else {
+            LOG.info("Loaded new FMU with guid=$guid!")
+            val fmu = Fmu.from(url)
+            fmus[guid] = fmu
+        }
+        responseObserver.onNext(Service.FmuId.newBuilder()
+                        .setValue(guid).build())
+        responseObserver.onCompleted()
     }
 
     override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Service.ModelDescription>) {

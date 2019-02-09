@@ -120,7 +120,7 @@ class Benchmark {
 
         GrpcFmuServer(fmu).use { server ->
             val port = server.start()
-            val client = GrpcFmuClient(fmu.guid, host, port)
+            val client = GrpcFmuClient(host, port).load(fmu.guid)
             client.newInstance().use { instance ->
                 runSlave(instance, stepSize, stop) {
                     val read = instance.variableAccessor.readReal("Temperature_Room")

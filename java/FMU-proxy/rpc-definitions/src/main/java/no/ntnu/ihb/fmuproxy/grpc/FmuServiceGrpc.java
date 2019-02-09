@@ -27,6 +27,38 @@ public final class FmuServiceGrpc {
   public static final String SERVICE_NAME = "fmuproxy.grpc.FmuService";
 
   // Static method descriptors that strictly reflect the proto.
+  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url,
+      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "Load",
+      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.Url.class,
+      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url,
+      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadMethod() {
+    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadMethod;
+    if ((getLoadMethod = FmuServiceGrpc.getLoadMethod) == null) {
+      synchronized (FmuServiceGrpc.class) {
+        if ((getLoadMethod = FmuServiceGrpc.getLoadMethod) == null) {
+          FmuServiceGrpc.getLoadMethod = getLoadMethod = 
+              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.Url, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "fmuproxy.grpc.FmuService", "Load"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.ntnu.ihb.fmuproxy.grpc.Service.Url.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.getDefaultInstance()))
+                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Load"))
+                  .build();
+          }
+        }
+     }
+     return getLoadMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest,
       no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription> getGetModelDescriptionMethod;
 
@@ -888,6 +920,13 @@ public final class FmuServiceGrpc {
 
     /**
      */
+    public void load(no.ntnu.ihb.fmuproxy.grpc.Service.Url request,
+        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> responseObserver) {
+      asyncUnimplementedUnaryCall(getLoadMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void getModelDescription(no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription> responseObserver) {
       asyncUnimplementedUnaryCall(getGetModelDescriptionMethod(), responseObserver);
@@ -1070,6 +1109,13 @@ public final class FmuServiceGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+          .addMethod(
+            getLoadMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.ntnu.ihb.fmuproxy.grpc.Service.Url,
+                no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>(
+                  this, METHODID_LOAD)))
           .addMethod(
             getGetModelDescriptionMethod(),
             asyncUnaryCall(
@@ -1272,6 +1318,14 @@ public final class FmuServiceGrpc {
     protected FmuServiceStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new FmuServiceStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public void load(no.ntnu.ihb.fmuproxy.grpc.Service.Url request,
+        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getLoadMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1503,6 +1557,13 @@ public final class FmuServiceGrpc {
 
     /**
      */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.FmuId load(no.ntnu.ihb.fmuproxy.grpc.Service.Url request) {
+      return blockingUnaryCall(
+          getChannel(), getLoadMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
     public no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription getModelDescription(no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetModelDescriptionMethod(), getCallOptions(), request);
@@ -1700,6 +1761,14 @@ public final class FmuServiceGrpc {
     protected FmuServiceFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new FmuServiceFutureStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> load(
+        no.ntnu.ihb.fmuproxy.grpc.Service.Url request) {
+      return futureUnaryCall(
+          getChannel().newCall(getLoadMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1911,32 +1980,33 @@ public final class FmuServiceGrpc {
     }
   }
 
-  private static final int METHODID_GET_MODEL_DESCRIPTION = 0;
-  private static final int METHODID_GET_CO_SIMULATION_ATTRIBUTES = 1;
-  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_CS = 2;
-  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_ME = 3;
-  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 4;
-  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 5;
-  private static final int METHODID_SETUP_EXPERIMENT = 6;
-  private static final int METHODID_ENTER_INITIALIZATION_MODE = 7;
-  private static final int METHODID_EXIT_INITIALIZATION_MODE = 8;
-  private static final int METHODID_STEP = 9;
-  private static final int METHODID_RESET = 10;
-  private static final int METHODID_TERMINATE = 11;
-  private static final int METHODID_READ_INTEGER = 12;
-  private static final int METHODID_READ_REAL = 13;
-  private static final int METHODID_READ_STRING = 14;
-  private static final int METHODID_READ_BOOLEAN = 15;
-  private static final int METHODID_WRITE_INTEGER = 16;
-  private static final int METHODID_WRITE_REAL = 17;
-  private static final int METHODID_WRITE_STRING = 18;
-  private static final int METHODID_WRITE_BOOLEAN = 19;
-  private static final int METHODID_GET_FMUSTATE = 20;
-  private static final int METHODID_SET_FMUSTATE = 21;
-  private static final int METHODID_FREE_FMUSTATE = 22;
-  private static final int METHODID_SERIALIZE_FMUSTATE = 23;
-  private static final int METHODID_DE_SERIALIZE_FMUSTATE = 24;
-  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 25;
+  private static final int METHODID_LOAD = 0;
+  private static final int METHODID_GET_MODEL_DESCRIPTION = 1;
+  private static final int METHODID_GET_CO_SIMULATION_ATTRIBUTES = 2;
+  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_CS = 3;
+  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_ME = 4;
+  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 5;
+  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 6;
+  private static final int METHODID_SETUP_EXPERIMENT = 7;
+  private static final int METHODID_ENTER_INITIALIZATION_MODE = 8;
+  private static final int METHODID_EXIT_INITIALIZATION_MODE = 9;
+  private static final int METHODID_STEP = 10;
+  private static final int METHODID_RESET = 11;
+  private static final int METHODID_TERMINATE = 12;
+  private static final int METHODID_READ_INTEGER = 13;
+  private static final int METHODID_READ_REAL = 14;
+  private static final int METHODID_READ_STRING = 15;
+  private static final int METHODID_READ_BOOLEAN = 16;
+  private static final int METHODID_WRITE_INTEGER = 17;
+  private static final int METHODID_WRITE_REAL = 18;
+  private static final int METHODID_WRITE_STRING = 19;
+  private static final int METHODID_WRITE_BOOLEAN = 20;
+  private static final int METHODID_GET_FMUSTATE = 21;
+  private static final int METHODID_SET_FMUSTATE = 22;
+  private static final int METHODID_FREE_FMUSTATE = 23;
+  private static final int METHODID_SERIALIZE_FMUSTATE = 24;
+  private static final int METHODID_DE_SERIALIZE_FMUSTATE = 25;
+  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 26;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1955,6 +2025,10 @@ public final class FmuServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_LOAD:
+          serviceImpl.load((no.ntnu.ihb.fmuproxy.grpc.Service.Url) request,
+              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>) responseObserver);
+          break;
         case METHODID_GET_MODEL_DESCRIPTION:
           serviceImpl.getModelDescription((no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription>) responseObserver);
@@ -2120,6 +2194,7 @@ public final class FmuServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new FmuServiceFileDescriptorSupplier())
+              .addMethod(getLoadMethod())
               .addMethod(getGetModelDescriptionMethod())
               .addMethod(getGetCoSimulationAttributesMethod())
               .addMethod(getCanCreateInstanceFromCSMethod())
