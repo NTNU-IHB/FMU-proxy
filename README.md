@@ -59,7 +59,7 @@ The JVM implementation of FMU-proxy is written in Kotlin and uses the gradle bui
 
 It features a server implementation that supports Apache Thrift (HTTP/JSON, TCP/IP/binary), gRPC(HTTP2) and JSON-RPC(HTTP, WebSockets, TCP/IP, ZMQ) RPCs.
 
-For interacting with the FMUs on the JVM, [FMI4j](https://sfi-mechatronics.github.io/FMI4j/) is used. 
+For interacting with the FMUs on the JVM, [FMI4j](https://github.com/NTNU-IHB/FMI4j) is used. 
 The JSON-RPC client and server implementation can be found [here](https://github.com/markaren/YAJ-RPC).
 
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
@@ -103,7 +103,7 @@ When using JSON-RPC, no schema is required.
 It is no surprise that invoking FMUs on the JVM implies a certain performance overhead. 
 That is why a server implementation of FMU-proxy has also been implemented in C++. 
 
-The implementation uses the C++ library [FMI4cpp](https://github.com/SFI-Mechatronics/FMI4cpp) for interacting with FMUs. 
+The implementation uses the C++ library [FMI4cpp](https://github.com/NTNU-IHB/FMI4cpp) for interacting with FMUs. 
 
 The implementation supports Thrift and gRPC. Both servers and clients are available. 
 The clients share a common interface with the FMI wrapper, making it possible to interchangably use local and remote FMUs in your code.. 
@@ -122,7 +122,7 @@ Options:
                         (TCP/IP) server.
   --thrift/http arg     Specify the network port to be used by the Thrift 
                         (HTTP) server.
-  --grpc/http2 arg      Specify the network port to be used by the gRPC server.
+  --grpc arg      Specify the network port to be used by the gRPC server.
 ```
 
 ### <a name="python"></a> Python
