@@ -22,8 +22,8 @@ On windows you might want to specify the target architecture (defaults to x86) b
 
 _Note: `thrift` or `grpc` may be enabled/disabled using the following CMake commands:_
 ```
--DFMUPROXY_WITH_THRIFT={ON|OFF} #default ON
--DFMUPROXY_WITH_GRPC={ON|OFF} #default ON
+-DFMU_PROXY_WITH_THRIFT={ON|OFF} #default ON
+-DFMU_PROXY_WITH_GRPC={ON|OFF} #default ON
 ```
 
 
