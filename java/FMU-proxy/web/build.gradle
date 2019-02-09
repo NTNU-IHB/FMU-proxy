@@ -57,8 +57,8 @@ task copySchemas(type: Copy) {
 
 task copySchemasZip(type: Zip) {
     from fileTree(dir: '../../../rpc-definitions')
-    archiveName 'fmu-proxy-schemas.zip'
-    destinationDir file('src/main/webapp/resources/schemas')
+    archiveFileName 'fmu-proxy-schemas.zip'
+    destinationDirectory file('src/main/webapp/resources/schemas')
 }
 
 compileKotlin.dependsOn(copySchemas)
