@@ -22,12 +22,12 @@
  * THE SOFTWARE.
  */
 
-#include <ctime>
+
 #include <vector>
 #include <iostream>
 
 #include "../example_util.hpp"
-#include <fmi4cpp/fmi2/fmi2.hpp>
+#include <fmi4cpp/fmi4cpp.hpp>
 
 using namespace std;
 using namespace fmi4cpp::fmi2;
@@ -48,26 +48,23 @@ int main(int argc, char **argv) {
     slave->enterInitializationMode();
     slave->exitInitializationMode();
 
-    clock_t begin = clock();
 
     vector<fmi2Real > ref(2);
     vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
                                       md->getValueReference("Temperature_Room")};
 
-    double t;
-    while ( (t = slave->getSimulationTime() ) <= (stop-step_size) ) {
-        if (!slave->doStep(step_size)) {
-            cout << "Error! doStep returned with status: " << to_string(slave->getLastStatus()) << endl;
-            break;
+    auto elapsed = measure_time_sec([&slave, &vr, &ref]{
+
+        while ( (slave->getSimulationTime() ) <= (stop-step_size) ) {
+            if (!slave->doStep(step_size)) {
+                cout << "Error! doStep returned with status: " << to_string(slave->getLastStatus()) << endl;
+                break;
+            }
+            slave->readReal(vr, ref);
         }
-        slave->readReal(vr, ref);
-//        cout << "t=" << t << ", Temperature_Reference=" << ref[0] << ", Temperature_Room=" << ref[1] << endl;
-    }
+    });
 
-    clock_t end = clock();
-
-    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-    cout << "elapsed=" << elapsed_secs << "s" << endl;
+    cout << "elapsed=" << elapsed << "s" << endl;
 
     slave->terminate();
 

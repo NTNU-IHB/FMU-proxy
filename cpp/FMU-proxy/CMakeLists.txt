@@ -48,6 +48,7 @@ option(FMI4CPP_BUILD_EXAMPLES "" OFF)
 option(FMI4CPP_BUILD_TESTS "" OFF)
 option(FMI4CPP_BUILD_TOOL "" OFF)
 option(FMI4CPP_WITH_ODEINT "" ON)
+option(FMI4CPP_WITH_CURL "" ON)
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)

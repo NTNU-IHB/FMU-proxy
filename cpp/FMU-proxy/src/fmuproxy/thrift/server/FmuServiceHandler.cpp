@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <utility>
 #include <cstring>
 #include <iostream>
 
@@ -62,6 +63,15 @@ bool FmuServiceHandler::canCreateInstanceFromME(const FmuId &fmuId) {
 void FmuServiceHandler::getModelDescription(fmuproxy::thrift::ModelDescription &_return, const FmuId &id) {
     const auto &fmu = fmus_.at(id);
     thriftType(_return, *fmu->getModelDescription());
+}
+
+void FmuServiceHandler::load(FmuId &_return, const std::string &url) {
+    auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(url);
+    auto guid = fmu->getModelDescription()->guid();
+    if (!fmus_.count(guid)) {
+        fmus_[guid] = move(fmu);
+    }
+    _return = guid;
 }
 
 void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &id) {

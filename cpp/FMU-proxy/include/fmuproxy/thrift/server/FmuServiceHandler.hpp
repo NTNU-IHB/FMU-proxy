@@ -43,6 +43,7 @@ namespace fmuproxy::thrift::server {
     public:
         explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
 
+        void load(FmuId &_return, const std::string &url) override;
 
         void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
 

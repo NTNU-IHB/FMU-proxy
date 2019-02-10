@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <utility>
 #include <vector>
 
 #include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
@@ -47,6 +48,18 @@ namespace {
 }
 
 FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus) : fmus_(fmus) {}
+
+::Status FmuServiceImpl::Load(ServerContext *context, const ::fmuproxy::grpc::Url *request,
+                            ::fmuproxy::grpc::FmuId *response) {
+    auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(request->url());
+    auto guid = fmu->getModelDescription()->guid();
+    if (!fmus_.count(guid)) {
+        fmus_[guid] = move(fmu);
+    }
+    response->set_value(guid);
+    return ::Status::OK;
+}
+
 
 ::Status FmuServiceImpl::CanCreateInstanceFromCS(ServerContext *context,
                                                  const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest *request,

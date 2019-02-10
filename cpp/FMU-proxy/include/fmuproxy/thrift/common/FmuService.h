@@ -21,6 +21,7 @@ namespace fmuproxy { namespace thrift {
 class FmuServiceIf {
  public:
   virtual ~FmuServiceIf() {}
+  virtual void load(FmuId& _return, const std::string& url) = 0;
   virtual void getModelDescription(ModelDescription& _return, const FmuId& fmuId) = 0;
   virtual void getCoSimulationAttributes(CoSimulationAttributes& _return, const InstanceId& instanceId) = 0;
   virtual bool canCreateInstanceFromCS(const FmuId& fmuId) = 0;
@@ -76,6 +77,9 @@ class FmuServiceIfSingletonFactory : virtual public FmuServiceIfFactory {
 class FmuServiceNull : virtual public FmuServiceIf {
  public:
   virtual ~FmuServiceNull() {}
+  void load(FmuId& /* _return */, const std::string& /* url */) {
+    return;
+  }
   void getModelDescription(ModelDescription& /* _return */, const FmuId& /* fmuId */) {
     return;
   }
@@ -167,6 +171,110 @@ class FmuServiceNull : virtual public FmuServiceIf {
   void getDirectionalDerivative(DirectionalDerivativeResult& /* _return */, const InstanceId& /* instanceId */, const ValueReferences& /* vUnknownRef */, const ValueReferences& /* vKnownRef */, const std::vector<double> & /* dvKnownRef */) {
     return;
   }
+};
+
+typedef struct _FmuService_load_args__isset {
+  _FmuService_load_args__isset() : url(false) {}
+  bool url :1;
+} _FmuService_load_args__isset;
+
+class FmuService_load_args {
+ public:
+
+  FmuService_load_args(const FmuService_load_args&);
+  FmuService_load_args& operator=(const FmuService_load_args&);
+  FmuService_load_args() : url() {
+  }
+
+  virtual ~FmuService_load_args() noexcept;
+  std::string url;
+
+  _FmuService_load_args__isset __isset;
+
+  void __set_url(const std::string& val);
+
+  bool operator == (const FmuService_load_args & rhs) const
+  {
+    if (!(url == rhs.url))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_load_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_load_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class FmuService_load_pargs {
+ public:
+
+
+  virtual ~FmuService_load_pargs() noexcept;
+  const std::string* url;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_load_result__isset {
+  _FmuService_load_result__isset() : success(false) {}
+  bool success :1;
+} _FmuService_load_result__isset;
+
+class FmuService_load_result {
+ public:
+
+  FmuService_load_result(const FmuService_load_result&);
+  FmuService_load_result& operator=(const FmuService_load_result&);
+  FmuService_load_result() : success() {
+  }
+
+  virtual ~FmuService_load_result() noexcept;
+  FmuId success;
+
+  _FmuService_load_result__isset __isset;
+
+  void __set_success(const FmuId& val);
+
+  bool operator == (const FmuService_load_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const FmuService_load_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const FmuService_load_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _FmuService_load_presult__isset {
+  _FmuService_load_presult__isset() : success(false) {}
+  bool success :1;
+} _FmuService_load_presult__isset;
+
+class FmuService_load_presult {
+ public:
+
+
+  virtual ~FmuService_load_presult() noexcept;
+  FmuId* success;
+
+  _FmuService_load_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
 };
 
 typedef struct _FmuService_getModelDescription_args__isset {
@@ -3402,6 +3510,9 @@ class FmuServiceClient : virtual public FmuServiceIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
+  void load(FmuId& _return, const std::string& url);
+  void send_load(const std::string& url);
+  void recv_load(FmuId& _return);
   void getModelDescription(ModelDescription& _return, const FmuId& fmuId);
   void send_getModelDescription(const FmuId& fmuId);
   void recv_getModelDescription(ModelDescription& _return);
@@ -3495,6 +3606,7 @@ class FmuServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (FmuServiceProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
+  void process_load(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getModelDescription(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_getCoSimulationAttributes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_canCreateInstanceFromCS(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3524,6 +3636,7 @@ class FmuServiceProcessor : public ::apache::thrift::TDispatchProcessor {
  public:
   FmuServiceProcessor(::std::shared_ptr<FmuServiceIf> iface) :
     iface_(iface) {
+    processMap_["load"] = &FmuServiceProcessor::process_load;
     processMap_["getModelDescription"] = &FmuServiceProcessor::process_getModelDescription;
     processMap_["getCoSimulationAttributes"] = &FmuServiceProcessor::process_getCoSimulationAttributes;
     processMap_["canCreateInstanceFromCS"] = &FmuServiceProcessor::process_canCreateInstanceFromCS;
@@ -3578,6 +3691,16 @@ class FmuServiceMultiface : virtual public FmuServiceIf {
     ifaces_.push_back(iface);
   }
  public:
+  void load(FmuId& _return, const std::string& url) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->load(_return, url);
+    }
+    ifaces_[i]->load(_return, url);
+    return;
+  }
+
   void getModelDescription(ModelDescription& _return, const FmuId& fmuId) {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -3855,6 +3978,9 @@ class FmuServiceConcurrentClient : virtual public FmuServiceIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
+  void load(FmuId& _return, const std::string& url);
+  int32_t send_load(const std::string& url);
+  void recv_load(FmuId& _return, const int32_t seqid);
   void getModelDescription(ModelDescription& _return, const FmuId& fmuId);
   int32_t send_getModelDescription(const FmuId& fmuId);
   void recv_getModelDescription(ModelDescription& _return, const int32_t seqid);
