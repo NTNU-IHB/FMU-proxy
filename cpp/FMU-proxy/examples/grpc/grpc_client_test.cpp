@@ -23,7 +23,10 @@
  */
 
 #include <vector>
+
 #include <fmuproxy/grpc/client/GrpcClient.hpp>
+
+#include "../example_util.hpp"
 
 using namespace std;
 using namespace fmuproxy::grpc::client;
@@ -49,23 +52,18 @@ int main() {
     slave->enterInitializationMode();
     slave->exitInitializationMode();
 
-    clock_t begin = clock();
+    auto elapsed = measure_time_sec([&slave, &md]{
+        vector<fmi2Real > ref(2);
+        vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
+                                          md->getValueReference("Temperature_Room")};
 
-    vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
-                                      md->getValueReference("Temperature_Room")};
-    vector<fmi2Real> ref(vr.size());
+        while ( (slave->getSimulationTime() ) < stop) {
+            slave->doStep(step_size);
+            slave->readReal(vr, ref);
+        }
+    });
 
-    double t;
-    while ( (t=slave->getSimulationTime() ) < stop) {
-        slave->doStep(step_size);
-        slave->readReal(vr, ref);
-        cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
-    }
-
-    clock_t end = clock();
-
-    double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-    cout << "elapsed=" << elapsed_secs << "s" << endl;
+    cout << "elapsed=" << elapsed << "s" << endl;
 
     bool status = slave->terminate();
     cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;

@@ -28,6 +28,8 @@
 #include <fmuproxy/thrift/common/FmuService.h>
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
 
+#include "../example_util.hpp"
+
 using namespace std;
 using namespace apache::thrift;
 
@@ -56,24 +58,19 @@ int main() {
         slave->setupExperiment();
         slave->enterInitializationMode();
         slave->exitInitializationMode();
+        
+        auto elapsed = measure_time_sec([&slave, &md]{
+            vector<fmi2Real > ref(2);
+            vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
+                                              md->getValueReference("Temperature_Room")};
 
-        auto begin = clock();
-
-        vector<fmi2Real > ref(2);
-        vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
-                                          md->getValueReference("Temperature_Room")};
-
-        double t;
-        while ( (t=slave->getSimulationTime() ) < stop) {
-            slave->doStep(step_size);
-            slave->readReal(vr, ref);
-            cout << "t=" << t << ", Temperature_Reference=" << ref[0] <<  ", Temperature_Room=" << ref[1] << endl;
-        }
-
-        auto end = clock();
-
-        double elapsed_secs = double(end-begin) / CLOCKS_PER_SEC;
-        cout << "elapsed=" << elapsed_secs << "s" << endl;
+            while ( (slave->getSimulationTime() ) < stop) {
+                slave->doStep(step_size);
+                slave->readReal(vr, ref);
+            }
+        });
+        
+        cout << "elapsed=" << elapsed << "s" << endl;
 
         bool status = slave->terminate();
         cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;
