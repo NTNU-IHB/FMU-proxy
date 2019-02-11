@@ -27,30 +27,49 @@
 
 #include <memory>
 #include <string>
+
 #include <grpcpp/grpcpp.h>
-#include "../common/service.grpc.pb.h"
+
 #include "RemoteFmuSlave.hpp"
+#include "../common/service.grpc.pb.h"
+
 
 namespace fmuproxy::grpc::client {
 
-    class GrpcClient {
+    class RemoteGrpcFmu {
 
     private:
 
         const std::string fmuId_;
-        std::shared_ptr<fmuproxy::grpc::FmuService::Stub> stub_;
+        std::shared_ptr<FmuService::Stub> stub_;
         std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
 
     public:
-        GrpcClient(const std::string &fmu_id, const std::string &host, const unsigned int port);
+
+        RemoteGrpcFmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
 
         std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
 
         std::unique_ptr<RemoteFmuSlave> newInstance();
 
-        void close();
+    };
+
+    class GrpcClient {
+
+    private:
+
+        std::shared_ptr<FmuService::Stub> stub_;
+
+
+    public:
+        GrpcClient(const std::string &host, unsigned int port);
+
+        RemoteGrpcFmu fromUrl(const std::string &url);
+
+        RemoteGrpcFmu fromGuid(const std::string &guid);
 
     };
+
 
 }
 

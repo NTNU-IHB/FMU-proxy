@@ -79,7 +79,12 @@ bool RemoteFmuSlave::cancelStep() {
 }
 
 bool RemoteFmuSlave::terminate() {
-    return updateStatusAndReturnTrueOnOK(client_.terminate(instanceId_));
+    if (!terminated_) {
+        terminated_ = true;
+        return updateStatusAndReturnTrueOnOK(client_.terminate(instanceId_));
+    } else {
+        return true;
+    }
 }
 
 bool RemoteFmuSlave::reset() {
@@ -225,6 +230,10 @@ bool RemoteFmuSlave::serializeFMUstate(const fmi2FMUstate &state, std::vector<fm
 
 bool RemoteFmuSlave::deSerializeFMUstate(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
     return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+}
+
+RemoteFmuSlave::~RemoteFmuSlave() {
+    terminate();
 }
 
 

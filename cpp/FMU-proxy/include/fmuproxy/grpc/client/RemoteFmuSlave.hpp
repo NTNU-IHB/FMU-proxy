@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_REMOTEFMUINSTANCE_HPP
-#define FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#ifndef FMU_PROXY_GRPC_REMOTEFMUSLAVE_HPP
+#define FMU_PROXY_GRPC_REMOTEFMUSLAVE_HPP
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
@@ -39,6 +39,7 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
         fmuproxy::grpc::FmuService::Stub &stub_;
         std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
+        bool terminated_ = false;
         fmuproxy::grpc::Status lastStatus_;
 
         bool updateStatusAndReturnTrueOnOK(fmuproxy::grpc::Status status);
@@ -113,8 +114,10 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
                                       const std::vector<fmi2Real> &dvKnownRef,
                                       std::vector<fmi2Real> &dvUnknownRef) override;
 
+        ~RemoteFmuSlave();
+
     };
 
 }
 
-#endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#endif //FMU_PROXY_GRPC_REMOTEFMUSLAVE_HPP

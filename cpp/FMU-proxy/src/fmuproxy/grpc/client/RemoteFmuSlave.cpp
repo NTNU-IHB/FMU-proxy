@@ -114,14 +114,20 @@ bool RemoteFmuSlave::doStep(const double step_size) {
 
 bool RemoteFmuSlave::terminate() {
 
-    ClientContext ctx;
-    StatusResponse response;
+    if (!terminated_) {
+        terminated_ = true;
+        ClientContext ctx;
+        StatusResponse response;
 
-    TerminateRequest request;
-    request.set_instance_id(instanceId_);
+        TerminateRequest request;
+        request.set_instance_id(instanceId_);
 
-    stub_.Terminate(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+        stub_.Terminate(&ctx, request, &response);
+        return updateStatusAndReturnTrueOnOK(response.status());
+    } else {
+        return true;
+    }
+
 }
 
 bool RemoteFmuSlave::cancelStep() {
@@ -450,6 +456,10 @@ bool RemoteFmuSlave::serializeFMUstate(const fmi2FMUstate &state, std::vector<fm
 
 bool RemoteFmuSlave::deSerializeFMUstate(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
     return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+}
+
+RemoteFmuSlave::~RemoteFmuSlave() {
+    terminate();
 }
 
 

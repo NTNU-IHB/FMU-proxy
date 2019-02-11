@@ -43,8 +43,8 @@ int main() {
 
     try {
 
-        ThriftClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9090);
-
+        ThriftClient client("localhost", 9090);
+        auto fmu = client.fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
         const auto md = fmu.getModelDescription();
         cout << "GUID=" << md->guid() << endl;
         cout << "modelName=" << md->modelName() << endl;
@@ -75,7 +75,7 @@ int main() {
         bool status = slave->terminate();
         cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;
 
-        fmu.close();
+        client.close();
 
     } catch (TException& tx) {
         cout << "ERROR: " << tx.what() << endl;

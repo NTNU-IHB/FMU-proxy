@@ -35,8 +35,9 @@ const double stop = 2;
 const double step_size = 1E-2;
 
 int main() {
-    
-    GrpcClient fmu("{06c2700b-b39c-4895-9151-304ddde28443}", "localhost", 9080);
+
+
+    auto fmu = GrpcClient("localhost", 9080).fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
 
     const auto md = fmu.getModelDescription();
     cout << "GUID=" << md->guid() << endl;
@@ -68,7 +69,6 @@ int main() {
     bool status = slave->terminate();
     cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;
 
-    fmu.close();
 
     return 0;
 

@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_REMOTEFMUINSTANCE_HPP
-#define FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#ifndef FMU_PROXY_THRIFT_REMOTEFMUSLAVE_HPP
+#define FMU_PROXY_THRIFT_REMOTEFMUSLAVE_HPP
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
@@ -39,6 +39,7 @@ namespace fmuproxy::thrift::client {
         FmuServiceClient &client_;
         std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
+        bool terminated_ = false;
         Status::type lastStatus_;
 
         bool updateStatusAndReturnTrueOnOK(Status::type status);
@@ -112,8 +113,10 @@ namespace fmuproxy::thrift::client {
 
         bool writeBoolean(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Boolean> &values) override;
 
+        virtual ~RemoteFmuSlave();
+
     };
 
 }
 
-#endif //FMU_PROXY_REMOTEFMUINSTANCE_HPP
+#endif //FMU_PROXY_THRIFT_REMOTEFMUSLAVE_HPP

@@ -33,23 +33,42 @@
 
 namespace fmuproxy::thrift::client {
 
-    class ThriftClient {
+    class RemoteThriftFmu {
 
     private:
 
         const FmuId fmuId_;
         std::shared_ptr<FmuServiceClient> client_;
-        std::shared_ptr<apache::thrift::transport::TTransport> transport_;
         std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
 
     public:
-        ThriftClient(const FmuId &fmu_id, const std::string &host, const unsigned int port);
+
+        RemoteThriftFmu(const FmuId &fmuId, std::shared_ptr<FmuServiceClient> client);
 
         std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
 
         std::unique_ptr<RemoteFmuSlave> newInstance();
 
+    };
+
+    class ThriftClient {
+
+    private:
+
+        std::shared_ptr<FmuServiceClient> client_;
+        std::shared_ptr<apache::thrift::transport::TTransport> transport_;
+
+
+    public:
+        ThriftClient(const std::string &host, unsigned int port);
+
+        RemoteThriftFmu fromUrl(const std::string &url);
+
+        RemoteThriftFmu fromGuid(const std::string &guid);
+
         void close();
+
+        virtual ~ThriftClient();
 
     };
 

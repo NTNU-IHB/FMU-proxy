@@ -31,12 +31,27 @@ using namespace grpc;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
 
-GrpcClient::GrpcClient(const string &fmu_id, const std::string &host, const unsigned int port) : fmuId_(fmu_id) {
+GrpcClient::GrpcClient(const std::string &host, const unsigned int port){
     const auto channel = CreateChannel(host + ":" + to_string(port), InsecureChannelCredentials());
     stub_ = move(FmuService::NewStub(channel));
 }
 
-std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &GrpcClient::getModelDescription() {
+RemoteGrpcFmu GrpcClient::fromUrl(const std::string &url) {
+    ClientContext ctx;
+    Url url_;
+    FmuId fmuId;
+    url_.set_url(url);
+    stub_->Load(&ctx, url_, &fmuId);
+    return fromGuid(fmuId.value());
+}
+
+RemoteGrpcFmu GrpcClient::fromGuid(const std::string &guid) {
+    return RemoteGrpcFmu(guid, stub_);
+}
+
+RemoteGrpcFmu::RemoteGrpcFmu(const string &fmuId, shared_ptr<FmuService::Stub> stub) : fmuId_(fmuId), stub_(stub) {}
+
+std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &RemoteGrpcFmu::getModelDescription() {
     if(!modelDescription_) {
         ClientContext ctx;
         GetModelDescriptionRequest request;
@@ -48,7 +63,7 @@ std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &GrpcClient::getModelDescri
     return modelDescription_;
 }
 
-unique_ptr<RemoteFmuSlave> GrpcClient::newInstance() {
+unique_ptr<RemoteFmuSlave> RemoteGrpcFmu::newInstance() {
     ClientContext ctx;
     InstanceId instance_id;
     CreateInstanceFromCSRequest request;
@@ -57,6 +72,3 @@ unique_ptr<RemoteFmuSlave> GrpcClient::newInstance() {
     return make_unique<RemoteFmuSlave>(instance_id.value(), *stub_, *getModelDescription());
 }
 
-void GrpcClient::close() {
-    //nothing to do?
-}
