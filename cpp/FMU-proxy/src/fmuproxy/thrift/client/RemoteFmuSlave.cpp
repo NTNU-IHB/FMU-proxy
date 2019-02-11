@@ -131,7 +131,9 @@ bool RemoteFmuSlave::readString(const std::vector<fmi2ValueReference> &vr, std::
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     client_.readString(stringRead, instanceId_, _vr);
     const std::vector<std::string> read = stringRead.value;
-    std::transform(read.begin(), read.end(), std::back_inserter(ref), convert_string);
+    std::transform(read.begin(), read.end(), ref.begin(), [](std::string str) -> const char* {
+        return str.c_str();
+    });
     return updateStatusAndReturnTrueOnOK(stringRead.status);
 }
 

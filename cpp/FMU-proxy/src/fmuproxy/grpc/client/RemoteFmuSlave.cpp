@@ -190,7 +190,7 @@ bool RemoteFmuSlave::readReal(const vector<fmi2ValueReference> &vr, vector<fmi2R
 
     stub_.ReadReal(&ctx, request, &response);
     ref.clear();
-    for (const auto v : response.values()) {
+    for (const auto &v : response.values()) {
         ref.push_back(v);
     }
     return updateStatusAndReturnTrueOnOK(response.status());
@@ -218,7 +218,7 @@ bool RemoteFmuSlave::readString(const vector<fmi2ValueReference> &vr, vector<fmi
 
     stub_.ReadString(&ctx, request, &response);
     ref.clear();
-    for (const auto v : response.values()) {
+    for (const auto &v : response.values()) {
         ref.push_back(v.c_str());
     }
     return updateStatusAndReturnTrueOnOK(response.status());
@@ -240,7 +240,7 @@ bool RemoteFmuSlave::readBoolean(const vector<fmi2ValueReference> &vr, vector<fm
     ReadRequest request;
     request.set_instance_id(instanceId_);
     auto _vr = request.mutable_value_references();
-    for (const auto v : vr) {
+    for (const auto &v : vr) {
         _vr->Add(v);
     }
 
@@ -266,11 +266,11 @@ bool RemoteFmuSlave::writeInteger(const vector<fmi2ValueReference> &vr, const ve
     WriteIntegerRequest request;
     request.set_instance_id(instanceId_);
     auto _vr = request.mutable_value_references();
-    for (const auto v : vr) {
+    for (const auto &v : vr) {
         _vr->Add(v);
     }
     auto _values = request.mutable_values();
-    for (const auto v : value) {
+    for (const auto &v : value) {
         _values->Add(v);
     }
 
@@ -292,11 +292,11 @@ bool RemoteFmuSlave::writeReal(const vector<fmi2ValueReference> &vr, const vecto
     WriteRealRequest request;
     request.set_instance_id(instanceId_);
     auto _vr = request.mutable_value_references();
-    for (const auto v : vr) {
+    for (const auto &v : vr) {
         _vr->Add(v);
     }
     auto _values = request.mutable_values();
-    for (const auto v : value) {
+    for (const auto &v : value) {
         _values->Add(v);
     }
 
@@ -318,11 +318,11 @@ bool RemoteFmuSlave::writeString(const vector<fmi2ValueReference> &vr, const vec
     WriteStringRequest request;
     request.set_instance_id(instanceId_);
     auto _vr = request.mutable_value_references();
-    for (const auto v : vr) {
+    for (const auto &v : vr) {
         _vr->Add(v);
     }
     auto _values = request.mutable_values();
-    for (const auto v : value) {
+    for (const auto &v : value) {
         _values->Add(v);
     }
 
@@ -344,11 +344,11 @@ bool RemoteFmuSlave::writeBoolean(const vector<fmi2ValueReference> &vr, const ve
     WriteBooleanRequest request;
     request.set_instance_id(instanceId_);
     auto _vr = request.mutable_value_references();
-    for (const auto v : vr) {
+    for (const auto &v : vr) {
         _vr->Add(v);
     }
     auto _values = request.mutable_values();
-    for (const auto v : value) {
+    for (const auto &v : value) {
         _values->Add(v != 0);
     }
 
