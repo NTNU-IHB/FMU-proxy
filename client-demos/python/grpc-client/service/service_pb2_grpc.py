@@ -14,6 +14,11 @@ class FmuServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.Load = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/Load',
+        request_serializer=service__pb2.Url.SerializeToString,
+        response_deserializer=service__pb2.FmuId.FromString,
+        )
     self.GetModelDescription = channel.unary_unary(
         '/fmuproxy.grpc.FmuService/GetModelDescription',
         request_serializer=service__pb2.GetModelDescriptionRequest.SerializeToString,
@@ -149,6 +154,13 @@ class FmuServiceStub(object):
 class FmuServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
+
+  def Load(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
 
   def GetModelDescription(self, request, context):
     # missing associated documentation comment in .proto file
@@ -335,6 +347,11 @@ class FmuServiceServicer(object):
 
 def add_FmuServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'Load': grpc.unary_unary_rpc_method_handler(
+          servicer.Load,
+          request_deserializer=service__pb2.Url.FromString,
+          response_serializer=service__pb2.FmuId.SerializeToString,
+      ),
       'GetModelDescription': grpc.unary_unary_rpc_method_handler(
           servicer.GetModelDescription,
           request_deserializer=service__pb2.GetModelDescriptionRequest.FromString,

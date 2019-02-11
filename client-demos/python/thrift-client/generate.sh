@@ -6,4 +6,5 @@ mv gen-py/service service
 rm -r gen-py
 
 rm service/constants.py
+rm service/FmuService-remote
 echo "__all__ = ['ttypes', 'FmuService']" > service/__init__.py

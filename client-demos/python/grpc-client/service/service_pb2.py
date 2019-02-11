@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='service.proto',
   package='fmuproxy.grpc',
   syntax='proto3',
-  serialized_pb=_b('\n\rservice.proto\x12\rfmuproxy.grpc\"\xb0\x03\n\x10ModelDescription\x12\x13\n\x0b\x66mi_version\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12 \n\x18generation_date_and_time\x18\n \x01(\t\x12<\n\x12\x64\x65\x66\x61ult_experiment\x18\x0b \x01(\x0b\x32 .fmuproxy.grpc.DefaultExperiment\x12\"\n\x1avariable_naming_convention\x18\x0c \x01(\t\x12\x36\n\x0fmodel_variables\x18\r \x03(\x0b\x32\x1d.fmuproxy.grpc.ScalarVariable\x12\x36\n\x0fmodel_structure\x18\x0e \x01(\x0b\x32\x1d.fmuproxy.grpc.ModelStructure\"\x97\x02\n\x16\x43oSimulationAttributes\x12\x18\n\x10model_identifier\x18\x01 \x01(\t\x12 \n\x18\x63\x61n_get_and_set_FMUstate\x18\x02 \x01(\x08\x12\x1e\n\x16\x63\x61n_serialize_FMUstate\x18\x03 \x01(\x08\x12\'\n\x1fprovides_directional_derivative\x18\x04 \x01(\x08\x12\x33\n+can_handle_variable_communication_step_size\x18\x05 \x01(\x08\x12\x1e\n\x16\x63\x61n_interpolate_inputs\x18\x06 \x01(\x08\x12#\n\x1bmax_output_derivative_order\x18\x07 \x01(\r\"M\n\x10IntegerAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\x12\x10\n\x08quantity\x18\x04 \x01(\t\"J\n\rRealAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x01\x12\x0b\n\x03max\x18\x02 \x01(\x01\x12\r\n\x05start\x18\x03 \x01(\x01\x12\x10\n\x08quantity\x18\x04 \x01(\t\" \n\x0fStringAttribute\x12\r\n\x05start\x18\x01 \x01(\t\"!\n\x10\x42ooleanAttribute\x12\r\n\x05start\x18\x01 \x01(\x08\"Q\n\x14\x45numerationAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\x12\x10\n\x08quantity\x18\x04 \x01(\t\"\x96\x04\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\'\n\x07initial\x18\x04 \x01(\x0e\x32\x16.fmuproxy.grpc.Initial\x12+\n\tcausality\x18\x05 \x01(\x0e\x32\x18.fmuproxy.grpc.Causality\x12/\n\x0bvariability\x18\x06 \x01(\x0e\x32\x1a.fmuproxy.grpc.Variability\x12<\n\x11integer_attribute\x18\n \x01(\x0b\x32\x1f.fmuproxy.grpc.IntegerAttributeH\x00\x12\x36\n\x0ereal_attribute\x18\x0b \x01(\x0b\x32\x1c.fmuproxy.grpc.RealAttributeH\x00\x12:\n\x10string_attribute\x18\x0c \x01(\x0b\x32\x1e.fmuproxy.grpc.StringAttributeH\x00\x12<\n\x11\x62oolean_attribute\x18\r \x01(\x0b\x32\x1f.fmuproxy.grpc.BooleanAttributeH\x00\x12\x44\n\x15\x65numeration_attribute\x18\x0e \x01(\x0b\x32#.fmuproxy.grpc.EnumerationAttributeH\x00\x42\x0b\n\tattribute\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"I\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12\x19\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\t\"\x98\x01\n\x0eModelStructure\x12\'\n\x07outputs\x18\x01 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12+\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12\x30\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\"\x16\n\x05\x46muId\x12\r\n\x05value\x18\x01 \x01(\t\"\x1b\n\nInstanceId\x12\r\n\x05value\x18\x01 \x01(\t\"\"\n\x13ModelDescriptionXml\x12\x0b\n\x03xml\x18\x01 \x01(\t\"7\n\x0eStatusResponse\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"N\n\x0cStepResponse\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\x12\x17\n\x0fsimulation_time\x18\x02 \x01(\x01\"-\n\x1b\x43reateInstanceFromCSRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"T\n\x1b\x43reateInstanceFromMERequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\x12%\n\x06solver\x18\x02 \x01(\x0b\x32\x15.fmuproxy.grpc.Solver\",\n\x1aGetModelDescriptionRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"7\n GetCoSimulationAttributesRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"]\n\x16SetupExperimentRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\x12\x11\n\ttolerance\x18\x04 \x01(\x01\"5\n\x1e\x45nterInitializationModeRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"4\n\x1d\x45xitInitializationModeRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"5\n\x0bStepRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"#\n\x0cResetRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"\'\n\x10TerminateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"<\n\x0bReadRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\"T\n\x13WriteIntegerRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\x05\"Q\n\x10WriteRealRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\x01\"S\n\x12WriteStringRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\t\"T\n\x13WriteBooleanRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\x08\"D\n\x0bIntegerRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"A\n\x08RealRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"C\n\nStringRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"D\n\x0b\x42ooleanRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"(\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08settings\x18\x02 \x01(\t\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\")\n\x12GetFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"K\n\x13GetFMUstateResponse\x12\r\n\x05state\x18\x01 \x01(\x03\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"8\n\x12SetFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x03\"9\n\x13\x46reeFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x03\">\n\x18SerializeFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x03\"Q\n\x19SerializeFMUstateResponse\x12\r\n\x05state\x18\x01 \x01(\x0c\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"@\n\x1a\x44\x65SerializeFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x0c\"S\n\x1b\x44\x65SerializeFMUstateResponse\x12\r\n\x05state\x18\x01 \x01(\x03\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"0\n\x1e\x43\x61nCreateInstanceFromCSRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"0\n\x1e\x43\x61nCreateInstanceFromMERequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"x\n\x1fGetDirectionalDerivativeRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x15\n\rv_unknown_ref\x18\x02 \x03(\x04\x12\x13\n\x0bv_known_ref\x18\x03 \x03(\x04\x12\x14\n\x0c\x64v_known_ref\x18\x04 \x03(\x01\"a\n GetDirectionalDerivativeResponse\x12\x16\n\x0e\x64v_unknown_ref\x18\x01 \x03(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"\x06\n\x04Void*\xba\x01\n\tCausality\x12\x13\n\x0fINPUT_CAUSALITY\x10\x00\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x01\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x02\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x03\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x04\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x05\x12\x15\n\x11UNKNOWN_CAUSALITY\x10\x06*\xa6\x01\n\x0bVariability\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x00\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x01\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x02\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x03\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x04\x12\x17\n\x13UNKNOWN_VARIABILITY\x10\x05*]\n\x07Initial\x12\x11\n\rEXACT_INITIAL\x10\x00\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x01\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x02\x12\x13\n\x0fUNKNOWN_INITIAL\x10\x03*w\n\x06Status\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05\x32\x81\x12\n\nFmuService\x12\x61\n\x13GetModelDescription\x12).fmuproxy.grpc.GetModelDescriptionRequest\x1a\x1f.fmuproxy.grpc.ModelDescription\x12s\n\x19GetCoSimulationAttributes\x12/.fmuproxy.grpc.GetCoSimulationAttributesRequest\x1a%.fmuproxy.grpc.CoSimulationAttributes\x12]\n\x17\x43\x61nCreateInstanceFromCS\x12-.fmuproxy.grpc.CanCreateInstanceFromCSRequest\x1a\x13.fmuproxy.grpc.Bool\x12]\n\x17\x43\x61nCreateInstanceFromME\x12-.fmuproxy.grpc.CanCreateInstanceFromMERequest\x1a\x13.fmuproxy.grpc.Bool\x12]\n\x14\x43reateInstanceFromCS\x12*.fmuproxy.grpc.CreateInstanceFromCSRequest\x1a\x19.fmuproxy.grpc.InstanceId\x12]\n\x14\x43reateInstanceFromME\x12*.fmuproxy.grpc.CreateInstanceFromMERequest\x1a\x19.fmuproxy.grpc.InstanceId\x12W\n\x0fSetupExperiment\x12%.fmuproxy.grpc.SetupExperimentRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12g\n\x17\x45nterInitializationMode\x12-.fmuproxy.grpc.EnterInitializationModeRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12\x65\n\x16\x45xitInitializationMode\x12,.fmuproxy.grpc.ExitInitializationModeRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12?\n\x04Step\x12\x1a.fmuproxy.grpc.StepRequest\x1a\x1b.fmuproxy.grpc.StepResponse\x12\x43\n\x05Reset\x12\x1b.fmuproxy.grpc.ResetRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12K\n\tTerminate\x12\x1f.fmuproxy.grpc.TerminateRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12\x45\n\x0bReadInteger\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x1a.fmuproxy.grpc.IntegerRead\x12?\n\x08ReadReal\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x17.fmuproxy.grpc.RealRead\x12\x43\n\nReadString\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x19.fmuproxy.grpc.StringRead\x12\x45\n\x0bReadBoolean\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x1a.fmuproxy.grpc.BooleanRead\x12Q\n\x0cWriteInteger\x12\".fmuproxy.grpc.WriteIntegerRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12K\n\tWriteReal\x12\x1f.fmuproxy.grpc.WriteRealRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12O\n\x0bWriteString\x12!.fmuproxy.grpc.WriteStringRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12Q\n\x0cWriteBoolean\x12\".fmuproxy.grpc.WriteBooleanRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12T\n\x0bGetFMUstate\x12!.fmuproxy.grpc.GetFMUstateRequest\x1a\".fmuproxy.grpc.GetFMUstateResponse\x12O\n\x0bSetFMUstate\x12!.fmuproxy.grpc.SetFMUstateRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12Q\n\x0c\x46reeFMUstate\x12\".fmuproxy.grpc.FreeFMUstateRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12\x66\n\x11SerializeFMUstate\x12\'.fmuproxy.grpc.SerializeFMUstateRequest\x1a(.fmuproxy.grpc.SerializeFMUstateResponse\x12l\n\x13\x44\x65SerializeFMUstate\x12).fmuproxy.grpc.DeSerializeFMUstateRequest\x1a*.fmuproxy.grpc.DeSerializeFMUstateResponse\x12{\n\x18GetDirectionalDerivative\x12..fmuproxy.grpc.GetDirectionalDerivativeRequest\x1a/.fmuproxy.grpc.GetDirectionalDerivativeResponseB#\n!no.mechatronics.sfi.fmuproxy.grpcb\x06proto3')
+  serialized_pb=_b('\n\rservice.proto\x12\rfmuproxy.grpc\"\xb0\x03\n\x10ModelDescription\x12\x13\n\x0b\x66mi_version\x18\x01 \x01(\t\x12\x0c\n\x04guid\x18\x02 \x01(\t\x12\x12\n\nmodel_name\x18\x03 \x01(\t\x12\x0f\n\x07license\x18\x04 \x01(\t\x12\x11\n\tcopyright\x18\x05 \x01(\t\x12\x0e\n\x06\x61uthor\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x08 \x01(\t\x12\x17\n\x0fgeneration_tool\x18\t \x01(\t\x12 \n\x18generation_date_and_time\x18\n \x01(\t\x12<\n\x12\x64\x65\x66\x61ult_experiment\x18\x0b \x01(\x0b\x32 .fmuproxy.grpc.DefaultExperiment\x12\"\n\x1avariable_naming_convention\x18\x0c \x01(\t\x12\x36\n\x0fmodel_variables\x18\r \x03(\x0b\x32\x1d.fmuproxy.grpc.ScalarVariable\x12\x36\n\x0fmodel_structure\x18\x0e \x01(\x0b\x32\x1d.fmuproxy.grpc.ModelStructure\"\x97\x02\n\x16\x43oSimulationAttributes\x12\x18\n\x10model_identifier\x18\x01 \x01(\t\x12 \n\x18\x63\x61n_get_and_set_FMUstate\x18\x02 \x01(\x08\x12\x1e\n\x16\x63\x61n_serialize_FMUstate\x18\x03 \x01(\x08\x12\'\n\x1fprovides_directional_derivative\x18\x04 \x01(\x08\x12\x33\n+can_handle_variable_communication_step_size\x18\x05 \x01(\x08\x12\x1e\n\x16\x63\x61n_interpolate_inputs\x18\x06 \x01(\x08\x12#\n\x1bmax_output_derivative_order\x18\x07 \x01(\r\"M\n\x10IntegerAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\x12\x10\n\x08quantity\x18\x04 \x01(\t\"J\n\rRealAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x01\x12\x0b\n\x03max\x18\x02 \x01(\x01\x12\r\n\x05start\x18\x03 \x01(\x01\x12\x10\n\x08quantity\x18\x04 \x01(\t\" \n\x0fStringAttribute\x12\r\n\x05start\x18\x01 \x01(\t\"!\n\x10\x42ooleanAttribute\x12\r\n\x05start\x18\x01 \x01(\x08\"Q\n\x14\x45numerationAttribute\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\r\n\x05start\x18\x03 \x01(\x05\x12\x10\n\x08quantity\x18\x04 \x01(\t\"\x96\x04\n\x0eScalarVariable\x12\x17\n\x0fvalue_reference\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\'\n\x07initial\x18\x04 \x01(\x0e\x32\x16.fmuproxy.grpc.Initial\x12+\n\tcausality\x18\x05 \x01(\x0e\x32\x18.fmuproxy.grpc.Causality\x12/\n\x0bvariability\x18\x06 \x01(\x0e\x32\x1a.fmuproxy.grpc.Variability\x12<\n\x11integer_attribute\x18\n \x01(\x0b\x32\x1f.fmuproxy.grpc.IntegerAttributeH\x00\x12\x36\n\x0ereal_attribute\x18\x0b \x01(\x0b\x32\x1c.fmuproxy.grpc.RealAttributeH\x00\x12:\n\x10string_attribute\x18\x0c \x01(\x0b\x32\x1e.fmuproxy.grpc.StringAttributeH\x00\x12<\n\x11\x62oolean_attribute\x18\r \x01(\x0b\x32\x1f.fmuproxy.grpc.BooleanAttributeH\x00\x12\x44\n\x15\x65numeration_attribute\x18\x0e \x01(\x0b\x32#.fmuproxy.grpc.EnumerationAttributeH\x00\x42\x0b\n\tattribute\"`\n\x11\x44\x65\x66\x61ultExperiment\x12\x12\n\nstart_time\x18\x01 \x01(\x01\x12\x11\n\tstop_time\x18\x02 \x01(\x01\x12\x11\n\ttolerance\x18\x03 \x01(\x01\x12\x11\n\tstep_size\x18\x04 \x01(\x01\"I\n\x07Unknown\x12\r\n\x05index\x18\x01 \x01(\r\x12\x14\n\x0c\x64\x65pendencies\x18\x02 \x03(\r\x12\x19\n\x11\x64\x65pendencies_kind\x18\x03 \x01(\t\"\x98\x01\n\x0eModelStructure\x12\'\n\x07outputs\x18\x01 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12+\n\x0b\x64\x65rivatives\x18\x02 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\x12\x30\n\x10initial_unknowns\x18\x03 \x03(\x0b\x32\x16.fmuproxy.grpc.Unknown\"\x16\n\x05\x46muId\x12\r\n\x05value\x18\x01 \x01(\t\"\x1b\n\nInstanceId\x12\r\n\x05value\x18\x01 \x01(\t\"\"\n\x13ModelDescriptionXml\x12\x0b\n\x03xml\x18\x01 \x01(\t\"7\n\x0eStatusResponse\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"N\n\x0cStepResponse\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\x12\x17\n\x0fsimulation_time\x18\x02 \x01(\x01\"-\n\x1b\x43reateInstanceFromCSRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"T\n\x1b\x43reateInstanceFromMERequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\x12%\n\x06solver\x18\x02 \x01(\x0b\x32\x15.fmuproxy.grpc.Solver\",\n\x1aGetModelDescriptionRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"7\n GetCoSimulationAttributesRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"]\n\x16SetupExperimentRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05start\x18\x02 \x01(\x01\x12\x0c\n\x04stop\x18\x03 \x01(\x01\x12\x11\n\ttolerance\x18\x04 \x01(\x01\"5\n\x1e\x45nterInitializationModeRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"4\n\x1d\x45xitInitializationModeRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"5\n\x0bStepRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x11\n\tstep_size\x18\x02 \x01(\x01\"#\n\x0cResetRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"\'\n\x10TerminateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"<\n\x0bReadRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\"T\n\x13WriteIntegerRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\x05\"Q\n\x10WriteRealRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\x01\"S\n\x12WriteStringRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\t\"T\n\x13WriteBooleanRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x18\n\x10value_references\x18\x02 \x03(\x04\x12\x0e\n\x06values\x18\x03 \x03(\x08\"D\n\x0bIntegerRead\x12\x0e\n\x06values\x18\x01 \x03(\x05\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"A\n\x08RealRead\x12\x0e\n\x06values\x18\x01 \x03(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"C\n\nStringRead\x12\x0e\n\x06values\x18\x01 \x03(\t\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"D\n\x0b\x42ooleanRead\x12\x0e\n\x06values\x18\x01 \x03(\x08\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"(\n\x06Solver\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08settings\x18\x02 \x01(\t\"\x15\n\x04\x42ool\x12\r\n\x05value\x18\x01 \x01(\x08\")\n\x12GetFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\"K\n\x13GetFMUstateResponse\x12\r\n\x05state\x18\x01 \x01(\x03\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"8\n\x12SetFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x03\"9\n\x13\x46reeFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x03\">\n\x18SerializeFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x03\"Q\n\x19SerializeFMUstateResponse\x12\r\n\x05state\x18\x01 \x01(\x0c\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"@\n\x1a\x44\x65SerializeFMUstateRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\r\n\x05state\x18\x02 \x01(\x0c\"S\n\x1b\x44\x65SerializeFMUstateResponse\x12\r\n\x05state\x18\x01 \x01(\x03\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"0\n\x1e\x43\x61nCreateInstanceFromCSRequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"0\n\x1e\x43\x61nCreateInstanceFromMERequest\x12\x0e\n\x06\x66mu_id\x18\x01 \x01(\t\"x\n\x1fGetDirectionalDerivativeRequest\x12\x13\n\x0binstance_id\x18\x01 \x01(\t\x12\x15\n\rv_unknown_ref\x18\x02 \x03(\x04\x12\x13\n\x0bv_known_ref\x18\x03 \x03(\x04\x12\x14\n\x0c\x64v_known_ref\x18\x04 \x03(\x01\"a\n GetDirectionalDerivativeResponse\x12\x16\n\x0e\x64v_unknown_ref\x18\x01 \x03(\x01\x12%\n\x06status\x18\x02 \x01(\x0e\x32\x15.fmuproxy.grpc.Status\"\x06\n\x04Void\"\x12\n\x03Url\x12\x0b\n\x03url\x18\x01 \x01(\t*\xba\x01\n\tCausality\x12\x13\n\x0fINPUT_CAUSALITY\x10\x00\x12\x14\n\x10OUTPUT_CAUSALITY\x10\x01\x12\x17\n\x13PARAMETER_CAUSALITY\x10\x02\x12\"\n\x1e\x43\x41LCULATED_PARAMETER_CAUSALITY\x10\x03\x12\x13\n\x0fLOCAL_CAUSALITY\x10\x04\x12\x19\n\x15INDEPENDENT_CAUSALITY\x10\x05\x12\x15\n\x11UNKNOWN_CAUSALITY\x10\x06*\xa6\x01\n\x0bVariability\x12\x18\n\x14\x43ONSTANT_VARIABILITY\x10\x00\x12\x15\n\x11\x46IXED_VARIABILITY\x10\x01\x12\x1a\n\x16\x43ONTINUOUS_VARIABILITY\x10\x02\x12\x18\n\x14\x44ISCRETE_VARIABILITY\x10\x03\x12\x17\n\x13TUNABLE_VARIABILITY\x10\x04\x12\x17\n\x13UNKNOWN_VARIABILITY\x10\x05*]\n\x07Initial\x12\x11\n\rEXACT_INITIAL\x10\x00\x12\x12\n\x0e\x41PPROX_INITIAL\x10\x01\x12\x16\n\x12\x43\x41LCULATED_INITIAL\x10\x02\x12\x13\n\x0fUNKNOWN_INITIAL\x10\x03*w\n\x06Status\x12\r\n\tOK_STATUS\x10\x00\x12\x12\n\x0eWARNING_STATUS\x10\x01\x12\x12\n\x0e\x44ISCARD_STATUS\x10\x02\x12\x10\n\x0c\x45RROR_STATUS\x10\x03\x12\x10\n\x0c\x46\x41TAL_STATUS\x10\x04\x12\x12\n\x0ePENDING_STATUS\x10\x05\x32\xb3\x12\n\nFmuService\x12\x30\n\x04Load\x12\x12.fmuproxy.grpc.Url\x1a\x14.fmuproxy.grpc.FmuId\x12\x61\n\x13GetModelDescription\x12).fmuproxy.grpc.GetModelDescriptionRequest\x1a\x1f.fmuproxy.grpc.ModelDescription\x12s\n\x19GetCoSimulationAttributes\x12/.fmuproxy.grpc.GetCoSimulationAttributesRequest\x1a%.fmuproxy.grpc.CoSimulationAttributes\x12]\n\x17\x43\x61nCreateInstanceFromCS\x12-.fmuproxy.grpc.CanCreateInstanceFromCSRequest\x1a\x13.fmuproxy.grpc.Bool\x12]\n\x17\x43\x61nCreateInstanceFromME\x12-.fmuproxy.grpc.CanCreateInstanceFromMERequest\x1a\x13.fmuproxy.grpc.Bool\x12]\n\x14\x43reateInstanceFromCS\x12*.fmuproxy.grpc.CreateInstanceFromCSRequest\x1a\x19.fmuproxy.grpc.InstanceId\x12]\n\x14\x43reateInstanceFromME\x12*.fmuproxy.grpc.CreateInstanceFromMERequest\x1a\x19.fmuproxy.grpc.InstanceId\x12W\n\x0fSetupExperiment\x12%.fmuproxy.grpc.SetupExperimentRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12g\n\x17\x45nterInitializationMode\x12-.fmuproxy.grpc.EnterInitializationModeRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12\x65\n\x16\x45xitInitializationMode\x12,.fmuproxy.grpc.ExitInitializationModeRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12?\n\x04Step\x12\x1a.fmuproxy.grpc.StepRequest\x1a\x1b.fmuproxy.grpc.StepResponse\x12\x43\n\x05Reset\x12\x1b.fmuproxy.grpc.ResetRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12K\n\tTerminate\x12\x1f.fmuproxy.grpc.TerminateRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12\x45\n\x0bReadInteger\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x1a.fmuproxy.grpc.IntegerRead\x12?\n\x08ReadReal\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x17.fmuproxy.grpc.RealRead\x12\x43\n\nReadString\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x19.fmuproxy.grpc.StringRead\x12\x45\n\x0bReadBoolean\x12\x1a.fmuproxy.grpc.ReadRequest\x1a\x1a.fmuproxy.grpc.BooleanRead\x12Q\n\x0cWriteInteger\x12\".fmuproxy.grpc.WriteIntegerRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12K\n\tWriteReal\x12\x1f.fmuproxy.grpc.WriteRealRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12O\n\x0bWriteString\x12!.fmuproxy.grpc.WriteStringRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12Q\n\x0cWriteBoolean\x12\".fmuproxy.grpc.WriteBooleanRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12T\n\x0bGetFMUstate\x12!.fmuproxy.grpc.GetFMUstateRequest\x1a\".fmuproxy.grpc.GetFMUstateResponse\x12O\n\x0bSetFMUstate\x12!.fmuproxy.grpc.SetFMUstateRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12Q\n\x0c\x46reeFMUstate\x12\".fmuproxy.grpc.FreeFMUstateRequest\x1a\x1d.fmuproxy.grpc.StatusResponse\x12\x66\n\x11SerializeFMUstate\x12\'.fmuproxy.grpc.SerializeFMUstateRequest\x1a(.fmuproxy.grpc.SerializeFMUstateResponse\x12l\n\x13\x44\x65SerializeFMUstate\x12).fmuproxy.grpc.DeSerializeFMUstateRequest\x1a*.fmuproxy.grpc.DeSerializeFMUstateResponse\x12{\n\x18GetDirectionalDerivative\x12..fmuproxy.grpc.GetDirectionalDerivativeRequest\x1a/.fmuproxy.grpc.GetDirectionalDerivativeResponseB\x1b\n\x19no.ntnu.ihb.fmuproxy.grpcb\x06proto3')
 )
 
 _CAUSALITY = _descriptor.EnumDescriptor(
@@ -60,8 +60,8 @@ _CAUSALITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4328,
-  serialized_end=4514,
+  serialized_start=4348,
+  serialized_end=4534,
 )
 _sym_db.RegisterEnumDescriptor(_CAUSALITY)
 
@@ -99,8 +99,8 @@ _VARIABILITY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4517,
-  serialized_end=4683,
+  serialized_start=4537,
+  serialized_end=4703,
 )
 _sym_db.RegisterEnumDescriptor(_VARIABILITY)
 
@@ -130,8 +130,8 @@ _INITIAL = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4685,
-  serialized_end=4778,
+  serialized_start=4705,
+  serialized_end=4798,
 )
 _sym_db.RegisterEnumDescriptor(_INITIAL)
 
@@ -169,8 +169,8 @@ _STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=4780,
-  serialized_end=4899,
+  serialized_start=4800,
+  serialized_end=4919,
 )
 _sym_db.RegisterEnumDescriptor(_STATUS)
 
@@ -2278,6 +2278,37 @@ _VOID = _descriptor.Descriptor(
   serialized_end=4325,
 )
 
+
+_URL = _descriptor.Descriptor(
+  name='Url',
+  full_name='fmuproxy.grpc.Url',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='url', full_name='fmuproxy.grpc.Url.url', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4327,
+  serialized_end=4345,
+)
+
 _MODELDESCRIPTION.fields_by_name['default_experiment'].message_type = _DEFAULTEXPERIMENT
 _MODELDESCRIPTION.fields_by_name['model_variables'].message_type = _SCALARVARIABLE
 _MODELDESCRIPTION.fields_by_name['model_structure'].message_type = _MODELSTRUCTURE
@@ -2368,6 +2399,7 @@ DESCRIPTOR.message_types_by_name['CanCreateInstanceFromMERequest'] = _CANCREATEI
 DESCRIPTOR.message_types_by_name['GetDirectionalDerivativeRequest'] = _GETDIRECTIONALDERIVATIVEREQUEST
 DESCRIPTOR.message_types_by_name['GetDirectionalDerivativeResponse'] = _GETDIRECTIONALDERIVATIVERESPONSE
 DESCRIPTOR.message_types_by_name['Void'] = _VOID
+DESCRIPTOR.message_types_by_name['Url'] = _URL
 DESCRIPTOR.enum_types_by_name['Causality'] = _CAUSALITY
 DESCRIPTOR.enum_types_by_name['Variability'] = _VARIABILITY
 DESCRIPTOR.enum_types_by_name['Initial'] = _INITIAL
@@ -2724,9 +2756,16 @@ Void = _reflection.GeneratedProtocolMessageType('Void', (_message.Message,), dic
   ))
 _sym_db.RegisterMessage(Void)
 
+Url = _reflection.GeneratedProtocolMessageType('Url', (_message.Message,), dict(
+  DESCRIPTOR = _URL,
+  __module__ = 'service_pb2'
+  # @@protoc_insertion_point(class_scope:fmuproxy.grpc.Url)
+  ))
+_sym_db.RegisterMessage(Url)
+
 
 DESCRIPTOR.has_options = True
-DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n!no.mechatronics.sfi.fmuproxy.grpc'))
+DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n\031no.ntnu.ihb.fmuproxy.grpc'))
 
 _FMUSERVICE = _descriptor.ServiceDescriptor(
   name='FmuService',
@@ -2734,13 +2773,22 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=4902,
-  serialized_end=7207,
+  serialized_start=4922,
+  serialized_end=7277,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='Load',
+    full_name='fmuproxy.grpc.FmuService.Load',
+    index=0,
+    containing_service=None,
+    input_type=_URL,
+    output_type=_FMUID,
+    options=None,
+  ),
   _descriptor.MethodDescriptor(
     name='GetModelDescription',
     full_name='fmuproxy.grpc.FmuService.GetModelDescription',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_GETMODELDESCRIPTIONREQUEST,
     output_type=_MODELDESCRIPTION,
@@ -2749,7 +2797,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetCoSimulationAttributes',
     full_name='fmuproxy.grpc.FmuService.GetCoSimulationAttributes',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_GETCOSIMULATIONATTRIBUTESREQUEST,
     output_type=_COSIMULATIONATTRIBUTES,
@@ -2758,7 +2806,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='CanCreateInstanceFromCS',
     full_name='fmuproxy.grpc.FmuService.CanCreateInstanceFromCS',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_CANCREATEINSTANCEFROMCSREQUEST,
     output_type=_BOOL,
@@ -2767,7 +2815,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='CanCreateInstanceFromME',
     full_name='fmuproxy.grpc.FmuService.CanCreateInstanceFromME',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_CANCREATEINSTANCEFROMMEREQUEST,
     output_type=_BOOL,
@@ -2776,7 +2824,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='CreateInstanceFromCS',
     full_name='fmuproxy.grpc.FmuService.CreateInstanceFromCS',
-    index=4,
+    index=5,
     containing_service=None,
     input_type=_CREATEINSTANCEFROMCSREQUEST,
     output_type=_INSTANCEID,
@@ -2785,7 +2833,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='CreateInstanceFromME',
     full_name='fmuproxy.grpc.FmuService.CreateInstanceFromME',
-    index=5,
+    index=6,
     containing_service=None,
     input_type=_CREATEINSTANCEFROMMEREQUEST,
     output_type=_INSTANCEID,
@@ -2794,7 +2842,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SetupExperiment',
     full_name='fmuproxy.grpc.FmuService.SetupExperiment',
-    index=6,
+    index=7,
     containing_service=None,
     input_type=_SETUPEXPERIMENTREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2803,7 +2851,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='EnterInitializationMode',
     full_name='fmuproxy.grpc.FmuService.EnterInitializationMode',
-    index=7,
+    index=8,
     containing_service=None,
     input_type=_ENTERINITIALIZATIONMODEREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2812,7 +2860,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ExitInitializationMode',
     full_name='fmuproxy.grpc.FmuService.ExitInitializationMode',
-    index=8,
+    index=9,
     containing_service=None,
     input_type=_EXITINITIALIZATIONMODEREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2821,7 +2869,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Step',
     full_name='fmuproxy.grpc.FmuService.Step',
-    index=9,
+    index=10,
     containing_service=None,
     input_type=_STEPREQUEST,
     output_type=_STEPRESPONSE,
@@ -2830,7 +2878,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Reset',
     full_name='fmuproxy.grpc.FmuService.Reset',
-    index=10,
+    index=11,
     containing_service=None,
     input_type=_RESETREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2839,7 +2887,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='Terminate',
     full_name='fmuproxy.grpc.FmuService.Terminate',
-    index=11,
+    index=12,
     containing_service=None,
     input_type=_TERMINATEREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2848,7 +2896,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ReadInteger',
     full_name='fmuproxy.grpc.FmuService.ReadInteger',
-    index=12,
+    index=13,
     containing_service=None,
     input_type=_READREQUEST,
     output_type=_INTEGERREAD,
@@ -2857,7 +2905,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ReadReal',
     full_name='fmuproxy.grpc.FmuService.ReadReal',
-    index=13,
+    index=14,
     containing_service=None,
     input_type=_READREQUEST,
     output_type=_REALREAD,
@@ -2866,7 +2914,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ReadString',
     full_name='fmuproxy.grpc.FmuService.ReadString',
-    index=14,
+    index=15,
     containing_service=None,
     input_type=_READREQUEST,
     output_type=_STRINGREAD,
@@ -2875,7 +2923,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='ReadBoolean',
     full_name='fmuproxy.grpc.FmuService.ReadBoolean',
-    index=15,
+    index=16,
     containing_service=None,
     input_type=_READREQUEST,
     output_type=_BOOLEANREAD,
@@ -2884,7 +2932,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='WriteInteger',
     full_name='fmuproxy.grpc.FmuService.WriteInteger',
-    index=16,
+    index=17,
     containing_service=None,
     input_type=_WRITEINTEGERREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2893,7 +2941,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='WriteReal',
     full_name='fmuproxy.grpc.FmuService.WriteReal',
-    index=17,
+    index=18,
     containing_service=None,
     input_type=_WRITEREALREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2902,7 +2950,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='WriteString',
     full_name='fmuproxy.grpc.FmuService.WriteString',
-    index=18,
+    index=19,
     containing_service=None,
     input_type=_WRITESTRINGREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2911,7 +2959,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='WriteBoolean',
     full_name='fmuproxy.grpc.FmuService.WriteBoolean',
-    index=19,
+    index=20,
     containing_service=None,
     input_type=_WRITEBOOLEANREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2920,7 +2968,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetFMUstate',
     full_name='fmuproxy.grpc.FmuService.GetFMUstate',
-    index=20,
+    index=21,
     containing_service=None,
     input_type=_GETFMUSTATEREQUEST,
     output_type=_GETFMUSTATERESPONSE,
@@ -2929,7 +2977,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SetFMUstate',
     full_name='fmuproxy.grpc.FmuService.SetFMUstate',
-    index=21,
+    index=22,
     containing_service=None,
     input_type=_SETFMUSTATEREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2938,7 +2986,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='FreeFMUstate',
     full_name='fmuproxy.grpc.FmuService.FreeFMUstate',
-    index=22,
+    index=23,
     containing_service=None,
     input_type=_FREEFMUSTATEREQUEST,
     output_type=_STATUSRESPONSE,
@@ -2947,7 +2995,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='SerializeFMUstate',
     full_name='fmuproxy.grpc.FmuService.SerializeFMUstate',
-    index=23,
+    index=24,
     containing_service=None,
     input_type=_SERIALIZEFMUSTATEREQUEST,
     output_type=_SERIALIZEFMUSTATERESPONSE,
@@ -2956,7 +3004,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='DeSerializeFMUstate',
     full_name='fmuproxy.grpc.FmuService.DeSerializeFMUstate',
-    index=24,
+    index=25,
     containing_service=None,
     input_type=_DESERIALIZEFMUSTATEREQUEST,
     output_type=_DESERIALIZEFMUSTATERESPONSE,
@@ -2965,7 +3013,7 @@ _FMUSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='GetDirectionalDerivative',
     full_name='fmuproxy.grpc.FmuService.GetDirectionalDerivative',
-    index=25,
+    index=26,
     containing_service=None,
     input_type=_GETDIRECTIONALDERIVATIVEREQUEST,
     output_type=_GETDIRECTIONALDERIVATIVERESPONSE,
