@@ -13,8 +13,6 @@ object RunSocketServer {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        println(fmuPath.absolutePath)
-
         Fmu.from(fmuPath).use { fmu ->
             val server = ThriftFmuSocketServer(fmu).apply {
                 start(9090)

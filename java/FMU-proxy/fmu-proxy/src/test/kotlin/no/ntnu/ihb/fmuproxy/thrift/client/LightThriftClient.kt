@@ -27,6 +27,7 @@ package no.ntnu.ihb.fmuproxy.thrift.client
 import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.ihb.fmuproxy.thrift.*
+import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TCompactProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
@@ -48,7 +49,7 @@ class LightThriftClient(
     private val transport= TFramedTransport.Factory().getTransport(TSocket(host, port)).apply {
         open()
     }
-    private val client = FmuService.Client( TCompactProtocol(transport))
+    private val client = FmuService.Client( TBinaryProtocol(transport))
 
 
     val modelDescription: ModelDescription by lazy {

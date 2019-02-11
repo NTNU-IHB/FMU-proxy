@@ -31,7 +31,7 @@ import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
 import org.apache.http.impl.client.HttpClientBuilder
-import org.apache.thrift.protocol.TCompactProtocol
+import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TJSONProtocol
 import org.apache.thrift.protocol.TProtocol
 import org.apache.thrift.transport.TFramedTransport
@@ -193,7 +193,7 @@ class ThriftFmuClient private constructor(
 
         fun socketClient(host: String, port: Int): ThriftFmuClient {
             val transport = TFramedTransport.Factory().getTransport(TSocket(host, port))
-            val protocol = TCompactProtocol(transport)
+            val protocol = TBinaryProtocol(transport)
             transport.open()
             return ThriftFmuClient(protocol)
         }

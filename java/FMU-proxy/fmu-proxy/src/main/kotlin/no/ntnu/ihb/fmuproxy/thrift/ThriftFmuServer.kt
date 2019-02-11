@@ -27,12 +27,10 @@ package no.ntnu.ihb.fmuproxy.thrift
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.services.ThriftFmuServiceImpl
-import org.apache.thrift.protocol.TCompactProtocol
+import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TJSONProtocol
 import org.apache.thrift.server.*
-import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TNonblockingServerSocket
-import org.apache.thrift.transport.TServerSocket
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder
 import org.eclipse.jetty.servlet.FilterMapping
@@ -100,7 +98,7 @@ class ThriftFmuSocketServer(
         val transport = TNonblockingServerSocket(port)
         val server = TThreadedSelectorServer(TThreadedSelectorServer.Args(transport)
                         .processor(processor)
-                        .protocolFactory(TCompactProtocol.Factory()))
+                        .protocolFactory(TBinaryProtocol.Factory()))
 
         return object : IServer {
 
