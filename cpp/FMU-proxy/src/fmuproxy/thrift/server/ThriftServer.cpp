@@ -69,7 +69,7 @@ ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fm
     } else {
 
         std::shared_ptr<TTransportFactory> transportFactory(new TFramedTransportFactory());
-        std::shared_ptr<TProtocolFactory> protocolFactory(new TCompactProtocolFactory());
+        std::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
         if (multiThreaded) {
             std::shared_ptr<TNonblockingServerTransport> serverTransport(new TNonblockingServerSocket(port));
             auto server = std::make_unique<TNonblockingServer>(processor, protocolFactory, serverTransport);

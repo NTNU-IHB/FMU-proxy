@@ -40,7 +40,7 @@ using namespace fmuproxy::thrift::client;
 ThriftClient::ThriftClient(const string &host, const unsigned int port) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
     transport_ = std::make_shared<TFramedTransport>(socket);
-    shared_ptr<TProtocol> protocol(new TCompactProtocol(transport_));
+    shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport_));
     client_ = std::make_shared<FmuServiceClient>(protocol);
     transport_->open();
 }
