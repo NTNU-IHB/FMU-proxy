@@ -28,10 +28,8 @@ import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.ihb.fmuproxy.thrift.*
 import org.apache.thrift.protocol.TBinaryProtocol
-import org.apache.thrift.protocol.TCompactProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
-import org.apache.thrift.transport.TTransport
 import java.io.Closeable
 
 class LightThriftClient(
