@@ -142,6 +142,7 @@ FmuServiceImpl::SetupExperiment(::grpc::ServerContext *context, const ::fmuproxy
     bool status = slave->terminate();
     response->set_status(grpcType(slave->getLastStatus()));
     slaves_.erase(instance_id);
+    cout << "Terminated FMU instance with id=" << instance_id << endl;
     return ::Status::OK;
 }
 
