@@ -53,7 +53,7 @@ namespace {
 
     const char* THRIFT_TCP = "thrift/tcp";
     const char* THRIFT_HTTP = "thrift/http";
-    const char* GRPC_HTTP2 = "grpc";
+    const char* GRPC = "grpc";
 
     void wait_for_input() {
         do {
@@ -74,7 +74,7 @@ namespace {
             modelDescriptions.push_back(fmu->getModelDescriptionXml());
         }
 
-        bool enable_grpc = ports.count(GRPC_HTTP2) == 1;
+        bool enable_grpc = ports.count(GRPC) == 1;
         bool enable_thrift_tcp = ports.count(THRIFT_TCP) == 1;
         bool enable_thrift_http = ports.count(THRIFT_HTTP) == 1;
 
@@ -84,7 +84,7 @@ namespace {
         unique_ptr<ThriftServer> thrift_socket_server = nullptr;
         if (enable_thrift_tcp) {
             const unsigned int port = ports[THRIFT_TCP];
-            thrift_socket_server = make_unique<ThriftServer>(fmu_map, port);
+            thrift_socket_server = make_unique<ThriftServer>(fmu_map, port, false, true);
             thrift_socket_server->start();
             servers[THRIFT_TCP] = port;
         }
@@ -101,10 +101,10 @@ namespace {
 #ifdef FMU_PROXY_WITH_GRPC
         unique_ptr<GrpcServer> grpc_server = nullptr;
         if (enable_grpc) {
-            const unsigned int port = ports[GRPC_HTTP2];
+            const unsigned int port = ports[GRPC];
             grpc_server = make_unique<GrpcServer>(fmu_map, port);
             grpc_server->start();
-            servers[GRPC_HTTP2] = port;
+            servers[GRPC] = port;
         }
 #endif
         unique_ptr<Heartbeat> beat = nullptr;
@@ -157,7 +157,7 @@ int main(int argc, char** argv) {
 
 #ifdef FMU_PROXY_WITH_GRPC
         desc.add_options()
-                (GRPC_HTTP2, po::value<unsigned int>(), "Specify the network port to be used by the gRPC server.");
+                (GRPC, po::value<unsigned int>(), "Specify the network port to be used by the gRPC server.");
 #endif
 
         po::variables_map vm;
@@ -178,19 +178,14 @@ int main(int argc, char** argv) {
             return COMMANDLINE_ERROR;
         }
 
-        if (!vm.count("fmu")) {
-            cout << "Missing path to FMUs.. Please try again." << endl;
-            cout << "FMU-proxy" << endl << desc << endl;
-            return COMMANDLINE_ERROR;
-        }
 
-
-        const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
         vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus;
-        for (const auto fmu_path : fmu_paths) {
-            fmus.push_back(make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path));
+        if (vm.count("fmu")) {
+            const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
+            for (const auto fmu_path : fmu_paths) {
+                fmus.push_back(make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path));
+            }
         }
-
 
         auto ports = unordered_map<string, unsigned int>();
 
@@ -202,8 +197,8 @@ int main(int argc, char** argv) {
             ports[THRIFT_HTTP] = vm[THRIFT_HTTP].as<unsigned int>();
         }
 
-        if (vm.count(GRPC_HTTP2)) {
-            ports[GRPC_HTTP2] = vm[GRPC_HTTP2].as<unsigned int>();
+        if (vm.count(GRPC)) {
+            ports[GRPC] = vm[GRPC].as<unsigned int>();
         }
 
         optional<fmuproxy::RemoteAddress> remote;
