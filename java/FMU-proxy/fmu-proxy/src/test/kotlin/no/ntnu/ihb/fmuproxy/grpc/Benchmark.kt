@@ -5,6 +5,7 @@ import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -14,27 +15,14 @@ import java.io.File
 import kotlin.system.measureTimeMillis
 
 
-class BenchmarkControlledTemperature {
+class Benchmark {
 
     private companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(BenchmarkControlledTemperature::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(Benchmark::class.java)
 
         private const val stop = 1.0
         private const val stepSize = 1E-4
-
-    }
-
-    private fun runInstance(slave: FmuSlave, stepSize: Double, stop: Double, callback: () -> Unit = {}) : Long {
-
-        slave.simpleSetup()
-
-        return measureTimeMillis {
-            while (slave.simulationTime < stop) {
-                Assertions.assertTrue(slave.doStep(stepSize))
-                callback()
-            }
-        }
 
     }
 
@@ -52,7 +40,7 @@ class BenchmarkControlledTemperature {
                     GrpcFmuClient("localhost", port).load(fmu.guid).use { client ->
 
                         client.newInstance().use { slave ->
-                            runInstance(slave, stepSize, stop) {
+                            runSlave(slave, stepSize, stop) {
                                 val status = slave.variableAccessor.readReal(vr, buffer)
                                 Assertions.assertEquals(FmiStatus.OK, status)
                                 Assertions.assertTrue(buffer[0] > 0)
@@ -81,7 +69,7 @@ class BenchmarkControlledTemperature {
 
                 GrpcFmuClient(host, port).load(guid).use { client ->
                     client.newInstance().use { slave ->
-                        runInstance(slave, stepSize, stop) {
+                        runSlave(slave, stepSize, stop) {
                             val read = slave.variableAccessor.readReal(46)
                             Assertions.assertTrue(read.value > 0)
                         }.also {
