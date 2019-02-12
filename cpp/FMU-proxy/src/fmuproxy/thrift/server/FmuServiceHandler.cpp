@@ -66,6 +66,7 @@ void FmuServiceHandler::getModelDescription(fmuproxy::thrift::ModelDescription &
 }
 
 void FmuServiceHandler::load(FmuId &_return, const std::string &url) {
+    cout << "Loading FMU from url " << url << endl;
     auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(url);
     auto guid = fmu->getModelDescription()->guid();
     if (!fmus_.count(guid)) {
