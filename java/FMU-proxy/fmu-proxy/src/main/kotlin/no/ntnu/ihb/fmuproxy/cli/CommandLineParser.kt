@@ -45,17 +45,16 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.Callable
 
-private val LOG: Logger = LoggerFactory.getLogger(CommandLineParser::class.java)
 
 object CommandLineParser {
 
     fun parse(args: Array<String>): FmuProxy? {
-       return CommandLine.call(Args(), System.out, *args)
+        return CommandLine.call(Args(), System.out, *args)
     }
 
 }
 
-internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSocketAddress> {
+internal class SimpleSocketAddressConverter : CommandLine.ITypeConverter<SimpleSocketAddress> {
     override fun convert(value: String): SimpleSocketAddress {
         return SimpleSocketAddress.parse(value)
     }
@@ -63,15 +62,15 @@ internal class SimpleSocketAddressConverter: CommandLine.ITypeConverter<SimpleSo
 
 
 @CommandLine.Command(name = "fmu-proxy")
-class Args: Callable<FmuProxy> {
+class Args : Callable<FmuProxy> {
 
     @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
     var showHelp = false
 
-    @CommandLine.Parameters(arity = "1..*", paramLabel = "FMUs", description = ["FMU(s) to include."])
-    lateinit var fmus: Array<File>
+    @CommandLine.Parameters(arity = "0..*", paramLabel = "FMUs", description = ["Optional FMU(s) to include."])
+    var fmus = mutableListOf<File>()
 
-    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remoteAddress tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
+    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
     var remote: SimpleSocketAddress? = null
 
     @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)."])
@@ -97,13 +96,6 @@ class Args: Callable<FmuProxy> {
 
 
     override fun call(): FmuProxy? {
-
-        if (fmus.isEmpty()) {
-            return null
-        }
-
-        LOG.debug("FMUs=${Arrays.toString(fmus)}")
-
 
         return fmus.map { Fmu.from(it) }.let { fmus ->
             FmuProxyBuilder(fmus).apply {
@@ -152,7 +144,7 @@ class Args: Callable<FmuProxy> {
     }
 
     override fun toString(): String {
-        return "Args(showHelp=$showHelp, fmus=${Arrays.toString(fmus)}, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
+        return "Args(showHelp=$showHelp, fmus=$fmus, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
     }
 
 }
