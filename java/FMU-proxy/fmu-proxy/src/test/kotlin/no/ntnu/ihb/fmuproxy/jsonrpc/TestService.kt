@@ -67,7 +67,7 @@ class TestService {
 
         val setupExperiment = RpcRequestOut(
                 methodName = "setupExperiment",
-                params = RpcParams.listParams(instanceId)
+                params = RpcParams.listParams(instanceId, 0.0, 0.0, 0.0)
         ).toJson().let { YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
                 .getResult<FmiStatus>()!!
 

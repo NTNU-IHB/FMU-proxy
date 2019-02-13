@@ -14,7 +14,7 @@ object RunServer {
     fun main(args: Array<String>) {
 
         Fmu.from(fmuPath).use { fmu ->
-            val server = GrpcFmuServer(fmu).apply {
+            val server = GrpcFmuServer().apply { addFmu(fmu) }.apply {
                 start(9080)
             }
 

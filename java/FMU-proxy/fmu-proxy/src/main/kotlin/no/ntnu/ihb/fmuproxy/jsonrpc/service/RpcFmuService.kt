@@ -147,6 +147,15 @@ class RpcFmuService(
     }
 
     @RpcMethod
+    fun setupExperiment(instanceId: InstanceId): FmiStatus {
+        LOG.debug("setupExperiment $instanceId")
+        return getSlave(instanceId).let {
+            it.setup()
+            it.lastStatus
+        }
+    }
+
+    @RpcMethod
     fun setupExperiment(instanceId: InstanceId, startTime: Double, stopTime: Double, tolerance: Double): FmiStatus {
         LOG.debug("setupExperiment $instanceId")
         return getSlave(instanceId).let {

@@ -43,7 +43,7 @@ class BenchmarkControlledTemperature {
        Fmu.from(File(TestUtils.getTEST_FMUs(),
                 "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")).use { fmu ->
 
-           ThriftFmuSocketServer(fmu).use { server ->
+           ThriftFmuSocketServer().apply { addFmu(fmu) }.use { server ->
                val port = server.start()
                for (i in 0..2) {
                    LightThriftClient(fmu.guid, "localhost", port).use { client ->
