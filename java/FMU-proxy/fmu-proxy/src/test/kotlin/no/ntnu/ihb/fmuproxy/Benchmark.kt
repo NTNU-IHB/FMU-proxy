@@ -65,7 +65,8 @@ class Benchmark {
     @Test
     fun measureTimeThriftSocket() {
 
-        ThriftFmuSocketServer(fmu).use { server ->
+        ThriftFmuSocketServer().use { server ->
+            server.addFmu(fmu)
             val port = server.start()
             val client = ThriftFmuClient.socketClient(host, port).load(fmu.guid)
             client.newInstance().use { instance ->
@@ -96,7 +97,8 @@ class Benchmark {
         }
 
         try {
-            ThriftFmuServlet(fmu).use { server ->
+            ThriftFmuServlet().use { server ->
+                server.addFmu(fmu)
                 val port = server.start()
                 val client = ThriftFmuClient.servletClient(host, port).load(fmu.guid)
                 client.newInstance().use { instance ->
@@ -118,7 +120,8 @@ class Benchmark {
     @Test
     fun measureTimeGrpc() {
 
-        GrpcFmuServer(fmu).use { server ->
+        GrpcFmuServer().use { server ->
+            server.addFmu(fmu)
             val port = server.start()
             val client = GrpcFmuClient(host, port).load(fmu.guid)
             client.newInstance().use { instance ->
@@ -141,7 +144,9 @@ class Benchmark {
         var wsPort: Int
         var tcpPort: Int
         var zmqPort: Int
-        val handler = RpcHandler(RpcFmuService(fmu))
+        val handler = RpcHandler(RpcFmuService().apply {
+            addFmu(fmu)
+        })
 
         val servers = mutableListOf(
                 FmuProxyJsonWsServer(handler).apply { wsPort = start() },

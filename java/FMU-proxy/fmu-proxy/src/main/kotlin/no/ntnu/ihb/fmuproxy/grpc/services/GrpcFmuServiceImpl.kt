@@ -52,7 +52,9 @@ class GrpcFmuServiceImpl(
 ) : FmuServiceGrpc.FmuServiceImplBase() {
 
     private inline fun getFmu(fmuId: String, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
-        fmus[fmuId]?.apply(block) ?: noSuchFmuReply(fmuId, responseObserver)
+        synchronized(fmus) {
+            fmus[fmuId]?.apply(block) ?: noSuchFmuReply(fmuId, responseObserver)
+        }
     }
 
     private inline fun getSlave(instanceId: String, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
@@ -63,16 +65,18 @@ class GrpcFmuServiceImpl(
         val url = URL(request.url)
         val md = ModelDescriptionParser.parse(url)
         val guid = md.guid
-        if (guid in fmus) {
-            LOG.debug("FMU with guid=$guid already loaded, re-using it!")
-        } else {
-            LOG.info("Loaded new FMU with guid=$guid!")
-            val fmu = Fmu.from(url)
-            fmus[guid] = fmu
+        synchronized(fmus) {
+            if (guid !in fmus) {
+                val fmu = Fmu.from(url)
+                fmus[guid] = fmu
+                LOG.info("Loaded new FMU with guid=$guid!")
+            } else {
+                LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+            }
+            responseObserver.onNext(Service.FmuId.newBuilder()
+                    .setValue(guid).build())
+            responseObserver.onCompleted()
         }
-        responseObserver.onNext(Service.FmuId.newBuilder()
-                        .setValue(guid).build())
-        responseObserver.onCompleted()
     }
 
     override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Service.ModelDescription>) {
@@ -224,7 +228,6 @@ class GrpcFmuServiceImpl(
             statusReply(status, responseObserver)
         }
     }
-
 
 
     override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
