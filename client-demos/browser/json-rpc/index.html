@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>JSON-RPC Javascript test</title>
+
+    <script src="service.js"></script>
+
+</head>
+<body>
+
+<script>
+
+
+    (function () {
+
+        var stop = 0.1
+        var stepSize = 1.0 / 100
+
+        var service = new Service("localhost", 9095)
+        service.onOpen(function () {
+
+            var that = this
+            this.slaveid = undefined
+
+            service.load("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
+                .then(function (fmuId) {
+                    return service.createInstanceFromCS(fmuId)
+                })
+                .then(function (slaveId) {
+                    that.slaveId = slaveId
+                    return service.simpleSetup(slaveId)
+
+                })
+                .then(function (status) {
+
+                    var doStep = function() {
+                        return service.doStep(that.slaveId, stepSize).then(function (info) {
+
+                            if (info.simulationTime <= stop) {
+                                return doStep()
+                            } else  {
+                                return info
+                            }
+                        })
+                    }
+                    return doStep()
+
+                })
+                .then(function (status) {
+                    console.log(status)
+                    return service.terminate(slaveId)
+                })
+
+        })
+
+
+    })();
+
+</script>
+
+</body>
+</html>
