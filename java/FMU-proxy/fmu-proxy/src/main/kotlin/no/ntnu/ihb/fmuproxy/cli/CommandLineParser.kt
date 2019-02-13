@@ -102,7 +102,7 @@ class Args : Callable<FmuProxy> {
 
                 setRemote(remote)
 
-                val map = fmus.associate { it.modelDescription.guid to it }
+                val map = Collections.synchronizedMap(fmus.associate { it.modelDescription.guid to it }.toMutableMap())
 
                 GrpcFmuServer(map).apply {
                     addServer(this, grpcPort)

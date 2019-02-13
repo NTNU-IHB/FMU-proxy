@@ -37,10 +37,8 @@ import org.slf4j.LoggerFactory
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        fmus: Map<String, Fmu> = mapOf()
+        private val fmus: MutableMap<String, Fmu> = mutableMapOf()
 ): FmuProxyServer {
-
-    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
@@ -52,10 +50,16 @@ class GrpcFmuServer(
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
-    private val service = GrpcFmuServiceImpl(fmus.toMutableMap())
+    private val service = GrpcFmuServiceImpl(fmus)
 
     private val isRunning: Boolean
         get() = server != null
+
+    fun addFmu(fmu: Fmu) {
+        synchronized(fmus) {
+            fmus[fmu.guid] = fmu
+        }
+    }
 
     override fun start(port: Int) {
         if (!isRunning) {

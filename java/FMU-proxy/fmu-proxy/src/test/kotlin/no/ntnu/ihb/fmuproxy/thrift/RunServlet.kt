@@ -14,7 +14,8 @@ object RunServlet {
     fun main(args: Array<String>) {
 
         Fmu.from(fmuPath).use { fmu ->
-            val server = ThriftFmuServlet(fmu).apply {
+            val server = ThriftFmuServlet().apply {
+                addFmu(fmu)
                 start(9091)
             }
 

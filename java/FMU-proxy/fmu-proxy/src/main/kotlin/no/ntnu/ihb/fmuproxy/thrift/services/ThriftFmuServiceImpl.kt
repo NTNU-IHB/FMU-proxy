@@ -51,8 +51,11 @@ class ThriftFmuServiceImpl(
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
     }
 
+
     private fun getFmu(fmuId: String): Fmu {
-        return fmus[fmuId] ?: throw NoSuchFmuException("No such FMU with guid: '$fmuId'")
+        synchronized(fmus) {
+            return fmus[fmuId] ?: throw NoSuchFmuException("No such FMU with guid: '$fmuId'")
+        }
     }
 
     private fun getSlave(instanceId: String): FmuSlave {
@@ -63,14 +66,15 @@ class ThriftFmuServiceImpl(
         @Suppress("NAME_SHADOWING") val url = URL(url)
         val md = ModelDescriptionParser.parse(url)
         val guid = md.guid
-        if (guid in fmus) {
-            LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+        synchronized(fmus) {
+            if (guid !in fmus) {
+                val fmu = Fmu.from(url)
+                fmus[guid] = fmu
+                LOG.info("Loaded new FMU with guid=$guid!")
+            } else {
+                LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+            }
             return guid
-        }
-        val fmu = Fmu.from(url)
-        LOG.info("Loaded new FMU with guid=$guid!")
-        return guid.also {
-            fmus[it] = fmu
         }
     }
 

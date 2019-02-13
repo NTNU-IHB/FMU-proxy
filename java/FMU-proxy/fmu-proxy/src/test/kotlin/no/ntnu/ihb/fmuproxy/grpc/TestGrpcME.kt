@@ -26,7 +26,7 @@ class TestGrpcME {
             "2.0/me/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
 
     private val modelDescription = fmu.modelDescription
-    private val server = GrpcFmuServer(fmu)
+    private val server = GrpcFmuServer().apply { addFmu(fmu) }
     private val client = GrpcFmuClient("localhost", server.start()).load(fmu.guid)
 
     @AfterAll

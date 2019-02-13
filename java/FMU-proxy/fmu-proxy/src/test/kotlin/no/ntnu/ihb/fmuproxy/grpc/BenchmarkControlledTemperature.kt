@@ -46,7 +46,7 @@ class BenchmarkControlledTemperature {
 
             val vr = longArrayOf(46)
             val buffer = RealArray(vr.size)
-            GrpcFmuServer(fmu).use { server ->
+            GrpcFmuServer().apply { addFmu(fmu) }.use { server ->
                 val port = server.start()
                 for (i in 0..2) {
                     GrpcFmuClient("localhost", port).load(fmu.guid).use { client ->

@@ -25,7 +25,7 @@ class TestThriftME {
             "2.0/me/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
 
     private val modelDescription = fmu.modelDescription
-    private val server = ThriftFmuSocketServer(fmu)
+    private val server = ThriftFmuSocketServer().apply { addFmu(fmu) }
     private val client = ThriftFmuClient.socketClient("127.0.0.1", server.start()).load(fmu.guid)
 
     @AfterAll
