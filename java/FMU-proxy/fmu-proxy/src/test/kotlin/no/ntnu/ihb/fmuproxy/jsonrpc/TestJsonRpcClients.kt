@@ -31,7 +31,7 @@ class TestJsonRpcClients {
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
-    private  val handler = RpcHandler(RpcFmuService(fmu))
+    private  val handler = RpcHandler(RpcFmuService().apply { addFmu(fmu) })
 
     private var proxy = FmuProxyBuilder(fmu).apply {
             if (!OS.LINUX.isCurrentOs) {
