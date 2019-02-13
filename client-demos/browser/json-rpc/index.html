@@ -15,14 +15,15 @@
 
     (function () {
 
+        var vr = 47
         var stop = 0.1
         var stepSize = 1.0 / 100
 
-        var service = new Service("localhost", 9095)
-        service.onOpen(function () {
+        var that = this
+        this.slaveid = undefined
 
-            var that = this
-            this.slaveid = undefined
+        var service = new Service("localhost", 9099)
+        service.onOpen(function () {
 
             service.load("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
                 .then(function (fmuId) {
@@ -35,11 +36,17 @@
                 })
                 .then(function (status) {
 
+                    var read = function () {
+                        return service.readReal(that.slaveId, [vr])
+                    }
+
                     var doStep = function() {
                         return service.doStep(that.slaveId, stepSize).then(function (info) {
-
                             if (info.simulationTime <= stop) {
-                                return doStep()
+                                return read().then(function (read) {
+                                    console.log("Real with valueReference " + vr + " = " + read.value)
+                                    return doStep()
+                                })
                             } else  {
                                 return info
                             }
@@ -48,9 +55,11 @@
                     return doStep()
 
                 })
+                .then(function (info) {
+                    return service.terminate(that.slaveId)
+                })
                 .then(function (status) {
-                    console.log(status)
-                    return service.terminate(slaveId)
+                    service.close()
                 })
 
         })

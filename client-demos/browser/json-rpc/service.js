@@ -39,7 +39,7 @@ var Service = function (host, port) {
 
         var msg = JSON.parse(evt.data)
         if (msg.error !== undefined) {
-            console.err(msg.error)
+            console.error(msg.error)
         }
         if (msg.id !== undefined) {
             var id = msg.id
@@ -148,11 +148,15 @@ var Service = function (host, port) {
     }
 
     Service.prototype.reset = function(slaveId) {
-        return this.request("reset", [slaveId, stepSize])
+        return this.request("reset", [slaveId])
     }
 
     Service.prototype.terminate = function(slaveId) {
         return this.request("terminate", [slaveId])
+    }
+
+    Service.prototype.readReal = function(slaveId, vr) {
+        return this.request("readReal", [slaveId, vr])
     }
 
 }
