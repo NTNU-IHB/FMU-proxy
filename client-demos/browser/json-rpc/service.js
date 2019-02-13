@@ -3,9 +3,6 @@ var Service = function (host, port) {
 
     var that = this
 
-    this.host = host
-    this.port = port
-
     this.reqCallbacks = []
 
     var openListeners = []
@@ -53,21 +50,6 @@ var Service = function (host, port) {
     };
 
 
-    this.isConnecting = function () {
-        return ws.readyState === 0
-    };
-
-    this.isOpen = function () {
-        return ws.readyState === 1
-    };
-
-    this.isClosing = function () {
-        return ws.readyState === 2
-    };
-
-    this.isClosed = function () {
-        return ws.readyState === 3
-    };
 
     this.close = function () {
         ws.close()
@@ -119,44 +101,60 @@ var Service = function (host, port) {
     };
 
 
-    Service.prototype.load = function(url) {
-        return this.request("load", [url])
+    Service.prototype.load = async function(url) {
+        return await this.request("load", [url])
     }
 
-    Service.prototype.createInstanceFromCS = function(fmuId) {
+    Service.prototype.getModelDescription = async function(fmuId) {
+        return this.request("getModelDescription", [fmuId])
+    }
+
+    Service.prototype.createInstanceFromCS = async function(fmuId) {
         return this.request("createInstanceFromCS", [fmuId])
     }
 
-    Service.prototype.simpleSetup = function(slaveId) {
+    Service.prototype.simpleSetup = async function(slaveId) {
         return this.request("simpleSetup", [slaveId])
     }
 
-    Service.prototype.setupExperiment = function(slaveId, start, stop, tolerance) {
+    Service.prototype.setupExperiment = async function(slaveId, start, stop, tolerance) {
         return this.request("setupExperiment", [slaveId, start, stop, tolerance])
     }
 
-    Service.prototype.enterInitializationMode = function(slaveId) {
+    Service.prototype.enterInitializationMode = async function(slaveId) {
         return this.request("enterInitializationMode", [slaveId])
     }
 
-    Service.prototype.exitInitializationMode = function(slaveId) {
+    Service.prototype.exitInitializationMode = async function(slaveId) {
         return this.request("exitInitializationMode", [slaveId])
     }
 
-    Service.prototype.doStep = function(slaveId, stepSize) {
+    Service.prototype.doStep = async function(slaveId, stepSize) {
         return this.request("doStep", [slaveId, stepSize])
     }
 
-    Service.prototype.reset = function(slaveId) {
+    Service.prototype.reset = async function(slaveId) {
         return this.request("reset", [slaveId])
     }
 
-    Service.prototype.terminate = function(slaveId) {
+    Service.prototype.terminate = async function(slaveId) {
         return this.request("terminate", [slaveId])
     }
 
-    Service.prototype.readReal = function(slaveId, vr) {
+    Service.prototype.readInteger = async function(slaveId, vr) {
+        return this.request("readInteger", [slaveId, vr])
+    }
+
+    Service.prototype.readReal = async function(slaveId, vr) {
         return this.request("readReal", [slaveId, vr])
+    }
+
+    Service.prototype.writeInteger = async function(slaveId, vr, value) {
+        return this.request("writeInteger", [slaveId, vr, value])
+    }
+
+    Service.prototype.writeReal = async function(slaveId, vr, value) {
+        return this.request("writeReal", [slaveId, vr, value])
     }
 
 }

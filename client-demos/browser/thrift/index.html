@@ -23,24 +23,30 @@
                 var protocol  = new Thrift.TJSONProtocol(transport)
                 var client    = new FmuServiceClient(protocol)
 
-                var fmu_id = "{06c2700b-b39c-4895-9151-304ddde28443}"
+                var fmu_id = client.load("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
                 console.log(client.getModelDescription(fmu_id))
 
                 var instance_id = client.createInstanceFromCS(fmu_id)
                 
                 var t = 0.0
-                client.setupExperiment(instance_id, t)
-                client.enterInitializationMode(instance_id)
-                client.exitInitializationMode(instance_id)
+		var status = undefined;
+                status = client.setupExperiment(instance_id, t)
+                status = client.enterInitializationMode(instance_id)
+                status = client.exitInitializationMode(instance_id)
+
+		var vr = 47
+		var stop = 0.1
+                var step_size = 1E-2
 
                 var t0 = performance.now()
 
-                var stop = 0.1
-                var step_size = 1E-4
                 while ( t < stop ) {
 
+		    var read = client.readReal(instance_id, [vr]);
+		   // console.log("t=" + t + ", " + read.value)
                     var result = client.step(instance_id, step_size)
                     if (result.status != 0) {
+			console.error("Step failed!")
                         break
                     }
                     t = result.simulationTime
@@ -50,7 +56,7 @@
                 var t1 = performance.now()
                 console.log((t1 - t0) + " ms.")
 
-                client.terminate(instance_id)
+                status = client.terminate(instance_id)
 
             })();
 
