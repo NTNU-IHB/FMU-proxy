@@ -44,10 +44,10 @@ class TestProxy {
     init {
 
         proxy = FmuProxyBuilder(fmu).apply {
-            addServer(GrpcFmuServer(fmu))
-            addServer(ThriftFmuSocketServer(fmu))
-            addServer(ThriftFmuServlet(fmu))
-            RpcHandler(RpcFmuService(fmu)).also { handler ->
+            addServer(GrpcFmuServer().apply { addFmu(fmu) })
+            addServer(ThriftFmuSocketServer().apply { addFmu(fmu) })
+            addServer(ThriftFmuServlet().apply { addFmu(fmu) })
+            RpcHandler(RpcFmuService().apply { addFmu(fmu) }).also { handler ->
                 addServer(FmuProxyJsonWsServer(handler))
                 addServer(FmuProxyJsonTcpServer(handler))
                 addServer(FmuProxyJsonZmqServer(handler))

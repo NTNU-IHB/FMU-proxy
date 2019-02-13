@@ -46,7 +46,7 @@ interface IServer {
 }
 
 abstract class ThriftFmuServer(
-        fmus: Map<String, Fmu>
+        private val fmus: MutableMap<String, Fmu>
 ) : FmuProxyServer {
 
     companion object {
@@ -56,7 +56,13 @@ abstract class ThriftFmuServer(
 
     override var port: Int? = null
     private var server: IServer? = null
-    private val handler = ThriftFmuServiceImpl(fmus.toMutableMap())
+    private val handler = ThriftFmuServiceImpl(fmus)
+
+    fun addFmu(fmu: Fmu) {
+        synchronized(fmus) {
+            fmus[fmu.guid] = fmu
+        }
+    }
 
     override fun start(port: Int) {
 
@@ -87,10 +93,8 @@ abstract class ThriftFmuServer(
 
 
 class ThriftFmuSocketServer(
-        fmus: Map<String, Fmu> = mapOf()
+        fmus: MutableMap<String, Fmu> = mutableMapOf()
 ) : ThriftFmuServer(fmus) {
-
-    constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))
 
     override val simpleName = "thrift/tcp"
 
@@ -116,10 +120,8 @@ class ThriftFmuSocketServer(
 }
 
 class ThriftFmuServlet(
-        fmus: Map<String, Fmu> = mapOf()
+        fmus: MutableMap<String, Fmu> = mutableMapOf()
 ) : ThriftFmuServer(fmus) {
-
-    constructor(fmu: Fmu) : this(mapOf(fmu.guid to fmu))
 
     override val simpleName = "thrift/http"
 

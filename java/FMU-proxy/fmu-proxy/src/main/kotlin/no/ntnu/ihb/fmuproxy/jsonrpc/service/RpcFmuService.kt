@@ -31,11 +31,15 @@ import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
+import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
+import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.net.URL
 
 class StepResult(
         val status: FmiStatus,
@@ -51,15 +55,21 @@ class Solver(
  * @author Lars Ivar Hatledal
  */
 class RpcFmuService(
-        private val fmus: Map<String, Fmu>
+        private val fmus: MutableMap<FmuId, Fmu> = mutableMapOf()
 ) : RpcService {
-
-    constructor(fmu: Fmu): this(mapOf(fmu.guid to fmu))
 
     override val serviceName = "FmuService"
 
+    fun addFmu(fmu: Fmu) {
+        synchronized(fmus) {
+            fmus[fmu.guid] = fmu
+        }
+    }
+
     private fun getFmu(id: String): Fmu {
-        return fmus[id] ?: throw IllegalArgumentException("No FMU with id=$id")
+        synchronized(fmus) {
+            return fmus[id] ?: throw IllegalArgumentException("No FMU with id=$id")
+        }
     }
 
     private fun getSlave(id: InstanceId): FmuSlave {
@@ -67,29 +77,45 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun getModelDescription(fmuId: String): ModelDescription {
+    fun load(url: String): FmuId {
+        @Suppress("NAME_SHADOWING") val url = URL(url)
+        val md = ModelDescriptionParser.parse(url)
+        val guid = md.guid
+        synchronized(fmus) {
+            if (guid !in fmus) {
+                val fmu = Fmu.from(url)
+                fmus[guid] = fmu
+            }
+        }
+        return guid
+    }
+
+    @RpcMethod
+    fun getModelDescription(fmuId: FmuId): ModelDescription {
         return getFmu(fmuId).modelDescription
     }
 
     @RpcMethod
-    fun canCreateInstanceFromCS(fmuId: String): Boolean {
+    fun canCreateInstanceFromCS(fmuId: FmuId): Boolean {
         return getFmu(fmuId).supportsCoSimulation
     }
 
     @RpcMethod
-    fun canCreateInstanceFromME(fmuId: String): Boolean {
+    fun canCreateInstanceFromME(fmuId: FmuId): Boolean {
         return getFmu(fmuId).supportsModelExchange
     }
 
     @RpcMethod
-    fun createInstanceFromCS(fmuId: String): String {
+    fun createInstanceFromCS(fmuId: FmuId): String {
+        LOG.debug("createInstanceFromCS $fmuId")
         return getFmu(fmuId).let { fmu ->
             FmuSlaves.put(fmu.asCoSimulationFmu().newInstance())
         }
     }
 
     @RpcMethod
-    fun createInstanceFromME(fmuId: String, solver: Solver): String {
+    fun createInstanceFromME(fmuId: FmuId, solver: Solver): String {
+        LOG.debug("createInstanceFromME $fmuId")
         return getFmu(fmuId).let { fmu ->
             fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
@@ -105,14 +131,24 @@ class RpcFmuService(
 
     @RpcMethod
     fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes {
+        LOG.debug("getCoSimulationAttributes $instanceId")
         return getSlave(instanceId).let {
             it.modelDescription.attributes
         }
     }
 
     @RpcMethod
-    @JvmOverloads
-    fun setupExperiment(instanceId: InstanceId, startTime: Double = 0.0, stopTime: Double = 0.0, tolerance: Double = 0.0): FmiStatus {
+    fun simpleSetup(instanceId: InstanceId): FmiStatus {
+        LOG.debug("simpleSetup $instanceId")
+        return getSlave(instanceId).let {
+            it.simpleSetup()
+            it.lastStatus
+        }
+    }
+
+    @RpcMethod
+    fun setupExperiment(instanceId: InstanceId, startTime: Double, stopTime: Double, tolerance: Double): FmiStatus {
+        LOG.debug("setupExperiment $instanceId")
         return getSlave(instanceId).let {
             it.setup(startTime, stopTime, tolerance)
             it.lastStatus
@@ -121,6 +157,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
+        LOG.debug("enterInitializationMode $instanceId")
         return getSlave(instanceId).let {
             it.enterInitializationMode()
             it.lastStatus
@@ -129,6 +166,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
+        LOG.debug("exitInitializationMode $instanceId")
         return getSlave(instanceId).let {
             it.exitInitializationMode()
             it.lastStatus
@@ -137,6 +175,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun doStep(instanceId: InstanceId, stepSize: Double): StepResult {
+        LOG.debug("doStep $instanceId")
         return getSlave(instanceId).let {
             it.doStep(stepSize)
             StepResult(
@@ -148,6 +187,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun reset(instanceId: InstanceId): FmiStatus {
+        LOG.debug("reset $instanceId")
         return getSlave(instanceId).let {
             it.reset()
             it.lastStatus
@@ -156,6 +196,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun terminate(instanceId: InstanceId): FmiStatus {
+        LOG.debug("terminate $instanceId")
         return getSlave(instanceId).let {
             it.terminate()
             it.lastStatus
@@ -169,7 +210,7 @@ class RpcFmuService(
             FmuIntegerArrayRead(values, it)
         }
     }
-    
+
     @RpcMethod
     fun readReal(instanceId: InstanceId, vr: ValueReferences): FmuRealArrayRead {
         val values = RealArray(vr.size)
@@ -177,15 +218,15 @@ class RpcFmuService(
             FmuRealArrayRead(values, it)
         }
     }
-    
+
     @RpcMethod
     fun readString(instanceId: InstanceId, vr: ValueReferences): FmuStringArrayRead {
-        val values = StringArray(vr.size) {""}
+        val values = StringArray(vr.size) { "" }
         return getSlave(instanceId).variableAccessor.readString(vr, values).let {
             FmuStringArrayRead(values, it)
         }
     }
-    
+
     @RpcMethod
     fun readBoolean(instanceId: InstanceId, vr: ValueReferences): FmuBooleanArrayRead {
         val values = BooleanArray(vr.size)
@@ -193,7 +234,7 @@ class RpcFmuService(
             FmuBooleanArrayRead(values, it)
         }
     }
-    
+
     @RpcMethod
     fun writeInteger(instanceId: InstanceId, vr: ValueReferences, value: IntArray): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeInteger(vr, value)
@@ -203,7 +244,7 @@ class RpcFmuService(
     fun writeReal(instanceId: InstanceId, vr: ValueReferences, value: DoubleArray): FmiStatus {
         return getSlave(instanceId).variableAccessor.writeReal(vr, value)
     }
-    
+
 
     @RpcMethod
     fun writeString(instanceId: InstanceId, vr: ValueReferences, value: StringArray): FmiStatus {
