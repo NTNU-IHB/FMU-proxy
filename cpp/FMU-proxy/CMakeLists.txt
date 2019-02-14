@@ -1,4 +1,15 @@
 
+option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
+option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
+option(FMU_PROXY_BUILD_TOOL "Build the server executable" ON)
+option(FMU_PROXY_WITH_GRPC "Build with gRPC support" ON)
+option(FMU_PROXY_WITH_THRIFT "Build with Thrift support" ON)
+option(FMU_PROXY_USING_CONAN "Build using conan" OFF)
+
+if(FMU_PROXY_USING_CONAN)
+    set(CMAKE_TOOLCHAIN_FILE "")
+endif()
+
 cmake_minimum_required(VERSION 3.10)
 project(FMU_PROXY)
 
@@ -6,11 +17,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
-option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
-option(FMU_PROXY_BUILD_TOOL "Build the server executable" ON)
-option(FMU_PROXY_WITH_GRPC "Build with gRPC support" ON)
-option(FMU_PROXY_WITH_THRIFT "Build with Trift support" ON)
+if (FMU_PROXY_USING_CONAN)
+    if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+        include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+        conan_basic_setup()
+    else()
+        message(FATAL_ERROR "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first!")
+    endif()
+
+endif()
 
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
@@ -33,7 +48,9 @@ find_package(CURL REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
     find_package(Thrift REQUIRED)
-    find_package(Libevent CONFIG REQUIRED)
+    if (NOT FMU_PROXY_USING_CONAN)
+        find_package(Libevent CONFIG REQUIRED)
+    endif()
     add_definitions(-DFMU_PROXY_WITH_THRIFT)
 endif()
 
