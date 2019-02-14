@@ -10,7 +10,7 @@ option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
 option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
 option(FMU_PROXY_BUILD_TOOL "Build the server executable" ON)
 option(FMU_PROXY_WITH_GRPC "Build with gRPC support" ON)
-option(FMU_PROXY_WITH_THRIFT "Build with Trift support" ON)
+option(FMU_PROXY_WITH_THRIFT "Build with Thrift support" ON)
 
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
