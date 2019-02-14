@@ -12,8 +12,7 @@ class FMI4cppConan(ConanFile):
         "libcurl/7.61.1@bincrafters/stable",
         "libzip/1.5.1@bincrafters/stable",
         "spdlog/1.3.1@bincrafters/stable",
-        "jsonformoderncpp/3.5.0@vthiery/stable",
-        "libevent/2.0.22@bincrafters/stable"
+        "jsonformoderncpp/3.5.0@vthiery/stable"
     )
     options = {
         "thrift": [True, False],

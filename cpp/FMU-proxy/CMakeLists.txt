@@ -48,6 +48,9 @@ find_package(CURL REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
     find_package(Thrift REQUIRED)
+    if (NOT FMU_PROXY_USING_CONAN)
+        find_package(Libevent CONFIG REQUIRED)
+    endif()
     add_definitions(-DFMU_PROXY_WITH_THRIFT)
 endif()
 
