@@ -6,7 +6,9 @@ import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.cs.CoSimulationSlave
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.*
@@ -42,6 +44,15 @@ class Benchmark {
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
+    private fun testSlave(slave: FmuSlave): Long {
+        return runSlave(slave, stepSize, stop) {
+            slave.variableAccessor.readReal("Temperature_Room").also { read ->
+                Assertions.assertEquals(FmiStatus.OK, read.status)
+                Assertions.assertTrue(read.value > 0)
+            }
+        }
+    }
+
     @AfterAll
     fun tearDown() {
         fmu.close()
@@ -50,12 +61,8 @@ class Benchmark {
     @Test
     fun measureTimeLocal() {
 
-        fmu.asCoSimulationFmu().newInstance().use { instance ->
-            runSlave(instance, stepSize, stop) {
-                val read = instance.variableAccessor.readReal("Temperature_Room")
-                Assertions.assertEquals(FmiStatus.OK, read.status)
-                Assertions.assertTrue(read.value > 0)
-            }.also {
+        fmu.asCoSimulationFmu().newInstance().use { slave ->
+            testSlave(slave).also {
                 LOG.info("Local duration=${it}ms")
             }
         }
@@ -69,11 +76,8 @@ class Benchmark {
             server.addFmu(fmu)
             val port = server.start()
             val client = ThriftFmuClient.socketClient(host, port).load(fmu.guid)
-            client.newInstance().use { instance ->
-                runSlave(instance, stepSize, stop) {
-                    val read = instance.variableAccessor.readReal("Temperature_Room")
-                    Assertions.assertTrue(read.value > 0)
-                }.also {
+            client.newInstance().use { slave ->
+                testSlave(slave).also {
                     LOG.info("Thrift/tcp duration=${it}ms")
                 }
             }
@@ -101,11 +105,8 @@ class Benchmark {
                 server.addFmu(fmu)
                 val port = server.start()
                 val client = ThriftFmuClient.servletClient(host, port).load(fmu.guid)
-                client.newInstance().use { instance ->
-                    runSlave(instance, stepSize, stop) {
-                        val read = instance.variableAccessor.readReal("Temperature_Room")
-                        Assertions.assertTrue(read.value > 0)
-                    }.also {
+                client.newInstance().use { slave ->
+                    testSlave(slave).also {
                         LOG.info("Thrift/http duration=${it}ms")
                     }
                 }
@@ -124,11 +125,8 @@ class Benchmark {
             server.addFmu(fmu)
             val port = server.start()
             val client = GrpcFmuClient(host, port).load(fmu.guid)
-            client.newInstance().use { instance ->
-                runSlave(instance, stepSize, stop) {
-                    val read = instance.variableAccessor.readReal("Temperature_Room")
-                    Assertions.assertTrue(read.value > 0)
-                }.also {
+            client.newInstance().use { slave ->
+                testSlave(slave).also {
                     LOG.info("gRPC duration=${it}ms")
                 }
             }
@@ -174,10 +172,7 @@ class Benchmark {
 
             it.use { client ->
                 client.newInstance().use { slave ->
-                    runSlave(slave, stepSize, stop) {
-                        val read = slave.variableAccessor.readReal("Temperature_Room")
-                        Assertions.assertTrue(read.value > 0)
-                    }.also {
+                    testSlave(slave).also {
                         LOG.info("${client.implementationName} duration=${it}ms")
                     }
                 }
