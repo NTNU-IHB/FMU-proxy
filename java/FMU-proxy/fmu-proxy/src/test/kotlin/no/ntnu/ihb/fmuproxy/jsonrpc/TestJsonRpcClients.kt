@@ -18,6 +18,7 @@ import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.time.Duration
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestJsonRpcClients {
@@ -26,14 +27,12 @@ class TestJsonRpcClients {
 
         private val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
 
-    }
+        private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+                "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
-    private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+        private  val handler = RpcHandler(RpcFmuService().apply { addFmu(fmu) })
 
-    private  val handler = RpcHandler(RpcFmuService().apply { addFmu(fmu) })
-
-    private var proxy = FmuProxyBuilder(fmu).apply {
+        private var proxy = FmuProxyBuilder(fmu).apply {
             if (!OS.LINUX.isCurrentOs) {
                 addServer(FmuProxyJsonHttpServer(handler))
             } else {
@@ -45,46 +44,49 @@ class TestJsonRpcClients {
         }.build().also { it.start() }
 
 
-    @AfterAll
-    fun tearDown() {
-        proxy.stop()
-        fmu.close()
     }
 
     @Test
     fun testClients() {
 
-        val clients = mutableListOf(
-                RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
-                RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
-                RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
-        ).apply {
-            if (!OS.LINUX.isCurrentOs) {
-                add(RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
-            }
-        }.map { JsonRpcFmuClient(fmu.guid, it) }
+        Assertions.assertTimeout(Duration.ofMinutes(2)) {
 
-
-        clients.forEach {
-
-            it.use { client ->
-                LOG.info("Testing client of type ${client.implementationName}")
-                Assertions.assertEquals(fmu.modelDescription.modelName, client.modelName)
-                Assertions.assertEquals(fmu.modelDescription.guid, client.guid)
-
-                client.newInstance().use { slave ->
-
-                    val temp = client.modelDescription.modelVariables
-                            .getByName("Temperature_Room").asRealVariable()
-
-                    val stop = 1.0
-                    val stepSize = 1E-4
-                    runSlave(slave, stepSize, stop) {
-                        temp.read(slave)
-                    }.also { LOG.info(" ${client.implementationName} duration: ${it}ms") }
-
+            val clients = mutableListOf(
+                    RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
+                    RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
+                    RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
+            ).apply {
+                if (!OS.LINUX.isCurrentOs) {
+                    add(RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
                 }
+            }.map { JsonRpcFmuClient(fmu.guid, it) }
+
+
+            clients.forEach {
+
+                it.use { client ->
+                    LOG.info("Testing client of type ${client.implementationName}")
+                    Assertions.assertEquals(fmu.modelDescription.modelName, client.modelName)
+                    Assertions.assertEquals(fmu.modelDescription.guid, client.guid)
+
+                    client.newInstance().use { slave ->
+
+                        val temp = client.modelDescription.modelVariables
+                                .getByName("Temperature_Room").asRealVariable()
+
+                        val stop = 1.0
+                        val stepSize = 1E-4
+                        runSlave(slave, stepSize, stop) {
+                            temp.read(slave)
+                        }.also { LOG.info(" ${client.implementationName} duration: ${it}ms") }
+
+                    }
+                }
+
             }
+
+            proxy.stop()
+            fmu.close()
 
         }
 
