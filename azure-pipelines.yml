@@ -1,0 +1,53 @@
+
+trigger:
+  - master
+
+jobs:
+  - job: cpp
+    timeoutInMinutes: 120
+
+    pool:
+      vmImage: 'vs2017-win2016'
+
+    steps:
+
+      - task: Bash@3
+        inputs:
+          script: |
+            git submodule update --init --recursive
+          workingDirectory: '$(system.defaultWorkingDirectory)'
+          targetType: inline
+
+      - task: Bash@3
+        inputs:
+          script: |
+            git clone https://github.com/Microsoft/vcpkg.git
+            cd vcpkg
+            ./bootstrap-vcpkg.bat
+            ./vcpkg install curl thrift grpc nlohmann-json libzip[core] spdlog boost-program-options boost-ublas boost-odeint --triplet x64-windows
+          workingDirectory: '$(system.defaultWorkingDirectory)'
+          targetType: inline
+
+      - task: CMake@1
+        inputs:
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build'
+          cmakeArgs: 'cmake -G "Visual Studio 15 2017 Win64" .. -DCMAKE_CXX_COMPILER="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64\cl.exe" -DCMAKE_TOOLCHAIN_FILE=..\..\..\vcpkg\scripts\buildsystems\vcpkg.cmake'
+
+  - job: jvm
+    timeoutInMinutes: 15
+    
+    pool:
+      vmImage: 'vs2017-win2016'
+
+    steps:
+      - task: Gradle@2
+        inputs:
+          workingDirectory: '$(system.defaultWorkingDirectory)/java/FMU-proxy/'
+          gradleWrapperFile: '$(system.defaultWorkingDirectory)/java/FMU-proxy/gradlew'
+          gradleOptions: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.8'
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: true
+          testResultsFiles: '**/TEST-*.xml'
+          tasks: 'dependencies test'

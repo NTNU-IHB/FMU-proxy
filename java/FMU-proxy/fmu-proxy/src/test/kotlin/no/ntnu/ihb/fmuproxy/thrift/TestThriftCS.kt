@@ -12,15 +12,16 @@ import org.slf4j.LoggerFactory
 import java.io.File
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestThriftTemperature {
+class TestThriftCS {
 
     private companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(TestThriftTemperature::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(TestThriftCS::class.java)
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
             "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
+    private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer().apply { addFmu(fmu) }
     private val client = ThriftFmuClient.socketClient("localhost", server.start()).load(fmu.guid)
 
@@ -34,13 +35,13 @@ class TestThriftTemperature {
     @Test
     fun testGuid() {
         val guid = client.modelDescription.guid.also { LOG.info("guid=$it") }
-        Assertions.assertEquals(fmu.modelDescription.guid, guid)
+        Assertions.assertEquals(modelDescription.guid, guid)
     }
 
     @Test
     fun testModelName() {
         val modelName = client.modelDescription.modelName.also { LOG.info("modelName=$it") }
-        Assertions.assertEquals(fmu.modelDescription.modelName, modelName)
+        Assertions.assertEquals(modelDescription.modelName, modelName)
     }
 
     @Test
@@ -54,13 +55,14 @@ class TestThriftTemperature {
 
         client.newInstance().use { slave ->
 
-            val temp = client.modelDescription.modelVariables
-                    .getByName("Temperature_Room").asRealVariable()
+            val variableName = "Temperature_Room"
+            val variable = slave.modelVariables
+                    .getByName(variableName).asRealVariable()
 
             val stop = 2.0
-            val stepSize = 1E-4
+            val stepSize = 1E-2
             runSlave(slave, stepSize, stop) {
-                temp.read(slave)
+                variable.read(slave)
             }.also {
                 LOG.info("Duration: ${it}ms")
             }
