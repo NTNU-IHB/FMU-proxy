@@ -49,7 +49,7 @@ class TestJsonRpcClients {
     @Test
     fun testClients() {
 
-        Assertions.assertTimeout(Duration.ofMinutes(2)) {
+        Assertions.assertTimeout(Duration.ofSeconds(40)) {
 
             val clients = mutableListOf(
                     RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
@@ -65,6 +65,7 @@ class TestJsonRpcClients {
             clients.forEach {
 
                 it.use { client ->
+
                     LOG.info("Testing client of type ${client.implementationName}")
                     Assertions.assertEquals(fmu.modelDescription.modelName, client.modelName)
                     Assertions.assertEquals(fmu.modelDescription.guid, client.guid)
