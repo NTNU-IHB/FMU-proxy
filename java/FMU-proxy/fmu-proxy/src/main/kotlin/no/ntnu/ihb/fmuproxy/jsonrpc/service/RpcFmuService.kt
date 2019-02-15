@@ -107,7 +107,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun createInstanceFromCS(fmuId: FmuId): String {
-        LOG.debug("createInstanceFromCS $fmuId")
+        LOG.trace("createInstanceFromCS $fmuId")
         return getFmu(fmuId).let { fmu ->
             FmuSlaves.put(fmu.asCoSimulationFmu().newInstance())
         }
@@ -115,7 +115,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun createInstanceFromME(fmuId: FmuId, solver: Solver): String {
-        LOG.debug("createInstanceFromME $fmuId")
+        LOG.trace("createInstanceFromME $fmuId")
         return getFmu(fmuId).let { fmu ->
             fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
@@ -131,7 +131,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes {
-        LOG.debug("getCoSimulationAttributes $instanceId")
+        LOG.trace("getCoSimulationAttributes $instanceId")
         return getSlave(instanceId).let {
             it.modelDescription.attributes
         }
@@ -139,7 +139,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun simpleSetup(instanceId: InstanceId): FmiStatus {
-        LOG.debug("simpleSetup $instanceId")
+        LOG.trace("simpleSetup $instanceId")
         return getSlave(instanceId).let {
             it.simpleSetup()
             it.lastStatus
@@ -148,7 +148,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun setupExperiment(instanceId: InstanceId): FmiStatus {
-        LOG.debug("setupExperiment $instanceId")
+        LOG.trace("setupExperiment $instanceId")
         return getSlave(instanceId).let {
             it.setup()
             it.lastStatus
@@ -157,7 +157,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun setupExperiment(instanceId: InstanceId, startTime: Double, stopTime: Double, tolerance: Double): FmiStatus {
-        LOG.debug("setupExperiment $instanceId")
+        LOG.trace("setupExperiment $instanceId")
         return getSlave(instanceId).let {
             it.setup(startTime, stopTime, tolerance)
             it.lastStatus
@@ -166,7 +166,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
-        LOG.debug("enterInitializationMode $instanceId")
+        LOG.trace("enterInitializationMode $instanceId")
         return getSlave(instanceId).let {
             it.enterInitializationMode()
             it.lastStatus
@@ -175,7 +175,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
-        LOG.debug("exitInitializationMode $instanceId")
+        LOG.trace("exitInitializationMode $instanceId")
         return getSlave(instanceId).let {
             it.exitInitializationMode()
             it.lastStatus
@@ -184,7 +184,6 @@ class RpcFmuService(
 
     @RpcMethod
     fun doStep(instanceId: InstanceId, stepSize: Double): StepResult {
-        LOG.debug("doStep $instanceId")
         return getSlave(instanceId).let {
             it.doStep(stepSize)
             StepResult(
@@ -196,7 +195,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun reset(instanceId: InstanceId): FmiStatus {
-        LOG.debug("reset $instanceId")
+        LOG.trace("reset $instanceId")
         return getSlave(instanceId).let {
             it.reset()
             it.lastStatus
@@ -205,7 +204,7 @@ class RpcFmuService(
 
     @RpcMethod
     fun terminate(instanceId: InstanceId): FmiStatus {
-        LOG.debug("terminate $instanceId")
+        LOG.trace("terminate $instanceId")
         return getSlave(instanceId).let {
             it.terminate()
             it.lastStatus
