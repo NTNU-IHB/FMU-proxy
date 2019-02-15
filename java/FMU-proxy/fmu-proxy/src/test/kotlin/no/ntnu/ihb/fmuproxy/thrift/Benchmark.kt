@@ -6,6 +6,7 @@ import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
+import org.apache.thrift.transport.TTransportException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
@@ -76,7 +77,7 @@ class Benchmark {
                     }
                 }
 
-            } catch (ex: StatusRuntimeException) {
+            } catch (ex: TTransportException) {
                 LOG.warn("Could not connect to remote server..")
                 break
             }
