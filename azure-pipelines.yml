@@ -62,7 +62,7 @@ jobs:
             conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f
             conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
 
-            conan install . -s build_type=Release --install-folder=cmake-build-release --build=missing
+            conan install . -s build_type=Release --install-folder=cmake-build-release -o grpc=False -o thrift=False --build=missing
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy'
           targetType: inline
 
@@ -78,7 +78,7 @@ jobs:
 
 
   - job: jvm
-    timeoutInMinutes: 15
+    timeoutInMinutes: 20
     
     pool:
       vmImage: 'vs2017-win2016'
