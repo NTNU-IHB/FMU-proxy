@@ -69,12 +69,13 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-          cmakeArgs: 'cmake -G "CodeBlocks - NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF -DFMU_PROXY_WITH_THRIFT=OFF -DFMU_PROXY_WITH_GRPC=OFF'
+          cmakeArgs: 'cmake -G "Visual Studio 15 2017 Win64" .. -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF -DFMU_PROXY_WITH_THRIFT=OFF -DFMU_PROXY_WITH_GRPC=OFF'
 
-      - task: CMake@1
+      - task: VSBuild@1
         inputs:
-          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-          cmakeArgs: '--build . --target all'
+          solution: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release/.sln'
+          configuration: 'release'
+          platform: 'x64'
 
 
   - job: jvm
