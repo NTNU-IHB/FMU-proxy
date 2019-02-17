@@ -39,42 +39,42 @@ jobs:
           cmakeArgs: '--build .'
 
 
-      - job: cpp_conan
-        timeoutInMinutes: 30
+  - job: cpp_conan
+    timeoutInMinutes: 30
 
-        pool:
-          vmImage: 'vs2017-win2016'
+    pool:
+      vmImage: 'vs2017-win2016'
 
-        steps:
+    steps:
 
-          - task: Bash@3
-            inputs:
-              script: |
-                git submodule update --init --recursive
-              workingDirectory: '$(system.defaultWorkingDirectory)'
-              targetType: inline
+      - task: Bash@3
+        inputs:
+          script: |
+            git submodule update --init --recursive
+          workingDirectory: '$(system.defaultWorkingDirectory)'
+          targetType: inline
 
-          - task: Bash@3
-            inputs:
-              script: |
-                pip install conan
+      - task: Bash@3
+        inputs:
+          script: |
+            pip install conan
 
-                conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f
-                conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
+            conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f
+            conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
 
-                conan install . -s build_type=Release -s --install-folder=cmake-build-release --build=missing
-              workingDirectory: '$(system.defaultWorkingDirectory)'
-              targetType: inline
+            conan install . -s build_type=Release -s --install-folder=cmake-build-release --build=missing
+          workingDirectory: '$(system.defaultWorkingDirectory)'
+          targetType: inline
 
-          - task: CMake@1
-            inputs:
-              workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-              cmakeArgs: 'cmake -G "Visual Studio 15 2017 Win64" .. -DCMAKE_CXX_COMPILER="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64\cl.exe" -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF'
+      - task: CMake@1
+        inputs:
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
+          cmakeArgs: 'cmake -G "Visual Studio 15 2017 Win64" .. -DCMAKE_CXX_COMPILER="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64\cl.exe" -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF'
 
-          - task: CMake@1
-            inputs:
-              workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy'
-              cmakeArgs: '--build cmake-build-release'
+      - task: CMake@1
+        inputs:
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy'
+          cmakeArgs: '--build cmake-build-release'
 
 
   - job: jvm
