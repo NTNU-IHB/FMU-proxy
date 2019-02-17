@@ -31,7 +31,7 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-          cmakeArgs: 'cmake -G "CodeBlocks - NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DCMAKE_TOOLCHAIN_FILE=..\..\..\vcpkg\scripts\buildsystems\vcpkg.cmake -DFMU_PROXY_BUILD_TESTS=OFF'
+          cmakeArgs: 'cmake -G "CodeBlocks - NMake Makefiles" . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DCMAKE_TOOLCHAIN_FILE=../../../vcpkg/scripts/buildsystems/vcpkg.cmake -DFMU_PROXY_BUILD_TESTS=OFF'
 
       - task: CMake@1
         inputs:
@@ -69,7 +69,7 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-          cmakeArgs: 'cmake -G "CodeBlocks - NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF -DFMU_PROXY_WITH_THRIFT=OFF -DFMU_PROXY_WITH_GRPC=OFF'
+          cmakeArgs: 'cmake -G "CodeBlocks - NMake Makefiles" . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe" -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF -DFMU_PROXY_WITH_THRIFT=OFF -DFMU_PROXY_WITH_GRPC=OFF'
 
       - task: CMake@1
         inputs:
