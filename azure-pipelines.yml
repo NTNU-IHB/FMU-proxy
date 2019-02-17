@@ -73,7 +73,7 @@ jobs:
 
       - task: VSBuild@1
         inputs:
-          solution: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release/.sln'
+          solution: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release/*.sln'
           configuration: 'release'
           platform: 'x64'
 
