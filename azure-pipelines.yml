@@ -74,7 +74,7 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-          cmakeArgs: '--build . --target all''
+          cmakeArgs: '--build . --target all'
 
 
   - job: jvm
