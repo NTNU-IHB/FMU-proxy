@@ -6,6 +6,7 @@ plugins {
 }
 
 apply from: rootProject.file("junit.gradle")
+apply from: rootProject.file("yajrpc.gradle")
 
 mainClassName = "${group}.FmuProxy"
 
@@ -16,12 +17,6 @@ dependencies {
     implementation group: 'info.picocli', name: 'picocli', version: '3.9.2'
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
-
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-ws', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-tcp', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-zmq', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-http', version: yajrpc_version
 
     def jetty_version = "9.4.11.v20180605"
     implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
