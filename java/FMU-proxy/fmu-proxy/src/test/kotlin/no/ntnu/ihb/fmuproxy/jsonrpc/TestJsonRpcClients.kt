@@ -24,14 +24,16 @@ class TestJsonRpcClients {
 
     private companion object {
 
-        private val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(TestJsonRpcClients::class.java)
 
-        private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
+        val timeout: Duration = Duration.ofSeconds(40)
+
+        val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
                 "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
-        private  val handler = RpcHandler(RpcFmuService().apply { addFmu(fmu) })
+        val handler = RpcHandler(RpcFmuService().apply { addFmu(fmu) })
 
-        private var proxy = FmuProxyBuilder(fmu).apply {
+        var proxy = FmuProxyBuilder(fmu).apply {
             if (!OS.LINUX.isCurrentOs) {
                 addServer(FmuProxyJsonHttpServer(handler))
             } else {
@@ -48,8 +50,6 @@ class TestJsonRpcClients {
     @Test
     fun testClients() {
 
-        Assertions.assertTimeout(Duration.ofSeconds(40)) {
-
             val clients = mutableListOf(
                     RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!),
                     RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
@@ -60,6 +60,7 @@ class TestJsonRpcClients {
                 }
             }.map { JsonRpcFmuClient(fmu.guid, it) }
 
+        Assertions.assertTimeout(timeout) {
 
             clients.forEach {
 
