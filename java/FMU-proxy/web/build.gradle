@@ -19,7 +19,7 @@ dependencies {
     compile group: 'com.sun.faces', name: 'jsf-api', version: faces_version
     runtime group: 'com.sun.faces', name: 'jsf-impl', version: faces_version
 
-    def jackson_version = '2.9.7'
+    def jackson_version = '2.9.8'
     implementation group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: jackson_version
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: jackson_version
 
