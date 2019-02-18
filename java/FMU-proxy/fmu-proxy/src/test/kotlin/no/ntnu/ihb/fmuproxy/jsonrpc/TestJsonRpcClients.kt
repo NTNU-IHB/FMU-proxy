@@ -10,7 +10,6 @@ import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

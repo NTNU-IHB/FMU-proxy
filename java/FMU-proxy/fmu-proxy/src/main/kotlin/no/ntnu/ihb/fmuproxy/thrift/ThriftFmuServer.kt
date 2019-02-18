@@ -29,7 +29,8 @@ import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.services.ThriftFmuServiceImpl
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TJSONProtocol
-import org.apache.thrift.server.*
+import org.apache.thrift.server.TServlet
+import org.apache.thrift.server.TThreadedSelectorServer
 import org.apache.thrift.transport.TNonblockingServerSocket
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.FilterHolder

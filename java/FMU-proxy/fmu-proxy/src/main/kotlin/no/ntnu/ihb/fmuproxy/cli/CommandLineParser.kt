@@ -38,8 +38,6 @@ import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import picocli.CommandLine
 import java.io.File
 import java.util.*
