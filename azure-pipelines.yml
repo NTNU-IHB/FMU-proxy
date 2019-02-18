@@ -58,7 +58,7 @@ jobs:
         inputs:
           script: |
             python -m pip install --upgrade pip
-            sudo pip install conan --upgrade
+            pip install conan --upgrade
 
             conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
             conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
