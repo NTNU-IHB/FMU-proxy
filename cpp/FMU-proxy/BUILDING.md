@@ -29,14 +29,24 @@ _Note:_
 
 #### Using conan
 
-Install [conan](https://conan.io/) and run `conan install`:
+First, install [conan](https://conan.io/).
+
+Then in order for conan to find `thrift` and `grpc`, you need to add a couple of remotes:
 
 ```bash
+conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
+conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
+```
+
+Finally, run `conan install`
+```bash
 conan install . -s build_type=Debug --install-folder=cmake-build-debug -o thrift=False -o grpc=True
-conan install . -s build_type=Release --install-folder=cmake-build-release -o thrift=False -o grpc=True
+conan install . -s build_type=Release --install-folder=cmake-build-release -o thrift=True -o grpc=True
 ```
 
 On Linux you should add `-s compiler.libcxx=libstdc++11` to the command.
+
+
 
 _Note:_
 *  The `thrift` option can be set to `False` if you plan to build with `-DFMU_PROXY_WITH_THRIFT=OFF`
