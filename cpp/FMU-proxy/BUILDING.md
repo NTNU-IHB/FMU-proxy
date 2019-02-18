@@ -40,8 +40,8 @@ conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-con
 
 Finally, run `conan install`
 ```bash
-conan install . -s build_type=Debug --install-folder=cmake-build-debug -o thrift=False -o grpc=True
-conan install . -s build_type=Release --install-folder=cmake-build-release -o thrift=True -o grpc=True
+conan install . -s build_type=Debug --install-folder=cmake-build-debug -o thrift=False -o grpc=True --build=missing
+conan install . -s build_type=Release --install-folder=cmake-build-release -o thrift=True -o grpc=True --build=missing
 ```
 
 On Linux you should add `-s compiler.libcxx=libstdc++11` to the command.
