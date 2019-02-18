@@ -69,6 +69,12 @@ jobs:
         - run:
             name: Update conan
             command: sudo pip install conan --upgrade
+
+        - restore_cache:
+            keys:
+              - v1-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
+              - v1-conan-cache-
+
         - run:
             name: Add conan remotes 'helmesjo'
             command: conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
@@ -78,9 +84,16 @@ jobs:
         - run:
             name: Add conan remotes 'bincrafters'
             command: conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+
         - run:
             name: Conan install
             command: cd cpp/FMU-proxy && conan install . -s build_type=Release -s compiler.libcxx=libstdc++11 --install-folder=build --build=missing
+
+        - save_cache:
+            paths:
+              - ~/.conan
+            key: v1-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
+
         - run:
             name: Creating Build Files
             command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DFMU_PROXY_USING_CONAN=ON
