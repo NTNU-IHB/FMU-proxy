@@ -36,7 +36,7 @@ class Benchmark {
         private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
                 "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
-        private const val stop = 1.0
+        private const val stop = 0.1
         private const val stepSize = 1E-4
         private const val host = "localhost"
 
@@ -93,7 +93,7 @@ class Benchmark {
 
         disableLog4jLoggers()
 
-        Assertions.assertTimeout(testTimeout) {
+        Assertions.assertTimeout(testTimeout.multipliedBy(2)) {
             ThriftFmuServlet().use { server ->
                 server.addFmu(fmu)
                 val port = server.start()
@@ -162,9 +162,7 @@ class Benchmark {
         }.map { JsonRpcFmuClient(fmu.guid, it) }
 
         Assertions.assertTimeout(testTimeout.multipliedBy(4)) {
-
             clients.forEach {
-
                 it.use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {
@@ -172,9 +170,7 @@ class Benchmark {
                         }
                     }
                 }
-
             }
-
             servers.forEach { it.close() }
         }
 
