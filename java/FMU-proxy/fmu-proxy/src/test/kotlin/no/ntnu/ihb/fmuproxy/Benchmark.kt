@@ -8,7 +8,6 @@ import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.importer.cs.CoSimulationSlave
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.*
@@ -17,8 +16,6 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import no.ntnu.sfi.fmuproxy.TestUtils
-import org.apache.log4j.Level
-import org.apache.log4j.LogManager
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
