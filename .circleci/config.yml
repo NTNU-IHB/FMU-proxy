@@ -77,13 +77,13 @@ jobs:
 
         - run:
             name: Add conan remotes 'helmesjo'
-            command: conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
+            command: conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f
         - run:
             name: Add conan remote 'inexorgame'
-            command: conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
+            command: conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
         - run:
             name: Add conan remotes 'bincrafters'
-            command: conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+            command: conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan" --f
 
         - run:
             name: Conan install
