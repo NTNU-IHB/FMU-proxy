@@ -2,7 +2,6 @@ package no.ntnu.ihb.fmuproxy.grpc
 
 import io.grpc.StatusRuntimeException
 import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.runSlave
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import kotlin.system.measureTimeMillis
 
 
 class Benchmark {

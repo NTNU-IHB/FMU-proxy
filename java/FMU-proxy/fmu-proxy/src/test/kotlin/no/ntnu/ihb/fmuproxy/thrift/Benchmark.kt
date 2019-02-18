@@ -1,6 +1,5 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
-import io.grpc.StatusRuntimeException
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
