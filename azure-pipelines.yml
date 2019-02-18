@@ -57,12 +57,12 @@ jobs:
       - task: Bash@3
         inputs:
           script: |
-            SET CONAN_USER_HOME=c:\data
             python -m pip install --upgrade pip
             pip install conan --upgrade
 
             conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
             conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
+            conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
 
             conan install . -s build_type=Release --install-folder=cmake-build-release --build=missing
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy'
@@ -71,7 +71,7 @@ jobs:
       - task: CMake@1
         inputs:
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/cmake-build-release'
-          cmakeArgs: 'cmake -G "Visual Studio 15 2017 Win64" .. -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_BUILD_TESTS=OFF'
+          cmakeArgs: 'cmake -G "Visual Studio 15 2017 Win64" .. -DFMU_PROXY_USING_CONAN=ON'
 
       - task: VSBuild@1
         inputs:
