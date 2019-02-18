@@ -40,7 +40,7 @@ jobs:
               path: java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar
               destination: fmu-proxy.jar
 
-    "cpp":
+    "cpp_vcpkg":
         docker:
           - image: laht/fmu-proxy-cpp:latest
         steps:
@@ -58,12 +58,40 @@ jobs:
               path: cpp/FMU-proxy/build/tool/fmu_proxy
               destination: fmu_proxy_cpp
 
+    "cpp_conan":
+      docker:
+        - image: lasote/conangcc7
+      steps:
+        - checkout
+        - run:
+            name: Initialize git sub-modules
+            command: git submodule update --init --recursive
+        - run:
+            name: Update conan
+            command: sudo pip install conan --upgrade
+        - run:
+            name: Add conan remotes 'helmesjo'
+            command: conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
+        - run:
+            name: Add conan remote 'inexorgame'
+            command: conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
+        - run:
+            name: Add conan remotes 'bincrafters'
+            command: conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
+        - run:
+            name: Conan install
+            command: cd cpp/FMU-proxy && conan install . -s build_type=Release -s compiler.libcxx=libstdc++11 --install-folder=build --build=missing
+        - run:
+            name: Creating Build Files
+            command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DFMU_PROXY_USING_CONAN=ON
+        - run:
+            name: Creating Binary Files
+            command: cd cpp/FMU-proxy && cmake --build build
+
 workflows:
     version: 2
     build:
         jobs: 
             - "java"
-            - "cpp"
-                
-
-
+            - "cpp_vcpkg"
+            - "cpp_conan"
