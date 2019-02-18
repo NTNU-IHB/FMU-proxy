@@ -5,6 +5,8 @@ plugins {
     id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
+apply from: rootProject.file("junit.gradle")
+
 mainClassName = "${group}.FmuProxy"
 
 dependencies {
@@ -43,12 +45,6 @@ run {
         args appArgs.split(" ")
     }
     standardInput = System.in
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': "${group}.FmuProxy"
-    }
 }
 
 shadowJar {
