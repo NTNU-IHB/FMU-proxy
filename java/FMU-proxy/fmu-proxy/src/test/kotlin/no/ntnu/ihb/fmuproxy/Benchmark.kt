@@ -8,7 +8,6 @@ import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.importer.cs.CoSimulationSlave
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.*
@@ -17,8 +16,6 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import no.ntnu.sfi.fmuproxy.TestUtils
-import org.apache.log4j.Level
-import org.apache.log4j.LogManager
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -39,7 +36,7 @@ class Benchmark {
         private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
                 "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
-        private const val stop = 1.0
+        private const val stop = 0.1
         private const val stepSize = 1E-4
         private const val host = "localhost"
 
@@ -96,7 +93,7 @@ class Benchmark {
 
         disableLog4jLoggers()
 
-        Assertions.assertTimeout(testTimeout) {
+        Assertions.assertTimeout(testTimeout.multipliedBy(2)) {
             ThriftFmuServlet().use { server ->
                 server.addFmu(fmu)
                 val port = server.start()
@@ -165,9 +162,7 @@ class Benchmark {
         }.map { JsonRpcFmuClient(fmu.guid, it) }
 
         Assertions.assertTimeout(testTimeout.multipliedBy(4)) {
-
             clients.forEach {
-
                 it.use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {
@@ -175,9 +170,7 @@ class Benchmark {
                         }
                     }
                 }
-
             }
-
             servers.forEach { it.close() }
         }
 

@@ -5,6 +5,8 @@ plugins {
     id 'maven-publish'
 }
 
+apply from: rootProject.file("yajrpc.gradle")
+
 version = "0.1"
 
 dependencies {
@@ -12,13 +14,7 @@ dependencies {
     api project(":rpc-definitions")
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
-
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-ws', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-tcp', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-zmq', version: yajrpc_version
-    implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-http', version: yajrpc_version
-
+    
     api group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version

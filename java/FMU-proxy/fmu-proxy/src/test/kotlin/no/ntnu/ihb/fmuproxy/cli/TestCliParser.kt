@@ -2,8 +2,6 @@ package no.ntnu.ihb.fmuproxy.cli
 
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Test
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
 
 class TestCliParser {

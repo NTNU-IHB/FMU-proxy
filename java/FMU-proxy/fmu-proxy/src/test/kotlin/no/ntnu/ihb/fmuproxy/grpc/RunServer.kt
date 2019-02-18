@@ -1,7 +1,6 @@
 package no.ntnu.ihb.fmuproxy.grpc
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.sfi.fmuproxy.TestUtils
 import java.io.File
 import java.util.*
 
