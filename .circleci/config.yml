@@ -28,7 +28,7 @@ jobs:
 
           - run: cd java/FMU-proxy && gradle test
           - run: cd java/FMU-proxy && gradle shadowJar
-            -
+
           - store_artifacts:
               path: java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar
               destination: fmu-proxy.jar
