@@ -20,6 +20,7 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -89,11 +90,12 @@ class Benchmark {
     }
 
     @Test
+    @DisabledOnOs(OS.LINUX)
     fun measureTimeThriftServlet() {
 
         disableLog4jLoggers()
 
-        Assertions.assertTimeout(testTimeout.multipliedBy(2)) {
+        Assertions.assertTimeout(testTimeout) {
             ThriftFmuServlet().use { server ->
                 server.addFmu(fmu)
                 val port = server.start()
