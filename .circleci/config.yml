@@ -1,29 +1,22 @@
-# Java Gradle CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
+
 version: 2
 jobs:
     "java":
         docker:
-          # specify the version you desire here
           - image: circleci/openjdk:8-jdk
           
         working_directory: ~/repo
 
         environment:
-          # Customize the JVM maximum heap limit
           JVM_OPTS: -Xmx3200m
           TERM: dumb
 
         steps:
           - checkout
 
-          # Download and cache dependencies
           - restore_cache:
               keys:
               - v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
-              # fallback to using the latest cache if no exact match is found
               - v1-dependencies-
 
           - run: cd java/FMU-proxy && gradle dependencies
@@ -34,8 +27,8 @@ jobs:
               key: v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
 
           - run: cd java/FMU-proxy && gradle test
-
           - run: cd java/FMU-proxy && gradle shadowJar
+            -
           - store_artifacts:
               path: java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar
               destination: fmu-proxy.jar
@@ -45,6 +38,7 @@ jobs:
           - image: laht/fmu-proxy-cpp:latest
         steps:
           - checkout
+
           - run:
               name: Initialize git sub-modules
               command: git submodule update --init --recursive
@@ -54,6 +48,7 @@ jobs:
           - run:
               name: Creating Binary Files
               command: cd cpp/FMU-proxy && cmake --build build
+
           - store_artifacts:
               path: cpp/FMU-proxy/build/tool/fmu_proxy
               destination: fmu_proxy_cpp
@@ -63,6 +58,7 @@ jobs:
         - image: lasote/conangcc7
       steps:
         - checkout
+
         - run:
             name: Initialize git sub-modules
             command: git submodule update --init --recursive
@@ -100,6 +96,10 @@ jobs:
         - run:
             name: Creating Binary Files
             command: cd cpp/FMU-proxy && cmake --build build
+
+        - store_artifacts:
+            path: cpp/FMU-proxy/build/tool/fmu_proxy
+            destination: fmu_proxy_cpp
 
 workflows:
     version: 2
