@@ -1,7 +1,11 @@
 ## FMU-proxy (work in progress)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/SFI-Mechatronics/FMU-proxy/issues) [![Join the chat at https://gitter.im/NTNU-IHB/FMU-proxy](https://badges.gitter.im/NTNU-IHB/FMU-proxy.svg)](https://gitter.im/NTNU-IHB/FMU-proxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/NTNU-IHB/FMU-proxy/issues) 
+
+[![Join the chat at https://gitter.im/NTNU-IHB/FMU-proxy](https://badges.gitter.im/NTNU-IHB/FMU-proxy.svg)](https://gitter.im/NTNU-IHB/FMU-proxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![](https://jitpack.io/v/NTNU-IHB/FMU-proxy.svg)](https://jitpack.io/#NTNU-IHB/FMU-proxy)
+
 
 [![CircleCI](https://circleci.com/gh/NTNU-IHB/FMU-proxy.svg?style=svg)](https://circleci.com/gh/NTNU-IHB/FMU-proxy)
 
@@ -24,7 +28,7 @@ As users don't have direct access to the FMU or the resources within it, IP is e
 
 FMU-proxy is a framework for accessing FMUs compatible with FMI for Co-simulation and Model Exchange 2.0 in a language and platform independent way. This is achieved using well established RPC technologies. Due to the technologies involved, clients and servers for FMU-proxy can be written in almost any language, on any platform! 
 
-[Server](https://github.com/SFI-Mechatronics/FMU-proxy/wiki/Servers) implementations already exists for C++ and JVM, while [client](https://github.com/SFI-Mechatronics/FMU-proxy/wiki/Clients) implementations exists for C++, JVM, Python and (browser) JavaScript. And its easy to add additional implementations, as the RPC frameworks will generate most of the code for you! 
+[Server](https://github.com/NTNU-IHB/FMU-proxy/wiki/Servers) implementations already exists for C++ and JVM, while [client](https://github.com/NTNU-IHB/FMU-proxy/wiki/Clients) implementations exists for C++, JVM, Python and (browser) JavaScript. And its easy to add additional implementations, as the RPC frameworks will generate most of the code for you! 
 
 FMU-proxy is different from other framework for distributed FMU invocations such as [DACCOSIM](https://sourcesup.renater.fr/daccosim/), [FMI GO!](https://mimmi.math.umu.se/cosimulation/fmigo) and [Coral](https://github.com/viproma/coral) in that it completely separates itself from the master algorithm (logically and physically). FMU-proxy is a completely standalone project which provides access to FMUs over the wire. And just that. 
 
