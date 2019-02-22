@@ -70,7 +70,7 @@ namespace {
         unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmu_map;
         vector<string> modelDescriptions;
         for (const auto fmu : fmus) {
-            fmu_map[fmu->getModelDescription()->guid()] = fmu;
+            fmu_map[fmu->getModelDescription()->guid] = fmu;
             modelDescriptions.push_back(fmu->getModelDescriptionXml());
         }
 

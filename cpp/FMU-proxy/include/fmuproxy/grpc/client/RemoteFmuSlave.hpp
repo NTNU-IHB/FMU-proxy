@@ -37,7 +37,7 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
         
         const std::string instanceId_;
         fmuproxy::grpc::FmuService::Stub &stub_;
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
+        std::shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
         bool terminated_ = false;
         fmuproxy::grpc::Status lastStatus_;
@@ -46,11 +46,11 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
 
     public:
         RemoteFmuSlave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub,
-                       fmi4cpp::fmi2::ModelDescriptionBase &modelDescription);
+                       const fmi4cpp::fmi2::ModelDescriptionBase &modelDescription);
 
         fmi4cpp::Status getLastStatus() const override;
 
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
+        std::shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
 
         bool setupExperiment(double startTime = 0, double stopTime = 0, double tolerance = 0) override;
 

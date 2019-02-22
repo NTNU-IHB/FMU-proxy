@@ -42,13 +42,13 @@ namespace fmuproxy::grpc::client {
 
         const std::string fmuId_;
         std::shared_ptr<FmuService::Stub> stub_;
-        std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
+        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
 
     public:
 
         RemoteGrpcFmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
 
-        std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
+        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
 
         std::unique_ptr<RemoteFmuSlave> newInstance();
 

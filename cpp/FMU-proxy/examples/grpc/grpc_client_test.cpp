@@ -40,12 +40,12 @@ int main() {
     auto fmu = GrpcClient("localhost", 9080).fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
 
     const auto md = fmu.getModelDescription();
-    cout << "GUID=" << md->guid() << endl;
-    cout << "modelName=" << md->modelName() << endl;
-    cout << "license=" << md->license().value_or("") << endl;
+    cout << "GUID=" << md->guid << endl;
+    cout << "modelName=" << md->modelName << endl;
+    cout << "license=" << md->license.value_or("") << endl;
 
-    for (const auto &var : *md->modelVariables()) {
-        cout << "Name=" << var.name() << endl;
+    for (const auto &var : *md->modelVariables) {
+        cout << "Name=" << var.name << endl;
     }
 
     auto slave = fmu.newInstance();

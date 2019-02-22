@@ -159,17 +159,17 @@ namespace {
     fmuproxy::thrift::ScalarVariable thriftType(const fmi4cpp::fmi2::ScalarVariable &v) {
 
         fmuproxy::thrift::ScalarVariable var;
-        var.__set_name(v.name());
-        var.__set_valueReference(v.valueReference());
+        var.__set_name(v.name);
+        var.__set_valueReference(v.valueReference);
 
-        std::string description = v.description();
+        std::string description = v.description;
         if (!description.empty()) {
             var.__set_description(description);
         }
 
-        var.__set_causality(thriftType(v.causality()));
-        var.__set_variability(thriftType(v.variability()));
-        var.__set_initial(thriftType(v.initial()));
+        var.__set_causality(thriftType(v.causality));
+        var.__set_variability(thriftType(v.variability));
+        var.__set_initial(thriftType(v.initial));
 
         if (v.isInteger()) {
             var.attribute.__set_integerAttribute(thriftType(v.asInteger().attribute()));
@@ -189,7 +189,7 @@ namespace {
 
     }
 
-    void copy(fmuproxy::thrift::ModelVariables &variables, fmi4cpp::fmi2::ModelVariables &mv) {
+    void copy(fmuproxy::thrift::ModelVariables &variables, const fmi4cpp::fmi2::ModelVariables &mv) {
         for (const auto &var : mv) {
             variables.push_back(thriftType(var));
         }
@@ -212,43 +212,43 @@ namespace {
 
     void thriftType(fmuproxy::thrift::ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
 
-        md.__set_guid(m.guid());
-        md.__set_fmiVersion(m.fmiVersion());
-        md.__set_modelName(m.modelName());
+        md.__set_guid(m.guid);
+        md.__set_fmiVersion(m.fmiVersion);
+        md.__set_modelName(m.modelName);
 
-        if (m.version()) {
-            md.__set_version(*m.version());
+        if (m.version) {
+            md.__set_version(*m.version);
         }
-        if (m.author()) {
-            md.__set_author(*m.author());
+        if (m.author) {
+            md.__set_author(*m.author);
         }
-        if (m.license()) {
-            md.__set_license(*m.license());
+        if (m.license) {
+            md.__set_license(*m.license);
         }
-        if (m.copyright()) {
-            md.__set_copyright(*m.copyright());
+        if (m.copyright) {
+            md.__set_copyright(*m.copyright);
         }
-        if (m.description()) {
-            md.__set_description(*m.description());
+        if (m.description) {
+            md.__set_description(*m.description);
         }
-        if (m.generationTool()) {
-            md.__set_generationTool(*m.generationTool());
+        if (m.generationTool) {
+            md.__set_generationTool(*m.generationTool);
         }
-        if (m.generationDateAndTime()) {
-            md.__set_generationDateAndTime(*m.generationDateAndTime());
+        if (m.generationDateAndTime) {
+            md.__set_generationDateAndTime(*m.generationDateAndTime);
         }
-        if (m.variableNamingConvention()) {
-            md.__set_variableNamingConvention(*m.variableNamingConvention());
+        if (m.variableNamingConvention) {
+            md.__set_variableNamingConvention(*m.variableNamingConvention);
         }
 
-        if (m.defaultExperiment()) {
+        if (m.defaultExperiment) {
             fmuproxy::thrift::DefaultExperiment ex;
-            copy(ex, *m.defaultExperiment());
+            copy(ex, *m.defaultExperiment);
             md.__set_defaultExperiment(ex);
         }
 
         fmuproxy::thrift::ModelVariables modelVariables;
-        copy(modelVariables, *m.modelVariables());
+        copy(modelVariables, *m.modelVariables);
         md.__set_modelVariables(modelVariables);
 
     }

@@ -68,7 +68,7 @@ void FmuServiceHandler::getModelDescription(fmuproxy::thrift::ModelDescription &
 void FmuServiceHandler::load(FmuId &_return, const std::string &url) {
     cout << "Loading FMU from url " << url << endl;
     auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(url);
-    auto guid = fmu->getModelDescription()->guid();
+    auto guid = fmu->getModelDescription()->guid;
     if (!fmus_.count(guid)) {
         fmus_[guid] = move(fmu);
     }
@@ -206,7 +206,7 @@ FmuServiceHandler::writeBoolean(const InstanceId &slave_id, const ValueReference
 
 void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId &slave_id) {
     auto &slave = slaves_[slave_id];
-    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
+    if (!slave->getModelDescription()->canGetAndSetFMUstate) {
         auto ex = UnsupportedOperationException();
         ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
         throw ex;
@@ -221,7 +221,7 @@ void FmuServiceHandler::getFMUstate(GetFmuStateResult &_return, const InstanceId
 
 Status::type FmuServiceHandler::setFMUstate(const InstanceId &slave_id, const FmuState state) {
     auto &slave = slaves_[slave_id];
-    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
+    if (!slave->getModelDescription()->canGetAndSetFMUstate) {
         auto ex = UnsupportedOperationException();
         ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
         throw ex;
@@ -235,7 +235,7 @@ Status::type FmuServiceHandler::setFMUstate(const InstanceId &slave_id, const Fm
 
 Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuState state) {
     auto &slave = slaves_[slave_id];
-    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
+    if (!slave->getModelDescription()->canGetAndSetFMUstate) {
         auto ex = UnsupportedOperationException();
         ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
         throw ex;
@@ -250,7 +250,7 @@ Status::type FmuServiceHandler::freeFMUstate(const InstanceId &slave_id, FmuStat
 void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &slave_id,
                                           const FmuState state) {
     auto &slave = slaves_[slave_id];
-    if (!slave->getModelDescription()->canSerializeFMUstate()) {
+    if (!slave->getModelDescription()->canSerializeFMUstate) {
         auto ex = UnsupportedOperationException();
         ex.message = "FMU does not have capability 'SerializeFMUstate'";
         throw ex;
@@ -269,7 +269,7 @@ void FmuServiceHandler::serializeFMUstate(SerializeFmuStateResult &_return, cons
 void FmuServiceHandler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &slave_id,
                                             const string &serializedState) {
     auto &slave = slaves_[slave_id];
-    if (!slave->getModelDescription()->canSerializeFMUstate()) {
+    if (!slave->getModelDescription()->canSerializeFMUstate) {
         auto ex = UnsupportedOperationException();
         ex.message = "FMU does not have capability 'deSerializeFMUstate'";
         throw ex;
@@ -290,7 +290,7 @@ void FmuServiceHandler::getDirectionalDerivative(DirectionalDerivativeResult &_r
                                                  const ValueReferences &vUnknownRef, const ValueReferences &vKnownRef,
                                                  const std::vector<double> &dvKnownRef) {
     auto &slave = slaves_[slave_id];
-    if (!slave->getModelDescription()->providesDirectionalDerivative()) {
+    if (!slave->getModelDescription()->providesDirectionalDerivative) {
         auto ex = UnsupportedOperationException();
         ex.message = "FMU does not have capability 'getDirectionalDerivative'";
         throw ex;

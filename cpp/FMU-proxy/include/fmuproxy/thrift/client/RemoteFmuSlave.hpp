@@ -37,7 +37,7 @@ namespace fmuproxy::thrift::client {
 
         const InstanceId instanceId_;
         FmuServiceClient &client_;
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
+        std::shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> csModelDescription_;
 
         bool terminated_ = false;
         Status::type lastStatus_;
@@ -50,7 +50,7 @@ namespace fmuproxy::thrift::client {
 
         fmi4cpp::Status getLastStatus() const override;
 
-        std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
+        std::shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> getModelDescription() const override;
 
         bool setupExperiment(double startTime = 0, double stopTime = 0, double tolerance = 0) override;
 
