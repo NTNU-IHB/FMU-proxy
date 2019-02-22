@@ -32,7 +32,7 @@ using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
 
 RemoteFmuSlave::RemoteFmuSlave(const string &instance_id, FmuService::Stub &stub,
-                               fmi4cpp::fmi2::ModelDescriptionBase &modelDescription)
+                               const fmi4cpp::fmi2::ModelDescriptionBase &modelDescription)
         : instanceId_(instance_id), stub_(stub) {
 
     ClientContext ctx;
@@ -42,8 +42,8 @@ RemoteFmuSlave::RemoteFmuSlave(const string &instance_id, FmuService::Stub &stub
     request.set_instance_id(instance_id);
     stub.GetCoSimulationAttributes(&ctx, request, &response);
 
-    csModelDescription_ = std::make_shared<fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
-                                                                                       convert(response));
+    csModelDescription_ = std::make_shared<const fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
+                                                                                              convert(response));
 
 }
 
@@ -51,7 +51,7 @@ fmi4cpp::Status RemoteFmuSlave::getLastStatus() const {
     return convert(lastStatus_);
 }
 
-shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModelDescription() const {
+shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModelDescription() const {
     return std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription>();
 }
 
@@ -431,31 +431,31 @@ bool RemoteFmuSlave::writeBoolean(const vector<fmi2ValueReference> &vr, const ve
 //}
 
 bool RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2ValueReference> &vUnknownRef,
-                                                    const std::vector<fmi2ValueReference> &vKnownRef,
-                                                    const std::vector<fmi2Real> &dvKnownRef,
-                                                    std::vector<fmi2Real> &dvUnknown) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+                                              const std::vector<fmi2ValueReference> &vKnownRef,
+                                              const std::vector<fmi2Real> &dvKnownRef,
+                                              std::vector<fmi2Real> &dvUnknown) {
+    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
 }
 
 
 bool RemoteFmuSlave::getFMUstate(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
 }
 
 bool RemoteFmuSlave::setFMUstate(fmi2FMUstate state) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
 }
 
 bool RemoteFmuSlave::freeFMUstate(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
 }
 
 bool RemoteFmuSlave::serializeFMUstate(const fmi2FMUstate &state, std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
 }
 
 bool RemoteFmuSlave::deSerializeFMUstate(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status ::ERROR_STATUS);
+    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
 }
 
 RemoteFmuSlave::~RemoteFmuSlave() {

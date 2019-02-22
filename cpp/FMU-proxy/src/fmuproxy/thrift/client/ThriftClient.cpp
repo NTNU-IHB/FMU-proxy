@@ -66,9 +66,9 @@ ThriftClient::~ThriftClient() {
 }
 
 RemoteThriftFmu::RemoteThriftFmu(const FmuId &fmuId, shared_ptr<FmuServiceClient> client) : fmuId_(fmuId),
-                                                                                            client_(client) {}
+                                                                                            client_(std::move(client)) {}
 
-shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &RemoteThriftFmu::getModelDescription() {
+shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &RemoteThriftFmu::getModelDescription() {
     if (!modelDescription_) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
         client_->getModelDescription(md, fmuId_);

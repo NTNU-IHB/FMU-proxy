@@ -46,19 +46,19 @@ int main() {
         ThriftClient client("localhost", 9090);
         auto fmu = client.fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
         const auto md = fmu.getModelDescription();
-        cout << "GUID=" << md->guid() << endl;
-        cout << "modelName=" << md->modelName() << endl;
-        cout << "license=" << md->license().value_or("") << endl;
+        cout << "GUID=" << md->guid << endl;
+        cout << "modelName=" << md->modelName << endl;
+        cout << "license=" << md->license.value_or("-") << endl;
 
-        for (const auto &var : *md->modelVariables()) {
-            cout << "Name=" << var.name() << endl;
+        for (const auto &var : *md->modelVariables) {
+            cout << "Name=" << var.name << endl;
         }
 
         auto slave = fmu.newInstance();
         slave->setupExperiment();
         slave->enterInitializationMode();
         slave->exitInitializationMode();
-        
+
         auto elapsed = measure_time_sec([&slave, &md]{
             vector<fmi2Real > ref(2);
             vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
@@ -69,7 +69,7 @@ int main() {
                 slave->readReal(vr, ref);
             }
         });
-        
+
         cout << "elapsed=" << elapsed << "s" << endl;
 
         bool status = slave->terminate();

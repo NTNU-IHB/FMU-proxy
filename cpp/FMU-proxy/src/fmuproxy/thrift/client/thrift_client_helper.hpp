@@ -37,10 +37,6 @@ using namespace fmuproxy::thrift;
 
 namespace {
 
-    const char *convert_string(const std::string &str) {
-        return str.c_str();
-    }
-
     fmi4cpp::Status convert(const Status::type status) {
         switch (status) {
             case Status::OK_STATUS:
@@ -116,7 +112,9 @@ namespace {
     template<typename T, typename U>
     fmi4cpp::fmi2::ScalarVariableAttribute<T> toScalarVariableAttributes(const U &a) {
         if (a.__isset.start) {
-            return fmi4cpp::fmi2::ScalarVariableAttribute<T>(a.start);
+             auto attribute = fmi4cpp::fmi2::ScalarVariableAttribute<T>();
+             attribute.start = a.start;
+             return attribute;
         } else {
             return {};
         }
@@ -166,12 +164,13 @@ namespace {
 
     fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::thrift::ScalarVariable &v) {
 
-        auto variability = convert(v.variability);
-        auto causality = convert(v.causality);
-        auto initial = convert(v.initial);
-
-        fmi4cpp::fmi2::ScalarVariableBase base(v.name, v.description, (fmi2ValueReference) v.valueReference,
-                                               false, causality, variability, initial);
+        fmi4cpp::fmi2::ScalarVariableBase base;
+        base.name = v.name;
+        base.description = v.description;
+        base.valueReference = (fmi2ValueReference) v.valueReference;
+        base.variability = convert(v.variability);
+        base.causality = convert(v.causality);
+        base.initial = convert(v.initial);
 
         if (v.attribute.__isset.integerAttribute) {
             return {base, convert(v.attribute.integerAttribute)};
@@ -191,12 +190,17 @@ namespace {
 
     fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::thrift::CoSimulationAttributes &a) {
 
-        fmi4cpp::fmi2::FmuAttributes attributes(a.modelIdentifier, a.canGetAndSetFMUstate, a.canSerializeFMUstate,
-                                                false, false, false,
-                                                a.providesDirectionalDerivative, {});
+        fmi4cpp::fmi2::CoSimulationAttributes attributes;
+        attributes.modelIdentifier = a.modelIdentifier;
+        attributes.canGetAndSetFMUstate = a.canGetAndSetFMUstate;
+        attributes.canSerializeFMUstate = a.canSerializeFMUstate;
+        attributes.providesDirectionalDerivative = a.providesDirectionalDerivative;
 
-        return {attributes, a.canInterpolateInputs, false, a.canHandleVariableCommunicationStepSize,
-                static_cast<unsigned int>(a.maxOutputDerivativeOrder)};
+        attributes.canInterpolateInputs = a.canInterpolateInputs;
+        attributes.canHandleVariableCommunicationStepSize = a.canHandleVariableCommunicationStepSize;
+        attributes.maxOutputDerivativeOrder = static_cast<unsigned int>(a.maxOutputDerivativeOrder);
+
+        return attributes;
 
     }
 
@@ -210,17 +214,22 @@ namespace {
 
     std::unique_ptr<fmi4cpp::fmi2::ModelDescriptionBase> convert(const fmuproxy::thrift::ModelDescription &from) {
 
-        std::shared_ptr<fmi4cpp::fmi2::ModelVariables> mv = std::move(convert(from.modelVariables));
-
-        return std::make_unique<fmi4cpp::fmi2::ModelDescriptionBase>(
-                from.guid, from.fmiVersion,
-                from.modelName, from.description,
-                from.version, from.author, from.license,
-                from.copyright, from.generationTool,
-                from.generationDateAndTime,
-                from.variableNamingConvention, 0, mv,
-                nullptr, convert(from.defaultExperiment));
-
+        auto base = std::make_unique<fmi4cpp::fmi2::ModelDescriptionBase>();
+        base->guid = from.guid;
+        base-> fmiVersion = from.fmiVersion;
+        base->description = from.description;
+        base->modelName = from.modelName;
+        base->modelVariables = std::move(convert(from.modelVariables));
+        base->variableNamingConvention = from.variableNamingConvention;
+        base->defaultExperiment = convert(from.defaultExperiment);
+        base->generationDateAndTime = from.generationDateAndTime;
+        base->generationTool = from.generationTool;
+        base->license = from.license;
+        base->version = from.version;
+        base->copyright = from.copyright;
+        base->author = from.author;
+        base->modelStructure = nullptr;
+        return base;
 
     }
 

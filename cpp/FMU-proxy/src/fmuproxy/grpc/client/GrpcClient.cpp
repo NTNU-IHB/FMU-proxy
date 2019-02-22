@@ -51,7 +51,7 @@ RemoteGrpcFmu GrpcClient::fromGuid(const std::string &guid) {
 
 RemoteGrpcFmu::RemoteGrpcFmu(const string &fmuId, shared_ptr<FmuService::Stub> stub) : fmuId_(fmuId), stub_(stub) {}
 
-std::shared_ptr<fmi4cpp::fmi2::ModelDescriptionBase> &RemoteGrpcFmu::getModelDescription() {
+std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &RemoteGrpcFmu::getModelDescription() {
     if(!modelDescription_) {
         ClientContext ctx;
         GetModelDescriptionRequest request;

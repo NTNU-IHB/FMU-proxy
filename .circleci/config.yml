@@ -19,19 +19,19 @@ jobs:
               - v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
               - v1-dependencies-
 
-          - run: cd java/FMU-proxy && gradle dependencies
+          - run: 'cd java/FMU-proxy && gradle dependencies'
 
           - save_cache:
               paths:
                 - ~/.gradle
               key: v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
 
-          - run: cd java/FMU-proxy && gradle test
-          - run: cd java/FMU-proxy && gradle shadowJar
+          - run: 'cd java/FMU-proxy && gradle test'
+          - run: 'cd java/FMU-proxy && gradle shadowJar'
 
           - store_artifacts:
-              path: java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar
-              destination: fmu-proxy.jar
+              path: 'java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar'
+              destination: 'fmu-proxy.jar'
 
     "cpp_vcpkg":
         docker:
@@ -41,17 +41,17 @@ jobs:
 
           - run:
               name: Initialize git sub-modules
-              command: git submodule update --init --recursive
+              command: 'git submodule update --init --recursive'
           - run:
               name: Creating Build Files
-              command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake
+              command: 'cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_USING_VCPKG=ON -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake'
           - run:
               name: Creating Binary Files
-              command: cd cpp/FMU-proxy && cmake --build build
+              command: 'cd cpp/FMU-proxy && cmake --build build'
 
           - store_artifacts:
-              path: cpp/FMU-proxy/build/tool/fmu_proxy
-              destination: fmu_proxy_cpp
+              path: 'cpp/FMU-proxy/build/tool/fmu_proxy'
+              destination: 'fmu_proxy_cpp'
 
     "cpp_conan":
       docker:
@@ -61,10 +61,10 @@ jobs:
 
         - run:
             name: Initialize git sub-modules
-            command: git submodule update --init --recursive
+            command: 'git submodule init && git submodule update --remote'
         - run:
             name: Update conan
-            command: sudo pip install conan --upgrade
+            command: 'sudo pip install conan --upgrade'
 
         - restore_cache:
             keys:
@@ -73,17 +73,17 @@ jobs:
 
         - run:
             name: Add conan remotes 'helmesjo'
-            command: conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f
+            command: 'conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f'
         - run:
             name: Add conan remote 'inexorgame'
-            command: conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
+            command: 'conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f'
         - run:
             name: Add conan remotes 'bincrafters'
-            command: conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan" --f
+            command: 'conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan" --f'
 
         - run:
             name: Conan install
-            command: cd cpp/FMU-proxy && conan install . -s build_type=Release -s compiler.libcxx=libstdc++11 --install-folder=build --build=missing
+            command: 'cd cpp/FMU-proxy && conan install . -s build_type=Release -s compiler.libcxx=libstdc++11 --install-folder=build --build=missing'
 
         - save_cache:
             paths:
@@ -92,14 +92,14 @@ jobs:
 
         - run:
             name: Creating Build Files
-            command: cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DFMU_PROXY_USING_CONAN=ON
+            command: 'cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DFMU_PROXY_USING_CONAN=ON'
         - run:
             name: Creating Binary Files
-            command: cd cpp/FMU-proxy && cmake --build build
+            command: 'cd cpp/FMU-proxy && cmake --build build'
 
         - store_artifacts:
-            path: cpp/FMU-proxy/build/bin/fmu_proxy
-            destination: fmu_proxy_cpp
+            path: 'cpp/FMU-proxy/build/bin/fmu_proxy'
+            destination: 'fmu_proxy_cpp'
 
 workflows:
     version: 2

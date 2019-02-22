@@ -148,17 +148,17 @@ namespace {
 
     void grpcType(ScalarVariable &var, const fmi4cpp::fmi2::ScalarVariable &v) {
 
-        var.set_name(v.name());
-        var.set_value_reference(v.valueReference());
+        var.set_name(v.name);
+        var.set_value_reference(v.valueReference);
 
-        std::string description = v.description();
+        std::string description = v.description;
         if (!description.empty()) {
             var.set_description(description);
         }
 
-        var.set_causality(grpcType(v.causality()));
-        var.set_variability(grpcType(v.variability()));
-        var.set_initial(grpcType(v.initial()));
+        var.set_causality(grpcType(v.causality));
+        var.set_variability(grpcType(v.variability));
+        var.set_initial(grpcType(v.initial));
 
         if (v.isInteger()) {
             grpcType(*var.mutable_integer_attribute(), v.asInteger().attribute());
@@ -178,38 +178,38 @@ namespace {
 
     void grpcType(ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
 
-        md.set_guid(m.guid());
-        md.set_fmi_version(m.fmiVersion());
-        md.set_model_name(m.modelName());
+        md.set_guid(m.guid.c_str());
+        md.set_fmi_version(m.fmiVersion);
+        md.set_model_name(m.modelName);
 
-        if (m.license()) {
-            md.set_license(*m.license());
+        if (m.license) {
+            md.set_license(*m.license);
         }
-        if (m.version()) {
-            md.set_version(*m.version());
+        if (m.version) {
+            md.set_version(*m.version);
         }
-        if (m.author()) {
-            md.set_author(*m.author());
+        if (m.author) {
+            md.set_author(*m.author);
         }
-        if (m.copyright()) {
-            md.set_copyright(*m.copyright());
+        if (m.copyright) {
+            md.set_copyright(*m.copyright);
         }
-        if (m.description()) {
-            md.set_description(*m.description());
+        if (m.description) {
+            md.set_description(*m.description);
         }
-        if (m.generationDateAndTime()) {
-            md.set_generation_date_and_time(*m.generationDateAndTime());
+        if (m.generationDateAndTime) {
+            md.set_generation_date_and_time(*m.generationDateAndTime);
         }
-        if (m.generationTool()) {
-            md.set_generation_tool(*m.generationTool());
+        if (m.generationTool) {
+            md.set_generation_tool(*m.generationTool);
         }
-        if (m.variableNamingConvention()) {
-            md.set_variable_naming_convention(*m.variableNamingConvention());
+        if (m.variableNamingConvention) {
+            md.set_variable_naming_convention(*m.variableNamingConvention);
         }
 
-        if (m.defaultExperiment()) {
+        if (m.defaultExperiment) {
             auto to = md.default_experiment();
-            auto from = *m.defaultExperiment();
+            auto from = *m.defaultExperiment;
             if (from.startTime) {
                 to.set_start_time(*from.startTime);
             }
@@ -224,7 +224,7 @@ namespace {
             }
         }
 
-        for (const auto &var : *m.modelVariables()) {
+        for (const auto &var : *m.modelVariables) {
             auto v = md.add_model_variables();
             grpcType(*v, var);
         }

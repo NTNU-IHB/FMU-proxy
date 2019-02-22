@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <algorithm>
-
+#include <iostream>
 #include <fmuproxy/thrift/client/RemoteFmuSlave.hpp>
 
 #include "thrift_client_helper.hpp"
@@ -37,20 +37,20 @@ RemoteFmuSlave::RemoteFmuSlave(const InstanceId &instanceId, FmuServiceClient &c
 
     CoSimulationAttributes attributes;
     client_.getCoSimulationAttributes(attributes, instanceId_);
-    csModelDescription_ = std::make_shared<fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
-                                                                                       convert(attributes));
+    csModelDescription_ = std::make_shared<const fmi4cpp::fmi2::CoSimulationModelDescription>(modelDescription,
+                                                                                              convert(attributes));
 }
 
 bool RemoteFmuSlave::updateStatusAndReturnTrueOnOK(Status::type status) {
     lastStatus_ = status;
-    return status == Status::type ::OK_STATUS;
+    return status == Status::type::OK_STATUS;
 }
 
 fmi4cpp::Status RemoteFmuSlave::getLastStatus() const {
     return convert(lastStatus_);
 }
 
-std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModelDescription() const {
+std::shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModelDescription() const {
     return csModelDescription_;
 }
 
@@ -136,7 +136,7 @@ bool RemoteFmuSlave::readString(const std::vector<fmi2ValueReference> &vr, std::
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     client_.readString(stringRead, instanceId_, _vr);
     const std::vector<std::string> read = stringRead.value;
-    std::transform(read.begin(), read.end(), ref.begin(), [](std::string str) -> const char* {
+    std::transform(read.begin(), read.end(), ref.begin(), [](std::string str) -> const char * {
         return str.c_str();
     });
     return updateStatusAndReturnTrueOnOK(stringRead.status);
@@ -206,9 +206,9 @@ bool RemoteFmuSlave::writeBoolean(const std::vector<fmi2ValueReference> &vr, con
 }
 
 bool RemoteFmuSlave::getDirectionalDerivative(const std::vector<fmi2ValueReference> &vUnknownRef,
-                                                    const std::vector<fmi2ValueReference> &vKnownRef,
-                                                    const std::vector<fmi2Real> &dvKnownRef,
-                                                    std::vector<fmi2Real> &dvUnknown) {
+                                              const std::vector<fmi2ValueReference> &vKnownRef,
+                                              const std::vector<fmi2Real> &dvKnownRef,
+                                              std::vector<fmi2Real> &dvUnknown) {
     return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
 }
 

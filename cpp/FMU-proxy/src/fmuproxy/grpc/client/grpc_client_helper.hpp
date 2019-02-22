@@ -101,7 +101,9 @@ namespace {
 
     template<typename T, typename U>
     fmi4cpp::fmi2::ScalarVariableAttribute<T> toScalarVariableAttributes(const U &a) {
-        return fmi4cpp::fmi2::ScalarVariableAttribute<T>(a.start());
+        fmi4cpp::fmi2::ScalarVariableAttribute<T> attribute;
+        attribute.start = a.start();
+        return attribute;
     }
 
     template<typename T, typename U>
@@ -148,9 +150,13 @@ namespace {
 
     fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v) {
 
-        fmi4cpp::fmi2::ScalarVariableBase base(v.name(), v.description(), (fmi2ValueReference) v.value_reference(),
-                                               false, convert(v.causality()), convert(v.variability()),
-                                               convert(v.initial()));
+        fmi4cpp::fmi2::ScalarVariableBase base;
+        base.name = v.name();
+        base.description = v.description();
+        base.valueReference = (fmi2ValueReference) v.value_reference();
+        base.variability = convert(v.variability());
+        base.causality = convert(v.causality());
+        base.initial = convert(v.initial());
 
         switch (v.attribute_case()) {
             case fmuproxy::grpc::ScalarVariable::AttributeCase::kIntegerAttribute:
@@ -173,38 +179,47 @@ namespace {
         return {from.start_time(), from.stop_time(), from.step_size(), from.tolerance()};
     }
 
-    std::unique_ptr<fmi4cpp::fmi2::ModelVariables>
+    std::unique_ptr<const fmi4cpp::fmi2::ModelVariables>
     convert(const google::protobuf::RepeatedPtrField<fmuproxy::grpc::ScalarVariable> m) {
         std::vector<fmi4cpp::fmi2::ScalarVariable> variables;
         for (const auto &var : m) {
             variables.push_back(convert(var));
         }
-        return std::make_unique<fmi4cpp::fmi2::ModelVariables>(variables);
+        return std::make_unique<const fmi4cpp::fmi2::ModelVariables>(variables);
     }
 
-    fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::grpc::CoSimulationAttributes &a) {
+    const fmi4cpp::fmi2::CoSimulationAttributes convert(const fmuproxy::grpc::CoSimulationAttributes &a) {
 
-        fmi4cpp::fmi2::FmuAttributes attributes(a.model_identifier(), a.can_get_and_set_fmustate(),
-                                                a.can_serialize_fmustate(), false, false, false,
-                                                a.provides_directional_derivative(), {});
+        fmi4cpp::fmi2::CoSimulationAttributes attributes;
+        attributes.modelIdentifier = a.model_identifier();
+        attributes.canGetAndSetFMUstate = a.can_get_and_set_fmustate();
+        attributes.canSerializeFMUstate = a.can_serialize_fmustate();
+        attributes.providesDirectionalDerivative = a.provides_directional_derivative();
 
-        return {attributes, a.can_interpolate_inputs(), false, a.can_handle_variable_communication_step_size(),
-                a.max_output_derivative_order()};
+        attributes.canInterpolateInputs = a.can_interpolate_inputs();
+        attributes.canHandleVariableCommunicationStepSize = a.can_handle_variable_communication_step_size();
+        attributes.maxOutputDerivativeOrder = a.max_output_derivative_order();
 
     }
 
-    std::unique_ptr<fmi4cpp::fmi2::ModelDescriptionBase> convert(const fmuproxy::grpc::ModelDescription &from) {
+    std::unique_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> convert(const fmuproxy::grpc::ModelDescription &from) {
 
-        std::shared_ptr<fmi4cpp::fmi2::ModelVariables> mv = std::move(convert(from.model_variables()));
-
-        return std::make_unique<fmi4cpp::fmi2::ModelDescriptionBase>(
-                from.guid(), from.fmi_version(),
-                from.model_name(), from.description(),
-                from.version(), from.author(), from.license(),
-                from.copyright(), from.generation_tool(),
-                from.generation_date_and_time(),
-                from.variable_naming_convention(), 0, mv,
-                nullptr, convert(from.default_experiment()));
+        auto base = std::make_unique<fmi4cpp::fmi2::ModelDescriptionBase>();
+        base->guid = from.guid();
+        base-> fmiVersion = from.fmi_version();
+        base->description = from.description();
+        base->modelName = from.model_name();
+        base->modelVariables = std::move(convert(from.model_variables()));
+        base->variableNamingConvention = from.variable_naming_convention();
+        base->defaultExperiment = convert(from.default_experiment());
+        base->generationDateAndTime = from.generation_date_and_time();
+        base->generationTool = from.generation_tool();
+        base->license = from.license();
+        base->version = from.version();
+        base->copyright = from.copyright();
+        base->author = from.author();
+        base->modelStructure = nullptr;
+        return base;
 
     }
 

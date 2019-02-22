@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 
     auto fmu = make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path);
     auto md = fmu->getModelDescription();
-    unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus = {{md->guid(), fmu}};
+    unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus = {{md->guid, fmu}};
 
     ThriftServer socket_server(fmus, 9090, false, true);
     socket_server.start();

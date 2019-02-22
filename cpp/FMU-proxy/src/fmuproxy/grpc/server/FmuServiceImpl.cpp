@@ -52,7 +52,7 @@ FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::f
 ::Status FmuServiceImpl::Load(ServerContext *context, const ::fmuproxy::grpc::Url *request,
                             ::fmuproxy::grpc::FmuId *response) {
     auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(request->url());
-    auto guid = fmu->getModelDescription()->guid();
+    auto guid = fmu->getModelDescription()->guid;
     if (!fmus_.count(guid)) {
         fmus_[guid] = move(fmu);
     }
@@ -250,7 +250,7 @@ FmuServiceImpl::WriteBoolean(ServerContext *context, const WriteBooleanRequest *
 FmuServiceImpl::GetFMUstate(ServerContext *context, const GetFMUstateRequest *request, GetFMUstateResponse *response) {
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
+    if (!slave->getModelDescription()->canGetAndSetFMUstate) {
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
     }
 
@@ -269,7 +269,7 @@ FmuServiceImpl::GetFMUstate(ServerContext *context, const GetFMUstateRequest *re
 FmuServiceImpl::SetFMUstate(ServerContext *context, const SetFMUstateRequest *request, StatusResponse *response) {
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
+    if (!slave->getModelDescription()->canGetAndSetFMUstate) {
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
     }
 
@@ -286,7 +286,7 @@ FmuServiceImpl::FreeFMUstate(ServerContext *context, const FreeFMUstateRequest *
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->getModelDescription()->canGetAndSetFMUstate()) {
+    if (!slave->getModelDescription()->canGetAndSetFMUstate) {
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetAndSetFMUstate'!");
     }
 
@@ -305,7 +305,7 @@ FmuServiceImpl::SerializeFMUstate(ServerContext *context, const SerializeFMUstat
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->getModelDescription()->canSerializeFMUstate()) {
+    if (!slave->getModelDescription()->canSerializeFMUstate) {
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'SerializeFMUstate'!");
     }
 
@@ -327,7 +327,7 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->getModelDescription()->canSerializeFMUstate()) {
+    if (!slave->getModelDescription()->canSerializeFMUstate) {
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'deSerializeFMUstate'!");
     }
 
@@ -348,12 +348,12 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
     auto &slave = slaves_[request->instance_id()];
     auto md = slave->getModelDescription();
 
-    response->set_model_identifier(md->modelIdentifier());
-    response->set_can_get_and_set_fmustate(md->canGetAndSetFMUstate());
-    response->set_can_serialize_fmustate(md->canSerializeFMUstate());
-    response->set_can_handle_variable_communication_step_size(md->canHandleVariableCommunicationStepSize());
-    response->set_max_output_derivative_order(md->maxOutputDerivativeOrder());
-    response->set_provides_directional_derivative(md->providesDirectionalDerivative());
+    response->set_model_identifier(md->modelIdentifier);
+    response->set_can_get_and_set_fmustate(md->canGetAndSetFMUstate);
+    response->set_can_serialize_fmustate(md->canSerializeFMUstate);
+    response->set_can_handle_variable_communication_step_size(md->canHandleVariableCommunicationStepSize);
+    response->set_max_output_derivative_order(md->maxOutputDerivativeOrder);
+    response->set_provides_directional_derivative(md->providesDirectionalDerivative);
 
     return ::Status::OK;
 }
@@ -365,7 +365,7 @@ FmuServiceImpl::DeSerializeFMUstate(ServerContext *context, const DeSerializeFMU
 
     auto &slave = slaves_[request->instance_id()];
 
-    if (!slave->getModelDescription()->providesDirectionalDerivative()) {
+    if (!slave->getModelDescription()->providesDirectionalDerivative) {
         return ::Status(::grpc::StatusCode::UNAVAILABLE, "FMU does not have capability 'GetDirectionalDerivative'!");
     }
 
