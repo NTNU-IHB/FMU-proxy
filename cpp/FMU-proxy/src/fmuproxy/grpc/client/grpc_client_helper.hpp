@@ -200,6 +200,8 @@ namespace {
         attributes.canHandleVariableCommunicationStepSize = a.can_handle_variable_communication_step_size();
         attributes.maxOutputDerivativeOrder = a.max_output_derivative_order();
 
+        return attributes;
+
     }
 
     std::unique_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> convert(const fmuproxy::grpc::ModelDescription &from) {

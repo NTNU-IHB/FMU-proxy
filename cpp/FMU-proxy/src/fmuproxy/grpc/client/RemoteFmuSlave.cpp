@@ -131,7 +131,7 @@ bool RemoteFmuSlave::terminate() {
 }
 
 bool RemoteFmuSlave::cancelStep() {
-    return fmi2Discard;
+    return false;
 }
 
 bool RemoteFmuSlave::reset() {
