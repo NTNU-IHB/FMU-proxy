@@ -36,50 +36,6 @@ extern const std::map<int, const char*> _Status_VALUES_TO_NAMES;
 
 std::ostream& operator<<(std::ostream& out, const Status::type& val);
 
-struct Causality {
-  enum type {
-    INPUT_CAUSALITY = 0,
-    OUTPUT_CAUSALITY = 1,
-    PARAMETER_CAUSALITY = 2,
-    CALCULATED_PARAMETER_CAUSALITY = 3,
-    LOCAL_CAUSALITY = 4,
-    INDEPENDENT_CAUSALITY = 5,
-    UNKNOWN_CAUSALITY = 6
-  };
-};
-
-extern const std::map<int, const char*> _Causality_VALUES_TO_NAMES;
-
-std::ostream& operator<<(std::ostream& out, const Causality::type& val);
-
-struct Variability {
-  enum type {
-    CONSTANT_VARIABILITY = 0,
-    FIXED_VARIABILITY = 1,
-    CONTINUOUS_VARIABILITY = 2,
-    DISCRETE_VARIABILITY = 3,
-    TUNABLE_VARIABILITY = 4,
-    UNKNOWN_VARIABILITY = 5
-  };
-};
-
-extern const std::map<int, const char*> _Variability_VALUES_TO_NAMES;
-
-std::ostream& operator<<(std::ostream& out, const Variability::type& val);
-
-struct Initial {
-  enum type {
-    EXACT_INITIAL = 0,
-    APPROX_INITIAL = 1,
-    CALCULATED_INITIAL = 2,
-    UNKNOWN_INITIAL = 3
-  };
-};
-
-extern const std::map<int, const char*> _Initial_VALUES_TO_NAMES;
-
-std::ostream& operator<<(std::ostream& out, const Initial::type& val);
-
 typedef std::string FmuId;
 
 typedef std::string InstanceId;
@@ -510,16 +466,16 @@ class ScalarVariable : public virtual ::apache::thrift::TBase {
 
   ScalarVariable(const ScalarVariable&);
   ScalarVariable& operator=(const ScalarVariable&);
-  ScalarVariable() : name(), valueReference(0), description(), initial((Initial::type)0), causality((Causality::type)0), variability((Variability::type)0) {
+  ScalarVariable() : name(), valueReference(0), description(), initial(), causality(), variability() {
   }
 
   virtual ~ScalarVariable() noexcept;
   std::string name;
   ValueReference valueReference;
   std::string description;
-  Initial::type initial;
-  Causality::type causality;
-  Variability::type variability;
+  std::string initial;
+  std::string causality;
+  std::string variability;
   ScalarVariableAttribute attribute;
 
   _ScalarVariable__isset __isset;
@@ -530,11 +486,11 @@ class ScalarVariable : public virtual ::apache::thrift::TBase {
 
   void __set_description(const std::string& val);
 
-  void __set_initial(const Initial::type val);
+  void __set_initial(const std::string& val);
 
-  void __set_causality(const Causality::type val);
+  void __set_causality(const std::string& val);
 
-  void __set_variability(const Variability::type val);
+  void __set_variability(const std::string& val);
 
   void __set_attribute(const ScalarVariableAttribute& val);
 
@@ -592,13 +548,13 @@ class Unknown : public virtual ::apache::thrift::TBase {
 
   Unknown(const Unknown&);
   Unknown& operator=(const Unknown&);
-  Unknown() : index(0), dependenciesKind() {
+  Unknown() : index(0) {
   }
 
   virtual ~Unknown() noexcept;
   int32_t index;
   std::vector<int32_t>  dependencies;
-  std::string dependenciesKind;
+  std::vector<std::string>  dependenciesKind;
 
   _Unknown__isset __isset;
 
@@ -606,7 +562,7 @@ class Unknown : public virtual ::apache::thrift::TBase {
 
   void __set_dependencies(const std::vector<int32_t> & val);
 
-  void __set_dependenciesKind(const std::string& val);
+  void __set_dependenciesKind(const std::vector<std::string> & val);
 
   bool operator == (const Unknown & rhs) const
   {

@@ -53,58 +53,6 @@ namespace {
         }
     }
 
-    const Causality grpcType(fmi4cpp::fmi2::Causality causality) {
-        switch (causality) {
-            case fmi4cpp::fmi2::Causality ::input:
-                return Causality::INPUT_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::output:
-                return Causality::OUTPUT_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::parameter:
-                return Causality::PARAMETER_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::local:
-                return Causality::LOCAL_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::independent:
-                return Causality::INDEPENDENT_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::calculatedParameter:
-                return Causality::CALCULATED_PARAMETER_CAUSALITY;
-            default:
-                return Causality::UNKNOWN_CAUSALITY;
-        }
-    }
-
-    const Variability grpcType(fmi4cpp::fmi2::Variability variability) {
-        switch (variability) {
-            case fmi4cpp::fmi2::Variability::constant:
-                return Variability::CONSTANT_VARIABILITY;
-            case fmi4cpp::fmi2::Variability::continuous:
-                return Variability::CONTINUOUS_VARIABILITY;
-            case fmi4cpp::fmi2::Variability::discrete:
-                return Variability::DISCRETE_VARIABILITY;
-            case fmi4cpp::fmi2::Variability::fixed:
-                return Variability::FIXED_VARIABILITY;
-            case fmi4cpp::fmi2::Variability::tunable:
-                return Variability::TUNABLE_VARIABILITY;;
-            case fmi4cpp::fmi2::Variability::unknown:
-                return Variability::CONTINUOUS_VARIABILITY;
-            default:
-                return Variability ::UNKNOWN_VARIABILITY;
-        }
-    }
-
-    const Initial grpcType(fmi4cpp::fmi2::Initial initial) {
-        switch (initial) {
-            case fmi4cpp::fmi2::Initial ::approx:
-                return Initial::APPROX_INITIAL;
-            case fmi4cpp::fmi2::Initial ::calculated:
-                return Initial::CALCULATED_INITIAL;
-            case fmi4cpp::fmi2::Initial ::exact:
-                return Initial::EXACT_INITIAL;
-            case fmi4cpp::fmi2::Initial ::unknown:
-            default:
-                return Initial::UNKNOWN_INITIAL;
-        }
-    }
-
     template <typename T, typename U>
     void setScalarVariableAttributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
         if (a.start) {
@@ -156,9 +104,9 @@ namespace {
             var.set_description(description);
         }
 
-        var.set_causality(grpcType(v.causality));
-        var.set_variability(grpcType(v.variability));
-        var.set_initial(grpcType(v.initial));
+        var.set_causality(fmi4cpp::fmi2::to_string(v.causality));
+        var.set_variability(fmi4cpp::fmi2::to_string(v.variability));
+        var.set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
         if (v.isInteger()) {
             grpcType(*var.mutable_integer_attribute(), v.asInteger().attribute());

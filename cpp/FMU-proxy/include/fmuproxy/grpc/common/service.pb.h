@@ -261,80 +261,6 @@ template<> ::fmuproxy::grpc::WriteStringRequest* Arena::CreateMaybeMessage<::fmu
 namespace fmuproxy {
 namespace grpc {
 
-enum Causality {
-  INPUT_CAUSALITY = 0,
-  OUTPUT_CAUSALITY = 1,
-  PARAMETER_CAUSALITY = 2,
-  CALCULATED_PARAMETER_CAUSALITY = 3,
-  LOCAL_CAUSALITY = 4,
-  INDEPENDENT_CAUSALITY = 5,
-  UNKNOWN_CAUSALITY = 6,
-  Causality_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Causality_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool Causality_IsValid(int value);
-const Causality Causality_MIN = INPUT_CAUSALITY;
-const Causality Causality_MAX = UNKNOWN_CAUSALITY;
-const int Causality_ARRAYSIZE = Causality_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* Causality_descriptor();
-inline const ::std::string& Causality_Name(Causality value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Causality_descriptor(), value);
-}
-inline bool Causality_Parse(
-    const ::std::string& name, Causality* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Causality>(
-    Causality_descriptor(), name, value);
-}
-enum Variability {
-  CONSTANT_VARIABILITY = 0,
-  FIXED_VARIABILITY = 1,
-  CONTINUOUS_VARIABILITY = 2,
-  DISCRETE_VARIABILITY = 3,
-  TUNABLE_VARIABILITY = 4,
-  UNKNOWN_VARIABILITY = 5,
-  Variability_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Variability_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool Variability_IsValid(int value);
-const Variability Variability_MIN = CONSTANT_VARIABILITY;
-const Variability Variability_MAX = UNKNOWN_VARIABILITY;
-const int Variability_ARRAYSIZE = Variability_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* Variability_descriptor();
-inline const ::std::string& Variability_Name(Variability value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Variability_descriptor(), value);
-}
-inline bool Variability_Parse(
-    const ::std::string& name, Variability* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Variability>(
-    Variability_descriptor(), name, value);
-}
-enum Initial {
-  EXACT_INITIAL = 0,
-  APPROX_INITIAL = 1,
-  CALCULATED_INITIAL = 2,
-  UNKNOWN_INITIAL = 3,
-  Initial_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Initial_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool Initial_IsValid(int value);
-const Initial Initial_MIN = EXACT_INITIAL;
-const Initial Initial_MAX = UNKNOWN_INITIAL;
-const int Initial_ARRAYSIZE = Initial_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* Initial_descriptor();
-inline const ::std::string& Initial_Name(Initial value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Initial_descriptor(), value);
-}
-inline bool Initial_Parse(
-    const ::std::string& name, Initial* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Initial>(
-    Initial_descriptor(), name, value);
-}
 enum Status {
   OK_STATUS = 0,
   WARNING_STATUS = 1,
@@ -1549,29 +1475,53 @@ class ScalarVariable : public ::google::protobuf::Message /* @@protoc_insertion_
   ::std::string* release_description();
   void set_allocated_description(::std::string* description);
 
+  // string initial = 4;
+  void clear_initial();
+  static const int kInitialFieldNumber = 4;
+  const ::std::string& initial() const;
+  void set_initial(const ::std::string& value);
+  #if LANG_CXX11
+  void set_initial(::std::string&& value);
+  #endif
+  void set_initial(const char* value);
+  void set_initial(const char* value, size_t size);
+  ::std::string* mutable_initial();
+  ::std::string* release_initial();
+  void set_allocated_initial(::std::string* initial);
+
+  // string causality = 5;
+  void clear_causality();
+  static const int kCausalityFieldNumber = 5;
+  const ::std::string& causality() const;
+  void set_causality(const ::std::string& value);
+  #if LANG_CXX11
+  void set_causality(::std::string&& value);
+  #endif
+  void set_causality(const char* value);
+  void set_causality(const char* value, size_t size);
+  ::std::string* mutable_causality();
+  ::std::string* release_causality();
+  void set_allocated_causality(::std::string* causality);
+
+  // string variability = 6;
+  void clear_variability();
+  static const int kVariabilityFieldNumber = 6;
+  const ::std::string& variability() const;
+  void set_variability(const ::std::string& value);
+  #if LANG_CXX11
+  void set_variability(::std::string&& value);
+  #endif
+  void set_variability(const char* value);
+  void set_variability(const char* value, size_t size);
+  ::std::string* mutable_variability();
+  ::std::string* release_variability();
+  void set_allocated_variability(::std::string* variability);
+
   // uint64 value_reference = 1;
   void clear_value_reference();
   static const int kValueReferenceFieldNumber = 1;
   ::google::protobuf::uint64 value_reference() const;
   void set_value_reference(::google::protobuf::uint64 value);
-
-  // .fmuproxy.grpc.Initial initial = 4;
-  void clear_initial();
-  static const int kInitialFieldNumber = 4;
-  ::fmuproxy::grpc::Initial initial() const;
-  void set_initial(::fmuproxy::grpc::Initial value);
-
-  // .fmuproxy.grpc.Causality causality = 5;
-  void clear_causality();
-  static const int kCausalityFieldNumber = 5;
-  ::fmuproxy::grpc::Causality causality() const;
-  void set_causality(::fmuproxy::grpc::Causality value);
-
-  // .fmuproxy.grpc.Variability variability = 6;
-  void clear_variability();
-  static const int kVariabilityFieldNumber = 6;
-  ::fmuproxy::grpc::Variability variability() const;
-  void set_variability(::fmuproxy::grpc::Variability value);
 
   // .fmuproxy.grpc.IntegerAttribute integer_attribute = 10;
   bool has_integer_attribute() const;
@@ -1649,10 +1599,10 @@ class ScalarVariable : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr description_;
+  ::google::protobuf::internal::ArenaStringPtr initial_;
+  ::google::protobuf::internal::ArenaStringPtr causality_;
+  ::google::protobuf::internal::ArenaStringPtr variability_;
   ::google::protobuf::uint64 value_reference_;
-  int initial_;
-  int causality_;
-  int variability_;
   union AttributeUnion {
     AttributeUnion() {}
     ::fmuproxy::grpc::IntegerAttribute* integer_attribute_;
@@ -1891,19 +1841,27 @@ class Unknown : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_dependencies();
 
-  // string dependencies_kind = 3;
+  // repeated string dependencies_kind = 3;
+  int dependencies_kind_size() const;
   void clear_dependencies_kind();
   static const int kDependenciesKindFieldNumber = 3;
-  const ::std::string& dependencies_kind() const;
-  void set_dependencies_kind(const ::std::string& value);
+  const ::std::string& dependencies_kind(int index) const;
+  ::std::string* mutable_dependencies_kind(int index);
+  void set_dependencies_kind(int index, const ::std::string& value);
   #if LANG_CXX11
-  void set_dependencies_kind(::std::string&& value);
+  void set_dependencies_kind(int index, ::std::string&& value);
   #endif
-  void set_dependencies_kind(const char* value);
-  void set_dependencies_kind(const char* value, size_t size);
-  ::std::string* mutable_dependencies_kind();
-  ::std::string* release_dependencies_kind();
-  void set_allocated_dependencies_kind(::std::string* dependencies_kind);
+  void set_dependencies_kind(int index, const char* value);
+  void set_dependencies_kind(int index, const char* value, size_t size);
+  ::std::string* add_dependencies_kind();
+  void add_dependencies_kind(const ::std::string& value);
+  #if LANG_CXX11
+  void add_dependencies_kind(::std::string&& value);
+  #endif
+  void add_dependencies_kind(const char* value);
+  void add_dependencies_kind(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& dependencies_kind() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_dependencies_kind();
 
   // uint32 index = 1;
   void clear_index();
@@ -1917,7 +1875,7 @@ class Unknown : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > dependencies_;
   mutable int _dependencies_cached_byte_size_;
-  ::google::protobuf::internal::ArenaStringPtr dependencies_kind_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> dependencies_kind_;
   ::google::protobuf::uint32 index_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
@@ -8147,46 +8105,163 @@ inline void ScalarVariable::set_allocated_description(::std::string* description
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.description)
 }
 
-// .fmuproxy.grpc.Initial initial = 4;
+// string initial = 4;
 inline void ScalarVariable::clear_initial() {
-  initial_ = 0;
+  initial_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::fmuproxy::grpc::Initial ScalarVariable::initial() const {
+inline const ::std::string& ScalarVariable::initial() const {
   // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.initial)
-  return static_cast< ::fmuproxy::grpc::Initial >(initial_);
+  return initial_.GetNoArena();
 }
-inline void ScalarVariable::set_initial(::fmuproxy::grpc::Initial value) {
+inline void ScalarVariable::set_initial(const ::std::string& value) {
   
-  initial_ = value;
+  initial_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.initial)
 }
-
-// .fmuproxy.grpc.Causality causality = 5;
-inline void ScalarVariable::clear_causality() {
-  causality_ = 0;
-}
-inline ::fmuproxy::grpc::Causality ScalarVariable::causality() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.causality)
-  return static_cast< ::fmuproxy::grpc::Causality >(causality_);
-}
-inline void ScalarVariable::set_causality(::fmuproxy::grpc::Causality value) {
+#if LANG_CXX11
+inline void ScalarVariable::set_initial(::std::string&& value) {
   
-  causality_ = value;
+  initial_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ScalarVariable.initial)
+}
+#endif
+inline void ScalarVariable::set_initial(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  initial_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ScalarVariable.initial)
+}
+inline void ScalarVariable::set_initial(const char* value, size_t size) {
+  
+  initial_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ScalarVariable.initial)
+}
+inline ::std::string* ScalarVariable::mutable_initial() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.initial)
+  return initial_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ScalarVariable::release_initial() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.initial)
+  
+  return initial_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ScalarVariable::set_allocated_initial(::std::string* initial) {
+  if (initial != NULL) {
+    
+  } else {
+    
+  }
+  initial_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), initial);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.initial)
+}
+
+// string causality = 5;
+inline void ScalarVariable::clear_causality() {
+  causality_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ScalarVariable::causality() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.causality)
+  return causality_.GetNoArena();
+}
+inline void ScalarVariable::set_causality(const ::std::string& value) {
+  
+  causality_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.causality)
 }
-
-// .fmuproxy.grpc.Variability variability = 6;
-inline void ScalarVariable::clear_variability() {
-  variability_ = 0;
-}
-inline ::fmuproxy::grpc::Variability ScalarVariable::variability() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.variability)
-  return static_cast< ::fmuproxy::grpc::Variability >(variability_);
-}
-inline void ScalarVariable::set_variability(::fmuproxy::grpc::Variability value) {
+#if LANG_CXX11
+inline void ScalarVariable::set_causality(::std::string&& value) {
   
-  variability_ = value;
+  causality_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ScalarVariable.causality)
+}
+#endif
+inline void ScalarVariable::set_causality(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  causality_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ScalarVariable.causality)
+}
+inline void ScalarVariable::set_causality(const char* value, size_t size) {
+  
+  causality_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ScalarVariable.causality)
+}
+inline ::std::string* ScalarVariable::mutable_causality() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.causality)
+  return causality_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ScalarVariable::release_causality() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.causality)
+  
+  return causality_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ScalarVariable::set_allocated_causality(::std::string* causality) {
+  if (causality != NULL) {
+    
+  } else {
+    
+  }
+  causality_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), causality);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.causality)
+}
+
+// string variability = 6;
+inline void ScalarVariable::clear_variability() {
+  variability_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ScalarVariable::variability() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.ScalarVariable.variability)
+  return variability_.GetNoArena();
+}
+inline void ScalarVariable::set_variability(const ::std::string& value) {
+  
+  variability_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.ScalarVariable.variability)
+}
+#if LANG_CXX11
+inline void ScalarVariable::set_variability(::std::string&& value) {
+  
+  variability_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.ScalarVariable.variability)
+}
+#endif
+inline void ScalarVariable::set_variability(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  variability_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.ScalarVariable.variability)
+}
+inline void ScalarVariable::set_variability(const char* value, size_t size) {
+  
+  variability_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.ScalarVariable.variability)
+}
+inline ::std::string* ScalarVariable::mutable_variability() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.ScalarVariable.variability)
+  return variability_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ScalarVariable::release_variability() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.ScalarVariable.variability)
+  
+  return variability_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ScalarVariable::set_allocated_variability(::std::string* variability) {
+  if (variability != NULL) {
+    
+  } else {
+    
+  }
+  variability_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), variability);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.ScalarVariable.variability)
 }
 
 // .fmuproxy.grpc.IntegerAttribute integer_attribute = 10;
@@ -8526,57 +8601,73 @@ Unknown::mutable_dependencies() {
   return &dependencies_;
 }
 
-// string dependencies_kind = 3;
+// repeated string dependencies_kind = 3;
+inline int Unknown::dependencies_kind_size() const {
+  return dependencies_kind_.size();
+}
 inline void Unknown::clear_dependencies_kind() {
-  dependencies_kind_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  dependencies_kind_.Clear();
 }
-inline const ::std::string& Unknown::dependencies_kind() const {
+inline const ::std::string& Unknown::dependencies_kind(int index) const {
   // @@protoc_insertion_point(field_get:fmuproxy.grpc.Unknown.dependencies_kind)
-  return dependencies_kind_.GetNoArena();
+  return dependencies_kind_.Get(index);
 }
-inline void Unknown::set_dependencies_kind(const ::std::string& value) {
-  
-  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+inline ::std::string* Unknown::mutable_dependencies_kind(int index) {
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.Unknown.dependencies_kind)
+  return dependencies_kind_.Mutable(index);
+}
+inline void Unknown::set_dependencies_kind(int index, const ::std::string& value) {
   // @@protoc_insertion_point(field_set:fmuproxy.grpc.Unknown.dependencies_kind)
+  dependencies_kind_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void Unknown::set_dependencies_kind(::std::string&& value) {
-  
-  dependencies_kind_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.Unknown.dependencies_kind)
+inline void Unknown::set_dependencies_kind(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.Unknown.dependencies_kind)
+  dependencies_kind_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void Unknown::set_dependencies_kind(const char* value) {
+inline void Unknown::set_dependencies_kind(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
-  
-  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  dependencies_kind_.Mutable(index)->assign(value);
   // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.Unknown.dependencies_kind)
 }
-inline void Unknown::set_dependencies_kind(const char* value, size_t size) {
-  
-  dependencies_kind_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
+inline void Unknown::set_dependencies_kind(int index, const char* value, size_t size) {
+  dependencies_kind_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
   // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.Unknown.dependencies_kind)
 }
-inline ::std::string* Unknown::mutable_dependencies_kind() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.Unknown.dependencies_kind)
-  return dependencies_kind_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::std::string* Unknown::add_dependencies_kind() {
+  // @@protoc_insertion_point(field_add_mutable:fmuproxy.grpc.Unknown.dependencies_kind)
+  return dependencies_kind_.Add();
 }
-inline ::std::string* Unknown::release_dependencies_kind() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.Unknown.dependencies_kind)
-  
-  return dependencies_kind_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void Unknown::add_dependencies_kind(const ::std::string& value) {
+  dependencies_kind_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.Unknown.dependencies_kind)
 }
-inline void Unknown::set_allocated_dependencies_kind(::std::string* dependencies_kind) {
-  if (dependencies_kind != NULL) {
-    
-  } else {
-    
-  }
-  dependencies_kind_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), dependencies_kind);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.Unknown.dependencies_kind)
+#if LANG_CXX11
+inline void Unknown::add_dependencies_kind(::std::string&& value) {
+  dependencies_kind_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+#endif
+inline void Unknown::add_dependencies_kind(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  dependencies_kind_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+inline void Unknown::add_dependencies_kind(const char* value, size_t size) {
+  dependencies_kind_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:fmuproxy.grpc.Unknown.dependencies_kind)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+Unknown::dependencies_kind() const {
+  // @@protoc_insertion_point(field_list:fmuproxy.grpc.Unknown.dependencies_kind)
+  return dependencies_kind_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+Unknown::mutable_dependencies_kind() {
+  // @@protoc_insertion_point(field_mutable_list:fmuproxy.grpc.Unknown.dependencies_kind)
+  return &dependencies_kind_;
 }
 
 // -------------------------------------------------------------------
@@ -11524,21 +11615,6 @@ inline void Url::set_allocated_url(::std::string* url) {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::fmuproxy::grpc::Causality> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Causality>() {
-  return ::fmuproxy::grpc::Causality_descriptor();
-}
-template <> struct is_proto_enum< ::fmuproxy::grpc::Variability> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Variability>() {
-  return ::fmuproxy::grpc::Variability_descriptor();
-}
-template <> struct is_proto_enum< ::fmuproxy::grpc::Initial> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Initial>() {
-  return ::fmuproxy::grpc::Initial_descriptor();
-}
 template <> struct is_proto_enum< ::fmuproxy::grpc::Status> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::fmuproxy::grpc::Status>() {

@@ -55,56 +55,6 @@ namespace {
         }
     }
 
-    const fmuproxy::thrift::Causality::type thriftType(fmi4cpp::fmi2::Causality causality) {
-        switch (causality) {
-            case fmi4cpp::fmi2::Causality ::input:
-                return fmuproxy::thrift::Causality::type::INPUT_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::output:
-                return fmuproxy::thrift::Causality::type::OUTPUT_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::parameter:
-                return fmuproxy::thrift::Causality::type::PARAMETER_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::local:
-                return fmuproxy::thrift::Causality::type::LOCAL_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::independent:
-                return fmuproxy::thrift::Causality::type::INDEPENDENT_CAUSALITY;
-            case fmi4cpp::fmi2::Causality ::calculatedParameter:
-                return fmuproxy::thrift::Causality::type::CALCULATED_PARAMETER_CAUSALITY;
-            default:
-                return fmuproxy::thrift::Causality::type::LOCAL_CAUSALITY;
-        }
-    }
-
-    const fmuproxy::thrift::Variability::type thriftType(fmi4cpp::fmi2::Variability variability) {
-        switch (variability) {
-            case fmi4cpp::fmi2::Variability ::constant:
-                return fmuproxy::thrift::Variability::type::CONSTANT_VARIABILITY;
-            case fmi4cpp::fmi2::Variability ::continuous:
-                return fmuproxy::thrift::Variability::type::CONTINUOUS_VARIABILITY;
-            case fmi4cpp::fmi2::Variability ::discrete:
-                return fmuproxy::thrift::Variability::type::DISCRETE_VARIABILITY;
-            case fmi4cpp::fmi2::Variability ::fixed:
-                return fmuproxy::thrift::Variability::type::FIXED_VARIABILITY;
-            case fmi4cpp::fmi2::Variability ::tunable:
-                return fmuproxy::thrift::Variability::type::TUNABLE_VARIABILITY;;
-            default:
-                return fmuproxy::thrift::Variability::type::CONTINUOUS_VARIABILITY;
-        }
-    }
-
-    const fmuproxy::thrift::Initial::type thriftType(fmi4cpp::fmi2::Initial initial) {
-        switch (initial) {
-            case fmi4cpp::fmi2::Initial ::approx:
-                return fmuproxy::thrift::Initial::type::APPROX_INITIAL;
-            case fmi4cpp::fmi2::Initial ::calculated:
-                return fmuproxy::thrift::Initial::type::CALCULATED_INITIAL;
-            case fmi4cpp::fmi2::Initial ::exact:
-                return fmuproxy::thrift::Initial::type::EXACT_INITIAL;
-            case fmi4cpp::fmi2::Initial ::unknown:
-            default:
-                return fmuproxy::thrift::Initial::type::UNKNOWN_INITIAL;
-        }
-    }
-
     template <typename T, typename U>
     void setScalarVariableAttributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
         if (a.start) {
@@ -167,9 +117,9 @@ namespace {
             var.__set_description(description);
         }
 
-        var.__set_causality(thriftType(v.causality));
-        var.__set_variability(thriftType(v.variability));
-        var.__set_initial(thriftType(v.initial));
+        var.__set_causality(fmi4cpp::fmi2::to_string(v.causality));
+        var.__set_variability(fmi4cpp::fmi2::to_string(v.variability));
+        var.__set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
         if (v.isInteger()) {
             var.attribute.__set_integerAttribute(thriftType(v.asInteger().attribute()));
