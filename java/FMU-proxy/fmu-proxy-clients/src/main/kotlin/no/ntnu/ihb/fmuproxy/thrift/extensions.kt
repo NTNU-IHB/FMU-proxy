@@ -184,16 +184,14 @@ internal fun ScalarVariable.convert(): TypedScalarVariable<*> {
             initial = initial?.let { Initial.valueOf(it.toUpperCase()) }
     )
 
-    when {
-        attribute.isSetIntegerAttribute -> v.integerAttribute = attribute.integerAttribute.convert()
-        attribute.isSetRealAttribute -> v.realAttribute = attribute.realAttribute.convert()
-        attribute.isSetStringAttribute -> v.stringAttribute = attribute.stringAttribute.convert()
-        attribute.isSetBooleanAttribute -> v.booleanAttribute = attribute.booleanAttribute.convert()
-        attribute.isSetEnumerationAttribute -> v.enumerationAttribute = attribute.enumerationAttribute.convert()
+    return when {
+        attribute.isSetIntegerAttribute -> attribute.integerAttribute.convert().let { IntegerVariable(v, it) }
+        attribute.isSetRealAttribute ->  attribute.realAttribute.convert().let { RealVariable(v, it) }
+        attribute.isSetStringAttribute -> attribute.stringAttribute.convert().let { StringVariable(v, it) }
+        attribute.isSetBooleanAttribute -> attribute.booleanAttribute.convert().let { BooleanVariable(v, it) }
+        attribute.isSetEnumerationAttribute -> attribute.enumerationAttribute.convert().let { EnumerationVariable(v, it) }
         else -> throw AssertionError("All attributes are null!")
     }
-
-    return v.toTyped()
 
 }
 
@@ -246,8 +244,7 @@ internal fun CoSimulationAttributes.convert(): no.ntnu.ihb.fmi4j.modeldescriptio
             get() = false
         override val maxOutputDerivativeOrder: Int
             get() = this@convert.maxOutputDerivativeOrder
-        override val canProvideMaxStepSize: Boolean
-            get() = false
+
     }
 }
 

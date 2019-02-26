@@ -177,25 +177,29 @@ internal fun Service.EnumerationAttribute.convert(): EnumerationAttribute {
 
 internal fun Service.ScalarVariable.convert(): TypedScalarVariable<*> {
 
-    val v = JacksonScalarVariable(
-            name = name,
-            description = description,
-            valueReference = valueReference,
-            causality = causality?.let { Causality.valueOf(it.toUpperCase()) },
-            variability = variability?.let { Variability.valueOf(it.toUpperCase()) },
-            initial = initial.let { Initial.valueOf(it.toUpperCase()) }
-    )
-
-    when(attributeCase) {
-        Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
-        Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> v.realAttribute = realAttribute.convert()
-        Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
-        Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
-        Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
-        else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
+    val v = object: ScalarVariable {
+        override val causality: Causality?
+            get() = this@convert.causality?.let { Causality.valueOf(it.toUpperCase()) }
+        override val description: String?
+            get() = this@convert.description
+        override val initial: Initial?
+            get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
+        override val name: String
+            get() = this@convert.name
+        override val valueReference: Long
+            get() = this@convert.valueReference
+        override val variability: Variability?
+            get() = this@convert.variability?.let { Variability.valueOf(it.toUpperCase()) }
     }
 
-    return v.toTyped()
+    return when(attributeCase) {
+        Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> integerAttribute.convert().let { IntegerVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> realAttribute.convert().let { RealVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> stringAttribute.convert().let { StringVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> booleanAttribute.convert().let { BooleanVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> enumerationAttribute.convert().let { EnumerationVariable(v, it) }
+        else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
+    }
 
 }
 
@@ -248,8 +252,6 @@ internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
             get() = false
         override val maxOutputDerivativeOrder: Int
             get() = this@convert.maxOutputDerivativeOrder
-        override val canProvideMaxStepSize: Boolean
-            get() = false
     }
 
 }

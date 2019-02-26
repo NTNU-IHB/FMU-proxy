@@ -5,7 +5,7 @@ plugins {
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
-ext.fmi4j_snapshot = false
+ext.fmi4j_snapshot = true
 ext.fmi4j_version = fmi4j_snapshot ? 'master-SNAPSHOT' : '0.17.0'
 
 ext.grpc_version = '1.18.0'
