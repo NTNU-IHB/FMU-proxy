@@ -46,32 +46,6 @@ enum Status {
     PENDING_STATUS = 5
 }
 
-enum Causality {
-    INPUT_CAUSALITY = 0,
-    OUTPUT_CAUSALITY = 1,
-    PARAMETER_CAUSALITY = 2,
-    CALCULATED_PARAMETER_CAUSALITY = 3,
-    LOCAL_CAUSALITY = 4,
-    INDEPENDENT_CAUSALITY = 5,
-    UNKNOWN_CAUSALITY = 6
-}
-
-enum Variability {
-    CONSTANT_VARIABILITY =  0,
-    FIXED_VARIABILITY = 1,
-    CONTINUOUS_VARIABILITY = 2,
-    DISCRETE_VARIABILITY = 3,
-    TUNABLE_VARIABILITY = 4,
-    UNKNOWN_VARIABILITY = 5
-}
-
-enum Initial {
-    EXACT_INITIAL = 0,
-    APPROX_INITIAL = 1,
-    CALCULATED_INITIAL = 2,
-    UNKNOWN_INITIAL = 3
-}
-
 struct IntegerAttribute {
     1: i32 min,
     2: i32 max,
@@ -113,9 +87,9 @@ struct ScalarVariable {
     1: string name,
     2: ValueReference valueReference,
     3: optional string description,
-    4: optional Initial initial,
-    5: optional Causality causality,
-    6: optional Variability variability,
+    4: optional string initial,
+    5: optional string causality,
+    6: optional string variability,
     7: ScalarVariableAttribute attribute
 }
 
@@ -124,7 +98,7 @@ typedef list<ScalarVariable> ModelVariables
 struct Unknown {
     1: i32 index,
     2: list<i32> dependencies,
-    3: string dependenciesKind
+    3: list<string> dependenciesKind
 }
 
 struct ModelStructure {

@@ -30,8 +30,8 @@ import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
-import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
@@ -78,7 +78,7 @@ class RpcFmuService(
     @RpcMethod
     fun load(url: String): FmuId {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {

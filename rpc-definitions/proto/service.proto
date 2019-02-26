@@ -87,9 +87,9 @@ message ScalarVariable {
     uint64 value_reference = 1;
     string name = 2;
     string description = 3;
-    Initial initial = 4;
-    Causality causality = 5;
-    Variability variability = 6;
+    string initial = 4;
+    string causality = 5;
+    string variability = 6;
     oneof attribute {
         IntegerAttribute integer_attribute = 10;
         RealAttribute real_attribute = 11;
@@ -109,40 +109,13 @@ message DefaultExperiment {
 message Unknown {
     uint32 index = 1;
     repeated uint32 dependencies = 2;
-    string dependencies_kind = 3;
+    repeated string dependencies_kind = 3;
 }
 
 message ModelStructure {
     repeated Unknown outputs = 1;
     repeated Unknown derivatives = 2;
     repeated Unknown initial_unknowns = 3;
-}
-
-
-enum Causality {
-    INPUT_CAUSALITY = 0;
-    OUTPUT_CAUSALITY = 1;
-    PARAMETER_CAUSALITY = 2;
-    CALCULATED_PARAMETER_CAUSALITY = 3;
-    LOCAL_CAUSALITY = 4;
-    INDEPENDENT_CAUSALITY = 5;
-    UNKNOWN_CAUSALITY = 6;
-}
-
-enum Variability {
-    CONSTANT_VARIABILITY = 0;
-    FIXED_VARIABILITY = 1;
-    CONTINUOUS_VARIABILITY = 2;
-    DISCRETE_VARIABILITY = 3;
-    TUNABLE_VARIABILITY = 4;
-    UNKNOWN_VARIABILITY= 5;
-}
-
-enum Initial {
-    EXACT_INITIAL = 0;
-    APPROX_INITIAL = 1;
-    CALCULATED_INITIAL = 2;
-    UNKNOWN_INITIAL = 3;
 }
 
 enum Status {

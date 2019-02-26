@@ -25,9 +25,9 @@
 package no.ntnu.ihb.fmuproxy.thrift.services
 
 import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment
-import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
-import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
+import no.ntnu.ihb.fmi4j.modeldescription.ModelStructure
+import no.ntnu.ihb.fmi4j.modeldescription.Unknown
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
@@ -80,9 +80,9 @@ internal fun TypedScalarVariable<*>.thriftType(): ScalarVariable {
         v.name = name
         v.valueReference = valueReference
         description?.also { v.description = it }
-        causality?.also { v.causality = it.thriftType() }
-        variability?.also { v.variability = it.thriftType() }
-        initial?.also { v.initial = it.thriftType() }
+        causality?.also { v.causality = it.name.toLowerCase() }
+        variability?.also { v.variability = it.name.toLowerCase() }
+        initial?.also { v.initial = it.name.toLowerCase() }
 
         v.attribute = ScalarVariableAttribute().also { attribute ->
 
@@ -157,38 +157,6 @@ internal fun no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes.thriftTyp
         a.isCanGetAndSetFMUstate = canGetAndSetFMUstate
         a.isCanSerializeFMUstate = canSerializeFMUstate
         a.isProvidesDirectionalDerivative = providesDirectionalDerivative
-    }
-}
-
-internal fun Causality.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Causality {
-    return when(this) {
-        Causality.INPUT -> no.ntnu.ihb.fmuproxy.thrift.Causality.INPUT_CAUSALITY
-        Causality.OUTPUT -> no.ntnu.ihb.fmuproxy.thrift.Causality.OUTPUT_CAUSALITY
-        Causality.CALCULATED_PARAMETER -> no.ntnu.ihb.fmuproxy.thrift.Causality.CALCULATED_PARAMETER_CAUSALITY
-        Causality.PARAMETER -> no.ntnu.ihb.fmuproxy.thrift.Causality.PARAMETER_CAUSALITY
-        Causality.LOCAL -> no.ntnu.ihb.fmuproxy.thrift.Causality.LOCAL_CAUSALITY
-        Causality.INDEPENDENT -> no.ntnu.ihb.fmuproxy.thrift.Causality.INDEPENDENT_CAUSALITY
-        else ->  no.ntnu.ihb.fmuproxy.thrift.Causality.UNKNOWN_CAUSALITY
-    }
-}
-
-internal fun Variability.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Variability {
-    return when(this) {
-        Variability.CONSTANT -> no.ntnu.ihb.fmuproxy.thrift.Variability.CONSTANT_VARIABILITY
-        Variability.CONTINUOUS -> no.ntnu.ihb.fmuproxy.thrift.Variability.CONTINUOUS_VARIABILITY
-        Variability.DISCRETE -> no.ntnu.ihb.fmuproxy.thrift.Variability.DISCRETE_VARIABILITY
-        Variability.FIXED -> no.ntnu.ihb.fmuproxy.thrift.Variability.FIXED_VARIABILITY
-        Variability.TUNABLE -> no.ntnu.ihb.fmuproxy.thrift.Variability.TUNABLE_VARIABILITY
-        else -> no.ntnu.ihb.fmuproxy.thrift.Variability.UNKNOWN_VARIABILITY
-    }
-}
-
-internal fun Initial.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Initial {
-    return when(this) {
-        Initial.CALCULATED -> no.ntnu.ihb.fmuproxy.thrift.Initial.CALCULATED_INITIAL
-        Initial.EXACT -> no.ntnu.ihb.fmuproxy.thrift.Initial.EXACT_INITIAL
-        Initial.APPROX -> no.ntnu.ihb.fmuproxy.thrift.Initial.APPROX_INITIAL
-        else ->no.ntnu.ihb.fmuproxy.thrift.Initial.UNKNOWN_INITIAL
     }
 }
 

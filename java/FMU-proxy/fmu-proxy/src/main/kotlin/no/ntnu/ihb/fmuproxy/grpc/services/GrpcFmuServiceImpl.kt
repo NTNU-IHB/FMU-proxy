@@ -33,8 +33,8 @@ import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.common.StringArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
-import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
 import no.ntnu.ihb.fmuproxy.grpc.Service
@@ -63,7 +63,7 @@ class GrpcFmuServiceImpl(
 
     override fun load(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
         val url = URL(request.url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {

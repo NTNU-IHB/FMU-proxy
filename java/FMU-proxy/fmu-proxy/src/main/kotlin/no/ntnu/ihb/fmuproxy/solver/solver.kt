@@ -27,7 +27,7 @@ package no.ntnu.ihb.fmuproxy.solver
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import no.ntnu.ihb.fmi4j.solvers.Solver
-import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 
 private const val STEP_SIZE = "step_size"
 

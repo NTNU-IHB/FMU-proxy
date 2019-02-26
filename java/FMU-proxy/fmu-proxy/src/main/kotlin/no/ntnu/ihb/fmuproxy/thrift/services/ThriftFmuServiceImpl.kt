@@ -29,8 +29,8 @@ import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.common.StringArray
 import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
-import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import no.ntnu.ihb.fmuproxy.thrift.*
@@ -64,7 +64,7 @@ class ThriftFmuServiceImpl(
 
     override fun load(url: String): String {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {

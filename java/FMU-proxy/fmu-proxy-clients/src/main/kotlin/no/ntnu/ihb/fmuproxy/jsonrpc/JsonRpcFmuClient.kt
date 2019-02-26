@@ -28,9 +28,9 @@ import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributesImpl
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionImpl
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonCoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.ModelDescriptionImpl
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
@@ -60,7 +60,7 @@ class JsonRpcFmuClient(
 
     override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
         return client.write("getCoSimulationAttributes", RpcParams.listParams(instanceId)).get()
-                .getResult<CoSimulationAttributesImpl>()!!
+                .getResult<JacksonCoSimulationAttributes>()!!
     }
 
     override fun createInstanceFromCS(): String {
