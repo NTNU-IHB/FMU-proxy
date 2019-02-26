@@ -4,7 +4,7 @@ import info.laht.yajrpc.*
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuRealArrayRead
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionImpl
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescription
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.StepResult
 import no.ntnu.sfi.fmuproxy.TestUtils
@@ -48,7 +48,7 @@ class TestService {
         }
         """.let {
             YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!)
-                    .getResult<ModelDescriptionImpl>()!!
+                    .getResult<JacksonModelDescription>()!!
         }
 
         Assertions.assertEquals(fmu.guid, md.guid)

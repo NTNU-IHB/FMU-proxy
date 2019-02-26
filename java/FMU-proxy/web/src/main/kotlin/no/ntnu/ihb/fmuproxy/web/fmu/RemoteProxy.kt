@@ -24,8 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.web.fmu
 
-import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
-import java.io.Serializable
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
 import java.net.InetAddress
 import javax.faces.bean.ManagedBean
 
@@ -39,7 +38,7 @@ class RemoteProxy(
         val uuid: String,
         private val ports: Map<String, Int>,
         modelDescriptions: List<String>
-): Serializable {
+) {
 
     var host: String? = null
         set(value) {
@@ -52,7 +51,7 @@ class RemoteProxy(
 
     val fmus: List<RemoteFmu> by lazy {
         modelDescriptions.map {
-            RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
+            RemoteFmu(host!!, ports, JacksonModelDescriptionParser.parse(it))
         }
     }
 

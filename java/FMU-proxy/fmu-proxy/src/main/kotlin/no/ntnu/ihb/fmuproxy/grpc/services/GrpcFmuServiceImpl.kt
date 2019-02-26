@@ -153,7 +153,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = IntArray(vr.size)
-            val status = variableAccessor.readInteger(vr, values)
+            val status = readInteger(vr, values)
             Service.IntegerRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -166,7 +166,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = RealArray(vr.size)
-            val status = variableAccessor.readReal(vr, values)
+            val status = readReal(vr, values)
             Service.RealRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -179,7 +179,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = StringArray(vr.size) { "" }
-            val status = variableAccessor.readString(vr, values)
+            val status = readString(vr, values)
             Service.StringRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -192,7 +192,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = BooleanArray(vr.size)
-            val status = variableAccessor.readBoolean(vr, values)
+            val status = readBoolean(vr, values)
             Service.BooleanRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -203,28 +203,28 @@ class GrpcFmuServiceImpl(
 
     override fun writeInteger(request: Service.WriteIntegerRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = variableAccessor.writeInteger(request.valueReferencesList.toLongArray(), request.valuesList.toIntArray())
+            val status = writeInteger(request.valueReferencesList.toLongArray(), request.valuesList.toIntArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeReal(request: Service.WriteRealRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = variableAccessor.writeReal(request.valueReferencesList.toLongArray(), request.valuesList.toDoubleArray())
+            val status = writeReal(request.valueReferencesList.toLongArray(), request.valuesList.toDoubleArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeString(request: Service.WriteStringRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = variableAccessor.writeString(request.valueReferencesList.toLongArray(), request.valuesList.toTypedArray())
+            val status = writeString(request.valueReferencesList.toLongArray(), request.valuesList.toTypedArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeBoolean(request: Service.WriteBooleanRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = variableAccessor.writeBoolean(request.valueReferencesList.toLongArray(), request.valuesList.toBooleanArray())
+            val status = writeBoolean(request.valueReferencesList.toLongArray(), request.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
         }
     }
@@ -284,7 +284,7 @@ class GrpcFmuServiceImpl(
 
     override fun getFMUstate(request: Service.GetFMUstateRequest, responseObserver: StreamObserver<Service.GetFMUstateResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!modelDescription.canGetAndSetFMUstate) {
+            if (!modelDescription.attributes.canGetAndSetFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
             } else {
 
@@ -301,7 +301,7 @@ class GrpcFmuServiceImpl(
 
     override fun setFMUstate(request: Service.SetFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!modelDescription.canGetAndSetFMUstate) {
+            if (!modelDescription.attributes.canGetAndSetFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
             } else {
 
@@ -314,7 +314,7 @@ class GrpcFmuServiceImpl(
 
     override fun freeFMUstate(request: Service.FreeFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!modelDescription.canGetAndSetFMUstate) {
+            if (!modelDescription.attributes.canGetAndSetFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
             } else {
 
@@ -327,7 +327,7 @@ class GrpcFmuServiceImpl(
 
     override fun serializeFMUstate(request: Service.SerializeFMUstateRequest, responseObserver: StreamObserver<Service.SerializeFMUstateResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            if (!modelDescription.canSerializeFMUstate) {
+            if (!modelDescription.attributes.canSerializeFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
             } else {
 
@@ -345,7 +345,7 @@ class GrpcFmuServiceImpl(
     override fun deSerializeFMUstate(request: Service.DeSerializeFMUstateRequest, responseObserver: StreamObserver<Service.DeSerializeFMUstateResponse>) {
         getSlave(request.instanceId, responseObserver) {
 
-            if (!modelDescription.canSerializeFMUstate) {
+            if (!modelDescription.attributes.canSerializeFMUstate) {
                 unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
             } else {
 
@@ -362,7 +362,7 @@ class GrpcFmuServiceImpl(
     override fun getDirectionalDerivative(request: Service.GetDirectionalDerivativeRequest, responseObserver: StreamObserver<Service.GetDirectionalDerivativeResponse>) {
         getSlave(request.instanceId, responseObserver) {
 
-            if (!modelDescription.providesDirectionalDerivative) {
+            if (!modelDescription.attributes.providesDirectionalDerivative) {
                 unSupportedOperationException(responseObserver, "FMU does not provide directional derivatives!")
             } else {
 

@@ -112,7 +112,7 @@ internal fun Unknown.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Unknown {
     return no.ntnu.ihb.fmuproxy.thrift.Unknown().also { u ->
         u.index = index
         u.dependencies = dependencies
-        dependenciesKind?.also { u.dependenciesKind = it }
+        u.dependenciesKind = dependenciesKind
     }
 }
 
