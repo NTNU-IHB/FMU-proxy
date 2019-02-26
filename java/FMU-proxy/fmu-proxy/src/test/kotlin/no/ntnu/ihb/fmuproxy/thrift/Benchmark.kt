@@ -2,6 +2,7 @@ package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.RealArray
+import no.ntnu.ihb.fmi4j.common.readReal
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
@@ -39,7 +40,7 @@ class Benchmark {
 
                         client.newInstance().use { slave ->
                             runSlave(slave, stepSize, stop) {
-                                val status = slave.variableAccessor.readReal(vr, buffer)
+                                val status = slave.readReal(vr, buffer)
                                 Assertions.assertEquals(FmiStatus.OK, status)
                                 Assertions.assertTrue(buffer[0] > 0)
                             }.also {
@@ -68,7 +69,7 @@ class Benchmark {
                 ThriftFmuClient.socketClient(host, port).load(guid).use { client ->
                     client.newInstance().use { slave ->
                         runSlave(slave, stepSize, stop) {
-                            val read = slave.variableAccessor.readReal(46)
+                            val read = slave.readReal(46)
                             Assertions.assertTrue(read.value > 0)
                         }.also {
                             LOG.info("gRPC remote duration=${it}ms")

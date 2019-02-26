@@ -7,6 +7,7 @@ import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.common.readReal
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
@@ -47,7 +48,7 @@ class Benchmark {
 
     private fun testSlave(slave: FmuSlave): Long {
         return runSlave(slave, stepSize, stop) {
-            slave.variableAccessor.readReal("Temperature_Room").also { read ->
+            slave.readReal("Temperature_Room").also { read ->
                 Assertions.assertEquals(FmiStatus.OK, read.status)
                 Assertions.assertTrue(read.value > 0)
             }
