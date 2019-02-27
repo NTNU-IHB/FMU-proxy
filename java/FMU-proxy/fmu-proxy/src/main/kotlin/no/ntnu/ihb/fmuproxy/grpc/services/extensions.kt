@@ -27,9 +27,9 @@ package no.ntnu.ihb.fmuproxy.grpc.services
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.misc.DefaultExperiment
-import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
-import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
+import no.ntnu.ihb.fmi4j.modeldescription.ModelStructure
+import no.ntnu.ihb.fmi4j.modeldescription.Unknown
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmuproxy.grpc.Service
 
@@ -147,9 +147,9 @@ internal fun TypedScalarVariable<*>.protoType() : Service.ScalarVariable {
         builder.valueReference = valueReference
 
         description?.also { builder.description = it }
-        causality?.also { builder.causality = it.protoType() }
-        variability?.also { builder.variability = it.protoType() }
-        initial?.also { builder.initial = it.protoType() }
+        causality?.also { builder.causality = it.name.toLowerCase() }
+        variability?.also { builder.variability = it.name.toLowerCase() }
+        initial?.also { builder.initial = it.name.toLowerCase() }
 
         when (this) {
             is IntegerVariable -> builder.integerAttribute = this.protoType()
@@ -176,46 +176,6 @@ internal fun Unknown.protoType(): Service.Unknown {
     return Service.Unknown.newBuilder().also { builder ->
         builder.index = index
         builder.addAllDependencies(dependencies)
-
-        dependenciesKind?.also { builder.dependenciesKind = it }
-
+        builder.addAllDependenciesKind(dependenciesKind)
     }.build()
-}
-
-internal fun Causality.protoType(): Service.Causality {
-
-    return when (this) {
-        Causality.INPUT -> Service.Causality.INPUT_CAUSALITY
-        Causality.OUTPUT -> Service.Causality.OUTPUT_CAUSALITY
-        Causality.CALCULATED_PARAMETER -> Service.Causality.CALCULATED_PARAMETER_CAUSALITY
-        Causality.PARAMETER -> Service.Causality.PARAMETER_CAUSALITY
-        Causality.LOCAL -> Service.Causality.LOCAL_CAUSALITY
-        Causality.INDEPENDENT -> Service.Causality.INDEPENDENT_CAUSALITY
-        else -> Service.Causality.UNKNOWN_CAUSALITY
-    }
-
-}
-
-internal fun Variability.protoType(): Service.Variability {
-
-    return when (this) {
-        Variability.CONSTANT -> Service.Variability.CONSTANT_VARIABILITY
-        Variability.CONTINUOUS -> Service.Variability.CONTINUOUS_VARIABILITY
-        Variability.DISCRETE -> Service.Variability.DISCRETE_VARIABILITY
-        Variability.FIXED -> Service.Variability.FIXED_VARIABILITY
-        Variability.TUNABLE -> Service.Variability.TUNABLE_VARIABILITY
-        else -> Service.Variability.UNKNOWN_VARIABILITY
-    }
-
-}
-
-internal fun Initial.protoType(): Service.Initial {
-
-    return when (this) {
-        Initial.CALCULATED ->  Service.Initial.CALCULATED_INITIAL
-        Initial.EXACT ->  Service.Initial.EXACT_INITIAL
-        Initial.APPROX ->  Service.Initial.APPROX_INITIAL
-        else ->  Service.Initial.UNKNOWN_INITIAL
-    }
-
 }

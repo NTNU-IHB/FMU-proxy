@@ -25,7 +25,7 @@
 package no.ntnu.ihb.fmuproxy.cli
 
 import info.laht.yajrpc.RpcHandler
-import no.ntnu.ihb.fmi4j.common.isLinux
+import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
@@ -116,7 +116,7 @@ class Args : Callable<FmuProxy> {
 
                 RpcHandler(RpcFmuService(map)).also { handler ->
 
-                    if (!isLinux) {
+                    if (!OsUtil.isLinux) {
                         FmuProxyJsonHttpServer(handler).apply {
                             addServer(this, jsonHttpPort)
                         }

@@ -25,12 +25,8 @@
 package no.ntnu.ihb.fmuproxy.grpc
 
 import no.ntnu.ihb.fmi4j.common.*
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.logging.LogCategories
-import no.ntnu.ihb.fmi4j.modeldescription.misc.*
-import no.ntnu.ihb.fmi4j.modeldescription.structure.ModelStructure
-import no.ntnu.ihb.fmi4j.modeldescription.structure.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.*
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonScalarVariable
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmuproxy.Solver
 
@@ -50,39 +46,6 @@ internal fun Service.Status.convert(): FmiStatus {
         Service.Status.UNRECOGNIZED -> throw AssertionError("Fatal: Unrecognized status type: $this")
     }
 }
-
-internal fun Service.Causality.convert(): Causality? {
-    return when(this) {
-        Service.Causality.CALCULATED_PARAMETER_CAUSALITY -> Causality.CALCULATED_PARAMETER
-        Service.Causality.INDEPENDENT_CAUSALITY -> Causality.INDEPENDENT
-        Service.Causality.INPUT_CAUSALITY -> Causality.INPUT
-        Service.Causality.LOCAL_CAUSALITY -> Causality.LOCAL
-        Service.Causality.OUTPUT_CAUSALITY -> Causality.OUTPUT
-        Service.Causality.PARAMETER_CAUSALITY -> Causality.PARAMETER
-        else -> null
-    }
-}
-
-internal fun Service.Variability.convert(): Variability? {
-    return when(this) {
-        Service.Variability.CONSTANT_VARIABILITY -> Variability.CONSTANT
-        Service.Variability.CONTINUOUS_VARIABILITY -> Variability.CONTINUOUS
-        Service.Variability.DISCRETE_VARIABILITY -> Variability.DISCRETE
-        Service.Variability.FIXED_VARIABILITY -> Variability.FIXED
-        Service.Variability.TUNABLE_VARIABILITY -> Variability.TUNABLE
-        else -> null
-    }
-}
-
-internal fun Service.Initial.convert(): Initial? {
-    return when(this) {
-        Service.Initial.APPROX_INITIAL -> Initial.APPROX
-        Service.Initial.CALCULATED_INITIAL -> Initial.CALCULATED
-        Service.Initial.EXACT_INITIAL -> Initial.EXACT
-        else -> null
-    }
-}
-
 internal fun Service.IntegerRead.convert(): FmuIntegerArrayRead {
     return FmuIntegerArrayRead(valuesList.toIntArray(), status.convert())
 }
@@ -100,12 +63,16 @@ internal fun Service.BooleanRead.convert(): FmuBooleanArrayRead {
 }
 
 internal fun Service.DefaultExperiment.convert(): DefaultExperiment {
-    return DefaultExperimentImpl(
-            startTime = startTime,
-            stopTime = stopTime,
-            tolerance = tolerance,
-            stepSize = stepSize
-    )
+    return object: DefaultExperiment{
+        override val startTime: Double
+            get() = this@convert.startTime
+        override val stepSize: Double
+            get() = this@convert.stepSize
+        override val stopTime: Double
+            get() = this@convert.stopTime
+        override val tolerance: Double
+            get() = this@convert.tolerance
+    }
 }
 
 
@@ -115,8 +82,8 @@ internal fun Service.Unknown.convert(): Unknown {
             get() = getIndex()
         override val dependencies: List<Int>
             get() = dependenciesList
-        override val dependenciesKind: String?
-            get() = getDependenciesKind()
+        override val dependenciesKind: List<String>
+            get() = dependenciesKindList
     }
 }
 
@@ -131,66 +98,108 @@ internal fun Service.ModelStructure.convert(): ModelStructure {
     }
 }
 
-internal fun Service.IntegerAttribute.convert(): IntegerAttributeImpl {
-    return IntegerAttributeImpl(
-            min = min,
-            max = max,
-            start = start,
-            quantity = quantity
-    )
+internal fun Service.IntegerAttribute.convert(): IntegerAttribute {
+    return object: IntegerAttribute {
+        override val declaredType: String?
+            get() = null
+        override val max: Int?
+            get() = this@convert.max
+        override val min: Int?
+            get() = this@convert.min
+        override val quantity: String?
+            get() = this@convert.quantity
+        override val start: Int?
+            get() = this@convert.start
+    }
 }
 
-internal fun Service.RealAttribute.convert(): RealAttributeImpl {
-    return RealAttributeImpl(
-            min = min,
-            max = max,
-            start = start,
-            quantity = quantity
-    )
+internal fun Service.RealAttribute.convert(): RealAttribute {
+    return object: RealAttribute {
+        override val declaredType: String?
+            get() = null
+        override val max: Double?
+            get() = this@convert.max
+        override val min: Double?
+            get() = this@convert.min
+        override val quantity: String?
+            get() = this@convert.quantity
+        override val start: Double?
+            get() = this@convert.start
+        override val derivative: Int?
+            get() = null
+        override val displayUnit: String?
+            get() = null
+        override val nominal: Double?
+            get() = null
+        override val reinit: Boolean
+            get() = false
+        override val relativeQuantity: Boolean?
+            get() = null
+        override val unbounded: Boolean?
+            get() = null
+        override val unit: String?
+            get() = null
+    }
 }
 
-internal fun Service.StringAttribute.convert(): StringAttributeImpl {
-    return StringAttributeImpl(
-            start = start
-    )
+internal fun Service.StringAttribute.convert(): StringAttribute {
+    return object: StringAttribute {
+        override val declaredType: String?
+            get() = null
+        override val start: String?
+            get() = this@convert.start
+    }
 }
 
-internal fun Service.BooleanAttribute.convert(): BooleanAttributeImpl {
-    return BooleanAttributeImpl(
-            start = start
-    )
+internal fun Service.BooleanAttribute.convert(): BooleanAttribute {
+    return object: BooleanAttribute {
+        override val declaredType: String?
+            get() = null
+        override val start: Boolean?
+            get() = this@convert.start
+    }
 }
 
-internal fun Service.EnumerationAttribute.convert(): EnumerationAttributeImpl {
-    return EnumerationAttributeImpl(
-            min = min,
-            max = max,
-            start = start,
-            quantity = quantity
-    )
+internal fun Service.EnumerationAttribute.convert(): EnumerationAttribute {
+    return object: EnumerationAttribute {
+        override val declaredType: String?
+            get() = null
+        override val max: Int?
+            get() = this@convert.max
+        override val min: Int?
+            get() = this@convert.min
+        override val quantity: String?
+            get() = this@convert.quantity
+        override val start: Int?
+            get() = this@convert.start
+    }
 }
 
 internal fun Service.ScalarVariable.convert(): TypedScalarVariable<*> {
 
-    val v = ScalarVariableImpl(
-            name = name,
-            description = description,
-            valueReference = valueReference,
-            causality = causality?.convert(),
-            variability = variability?.convert(),
-            initial = initial?.convert()
-    )
-
-    when(attributeCase) {
-        Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> v.integerAttribute = integerAttribute.convert()
-        Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> v.realAttribute = realAttribute.convert()
-        Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> v.stringAttribute = stringAttribute.convert()
-        Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> v.booleanAttribute = booleanAttribute.convert()
-        Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> v.enumerationAttribute = enumerationAttribute.convert()
-        else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
+    val v = object: ScalarVariable {
+        override val causality: Causality?
+            get() = this@convert.causality?.let { Causality.valueOf(it.toUpperCase()) }
+        override val description: String?
+            get() = this@convert.description
+        override val initial: Initial?
+            get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
+        override val name: String
+            get() = this@convert.name
+        override val valueReference: Long
+            get() = this@convert.valueReference
+        override val variability: Variability?
+            get() = this@convert.variability?.let { Variability.valueOf(it.toUpperCase()) }
     }
 
-    return v.toTyped()
+    return when(attributeCase) {
+        Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> integerAttribute.convert().let { IntegerVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> realAttribute.convert().let { RealVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> stringAttribute.convert().let { StringVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> booleanAttribute.convert().let { BooleanVariable(v, it) }
+        Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> enumerationAttribute.convert().let { EnumerationVariable(v, it) }
+        else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
+    }
 
 }
 
@@ -232,7 +241,7 @@ internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
             get() = false
         override val providesDirectionalDerivative: Boolean
             get() = this@convert.providesDirectionalDerivative
-        override val sourceFiles: List<SourceFile>
+        override val sourceFiles: SourceFiles
             get() = emptyList()
 
         override val canHandleVariableCommunicationStepSize: Boolean
@@ -243,8 +252,6 @@ internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
             get() = false
         override val maxOutputDerivativeOrder: Int
             get() = this@convert.maxOutputDerivativeOrder
-        override val canProvideMaxStepSize: Boolean
-            get() = false
     }
 
 }

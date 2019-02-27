@@ -30,8 +30,8 @@ import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.parser.ModelDescriptionParser
-import no.ntnu.ihb.fmi4j.solvers.me.ApacheSolvers
+import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
@@ -78,7 +78,7 @@ class RpcFmuService(
     @RpcMethod
     fun load(url: String): FmuId {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
@@ -213,7 +213,7 @@ class RpcFmuService(
     @RpcMethod
     fun readInteger(instanceId: InstanceId, vr: ValueReferences): FmuIntegerArrayRead {
         val values = IntArray(vr.size)
-        return getSlave(instanceId).variableAccessor.readInteger(vr, values).let {
+        return getSlave(instanceId).readInteger(vr, values).let {
             FmuIntegerArrayRead(values, it)
         }
     }
@@ -221,7 +221,7 @@ class RpcFmuService(
     @RpcMethod
     fun readReal(instanceId: InstanceId, vr: ValueReferences): FmuRealArrayRead {
         val values = RealArray(vr.size)
-        return getSlave(instanceId).variableAccessor.readReal(vr, values).let {
+        return getSlave(instanceId).readReal(vr, values).let {
             FmuRealArrayRead(values, it)
         }
     }
@@ -229,7 +229,7 @@ class RpcFmuService(
     @RpcMethod
     fun readString(instanceId: InstanceId, vr: ValueReferences): FmuStringArrayRead {
         val values = StringArray(vr.size) { "" }
-        return getSlave(instanceId).variableAccessor.readString(vr, values).let {
+        return getSlave(instanceId).readString(vr, values).let {
             FmuStringArrayRead(values, it)
         }
     }
@@ -237,35 +237,34 @@ class RpcFmuService(
     @RpcMethod
     fun readBoolean(instanceId: InstanceId, vr: ValueReferences): FmuBooleanArrayRead {
         val values = BooleanArray(vr.size)
-        return getSlave(instanceId).variableAccessor.readBoolean(vr, values).let {
+        return getSlave(instanceId).readBoolean(vr, values).let {
             FmuBooleanArrayRead(values, it)
         }
     }
 
     @RpcMethod
     fun writeInteger(instanceId: InstanceId, vr: ValueReferences, value: IntArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeInteger(vr, value)
+        return getSlave(instanceId).writeInteger(vr, value)
     }
 
     @RpcMethod
     fun writeReal(instanceId: InstanceId, vr: ValueReferences, value: DoubleArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeReal(vr, value)
+        return getSlave(instanceId).writeReal(vr, value)
     }
-
 
     @RpcMethod
     fun writeString(instanceId: InstanceId, vr: ValueReferences, value: StringArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeString(vr, value)
+        return getSlave(instanceId).writeString(vr, value)
     }
 
     @RpcMethod
     fun writeBoolean(instanceId: InstanceId, vr: ValueReference, value: Boolean): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
+        return getSlave(instanceId).writeBoolean(vr, value)
     }
 
     @RpcMethod
     fun writeBoolean(instanceId: InstanceId, vr: ValueReferences, value: BooleanArray): FmiStatus {
-        return getSlave(instanceId).variableAccessor.writeBoolean(vr, value)
+        return getSlave(instanceId).writeBoolean(vr, value)
     }
 
     private companion object {

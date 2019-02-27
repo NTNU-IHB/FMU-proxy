@@ -38,14 +38,14 @@ import org.slf4j.LoggerFactory
  */
 class GrpcFmuServer(
         private val fmus: MutableMap<String, Fmu> = mutableMapOf()
-): FmuProxyServer {
+) : FmuProxyServer {
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
     }
 
     override var port: Int? = null
-    private set
+        private set
 
     override val simpleName = "grpc/http2"
 
@@ -66,7 +66,7 @@ class GrpcFmuServer(
             this.port = port
             server = ServerBuilder.forPort(port).apply {
                 directExecutor()
-               addService(service)
+                addService(service)
             }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")

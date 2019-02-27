@@ -1075,7 +1075,7 @@ void InitDefaults() {
 }
 
 ::google::protobuf::Metadata file_level_metadata[51];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[4];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -1616,166 +1616,153 @@ void AddDescriptorsImpl() {
       "e\022\r\n\005start\030\001 \001(\t\"!\n\020BooleanAttribute\022\r\n\005"
       "start\030\001 \001(\010\"Q\n\024EnumerationAttribute\022\013\n\003m"
       "in\030\001 \001(\005\022\013\n\003max\030\002 \001(\005\022\r\n\005start\030\003 \001(\005\022\020\n\010"
-      "quantity\030\004 \001(\t\"\226\004\n\016ScalarVariable\022\027\n\017val"
+      "quantity\030\004 \001(\t\"\310\003\n\016ScalarVariable\022\027\n\017val"
       "ue_reference\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\023\n\013desc"
-      "ription\030\003 \001(\t\022\'\n\007initial\030\004 \001(\0162\026.fmuprox"
-      "y.grpc.Initial\022+\n\tcausality\030\005 \001(\0162\030.fmup"
-      "roxy.grpc.Causality\022/\n\013variability\030\006 \001(\016"
-      "2\032.fmuproxy.grpc.Variability\022<\n\021integer_"
-      "attribute\030\n \001(\0132\037.fmuproxy.grpc.IntegerA"
-      "ttributeH\000\0226\n\016real_attribute\030\013 \001(\0132\034.fmu"
-      "proxy.grpc.RealAttributeH\000\022:\n\020string_att"
-      "ribute\030\014 \001(\0132\036.fmuproxy.grpc.StringAttri"
-      "buteH\000\022<\n\021boolean_attribute\030\r \001(\0132\037.fmup"
-      "roxy.grpc.BooleanAttributeH\000\022D\n\025enumerat"
-      "ion_attribute\030\016 \001(\0132#.fmuproxy.grpc.Enum"
-      "erationAttributeH\000B\013\n\tattribute\"`\n\021Defau"
-      "ltExperiment\022\022\n\nstart_time\030\001 \001(\001\022\021\n\tstop"
-      "_time\030\002 \001(\001\022\021\n\ttolerance\030\003 \001(\001\022\021\n\tstep_s"
-      "ize\030\004 \001(\001\"I\n\007Unknown\022\r\n\005index\030\001 \001(\r\022\024\n\014d"
-      "ependencies\030\002 \003(\r\022\031\n\021dependencies_kind\030\003"
-      " \001(\t\"\230\001\n\016ModelStructure\022\'\n\007outputs\030\001 \003(\013"
-      "2\026.fmuproxy.grpc.Unknown\022+\n\013derivatives\030"
-      "\002 \003(\0132\026.fmuproxy.grpc.Unknown\0220\n\020initial"
-      "_unknowns\030\003 \003(\0132\026.fmuproxy.grpc.Unknown\""
-      "\026\n\005FmuId\022\r\n\005value\030\001 \001(\t\"\033\n\nInstanceId\022\r\n"
-      "\005value\030\001 \001(\t\"\"\n\023ModelDescriptionXml\022\013\n\003x"
-      "ml\030\001 \001(\t\"7\n\016StatusResponse\022%\n\006status\030\001 \001"
-      "(\0162\025.fmuproxy.grpc.Status\"N\n\014StepRespons"
-      "e\022%\n\006status\030\001 \001(\0162\025.fmuproxy.grpc.Status"
-      "\022\027\n\017simulation_time\030\002 \001(\001\"-\n\033CreateInsta"
-      "nceFromCSRequest\022\016\n\006fmu_id\030\001 \001(\t\"T\n\033Crea"
-      "teInstanceFromMERequest\022\016\n\006fmu_id\030\001 \001(\t\022"
-      "%\n\006solver\030\002 \001(\0132\025.fmuproxy.grpc.Solver\","
-      "\n\032GetModelDescriptionRequest\022\016\n\006fmu_id\030\001"
-      " \001(\t\"7\n GetCoSimulationAttributesRequest"
-      "\022\023\n\013instance_id\030\001 \001(\t\"]\n\026SetupExperiment"
-      "Request\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005start\030\002 "
-      "\001(\001\022\014\n\004stop\030\003 \001(\001\022\021\n\ttolerance\030\004 \001(\001\"5\n\036"
-      "EnterInitializationModeRequest\022\023\n\013instan"
-      "ce_id\030\001 \001(\t\"4\n\035ExitInitializationModeReq"
-      "uest\022\023\n\013instance_id\030\001 \001(\t\"5\n\013StepRequest"
-      "\022\023\n\013instance_id\030\001 \001(\t\022\021\n\tstep_size\030\002 \001(\001"
-      "\"#\n\014ResetRequest\022\023\n\013instance_id\030\001 \001(\t\"\'\n"
-      "\020TerminateRequest\022\023\n\013instance_id\030\001 \001(\t\"<"
-      "\n\013ReadRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020va"
-      "lue_references\030\002 \003(\004\"T\n\023WriteIntegerRequ"
-      "est\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_refere"
-      "nces\030\002 \003(\004\022\016\n\006values\030\003 \003(\005\"Q\n\020WriteRealR"
-      "equest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_ref"
-      "erences\030\002 \003(\004\022\016\n\006values\030\003 \003(\001\"S\n\022WriteSt"
-      "ringRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020valu"
-      "e_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\t\"T\n\023Wr"
-      "iteBooleanRequest\022\023\n\013instance_id\030\001 \001(\t\022\030"
-      "\n\020value_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\010"
-      "\"D\n\013IntegerRead\022\016\n\006values\030\001 \003(\005\022%\n\006statu"
-      "s\030\002 \001(\0162\025.fmuproxy.grpc.Status\"A\n\010RealRe"
-      "ad\022\016\n\006values\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.fmu"
-      "proxy.grpc.Status\"C\n\nStringRead\022\016\n\006value"
-      "s\030\001 \003(\t\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc."
-      "Status\"D\n\013BooleanRead\022\016\n\006values\030\001 \003(\010\022%\n"
-      "\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"(\n\006"
-      "Solver\022\014\n\004name\030\001 \001(\t\022\020\n\010settings\030\002 \001(\t\"\025"
-      "\n\004Bool\022\r\n\005value\030\001 \001(\010\")\n\022GetFMUstateRequ"
-      "est\022\023\n\013instance_id\030\001 \001(\t\"K\n\023GetFMUstateR"
-      "esponse\022\r\n\005state\030\001 \001(\003\022%\n\006status\030\002 \001(\0162\025"
-      ".fmuproxy.grpc.Status\"8\n\022SetFMUstateRequ"
-      "est\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\003\""
-      "9\n\023FreeFMUstateRequest\022\023\n\013instance_id\030\001 "
-      "\001(\t\022\r\n\005state\030\002 \001(\003\">\n\030SerializeFMUstateR"
-      "equest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001"
-      "(\003\"Q\n\031SerializeFMUstateResponse\022\r\n\005state"
-      "\030\001 \001(\014\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.S"
-      "tatus\"@\n\032DeSerializeFMUstateRequest\022\023\n\013i"
-      "nstance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\014\"S\n\033DeSer"
-      "ializeFMUstateResponse\022\r\n\005state\030\001 \001(\003\022%\n"
-      "\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"0\n\036"
-      "CanCreateInstanceFromCSRequest\022\016\n\006fmu_id"
-      "\030\001 \001(\t\"0\n\036CanCreateInstanceFromMERequest"
-      "\022\016\n\006fmu_id\030\001 \001(\t\"x\n\037GetDirectionalDeriva"
-      "tiveRequest\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_un"
-      "known_ref\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024\n\014"
-      "dv_known_ref\030\004 \003(\001\"a\n GetDirectionalDeri"
-      "vativeResponse\022\026\n\016dv_unknown_ref\030\001 \003(\001\022%"
-      "\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"\006\n"
-      "\004Void\"\022\n\003Url\022\013\n\003url\030\001 \001(\t*\272\001\n\tCausality\022"
-      "\023\n\017INPUT_CAUSALITY\020\000\022\024\n\020OUTPUT_CAUSALITY"
-      "\020\001\022\027\n\023PARAMETER_CAUSALITY\020\002\022\"\n\036CALCULATE"
-      "D_PARAMETER_CAUSALITY\020\003\022\023\n\017LOCAL_CAUSALI"
-      "TY\020\004\022\031\n\025INDEPENDENT_CAUSALITY\020\005\022\025\n\021UNKNO"
-      "WN_CAUSALITY\020\006*\246\001\n\013Variability\022\030\n\024CONSTA"
-      "NT_VARIABILITY\020\000\022\025\n\021FIXED_VARIABILITY\020\001\022"
-      "\032\n\026CONTINUOUS_VARIABILITY\020\002\022\030\n\024DISCRETE_"
-      "VARIABILITY\020\003\022\027\n\023TUNABLE_VARIABILITY\020\004\022\027"
-      "\n\023UNKNOWN_VARIABILITY\020\005*]\n\007Initial\022\021\n\rEX"
-      "ACT_INITIAL\020\000\022\022\n\016APPROX_INITIAL\020\001\022\026\n\022CAL"
-      "CULATED_INITIAL\020\002\022\023\n\017UNKNOWN_INITIAL\020\003*w"
-      "\n\006Status\022\r\n\tOK_STATUS\020\000\022\022\n\016WARNING_STATU"
-      "S\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERROR_STATUS\020"
-      "\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING_STATUS\020\0052"
-      "\263\022\n\nFmuService\0220\n\004Load\022\022.fmuproxy.grpc.U"
-      "rl\032\024.fmuproxy.grpc.FmuId\022a\n\023GetModelDesc"
-      "ription\022).fmuproxy.grpc.GetModelDescript"
-      "ionRequest\032\037.fmuproxy.grpc.ModelDescript"
-      "ion\022s\n\031GetCoSimulationAttributes\022/.fmupr"
-      "oxy.grpc.GetCoSimulationAttributesReques"
-      "t\032%.fmuproxy.grpc.CoSimulationAttributes"
-      "\022]\n\027CanCreateInstanceFromCS\022-.fmuproxy.g"
-      "rpc.CanCreateInstanceFromCSRequest\032\023.fmu"
-      "proxy.grpc.Bool\022]\n\027CanCreateInstanceFrom"
-      "ME\022-.fmuproxy.grpc.CanCreateInstanceFrom"
-      "MERequest\032\023.fmuproxy.grpc.Bool\022]\n\024Create"
-      "InstanceFromCS\022*.fmuproxy.grpc.CreateIns"
-      "tanceFromCSRequest\032\031.fmuproxy.grpc.Insta"
-      "nceId\022]\n\024CreateInstanceFromME\022*.fmuproxy"
-      ".grpc.CreateInstanceFromMERequest\032\031.fmup"
-      "roxy.grpc.InstanceId\022W\n\017SetupExperiment\022"
-      "%.fmuproxy.grpc.SetupExperimentRequest\032\035"
-      ".fmuproxy.grpc.StatusResponse\022g\n\027EnterIn"
-      "itializationMode\022-.fmuproxy.grpc.EnterIn"
-      "itializationModeRequest\032\035.fmuproxy.grpc."
-      "StatusResponse\022e\n\026ExitInitializationMode"
-      "\022,.fmuproxy.grpc.ExitInitializationModeR"
-      "equest\032\035.fmuproxy.grpc.StatusResponse\022\?\n"
-      "\004Step\022\032.fmuproxy.grpc.StepRequest\032\033.fmup"
-      "roxy.grpc.StepResponse\022C\n\005Reset\022\033.fmupro"
-      "xy.grpc.ResetRequest\032\035.fmuproxy.grpc.Sta"
-      "tusResponse\022K\n\tTerminate\022\037.fmuproxy.grpc"
-      ".TerminateRequest\032\035.fmuproxy.grpc.Status"
-      "Response\022E\n\013ReadInteger\022\032.fmuproxy.grpc."
-      "ReadRequest\032\032.fmuproxy.grpc.IntegerRead\022"
-      "\?\n\010ReadReal\022\032.fmuproxy.grpc.ReadRequest\032"
-      "\027.fmuproxy.grpc.RealRead\022C\n\nReadString\022\032"
-      ".fmuproxy.grpc.ReadRequest\032\031.fmuproxy.gr"
-      "pc.StringRead\022E\n\013ReadBoolean\022\032.fmuproxy."
-      "grpc.ReadRequest\032\032.fmuproxy.grpc.Boolean"
-      "Read\022Q\n\014WriteInteger\022\".fmuproxy.grpc.Wri"
-      "teIntegerRequest\032\035.fmuproxy.grpc.StatusR"
-      "esponse\022K\n\tWriteReal\022\037.fmuproxy.grpc.Wri"
-      "teRealRequest\032\035.fmuproxy.grpc.StatusResp"
-      "onse\022O\n\013WriteString\022!.fmuproxy.grpc.Writ"
-      "eStringRequest\032\035.fmuproxy.grpc.StatusRes"
-      "ponse\022Q\n\014WriteBoolean\022\".fmuproxy.grpc.Wr"
-      "iteBooleanRequest\032\035.fmuproxy.grpc.Status"
-      "Response\022T\n\013GetFMUstate\022!.fmuproxy.grpc."
-      "GetFMUstateRequest\032\".fmuproxy.grpc.GetFM"
-      "UstateResponse\022O\n\013SetFMUstate\022!.fmuproxy"
-      ".grpc.SetFMUstateRequest\032\035.fmuproxy.grpc"
-      ".StatusResponse\022Q\n\014FreeFMUstate\022\".fmupro"
-      "xy.grpc.FreeFMUstateRequest\032\035.fmuproxy.g"
-      "rpc.StatusResponse\022f\n\021SerializeFMUstate\022"
-      "\'.fmuproxy.grpc.SerializeFMUstateRequest"
-      "\032(.fmuproxy.grpc.SerializeFMUstateRespon"
-      "se\022l\n\023DeSerializeFMUstate\022).fmuproxy.grp"
-      "c.DeSerializeFMUstateRequest\032*.fmuproxy."
-      "grpc.DeSerializeFMUstateResponse\022{\n\030GetD"
-      "irectionalDerivative\022..fmuproxy.grpc.Get"
-      "DirectionalDerivativeRequest\032/.fmuproxy."
-      "grpc.GetDirectionalDerivativeResponseB\033\n"
-      "\031no.ntnu.ihb.fmuproxy.grpcb\006proto3"
+      "ription\030\003 \001(\t\022\017\n\007initial\030\004 \001(\t\022\021\n\tcausal"
+      "ity\030\005 \001(\t\022\023\n\013variability\030\006 \001(\t\022<\n\021intege"
+      "r_attribute\030\n \001(\0132\037.fmuproxy.grpc.Intege"
+      "rAttributeH\000\0226\n\016real_attribute\030\013 \001(\0132\034.f"
+      "muproxy.grpc.RealAttributeH\000\022:\n\020string_a"
+      "ttribute\030\014 \001(\0132\036.fmuproxy.grpc.StringAtt"
+      "ributeH\000\022<\n\021boolean_attribute\030\r \001(\0132\037.fm"
+      "uproxy.grpc.BooleanAttributeH\000\022D\n\025enumer"
+      "ation_attribute\030\016 \001(\0132#.fmuproxy.grpc.En"
+      "umerationAttributeH\000B\013\n\tattribute\"`\n\021Def"
+      "aultExperiment\022\022\n\nstart_time\030\001 \001(\001\022\021\n\tst"
+      "op_time\030\002 \001(\001\022\021\n\ttolerance\030\003 \001(\001\022\021\n\tstep"
+      "_size\030\004 \001(\001\"I\n\007Unknown\022\r\n\005index\030\001 \001(\r\022\024\n"
+      "\014dependencies\030\002 \003(\r\022\031\n\021dependencies_kind"
+      "\030\003 \003(\t\"\230\001\n\016ModelStructure\022\'\n\007outputs\030\001 \003"
+      "(\0132\026.fmuproxy.grpc.Unknown\022+\n\013derivative"
+      "s\030\002 \003(\0132\026.fmuproxy.grpc.Unknown\0220\n\020initi"
+      "al_unknowns\030\003 \003(\0132\026.fmuproxy.grpc.Unknow"
+      "n\"\026\n\005FmuId\022\r\n\005value\030\001 \001(\t\"\033\n\nInstanceId\022"
+      "\r\n\005value\030\001 \001(\t\"\"\n\023ModelDescriptionXml\022\013\n"
+      "\003xml\030\001 \001(\t\"7\n\016StatusResponse\022%\n\006status\030\001"
+      " \001(\0162\025.fmuproxy.grpc.Status\"N\n\014StepRespo"
+      "nse\022%\n\006status\030\001 \001(\0162\025.fmuproxy.grpc.Stat"
+      "us\022\027\n\017simulation_time\030\002 \001(\001\"-\n\033CreateIns"
+      "tanceFromCSRequest\022\016\n\006fmu_id\030\001 \001(\t\"T\n\033Cr"
+      "eateInstanceFromMERequest\022\016\n\006fmu_id\030\001 \001("
+      "\t\022%\n\006solver\030\002 \001(\0132\025.fmuproxy.grpc.Solver"
+      "\",\n\032GetModelDescriptionRequest\022\016\n\006fmu_id"
+      "\030\001 \001(\t\"7\n GetCoSimulationAttributesReque"
+      "st\022\023\n\013instance_id\030\001 \001(\t\"]\n\026SetupExperime"
+      "ntRequest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005start\030"
+      "\002 \001(\001\022\014\n\004stop\030\003 \001(\001\022\021\n\ttolerance\030\004 \001(\001\"5"
+      "\n\036EnterInitializationModeRequest\022\023\n\013inst"
+      "ance_id\030\001 \001(\t\"4\n\035ExitInitializationModeR"
+      "equest\022\023\n\013instance_id\030\001 \001(\t\"5\n\013StepReque"
+      "st\022\023\n\013instance_id\030\001 \001(\t\022\021\n\tstep_size\030\002 \001"
+      "(\001\"#\n\014ResetRequest\022\023\n\013instance_id\030\001 \001(\t\""
+      "\'\n\020TerminateRequest\022\023\n\013instance_id\030\001 \001(\t"
+      "\"<\n\013ReadRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020"
+      "value_references\030\002 \003(\004\"T\n\023WriteIntegerRe"
+      "quest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_refe"
+      "rences\030\002 \003(\004\022\016\n\006values\030\003 \003(\005\"Q\n\020WriteRea"
+      "lRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_r"
+      "eferences\030\002 \003(\004\022\016\n\006values\030\003 \003(\001\"S\n\022Write"
+      "StringRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020va"
+      "lue_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\t\"T\n\023"
+      "WriteBooleanRequest\022\023\n\013instance_id\030\001 \001(\t"
+      "\022\030\n\020value_references\030\002 \003(\004\022\016\n\006values\030\003 \003"
+      "(\010\"D\n\013IntegerRead\022\016\n\006values\030\001 \003(\005\022%\n\006sta"
+      "tus\030\002 \001(\0162\025.fmuproxy.grpc.Status\"A\n\010Real"
+      "Read\022\016\n\006values\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.f"
+      "muproxy.grpc.Status\"C\n\nStringRead\022\016\n\006val"
+      "ues\030\001 \003(\t\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grp"
+      "c.Status\"D\n\013BooleanRead\022\016\n\006values\030\001 \003(\010\022"
+      "%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"("
+      "\n\006Solver\022\014\n\004name\030\001 \001(\t\022\020\n\010settings\030\002 \001(\t"
+      "\"\025\n\004Bool\022\r\n\005value\030\001 \001(\010\")\n\022GetFMUstateRe"
+      "quest\022\023\n\013instance_id\030\001 \001(\t\"K\n\023GetFMUstat"
+      "eResponse\022\r\n\005state\030\001 \001(\003\022%\n\006status\030\002 \001(\016"
+      "2\025.fmuproxy.grpc.Status\"8\n\022SetFMUstateRe"
+      "quest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001("
+      "\003\"9\n\023FreeFMUstateRequest\022\023\n\013instance_id\030"
+      "\001 \001(\t\022\r\n\005state\030\002 \001(\003\">\n\030SerializeFMUstat"
+      "eRequest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002"
+      " \001(\003\"Q\n\031SerializeFMUstateResponse\022\r\n\005sta"
+      "te\030\001 \001(\014\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc"
+      ".Status\"@\n\032DeSerializeFMUstateRequest\022\023\n"
+      "\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\014\"S\n\033DeS"
+      "erializeFMUstateResponse\022\r\n\005state\030\001 \001(\003\022"
+      "%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"0"
+      "\n\036CanCreateInstanceFromCSRequest\022\016\n\006fmu_"
+      "id\030\001 \001(\t\"0\n\036CanCreateInstanceFromMEReque"
+      "st\022\016\n\006fmu_id\030\001 \001(\t\"x\n\037GetDirectionalDeri"
+      "vativeRequest\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_"
+      "unknown_ref\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024"
+      "\n\014dv_known_ref\030\004 \003(\001\"a\n GetDirectionalDe"
+      "rivativeResponse\022\026\n\016dv_unknown_ref\030\001 \003(\001"
+      "\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\""
+      "\006\n\004Void\"\022\n\003Url\022\013\n\003url\030\001 \001(\t*w\n\006Status\022\r\n"
+      "\tOK_STATUS\020\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISC"
+      "ARD_STATUS\020\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_"
+      "STATUS\020\004\022\022\n\016PENDING_STATUS\020\0052\263\022\n\nFmuServ"
+      "ice\0220\n\004Load\022\022.fmuproxy.grpc.Url\032\024.fmupro"
+      "xy.grpc.FmuId\022a\n\023GetModelDescription\022).f"
+      "muproxy.grpc.GetModelDescriptionRequest\032"
+      "\037.fmuproxy.grpc.ModelDescription\022s\n\031GetC"
+      "oSimulationAttributes\022/.fmuproxy.grpc.Ge"
+      "tCoSimulationAttributesRequest\032%.fmuprox"
+      "y.grpc.CoSimulationAttributes\022]\n\027CanCrea"
+      "teInstanceFromCS\022-.fmuproxy.grpc.CanCrea"
+      "teInstanceFromCSRequest\032\023.fmuproxy.grpc."
+      "Bool\022]\n\027CanCreateInstanceFromME\022-.fmupro"
+      "xy.grpc.CanCreateInstanceFromMERequest\032\023"
+      ".fmuproxy.grpc.Bool\022]\n\024CreateInstanceFro"
+      "mCS\022*.fmuproxy.grpc.CreateInstanceFromCS"
+      "Request\032\031.fmuproxy.grpc.InstanceId\022]\n\024Cr"
+      "eateInstanceFromME\022*.fmuproxy.grpc.Creat"
+      "eInstanceFromMERequest\032\031.fmuproxy.grpc.I"
+      "nstanceId\022W\n\017SetupExperiment\022%.fmuproxy."
+      "grpc.SetupExperimentRequest\032\035.fmuproxy.g"
+      "rpc.StatusResponse\022g\n\027EnterInitializatio"
+      "nMode\022-.fmuproxy.grpc.EnterInitializatio"
+      "nModeRequest\032\035.fmuproxy.grpc.StatusRespo"
+      "nse\022e\n\026ExitInitializationMode\022,.fmuproxy"
+      ".grpc.ExitInitializationModeRequest\032\035.fm"
+      "uproxy.grpc.StatusResponse\022\?\n\004Step\022\032.fmu"
+      "proxy.grpc.StepRequest\032\033.fmuproxy.grpc.S"
+      "tepResponse\022C\n\005Reset\022\033.fmuproxy.grpc.Res"
+      "etRequest\032\035.fmuproxy.grpc.StatusResponse"
+      "\022K\n\tTerminate\022\037.fmuproxy.grpc.TerminateR"
+      "equest\032\035.fmuproxy.grpc.StatusResponse\022E\n"
+      "\013ReadInteger\022\032.fmuproxy.grpc.ReadRequest"
+      "\032\032.fmuproxy.grpc.IntegerRead\022\?\n\010ReadReal"
+      "\022\032.fmuproxy.grpc.ReadRequest\032\027.fmuproxy."
+      "grpc.RealRead\022C\n\nReadString\022\032.fmuproxy.g"
+      "rpc.ReadRequest\032\031.fmuproxy.grpc.StringRe"
+      "ad\022E\n\013ReadBoolean\022\032.fmuproxy.grpc.ReadRe"
+      "quest\032\032.fmuproxy.grpc.BooleanRead\022Q\n\014Wri"
+      "teInteger\022\".fmuproxy.grpc.WriteIntegerRe"
+      "quest\032\035.fmuproxy.grpc.StatusResponse\022K\n\t"
+      "WriteReal\022\037.fmuproxy.grpc.WriteRealReque"
+      "st\032\035.fmuproxy.grpc.StatusResponse\022O\n\013Wri"
+      "teString\022!.fmuproxy.grpc.WriteStringRequ"
+      "est\032\035.fmuproxy.grpc.StatusResponse\022Q\n\014Wr"
+      "iteBoolean\022\".fmuproxy.grpc.WriteBooleanR"
+      "equest\032\035.fmuproxy.grpc.StatusResponse\022T\n"
+      "\013GetFMUstate\022!.fmuproxy.grpc.GetFMUstate"
+      "Request\032\".fmuproxy.grpc.GetFMUstateRespo"
+      "nse\022O\n\013SetFMUstate\022!.fmuproxy.grpc.SetFM"
+      "UstateRequest\032\035.fmuproxy.grpc.StatusResp"
+      "onse\022Q\n\014FreeFMUstate\022\".fmuproxy.grpc.Fre"
+      "eFMUstateRequest\032\035.fmuproxy.grpc.StatusR"
+      "esponse\022f\n\021SerializeFMUstate\022\'.fmuproxy."
+      "grpc.SerializeFMUstateRequest\032(.fmuproxy"
+      ".grpc.SerializeFMUstateResponse\022l\n\023DeSer"
+      "ializeFMUstate\022).fmuproxy.grpc.DeSeriali"
+      "zeFMUstateRequest\032*.fmuproxy.grpc.DeSeri"
+      "alizeFMUstateResponse\022{\n\030GetDirectionalD"
+      "erivative\022..fmuproxy.grpc.GetDirectional"
+      "DerivativeRequest\032/.fmuproxy.grpc.GetDir"
+      "ectionalDerivativeResponseB\033\n\031no.ntnu.ih"
+      "b.fmuproxy.grpcb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 7314);
+      descriptor, 6783);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "service.proto", &protobuf_RegisterTypes);
 }
@@ -1793,62 +1780,9 @@ struct StaticDescriptorInitializer {
 }  // namespace protobuf_service_2eproto
 namespace fmuproxy {
 namespace grpc {
-const ::google::protobuf::EnumDescriptor* Causality_descriptor() {
-  protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_service_2eproto::file_level_enum_descriptors[0];
-}
-bool Causality_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* Variability_descriptor() {
-  protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_service_2eproto::file_level_enum_descriptors[1];
-}
-bool Variability_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* Initial_descriptor() {
-  protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_service_2eproto::file_level_enum_descriptors[2];
-}
-bool Initial_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const ::google::protobuf::EnumDescriptor* Status_descriptor() {
   protobuf_service_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_service_2eproto::file_level_enum_descriptors[3];
+  return protobuf_service_2eproto::file_level_enum_descriptors[0];
 }
 bool Status_IsValid(int value) {
   switch (value) {
@@ -4941,9 +4875,19 @@ ScalarVariable::ScalarVariable(const ScalarVariable& from)
   if (from.description().size() > 0) {
     description_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.description_);
   }
-  ::memcpy(&value_reference_, &from.value_reference_,
-    static_cast<size_t>(reinterpret_cast<char*>(&variability_) -
-    reinterpret_cast<char*>(&value_reference_)) + sizeof(variability_));
+  initial_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.initial().size() > 0) {
+    initial_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.initial_);
+  }
+  causality_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.causality().size() > 0) {
+    causality_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.causality_);
+  }
+  variability_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.variability().size() > 0) {
+    variability_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.variability_);
+  }
+  value_reference_ = from.value_reference_;
   clear_has_attribute();
   switch (from.attribute_case()) {
     case kIntegerAttribute: {
@@ -4976,9 +4920,10 @@ ScalarVariable::ScalarVariable(const ScalarVariable& from)
 void ScalarVariable::SharedCtor() {
   name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   description_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&value_reference_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&variability_) -
-      reinterpret_cast<char*>(&value_reference_)) + sizeof(variability_));
+  initial_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  causality_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  variability_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_reference_ = GOOGLE_ULONGLONG(0);
   clear_has_attribute();
 }
 
@@ -4990,6 +4935,9 @@ ScalarVariable::~ScalarVariable() {
 void ScalarVariable::SharedDtor() {
   name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   description_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  initial_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  causality_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  variability_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (has_attribute()) {
     clear_attribute();
   }
@@ -5048,9 +4996,10 @@ void ScalarVariable::Clear() {
 
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   description_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&value_reference_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&variability_) -
-      reinterpret_cast<char*>(&value_reference_)) + sizeof(variability_));
+  initial_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  causality_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  variability_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  value_reference_ = GOOGLE_ULONGLONG(0);
   clear_attribute();
   _internal_metadata_.Clear();
 }
@@ -5111,45 +5060,48 @@ bool ScalarVariable::MergePartialFromCodedStream(
         break;
       }
 
-      // .fmuproxy.grpc.Initial initial = 4;
+      // string initial = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_initial(static_cast< ::fmuproxy::grpc::Initial >(value));
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_initial()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->initial().data(), static_cast<int>(this->initial().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.ScalarVariable.initial"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .fmuproxy.grpc.Causality causality = 5;
+      // string causality = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_causality(static_cast< ::fmuproxy::grpc::Causality >(value));
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_causality()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->causality().data(), static_cast<int>(this->causality().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.ScalarVariable.causality"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .fmuproxy.grpc.Variability variability = 6;
+      // string variability = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_variability(static_cast< ::fmuproxy::grpc::Variability >(value));
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_variability()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->variability().data(), static_cast<int>(this->variability().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.ScalarVariable.variability"));
         } else {
           goto handle_unusual;
         }
@@ -5267,21 +5219,33 @@ void ScalarVariable::SerializeWithCachedSizes(
       3, this->description(), output);
   }
 
-  // .fmuproxy.grpc.Initial initial = 4;
-  if (this->initial() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+  // string initial = 4;
+  if (this->initial().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->initial().data(), static_cast<int>(this->initial().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ScalarVariable.initial");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->initial(), output);
   }
 
-  // .fmuproxy.grpc.Causality causality = 5;
-  if (this->causality() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+  // string causality = 5;
+  if (this->causality().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->causality().data(), static_cast<int>(this->causality().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ScalarVariable.causality");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->causality(), output);
   }
 
-  // .fmuproxy.grpc.Variability variability = 6;
-  if (this->variability() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+  // string variability = 6;
+  if (this->variability().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->variability().data(), static_cast<int>(this->variability().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ScalarVariable.variability");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->variability(), output);
   }
 
@@ -5356,22 +5320,37 @@ void ScalarVariable::SerializeWithCachedSizes(
         3, this->description(), target);
   }
 
-  // .fmuproxy.grpc.Initial initial = 4;
-  if (this->initial() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      4, this->initial(), target);
+  // string initial = 4;
+  if (this->initial().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->initial().data(), static_cast<int>(this->initial().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ScalarVariable.initial");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->initial(), target);
   }
 
-  // .fmuproxy.grpc.Causality causality = 5;
-  if (this->causality() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      5, this->causality(), target);
+  // string causality = 5;
+  if (this->causality().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->causality().data(), static_cast<int>(this->causality().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ScalarVariable.causality");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        5, this->causality(), target);
   }
 
-  // .fmuproxy.grpc.Variability variability = 6;
-  if (this->variability() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      6, this->variability(), target);
+  // string variability = 6;
+  if (this->variability().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->variability().data(), static_cast<int>(this->variability().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.ScalarVariable.variability");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        6, this->variability(), target);
   }
 
   // .fmuproxy.grpc.IntegerAttribute integer_attribute = 10;
@@ -5440,29 +5419,32 @@ size_t ScalarVariable::ByteSizeLong() const {
         this->description());
   }
 
+  // string initial = 4;
+  if (this->initial().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->initial());
+  }
+
+  // string causality = 5;
+  if (this->causality().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->causality());
+  }
+
+  // string variability = 6;
+  if (this->variability().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->variability());
+  }
+
   // uint64 value_reference = 1;
   if (this->value_reference() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
         this->value_reference());
-  }
-
-  // .fmuproxy.grpc.Initial initial = 4;
-  if (this->initial() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->initial());
-  }
-
-  // .fmuproxy.grpc.Causality causality = 5;
-  if (this->causality() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->causality());
-  }
-
-  // .fmuproxy.grpc.Variability variability = 6;
-  if (this->variability() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->variability());
   }
 
   switch (attribute_case()) {
@@ -5540,17 +5522,20 @@ void ScalarVariable::MergeFrom(const ScalarVariable& from) {
 
     description_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.description_);
   }
+  if (from.initial().size() > 0) {
+
+    initial_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.initial_);
+  }
+  if (from.causality().size() > 0) {
+
+    causality_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.causality_);
+  }
+  if (from.variability().size() > 0) {
+
+    variability_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.variability_);
+  }
   if (from.value_reference() != 0) {
     set_value_reference(from.value_reference());
-  }
-  if (from.initial() != 0) {
-    set_initial(from.initial());
-  }
-  if (from.causality() != 0) {
-    set_causality(from.causality());
-  }
-  if (from.variability() != 0) {
-    set_variability(from.variability());
   }
   switch (from.attribute_case()) {
     case kIntegerAttribute: {
@@ -5607,10 +5592,13 @@ void ScalarVariable::InternalSwap(ScalarVariable* other) {
     GetArenaNoVirtual());
   description_.Swap(&other->description_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  initial_.Swap(&other->initial_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  causality_.Swap(&other->causality_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  variability_.Swap(&other->variability_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(value_reference_, other->value_reference_);
-  swap(initial_, other->initial_);
-  swap(causality_, other->causality_);
-  swap(variability_, other->variability_);
   swap(attribute_, other->attribute_);
   swap(_oneof_case_[0], other->_oneof_case_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -5971,18 +5959,14 @@ Unknown::Unknown()
 Unknown::Unknown(const Unknown& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      dependencies_(from.dependencies_) {
+      dependencies_(from.dependencies_),
+      dependencies_kind_(from.dependencies_kind_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  dependencies_kind_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.dependencies_kind().size() > 0) {
-    dependencies_kind_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.dependencies_kind_);
-  }
   index_ = from.index_;
   // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.Unknown)
 }
 
 void Unknown::SharedCtor() {
-  dependencies_kind_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   index_ = 0u;
 }
 
@@ -5992,7 +5976,6 @@ Unknown::~Unknown() {
 }
 
 void Unknown::SharedDtor() {
-  dependencies_kind_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void Unknown::SetCachedSize(int size) const {
@@ -6016,7 +5999,7 @@ void Unknown::Clear() {
   (void) cached_has_bits;
 
   dependencies_.Clear();
-  dependencies_kind_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  dependencies_kind_.Clear();
   index_ = 0u;
   _internal_metadata_.Clear();
 }
@@ -6064,14 +6047,15 @@ bool Unknown::MergePartialFromCodedStream(
         break;
       }
 
-      // string dependencies_kind = 3;
+      // repeated string dependencies_kind = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_dependencies_kind()));
+                input, this->add_dependencies_kind()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->dependencies_kind().data(), static_cast<int>(this->dependencies_kind().length()),
+            this->dependencies_kind(this->dependencies_kind_size() - 1).data(),
+            static_cast<int>(this->dependencies_kind(this->dependencies_kind_size() - 1).length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "fmuproxy.grpc.Unknown.dependencies_kind"));
         } else {
@@ -6122,14 +6106,14 @@ void Unknown::SerializeWithCachedSizes(
       this->dependencies(i), output);
   }
 
-  // string dependencies_kind = 3;
-  if (this->dependencies_kind().size() > 0) {
+  // repeated string dependencies_kind = 3;
+  for (int i = 0, n = this->dependencies_kind_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->dependencies_kind().data(), static_cast<int>(this->dependencies_kind().length()),
+      this->dependencies_kind(i).data(), static_cast<int>(this->dependencies_kind(i).length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "fmuproxy.grpc.Unknown.dependencies_kind");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->dependencies_kind(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      3, this->dependencies_kind(i), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6164,15 +6148,14 @@ void Unknown::SerializeWithCachedSizes(
       WriteUInt32NoTagToArray(this->dependencies_, target);
   }
 
-  // string dependencies_kind = 3;
-  if (this->dependencies_kind().size() > 0) {
+  // repeated string dependencies_kind = 3;
+  for (int i = 0, n = this->dependencies_kind_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->dependencies_kind().data(), static_cast<int>(this->dependencies_kind().length()),
+      this->dependencies_kind(i).data(), static_cast<int>(this->dependencies_kind(i).length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
       "fmuproxy.grpc.Unknown.dependencies_kind");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->dependencies_kind(), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteStringToArray(3, this->dependencies_kind(i), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6208,11 +6191,12 @@ size_t Unknown::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // string dependencies_kind = 3;
-  if (this->dependencies_kind().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->dependencies_kind());
+  // repeated string dependencies_kind = 3;
+  total_size += 1 *
+      ::google::protobuf::internal::FromIntSize(this->dependencies_kind_size());
+  for (int i = 0, n = this->dependencies_kind_size(); i < n; i++) {
+    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+      this->dependencies_kind(i));
   }
 
   // uint32 index = 1;
@@ -6250,10 +6234,7 @@ void Unknown::MergeFrom(const Unknown& from) {
   (void) cached_has_bits;
 
   dependencies_.MergeFrom(from.dependencies_);
-  if (from.dependencies_kind().size() > 0) {
-
-    dependencies_kind_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.dependencies_kind_);
-  }
+  dependencies_kind_.MergeFrom(from.dependencies_kind_);
   if (from.index() != 0) {
     set_index(from.index());
   }
@@ -6284,8 +6265,7 @@ void Unknown::Swap(Unknown* other) {
 void Unknown::InternalSwap(Unknown* other) {
   using std::swap;
   dependencies_.InternalSwap(&other->dependencies_);
-  dependencies_kind_.Swap(&other->dependencies_kind_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
+  dependencies_kind_.InternalSwap(CastToBase(&other->dependencies_kind_));
   swap(index_, other->index_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }

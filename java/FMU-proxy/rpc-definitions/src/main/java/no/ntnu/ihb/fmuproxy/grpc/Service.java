@@ -15,399 +15,6 @@ public final class Service {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code fmuproxy.grpc.Causality}
-   */
-  public enum Causality
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>INPUT_CAUSALITY = 0;</code>
-     */
-    INPUT_CAUSALITY(0),
-    /**
-     * <code>OUTPUT_CAUSALITY = 1;</code>
-     */
-    OUTPUT_CAUSALITY(1),
-    /**
-     * <code>PARAMETER_CAUSALITY = 2;</code>
-     */
-    PARAMETER_CAUSALITY(2),
-    /**
-     * <code>CALCULATED_PARAMETER_CAUSALITY = 3;</code>
-     */
-    CALCULATED_PARAMETER_CAUSALITY(3),
-    /**
-     * <code>LOCAL_CAUSALITY = 4;</code>
-     */
-    LOCAL_CAUSALITY(4),
-    /**
-     * <code>INDEPENDENT_CAUSALITY = 5;</code>
-     */
-    INDEPENDENT_CAUSALITY(5),
-    /**
-     * <code>UNKNOWN_CAUSALITY = 6;</code>
-     */
-    UNKNOWN_CAUSALITY(6),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>INPUT_CAUSALITY = 0;</code>
-     */
-    public static final int INPUT_CAUSALITY_VALUE = 0;
-    /**
-     * <code>OUTPUT_CAUSALITY = 1;</code>
-     */
-    public static final int OUTPUT_CAUSALITY_VALUE = 1;
-    /**
-     * <code>PARAMETER_CAUSALITY = 2;</code>
-     */
-    public static final int PARAMETER_CAUSALITY_VALUE = 2;
-    /**
-     * <code>CALCULATED_PARAMETER_CAUSALITY = 3;</code>
-     */
-    public static final int CALCULATED_PARAMETER_CAUSALITY_VALUE = 3;
-    /**
-     * <code>LOCAL_CAUSALITY = 4;</code>
-     */
-    public static final int LOCAL_CAUSALITY_VALUE = 4;
-    /**
-     * <code>INDEPENDENT_CAUSALITY = 5;</code>
-     */
-    public static final int INDEPENDENT_CAUSALITY_VALUE = 5;
-    /**
-     * <code>UNKNOWN_CAUSALITY = 6;</code>
-     */
-    public static final int UNKNOWN_CAUSALITY_VALUE = 6;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static Causality valueOf(int value) {
-      return forNumber(value);
-    }
-
-    public static Causality forNumber(int value) {
-      switch (value) {
-        case 0: return INPUT_CAUSALITY;
-        case 1: return OUTPUT_CAUSALITY;
-        case 2: return PARAMETER_CAUSALITY;
-        case 3: return CALCULATED_PARAMETER_CAUSALITY;
-        case 4: return LOCAL_CAUSALITY;
-        case 5: return INDEPENDENT_CAUSALITY;
-        case 6: return UNKNOWN_CAUSALITY;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<Causality>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        Causality> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Causality>() {
-            public Causality findValueByNumber(int number) {
-              return Causality.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return no.ntnu.ihb.fmuproxy.grpc.Service.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final Causality[] VALUES = values();
-
-    public static Causality valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private Causality(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:fmuproxy.grpc.Causality)
-  }
-
-  /**
-   * Protobuf enum {@code fmuproxy.grpc.Variability}
-   */
-  public enum Variability
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>CONSTANT_VARIABILITY = 0;</code>
-     */
-    CONSTANT_VARIABILITY(0),
-    /**
-     * <code>FIXED_VARIABILITY = 1;</code>
-     */
-    FIXED_VARIABILITY(1),
-    /**
-     * <code>CONTINUOUS_VARIABILITY = 2;</code>
-     */
-    CONTINUOUS_VARIABILITY(2),
-    /**
-     * <code>DISCRETE_VARIABILITY = 3;</code>
-     */
-    DISCRETE_VARIABILITY(3),
-    /**
-     * <code>TUNABLE_VARIABILITY = 4;</code>
-     */
-    TUNABLE_VARIABILITY(4),
-    /**
-     * <code>UNKNOWN_VARIABILITY = 5;</code>
-     */
-    UNKNOWN_VARIABILITY(5),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>CONSTANT_VARIABILITY = 0;</code>
-     */
-    public static final int CONSTANT_VARIABILITY_VALUE = 0;
-    /**
-     * <code>FIXED_VARIABILITY = 1;</code>
-     */
-    public static final int FIXED_VARIABILITY_VALUE = 1;
-    /**
-     * <code>CONTINUOUS_VARIABILITY = 2;</code>
-     */
-    public static final int CONTINUOUS_VARIABILITY_VALUE = 2;
-    /**
-     * <code>DISCRETE_VARIABILITY = 3;</code>
-     */
-    public static final int DISCRETE_VARIABILITY_VALUE = 3;
-    /**
-     * <code>TUNABLE_VARIABILITY = 4;</code>
-     */
-    public static final int TUNABLE_VARIABILITY_VALUE = 4;
-    /**
-     * <code>UNKNOWN_VARIABILITY = 5;</code>
-     */
-    public static final int UNKNOWN_VARIABILITY_VALUE = 5;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static Variability valueOf(int value) {
-      return forNumber(value);
-    }
-
-    public static Variability forNumber(int value) {
-      switch (value) {
-        case 0: return CONSTANT_VARIABILITY;
-        case 1: return FIXED_VARIABILITY;
-        case 2: return CONTINUOUS_VARIABILITY;
-        case 3: return DISCRETE_VARIABILITY;
-        case 4: return TUNABLE_VARIABILITY;
-        case 5: return UNKNOWN_VARIABILITY;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<Variability>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        Variability> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Variability>() {
-            public Variability findValueByNumber(int number) {
-              return Variability.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return no.ntnu.ihb.fmuproxy.grpc.Service.getDescriptor().getEnumTypes().get(1);
-    }
-
-    private static final Variability[] VALUES = values();
-
-    public static Variability valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private Variability(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:fmuproxy.grpc.Variability)
-  }
-
-  /**
-   * Protobuf enum {@code fmuproxy.grpc.Initial}
-   */
-  public enum Initial
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>EXACT_INITIAL = 0;</code>
-     */
-    EXACT_INITIAL(0),
-    /**
-     * <code>APPROX_INITIAL = 1;</code>
-     */
-    APPROX_INITIAL(1),
-    /**
-     * <code>CALCULATED_INITIAL = 2;</code>
-     */
-    CALCULATED_INITIAL(2),
-    /**
-     * <code>UNKNOWN_INITIAL = 3;</code>
-     */
-    UNKNOWN_INITIAL(3),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>EXACT_INITIAL = 0;</code>
-     */
-    public static final int EXACT_INITIAL_VALUE = 0;
-    /**
-     * <code>APPROX_INITIAL = 1;</code>
-     */
-    public static final int APPROX_INITIAL_VALUE = 1;
-    /**
-     * <code>CALCULATED_INITIAL = 2;</code>
-     */
-    public static final int CALCULATED_INITIAL_VALUE = 2;
-    /**
-     * <code>UNKNOWN_INITIAL = 3;</code>
-     */
-    public static final int UNKNOWN_INITIAL_VALUE = 3;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static Initial valueOf(int value) {
-      return forNumber(value);
-    }
-
-    public static Initial forNumber(int value) {
-      switch (value) {
-        case 0: return EXACT_INITIAL;
-        case 1: return APPROX_INITIAL;
-        case 2: return CALCULATED_INITIAL;
-        case 3: return UNKNOWN_INITIAL;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<Initial>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        Initial> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<Initial>() {
-            public Initial findValueByNumber(int number) {
-              return Initial.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return no.ntnu.ihb.fmuproxy.grpc.Service.getDescriptor().getEnumTypes().get(2);
-    }
-
-    private static final Initial[] VALUES = values();
-
-    public static Initial valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private Initial(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:fmuproxy.grpc.Initial)
-  }
-
-  /**
    * Protobuf enum {@code fmuproxy.grpc.Status}
    */
   public enum Status
@@ -515,7 +122,7 @@ public final class Service {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return no.ntnu.ihb.fmuproxy.grpc.Service.getDescriptor().getEnumTypes().get(3);
+      return no.ntnu.ihb.fmuproxy.grpc.Service.getDescriptor().getEnumTypes().get(0);
     }
 
     private static final Status[] VALUES = values();
@@ -7437,31 +7044,34 @@ public final class Service {
         getDescriptionBytes();
 
     /**
-     * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+     * <code>string initial = 4;</code>
      */
-    int getInitialValue();
+    java.lang.String getInitial();
     /**
-     * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+     * <code>string initial = 4;</code>
      */
-    no.ntnu.ihb.fmuproxy.grpc.Service.Initial getInitial();
+    com.google.protobuf.ByteString
+        getInitialBytes();
 
     /**
-     * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+     * <code>string causality = 5;</code>
      */
-    int getCausalityValue();
+    java.lang.String getCausality();
     /**
-     * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+     * <code>string causality = 5;</code>
      */
-    no.ntnu.ihb.fmuproxy.grpc.Service.Causality getCausality();
+    com.google.protobuf.ByteString
+        getCausalityBytes();
 
     /**
-     * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+     * <code>string variability = 6;</code>
      */
-    int getVariabilityValue();
+    java.lang.String getVariability();
     /**
-     * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+     * <code>string variability = 6;</code>
      */
-    no.ntnu.ihb.fmuproxy.grpc.Service.Variability getVariability();
+    com.google.protobuf.ByteString
+        getVariabilityBytes();
 
     /**
      * <code>.fmuproxy.grpc.IntegerAttribute integer_attribute = 10;</code>
@@ -7546,9 +7156,9 @@ public final class Service {
       valueReference_ = 0L;
       name_ = "";
       description_ = "";
-      initial_ = 0;
-      causality_ = 0;
-      variability_ = 0;
+      initial_ = "";
+      causality_ = "";
+      variability_ = "";
     }
 
     @java.lang.Override
@@ -7592,22 +7202,22 @@ public final class Service {
               description_ = s;
               break;
             }
-            case 32: {
-              int rawValue = input.readEnum();
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              initial_ = rawValue;
+              initial_ = s;
               break;
             }
-            case 40: {
-              int rawValue = input.readEnum();
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              causality_ = rawValue;
+              causality_ = s;
               break;
             }
-            case 48: {
-              int rawValue = input.readEnum();
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              variability_ = rawValue;
+              variability_ = s;
               break;
             }
             case 82: {
@@ -7834,54 +7444,105 @@ public final class Service {
     }
 
     public static final int INITIAL_FIELD_NUMBER = 4;
-    private int initial_;
+    private volatile java.lang.Object initial_;
     /**
-     * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+     * <code>string initial = 4;</code>
      */
-    public int getInitialValue() {
-      return initial_;
+    public java.lang.String getInitial() {
+      java.lang.Object ref = initial_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        initial_ = s;
+        return s;
+      }
     }
     /**
-     * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+     * <code>string initial = 4;</code>
      */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.Initial getInitial() {
-      @SuppressWarnings("deprecation")
-      no.ntnu.ihb.fmuproxy.grpc.Service.Initial result = no.ntnu.ihb.fmuproxy.grpc.Service.Initial.valueOf(initial_);
-      return result == null ? no.ntnu.ihb.fmuproxy.grpc.Service.Initial.UNRECOGNIZED : result;
+    public com.google.protobuf.ByteString
+        getInitialBytes() {
+      java.lang.Object ref = initial_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        initial_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int CAUSALITY_FIELD_NUMBER = 5;
-    private int causality_;
+    private volatile java.lang.Object causality_;
     /**
-     * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+     * <code>string causality = 5;</code>
      */
-    public int getCausalityValue() {
-      return causality_;
+    public java.lang.String getCausality() {
+      java.lang.Object ref = causality_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        causality_ = s;
+        return s;
+      }
     }
     /**
-     * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+     * <code>string causality = 5;</code>
      */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.Causality getCausality() {
-      @SuppressWarnings("deprecation")
-      no.ntnu.ihb.fmuproxy.grpc.Service.Causality result = no.ntnu.ihb.fmuproxy.grpc.Service.Causality.valueOf(causality_);
-      return result == null ? no.ntnu.ihb.fmuproxy.grpc.Service.Causality.UNRECOGNIZED : result;
+    public com.google.protobuf.ByteString
+        getCausalityBytes() {
+      java.lang.Object ref = causality_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        causality_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int VARIABILITY_FIELD_NUMBER = 6;
-    private int variability_;
+    private volatile java.lang.Object variability_;
     /**
-     * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+     * <code>string variability = 6;</code>
      */
-    public int getVariabilityValue() {
-      return variability_;
+    public java.lang.String getVariability() {
+      java.lang.Object ref = variability_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        variability_ = s;
+        return s;
+      }
     }
     /**
-     * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+     * <code>string variability = 6;</code>
      */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.Variability getVariability() {
-      @SuppressWarnings("deprecation")
-      no.ntnu.ihb.fmuproxy.grpc.Service.Variability result = no.ntnu.ihb.fmuproxy.grpc.Service.Variability.valueOf(variability_);
-      return result == null ? no.ntnu.ihb.fmuproxy.grpc.Service.Variability.UNRECOGNIZED : result;
+    public com.google.protobuf.ByteString
+        getVariabilityBytes() {
+      java.lang.Object ref = variability_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        variability_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int INTEGER_ATTRIBUTE_FIELD_NUMBER = 10;
@@ -8037,14 +7698,14 @@ public final class Service {
       if (!getDescriptionBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, description_);
       }
-      if (initial_ != no.ntnu.ihb.fmuproxy.grpc.Service.Initial.EXACT_INITIAL.getNumber()) {
-        output.writeEnum(4, initial_);
+      if (!getInitialBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, initial_);
       }
-      if (causality_ != no.ntnu.ihb.fmuproxy.grpc.Service.Causality.INPUT_CAUSALITY.getNumber()) {
-        output.writeEnum(5, causality_);
+      if (!getCausalityBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, causality_);
       }
-      if (variability_ != no.ntnu.ihb.fmuproxy.grpc.Service.Variability.CONSTANT_VARIABILITY.getNumber()) {
-        output.writeEnum(6, variability_);
+      if (!getVariabilityBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, variability_);
       }
       if (attributeCase_ == 10) {
         output.writeMessage(10, (no.ntnu.ihb.fmuproxy.grpc.Service.IntegerAttribute) attribute_);
@@ -8080,17 +7741,14 @@ public final class Service {
       if (!getDescriptionBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, description_);
       }
-      if (initial_ != no.ntnu.ihb.fmuproxy.grpc.Service.Initial.EXACT_INITIAL.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(4, initial_);
+      if (!getInitialBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, initial_);
       }
-      if (causality_ != no.ntnu.ihb.fmuproxy.grpc.Service.Causality.INPUT_CAUSALITY.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(5, causality_);
+      if (!getCausalityBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, causality_);
       }
-      if (variability_ != no.ntnu.ihb.fmuproxy.grpc.Service.Variability.CONSTANT_VARIABILITY.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(6, variability_);
+      if (!getVariabilityBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, variability_);
       }
       if (attributeCase_ == 10) {
         size += com.google.protobuf.CodedOutputStream
@@ -8134,9 +7792,12 @@ public final class Service {
           .equals(other.getName());
       result = result && getDescription()
           .equals(other.getDescription());
-      result = result && initial_ == other.initial_;
-      result = result && causality_ == other.causality_;
-      result = result && variability_ == other.variability_;
+      result = result && getInitial()
+          .equals(other.getInitial());
+      result = result && getCausality()
+          .equals(other.getCausality());
+      result = result && getVariability()
+          .equals(other.getVariability());
       result = result && getAttributeCase().equals(
           other.getAttributeCase());
       if (!result) return false;
@@ -8183,11 +7844,11 @@ public final class Service {
       hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
       hash = (53 * hash) + getDescription().hashCode();
       hash = (37 * hash) + INITIAL_FIELD_NUMBER;
-      hash = (53 * hash) + initial_;
+      hash = (53 * hash) + getInitial().hashCode();
       hash = (37 * hash) + CAUSALITY_FIELD_NUMBER;
-      hash = (53 * hash) + causality_;
+      hash = (53 * hash) + getCausality().hashCode();
       hash = (37 * hash) + VARIABILITY_FIELD_NUMBER;
-      hash = (53 * hash) + variability_;
+      hash = (53 * hash) + getVariability().hashCode();
       switch (attributeCase_) {
         case 10:
           hash = (37 * hash) + INTEGER_ATTRIBUTE_FIELD_NUMBER;
@@ -8351,11 +8012,11 @@ public final class Service {
 
         description_ = "";
 
-        initial_ = 0;
+        initial_ = "";
 
-        causality_ = 0;
+        causality_ = "";
 
-        variability_ = 0;
+        variability_ = "";
 
         attributeCase_ = 0;
         attribute_ = null;
@@ -8486,14 +8147,17 @@ public final class Service {
           description_ = other.description_;
           onChanged();
         }
-        if (other.initial_ != 0) {
-          setInitialValue(other.getInitialValue());
+        if (!other.getInitial().isEmpty()) {
+          initial_ = other.initial_;
+          onChanged();
         }
-        if (other.causality_ != 0) {
-          setCausalityValue(other.getCausalityValue());
+        if (!other.getCausality().isEmpty()) {
+          causality_ = other.causality_;
+          onChanged();
         }
-        if (other.variability_ != 0) {
-          setVariabilityValue(other.getVariabilityValue());
+        if (!other.getVariability().isEmpty()) {
+          variability_ = other.variability_;
+          onChanged();
         }
         switch (other.getAttributeCase()) {
           case INTEGER_ATTRIBUTE: {
@@ -8728,137 +8392,209 @@ public final class Service {
         return this;
       }
 
-      private int initial_ = 0;
+      private java.lang.Object initial_ = "";
       /**
-       * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+       * <code>string initial = 4;</code>
        */
-      public int getInitialValue() {
-        return initial_;
+      public java.lang.String getInitial() {
+        java.lang.Object ref = initial_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          initial_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+       * <code>string initial = 4;</code>
        */
-      public Builder setInitialValue(int value) {
+      public com.google.protobuf.ByteString
+          getInitialBytes() {
+        java.lang.Object ref = initial_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          initial_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string initial = 4;</code>
+       */
+      public Builder setInitial(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         initial_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+       * <code>string initial = 4;</code>
        */
-      public no.ntnu.ihb.fmuproxy.grpc.Service.Initial getInitial() {
-        @SuppressWarnings("deprecation")
-        no.ntnu.ihb.fmuproxy.grpc.Service.Initial result = no.ntnu.ihb.fmuproxy.grpc.Service.Initial.valueOf(initial_);
-        return result == null ? no.ntnu.ihb.fmuproxy.grpc.Service.Initial.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.fmuproxy.grpc.Initial initial = 4;</code>
-       */
-      public Builder setInitial(no.ntnu.ihb.fmuproxy.grpc.Service.Initial value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+      public Builder clearInitial() {
         
-        initial_ = value.getNumber();
+        initial_ = getDefaultInstance().getInitial();
         onChanged();
         return this;
       }
       /**
-       * <code>.fmuproxy.grpc.Initial initial = 4;</code>
+       * <code>string initial = 4;</code>
        */
-      public Builder clearInitial() {
+      public Builder setInitialBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
         
-        initial_ = 0;
+        initial_ = value;
         onChanged();
         return this;
       }
 
-      private int causality_ = 0;
+      private java.lang.Object causality_ = "";
       /**
-       * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+       * <code>string causality = 5;</code>
        */
-      public int getCausalityValue() {
-        return causality_;
+      public java.lang.String getCausality() {
+        java.lang.Object ref = causality_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          causality_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+       * <code>string causality = 5;</code>
        */
-      public Builder setCausalityValue(int value) {
+      public com.google.protobuf.ByteString
+          getCausalityBytes() {
+        java.lang.Object ref = causality_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          causality_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string causality = 5;</code>
+       */
+      public Builder setCausality(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         causality_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+       * <code>string causality = 5;</code>
        */
-      public no.ntnu.ihb.fmuproxy.grpc.Service.Causality getCausality() {
-        @SuppressWarnings("deprecation")
-        no.ntnu.ihb.fmuproxy.grpc.Service.Causality result = no.ntnu.ihb.fmuproxy.grpc.Service.Causality.valueOf(causality_);
-        return result == null ? no.ntnu.ihb.fmuproxy.grpc.Service.Causality.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.fmuproxy.grpc.Causality causality = 5;</code>
-       */
-      public Builder setCausality(no.ntnu.ihb.fmuproxy.grpc.Service.Causality value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+      public Builder clearCausality() {
         
-        causality_ = value.getNumber();
+        causality_ = getDefaultInstance().getCausality();
         onChanged();
         return this;
       }
       /**
-       * <code>.fmuproxy.grpc.Causality causality = 5;</code>
+       * <code>string causality = 5;</code>
        */
-      public Builder clearCausality() {
+      public Builder setCausalityBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
         
-        causality_ = 0;
+        causality_ = value;
         onChanged();
         return this;
       }
 
-      private int variability_ = 0;
+      private java.lang.Object variability_ = "";
       /**
-       * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+       * <code>string variability = 6;</code>
        */
-      public int getVariabilityValue() {
-        return variability_;
+      public java.lang.String getVariability() {
+        java.lang.Object ref = variability_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          variability_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+       * <code>string variability = 6;</code>
        */
-      public Builder setVariabilityValue(int value) {
+      public com.google.protobuf.ByteString
+          getVariabilityBytes() {
+        java.lang.Object ref = variability_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          variability_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string variability = 6;</code>
+       */
+      public Builder setVariability(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         variability_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+       * <code>string variability = 6;</code>
        */
-      public no.ntnu.ihb.fmuproxy.grpc.Service.Variability getVariability() {
-        @SuppressWarnings("deprecation")
-        no.ntnu.ihb.fmuproxy.grpc.Service.Variability result = no.ntnu.ihb.fmuproxy.grpc.Service.Variability.valueOf(variability_);
-        return result == null ? no.ntnu.ihb.fmuproxy.grpc.Service.Variability.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.fmuproxy.grpc.Variability variability = 6;</code>
-       */
-      public Builder setVariability(no.ntnu.ihb.fmuproxy.grpc.Service.Variability value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+      public Builder clearVariability() {
         
-        variability_ = value.getNumber();
+        variability_ = getDefaultInstance().getVariability();
         onChanged();
         return this;
       }
       /**
-       * <code>.fmuproxy.grpc.Variability variability = 6;</code>
+       * <code>string variability = 6;</code>
        */
-      public Builder clearVariability() {
+      public Builder setVariabilityBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
         
-        variability_ = 0;
+        variability_ = value;
         onChanged();
         return this;
       }
@@ -10295,14 +10031,23 @@ public final class Service {
     int getDependencies(int index);
 
     /**
-     * <code>string dependencies_kind = 3;</code>
+     * <code>repeated string dependencies_kind = 3;</code>
      */
-    java.lang.String getDependenciesKind();
+    java.util.List<java.lang.String>
+        getDependenciesKindList();
     /**
-     * <code>string dependencies_kind = 3;</code>
+     * <code>repeated string dependencies_kind = 3;</code>
+     */
+    int getDependenciesKindCount();
+    /**
+     * <code>repeated string dependencies_kind = 3;</code>
+     */
+    java.lang.String getDependenciesKind(int index);
+    /**
+     * <code>repeated string dependencies_kind = 3;</code>
      */
     com.google.protobuf.ByteString
-        getDependenciesKindBytes();
+        getDependenciesKindBytes(int index);
   }
   /**
    * Protobuf type {@code fmuproxy.grpc.Unknown}
@@ -10319,7 +10064,7 @@ public final class Service {
     private Unknown() {
       index_ = 0;
       dependencies_ = java.util.Collections.emptyList();
-      dependenciesKind_ = "";
+      dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -10374,8 +10119,11 @@ public final class Service {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-
-              dependenciesKind_ = s;
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                dependenciesKind_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              dependenciesKind_.add(s);
               break;
             }
             default: {
@@ -10395,6 +10143,9 @@ public final class Service {
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           dependencies_ = java.util.Collections.unmodifiableList(dependencies_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          dependenciesKind_ = dependenciesKind_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -10447,37 +10198,32 @@ public final class Service {
     private int dependenciesMemoizedSerializedSize = -1;
 
     public static final int DEPENDENCIES_KIND_FIELD_NUMBER = 3;
-    private volatile java.lang.Object dependenciesKind_;
+    private com.google.protobuf.LazyStringList dependenciesKind_;
     /**
-     * <code>string dependencies_kind = 3;</code>
+     * <code>repeated string dependencies_kind = 3;</code>
      */
-    public java.lang.String getDependenciesKind() {
-      java.lang.Object ref = dependenciesKind_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        dependenciesKind_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getDependenciesKindList() {
+      return dependenciesKind_;
     }
     /**
-     * <code>string dependencies_kind = 3;</code>
+     * <code>repeated string dependencies_kind = 3;</code>
+     */
+    public int getDependenciesKindCount() {
+      return dependenciesKind_.size();
+    }
+    /**
+     * <code>repeated string dependencies_kind = 3;</code>
+     */
+    public java.lang.String getDependenciesKind(int index) {
+      return dependenciesKind_.get(index);
+    }
+    /**
+     * <code>repeated string dependencies_kind = 3;</code>
      */
     public com.google.protobuf.ByteString
-        getDependenciesKindBytes() {
-      java.lang.Object ref = dependenciesKind_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        dependenciesKind_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getDependenciesKindBytes(int index) {
+      return dependenciesKind_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -10505,8 +10251,8 @@ public final class Service {
       for (int i = 0; i < dependencies_.size(); i++) {
         output.writeUInt32NoTag(dependencies_.get(i));
       }
-      if (!getDependenciesKindBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, dependenciesKind_);
+      for (int i = 0; i < dependenciesKind_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, dependenciesKind_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -10535,8 +10281,13 @@ public final class Service {
         }
         dependenciesMemoizedSerializedSize = dataSize;
       }
-      if (!getDependenciesKindBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, dependenciesKind_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dependenciesKind_.size(); i++) {
+          dataSize += computeStringSizeNoTag(dependenciesKind_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getDependenciesKindList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10558,8 +10309,8 @@ public final class Service {
           == other.getIndex());
       result = result && getDependenciesList()
           .equals(other.getDependenciesList());
-      result = result && getDependenciesKind()
-          .equals(other.getDependenciesKind());
+      result = result && getDependenciesKindList()
+          .equals(other.getDependenciesKindList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -10577,8 +10328,10 @@ public final class Service {
         hash = (37 * hash) + DEPENDENCIES_FIELD_NUMBER;
         hash = (53 * hash) + getDependenciesList().hashCode();
       }
-      hash = (37 * hash) + DEPENDENCIES_KIND_FIELD_NUMBER;
-      hash = (53 * hash) + getDependenciesKind().hashCode();
+      if (getDependenciesKindCount() > 0) {
+        hash = (37 * hash) + DEPENDENCIES_KIND_FIELD_NUMBER;
+        hash = (53 * hash) + getDependenciesKindList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10716,8 +10469,8 @@ public final class Service {
 
         dependencies_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
-        dependenciesKind_ = "";
-
+        dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -10752,6 +10505,10 @@ public final class Service {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.dependencies_ = dependencies_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          dependenciesKind_ = dependenciesKind_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
         result.dependenciesKind_ = dependenciesKind_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -10815,8 +10572,14 @@ public final class Service {
           }
           onChanged();
         }
-        if (!other.getDependenciesKind().isEmpty()) {
-          dependenciesKind_ = other.dependenciesKind_;
+        if (!other.dependenciesKind_.isEmpty()) {
+          if (dependenciesKind_.isEmpty()) {
+            dependenciesKind_ = other.dependenciesKind_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureDependenciesKindIsMutable();
+            dependenciesKind_.addAll(other.dependenciesKind_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -10941,71 +10704,96 @@ public final class Service {
         return this;
       }
 
-      private java.lang.Object dependenciesKind_ = "";
-      /**
-       * <code>string dependencies_kind = 3;</code>
-       */
-      public java.lang.String getDependenciesKind() {
-        java.lang.Object ref = dependenciesKind_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          dependenciesKind_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private com.google.protobuf.LazyStringList dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureDependenciesKindIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          dependenciesKind_ = new com.google.protobuf.LazyStringArrayList(dependenciesKind_);
+          bitField0_ |= 0x00000004;
+         }
       }
       /**
-       * <code>string dependencies_kind = 3;</code>
+       * <code>repeated string dependencies_kind = 3;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getDependenciesKindList() {
+        return dependenciesKind_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string dependencies_kind = 3;</code>
+       */
+      public int getDependenciesKindCount() {
+        return dependenciesKind_.size();
+      }
+      /**
+       * <code>repeated string dependencies_kind = 3;</code>
+       */
+      public java.lang.String getDependenciesKind(int index) {
+        return dependenciesKind_.get(index);
+      }
+      /**
+       * <code>repeated string dependencies_kind = 3;</code>
        */
       public com.google.protobuf.ByteString
-          getDependenciesKindBytes() {
-        java.lang.Object ref = dependenciesKind_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          dependenciesKind_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getDependenciesKindBytes(int index) {
+        return dependenciesKind_.getByteString(index);
       }
       /**
-       * <code>string dependencies_kind = 3;</code>
+       * <code>repeated string dependencies_kind = 3;</code>
        */
       public Builder setDependenciesKind(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDependenciesKindIsMutable();
+        dependenciesKind_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string dependencies_kind = 3;</code>
+       */
+      public Builder addDependenciesKind(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        dependenciesKind_ = value;
+  ensureDependenciesKindIsMutable();
+        dependenciesKind_.add(value);
         onChanged();
         return this;
       }
       /**
-       * <code>string dependencies_kind = 3;</code>
+       * <code>repeated string dependencies_kind = 3;</code>
+       */
+      public Builder addAllDependenciesKind(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureDependenciesKindIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, dependenciesKind_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string dependencies_kind = 3;</code>
        */
       public Builder clearDependenciesKind() {
-        
-        dependenciesKind_ = getDefaultInstance().getDependenciesKind();
+        dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
       /**
-       * <code>string dependencies_kind = 3;</code>
+       * <code>repeated string dependencies_kind = 3;</code>
        */
-      public Builder setDependenciesKindBytes(
+      public Builder addDependenciesKindBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        
-        dependenciesKind_ = value;
+        ensureDependenciesKindIsMutable();
+        dependenciesKind_.add(value);
         onChanged();
         return this;
       }
@@ -38330,163 +38118,150 @@ public final class Service {
       "e\022\r\n\005start\030\001 \001(\t\"!\n\020BooleanAttribute\022\r\n\005" +
       "start\030\001 \001(\010\"Q\n\024EnumerationAttribute\022\013\n\003m" +
       "in\030\001 \001(\005\022\013\n\003max\030\002 \001(\005\022\r\n\005start\030\003 \001(\005\022\020\n\010" +
-      "quantity\030\004 \001(\t\"\226\004\n\016ScalarVariable\022\027\n\017val" +
+      "quantity\030\004 \001(\t\"\310\003\n\016ScalarVariable\022\027\n\017val" +
       "ue_reference\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\023\n\013desc" +
-      "ription\030\003 \001(\t\022\'\n\007initial\030\004 \001(\0162\026.fmuprox" +
-      "y.grpc.Initial\022+\n\tcausality\030\005 \001(\0162\030.fmup" +
-      "roxy.grpc.Causality\022/\n\013variability\030\006 \001(\016" +
-      "2\032.fmuproxy.grpc.Variability\022<\n\021integer_" +
-      "attribute\030\n \001(\0132\037.fmuproxy.grpc.IntegerA" +
-      "ttributeH\000\0226\n\016real_attribute\030\013 \001(\0132\034.fmu" +
-      "proxy.grpc.RealAttributeH\000\022:\n\020string_att" +
-      "ribute\030\014 \001(\0132\036.fmuproxy.grpc.StringAttri" +
-      "buteH\000\022<\n\021boolean_attribute\030\r \001(\0132\037.fmup" +
-      "roxy.grpc.BooleanAttributeH\000\022D\n\025enumerat" +
-      "ion_attribute\030\016 \001(\0132#.fmuproxy.grpc.Enum" +
-      "erationAttributeH\000B\013\n\tattribute\"`\n\021Defau" +
-      "ltExperiment\022\022\n\nstart_time\030\001 \001(\001\022\021\n\tstop" +
-      "_time\030\002 \001(\001\022\021\n\ttolerance\030\003 \001(\001\022\021\n\tstep_s" +
-      "ize\030\004 \001(\001\"I\n\007Unknown\022\r\n\005index\030\001 \001(\r\022\024\n\014d" +
-      "ependencies\030\002 \003(\r\022\031\n\021dependencies_kind\030\003" +
-      " \001(\t\"\230\001\n\016ModelStructure\022\'\n\007outputs\030\001 \003(\013" +
-      "2\026.fmuproxy.grpc.Unknown\022+\n\013derivatives\030" +
-      "\002 \003(\0132\026.fmuproxy.grpc.Unknown\0220\n\020initial" +
-      "_unknowns\030\003 \003(\0132\026.fmuproxy.grpc.Unknown\"" +
-      "\026\n\005FmuId\022\r\n\005value\030\001 \001(\t\"\033\n\nInstanceId\022\r\n" +
-      "\005value\030\001 \001(\t\"\"\n\023ModelDescriptionXml\022\013\n\003x" +
-      "ml\030\001 \001(\t\"7\n\016StatusResponse\022%\n\006status\030\001 \001" +
-      "(\0162\025.fmuproxy.grpc.Status\"N\n\014StepRespons" +
-      "e\022%\n\006status\030\001 \001(\0162\025.fmuproxy.grpc.Status" +
-      "\022\027\n\017simulation_time\030\002 \001(\001\"-\n\033CreateInsta" +
-      "nceFromCSRequest\022\016\n\006fmu_id\030\001 \001(\t\"T\n\033Crea" +
-      "teInstanceFromMERequest\022\016\n\006fmu_id\030\001 \001(\t\022" +
-      "%\n\006solver\030\002 \001(\0132\025.fmuproxy.grpc.Solver\"," +
-      "\n\032GetModelDescriptionRequest\022\016\n\006fmu_id\030\001" +
-      " \001(\t\"7\n GetCoSimulationAttributesRequest" +
-      "\022\023\n\013instance_id\030\001 \001(\t\"]\n\026SetupExperiment" +
-      "Request\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005start\030\002 " +
-      "\001(\001\022\014\n\004stop\030\003 \001(\001\022\021\n\ttolerance\030\004 \001(\001\"5\n\036" +
-      "EnterInitializationModeRequest\022\023\n\013instan" +
-      "ce_id\030\001 \001(\t\"4\n\035ExitInitializationModeReq" +
-      "uest\022\023\n\013instance_id\030\001 \001(\t\"5\n\013StepRequest" +
-      "\022\023\n\013instance_id\030\001 \001(\t\022\021\n\tstep_size\030\002 \001(\001" +
-      "\"#\n\014ResetRequest\022\023\n\013instance_id\030\001 \001(\t\"\'\n" +
-      "\020TerminateRequest\022\023\n\013instance_id\030\001 \001(\t\"<" +
-      "\n\013ReadRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020va" +
-      "lue_references\030\002 \003(\004\"T\n\023WriteIntegerRequ" +
-      "est\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_refere" +
-      "nces\030\002 \003(\004\022\016\n\006values\030\003 \003(\005\"Q\n\020WriteRealR" +
-      "equest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_ref" +
-      "erences\030\002 \003(\004\022\016\n\006values\030\003 \003(\001\"S\n\022WriteSt" +
-      "ringRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020valu" +
-      "e_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\t\"T\n\023Wr" +
-      "iteBooleanRequest\022\023\n\013instance_id\030\001 \001(\t\022\030" +
-      "\n\020value_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\010" +
-      "\"D\n\013IntegerRead\022\016\n\006values\030\001 \003(\005\022%\n\006statu" +
-      "s\030\002 \001(\0162\025.fmuproxy.grpc.Status\"A\n\010RealRe" +
-      "ad\022\016\n\006values\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.fmu" +
-      "proxy.grpc.Status\"C\n\nStringRead\022\016\n\006value" +
-      "s\030\001 \003(\t\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc." +
-      "Status\"D\n\013BooleanRead\022\016\n\006values\030\001 \003(\010\022%\n" +
-      "\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"(\n\006" +
-      "Solver\022\014\n\004name\030\001 \001(\t\022\020\n\010settings\030\002 \001(\t\"\025" +
-      "\n\004Bool\022\r\n\005value\030\001 \001(\010\")\n\022GetFMUstateRequ" +
-      "est\022\023\n\013instance_id\030\001 \001(\t\"K\n\023GetFMUstateR" +
-      "esponse\022\r\n\005state\030\001 \001(\003\022%\n\006status\030\002 \001(\0162\025" +
-      ".fmuproxy.grpc.Status\"8\n\022SetFMUstateRequ" +
-      "est\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\003\"" +
-      "9\n\023FreeFMUstateRequest\022\023\n\013instance_id\030\001 " +
-      "\001(\t\022\r\n\005state\030\002 \001(\003\">\n\030SerializeFMUstateR" +
-      "equest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001" +
-      "(\003\"Q\n\031SerializeFMUstateResponse\022\r\n\005state" +
-      "\030\001 \001(\014\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.S" +
-      "tatus\"@\n\032DeSerializeFMUstateRequest\022\023\n\013i" +
-      "nstance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\014\"S\n\033DeSer" +
-      "ializeFMUstateResponse\022\r\n\005state\030\001 \001(\003\022%\n" +
-      "\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"0\n\036" +
-      "CanCreateInstanceFromCSRequest\022\016\n\006fmu_id" +
-      "\030\001 \001(\t\"0\n\036CanCreateInstanceFromMERequest" +
-      "\022\016\n\006fmu_id\030\001 \001(\t\"x\n\037GetDirectionalDeriva" +
-      "tiveRequest\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_un" +
-      "known_ref\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024\n\014" +
-      "dv_known_ref\030\004 \003(\001\"a\n GetDirectionalDeri" +
-      "vativeResponse\022\026\n\016dv_unknown_ref\030\001 \003(\001\022%" +
-      "\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"\006\n" +
-      "\004Void\"\022\n\003Url\022\013\n\003url\030\001 \001(\t*\272\001\n\tCausality\022" +
-      "\023\n\017INPUT_CAUSALITY\020\000\022\024\n\020OUTPUT_CAUSALITY" +
-      "\020\001\022\027\n\023PARAMETER_CAUSALITY\020\002\022\"\n\036CALCULATE" +
-      "D_PARAMETER_CAUSALITY\020\003\022\023\n\017LOCAL_CAUSALI" +
-      "TY\020\004\022\031\n\025INDEPENDENT_CAUSALITY\020\005\022\025\n\021UNKNO" +
-      "WN_CAUSALITY\020\006*\246\001\n\013Variability\022\030\n\024CONSTA" +
-      "NT_VARIABILITY\020\000\022\025\n\021FIXED_VARIABILITY\020\001\022" +
-      "\032\n\026CONTINUOUS_VARIABILITY\020\002\022\030\n\024DISCRETE_" +
-      "VARIABILITY\020\003\022\027\n\023TUNABLE_VARIABILITY\020\004\022\027" +
-      "\n\023UNKNOWN_VARIABILITY\020\005*]\n\007Initial\022\021\n\rEX" +
-      "ACT_INITIAL\020\000\022\022\n\016APPROX_INITIAL\020\001\022\026\n\022CAL" +
-      "CULATED_INITIAL\020\002\022\023\n\017UNKNOWN_INITIAL\020\003*w" +
-      "\n\006Status\022\r\n\tOK_STATUS\020\000\022\022\n\016WARNING_STATU" +
-      "S\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERROR_STATUS\020" +
-      "\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING_STATUS\020\0052" +
-      "\263\022\n\nFmuService\0220\n\004Load\022\022.fmuproxy.grpc.U" +
-      "rl\032\024.fmuproxy.grpc.FmuId\022a\n\023GetModelDesc" +
-      "ription\022).fmuproxy.grpc.GetModelDescript" +
-      "ionRequest\032\037.fmuproxy.grpc.ModelDescript" +
-      "ion\022s\n\031GetCoSimulationAttributes\022/.fmupr" +
-      "oxy.grpc.GetCoSimulationAttributesReques" +
-      "t\032%.fmuproxy.grpc.CoSimulationAttributes" +
-      "\022]\n\027CanCreateInstanceFromCS\022-.fmuproxy.g" +
-      "rpc.CanCreateInstanceFromCSRequest\032\023.fmu" +
-      "proxy.grpc.Bool\022]\n\027CanCreateInstanceFrom" +
-      "ME\022-.fmuproxy.grpc.CanCreateInstanceFrom" +
-      "MERequest\032\023.fmuproxy.grpc.Bool\022]\n\024Create" +
-      "InstanceFromCS\022*.fmuproxy.grpc.CreateIns" +
-      "tanceFromCSRequest\032\031.fmuproxy.grpc.Insta" +
-      "nceId\022]\n\024CreateInstanceFromME\022*.fmuproxy" +
-      ".grpc.CreateInstanceFromMERequest\032\031.fmup" +
-      "roxy.grpc.InstanceId\022W\n\017SetupExperiment\022" +
-      "%.fmuproxy.grpc.SetupExperimentRequest\032\035" +
-      ".fmuproxy.grpc.StatusResponse\022g\n\027EnterIn" +
-      "itializationMode\022-.fmuproxy.grpc.EnterIn" +
-      "itializationModeRequest\032\035.fmuproxy.grpc." +
-      "StatusResponse\022e\n\026ExitInitializationMode" +
-      "\022,.fmuproxy.grpc.ExitInitializationModeR" +
-      "equest\032\035.fmuproxy.grpc.StatusResponse\022?\n" +
-      "\004Step\022\032.fmuproxy.grpc.StepRequest\032\033.fmup" +
-      "roxy.grpc.StepResponse\022C\n\005Reset\022\033.fmupro" +
-      "xy.grpc.ResetRequest\032\035.fmuproxy.grpc.Sta" +
-      "tusResponse\022K\n\tTerminate\022\037.fmuproxy.grpc" +
-      ".TerminateRequest\032\035.fmuproxy.grpc.Status" +
-      "Response\022E\n\013ReadInteger\022\032.fmuproxy.grpc." +
-      "ReadRequest\032\032.fmuproxy.grpc.IntegerRead\022" +
-      "?\n\010ReadReal\022\032.fmuproxy.grpc.ReadRequest\032" +
-      "\027.fmuproxy.grpc.RealRead\022C\n\nReadString\022\032" +
-      ".fmuproxy.grpc.ReadRequest\032\031.fmuproxy.gr" +
-      "pc.StringRead\022E\n\013ReadBoolean\022\032.fmuproxy." +
-      "grpc.ReadRequest\032\032.fmuproxy.grpc.Boolean" +
-      "Read\022Q\n\014WriteInteger\022\".fmuproxy.grpc.Wri" +
-      "teIntegerRequest\032\035.fmuproxy.grpc.StatusR" +
-      "esponse\022K\n\tWriteReal\022\037.fmuproxy.grpc.Wri" +
-      "teRealRequest\032\035.fmuproxy.grpc.StatusResp" +
-      "onse\022O\n\013WriteString\022!.fmuproxy.grpc.Writ" +
-      "eStringRequest\032\035.fmuproxy.grpc.StatusRes" +
-      "ponse\022Q\n\014WriteBoolean\022\".fmuproxy.grpc.Wr" +
-      "iteBooleanRequest\032\035.fmuproxy.grpc.Status" +
-      "Response\022T\n\013GetFMUstate\022!.fmuproxy.grpc." +
-      "GetFMUstateRequest\032\".fmuproxy.grpc.GetFM" +
-      "UstateResponse\022O\n\013SetFMUstate\022!.fmuproxy" +
-      ".grpc.SetFMUstateRequest\032\035.fmuproxy.grpc" +
-      ".StatusResponse\022Q\n\014FreeFMUstate\022\".fmupro" +
-      "xy.grpc.FreeFMUstateRequest\032\035.fmuproxy.g" +
-      "rpc.StatusResponse\022f\n\021SerializeFMUstate\022" +
-      "\'.fmuproxy.grpc.SerializeFMUstateRequest" +
-      "\032(.fmuproxy.grpc.SerializeFMUstateRespon" +
-      "se\022l\n\023DeSerializeFMUstate\022).fmuproxy.grp" +
-      "c.DeSerializeFMUstateRequest\032*.fmuproxy." +
-      "grpc.DeSerializeFMUstateResponse\022{\n\030GetD" +
-      "irectionalDerivative\022..fmuproxy.grpc.Get" +
-      "DirectionalDerivativeRequest\032/.fmuproxy." +
-      "grpc.GetDirectionalDerivativeResponseB\033\n" +
-      "\031no.ntnu.ihb.fmuproxy.grpcb\006proto3"
+      "ription\030\003 \001(\t\022\017\n\007initial\030\004 \001(\t\022\021\n\tcausal" +
+      "ity\030\005 \001(\t\022\023\n\013variability\030\006 \001(\t\022<\n\021intege" +
+      "r_attribute\030\n \001(\0132\037.fmuproxy.grpc.Intege" +
+      "rAttributeH\000\0226\n\016real_attribute\030\013 \001(\0132\034.f" +
+      "muproxy.grpc.RealAttributeH\000\022:\n\020string_a" +
+      "ttribute\030\014 \001(\0132\036.fmuproxy.grpc.StringAtt" +
+      "ributeH\000\022<\n\021boolean_attribute\030\r \001(\0132\037.fm" +
+      "uproxy.grpc.BooleanAttributeH\000\022D\n\025enumer" +
+      "ation_attribute\030\016 \001(\0132#.fmuproxy.grpc.En" +
+      "umerationAttributeH\000B\013\n\tattribute\"`\n\021Def" +
+      "aultExperiment\022\022\n\nstart_time\030\001 \001(\001\022\021\n\tst" +
+      "op_time\030\002 \001(\001\022\021\n\ttolerance\030\003 \001(\001\022\021\n\tstep" +
+      "_size\030\004 \001(\001\"I\n\007Unknown\022\r\n\005index\030\001 \001(\r\022\024\n" +
+      "\014dependencies\030\002 \003(\r\022\031\n\021dependencies_kind" +
+      "\030\003 \003(\t\"\230\001\n\016ModelStructure\022\'\n\007outputs\030\001 \003" +
+      "(\0132\026.fmuproxy.grpc.Unknown\022+\n\013derivative" +
+      "s\030\002 \003(\0132\026.fmuproxy.grpc.Unknown\0220\n\020initi" +
+      "al_unknowns\030\003 \003(\0132\026.fmuproxy.grpc.Unknow" +
+      "n\"\026\n\005FmuId\022\r\n\005value\030\001 \001(\t\"\033\n\nInstanceId\022" +
+      "\r\n\005value\030\001 \001(\t\"\"\n\023ModelDescriptionXml\022\013\n" +
+      "\003xml\030\001 \001(\t\"7\n\016StatusResponse\022%\n\006status\030\001" +
+      " \001(\0162\025.fmuproxy.grpc.Status\"N\n\014StepRespo" +
+      "nse\022%\n\006status\030\001 \001(\0162\025.fmuproxy.grpc.Stat" +
+      "us\022\027\n\017simulation_time\030\002 \001(\001\"-\n\033CreateIns" +
+      "tanceFromCSRequest\022\016\n\006fmu_id\030\001 \001(\t\"T\n\033Cr" +
+      "eateInstanceFromMERequest\022\016\n\006fmu_id\030\001 \001(" +
+      "\t\022%\n\006solver\030\002 \001(\0132\025.fmuproxy.grpc.Solver" +
+      "\",\n\032GetModelDescriptionRequest\022\016\n\006fmu_id" +
+      "\030\001 \001(\t\"7\n GetCoSimulationAttributesReque" +
+      "st\022\023\n\013instance_id\030\001 \001(\t\"]\n\026SetupExperime" +
+      "ntRequest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005start\030" +
+      "\002 \001(\001\022\014\n\004stop\030\003 \001(\001\022\021\n\ttolerance\030\004 \001(\001\"5" +
+      "\n\036EnterInitializationModeRequest\022\023\n\013inst" +
+      "ance_id\030\001 \001(\t\"4\n\035ExitInitializationModeR" +
+      "equest\022\023\n\013instance_id\030\001 \001(\t\"5\n\013StepReque" +
+      "st\022\023\n\013instance_id\030\001 \001(\t\022\021\n\tstep_size\030\002 \001" +
+      "(\001\"#\n\014ResetRequest\022\023\n\013instance_id\030\001 \001(\t\"" +
+      "\'\n\020TerminateRequest\022\023\n\013instance_id\030\001 \001(\t" +
+      "\"<\n\013ReadRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020" +
+      "value_references\030\002 \003(\004\"T\n\023WriteIntegerRe" +
+      "quest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_refe" +
+      "rences\030\002 \003(\004\022\016\n\006values\030\003 \003(\005\"Q\n\020WriteRea" +
+      "lRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_r" +
+      "eferences\030\002 \003(\004\022\016\n\006values\030\003 \003(\001\"S\n\022Write" +
+      "StringRequest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020va" +
+      "lue_references\030\002 \003(\004\022\016\n\006values\030\003 \003(\t\"T\n\023" +
+      "WriteBooleanRequest\022\023\n\013instance_id\030\001 \001(\t" +
+      "\022\030\n\020value_references\030\002 \003(\004\022\016\n\006values\030\003 \003" +
+      "(\010\"D\n\013IntegerRead\022\016\n\006values\030\001 \003(\005\022%\n\006sta" +
+      "tus\030\002 \001(\0162\025.fmuproxy.grpc.Status\"A\n\010Real" +
+      "Read\022\016\n\006values\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.f" +
+      "muproxy.grpc.Status\"C\n\nStringRead\022\016\n\006val" +
+      "ues\030\001 \003(\t\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grp" +
+      "c.Status\"D\n\013BooleanRead\022\016\n\006values\030\001 \003(\010\022" +
+      "%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"(" +
+      "\n\006Solver\022\014\n\004name\030\001 \001(\t\022\020\n\010settings\030\002 \001(\t" +
+      "\"\025\n\004Bool\022\r\n\005value\030\001 \001(\010\")\n\022GetFMUstateRe" +
+      "quest\022\023\n\013instance_id\030\001 \001(\t\"K\n\023GetFMUstat" +
+      "eResponse\022\r\n\005state\030\001 \001(\003\022%\n\006status\030\002 \001(\016" +
+      "2\025.fmuproxy.grpc.Status\"8\n\022SetFMUstateRe" +
+      "quest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(" +
+      "\003\"9\n\023FreeFMUstateRequest\022\023\n\013instance_id\030" +
+      "\001 \001(\t\022\r\n\005state\030\002 \001(\003\">\n\030SerializeFMUstat" +
+      "eRequest\022\023\n\013instance_id\030\001 \001(\t\022\r\n\005state\030\002" +
+      " \001(\003\"Q\n\031SerializeFMUstateResponse\022\r\n\005sta" +
+      "te\030\001 \001(\014\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc" +
+      ".Status\"@\n\032DeSerializeFMUstateRequest\022\023\n" +
+      "\013instance_id\030\001 \001(\t\022\r\n\005state\030\002 \001(\014\"S\n\033DeS" +
+      "erializeFMUstateResponse\022\r\n\005state\030\001 \001(\003\022" +
+      "%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"0" +
+      "\n\036CanCreateInstanceFromCSRequest\022\016\n\006fmu_" +
+      "id\030\001 \001(\t\"0\n\036CanCreateInstanceFromMEReque" +
+      "st\022\016\n\006fmu_id\030\001 \001(\t\"x\n\037GetDirectionalDeri" +
+      "vativeRequest\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_" +
+      "unknown_ref\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024" +
+      "\n\014dv_known_ref\030\004 \003(\001\"a\n GetDirectionalDe" +
+      "rivativeResponse\022\026\n\016dv_unknown_ref\030\001 \003(\001" +
+      "\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Status\"" +
+      "\006\n\004Void\"\022\n\003Url\022\013\n\003url\030\001 \001(\t*w\n\006Status\022\r\n" +
+      "\tOK_STATUS\020\000\022\022\n\016WARNING_STATUS\020\001\022\022\n\016DISC" +
+      "ARD_STATUS\020\002\022\020\n\014ERROR_STATUS\020\003\022\020\n\014FATAL_" +
+      "STATUS\020\004\022\022\n\016PENDING_STATUS\020\0052\263\022\n\nFmuServ" +
+      "ice\0220\n\004Load\022\022.fmuproxy.grpc.Url\032\024.fmupro" +
+      "xy.grpc.FmuId\022a\n\023GetModelDescription\022).f" +
+      "muproxy.grpc.GetModelDescriptionRequest\032" +
+      "\037.fmuproxy.grpc.ModelDescription\022s\n\031GetC" +
+      "oSimulationAttributes\022/.fmuproxy.grpc.Ge" +
+      "tCoSimulationAttributesRequest\032%.fmuprox" +
+      "y.grpc.CoSimulationAttributes\022]\n\027CanCrea" +
+      "teInstanceFromCS\022-.fmuproxy.grpc.CanCrea" +
+      "teInstanceFromCSRequest\032\023.fmuproxy.grpc." +
+      "Bool\022]\n\027CanCreateInstanceFromME\022-.fmupro" +
+      "xy.grpc.CanCreateInstanceFromMERequest\032\023" +
+      ".fmuproxy.grpc.Bool\022]\n\024CreateInstanceFro" +
+      "mCS\022*.fmuproxy.grpc.CreateInstanceFromCS" +
+      "Request\032\031.fmuproxy.grpc.InstanceId\022]\n\024Cr" +
+      "eateInstanceFromME\022*.fmuproxy.grpc.Creat" +
+      "eInstanceFromMERequest\032\031.fmuproxy.grpc.I" +
+      "nstanceId\022W\n\017SetupExperiment\022%.fmuproxy." +
+      "grpc.SetupExperimentRequest\032\035.fmuproxy.g" +
+      "rpc.StatusResponse\022g\n\027EnterInitializatio" +
+      "nMode\022-.fmuproxy.grpc.EnterInitializatio" +
+      "nModeRequest\032\035.fmuproxy.grpc.StatusRespo" +
+      "nse\022e\n\026ExitInitializationMode\022,.fmuproxy" +
+      ".grpc.ExitInitializationModeRequest\032\035.fm" +
+      "uproxy.grpc.StatusResponse\022?\n\004Step\022\032.fmu" +
+      "proxy.grpc.StepRequest\032\033.fmuproxy.grpc.S" +
+      "tepResponse\022C\n\005Reset\022\033.fmuproxy.grpc.Res" +
+      "etRequest\032\035.fmuproxy.grpc.StatusResponse" +
+      "\022K\n\tTerminate\022\037.fmuproxy.grpc.TerminateR" +
+      "equest\032\035.fmuproxy.grpc.StatusResponse\022E\n" +
+      "\013ReadInteger\022\032.fmuproxy.grpc.ReadRequest" +
+      "\032\032.fmuproxy.grpc.IntegerRead\022?\n\010ReadReal" +
+      "\022\032.fmuproxy.grpc.ReadRequest\032\027.fmuproxy." +
+      "grpc.RealRead\022C\n\nReadString\022\032.fmuproxy.g" +
+      "rpc.ReadRequest\032\031.fmuproxy.grpc.StringRe" +
+      "ad\022E\n\013ReadBoolean\022\032.fmuproxy.grpc.ReadRe" +
+      "quest\032\032.fmuproxy.grpc.BooleanRead\022Q\n\014Wri" +
+      "teInteger\022\".fmuproxy.grpc.WriteIntegerRe" +
+      "quest\032\035.fmuproxy.grpc.StatusResponse\022K\n\t" +
+      "WriteReal\022\037.fmuproxy.grpc.WriteRealReque" +
+      "st\032\035.fmuproxy.grpc.StatusResponse\022O\n\013Wri" +
+      "teString\022!.fmuproxy.grpc.WriteStringRequ" +
+      "est\032\035.fmuproxy.grpc.StatusResponse\022Q\n\014Wr" +
+      "iteBoolean\022\".fmuproxy.grpc.WriteBooleanR" +
+      "equest\032\035.fmuproxy.grpc.StatusResponse\022T\n" +
+      "\013GetFMUstate\022!.fmuproxy.grpc.GetFMUstate" +
+      "Request\032\".fmuproxy.grpc.GetFMUstateRespo" +
+      "nse\022O\n\013SetFMUstate\022!.fmuproxy.grpc.SetFM" +
+      "UstateRequest\032\035.fmuproxy.grpc.StatusResp" +
+      "onse\022Q\n\014FreeFMUstate\022\".fmuproxy.grpc.Fre" +
+      "eFMUstateRequest\032\035.fmuproxy.grpc.StatusR" +
+      "esponse\022f\n\021SerializeFMUstate\022\'.fmuproxy." +
+      "grpc.SerializeFMUstateRequest\032(.fmuproxy" +
+      ".grpc.SerializeFMUstateResponse\022l\n\023DeSer" +
+      "ializeFMUstate\022).fmuproxy.grpc.DeSeriali" +
+      "zeFMUstateRequest\032*.fmuproxy.grpc.DeSeri" +
+      "alizeFMUstateResponse\022{\n\030GetDirectionalD" +
+      "erivative\022..fmuproxy.grpc.GetDirectional" +
+      "DerivativeRequest\032/.fmuproxy.grpc.GetDir" +
+      "ectionalDerivativeResponseB\033\n\031no.ntnu.ih" +
+      "b.fmuproxy.grpcb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

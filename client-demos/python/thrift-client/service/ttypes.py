@@ -43,84 +43,6 @@ class Status(object):
     }
 
 
-class Causality(object):
-    INPUT_CAUSALITY = 0
-    OUTPUT_CAUSALITY = 1
-    PARAMETER_CAUSALITY = 2
-    CALCULATED_PARAMETER_CAUSALITY = 3
-    LOCAL_CAUSALITY = 4
-    INDEPENDENT_CAUSALITY = 5
-    UNKNOWN_CAUSALITY = 6
-
-    _VALUES_TO_NAMES = {
-        0: "INPUT_CAUSALITY",
-        1: "OUTPUT_CAUSALITY",
-        2: "PARAMETER_CAUSALITY",
-        3: "CALCULATED_PARAMETER_CAUSALITY",
-        4: "LOCAL_CAUSALITY",
-        5: "INDEPENDENT_CAUSALITY",
-        6: "UNKNOWN_CAUSALITY",
-    }
-
-    _NAMES_TO_VALUES = {
-        "INPUT_CAUSALITY": 0,
-        "OUTPUT_CAUSALITY": 1,
-        "PARAMETER_CAUSALITY": 2,
-        "CALCULATED_PARAMETER_CAUSALITY": 3,
-        "LOCAL_CAUSALITY": 4,
-        "INDEPENDENT_CAUSALITY": 5,
-        "UNKNOWN_CAUSALITY": 6,
-    }
-
-
-class Variability(object):
-    CONSTANT_VARIABILITY = 0
-    FIXED_VARIABILITY = 1
-    CONTINUOUS_VARIABILITY = 2
-    DISCRETE_VARIABILITY = 3
-    TUNABLE_VARIABILITY = 4
-    UNKNOWN_VARIABILITY = 5
-
-    _VALUES_TO_NAMES = {
-        0: "CONSTANT_VARIABILITY",
-        1: "FIXED_VARIABILITY",
-        2: "CONTINUOUS_VARIABILITY",
-        3: "DISCRETE_VARIABILITY",
-        4: "TUNABLE_VARIABILITY",
-        5: "UNKNOWN_VARIABILITY",
-    }
-
-    _NAMES_TO_VALUES = {
-        "CONSTANT_VARIABILITY": 0,
-        "FIXED_VARIABILITY": 1,
-        "CONTINUOUS_VARIABILITY": 2,
-        "DISCRETE_VARIABILITY": 3,
-        "TUNABLE_VARIABILITY": 4,
-        "UNKNOWN_VARIABILITY": 5,
-    }
-
-
-class Initial(object):
-    EXACT_INITIAL = 0
-    APPROX_INITIAL = 1
-    CALCULATED_INITIAL = 2
-    UNKNOWN_INITIAL = 3
-
-    _VALUES_TO_NAMES = {
-        0: "EXACT_INITIAL",
-        1: "APPROX_INITIAL",
-        2: "CALCULATED_INITIAL",
-        3: "UNKNOWN_INITIAL",
-    }
-
-    _NAMES_TO_VALUES = {
-        "EXACT_INITIAL": 0,
-        "APPROX_INITIAL": 1,
-        "CALCULATED_INITIAL": 2,
-        "UNKNOWN_INITIAL": 3,
-    }
-
-
 class IntegerAttribute(object):
     """
     Attributes:
@@ -659,18 +581,18 @@ class ScalarVariable(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
-                if ftype == TType.I32:
-                    self.initial = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.initial = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 5:
-                if ftype == TType.I32:
-                    self.causality = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.causality = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 6:
-                if ftype == TType.I32:
-                    self.variability = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.variability = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 7:
@@ -702,16 +624,16 @@ class ScalarVariable(object):
             oprot.writeString(self.description.encode('utf-8') if sys.version_info[0] == 2 else self.description)
             oprot.writeFieldEnd()
         if self.initial is not None:
-            oprot.writeFieldBegin('initial', TType.I32, 4)
-            oprot.writeI32(self.initial)
+            oprot.writeFieldBegin('initial', TType.STRING, 4)
+            oprot.writeString(self.initial.encode('utf-8') if sys.version_info[0] == 2 else self.initial)
             oprot.writeFieldEnd()
         if self.causality is not None:
-            oprot.writeFieldBegin('causality', TType.I32, 5)
-            oprot.writeI32(self.causality)
+            oprot.writeFieldBegin('causality', TType.STRING, 5)
+            oprot.writeString(self.causality.encode('utf-8') if sys.version_info[0] == 2 else self.causality)
             oprot.writeFieldEnd()
         if self.variability is not None:
-            oprot.writeFieldBegin('variability', TType.I32, 6)
-            oprot.writeI32(self.variability)
+            oprot.writeFieldBegin('variability', TType.STRING, 6)
+            oprot.writeString(self.variability.encode('utf-8') if sys.version_info[0] == 2 else self.variability)
             oprot.writeFieldEnd()
         if self.attribute is not None:
             oprot.writeFieldBegin('attribute', TType.STRUCT, 7)
@@ -775,8 +697,13 @@ class Unknown(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
-                if ftype == TType.STRING:
-                    self.dependenciesKind = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                if ftype == TType.LIST:
+                    self.dependenciesKind = []
+                    (_etype9, _size6) = iprot.readListBegin()
+                    for _i10 in range(_size6):
+                        _elem11 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.dependenciesKind.append(_elem11)
+                    iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             else:
@@ -796,13 +723,16 @@ class Unknown(object):
         if self.dependencies is not None:
             oprot.writeFieldBegin('dependencies', TType.LIST, 2)
             oprot.writeListBegin(TType.I32, len(self.dependencies))
-            for iter6 in self.dependencies:
-                oprot.writeI32(iter6)
+            for iter12 in self.dependencies:
+                oprot.writeI32(iter12)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.dependenciesKind is not None:
-            oprot.writeFieldBegin('dependenciesKind', TType.STRING, 3)
-            oprot.writeString(self.dependenciesKind.encode('utf-8') if sys.version_info[0] == 2 else self.dependenciesKind)
+            oprot.writeFieldBegin('dependenciesKind', TType.LIST, 3)
+            oprot.writeListBegin(TType.STRING, len(self.dependenciesKind))
+            for iter13 in self.dependenciesKind:
+                oprot.writeString(iter13.encode('utf-8') if sys.version_info[0] == 2 else iter13)
+            oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -849,33 +779,33 @@ class ModelStructure(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.outputs = []
-                    (_etype10, _size7) = iprot.readListBegin()
-                    for _i11 in range(_size7):
-                        _elem12 = Unknown()
-                        _elem12.read(iprot)
-                        self.outputs.append(_elem12)
+                    (_etype17, _size14) = iprot.readListBegin()
+                    for _i18 in range(_size14):
+                        _elem19 = Unknown()
+                        _elem19.read(iprot)
+                        self.outputs.append(_elem19)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.LIST:
                     self.derivatives = []
-                    (_etype16, _size13) = iprot.readListBegin()
-                    for _i17 in range(_size13):
-                        _elem18 = Unknown()
-                        _elem18.read(iprot)
-                        self.derivatives.append(_elem18)
+                    (_etype23, _size20) = iprot.readListBegin()
+                    for _i24 in range(_size20):
+                        _elem25 = Unknown()
+                        _elem25.read(iprot)
+                        self.derivatives.append(_elem25)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.LIST:
                     self.initialUnknowns = []
-                    (_etype22, _size19) = iprot.readListBegin()
-                    for _i23 in range(_size19):
-                        _elem24 = Unknown()
-                        _elem24.read(iprot)
-                        self.initialUnknowns.append(_elem24)
+                    (_etype29, _size26) = iprot.readListBegin()
+                    for _i30 in range(_size26):
+                        _elem31 = Unknown()
+                        _elem31.read(iprot)
+                        self.initialUnknowns.append(_elem31)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -892,22 +822,22 @@ class ModelStructure(object):
         if self.outputs is not None:
             oprot.writeFieldBegin('outputs', TType.LIST, 1)
             oprot.writeListBegin(TType.STRUCT, len(self.outputs))
-            for iter25 in self.outputs:
-                iter25.write(oprot)
+            for iter32 in self.outputs:
+                iter32.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.derivatives is not None:
             oprot.writeFieldBegin('derivatives', TType.LIST, 2)
             oprot.writeListBegin(TType.STRUCT, len(self.derivatives))
-            for iter26 in self.derivatives:
-                iter26.write(oprot)
+            for iter33 in self.derivatives:
+                iter33.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.initialUnknowns is not None:
             oprot.writeFieldBegin('initialUnknowns', TType.LIST, 3)
             oprot.writeListBegin(TType.STRUCT, len(self.initialUnknowns))
-            for iter27 in self.initialUnknowns:
-                iter27.write(oprot)
+            for iter34 in self.initialUnknowns:
+                iter34.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -1111,10 +1041,10 @@ class IntegerRead(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype31, _size28) = iprot.readListBegin()
-                    for _i32 in range(_size28):
-                        _elem33 = iprot.readI32()
-                        self.value.append(_elem33)
+                    (_etype38, _size35) = iprot.readListBegin()
+                    for _i39 in range(_size35):
+                        _elem40 = iprot.readI32()
+                        self.value.append(_elem40)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1136,8 +1066,8 @@ class IntegerRead(object):
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.I32, len(self.value))
-            for iter34 in self.value:
-                oprot.writeI32(iter34)
+            for iter41 in self.value:
+                oprot.writeI32(iter41)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.status is not None:
@@ -1187,10 +1117,10 @@ class RealRead(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype38, _size35) = iprot.readListBegin()
-                    for _i39 in range(_size35):
-                        _elem40 = iprot.readDouble()
-                        self.value.append(_elem40)
+                    (_etype45, _size42) = iprot.readListBegin()
+                    for _i46 in range(_size42):
+                        _elem47 = iprot.readDouble()
+                        self.value.append(_elem47)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1212,8 +1142,8 @@ class RealRead(object):
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.value))
-            for iter41 in self.value:
-                oprot.writeDouble(iter41)
+            for iter48 in self.value:
+                oprot.writeDouble(iter48)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.status is not None:
@@ -1263,10 +1193,10 @@ class StringRead(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype45, _size42) = iprot.readListBegin()
-                    for _i46 in range(_size42):
-                        _elem47 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.value.append(_elem47)
+                    (_etype52, _size49) = iprot.readListBegin()
+                    for _i53 in range(_size49):
+                        _elem54 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.value.append(_elem54)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1288,8 +1218,8 @@ class StringRead(object):
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.STRING, len(self.value))
-            for iter48 in self.value:
-                oprot.writeString(iter48.encode('utf-8') if sys.version_info[0] == 2 else iter48)
+            for iter55 in self.value:
+                oprot.writeString(iter55.encode('utf-8') if sys.version_info[0] == 2 else iter55)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.status is not None:
@@ -1339,10 +1269,10 @@ class BooleanRead(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.value = []
-                    (_etype52, _size49) = iprot.readListBegin()
-                    for _i53 in range(_size49):
-                        _elem54 = iprot.readBool()
-                        self.value.append(_elem54)
+                    (_etype59, _size56) = iprot.readListBegin()
+                    for _i60 in range(_size56):
+                        _elem61 = iprot.readBool()
+                        self.value.append(_elem61)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1364,8 +1294,8 @@ class BooleanRead(object):
         if self.value is not None:
             oprot.writeFieldBegin('value', TType.LIST, 1)
             oprot.writeListBegin(TType.BOOL, len(self.value))
-            for iter55 in self.value:
-                oprot.writeBool(iter55)
+            for iter62 in self.value:
+                oprot.writeBool(iter62)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.status is not None:
@@ -1568,11 +1498,11 @@ class ModelDescription(object):
             elif fid == 13:
                 if ftype == TType.LIST:
                     self.modelVariables = []
-                    (_etype59, _size56) = iprot.readListBegin()
-                    for _i60 in range(_size56):
-                        _elem61 = ScalarVariable()
-                        _elem61.read(iprot)
-                        self.modelVariables.append(_elem61)
+                    (_etype66, _size63) = iprot.readListBegin()
+                    for _i67 in range(_size63):
+                        _elem68 = ScalarVariable()
+                        _elem68.read(iprot)
+                        self.modelVariables.append(_elem68)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -1643,8 +1573,8 @@ class ModelDescription(object):
         if self.modelVariables is not None:
             oprot.writeFieldBegin('modelVariables', TType.LIST, 13)
             oprot.writeListBegin(TType.STRUCT, len(self.modelVariables))
-            for iter62 in self.modelVariables:
-                iter62.write(oprot)
+            for iter69 in self.modelVariables:
+                iter69.write(oprot)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.modelStructure is not None:
@@ -2261,10 +2191,10 @@ class DirectionalDerivativeResult(object):
             if fid == 1:
                 if ftype == TType.LIST:
                     self.dvUnknownRef = []
-                    (_etype66, _size63) = iprot.readListBegin()
-                    for _i67 in range(_size63):
-                        _elem68 = iprot.readDouble()
-                        self.dvUnknownRef.append(_elem68)
+                    (_etype73, _size70) = iprot.readListBegin()
+                    for _i74 in range(_size70):
+                        _elem75 = iprot.readDouble()
+                        self.dvUnknownRef.append(_elem75)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
@@ -2286,8 +2216,8 @@ class DirectionalDerivativeResult(object):
         if self.dvUnknownRef is not None:
             oprot.writeFieldBegin('dvUnknownRef', TType.LIST, 1)
             oprot.writeListBegin(TType.DOUBLE, len(self.dvUnknownRef))
-            for iter69 in self.dvUnknownRef:
-                oprot.writeDouble(iter69)
+            for iter76 in self.dvUnknownRef:
+                oprot.writeDouble(iter76)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.status is not None:
@@ -2359,9 +2289,9 @@ ScalarVariable.thrift_spec = (
     (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
     (2, TType.I64, 'valueReference', None, None, ),  # 2
     (3, TType.STRING, 'description', 'UTF8', None, ),  # 3
-    (4, TType.I32, 'initial', None, None, ),  # 4
-    (5, TType.I32, 'causality', None, None, ),  # 5
-    (6, TType.I32, 'variability', None, None, ),  # 6
+    (4, TType.STRING, 'initial', 'UTF8', None, ),  # 4
+    (5, TType.STRING, 'causality', 'UTF8', None, ),  # 5
+    (6, TType.STRING, 'variability', 'UTF8', None, ),  # 6
     (7, TType.STRUCT, 'attribute', [ScalarVariableAttribute, None], None, ),  # 7
 )
 all_structs.append(Unknown)
@@ -2369,7 +2299,7 @@ Unknown.thrift_spec = (
     None,  # 0
     (1, TType.I32, 'index', None, None, ),  # 1
     (2, TType.LIST, 'dependencies', (TType.I32, None, False), None, ),  # 2
-    (3, TType.STRING, 'dependenciesKind', 'UTF8', None, ),  # 3
+    (3, TType.LIST, 'dependenciesKind', (TType.STRING, 'UTF8', False), None, ),  # 3
 )
 all_structs.append(ModelStructure)
 ModelStructure.thrift_spec = (

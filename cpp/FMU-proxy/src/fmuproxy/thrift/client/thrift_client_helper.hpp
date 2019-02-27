@@ -56,55 +56,6 @@ namespace {
         }
     }
 
-    fmi4cpp::fmi2::Causality convert(const Causality::type causality) {
-        switch (causality) {
-            case Causality::LOCAL_CAUSALITY:
-                return fmi4cpp::fmi2::Causality::local;
-            case Causality::INDEPENDENT_CAUSALITY:
-                return fmi4cpp::fmi2::Causality::independent;
-            case Causality::INPUT_CAUSALITY:
-                return fmi4cpp::fmi2::Causality::input;
-            case Causality::OUTPUT_CAUSALITY:
-                return fmi4cpp::fmi2::Causality::output;
-            case Causality::CALCULATED_PARAMETER_CAUSALITY:
-                return fmi4cpp::fmi2::Causality::calculatedParameter;
-            case Causality::PARAMETER_CAUSALITY:
-                return fmi4cpp::fmi2::Causality::parameter;
-            default:
-                return fmi4cpp::fmi2::Causality::local;
-        }
-    }
-
-    fmi4cpp::fmi2::Variability convert(const Variability::type variability) {
-        switch (variability) {
-            case Variability::CONSTANT_VARIABILITY:
-                return fmi4cpp::fmi2::Variability::constant;
-            case Variability::CONTINUOUS_VARIABILITY:
-                return fmi4cpp::fmi2::Variability::continuous;
-            case Variability::FIXED_VARIABILITY:
-                return fmi4cpp::fmi2::Variability::fixed;
-            case Variability::DISCRETE_VARIABILITY:
-                return fmi4cpp::fmi2::Variability::discrete;
-            case Variability::TUNABLE_VARIABILITY:
-                return fmi4cpp::fmi2::Variability::tunable;
-            default:
-                return fmi4cpp::fmi2::Variability::continuous;
-        }
-    }
-
-    fmi4cpp::fmi2::Initial convert(const Initial::type initial) {
-        switch (initial) {
-            case Initial::APPROX_INITIAL:
-                return fmi4cpp::fmi2::Initial::approx;
-            case Initial::CALCULATED_INITIAL:
-                return fmi4cpp::fmi2::Initial::calculated;
-            case Initial::EXACT_INITIAL:
-                return fmi4cpp::fmi2::Initial::exact;
-            default:
-                return fmi4cpp::fmi2::Initial::unknown;
-        }
-    }
-
     fmi4cpp::fmi2::DefaultExperiment convert(const fmuproxy::thrift::DefaultExperiment &d) {
         return {d.startTime, d.stopTime, d.stepSize, d.tolerance};
     }
@@ -168,9 +119,9 @@ namespace {
         base.name = v.name;
         base.description = v.description;
         base.valueReference = (fmi2ValueReference) v.valueReference;
-        base.variability = convert(v.variability);
-        base.causality = convert(v.causality);
-        base.initial = convert(v.initial);
+        base.variability = fmi4cpp::fmi2::parseVariability(v.variability);
+        base.causality = fmi4cpp::fmi2::parseCausality(v.causality);
+        base.initial = fmi4cpp::fmi2::parseInitial(v.initial);
 
         if (v.attribute.__isset.integerAttribute) {
             return {base, convert(v.attribute.integerAttribute)};
