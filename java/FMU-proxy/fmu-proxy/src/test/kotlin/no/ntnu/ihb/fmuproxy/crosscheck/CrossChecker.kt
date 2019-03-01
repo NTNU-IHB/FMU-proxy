@@ -1,4 +1,4 @@
-package no.ntnu.ihb.fmi4j.crosscheck
+package no.ntnu.ihb.fmuproxy.crosscheck
 
 import no.ntnu.ihb.fmi4j.driver.*
 import no.ntnu.ihb.fmi4j.importer.Fmu
