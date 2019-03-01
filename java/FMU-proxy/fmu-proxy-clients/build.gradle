@@ -2,42 +2,19 @@
 plugins {
     id "kotlin"
     id 'java-library'
-    id 'maven-publish'
 }
 
-apply from: rootProject.file("yajrpc.gradle")
-
-version = "0.1"
+apply from: rootProject.file("gradle/yajrpc.gradle")
+apply from: rootProject.file("gradle/mavenpublish.gradle")
 
 dependencies {
 
     api project(":rpc-definitions")
+    api group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
     
-    api group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
-
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-        }
-    }
 }

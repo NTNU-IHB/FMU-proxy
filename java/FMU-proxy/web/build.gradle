@@ -5,6 +5,8 @@ plugins {
     id "org.akhikhl.gretty" version "2.0.0"
 }
 
+apply from: rootProject.file("gradle/jackson.gradle")
+
 ext.jetty94Version = '9.4.9.v20180320'
 
 dependencies {
@@ -17,10 +19,6 @@ dependencies {
     def faces_version = "2.2.18"
     compile group: 'com.sun.faces', name: 'jsf-api', version: faces_version
     runtime group: 'com.sun.faces', name: 'jsf-impl', version: faces_version
-
-    def jackson_version = '2.9.8'
-    implementation group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: jackson_version
-    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: jackson_version
 
     implementation group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 

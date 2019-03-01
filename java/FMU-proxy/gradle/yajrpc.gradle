@@ -1,7 +1,7 @@
 
-def yajrpc_version = '0.10.4'
 
 dependencies {
+    def yajrpc_version = '0.10.4'
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-ws', version: yajrpc_version
     implementation group: 'com.github.markaren.YAJ-RPC', name: 'yaj-rpc-tcp', version: yajrpc_version
