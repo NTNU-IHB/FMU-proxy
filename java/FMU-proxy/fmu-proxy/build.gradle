@@ -5,8 +5,9 @@ plugins {
     id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
-apply from: rootProject.file("junit.gradle")
-apply from: rootProject.file("yajrpc.gradle")
+apply from: rootProject.file("gradle/junit.gradle")
+apply from: rootProject.file("gradle/yajrpc.gradle")
+apply from: rootProject.file("gradle/jackson.gradle")
 
 mainClassName = "${group}.FmuProxy"
 
@@ -21,11 +22,7 @@ dependencies {
     def jetty_version = "9.4.11.v20180605"
     implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
     implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jetty_version
-
-    def jackson_version = '2.9.8'
-    implementation group: "com.fasterxml.jackson.module", name: "jackson-module-kotlin", version: jackson_version
-    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: jackson_version
-
+    
     implementation group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
     
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
