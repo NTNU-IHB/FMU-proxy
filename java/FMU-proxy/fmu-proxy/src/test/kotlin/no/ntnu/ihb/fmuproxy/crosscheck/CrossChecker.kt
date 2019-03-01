@@ -12,6 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.measureTimeMillis
 
 private const val FMU_PROXY_VERSION = "0.1.0"
 
@@ -235,7 +236,7 @@ class CrossChecker(
 
         private fun getDefaultOutputDir(fmuFile: File): String {
             var currentFile = fmuFile
-            var names = mutableListOf<String>()
+            val names = mutableListOf<String>()
             for (i in 0..2) {
                 names.add(currentFile.name)
                 currentFile = currentFile.parentFile
@@ -260,6 +261,10 @@ fun main(args: Array<String>) {
         throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
     }
 
-    CrossChecker.run(args[0])
+    val elapsed = measureTimeMillis {
+        CrossChecker.run(args[0])
+    }
+
+    LoggerFactory.getLogger(CrossChecker::class.java).info("Crosscheck took $elapsed ms")
 
 }
