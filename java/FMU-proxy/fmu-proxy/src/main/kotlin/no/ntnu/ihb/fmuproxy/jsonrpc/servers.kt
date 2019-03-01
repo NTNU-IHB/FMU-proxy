@@ -29,16 +29,27 @@ import info.laht.yajrpc.net.http.RpcHttpServer
 import info.laht.yajrpc.net.tcp.RpcTcpServer
 import info.laht.yajrpc.net.ws.RpcWebSocketServer
 import info.laht.yajrpc.net.zmq.RpcZmqServer
+import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
+
 
 /**
  * @author Lars Ivar Hatledal
  */
 class FmuProxyJsonHttpServer(
-        handler: RpcHandler
-): RpcHttpServer(handler), FmuProxyServer {
+        private val service: RpcFmuService
+): RpcHttpServer(RpcHandler(service)), FmuProxyServer {
 
     override val simpleName = "jsonRpc/http"
+
+    override fun addFmu(fmu: Fmu) {
+        service.addFmu(fmu)
+    }
+
+    override fun removeFmu(fmu: Fmu) {
+        service.removeFmu(fmu)
+    }
 
 }
 
@@ -46,10 +57,18 @@ class FmuProxyJsonHttpServer(
  * @author Lars Ivar Hatledal
  */
 class FmuProxyJsonWsServer(
-        handler: RpcHandler
-): RpcWebSocketServer(handler), FmuProxyServer {
+        private val service: RpcFmuService
+): RpcWebSocketServer(RpcHandler(service)), FmuProxyServer {
 
     override val simpleName = "jsonRpc/ws"
+
+    override fun addFmu(fmu: Fmu) {
+        service.addFmu(fmu)
+    }
+
+    override fun removeFmu(fmu: Fmu) {
+        service.removeFmu(fmu)
+    }
 
 }
 
@@ -57,10 +76,18 @@ class FmuProxyJsonWsServer(
  * @author Lars Ivar Hatledal
  */
 class FmuProxyJsonTcpServer(
-        handler: RpcHandler
-): RpcTcpServer(handler), FmuProxyServer {
+        private val service: RpcFmuService
+): RpcTcpServer(RpcHandler(service)), FmuProxyServer {
 
     override val simpleName = "jsonRpc/tcp"
+
+    override fun addFmu(fmu: Fmu) {
+        service.addFmu(fmu)
+    }
+
+    override fun removeFmu(fmu: Fmu) {
+        service.removeFmu(fmu)
+    }
 
 }
 
@@ -68,9 +95,17 @@ class FmuProxyJsonTcpServer(
  * @author Lars Ivar Hatledal
  */
 class FmuProxyJsonZmqServer(
-        handler: RpcHandler
-): RpcZmqServer(handler), FmuProxyServer {
+        private val service: RpcFmuService
+): RpcZmqServer(RpcHandler(service)), FmuProxyServer {
 
     override val simpleName = "jsonRpc/zmq"
+
+    override fun addFmu(fmu: Fmu) {
+        service.addFmu(fmu)
+    }
+
+    override fun removeFmu(fmu: Fmu) {
+        service.removeFmu(fmu)
+    }
 
 }

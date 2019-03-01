@@ -25,11 +25,7 @@
 package no.ntnu.ihb.fmuproxy.grpc.services
 
 import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
-import no.ntnu.ihb.fmi4j.modeldescription.ModelStructure
-import no.ntnu.ihb.fmi4j.modeldescription.Unknown
+import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmuproxy.grpc.Service
 

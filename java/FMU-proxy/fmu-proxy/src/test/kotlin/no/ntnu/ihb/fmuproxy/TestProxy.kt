@@ -1,6 +1,5 @@
 package no.ntnu.ihb.fmuproxy
 
-import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
@@ -46,12 +45,12 @@ class TestProxy {
         addServer(GrpcFmuServer().apply { addFmu(fmu) })
         addServer(ThriftFmuSocketServer().apply { addFmu(fmu) })
         addServer(ThriftFmuServlet().apply { addFmu(fmu) })
-        RpcHandler(RpcFmuService().apply { addFmu(fmu) }).also { handler ->
-            addServer(FmuProxyJsonWsServer(handler))
-            addServer(FmuProxyJsonTcpServer(handler))
-            addServer(FmuProxyJsonZmqServer(handler))
+        RpcFmuService().apply { addFmu(fmu) }.also {
+            addServer(FmuProxyJsonWsServer(it))
+            addServer(FmuProxyJsonTcpServer(it))
+            addServer(FmuProxyJsonZmqServer(it))
             if (!OS.LINUX.isCurrentOs) {
-                addServer(FmuProxyJsonHttpServer(handler))
+                addServer(FmuProxyJsonHttpServer(it))
             }
         }
 

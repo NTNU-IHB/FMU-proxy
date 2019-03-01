@@ -1,18 +1,25 @@
 package no.ntnu.ihb.fmuproxy.crosscheck
 
-import no.ntnu.ihb.fmi4j.driver.*
+import no.ntnu.ihb.fmi4j.driver.DriverOptions
+import no.ntnu.ihb.fmi4j.driver.Failure
+import no.ntnu.ihb.fmi4j.driver.Rejection
+import no.ntnu.ihb.fmi4j.driver.SlaveDriver
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionProvider
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
 import no.ntnu.ihb.fmi4j.util.OsUtil
+import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
+import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
+import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
+import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
+
 
 private const val FMU_PROXY_VERSION = "0.1.0"
 
@@ -26,7 +33,7 @@ private const val README = """
         """
 
 class CrossChecker(
-        private val server: ThriftFmuSocketServer,
+        private val pair: Pair<FmuProxyServer, (String, Int) -> AbstractRpcFmuClient>,
         private val fmuDir: File,
         resultDir: File
 ) {
@@ -123,16 +130,15 @@ class CrossChecker(
             if (!failedOrRejected) {
 
                 Fmu.from(fmuPath).use { fmu ->
+                    val server = pair.first
                     server.addFmu(fmu)
 
-                    ThriftFmuClient.socketClient("localhost", server.port!!)
-                            .load(fmu.modelDescription.guid).newInstance().use { slave ->
+                    val remoteFmu = pair.second(fmu.guid, server.port!!)
 
-                        SlaveDriver(slave, options).run()
-                        pass()
+                    SlaveDriver(remoteFmu.newInstance(), options).run()
+                    pass()
 
-                    }
-
+                    remoteFmu.close()
                     server.removeFmu(fmu)
 
                 }
@@ -168,7 +174,7 @@ class CrossChecker(
             }
         }
 
-        fun run(crossCheckDir: String) {
+        fun run(crossCheckDir: String, pair: Pair<FmuProxyServer, (String, Int) -> AbstractRpcFmuClient>) {
 
             LOG.info("Path to cross-check dir: $crossCheckDir")
 
@@ -198,14 +204,12 @@ class CrossChecker(
 
                 }
 
-                ThriftFmuSocketServer().use {
-                    it.start()
-                    fmus.parallelStream().forEach { fmu ->
-                        if (CrossChecker(it, fmu, File(crossCheckDir, "results")).run()) {
-                            numPassed.incrementAndGet()
-                        }
+                fmus.parallelStream().forEach { fmuDir ->
+                    if (CrossChecker(pair, fmuDir, File(crossCheckDir, "results")).run()) {
+                        numPassed.incrementAndGet()
                     }
                 }
+
 
                 return numPassed.get()
             }
@@ -255,16 +259,35 @@ class CrossChecker(
 
 }
 
+
+fun getServerClientPair(i: Int): Pair<FmuProxyServer, (String, Int) -> AbstractRpcFmuClient> {
+    return when (i) {
+        0 -> ThriftFmuSocketServer() to { guid: String, port: Int ->
+            ThriftFmuClient.socketClient("localhost", port)
+                    .load(guid)
+        }
+        1 -> GrpcFmuServer() to { guid: String, port: Int ->
+            GrpcFmuClient("localhost", port)
+                    .load(guid)
+        }
+        else -> throw IllegalArgumentException()
+    }
+}
+
+
 fun main(args: Array<String>) {
 
-    if (args.size != 1) {
+    if (args.isEmpty()) {
         throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
     }
+    val crossCheckDir = args[0]
+
+    val pair = getServerClientPair(args[1].toInt())
+    pair.first.start()
 
     val elapsed = measureTimeMillis {
-        CrossChecker.run(args[0])
+        CrossChecker.run(crossCheckDir, pair)
     }
-
     LoggerFactory.getLogger(CrossChecker::class.java).info("Crosscheck took $elapsed ms")
-
+    pair.first.stop()
 }

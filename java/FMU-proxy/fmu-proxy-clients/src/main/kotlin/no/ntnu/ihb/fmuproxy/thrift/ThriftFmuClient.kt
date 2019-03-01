@@ -37,6 +37,8 @@ import org.apache.thrift.protocol.TProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.net.URL
 import java.nio.ByteBuffer
 
@@ -120,6 +122,7 @@ class ThriftFmuClient private constructor(
         override fun close() {
             super.close()
             protocol.transport.close()
+            LOG.debug("$implementationName closed..")
         }
 
         override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
@@ -190,6 +193,8 @@ class ThriftFmuClient private constructor(
 
 
     companion object {
+
+        private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuClient::class.java)
 
         fun socketClient(host: String, port: Int): ThriftFmuClient {
             val transport = TFramedTransport.Factory().getTransport(TSocket(host, port))

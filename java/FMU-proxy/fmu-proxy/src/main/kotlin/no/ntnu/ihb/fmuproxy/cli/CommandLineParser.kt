@@ -24,9 +24,8 @@
 
 package no.ntnu.ihb.fmuproxy.cli
 
-import info.laht.yajrpc.RpcHandler
-import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
@@ -114,23 +113,23 @@ class Args : Callable<FmuProxy> {
                     addServer(this, thriftHttpPort)
                 }
 
-                RpcHandler(RpcFmuService(map)).also { handler ->
+                RpcFmuService(map).also { service ->
 
                     if (!OsUtil.isLinux) {
-                        FmuProxyJsonHttpServer(handler).apply {
+                        FmuProxyJsonHttpServer(service).apply {
                             addServer(this, jsonHttpPort)
                         }
                     }
 
-                    FmuProxyJsonWsServer(handler).apply {
+                    FmuProxyJsonWsServer(service).apply {
                         addServer(this, jsonWsPort)
                     }
 
-                    FmuProxyJsonTcpServer(handler).apply {
+                    FmuProxyJsonTcpServer(service).apply {
                         addServer(this, jsonTcpPort)
                     }
 
-                    FmuProxyJsonZmqServer(handler).apply {
+                    FmuProxyJsonZmqServer(service).apply {
                         addServer(this, jsonZmqPort)
                     }
 

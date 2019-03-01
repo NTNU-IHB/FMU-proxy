@@ -1,6 +1,5 @@
 package no.ntnu.ihb.fmuproxy.jsonrpc
 
-import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
@@ -14,7 +13,6 @@ import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
@@ -39,7 +37,7 @@ class TestJsonRpcClients {
         val temperatureVariable = fmu.modelDescription.modelVariables
                 .getByName("Temperature_Room").asRealVariable()
 
-        val handler = RpcHandler(RpcFmuService().apply { addFmu(fmu) })
+        val service = RpcFmuService().apply { addFmu(fmu) }
 
         @AfterAll
         fun cleanup() {
@@ -53,7 +51,7 @@ class TestJsonRpcClients {
 
         Assertions.assertTimeout(timeout) {
             val proxy = FmuProxyBuilder(fmu).apply {
-                addServer(FmuProxyJsonWsServer(handler))
+                addServer(FmuProxyJsonWsServer(service))
             }.build().also { it.start() }
 
             RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!).also {
@@ -70,7 +68,7 @@ class TestJsonRpcClients {
 
             Assertions.assertTimeout(timeout) {
                 val proxy = FmuProxyBuilder(fmu).apply {
-                    addServer(FmuProxyJsonTcpServer(handler))
+                    addServer(FmuProxyJsonTcpServer(service))
                 }.build().also { it.start() }
 
                 RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!).also {
@@ -87,7 +85,7 @@ class TestJsonRpcClients {
 
             Assertions.assertTimeout(timeout) {
                 val proxy = FmuProxyBuilder(fmu).apply {
-                    addServer(FmuProxyJsonZmqServer(handler))
+                    addServer(FmuProxyJsonZmqServer(service))
                 }.build().also { it.start() }
 
                 RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!).also {
@@ -104,7 +102,7 @@ class TestJsonRpcClients {
         Assertions.assertTimeout(timeout) {
             Assertions.assertTimeout(timeout) {
                 val proxy = FmuProxyBuilder(fmu).apply {
-                    addServer(FmuProxyJsonHttpServer(handler))
+                    addServer(FmuProxyJsonHttpServer(service))
                 }.build().also { it.start() }
                 RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!).also {
                     testClient(it)

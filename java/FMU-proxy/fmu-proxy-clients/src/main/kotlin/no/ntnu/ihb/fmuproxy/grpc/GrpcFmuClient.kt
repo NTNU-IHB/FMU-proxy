@@ -32,7 +32,10 @@ import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.net.URL
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Lars Ivar Hatledal
@@ -45,11 +48,10 @@ class GrpcFmuClient(
     private val channel = ManagedChannelBuilder
             .forAddress(host, port)
             .usePlaintext()
-            .directExecutor()
             .build()
 
-    private val blockingStub: FmuServiceGrpc.FmuServiceBlockingStub
-            = FmuServiceGrpc.newBlockingStub(channel)
+    private val stub
+            = FmuServiceGrpc.newFutureStub(channel)
 
     fun load(fmuId: String): AbstractRpcFmuClient {
         return GrpcFmu(fmuId);
@@ -59,9 +61,7 @@ class GrpcFmuClient(
         return Service.Url.newBuilder()
                 .setUrl(url.toString())
                 .build().let {
-                    blockingStub.load(it).value
-                }.let {
-                    load(it)
+                    load(stub.load(it).get().value)
                 }
     }
 
@@ -75,7 +75,7 @@ class GrpcFmuClient(
             Service.GetModelDescriptionRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        blockingStub.getModelDescription(it).convert()
+                        stub.getModelDescription(it).get().convert()
                     }
         }
 
@@ -83,7 +83,7 @@ class GrpcFmuClient(
             Service.CanCreateInstanceFromCSRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        blockingStub.canCreateInstanceFromCS(it).value
+                        stub.canCreateInstanceFromCS(it).get().value
                     }
 
         }
@@ -92,7 +92,7 @@ class GrpcFmuClient(
             Service.CanCreateInstanceFromMERequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        blockingStub.canCreateInstanceFromME(it).value
+                        stub.canCreateInstanceFromME(it).get().value
                     }
         }
 
@@ -100,7 +100,7 @@ class GrpcFmuClient(
             return Service.CreateInstanceFromCSRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        blockingStub.createInstanceFromCS(it).value
+                        stub.createInstanceFromCS(it).get().value
                     }
         }
 
@@ -109,7 +109,7 @@ class GrpcFmuClient(
                     .setFmuId(fmuId)
                     .setSolver(solver.protoType())
                     .build().let {
-                        blockingStub.createInstanceFromME(it).value
+                        stub.createInstanceFromME(it).get().value
                     }
         }
 
@@ -117,7 +117,7 @@ class GrpcFmuClient(
             return Service.GetCoSimulationAttributesRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        blockingStub.getCoSimulationAttributes(it).convert()
+                        stub.getCoSimulationAttributes(it).get().convert()
                     }
         }
 
@@ -128,7 +128,7 @@ class GrpcFmuClient(
                     .setStop(stop)
                     .setTolerance(tolerance)
                     .build().let {
-                        blockingStub.setupExperiment(it).convert()
+                        stub.setupExperiment(it).get().convert()
                     }
         }
 
@@ -136,7 +136,7 @@ class GrpcFmuClient(
             return Service.EnterInitializationModeRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        blockingStub.enterInitializationMode(it).convert()
+                        stub.enterInitializationMode(it).get().convert()
                     }
         }
 
@@ -144,7 +144,7 @@ class GrpcFmuClient(
             return Service.ExitInitializationModeRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        blockingStub.exitInitializationMode(it).convert()
+                        stub.exitInitializationMode(it).get().convert()
                     }
         }
 
@@ -153,7 +153,7 @@ class GrpcFmuClient(
                     .setInstanceId(instanceId)
                     .setStepSize(stepSize)
                     .build().let {
-                        blockingStub.step(it).let {
+                        stub.step(it).get().let {
                             it.simulationTime to it.status.convert()
                         }
                     }
@@ -163,30 +163,30 @@ class GrpcFmuClient(
             return Service.ResetRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        blockingStub.reset(it).status.convert()
+                        stub.reset(it).get().status.convert()
                     }
         }
 
         override fun terminate(instanceId: String): FmiStatus {
             return Service.TerminateRequest.newBuilder().setInstanceId(instanceId).build().let {
-                blockingStub.terminate(it).status.convert()
+                stub.terminate(it).get().status.convert()
             }
         }
 
         override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
-            return blockingStub.readInteger(getReadRequest(instanceId, vr)).convert()
+            return stub.readInteger(getReadRequest(instanceId, vr)).get().convert()
         }
 
         override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
-            return blockingStub.readReal(getReadRequest(instanceId, vr)).convert()
+            return stub.readReal(getReadRequest(instanceId, vr)).get().convert()
         }
 
         override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
-            return blockingStub.readString(getReadRequest(instanceId, vr)).convert()
+            return stub.readString(getReadRequest(instanceId, vr)).get().convert()
         }
 
         override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
-            return blockingStub.readBoolean(getReadRequest(instanceId, vr)).convert()
+            return stub.readBoolean(getReadRequest(instanceId, vr)).get().convert()
         }
 
         override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
@@ -195,7 +195,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        blockingStub.writeInteger(request).convert()
+                        stub.writeInteger(request).get().convert()
                     }
         }
 
@@ -206,7 +206,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        blockingStub.writeReal(request).convert()
+                        stub.writeReal(request).get().convert()
                     }
         }
 
@@ -216,7 +216,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        blockingStub.writeString(request).convert()
+                        stub.writeString(request).get().convert()
                     }
         }
 
@@ -226,7 +226,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        blockingStub.writeBoolean(request).convert()
+                        stub.writeBoolean(request).get().convert()
                     }
         }
 
@@ -235,7 +235,7 @@ class GrpcFmuClient(
                     .setInstanceId(instanceId)
                     .setState(ByteString.copyFrom(state))
                     .build().let { request ->
-                        blockingStub.deSerializeFMUstate(request).let { response ->
+                        stub.deSerializeFMUstate(request).get().let { response ->
                             response.state to response.status.convert()
                         }
                     }
@@ -246,7 +246,7 @@ class GrpcFmuClient(
                     .setInstanceId(instanceId)
                     .setState(state)
                     .build().let { request ->
-                        blockingStub.freeFMUstate(request).convert()
+                        stub.freeFMUstate(request).get().convert()
                     }
         }
 
@@ -254,7 +254,7 @@ class GrpcFmuClient(
             return Service.GetFMUstateRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let { request ->
-                        blockingStub.getFMUstate(request).let { response ->
+                        stub.getFMUstate(request).get().let { response ->
                             response.state to response.status.convert()
                         }
                     }
@@ -265,7 +265,7 @@ class GrpcFmuClient(
                     .setInstanceId(instanceId)
                     .setState(state)
                     .build().let { request ->
-                        blockingStub.serializeFMUstate(request).let { response ->
+                        stub.serializeFMUstate(request).get().let { response ->
                             response.state.toByteArray() to response.status.convert()
                         }
                     }
@@ -276,7 +276,7 @@ class GrpcFmuClient(
                     .setInstanceId(instanceId)
                     .setState(state)
                     .build().let { request ->
-                        blockingStub.setFMUstate(request).convert()
+                        stub.setFMUstate(request).get().convert()
                     }
         }
 
@@ -286,7 +286,7 @@ class GrpcFmuClient(
                     .addAllVUnknownRef(vUnknownRef)
                     .addAllVKnownRef(vKnownRef)
                     .addAllDvKnownRef(dvKnownRef).build().let { request ->
-                        blockingStub.getDirectionalDerivative(request).let { response ->
+                        stub.getDirectionalDerivative(request).get().let { response ->
                             response.dvUnknownRefList to response.status.convert()
                         }
                     }
@@ -297,11 +297,15 @@ class GrpcFmuClient(
         override fun close() {
             super.close()
             channel.shutdownNow()
+            channel.awaitTermination(500, TimeUnit.MILLISECONDS)
+            LOG.debug("$implementationName closed..")
         }
 
     }
 
     private companion object {
+
+        val LOG:Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
 
         private fun getReadRequest(instanceId: String, vr: List<ValueReference>): Service.ReadRequest {
             return Service.ReadRequest.newBuilder()

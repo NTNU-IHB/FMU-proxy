@@ -31,13 +31,14 @@ import no.ntnu.ihb.fmuproxy.grpc.services.GrpcFmuServiceImpl
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 
 /**
  *
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        private val fmus: MutableMap<String, Fmu> = mutableMapOf()
+        private val fmus: MutableMap<String, Fmu> = Collections.synchronizedMap(mutableMapOf())
 ) : FmuProxyServer {
 
     private companion object {
@@ -55,9 +56,15 @@ class GrpcFmuServer(
     private val isRunning: Boolean
         get() = server != null
 
-    fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: Fmu) {
         synchronized(fmus) {
             fmus[fmu.guid] = fmu
+        }
+    }
+
+    override fun removeFmu(fmu: Fmu) {
+        synchronized(fmus) {
+            fmus.remove(fmu.guid)
         }
     }
 
@@ -65,7 +72,6 @@ class GrpcFmuServer(
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
-                directExecutor()
                 addService(service)
             }.build().start()
 

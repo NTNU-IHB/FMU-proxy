@@ -40,6 +40,7 @@ import org.eclipse.jetty.servlet.ServletHolder
 import org.eclipse.jetty.servlets.CrossOriginFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
 
 interface IServer {
     fun serve()
@@ -59,13 +60,13 @@ abstract class ThriftFmuServer(
     private var server: IServer? = null
     private val handler = ThriftFmuServiceImpl(fmus)
 
-    fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: Fmu) {
         synchronized(fmus) {
             fmus[fmu.guid] = fmu
         }
     }
 
-    fun removeFmu(fmu: Fmu) {
+    override fun removeFmu(fmu: Fmu) {
         synchronized(fmus) {
             fmus.remove(fmu.guid)
         }
@@ -100,7 +101,7 @@ abstract class ThriftFmuServer(
 
 
 class ThriftFmuSocketServer(
-        fmus: MutableMap<String, Fmu> = mutableMapOf()
+        fmus: MutableMap<String, Fmu> = Collections.synchronizedMap(mutableMapOf())
 ) : ThriftFmuServer(fmus) {
 
     override val simpleName = "thrift/tcp"
@@ -127,7 +128,7 @@ class ThriftFmuSocketServer(
 }
 
 class ThriftFmuServlet(
-        fmus: MutableMap<String, Fmu> = mutableMapOf()
+        fmus: MutableMap<String, Fmu> = Collections.synchronizedMap(mutableMapOf())
 ) : ThriftFmuServer(fmus) {
 
     override val simpleName = "thrift/http"
