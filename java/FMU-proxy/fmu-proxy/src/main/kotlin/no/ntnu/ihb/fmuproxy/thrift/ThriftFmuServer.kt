@@ -65,6 +65,12 @@ abstract class ThriftFmuServer(
         }
     }
 
+    fun removeFmu(fmu: Fmu) {
+        synchronized(fmus) {
+            fmus.remove(fmu.guid)
+        }
+    }
+
     override fun start(port: Int) {
 
         if (server == null) {

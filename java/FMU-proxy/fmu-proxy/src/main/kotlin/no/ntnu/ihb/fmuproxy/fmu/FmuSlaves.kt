@@ -36,34 +36,42 @@ object FmuSlaves {
 
     private val LOG: Logger = LoggerFactory.getLogger(FmuSlaves::class.java)
 
-    private val slaves = mutableMapOf<String, FmuSlave>()
+    private val slaves = Collections.synchronizedMap(mutableMapOf<String, FmuSlave>())
 
     fun put(slave: FmuSlave): String {
         return UUID.randomUUID().toString().also {
-            slaves[it] = slave
+            synchronized(slaves) {
+                slaves[it] = slave
+            }
         }
     }
 
     fun remove(instanceId: String): FmuSlave? {
-        return slaves.remove(instanceId).also {
-            if (it == null) {
-                LOG.warn("No slave with id: $instanceId")
+        synchronized(slaves) {
+            return slaves.remove(instanceId).also {
+                if (it == null) {
+                    LOG.warn("No slave with id: $instanceId")
+                }
             }
         }
     }
 
     operator fun get(instanceId: String): FmuSlave? {
-        return slaves[instanceId].also {
-            if (it == null) {
-                LOG.warn("No slave with id: $instanceId")
+        synchronized(slaves) {
+            return slaves[instanceId].also {
+                if (it == null) {
+                    LOG.warn("No slave with id: $instanceId")
+                }
             }
         }
     }
     
     fun terminateAll() {
-        slaves.values.forEach {
-            if (!it.isTerminated) {
-                it.terminate()
+        synchronized(slaves) {
+            slaves.values.forEach {
+                if (!it.isTerminated) {
+                    it.terminate()
+                }
             }
         }
     }
