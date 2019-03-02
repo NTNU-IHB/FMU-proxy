@@ -14,9 +14,14 @@ class FmuServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.Load = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/Load',
+    self.LoadFromUrl = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/LoadFromUrl',
         request_serializer=service__pb2.Url.SerializeToString,
+        response_deserializer=service__pb2.FmuId.FromString,
+        )
+    self.LoadFromFile = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/LoadFromFile',
+        request_serializer=service__pb2.File.SerializeToString,
         response_deserializer=service__pb2.FmuId.FromString,
         )
     self.GetModelDescription = channel.unary_unary(
@@ -155,7 +160,14 @@ class FmuServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
-  def Load(self, request, context):
+  def LoadFromUrl(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def LoadFromFile(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -347,9 +359,14 @@ class FmuServiceServicer(object):
 
 def add_FmuServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'Load': grpc.unary_unary_rpc_method_handler(
-          servicer.Load,
+      'LoadFromUrl': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadFromUrl,
           request_deserializer=service__pb2.Url.FromString,
+          response_serializer=service__pb2.FmuId.SerializeToString,
+      ),
+      'LoadFromFile': grpc.unary_unary_rpc_method_handler(
+          servicer.LoadFromFile,
+          request_deserializer=service__pb2.File.FromString,
           response_serializer=service__pb2.FmuId.SerializeToString,
       ),
       'GetModelDescription': grpc.unary_unary_rpc_method_handler(
