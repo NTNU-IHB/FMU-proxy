@@ -52,7 +52,7 @@ fmi4cpp::Status RemoteFmuSlave::getLastStatus() const {
 }
 
 shared_ptr<const fmi4cpp::fmi2::CoSimulationModelDescription> RemoteFmuSlave::getModelDescription() const {
-    return std::shared_ptr<fmi4cpp::fmi2::CoSimulationModelDescription>();
+    return csModelDescription_;
 }
 
 bool RemoteFmuSlave::updateStatusAndReturnTrueOnOK(fmuproxy::grpc::Status status) {
