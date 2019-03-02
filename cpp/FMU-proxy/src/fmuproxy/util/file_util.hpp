@@ -30,30 +30,28 @@
 
 namespace {
 
-
     void writeData(std::string const &fileName, std::string const &data) {
 
-        FILE *file = fopen(fileName.c_str(), "w+");
-        int bytes_written = fwrite(data.c_str(), sizeof(unsigned char), data.size(), file);
+        FILE *file = fopen(fileName.c_str(), "wb");
+        size_t bytes_written = fwrite(data.c_str(), sizeof(unsigned char), data.size(), file);
         fclose(file);
     }
 
     void readData(std::string const &fileName, std::string &data) {
 
 
-        FILE *file = fopen(fileName.c_str(), "r+");
+        FILE *file = fopen(fileName.c_str(), "rb");
         if (file == NULL) return;
         fseek(file, 0, SEEK_END);
         long int size = ftell(file);
         fclose(file);
-        file = fopen(fileName.c_str(), "r+");
+        file = fopen(fileName.c_str(), "rb");
 
         data.resize(size);
-        int bytes_read = fread(data.data(), sizeof(unsigned char), size, file);
+        size_t bytes_read = fread(data.data(), sizeof(unsigned char), size, file);
         fclose(file);
 
     }
-
 
 }
 
