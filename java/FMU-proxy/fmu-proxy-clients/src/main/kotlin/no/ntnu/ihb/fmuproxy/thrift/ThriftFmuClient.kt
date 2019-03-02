@@ -25,6 +25,7 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
@@ -39,6 +40,9 @@ import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.net.URL
 import java.nio.ByteBuffer
 
@@ -57,10 +61,23 @@ class ThriftFmuClient private constructor(
     }
 
     fun load(url: URL): AbstractRpcFmuClient {
-        return client.load(url.toString()).let {
-            ThriftFmu(it)
+        return client.loadFromUrl(url.toString()).let {
+            load(it)
         }
+    }
 
+    fun load(file: File): AbstractRpcFmuClient {
+        if (!file.name.endsWith(".fmu")) {
+            throw IllegalArgumentException("File must be an FMU!")
+        }
+        val data = FileInputStream(file).use {
+            ByteBuffer.wrap(it.readBytes())
+        }
+//        Fmu.from(file.nameWithoutExtension, data.array())
+        println(data.array().size)
+        return client.loadFromFile(file.nameWithoutExtension, data).let {
+            load(it)
+        }
     }
 
     private inner class ThriftFmu(

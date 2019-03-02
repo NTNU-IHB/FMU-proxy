@@ -42,6 +42,7 @@ import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
+import java.nio.file.Files
 
 /**
  *
@@ -61,7 +62,7 @@ class GrpcFmuServiceImpl(
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
     }
 
-    override fun load(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
+    override fun loadFromUrl(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
         val url = URL(request.url)
         val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
@@ -71,6 +72,23 @@ class GrpcFmuServiceImpl(
                 fmus[guid] = fmu
                 LOG.info("Loaded new FMU with guid=$guid!")
             } else {
+                LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+            }
+            responseObserver.onNext(Service.FmuId.newBuilder()
+                    .setValue(guid).build())
+            responseObserver.onCompleted()
+        }
+    }
+
+    override fun loadFromFile(request: Service.File, responseObserver: StreamObserver<Service.FmuId>) {
+        val fmu = Fmu.from(request.name, request.data.toByteArray())
+        val guid = fmu.guid
+        synchronized(fmus) {
+            if (guid !in fmus) {
+                fmus[guid] = fmu
+                LOG.info("Loaded new FMU with guid=$guid!")
+            } else {
+                fmu.close()
                 LOG.debug("FMU with guid=$guid already loaded, re-using it!")
             }
             responseObserver.onNext(Service.FmuId.newBuilder()

@@ -64,7 +64,7 @@ class ThriftFmuServiceImpl(
         return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
     }
 
-    override fun load(url: String): String {
+    override fun loadFromUrl(url: String): String {
         @Suppress("NAME_SHADOWING") val url = URL(url)
         val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
@@ -74,6 +74,21 @@ class ThriftFmuServiceImpl(
                 fmus[guid] = fmu
                 LOG.info("Loaded new FMU with guid=$guid!")
             } else {
+                LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+            }
+            return guid
+        }
+    }
+
+    override fun loadFromFile(name: String, data: ByteBuffer): String {
+        val fmu = Fmu.from(name, data.compact().array())
+        val guid = fmu.guid
+        synchronized(fmus) {
+            if (guid !in fmus) {
+                fmus[guid] = fmu
+                LOG.info("Loaded new FMU with guid=$guid!")
+            } else {
+                fmu.close()
                 LOG.debug("FMU with guid=$guid already loaded, re-using it!")
             }
             return guid

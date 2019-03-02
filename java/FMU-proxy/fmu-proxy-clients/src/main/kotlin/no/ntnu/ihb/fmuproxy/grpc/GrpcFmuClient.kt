@@ -34,6 +34,8 @@ import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.File
+import java.io.FileInputStream
 import java.net.URL
 import java.util.concurrent.TimeUnit
 
@@ -61,7 +63,22 @@ class GrpcFmuClient(
         return Service.Url.newBuilder()
                 .setUrl(url.toString())
                 .build().let {
-                    load(stub.load(it).get().value)
+                    load(stub.loadFromUrl(it).get().value)
+                }
+    }
+
+    fun load(file: File): AbstractRpcFmuClient {
+        if (!file.name.endsWith(".fmu")) {
+            throw IllegalArgumentException("File must be an FMU!")
+        }
+        val data = FileInputStream(file).use {
+            ByteString.copyFrom(it.readBytes())
+        }
+        return Service.File.newBuilder()
+                .setName(file.nameWithoutExtension)
+                .setData(data)
+                .build().let {
+                    load(stub.loadFromFile(it).get().value)
                 }
     }
 
