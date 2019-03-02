@@ -34,42 +34,47 @@ using namespace fmuproxy::grpc::client;
 const double stop = 2;
 const double step_size = 1E-2;
 
+void runSlave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>> slave) {
+
+    auto md = slave->getModelDescription();
+
+    cout << "GUID=" << md->guid << endl;
+    cout << "modelName=" << md->modelName << endl;
+    cout << "license=" << md->license.value_or("-") << endl;
+
+    slave->setupExperiment();
+    slave->enterInitializationMode();
+    slave->exitInitializationMode();
+
+    auto elapsed = measure_time_sec([&slave, &md]{
+        vector<fmi2Real > ref(2);
+        vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
+                                          md->getValueReference("Temperature_Room")};
+
+        while ( (slave->getSimulationTime() ) < stop) {
+            slave->doStep(step_size);
+            slave->readReal(vr, ref);
+        }
+    });
+
+    cout << "elapsed=" << elapsed << "s" << endl;
+
+    bool status = slave->terminate();
+    cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;
+}
+
 int main() {
     
 
-    auto fmu = GrpcClient("localhost", 9080).fromFile("../fmus/2.0/cs/20sim/4.6.4.8004/"
-                                                      "ControlledTemperature/ControlledTemperature.fmu");
+    auto client = GrpcClient("localhost", 9080);
 
-    const auto md = fmu.getModelDescription();
-    cout << "GUID=" << md->guid << endl;
-//    cout << "modelName=" << md->modelName << endl;
-//    cout << "license=" << md->license.value_or("") << endl;
-//
-//    for (const auto &var : *md->modelVariables) {
-//        cout << "Name=" << var.name << endl;
-//    }
-//
-//    auto slave = fmu.newInstance();
-//    slave->setupExperiment();
-//    slave->enterInitializationMode();
-//    slave->exitInitializationMode();
-//
-//    auto elapsed = measure_time_sec([&slave, &md]{
-//        vector<fmi2Real > ref(2);
-//        vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
-//                                          md->getValueReference("Temperature_Room")};
-//
-//        while ( (slave->getSimulationTime() ) < stop) {
-//            slave->doStep(step_size);
-//            slave->readReal(vr, ref);
-//        }
-//    });
-//
-//    cout << "elapsed=" << elapsed << "s" << endl;
-//
-//    bool status = slave->terminate();
-//    cout << "terminated FMU with success: " << (status ? "true" : "false") << endl;
+    auto fmu = client.fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
+    runSlave(fmu.newInstance());
 
+
+    auto remote_fmu = client.fromFile("../fmus/2.0/cs/20sim/4.6.4.8004/"
+                                      "ControlledTemperature/ControlledTemperature.fmu");
+    runSlave(remote_fmu.newInstance());
 
     return 0;
 
