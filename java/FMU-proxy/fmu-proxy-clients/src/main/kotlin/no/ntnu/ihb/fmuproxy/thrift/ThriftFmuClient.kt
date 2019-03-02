@@ -73,8 +73,6 @@ class ThriftFmuClient private constructor(
         val data = FileInputStream(file).use {
             ByteBuffer.wrap(it.readBytes())
         }
-//        Fmu.from(file.nameWithoutExtension, data.array())
-        println(data.array().size)
         return client.loadFromFile(file.nameWithoutExtension, data).let {
             load(it)
         }
