@@ -25,28 +25,36 @@
 #ifndef FMU_PROXY_FILE_READER_HPP
 #define FMU_PROXY_FILE_READER_HPP
 
+#include <cstdio>
 #include <string>
-#include <fstream>
 
 namespace {
 
-    void readData(const std::string &file, std::string &data) {
-        std::ifstream input(file, std::ios::out | std::ios::binary);
 
-        size_t len = 0;
-        input.read((char*) &len, sizeof(len));
-        data.resize(len);
-        input.read(&data[0], len);
+    void writeData(std::string const &fileName, std::string const &data) {
+
+        FILE *file = fopen(fileName.c_str(), "w+");
+        int bytes_written = fwrite(data.c_str(), sizeof(unsigned char), data.size(), file);
+        fclose(file);
     }
 
-    void writeData(const std::string &file, const std::string &data) {
-            std::ofstream input(file, std::ios::out | std::ios::binary);
+    void readData(std::string const &fileName, std::string &data) {
 
-            size_t len = data.size();
-            input.write((char*) &len, sizeof(len));
-            input.write(&data[0], len);
+
+        FILE *file = fopen(fileName.c_str(), "r+");
+        if (file == NULL) return;
+        fseek(file, 0, SEEK_END);
+        long int size = ftell(file);
+        fclose(file);
+        file = fopen(fileName.c_str(), "r+");
+
+        data.resize(size);
+        int bytes_read = fread(data.data(), sizeof(unsigned char), size, file);
+        fclose(file);
+
     }
-    
+
+
 }
 
 #endif //FMU_PROXY_FILE_READER_HPP

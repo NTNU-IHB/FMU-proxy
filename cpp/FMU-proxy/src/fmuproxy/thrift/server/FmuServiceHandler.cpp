@@ -78,10 +78,19 @@ void FmuServiceHandler::loadFromUrl(FmuId &_return, const std::string &url) {
 
 void FmuServiceHandler::loadFromFile(FmuId &_return, const std::string &name, const std::string &data) {
 
-    //TODO implement LoadFromFile
-    
-  //  writeData(name, data);
+    fs::path tmp(fs::temp_directory_path() /= fs::path(name + "_" + generate_simple_id(8) + ".fmu"));
+    const std::string fmuPath = tmp.string();
+    writeData(fmuPath, data);
 
+    auto fmu = std::make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmuPath);
+
+    fs::remove_all(tmp);
+
+    auto guid = fmu->getModelDescription()->guid;
+    if (!fmus_.count(guid)) {
+        fmus_[guid] = move(fmu);
+    }
+    _return = guid;
 }
 
 void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &id) {
