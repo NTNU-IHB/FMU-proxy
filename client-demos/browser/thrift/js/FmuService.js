@@ -7,7 +7,7 @@
 
 //HELPER FUNCTIONS AND STRUCTURES
 
-FmuService_load_args = function(args) {
+FmuService_loadFromUrl_args = function(args) {
   this.url = null;
   if (args) {
     if (args.url !== undefined && args.url !== null) {
@@ -15,8 +15,8 @@ FmuService_load_args = function(args) {
     }
   }
 };
-FmuService_load_args.prototype = {};
-FmuService_load_args.prototype.read = function(input) {
+FmuService_loadFromUrl_args.prototype = {};
+FmuService_loadFromUrl_args.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -45,8 +45,8 @@ FmuService_load_args.prototype.read = function(input) {
   return;
 };
 
-FmuService_load_args.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_load_args');
+FmuService_loadFromUrl_args.prototype.write = function(output) {
+  output.writeStructBegin('FmuService_loadFromUrl_args');
   if (this.url !== null && this.url !== undefined) {
     output.writeFieldBegin('url', Thrift.Type.STRING, 1);
     output.writeString(this.url);
@@ -57,7 +57,7 @@ FmuService_load_args.prototype.write = function(output) {
   return;
 };
 
-FmuService_load_result = function(args) {
+FmuService_loadFromUrl_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
@@ -65,8 +65,8 @@ FmuService_load_result = function(args) {
     }
   }
 };
-FmuService_load_result.prototype = {};
-FmuService_load_result.prototype.read = function(input) {
+FmuService_loadFromUrl_result.prototype = {};
+FmuService_loadFromUrl_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true) {
     var ret = input.readFieldBegin();
@@ -95,8 +95,121 @@ FmuService_load_result.prototype.read = function(input) {
   return;
 };
 
-FmuService_load_result.prototype.write = function(output) {
-  output.writeStructBegin('FmuService_load_result');
+FmuService_loadFromUrl_result.prototype.write = function(output) {
+  output.writeStructBegin('FmuService_loadFromUrl_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeString(this.success);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+FmuService_loadFromFile_args = function(args) {
+  this.name = null;
+  this.data = null;
+  if (args) {
+    if (args.name !== undefined && args.name !== null) {
+      this.name = args.name;
+    }
+    if (args.data !== undefined && args.data !== null) {
+      this.data = args.data;
+    }
+  }
+};
+FmuService_loadFromFile_args.prototype = {};
+FmuService_loadFromFile_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.name = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.data = input.readBinary().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+FmuService_loadFromFile_args.prototype.write = function(output) {
+  output.writeStructBegin('FmuService_loadFromFile_args');
+  if (this.name !== null && this.name !== undefined) {
+    output.writeFieldBegin('name', Thrift.Type.STRING, 1);
+    output.writeString(this.name);
+    output.writeFieldEnd();
+  }
+  if (this.data !== null && this.data !== undefined) {
+    output.writeFieldBegin('data', Thrift.Type.STRING, 2);
+    output.writeBinary(this.data);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+FmuService_loadFromFile_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
+};
+FmuService_loadFromFile_result.prototype = {};
+FmuService_loadFromFile_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true) {
+    var ret = input.readFieldBegin();
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid) {
+      case 0:
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+FmuService_loadFromFile_result.prototype.write = function(output) {
+  output.writeStructBegin('FmuService_loadFromFile_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRING, 0);
     output.writeString(this.success);
@@ -4091,20 +4204,20 @@ FmuServiceClient = function(input, output) {
 };
 FmuServiceClient.prototype = {};
 
-FmuServiceClient.prototype.load = function(url, callback) {
-  this.send_load(url, callback); 
+FmuServiceClient.prototype.loadFromUrl = function(url, callback) {
+  this.send_loadFromUrl(url, callback); 
   if (!callback) {
-    return this.recv_load();
+    return this.recv_loadFromUrl();
   }
 };
 
-FmuServiceClient.prototype.send_load = function(url, callback) {
+FmuServiceClient.prototype.send_loadFromUrl = function(url, callback) {
   var params = {
     url: url
   };
-  var args = new FmuService_load_args(params);
+  var args = new FmuService_loadFromUrl_args(params);
   try {
-    this.output.writeMessageBegin('load', Thrift.MessageType.CALL, this.seqid);
+    this.output.writeMessageBegin('loadFromUrl', Thrift.MessageType.CALL, this.seqid);
     args.write(this.output);
     this.output.writeMessageEnd();
     if (callback) {
@@ -4112,7 +4225,7 @@ FmuServiceClient.prototype.send_load = function(url, callback) {
       this.output.getTransport().flush(true, function() {
         var result = null;
         try {
-          result = self.recv_load();
+          result = self.recv_loadFromUrl();
         } catch (e) {
           result = e;
         }
@@ -4130,7 +4243,7 @@ FmuServiceClient.prototype.send_load = function(url, callback) {
   }
 };
 
-FmuServiceClient.prototype.recv_load = function() {
+FmuServiceClient.prototype.recv_loadFromUrl = function() {
   var ret = this.input.readMessageBegin();
   var mtype = ret.mtype;
   if (mtype == Thrift.MessageType.EXCEPTION) {
@@ -4139,14 +4252,73 @@ FmuServiceClient.prototype.recv_load = function() {
     this.input.readMessageEnd();
     throw x;
   }
-  var result = new FmuService_load_result();
+  var result = new FmuService_loadFromUrl_result();
   result.read(this.input);
   this.input.readMessageEnd();
 
   if (null !== result.success) {
     return result.success;
   }
-  throw 'load failed: unknown result';
+  throw 'loadFromUrl failed: unknown result';
+};
+
+FmuServiceClient.prototype.loadFromFile = function(name, data, callback) {
+  this.send_loadFromFile(name, data, callback); 
+  if (!callback) {
+    return this.recv_loadFromFile();
+  }
+};
+
+FmuServiceClient.prototype.send_loadFromFile = function(name, data, callback) {
+  var params = {
+    name: name,
+    data: data
+  };
+  var args = new FmuService_loadFromFile_args(params);
+  try {
+    this.output.writeMessageBegin('loadFromFile', Thrift.MessageType.CALL, this.seqid);
+    args.write(this.output);
+    this.output.writeMessageEnd();
+    if (callback) {
+      var self = this;
+      this.output.getTransport().flush(true, function() {
+        var result = null;
+        try {
+          result = self.recv_loadFromFile();
+        } catch (e) {
+          result = e;
+        }
+        callback(result);
+      });
+    } else {
+      return this.output.getTransport().flush();
+    }
+  }
+  catch (e) {
+    if (typeof this.output.getTransport().reset === 'function') {
+      this.output.getTransport().reset();
+    }
+    throw e;
+  }
+};
+
+FmuServiceClient.prototype.recv_loadFromFile = function() {
+  var ret = this.input.readMessageBegin();
+  var mtype = ret.mtype;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new FmuService_loadFromFile_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'loadFromFile failed: unknown result';
 };
 
 FmuServiceClient.prototype.getModelDescription = function(fmuId, callback) {
