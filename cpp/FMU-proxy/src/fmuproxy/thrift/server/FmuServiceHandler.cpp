@@ -29,6 +29,7 @@
 #include <fmuproxy/thrift/server/FmuServiceHandler.hpp>
 
 #include "../../util/simple_id.hpp"
+#include "../../util/file_util.hpp"
 #include "thrift_server_helper.hpp"
 
 using namespace std;
@@ -65,7 +66,7 @@ void FmuServiceHandler::getModelDescription(fmuproxy::thrift::ModelDescription &
     thriftType(_return, *fmu->getModelDescription());
 }
 
-void FmuServiceHandler::load(FmuId &_return, const std::string &url) {
+void FmuServiceHandler::loadFromUrl(FmuId &_return, const std::string &url) {
     cout << "Loading FMU from url " << url << endl;
     auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(url);
     auto guid = fmu->getModelDescription()->guid;
@@ -73,6 +74,14 @@ void FmuServiceHandler::load(FmuId &_return, const std::string &url) {
         fmus_[guid] = move(fmu);
     }
     _return = guid;
+}
+
+void FmuServiceHandler::loadFromFile(FmuId &_return, const std::string &name, const std::string &data) {
+
+    //TODO implement LoadFromFile
+    
+  //  writeData(name, data);
+
 }
 
 void FmuServiceHandler::createInstanceFromCS(InstanceId &_return, const FmuId &id) {

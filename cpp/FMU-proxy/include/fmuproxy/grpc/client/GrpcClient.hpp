@@ -66,6 +66,8 @@ namespace fmuproxy::grpc::client {
 
         RemoteGrpcFmu fromUrl(const std::string &url);
 
+        RemoteGrpcFmu fromFile(const std::string &file);
+
         RemoteGrpcFmu fromGuid(const std::string &guid);
 
     };

@@ -22,14 +22,21 @@
  * THE SOFTWARE.
  */
 
+
+#include <experimental/filesystem>
+
 #include <fmuproxy/grpc/client/GrpcClient.hpp>
 #include <google/protobuf/empty.pb.h>
+
 #include "grpc_client_helper.hpp"
+#include "../../util/file_util.hpp"
 
 using namespace std;
 using namespace grpc;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
+
+namespace fs = std::experimental::filesystem;
 
 GrpcClient::GrpcClient(const std::string &host, const unsigned int port){
     const auto channel = CreateChannel(host + ":" + to_string(port), InsecureChannelCredentials());
@@ -41,7 +48,25 @@ RemoteGrpcFmu GrpcClient::fromUrl(const std::string &url) {
     Url url_;
     FmuId fmuId;
     url_.set_url(url);
-    stub_->Load(&ctx, url_, &fmuId);
+    stub_->LoadFromUrl(&ctx, url_, &fmuId);
+    return fromGuid(fmuId.value());
+}
+
+RemoteGrpcFmu GrpcClient::fromFile(const std::string &file) {
+
+    fs::path p(file);
+    std::string name = p.stem().string();
+
+    std::string data;
+    readData(file, data);
+
+    ClientContext ctx;
+    File file_;
+    FmuId fmuId;
+    file_.set_name(name);
+    file_.set_data(data);
+
+    stub_->LoadFromFile(&ctx, file_, &fmuId);
     return fromGuid(fmuId.value());
 }
 

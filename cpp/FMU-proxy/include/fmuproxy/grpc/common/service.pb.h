@@ -90,6 +90,9 @@ extern EnumerationAttributeDefaultTypeInternal _EnumerationAttribute_default_ins
 class ExitInitializationModeRequest;
 class ExitInitializationModeRequestDefaultTypeInternal;
 extern ExitInitializationModeRequestDefaultTypeInternal _ExitInitializationModeRequest_default_instance_;
+class File;
+class FileDefaultTypeInternal;
+extern FileDefaultTypeInternal _File_default_instance_;
 class FmuId;
 class FmuIdDefaultTypeInternal;
 extern FmuIdDefaultTypeInternal _FmuId_default_instance_;
@@ -186,9 +189,6 @@ extern UnknownDefaultTypeInternal _Unknown_default_instance_;
 class Url;
 class UrlDefaultTypeInternal;
 extern UrlDefaultTypeInternal _Url_default_instance_;
-class Void;
-class VoidDefaultTypeInternal;
-extern VoidDefaultTypeInternal _Void_default_instance_;
 class WriteBooleanRequest;
 class WriteBooleanRequestDefaultTypeInternal;
 extern WriteBooleanRequestDefaultTypeInternal _WriteBooleanRequest_default_instance_;
@@ -219,6 +219,7 @@ template<> ::fmuproxy::grpc::DefaultExperiment* Arena::CreateMaybeMessage<::fmup
 template<> ::fmuproxy::grpc::EnterInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnterInitializationModeRequest>(Arena*);
 template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnumerationAttribute>(Arena*);
 template<> ::fmuproxy::grpc::ExitInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ExitInitializationModeRequest>(Arena*);
+template<> ::fmuproxy::grpc::File* Arena::CreateMaybeMessage<::fmuproxy::grpc::File>(Arena*);
 template<> ::fmuproxy::grpc::FmuId* Arena::CreateMaybeMessage<::fmuproxy::grpc::FmuId>(Arena*);
 template<> ::fmuproxy::grpc::FreeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::FreeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetCoSimulationAttributesRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetCoSimulationAttributesRequest>(Arena*);
@@ -251,7 +252,6 @@ template<> ::fmuproxy::grpc::StringRead* Arena::CreateMaybeMessage<::fmuproxy::g
 template<> ::fmuproxy::grpc::TerminateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::TerminateRequest>(Arena*);
 template<> ::fmuproxy::grpc::Unknown* Arena::CreateMaybeMessage<::fmuproxy::grpc::Unknown>(Arena*);
 template<> ::fmuproxy::grpc::Url* Arena::CreateMaybeMessage<::fmuproxy::grpc::Url>(Arena*);
-template<> ::fmuproxy::grpc::Void* Arena::CreateMaybeMessage<::fmuproxy::grpc::Void>(Arena*);
 template<> ::fmuproxy::grpc::WriteBooleanRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteBooleanRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteIntegerRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteIntegerRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteRealRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteRealRequest>(Arena*);
@@ -6531,102 +6531,6 @@ class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @
 };
 // -------------------------------------------------------------------
 
-class Void : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Void) */ {
- public:
-  Void();
-  virtual ~Void();
-
-  Void(const Void& from);
-
-  inline Void& operator=(const Void& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  Void(Void&& from) noexcept
-    : Void() {
-    *this = ::std::move(from);
-  }
-
-  inline Void& operator=(Void&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Void& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Void* internal_default_instance() {
-    return reinterpret_cast<const Void*>(
-               &_Void_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    49;
-
-  void Swap(Void* other);
-  friend void swap(Void& a, Void& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Void* New() const final {
-    return CreateMaybeMessage<Void>(NULL);
-  }
-
-  Void* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<Void>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const Void& from);
-  void MergeFrom(const Void& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Void* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Void)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class Url : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Url) */ {
  public:
   Url();
@@ -6662,7 +6566,7 @@ class Url : public ::google::protobuf::Message /* @@protoc_insertion_point(class
                &_Url_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    49;
 
   void Swap(Url* other);
   friend void swap(Url& a, Url& b) {
@@ -6733,6 +6637,132 @@ class Url : public ::google::protobuf::Message /* @@protoc_insertion_point(class
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr url_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_service_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class File : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.File) */ {
+ public:
+  File();
+  virtual ~File();
+
+  File(const File& from);
+
+  inline File& operator=(const File& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  File(File&& from) noexcept
+    : File() {
+    *this = ::std::move(from);
+  }
+
+  inline File& operator=(File&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const File& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const File* internal_default_instance() {
+    return reinterpret_cast<const File*>(
+               &_File_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    50;
+
+  void Swap(File* other);
+  friend void swap(File& a, File& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline File* New() const final {
+    return CreateMaybeMessage<File>(NULL);
+  }
+
+  File* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<File>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const File& from);
+  void MergeFrom(const File& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(File* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string name = 1;
+  void clear_name();
+  static const int kNameFieldNumber = 1;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
+  // bytes data = 2;
+  void clear_data();
+  static const int kDataFieldNumber = 2;
+  const ::std::string& data() const;
+  void set_data(const ::std::string& value);
+  #if LANG_CXX11
+  void set_data(::std::string&& value);
+  #endif
+  void set_data(const char* value);
+  void set_data(const void* value, size_t size);
+  ::std::string* mutable_data();
+  ::std::string* release_data();
+  void set_allocated_data(::std::string* data);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.File)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::internal::ArenaStringPtr data_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_service_2eproto::TableStruct;
 };
@@ -11444,10 +11474,6 @@ inline void GetDirectionalDerivativeResponse::set_status(::fmuproxy::grpc::Statu
 
 // -------------------------------------------------------------------
 
-// Void
-
-// -------------------------------------------------------------------
-
 // Url
 
 // string url = 1;
@@ -11501,6 +11527,116 @@ inline void Url::set_allocated_url(::std::string* url) {
   }
   url_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), url);
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.Url.url)
+}
+
+// -------------------------------------------------------------------
+
+// File
+
+// string name = 1;
+inline void File::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& File::name() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.File.name)
+  return name_.GetNoArena();
+}
+inline void File::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.File.name)
+}
+#if LANG_CXX11
+inline void File::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.File.name)
+}
+#endif
+inline void File::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.File.name)
+}
+inline void File::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.File.name)
+}
+inline ::std::string* File::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.File.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* File::release_name() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.File.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void File::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.File.name)
+}
+
+// bytes data = 2;
+inline void File::clear_data() {
+  data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& File::data() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.File.data)
+  return data_.GetNoArena();
+}
+inline void File::set_data(const ::std::string& value) {
+  
+  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.File.data)
+}
+#if LANG_CXX11
+inline void File::set_data(::std::string&& value) {
+  
+  data_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.File.data)
+}
+#endif
+inline void File::set_data(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.File.data)
+}
+inline void File::set_data(const void* value, size_t size) {
+  
+  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.File.data)
+}
+inline ::std::string* File::mutable_data() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.File.data)
+  return data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* File::release_data() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.File.data)
+  
+  return data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void File::set_allocated_data(::std::string* data) {
+  if (data != NULL) {
+    
+  } else {
+    
+  }
+  data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.File.data)
 }
 
 #ifdef __GNUC__

@@ -28,6 +28,7 @@
 #include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
 
 #include "../../util/simple_id.hpp"
+#include "../../util/file_util.hpp"
 #include "grpc_server_helper.hpp"
 
 using namespace std;
@@ -49,7 +50,7 @@ namespace {
 
 FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus) : fmus_(fmus) {}
 
-::Status FmuServiceImpl::Load(ServerContext *context, const ::fmuproxy::grpc::Url *request,
+::Status FmuServiceImpl::LoadFromUrl(ServerContext *context, const ::fmuproxy::grpc::Url *request,
                             ::fmuproxy::grpc::FmuId *response) {
     auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(request->url());
     auto guid = fmu->getModelDescription()->guid;
@@ -58,6 +59,13 @@ FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::f
     }
     response->set_value(guid);
     return ::Status::OK;
+}
+
+
+::Status FmuServiceImpl::LoadFromFile(::grpc::ServerContext *context, const ::fmuproxy::grpc::File *request,
+                                    ::fmuproxy::grpc::FmuId *response) {
+    //TODO implement LoadFromFile
+    return Service::LoadFromFile(context, request, response);
 }
 
 
