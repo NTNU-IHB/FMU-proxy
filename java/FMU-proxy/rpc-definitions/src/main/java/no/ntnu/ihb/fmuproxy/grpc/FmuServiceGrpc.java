@@ -28,35 +28,67 @@ public final class FmuServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url,
-      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadMethod;
+      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadFromUrlMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "Load",
+      fullMethodName = SERVICE_NAME + '/' + "LoadFromUrl",
       requestType = no.ntnu.ihb.fmuproxy.grpc.Service.Url.class,
       responseType = no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url,
-      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadMethod;
-    if ((getLoadMethod = FmuServiceGrpc.getLoadMethod) == null) {
+      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadFromUrlMethod() {
+    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.Url, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadFromUrlMethod;
+    if ((getLoadFromUrlMethod = FmuServiceGrpc.getLoadFromUrlMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
-        if ((getLoadMethod = FmuServiceGrpc.getLoadMethod) == null) {
-          FmuServiceGrpc.getLoadMethod = getLoadMethod = 
+        if ((getLoadFromUrlMethod = FmuServiceGrpc.getLoadFromUrlMethod) == null) {
+          FmuServiceGrpc.getLoadFromUrlMethod = getLoadFromUrlMethod = 
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.Url, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "Load"))
+                  "fmuproxy.grpc.FmuService", "LoadFromUrl"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.Url.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Load"))
+                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("LoadFromUrl"))
                   .build();
           }
         }
      }
-     return getLoadMethod;
+     return getLoadFromUrlMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.File,
+      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadFromFileMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "LoadFromFile",
+      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.File.class,
+      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.File,
+      no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadFromFileMethod() {
+    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.File, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> getLoadFromFileMethod;
+    if ((getLoadFromFileMethod = FmuServiceGrpc.getLoadFromFileMethod) == null) {
+      synchronized (FmuServiceGrpc.class) {
+        if ((getLoadFromFileMethod = FmuServiceGrpc.getLoadFromFileMethod) == null) {
+          FmuServiceGrpc.getLoadFromFileMethod = getLoadFromFileMethod = 
+              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.File, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "fmuproxy.grpc.FmuService", "LoadFromFile"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.ntnu.ihb.fmuproxy.grpc.Service.File.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.getDefaultInstance()))
+                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("LoadFromFile"))
+                  .build();
+          }
+        }
+     }
+     return getLoadFromFileMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest,
@@ -920,9 +952,16 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public void load(no.ntnu.ihb.fmuproxy.grpc.Service.Url request,
+    public void loadFromUrl(no.ntnu.ihb.fmuproxy.grpc.Service.Url request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> responseObserver) {
-      asyncUnimplementedUnaryCall(getLoadMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getLoadFromUrlMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void loadFromFile(no.ntnu.ihb.fmuproxy.grpc.Service.File request,
+        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> responseObserver) {
+      asyncUnimplementedUnaryCall(getLoadFromFileMethod(), responseObserver);
     }
 
     /**
@@ -1110,12 +1149,19 @@ public final class FmuServiceGrpc {
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getLoadMethod(),
+            getLoadFromUrlMethod(),
             asyncUnaryCall(
               new MethodHandlers<
                 no.ntnu.ihb.fmuproxy.grpc.Service.Url,
                 no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>(
-                  this, METHODID_LOAD)))
+                  this, METHODID_LOAD_FROM_URL)))
+          .addMethod(
+            getLoadFromFileMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.ntnu.ihb.fmuproxy.grpc.Service.File,
+                no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>(
+                  this, METHODID_LOAD_FROM_FILE)))
           .addMethod(
             getGetModelDescriptionMethod(),
             asyncUnaryCall(
@@ -1322,10 +1368,18 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public void load(no.ntnu.ihb.fmuproxy.grpc.Service.Url request,
+    public void loadFromUrl(no.ntnu.ihb.fmuproxy.grpc.Service.Url request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getLoadMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getLoadFromUrlMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void loadFromFile(no.ntnu.ihb.fmuproxy.grpc.Service.File request,
+        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getLoadFromFileMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1557,9 +1611,16 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.FmuId load(no.ntnu.ihb.fmuproxy.grpc.Service.Url request) {
+    public no.ntnu.ihb.fmuproxy.grpc.Service.FmuId loadFromUrl(no.ntnu.ihb.fmuproxy.grpc.Service.Url request) {
       return blockingUnaryCall(
-          getChannel(), getLoadMethod(), getCallOptions(), request);
+          getChannel(), getLoadFromUrlMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.FmuId loadFromFile(no.ntnu.ihb.fmuproxy.grpc.Service.File request) {
+      return blockingUnaryCall(
+          getChannel(), getLoadFromFileMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1765,10 +1826,18 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> load(
+    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> loadFromUrl(
         no.ntnu.ihb.fmuproxy.grpc.Service.Url request) {
       return futureUnaryCall(
-          getChannel().newCall(getLoadMethod(), getCallOptions()), request);
+          getChannel().newCall(getLoadFromUrlMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId> loadFromFile(
+        no.ntnu.ihb.fmuproxy.grpc.Service.File request) {
+      return futureUnaryCall(
+          getChannel().newCall(getLoadFromFileMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1980,33 +2049,34 @@ public final class FmuServiceGrpc {
     }
   }
 
-  private static final int METHODID_LOAD = 0;
-  private static final int METHODID_GET_MODEL_DESCRIPTION = 1;
-  private static final int METHODID_GET_CO_SIMULATION_ATTRIBUTES = 2;
-  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_CS = 3;
-  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_ME = 4;
-  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 5;
-  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 6;
-  private static final int METHODID_SETUP_EXPERIMENT = 7;
-  private static final int METHODID_ENTER_INITIALIZATION_MODE = 8;
-  private static final int METHODID_EXIT_INITIALIZATION_MODE = 9;
-  private static final int METHODID_STEP = 10;
-  private static final int METHODID_RESET = 11;
-  private static final int METHODID_TERMINATE = 12;
-  private static final int METHODID_READ_INTEGER = 13;
-  private static final int METHODID_READ_REAL = 14;
-  private static final int METHODID_READ_STRING = 15;
-  private static final int METHODID_READ_BOOLEAN = 16;
-  private static final int METHODID_WRITE_INTEGER = 17;
-  private static final int METHODID_WRITE_REAL = 18;
-  private static final int METHODID_WRITE_STRING = 19;
-  private static final int METHODID_WRITE_BOOLEAN = 20;
-  private static final int METHODID_GET_FMUSTATE = 21;
-  private static final int METHODID_SET_FMUSTATE = 22;
-  private static final int METHODID_FREE_FMUSTATE = 23;
-  private static final int METHODID_SERIALIZE_FMUSTATE = 24;
-  private static final int METHODID_DE_SERIALIZE_FMUSTATE = 25;
-  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 26;
+  private static final int METHODID_LOAD_FROM_URL = 0;
+  private static final int METHODID_LOAD_FROM_FILE = 1;
+  private static final int METHODID_GET_MODEL_DESCRIPTION = 2;
+  private static final int METHODID_GET_CO_SIMULATION_ATTRIBUTES = 3;
+  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_CS = 4;
+  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_ME = 5;
+  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 6;
+  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 7;
+  private static final int METHODID_SETUP_EXPERIMENT = 8;
+  private static final int METHODID_ENTER_INITIALIZATION_MODE = 9;
+  private static final int METHODID_EXIT_INITIALIZATION_MODE = 10;
+  private static final int METHODID_STEP = 11;
+  private static final int METHODID_RESET = 12;
+  private static final int METHODID_TERMINATE = 13;
+  private static final int METHODID_READ_INTEGER = 14;
+  private static final int METHODID_READ_REAL = 15;
+  private static final int METHODID_READ_STRING = 16;
+  private static final int METHODID_READ_BOOLEAN = 17;
+  private static final int METHODID_WRITE_INTEGER = 18;
+  private static final int METHODID_WRITE_REAL = 19;
+  private static final int METHODID_WRITE_STRING = 20;
+  private static final int METHODID_WRITE_BOOLEAN = 21;
+  private static final int METHODID_GET_FMUSTATE = 22;
+  private static final int METHODID_SET_FMUSTATE = 23;
+  private static final int METHODID_FREE_FMUSTATE = 24;
+  private static final int METHODID_SERIALIZE_FMUSTATE = 25;
+  private static final int METHODID_DE_SERIALIZE_FMUSTATE = 26;
+  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 27;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -2025,8 +2095,12 @@ public final class FmuServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_LOAD:
-          serviceImpl.load((no.ntnu.ihb.fmuproxy.grpc.Service.Url) request,
+        case METHODID_LOAD_FROM_URL:
+          serviceImpl.loadFromUrl((no.ntnu.ihb.fmuproxy.grpc.Service.Url) request,
+              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>) responseObserver);
+          break;
+        case METHODID_LOAD_FROM_FILE:
+          serviceImpl.loadFromFile((no.ntnu.ihb.fmuproxy.grpc.Service.File) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>) responseObserver);
           break;
         case METHODID_GET_MODEL_DESCRIPTION:
@@ -2194,7 +2268,8 @@ public final class FmuServiceGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new FmuServiceFileDescriptorSupplier())
-              .addMethod(getLoadMethod())
+              .addMethod(getLoadFromUrlMethod())
+              .addMethod(getLoadFromFileMethod())
               .addMethod(getGetModelDescriptionMethod())
               .addMethod(getGetCoSimulationAttributesMethod())
               .addMethod(getCanCreateInstanceFromCSMethod())

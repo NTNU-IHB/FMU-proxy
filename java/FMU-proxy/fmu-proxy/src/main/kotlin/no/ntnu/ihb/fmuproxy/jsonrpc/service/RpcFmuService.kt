@@ -39,6 +39,7 @@ import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
+import java.util.*
 
 class StepResult(
         val status: FmiStatus,
@@ -54,7 +55,7 @@ class Solver(
  * @author Lars Ivar Hatledal
  */
 class RpcFmuService(
-        private val fmus: MutableMap<FmuId, Fmu> = mutableMapOf()
+        private val fmus: MutableMap<FmuId, Fmu> = Collections.synchronizedMap(mutableMapOf())
 ) : RpcService {
 
     override val serviceName = "FmuService"
@@ -62,6 +63,12 @@ class RpcFmuService(
     fun addFmu(fmu: Fmu) {
         synchronized(fmus) {
             fmus[fmu.guid] = fmu
+        }
+    }
+
+    fun removeFmu(fmu: Fmu) {
+        synchronized(fmus) {
+            fmus.remove(fmu.guid)
         }
     }
 

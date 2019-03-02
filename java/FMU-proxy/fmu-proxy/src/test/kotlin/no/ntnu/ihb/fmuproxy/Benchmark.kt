@@ -1,6 +1,5 @@
 package no.ntnu.ihb.fmuproxy
 
-import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
@@ -130,43 +129,16 @@ class Benchmark {
     }
 
     @Test
-    fun measureTimeJson() {
+    @DisabledOnOs(OS.LINUX)
+    fun measureTimeJsonHttp() {
 
-        var httpPort: Int = -1
-        var wsPort: Int
-        var tcpPort: Int
-        var zmqPort: Int
-
-
-        val handler = RpcHandler(RpcFmuService().apply {
+        val service = RpcFmuService().apply {
             addFmu(fmu)
-        })
-
-        val servers = mutableListOf(
-                FmuProxyJsonWsServer(handler).apply { wsPort = start() },
-                FmuProxyJsonTcpServer(handler).apply { tcpPort = start() },
-                FmuProxyJsonZmqServer(handler).apply { zmqPort = start() }
-        ).apply {
-            if (!OS.LINUX.isCurrentOs) {
-                add(FmuProxyJsonHttpServer(handler).apply { httpPort = start() })
-            } else {
-                LOG.warn("HTTP is disabled on Linux due to performance reasons..")
-            }
         }
 
-        val clients = mutableListOf(
-                RpcWebSocketClient(host, wsPort),
-                RpcTcpClient(host, tcpPort),
-                RpcZmqClient(host, zmqPort)
-        ).apply {
-            if (!OS.LINUX.isCurrentOs) {
-                add(RpcHttpClient(host, httpPort))
-            }
-        }.map { JsonRpcFmuClient(fmu.guid, it) }
-
-        Assertions.assertTimeout(testTimeout.multipliedBy(4)) {
-            clients.forEach {
-                it.use { client ->
+        Assertions.assertTimeout(testTimeout) {
+            FmuProxyJsonHttpServer(service).use { server ->
+                JsonRpcFmuClient(fmu.guid, RpcHttpClient(host, server.start())).use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {
                             LOG.info("${client.implementationName} duration=${it}ms")
@@ -174,9 +146,71 @@ class Benchmark {
                     }
                 }
             }
-            servers.forEach { it.close() }
+
+        }
+    }
+
+    @Test
+    fun measureTimeJsonWs() {
+
+        val service = RpcFmuService().apply {
+            addFmu(fmu)
         }
 
+        Assertions.assertTimeout(testTimeout) {
+            FmuProxyJsonWsServer(service).use { server ->
+                JsonRpcFmuClient(fmu.guid, RpcWebSocketClient(host, server.start())).use { client ->
+                    client.newInstance().use { slave ->
+                        testSlave(slave).also {
+                            LOG.info("${client.implementationName} duration=${it}ms")
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    @Test
+    fun measureTimeJsonZmq() {
+
+        val service = RpcFmuService().apply {
+            addFmu(fmu)
+        }
+
+        Assertions.assertTimeout(testTimeout) {
+            FmuProxyJsonZmqServer(service).use { server ->
+                JsonRpcFmuClient(fmu.guid, RpcZmqClient(host, server.start())).use { client ->
+                    client.newInstance().use { slave ->
+                        testSlave(slave).also {
+                            LOG.info("${client.implementationName} duration=${it}ms")
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    @Test
+    fun measureTimeJsonTcp() {
+
+        val service = RpcFmuService().apply {
+            addFmu(fmu)
+        }
+
+        Assertions.assertTimeout(testTimeout) {
+            FmuProxyJsonTcpServer(service).use { server ->
+                JsonRpcFmuClient(fmu.guid, RpcTcpClient(host, server.start())).use { client ->
+                    client.newInstance().use { slave ->
+                        testSlave(slave).also {
+                            LOG.info("${client.implementationName} duration=${it}ms")
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 }

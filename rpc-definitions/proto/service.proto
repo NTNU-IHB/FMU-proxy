@@ -310,15 +310,19 @@ message GetDirectionalDerivativeResponse {
     Status status = 2;
 }
 
-message Void {}
-
 message Url {
     string url = 1;
 }
 
+message File {
+    string name = 1;
+    bytes data = 2;
+}
+
 service FmuService {
 
-    rpc Load(Url) returns (FmuId);
+    rpc LoadFromUrl(Url) returns (FmuId);
+    rpc LoadFromFile(File) returns (FmuId);
 
     rpc GetModelDescription (GetModelDescriptionRequest) returns (ModelDescription);
     rpc GetCoSimulationAttributes (GetCoSimulationAttributesRequest) returns (CoSimulationAttributes);

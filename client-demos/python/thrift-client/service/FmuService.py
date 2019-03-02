@@ -19,10 +19,19 @@ all_structs = []
 
 
 class Iface(object):
-    def load(self, url):
+    def loadFromUrl(self, url):
         """
         Parameters:
          - url
+
+        """
+        pass
+
+    def loadFromFile(self, name, data):
+        """
+        Parameters:
+         - name
+         - data
 
         """
         pass
@@ -267,24 +276,24 @@ class Client(Iface):
             self._oprot = oprot
         self._seqid = 0
 
-    def load(self, url):
+    def loadFromUrl(self, url):
         """
         Parameters:
          - url
 
         """
-        self.send_load(url)
-        return self.recv_load()
+        self.send_loadFromUrl(url)
+        return self.recv_loadFromUrl()
 
-    def send_load(self, url):
-        self._oprot.writeMessageBegin('load', TMessageType.CALL, self._seqid)
-        args = load_args()
+    def send_loadFromUrl(self, url):
+        self._oprot.writeMessageBegin('loadFromUrl', TMessageType.CALL, self._seqid)
+        args = loadFromUrl_args()
         args.url = url
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_load(self):
+    def recv_loadFromUrl(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -292,12 +301,46 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = load_result()
+        result = loadFromUrl_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "load failed: unknown result")
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "loadFromUrl failed: unknown result")
+
+    def loadFromFile(self, name, data):
+        """
+        Parameters:
+         - name
+         - data
+
+        """
+        self.send_loadFromFile(name, data)
+        return self.recv_loadFromFile()
+
+    def send_loadFromFile(self, name, data):
+        self._oprot.writeMessageBegin('loadFromFile', TMessageType.CALL, self._seqid)
+        args = loadFromFile_args()
+        args.name = name
+        args.data = data
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_loadFromFile(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = loadFromFile_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "loadFromFile failed: unknown result")
 
     def getModelDescription(self, fmuId):
         """
@@ -1268,7 +1311,8 @@ class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
-        self._processMap["load"] = Processor.process_load
+        self._processMap["loadFromUrl"] = Processor.process_loadFromUrl
+        self._processMap["loadFromFile"] = Processor.process_loadFromFile
         self._processMap["getModelDescription"] = Processor.process_getModelDescription
         self._processMap["getCoSimulationAttributes"] = Processor.process_getCoSimulationAttributes
         self._processMap["canCreateInstanceFromCS"] = Processor.process_canCreateInstanceFromCS
@@ -1311,13 +1355,13 @@ class Processor(Iface, TProcessor):
             self._processMap[name](self, seqid, iprot, oprot)
         return True
 
-    def process_load(self, seqid, iprot, oprot):
-        args = load_args()
+    def process_loadFromUrl(self, seqid, iprot, oprot):
+        args = loadFromUrl_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = load_result()
+        result = loadFromUrl_result()
         try:
-            result.success = self._handler.load(args.url)
+            result.success = self._handler.loadFromUrl(args.url)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -1329,7 +1373,30 @@ class Processor(Iface, TProcessor):
             logging.exception('Unexpected exception in handler')
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("load", msg_type, seqid)
+        oprot.writeMessageBegin("loadFromUrl", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_loadFromFile(self, seqid, iprot, oprot):
+        args = loadFromFile_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = loadFromFile_result()
+        try:
+            result.success = self._handler.loadFromFile(args.name, args.data)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("loadFromFile", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -2061,7 +2128,7 @@ class Processor(Iface, TProcessor):
 # HELPER FUNCTIONS AND STRUCTURES
 
 
-class load_args(object):
+class loadFromUrl_args(object):
     """
     Attributes:
      - url
@@ -2095,7 +2162,7 @@ class load_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('load_args')
+        oprot.writeStructBegin('loadFromUrl_args')
         if self.url is not None:
             oprot.writeFieldBegin('url', TType.STRING, 1)
             oprot.writeString(self.url.encode('utf-8') if sys.version_info[0] == 2 else self.url)
@@ -2116,14 +2183,14 @@ class load_args(object):
 
     def __ne__(self, other):
         return not (self == other)
-all_structs.append(load_args)
-load_args.thrift_spec = (
+all_structs.append(loadFromUrl_args)
+loadFromUrl_args.thrift_spec = (
     None,  # 0
     (1, TType.STRING, 'url', 'UTF8', None, ),  # 1
 )
 
 
-class load_result(object):
+class loadFromUrl_result(object):
     """
     Attributes:
      - success
@@ -2157,7 +2224,7 @@ class load_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('load_result')
+        oprot.writeStructBegin('loadFromUrl_result')
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.STRING, 0)
             oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
@@ -2178,8 +2245,143 @@ class load_result(object):
 
     def __ne__(self, other):
         return not (self == other)
-all_structs.append(load_result)
-load_result.thrift_spec = (
+all_structs.append(loadFromUrl_result)
+loadFromUrl_result.thrift_spec = (
+    (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
+)
+
+
+class loadFromFile_args(object):
+    """
+    Attributes:
+     - name
+     - data
+
+    """
+
+
+    def __init__(self, name=None, data=None,):
+        self.name = name
+        self.data = data
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.data = iprot.readBinary()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('loadFromFile_args')
+        if self.name is not None:
+            oprot.writeFieldBegin('name', TType.STRING, 1)
+            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
+            oprot.writeFieldEnd()
+        if self.data is not None:
+            oprot.writeFieldBegin('data', TType.STRING, 2)
+            oprot.writeBinary(self.data)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(loadFromFile_args)
+loadFromFile_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
+    (2, TType.STRING, 'data', 'BINARY', None, ),  # 2
+)
+
+
+class loadFromFile_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRING:
+                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('loadFromFile_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRING, 0)
+            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(loadFromFile_result)
+loadFromFile_result.thrift_spec = (
     (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
 )
 

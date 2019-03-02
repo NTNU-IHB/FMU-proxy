@@ -1,7 +1,9 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
+import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.apache.thrift.transport.TTransportException
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,44 +12,41 @@ import java.net.URL
 
 class LoadFmuTest {
 
-    private companion object {
-        val LOG: Logger = LoggerFactory.getLogger(LoadFmuTest::class.java)
-    }
-
-    @Test
-    fun test() {
-
-        val url = File(TestUtils.getTEST_FMUs(),
+    companion object {
+        const val fmuName = "ControlledTemperature"
+        val fmuFile = File(TestUtils.getTEST_FMUs(),
                 "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/" +
-                        "ControlledTemperature.fmu").toURI().toURL()
+                        "$fmuName.fmu")
+    }
 
-        ThriftFmuSocketServer().use { server ->
-            val port = server.start()
-            ThriftFmuClient.socketClient("localhost", port).load(url).use {
-                it.newInstance().use { slave ->
-                    slave.simpleSetup()
-                }
+    private fun assert(client: AbstractRpcFmuClient) {
+        client.newInstance().use { slave ->
+            client.modelDescription.also {
+                Assertions.assertEquals("2.0", it.fmiVersion)
+                Assertions.assertEquals(fmuName, it.modelName)
             }
+            Assertions.assertTrue(slave.simpleSetup())
+        }
+    }
 
+    @Test
+    fun loadFromUrl() {
+        val url = fmuFile.toURI().toURL()
+        ThriftFmuSocketServer().use { server ->
+            ThriftFmuClient.socketClient("localhost", server.start()).load(url).use {
+                assert(it)
+            }
         }
 
     }
 
     @Test
-    fun testRemote() {
-
-        val url = URL("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
-
-        try {
-            ThriftFmuClient.socketClient("localhost", 9090).load(url).use {
-                it.newInstance().use { slave ->
-                    slave.simpleSetup()
-                }
+    fun loadFromFile() {
+        ThriftFmuSocketServer().use { server ->
+            ThriftFmuClient.socketClient("localhost", server.start()).load(fmuFile).use {
+                assert(it)
             }
-        } catch (ex: TTransportException) {
-            LOG.warn("Could not connect to remote server..")
         }
-
     }
 
 }

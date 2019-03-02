@@ -17,7 +17,8 @@ namespace fmuproxy {
 namespace grpc {
 
 static const char* FmuService_method_names[] = {
-  "/fmuproxy.grpc.FmuService/Load",
+  "/fmuproxy.grpc.FmuService/LoadFromUrl",
+  "/fmuproxy.grpc.FmuService/LoadFromFile",
   "/fmuproxy.grpc.FmuService/GetModelDescription",
   "/fmuproxy.grpc.FmuService/GetCoSimulationAttributes",
   "/fmuproxy.grpc.FmuService/CanCreateInstanceFromCS",
@@ -53,45 +54,58 @@ std::unique_ptr< FmuService::Stub> FmuService::NewStub(const std::shared_ptr< ::
 }
 
 FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
-  : channel_(channel), rpcmethod_Load_(FmuService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetModelDescription_(FmuService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetCoSimulationAttributes_(FmuService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CanCreateInstanceFromCS_(FmuService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CanCreateInstanceFromME_(FmuService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CreateInstanceFromCS_(FmuService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CreateInstanceFromME_(FmuService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SetupExperiment_(FmuService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_EnterInitializationMode_(FmuService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ExitInitializationMode_(FmuService_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Step_(FmuService_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Reset_(FmuService_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_Terminate_(FmuService_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadInteger_(FmuService_method_names[13], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadReal_(FmuService_method_names[14], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadString_(FmuService_method_names[15], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReadBoolean_(FmuService_method_names[16], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteInteger_(FmuService_method_names[17], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteReal_(FmuService_method_names[18], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteString_(FmuService_method_names[19], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_WriteBoolean_(FmuService_method_names[20], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetFMUstate_(FmuService_method_names[21], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SetFMUstate_(FmuService_method_names[22], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_FreeFMUstate_(FmuService_method_names[23], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SerializeFMUstate_(FmuService_method_names[24], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeSerializeFMUstate_(FmuService_method_names[25], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetDirectionalDerivative_(FmuService_method_names[26], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  : channel_(channel), rpcmethod_LoadFromUrl_(FmuService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_LoadFromFile_(FmuService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetModelDescription_(FmuService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetCoSimulationAttributes_(FmuService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CanCreateInstanceFromCS_(FmuService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CanCreateInstanceFromME_(FmuService_method_names[5], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CreateInstanceFromCS_(FmuService_method_names[6], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CreateInstanceFromME_(FmuService_method_names[7], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SetupExperiment_(FmuService_method_names[8], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_EnterInitializationMode_(FmuService_method_names[9], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ExitInitializationMode_(FmuService_method_names[10], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Step_(FmuService_method_names[11], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Reset_(FmuService_method_names[12], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Terminate_(FmuService_method_names[13], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadInteger_(FmuService_method_names[14], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadReal_(FmuService_method_names[15], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadString_(FmuService_method_names[16], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReadBoolean_(FmuService_method_names[17], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteInteger_(FmuService_method_names[18], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteReal_(FmuService_method_names[19], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteString_(FmuService_method_names[20], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_WriteBoolean_(FmuService_method_names[21], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetFMUstate_(FmuService_method_names[22], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SetFMUstate_(FmuService_method_names[23], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_FreeFMUstate_(FmuService_method_names[24], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SerializeFMUstate_(FmuService_method_names[25], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeSerializeFMUstate_(FmuService_method_names[26], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetDirectionalDerivative_(FmuService_method_names[27], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status FmuService::Stub::Load(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::fmuproxy::grpc::FmuId* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_Load_, context, request, response);
+::grpc::Status FmuService::Stub::LoadFromUrl(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::fmuproxy::grpc::FmuId* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_LoadFromUrl_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::FmuId>* FmuService::Stub::AsyncLoadRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::FmuId>::Create(channel_.get(), cq, rpcmethod_Load_, context, request, true);
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::FmuId>* FmuService::Stub::AsyncLoadFromUrlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::FmuId>::Create(channel_.get(), cq, rpcmethod_LoadFromUrl_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::FmuId>* FmuService::Stub::PrepareAsyncLoadRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::FmuId>::Create(channel_.get(), cq, rpcmethod_Load_, context, request, false);
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::FmuId>* FmuService::Stub::PrepareAsyncLoadFromUrlRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::FmuId>::Create(channel_.get(), cq, rpcmethod_LoadFromUrl_, context, request, false);
+}
+
+::grpc::Status FmuService::Stub::LoadFromFile(::grpc::ClientContext* context, const ::fmuproxy::grpc::File& request, ::fmuproxy::grpc::FmuId* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_LoadFromFile_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::FmuId>* FmuService::Stub::AsyncLoadFromFileRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::File& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::FmuId>::Create(channel_.get(), cq, rpcmethod_LoadFromFile_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::FmuId>* FmuService::Stub::PrepareAsyncLoadFromFileRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::File& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::FmuId>::Create(channel_.get(), cq, rpcmethod_LoadFromFile_, context, request, false);
 }
 
 ::grpc::Status FmuService::Stub::GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest& request, ::fmuproxy::grpc::ModelDescription* response) {
@@ -411,134 +425,139 @@ FmuService::Service::Service() {
       FmuService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::Url, ::fmuproxy::grpc::FmuId>(
-          std::mem_fn(&FmuService::Service::Load), this)));
+          std::mem_fn(&FmuService::Service::LoadFromUrl), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::File, ::fmuproxy::grpc::FmuId>(
+          std::mem_fn(&FmuService::Service::LoadFromFile), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      FmuService_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetModelDescriptionRequest, ::fmuproxy::grpc::ModelDescription>(
           std::mem_fn(&FmuService::Service::GetModelDescription), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[2],
+      FmuService_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetCoSimulationAttributesRequest, ::fmuproxy::grpc::CoSimulationAttributes>(
           std::mem_fn(&FmuService::Service::GetCoSimulationAttributes), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[3],
+      FmuService_method_names[4],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::CanCreateInstanceFromCSRequest, ::fmuproxy::grpc::Bool>(
           std::mem_fn(&FmuService::Service::CanCreateInstanceFromCS), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[4],
+      FmuService_method_names[5],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::CanCreateInstanceFromMERequest, ::fmuproxy::grpc::Bool>(
           std::mem_fn(&FmuService::Service::CanCreateInstanceFromME), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[5],
+      FmuService_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::CreateInstanceFromCSRequest, ::fmuproxy::grpc::InstanceId>(
           std::mem_fn(&FmuService::Service::CreateInstanceFromCS), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[6],
+      FmuService_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::CreateInstanceFromMERequest, ::fmuproxy::grpc::InstanceId>(
           std::mem_fn(&FmuService::Service::CreateInstanceFromME), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[7],
+      FmuService_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::SetupExperimentRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::SetupExperiment), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[8],
+      FmuService_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::EnterInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::EnterInitializationMode), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[9],
+      FmuService_method_names[10],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ExitInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::ExitInitializationMode), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[10],
+      FmuService_method_names[11],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResponse>(
           std::mem_fn(&FmuService::Service::Step), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[11],
+      FmuService_method_names[12],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ResetRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::Reset), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[12],
+      FmuService_method_names[13],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::TerminateRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::Terminate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[13],
+      FmuService_method_names[14],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>(
           std::mem_fn(&FmuService::Service::ReadInteger), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[14],
+      FmuService_method_names[15],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>(
           std::mem_fn(&FmuService::Service::ReadReal), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[15],
+      FmuService_method_names[16],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>(
           std::mem_fn(&FmuService::Service::ReadString), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[16],
+      FmuService_method_names[17],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>(
           std::mem_fn(&FmuService::Service::ReadBoolean), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[17],
+      FmuService_method_names[18],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteInteger), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[18],
+      FmuService_method_names[19],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteReal), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[19],
+      FmuService_method_names[20],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteString), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[20],
+      FmuService_method_names[21],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::WriteBoolean), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[21],
+      FmuService_method_names[22],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetFMUstateRequest, ::fmuproxy::grpc::GetFMUstateResponse>(
           std::mem_fn(&FmuService::Service::GetFMUstate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[22],
+      FmuService_method_names[23],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::SetFMUstateRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::SetFMUstate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[23],
+      FmuService_method_names[24],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::FreeFMUstateRequest, ::fmuproxy::grpc::StatusResponse>(
           std::mem_fn(&FmuService::Service::FreeFMUstate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[24],
+      FmuService_method_names[25],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::SerializeFMUstateRequest, ::fmuproxy::grpc::SerializeFMUstateResponse>(
           std::mem_fn(&FmuService::Service::SerializeFMUstate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[25],
+      FmuService_method_names[26],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::DeSerializeFMUstateRequest, ::fmuproxy::grpc::DeSerializeFMUstateResponse>(
           std::mem_fn(&FmuService::Service::DeSerializeFMUstate), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[26],
+      FmuService_method_names[27],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>(
           std::mem_fn(&FmuService::Service::GetDirectionalDerivative), this)));
@@ -547,7 +566,14 @@ FmuService::Service::Service() {
 FmuService::Service::~Service() {
 }
 
-::grpc::Status FmuService::Service::Load(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) {
+::grpc::Status FmuService::Service::LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status FmuService::Service::LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) {
   (void) context;
   (void) request;
   (void) response;

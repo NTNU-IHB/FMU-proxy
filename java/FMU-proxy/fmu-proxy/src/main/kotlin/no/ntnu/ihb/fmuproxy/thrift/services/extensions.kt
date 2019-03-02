@@ -29,9 +29,6 @@ import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.ModelStructure
 import no.ntnu.ihb.fmi4j.modeldescription.Unknown
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
-import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
-import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
-import no.ntnu.ihb.fmi4j.modeldescription.variables.Variability
 import no.ntnu.ihb.fmuproxy.thrift.*
 import no.ntnu.ihb.fmuproxy.thrift.ScalarVariable
 

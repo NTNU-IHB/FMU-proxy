@@ -26,7 +26,6 @@ package no.ntnu.ihb.fmuproxy.grpc
 
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonScalarVariable
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmuproxy.Solver
 

@@ -64,6 +64,8 @@ namespace fmuproxy::thrift::client {
 
         RemoteThriftFmu fromUrl(const std::string &url);
 
+        RemoteThriftFmu fromFile(const std::string &file);
+
         RemoteThriftFmu fromGuid(const std::string &guid);
 
         void close();

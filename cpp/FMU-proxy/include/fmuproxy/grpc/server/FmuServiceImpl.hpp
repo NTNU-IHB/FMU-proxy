@@ -60,8 +60,11 @@ namespace fmuproxy::grpc::server {
         GetModelDescription(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetModelDescriptionRequest *request,
                             ::fmuproxy::grpc::ModelDescription *response) override;
 
-        ::grpc::Status Load(::grpc::ServerContext *context, const ::fmuproxy::grpc::Url *request,
+        ::grpc::Status LoadFromUrl(::grpc::ServerContext *context, const ::fmuproxy::grpc::Url *request,
                           ::fmuproxy::grpc::FmuId *response) override;
+
+        ::grpc::Status LoadFromFile(::grpc::ServerContext *context, const ::fmuproxy::grpc::File *request,
+                                  ::fmuproxy::grpc::FmuId *response) override;
 
         ::grpc::Status
         CreateInstanceFromCS(::grpc::ServerContext *context,

@@ -75,6 +75,8 @@ abstract class AbstractRpcFmuClient(
 
     internal abstract fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus>
 
+    private val fmuInstances = mutableListOf<FmuInstance>()
+
     @JvmOverloads
     fun newInstance(solver: Solver? = null): FmuInstance {
         val instanceId = if (solver == null) {
@@ -83,24 +85,22 @@ abstract class AbstractRpcFmuClient(
             createInstanceFromME(solver)
         }
         return FmuInstance(instanceId).also {
-            FmuInstances.add(it)
+            fmuInstances.add(it)
         }
     }
 
     override fun close() {
         LOG.debug("Closing '$implementationName' ...")
-        FmuInstances.terminateAll()
+        fmuInstances.toMutableList().forEach {
+            it.close()
+        }
+        fmuInstances.clear()
     }
 
     protected companion object {
 
         private val LOG: Logger = LoggerFactory.getLogger(AbstractRpcFmuClient::class.java)
 
-        internal object FmuInstances : ArrayList<FmuInstance>() {
-            internal fun terminateAll() {
-                forEach { it.terminate() }
-            }
-        }
     }
 
     inner class FmuInstance internal constructor(
@@ -161,7 +161,7 @@ abstract class AbstractRpcFmuClient(
                     }
                 } finally {
                     isTerminated = true
-                    FmuInstances.remove(this)
+                    fmuInstances.remove(this)
                 }
             }
             return true

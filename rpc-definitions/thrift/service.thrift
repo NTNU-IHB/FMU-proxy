@@ -209,7 +209,9 @@ struct DirectionalDerivativeResult {
 
 service FmuService {
 
-    FmuId load(1: string url);
+    FmuId loadFromUrl(1: string url)
+
+    FmuId loadFromFile(1: string name, 2: binary data)
 
     ModelDescription getModelDescription(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
     CoSimulationAttributes getCoSimulationAttributes(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)

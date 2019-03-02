@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2019 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,57 +22,37 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_GRPCCLIENT_HPP
-#define FMU_PROXY_GRPCCLIENT_HPP
+#ifndef FMU_PROXY_FILE_READER_HPP
+#define FMU_PROXY_FILE_READER_HPP
 
-#include <memory>
+#include <cstdio>
 #include <string>
 
-#include <grpcpp/grpcpp.h>
+namespace {
 
-#include "RemoteFmuSlave.hpp"
-#include "../common/service.grpc.pb.h"
+    void writeData(std::string const &fileName, std::string const &data) {
 
+        FILE *file = fopen(fileName.c_str(), "wb");
+        size_t bytes_written = fwrite(data.c_str(), sizeof(unsigned char), data.size(), file);
+        fclose(file);
+    }
 
-namespace fmuproxy::grpc::client {
-
-    class RemoteGrpcFmu {
-
-    private:
-
-        const std::string fmuId_;
-        std::shared_ptr<FmuService::Stub> stub_;
-        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
-
-    public:
-
-        RemoteGrpcFmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
-
-        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
-
-        std::unique_ptr<RemoteFmuSlave> newInstance();
-
-    };
-
-    class GrpcClient {
-
-    private:
-
-        std::shared_ptr<FmuService::Stub> stub_;
+    void readData(std::string const &fileName, std::string &data) {
 
 
-    public:
-        GrpcClient(const std::string &host, unsigned int port);
+        FILE *file = fopen(fileName.c_str(), "rb");
+        if (file == NULL) return;
+        fseek(file, 0, SEEK_END);
+        long int size = ftell(file);
+        fclose(file);
+        file = fopen(fileName.c_str(), "rb");
 
-        RemoteGrpcFmu fromUrl(const std::string &url);
+        data.resize(size);
+        size_t bytes_read = fread(data.data(), sizeof(unsigned char), size, file);
+        fclose(file);
 
-        RemoteGrpcFmu fromFile(const std::string &file);
-
-        RemoteGrpcFmu fromGuid(const std::string &guid);
-
-    };
-
+    }
 
 }
 
-#endif //FMU_PROXY_GRPCCLIENT_HPP
+#endif //FMU_PROXY_FILE_READER_HPP

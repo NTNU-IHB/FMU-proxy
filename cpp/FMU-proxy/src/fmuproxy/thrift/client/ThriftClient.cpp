@@ -30,7 +30,9 @@
 
 #include <fmuproxy/thrift/common/FmuService.h>
 #include <fmuproxy/thrift/client/ThriftClient.hpp>
+
 #include "thrift_client_helper.hpp"
+#include "../../util/file_util.hpp"
 
 using namespace std;
 using namespace apache::thrift::transport;
@@ -47,7 +49,20 @@ ThriftClient::ThriftClient(const string &host, const unsigned int port) {
 
 RemoteThriftFmu ThriftClient::fromUrl(const std::string &url) {
     FmuId guid;
-    client_->load(guid, url);
+    client_->loadFromUrl(guid, url);
+    return RemoteThriftFmu(guid, client_);
+}
+
+RemoteThriftFmu ThriftClient::fromFile(const std::string &file) {
+
+    fs::path p(file);
+    std::string name = p.stem().string();
+
+    std::string data;
+    readData(file, data);
+
+    FmuId guid;
+    client_->loadFromFile(guid, name, data);
     return RemoteThriftFmu(guid, client_);
 }
 

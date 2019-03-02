@@ -28,6 +28,7 @@
 #include <fmuproxy/grpc/server/FmuServiceImpl.hpp>
 
 #include "../../util/simple_id.hpp"
+#include "../../util/file_util.hpp"
 #include "grpc_server_helper.hpp"
 
 using namespace std;
@@ -49,9 +50,28 @@ namespace {
 
 FmuServiceImpl::FmuServiceImpl(unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus) : fmus_(fmus) {}
 
-::Status FmuServiceImpl::Load(ServerContext *context, const ::fmuproxy::grpc::Url *request,
+::Status FmuServiceImpl::LoadFromUrl(ServerContext *context, const ::fmuproxy::grpc::Url *request,
                             ::fmuproxy::grpc::FmuId *response) {
     auto fmu = fmi4cpp::fmi2::fmi2Fmu::fromUrl(request->url());
+    auto guid = fmu->getModelDescription()->guid;
+    if (!fmus_.count(guid)) {
+        fmus_[guid] = move(fmu);
+    }
+    response->set_value(guid);
+    return ::Status::OK;
+}
+
+
+::Status FmuServiceImpl::LoadFromFile(::grpc::ServerContext *context, const ::fmuproxy::grpc::File *request,
+                                    ::fmuproxy::grpc::FmuId *response) {
+    fs::path tmp(fs::temp_directory_path() /= fs::path(request->name() + ".fmu"));
+    const std::string fmuPath = tmp.string();
+    writeData(fmuPath, request->data());
+
+    auto fmu = std::make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmuPath);
+
+    fs::remove_all(tmp);
+
     auto guid = fmu->getModelDescription()->guid;
     if (!fmus_.count(guid)) {
         fmus_[guid] = move(fmu);
