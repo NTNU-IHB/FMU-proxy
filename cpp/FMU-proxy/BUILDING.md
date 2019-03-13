@@ -61,7 +61,10 @@ To initialize the sub-module you can run:
 ```bash
 git submodule update --init --recursive
 ```
-
+To update it, run:
+```bash
+git submodule update --recursive
+```
 ### Running tests
 
 If you also want to build the tests, add:

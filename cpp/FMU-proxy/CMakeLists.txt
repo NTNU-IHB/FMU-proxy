@@ -4,16 +4,7 @@ option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
 option(FMU_PROXY_BUILD_TOOL "Build the server executable" ON)
 option(FMU_PROXY_WITH_GRPC "Build with gRPC support" ON)
 option(FMU_PROXY_WITH_THRIFT "Build with Thrift support" ON)
-option(FMU_PROXY_USING_VCPKG "Build using vcpkg" OFF)
 option(FMU_PROXY_USING_CONAN "Build using conan" OFF)
-
-if (FMU_PROXY_USING_VCPKG AND FMU_PROXY_USING_CONAN)
-    message(FATAL_ERROR "Cannot use both vcpkg and conan!")
-endif()
-
-if(NOT FMU_PROXY_USING_VCPKG)
-    set(CMAKE_TOOLCHAIN_FILE "")
-endif()
 
 cmake_minimum_required(VERSION 3.10)
 project(FMU_PROXY)
@@ -23,13 +14,13 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 if (FMU_PROXY_USING_CONAN)
+    set(CMAKE_TOOLCHAIN_FILE "")
     if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
         include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
         conan_basic_setup()
     else()
         message(FATAL_ERROR "The file conanbuildinfo.cmake doesn't exist, you have to run conan install first!")
     endif()
-
 endif()
 
 if(MSVC)
@@ -49,7 +40,6 @@ find_package(Boost 1.65 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(JSON REQUIRED)
-find_package(CURL REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
     find_package(Thrift REQUIRED)
@@ -71,12 +61,10 @@ option(FMI4CPP_BUILD_TESTS "" OFF)
 option(FMI4CPP_BUILD_TOOL "" OFF)
 option(FMI4CPP_WITH_ODEINT "" ON)
 option(FMI4CPP_WITH_CURL "" ON)
-option(FMI4CPP_USING_VCPKG "" ${FMU_PROXY_USING_VCPKG})
 option(FMI4CPP_USING_CONAN "" ${FMU_PROXY_USING_CONAN})
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)
-
 
 if (FMU_PROXY_BUILD_TESTS OR FMU_PROXY_BUILD_EXAMPLES)
     file(COPY ../../test/fmus DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
