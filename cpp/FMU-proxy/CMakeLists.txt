@@ -46,13 +46,11 @@ if (FMU_PROXY_WITH_THRIFT)
     if (NOT FMU_PROXY_USING_CONAN)
         find_package(Libevent CONFIG REQUIRED)
     endif()
-    add_definitions(-DFMU_PROXY_WITH_THRIFT)
 endif()
 
 if (FMU_PROXY_WITH_GRPC)
     find_package(Protobuf REQUIRED)
     find_package(gRPC CONFIG REQUIRED)
-    add_definitions(-DFMU_PROXY_WITH_GRPC)
 endif()
 
 # add subdiretories
@@ -61,7 +59,6 @@ option(FMI4CPP_BUILD_TESTS "" OFF)
 option(FMI4CPP_BUILD_TOOL "" OFF)
 option(FMI4CPP_WITH_ODEINT "" ON)
 option(FMI4CPP_WITH_CURL "" ON)
-option(FMI4CPP_USING_CONAN "" ${FMU_PROXY_USING_CONAN})
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)
