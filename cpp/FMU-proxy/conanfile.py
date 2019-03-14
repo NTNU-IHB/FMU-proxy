@@ -26,6 +26,10 @@ class FMUProxyConan(ConanFile):
         "libcurl:shared=True"
     )
 
+    def imports(self):
+        self.copy("*.dll", dst="bin", keep_path=False)
+        self.copy("*.pdb", dst="bin", keep_path=False)
+
     def configure(self):
         pass
 
