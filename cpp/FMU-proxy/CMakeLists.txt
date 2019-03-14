@@ -14,7 +14,6 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 if (FMU_PROXY_USING_CONAN)
-    set(CMAKE_TOOLCHAIN_FILE "")
     if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
         include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
         conan_basic_setup()
