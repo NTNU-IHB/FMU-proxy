@@ -2,10 +2,10 @@
 from conans import ConanFile, CMake
 
 
-class FMI4cppConan(ConanFile):
+class FMUProxyConan(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake", "virtualrunenv"
+    generators = "cmake"
     requires = (
         "boost/1.66.0@conan/stable",
         "OpenSSL/1.0.2o@conan/stable",
@@ -25,6 +25,10 @@ class FMI4cppConan(ConanFile):
         "libzip:shared=True",
         "libcurl:shared=True"
     )
+
+    def imports(self):
+        self.copy("*.dll", dst="bin", keep_path=False)
+        self.copy("*.pdb", dst="bin", keep_path=False)
 
     def configure(self):
         pass
