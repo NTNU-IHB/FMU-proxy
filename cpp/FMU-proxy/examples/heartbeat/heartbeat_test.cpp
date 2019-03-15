@@ -32,7 +32,6 @@
 
 using namespace std;
 using namespace fmuproxy;
-using namespace fmuproxy::heartbeat;
 
 int main() {
 
