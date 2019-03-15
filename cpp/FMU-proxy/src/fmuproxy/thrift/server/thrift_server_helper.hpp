@@ -26,10 +26,13 @@
 #define FMU_PROXY_THRIFT_SERVER_HELPER_HPP
 
 #include <cfloat>
+#include <nlohmann/json.hpp>
+
 #include <fmuproxy/thrift/common/service_types.h>
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 #include <fmi4cpp/fmi2/xml/ScalarVariableAttribute.hpp>
+#include <fmi4cpp/fmi4cpp.hpp>
 
 using namespace fmuproxy::thrift;
 using namespace fmi4cpp::fmi2;
@@ -200,6 +203,27 @@ namespace {
         fmuproxy::thrift::ModelVariables modelVariables;
         copy(modelVariables, *m.modelVariables);
         md.__set_modelVariables(modelVariables);
+
+    }
+
+    double parse_step_size(const std::string &data) {
+        using json = nlohmann::json;
+        auto parse = json::parse(data);
+        return parse["step_size"].get<double>();
+    }
+
+    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> parse_solver(const fmuproxy::thrift::Solver &solver) {
+
+        using namespace fmi4cpp::solver;
+
+        const auto name = solver.name;
+        if (name == "euler") {
+            return make_solver<EulerSolver>(parse_step_size(solver.settings));
+        } else if (name == "rk4") {
+            return make_solver<RK4Solver>(parse_step_size(solver.settings));
+        } else {
+            std::cerr << "Unknown solver name=" << name << std::endl;
+        }
 
     }
     

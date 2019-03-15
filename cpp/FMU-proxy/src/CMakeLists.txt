@@ -73,6 +73,7 @@ if (FMU_PROXY_WITH_THRIFT)
     target_compile_definitions(thrift-client PUBLIC "BOOST_ALL_DYN_LINK=1" "BOOST_ALL_NO_LIB=1" "BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE=1")
 
     add_library(thrift-server ${THRIFT_SERVER_SRC})
+    target_include_directories(thrift-server PRIVATE ${JSON_INCLUDE_DIRS})
     target_link_libraries(thrift-server PUBLIC thrift-common FMI4cpp::fmi4cpp PRIVATE thrift::thriftnb event)
     target_compile_definitions(thrift-server PUBLIC "BOOST_ALL_DYN_LINK=1" "BOOST_ALL_NO_LIB=1" "BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE=1")
     if (UNIX)
