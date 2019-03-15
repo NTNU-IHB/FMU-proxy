@@ -5,7 +5,7 @@ INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 #########################HEARTBEATING############################
 
 SET(HEARTBEAT_SRC
-        fmuproxy/heartbeat/Heartbeat.cpp)
+        fmuproxy/heartbeat/heartbeat.cpp)
 
 add_library(heartbeat ${HEARTBEAT_SRC})
 target_link_libraries(heartbeat PRIVATE ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
@@ -24,12 +24,12 @@ if(FMU_PROXY_WITH_GRPC)
             fmuproxy/grpc/common/service.grpc.pb.cc)
 
     SET(GRPC_CLIENT_SRC
-            fmuproxy/grpc/client/GrpcClient.cpp
-            fmuproxy/grpc/client/RemoteFmuSlave.cpp)
+            fmuproxy/grpc/client/grpc_fmu_client.cpp
+            fmuproxy/grpc/client/remote_fmu_slave.cpp)
 
     SET(GRPC_SERVER_SRC
-            fmuproxy/grpc/server/GrpcServer.cpp
-            fmuproxy/grpc/server/FmuServiceImpl.cpp)
+            fmuproxy/grpc/server/grpc_fmu_server.cpp
+            fmuproxy/grpc/server/fmu_service_impl.cpp)
 
     add_library(grpc-common ${GRPC_COMMON_SRC})
     target_link_libraries(grpc-common PUBLIC gRPC::grpc gRPC::grpc++ PRIVATE ${Protobuf_LIBRARIES} ${OPENSSL_LIBRARIES})
@@ -54,16 +54,16 @@ endif()
 if (FMU_PROXY_WITH_THRIFT)
     SET(THRIFT_COMMON_SRC
             fmuproxy/thrift/common/service_types.cpp
-            fmuproxy/thrift/common/FmuService.cpp)
+            fmuproxy/thrift/common/fmu_service.cpp)
 
     SET(THRIFT_CLIENT_SRC
             fmuproxy/thrift/client/thrift_client_helper.hpp
-            fmuproxy/thrift/client/RemoteFmuSlave.cpp
-            fmuproxy/thrift/client/ThriftClient.cpp)
+            fmuproxy/thrift/client/remote_fmu_slave.cpp
+            fmuproxy/thrift/client/thrift_client.cpp)
 
     SET(THRIFT_SERVER_SRC
-            fmuproxy/thrift/server/FmuServiceHandler.cpp
-            fmuproxy/thrift/server/ThriftServer.cpp)
+            fmuproxy/thrift/server/fmu_service_handler.cpp
+            fmuproxy/thrift/server/thrift_fmu_server.cpp)
 
     add_library(thrift-common ${THRIFT_COMMON_SRC})
     target_link_libraries(thrift-common PUBLIC thrift::thrift PRIVATE ${OPENSSL_LIBRARIES})

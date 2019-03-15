@@ -27,8 +27,8 @@
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
-#include <fmuproxy/thrift/common/FmuService.h>
-#include <fmuproxy/thrift/client/ThriftClient.hpp>
+#include <fmuproxy/thrift/common/fmu_service.h>
+#include <fmuproxy/thrift/client/thrift_client.hpp>
 
 #include "../example_util.hpp"
 
@@ -41,7 +41,7 @@ using namespace fmuproxy::thrift::client;
 const double stop = 2;
 const double step_size = 1E-2;
 
-void runSlave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>> slave) {
+void run_slave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>> slave) {
 
     auto md = slave->getModelDescription();
 
@@ -74,15 +74,15 @@ int main() {
 
     try {
 
-        ThriftClient client("localhost", 9090);
+        thrift_client client("localhost", 9090);
 
         auto fmu = client.fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
-        runSlave(fmu.newInstance());
+        run_slave(fmu.newInstance());
 
 
         auto remote_fmu = client.fromFile("../fmus/2.0/cs/20sim/4.6.4.8004/"
                                           "ControlledTemperature/ControlledTemperature.fmu");
-        runSlave(remote_fmu.newInstance());
+        run_slave(remote_fmu.newInstance());
 
         client.close();
 

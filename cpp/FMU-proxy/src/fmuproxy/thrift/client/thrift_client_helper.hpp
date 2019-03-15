@@ -61,7 +61,7 @@ namespace {
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::ScalarVariableAttribute<T> toScalarVariableAttributes(const U &a) {
+    fmi4cpp::fmi2::ScalarVariableAttribute<T> to_scalar_variable_attributes(const U &a) {
         if (a.__isset.start) {
              auto attribute = fmi4cpp::fmi2::ScalarVariableAttribute<T>();
              attribute.start = a.start;
@@ -72,9 +72,9 @@ namespace {
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> toBoundedScalarVariableAttributes(const U &a) {
+    fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> to_bounded_scalar_variable_attributes(const U &a) {
 
-        fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> bounded(toScalarVariableAttributes<T, U>(a));
+        fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> bounded(to_scalar_variable_attributes<T, U>(a));
         if (a.__isset.min) {
             bounded.min = a.min;
         }
@@ -90,27 +90,28 @@ namespace {
 
     fmi4cpp::fmi2::IntegerAttribute convert(const fmuproxy::thrift::IntegerAttribute &a) {
         return fmi4cpp::fmi2::IntegerAttribute(
-                toBoundedScalarVariableAttributes<int, fmuproxy::thrift::IntegerAttribute>(a));
+                to_bounded_scalar_variable_attributes<int, fmuproxy::thrift::IntegerAttribute>(a));
     }
 
     fmi4cpp::fmi2::RealAttribute convert(const fmuproxy::thrift::RealAttribute &a) {
         fmi4cpp::fmi2::RealAttribute real(
-                toBoundedScalarVariableAttributes<double, fmuproxy::thrift::RealAttribute>(a));
+                to_bounded_scalar_variable_attributes<double, fmuproxy::thrift::RealAttribute>(a));
         return real;
     }
 
     fmi4cpp::fmi2::StringAttribute convert(const fmuproxy::thrift::StringAttribute &a) {
         return fmi4cpp::fmi2::StringAttribute(
-                toScalarVariableAttributes<std::string, fmuproxy::thrift::StringAttribute>(a));
+                to_scalar_variable_attributes<std::string, fmuproxy::thrift::StringAttribute>(a));
     }
 
     fmi4cpp::fmi2::BooleanAttribute convert(const fmuproxy::thrift::BooleanAttribute &a) {
-        return fmi4cpp::fmi2::BooleanAttribute(toScalarVariableAttributes<bool, fmuproxy::thrift::BooleanAttribute>(a));
+        return fmi4cpp::fmi2::BooleanAttribute(
+                to_scalar_variable_attributes<bool, fmuproxy::thrift::BooleanAttribute>(a));
     }
 
     fmi4cpp::fmi2::EnumerationAttribute convert(const fmuproxy::thrift::EnumerationAttribute &a) {
         return fmi4cpp::fmi2::EnumerationAttribute(
-                toBoundedScalarVariableAttributes<int, fmuproxy::thrift::EnumerationAttribute>(a));
+                to_bounded_scalar_variable_attributes<int, fmuproxy::thrift::EnumerationAttribute>(a));
     }
 
     fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::thrift::ScalarVariable &v) {

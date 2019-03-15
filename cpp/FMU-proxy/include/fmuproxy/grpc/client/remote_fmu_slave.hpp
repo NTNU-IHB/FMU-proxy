@@ -31,7 +31,7 @@
 
 namespace fmuproxy::grpc::client {
 
-class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription> {
+class remote_fmu_slave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription> {
 
     private:
         
@@ -45,7 +45,7 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
         bool updateStatusAndReturnTrueOnOK(fmuproxy::grpc::Status status);
 
     public:
-        RemoteFmuSlave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub,
+        remote_fmu_slave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub,
                        const fmi4cpp::fmi2::ModelDescriptionBase &modelDescription);
 
         fmi4cpp::Status getLastStatus() const override;
@@ -114,7 +114,7 @@ class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModel
                                       const std::vector<fmi2Real> &dvKnownRef,
                                       std::vector<fmi2Real> &dvUnknownRef) override;
 
-        ~RemoteFmuSlave();
+        ~remote_fmu_slave();
 
     };
 

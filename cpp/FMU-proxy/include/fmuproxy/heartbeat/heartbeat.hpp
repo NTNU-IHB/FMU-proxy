@@ -30,11 +30,11 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "RemoteAddress.hpp"
+#include "remote_address.hpp"
 
-namespace fmuproxy::heartbeat {
+namespace fmuproxy {
 
-    class Heartbeat {
+    class heartbeat {
 
     private:
 
@@ -44,13 +44,13 @@ namespace fmuproxy::heartbeat {
         std::unique_ptr<std::thread> thread_;
         const std::vector<std::string> modelDescriptions_;
 
-        const fmuproxy::RemoteAddress remote_;
+        const fmuproxy::remote_address remote_;
         const std::unordered_map<std::string, unsigned int> &ports_;
 
         void run();
 
     public:
-        Heartbeat(const RemoteAddress &remote,
+        heartbeat(const remote_address &remote,
                   const std::unordered_map<std::string, unsigned int> &ports,
                   const std::vector<std::string> &modelDescriptions);
 

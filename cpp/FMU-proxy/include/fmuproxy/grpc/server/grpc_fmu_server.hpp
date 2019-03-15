@@ -22,57 +22,43 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_GRPCCLIENT_HPP
-#define FMU_PROXY_GRPCCLIENT_HPP
+#ifndef FMU_PROXY_GRPCSERVER_HPP
+#define FMU_PROXY_GRPCSERVER_HPP
 
+#include <thread>
 #include <memory>
-#include <string>
+#include <unordered_map>
 
-#include <grpcpp/grpcpp.h>
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
-#include "RemoteFmuSlave.hpp"
 #include "../common/service.grpc.pb.h"
+#include "fmu_service_impl.hpp"
 
+using grpc::Server;
 
-namespace fmuproxy::grpc::client {
+namespace fmuproxy:: grpc::server {
 
-    class RemoteGrpcFmu {
-
-    private:
-
-        const std::string fmuId_;
-        std::shared_ptr<FmuService::Stub> stub_;
-        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
-
-    public:
-
-        RemoteGrpcFmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
-
-        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
-
-        std::unique_ptr<RemoteFmuSlave> newInstance();
-
-    };
-
-    class GrpcClient {
+    class grpc_fmu_server {
 
     private:
+        const unsigned int port_;
+        std::shared_ptr<Server> server_;
+        std::unique_ptr<std::thread> thread_;
+        std::shared_ptr<fmu_service_impl> service_;
 
-        std::shared_ptr<FmuService::Stub> stub_;
-
+        void wait();
 
     public:
-        GrpcClient(const std::string &host, unsigned int port);
+        grpc_fmu_server(std::unordered_map<std::string,
+                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmu,
+                const unsigned int port);
 
-        RemoteGrpcFmu fromUrl(const std::string &url);
+        void start();
 
-        RemoteGrpcFmu fromFile(const std::string &file);
-
-        RemoteGrpcFmu fromGuid(const std::string &guid);
+        void stop();
 
     };
-
 
 }
 
-#endif //FMU_PROXY_GRPCCLIENT_HPP
+#endif //FMU_PROXY_GRPCSERVER_HPP

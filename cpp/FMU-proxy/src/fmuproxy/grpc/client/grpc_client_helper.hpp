@@ -51,16 +51,16 @@ namespace {
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::ScalarVariableAttribute<T> toScalarVariableAttributes(const U &a) {
+    fmi4cpp::fmi2::ScalarVariableAttribute<T> to_scalar_variable_attributes(const U &a) {
         fmi4cpp::fmi2::ScalarVariableAttribute<T> attribute;
         attribute.start = a.start();
         return attribute;
     }
 
     template<typename T, typename U>
-    fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> toBoundedScalarVariableAttributes(const U &a) {
+    fmi4cpp::fmi2::BoundedScalarVariableAttribute<T> to_bounded_scalar_variable_attributes(const U &a) {
 
-        fmi4cpp::fmi2::BoundedScalarVariableAttribute bounded(toScalarVariableAttributes<T, U>(a));
+        fmi4cpp::fmi2::BoundedScalarVariableAttribute bounded(to_scalar_variable_attributes<T, U>(a));
 
         if (a.max() > a.min()) {
             bounded.min = a.min();
@@ -77,26 +77,27 @@ namespace {
 
     fmi4cpp::fmi2::IntegerAttribute convert(const fmuproxy::grpc::IntegerAttribute &a) {
         return fmi4cpp::fmi2::IntegerAttribute(
-                toBoundedScalarVariableAttributes<int, fmuproxy::grpc::IntegerAttribute>(a));
+                to_bounded_scalar_variable_attributes<int, fmuproxy::grpc::IntegerAttribute>(a));
     }
 
     fmi4cpp::fmi2::RealAttribute convert(const fmuproxy::grpc::RealAttribute &a) {
-        fmi4cpp::fmi2::RealAttribute real(toBoundedScalarVariableAttributes<double, fmuproxy::grpc::RealAttribute>(a));
+        fmi4cpp::fmi2::RealAttribute real(
+                to_bounded_scalar_variable_attributes<double, fmuproxy::grpc::RealAttribute>(a));
         return real;
     }
 
     fmi4cpp::fmi2::StringAttribute convert(const fmuproxy::grpc::StringAttribute &a) {
         return fmi4cpp::fmi2::StringAttribute(
-                toScalarVariableAttributes<std::string, fmuproxy::grpc::StringAttribute>(a));
+                to_scalar_variable_attributes<std::string, fmuproxy::grpc::StringAttribute>(a));
     }
 
     fmi4cpp::fmi2::BooleanAttribute convert(const fmuproxy::grpc::BooleanAttribute &a) {
-        return fmi4cpp::fmi2::BooleanAttribute(toScalarVariableAttributes<bool, fmuproxy::grpc::BooleanAttribute>(a));
+        return fmi4cpp::fmi2::BooleanAttribute(to_scalar_variable_attributes<bool, fmuproxy::grpc::BooleanAttribute>(a));
     }
 
     fmi4cpp::fmi2::EnumerationAttribute convert(const fmuproxy::grpc::EnumerationAttribute &a) {
         return fmi4cpp::fmi2::EnumerationAttribute(
-                toBoundedScalarVariableAttributes<int, fmuproxy::grpc::EnumerationAttribute>(a));
+                to_bounded_scalar_variable_attributes<int, fmuproxy::grpc::EnumerationAttribute>(a));
     }
 
     fmi4cpp::fmi2::ScalarVariable convert(const fmuproxy::grpc::ScalarVariable &v) {

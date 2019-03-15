@@ -22,44 +22,57 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_THRIFTSERVER_H
-#define FMU_PROXY_THRIFTSERVER_H
+#ifndef FMU_PROXY_GRPCCLIENT_HPP
+#define FMU_PROXY_GRPCCLIENT_HPP
 
-#include <thread>
-#include <unordered_map>
+#include <memory>
+#include <string>
 
-#include <fmi4cpp/fmi2/import/fmi2Fmu.hpp>
-#include <thrift/server/TServer.h>
+#include <grpcpp/grpcpp.h>
 
-#include "../common/service_types.h"
-#include "FmuServiceHandler.hpp"
+#include "remote_fmu_slave.hpp"
+#include "../common/service.grpc.pb.h"
 
 
-namespace fmuproxy::thrift::server {
-        
-    class ThriftServer {
+namespace fmuproxy::grpc::client {
+
+    class remote_grpc_fmu {
 
     private:
 
-        const bool http_;
-        const unsigned int port_;
-        std::unique_ptr<std::thread> thread_;
-        std::unique_ptr<apache::thrift::server::TServer> server_;
-
-        void serve();
+        const std::string fmuId_;
+        std::shared_ptr<FmuService::Stub> stub_;
+        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
 
     public:
 
-        ThriftServer(std::unordered_map<fmuproxy::thrift::FmuId,
-                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
-                unsigned int port, bool http=false, bool multiThreaded = false);
+        remote_grpc_fmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
 
-        void start();
+        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
 
-        void stop();
+        std::unique_ptr<remote_fmu_slave> newInstance();
 
     };
 
+    class grpc_fmu_client {
+
+    private:
+
+        std::shared_ptr<FmuService::Stub> stub_;
+
+
+    public:
+        grpc_fmu_client(const std::string &host, unsigned int port);
+
+        remote_grpc_fmu fromUrl(const std::string &url);
+
+        remote_grpc_fmu fromFile(const std::string &file);
+
+        remote_grpc_fmu fromGuid(const std::string &guid);
+
+    };
+
+
 }
 
-#endif //FMU_PROXY_THRIFTSERVER_H
+#endif //FMU_PROXY_GRPCCLIENT_HPP

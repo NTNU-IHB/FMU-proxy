@@ -56,15 +56,15 @@ namespace {
     }
 
     template <typename T, typename U>
-    void setScalarVariableAttributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
+    void set_scalar_variable_attributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
         if (a.start) {
             t.__set_start(*a.start);
         }
     }
 
     template <typename T, typename U>
-    void setBoundedScalarVariableAttributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
-        setScalarVariableAttributes<T, U>(t, a);
+    void set_bounded_scalar_variable_attributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
+        set_scalar_variable_attributes<T, U>(t, a);
         if (a.min) {
             t.__set_min(*a.min);
         }
@@ -78,31 +78,31 @@ namespace {
 
     fmuproxy::thrift::IntegerAttribute thriftType(const fmi4cpp::fmi2::IntegerAttribute &a) {
         fmuproxy::thrift::IntegerAttribute attribute;
-        setBoundedScalarVariableAttributes<fmuproxy::thrift::IntegerAttribute, int>(attribute, a);
+        set_bounded_scalar_variable_attributes<fmuproxy::thrift::IntegerAttribute, int>(attribute, a);
         return attribute;
     }
 
     fmuproxy::thrift::RealAttribute thriftType(const fmi4cpp::fmi2::RealAttribute &a) {
         fmuproxy::thrift::RealAttribute attribute;
-        setBoundedScalarVariableAttributes<fmuproxy::thrift::RealAttribute, double>(attribute, a);
+        set_bounded_scalar_variable_attributes<fmuproxy::thrift::RealAttribute, double>(attribute, a);
         return attribute;
     }
 
     fmuproxy::thrift::StringAttribute thriftType(const fmi4cpp::fmi2::StringAttribute &a) {
         fmuproxy::thrift::StringAttribute attribute;
-        setScalarVariableAttributes<fmuproxy::thrift::StringAttribute, std::string >(attribute, a);
+        set_scalar_variable_attributes<fmuproxy::thrift::StringAttribute, std::string>(attribute, a);
         return attribute;
     }
 
     fmuproxy::thrift::BooleanAttribute thriftType(const fmi4cpp::fmi2::BooleanAttribute &a) {
         fmuproxy::thrift::BooleanAttribute attribute;
-        setScalarVariableAttributes<fmuproxy::thrift::BooleanAttribute, bool >(attribute, a);
+        set_scalar_variable_attributes<fmuproxy::thrift::BooleanAttribute, bool>(attribute, a);
         return attribute;
     }
 
     fmuproxy::thrift:: EnumerationAttribute thriftType(const fmi4cpp::fmi2::EnumerationAttribute &a) {
         fmuproxy::thrift::EnumerationAttribute attribute;
-        setBoundedScalarVariableAttributes<fmuproxy::thrift::EnumerationAttribute, int>(attribute, a);
+        set_bounded_scalar_variable_attributes<fmuproxy::thrift::EnumerationAttribute, int>(attribute, a);
         return attribute;
     }
 
