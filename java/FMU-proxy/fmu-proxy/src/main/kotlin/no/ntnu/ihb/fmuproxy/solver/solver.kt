@@ -28,8 +28,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import no.ntnu.ihb.fmi4j.solvers.Solver
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 private const val STEP_SIZE = "step_size"
+
+private val LOG: Logger = LoggerFactory.getLogger("solver")
 
 private val gson: Gson by lazy {
    GsonBuilder().create()
@@ -46,12 +50,17 @@ fun parseSolver(name: String, json: String): Solver? {
 }
 
 private fun String.parseStepSize(): Double? {
-    @Suppress("UNCHECKED_CAST")
-    val settings = gson.fromJson(this, Map::class.java) as Map<String, *>
+    try {
+        @Suppress("UNCHECKED_CAST")
+        val settings = gson.fromJson(this, Map::class.java) as Map<String, *>
 
-    if (STEP_SIZE !in settings) {
-        return null
+        if (STEP_SIZE !in settings) {
+            return null
+        }
+
+        return (settings[STEP_SIZE] as Double)
+    } catch (ex: Exception) {
+        LOG.error("Failed to parse step size!", ex)
     }
-
-    return settings[STEP_SIZE] as Double
+    return null
 }
