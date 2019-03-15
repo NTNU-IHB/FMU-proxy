@@ -22,7 +22,7 @@ class TestThriftME {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/me/win64/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+            "2.0/me/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
 
     private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer().apply { addFmu(fmu) }
