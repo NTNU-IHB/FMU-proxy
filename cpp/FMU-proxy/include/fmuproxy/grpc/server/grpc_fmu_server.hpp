@@ -34,24 +34,24 @@
 #include "../common/service.grpc.pb.h"
 #include "fmu_service_impl.hpp"
 
-using grpc::Server;
-
-namespace fmuproxy:: grpc::server {
+namespace fmuproxy::grpc::server {
 
     class grpc_fmu_server {
 
     private:
+
         const unsigned int port_;
-        std::shared_ptr<Server> server_;
+        std::shared_ptr<::grpc::Server> server_;
         std::unique_ptr<std::thread> thread_;
         std::shared_ptr<fmu_service_impl> service_;
 
         void wait();
 
     public:
+
         grpc_fmu_server(std::unordered_map<std::string,
                 std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmu,
-                const unsigned int port);
+                unsigned int port);
 
         void start();
 
