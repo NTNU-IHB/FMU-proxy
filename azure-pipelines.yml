@@ -17,23 +17,23 @@ jobs:
             cd vcpkg
             ./bootstrap-vcpkg.bat
             ./vcpkg install curl grpc nlohmann-json libzip[core] spdlog boost-program-options boost-ublas boost-odeint --triplet x64-windows
-          workingDirectory: '$(system.defaultWorkingDirectory)/..'
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp'
           targetType: inline
 
       - task: CMake@1
         inputs:
-          workingDirectory: '$(system.defaultWorkingDirectory)/build'
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build'
           cmakeArgs: '.. -DCMAKE_TOOLCHAIN_FILE=../../vcpkg/scripts/buildsystems/vcpkg.cmake -DFMU_PROXY_WITH_THRIFT=OFF -A x64'
 
       - task: CMake@1
         inputs:
-          workingDirectory: '$(system.defaultWorkingDirectory)/build'
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build'
           cmakeArgs: '--build .'
 
 #      - task: Bash@3
 #        inputs:
 #          script: 'ctest -C Debug'
-#          workingDirectory: '$(system.defaultWorkingDirectory)/build/tests'
+#          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build/tests'
 #          targetType: inline
 
 
@@ -52,21 +52,21 @@ jobs:
             pip install conan --upgrade
             conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
             conan install . -s build_type=Debug --install-folder=build -o thrift=False -o grpc=True
-          workingDirectory: '$(system.defaultWorkingDirectory)'
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/'
           targetType: inline
 
       - task: CMake@1
         inputs:
-          workingDirectory: '$(system.defaultWorkingDirectory)/build'
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build'
           cmakeArgs: '.. -DFMU_PROXY_USING_CONAN=ON -DFMU_PROXY_WITH_THRIFT=OFF -A x64'
 
       - task: CMake@1
         inputs:
-          workingDirectory: '$(system.defaultWorkingDirectory)/build'
+          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build'
           cmakeArgs: '--build .'
 
 #      - task: Bash@3
 #        inputs:
 #          script: 'ctest -C Debug'
-#          workingDirectory: '$(system.defaultWorkingDirectory)/build/tests'
+#          workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build/tests'
 #          targetType: inline
