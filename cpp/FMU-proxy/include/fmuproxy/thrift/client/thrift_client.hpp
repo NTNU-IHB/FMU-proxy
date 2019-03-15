@@ -29,11 +29,11 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include "RemoteFmuSlave.hpp"
+#include "remote_fmu_slave.hpp"
 
 namespace fmuproxy::thrift::client {
 
-    class RemoteThriftFmu {
+    class remote_thrift_fmu {
 
     private:
 
@@ -43,15 +43,15 @@ namespace fmuproxy::thrift::client {
 
     public:
 
-        RemoteThriftFmu(const FmuId &fmuId, std::shared_ptr<FmuServiceClient> client);
+        remote_thrift_fmu(const FmuId &fmuId, std::shared_ptr<FmuServiceClient> client);
 
         std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
 
-        std::unique_ptr<RemoteFmuSlave> newInstance();
+        std::unique_ptr<remote_fmu_slave> newInstance();
 
     };
 
-    class ThriftClient {
+    class thrift_client {
 
     private:
 
@@ -60,17 +60,17 @@ namespace fmuproxy::thrift::client {
 
 
     public:
-        ThriftClient(const std::string &host, unsigned int port);
+        thrift_client(const std::string &host, unsigned int port);
 
-        RemoteThriftFmu fromUrl(const std::string &url);
+        remote_thrift_fmu fromUrl(const std::string &url);
 
-        RemoteThriftFmu fromFile(const std::string &file);
+        remote_thrift_fmu fromFile(const std::string &file);
 
-        RemoteThriftFmu fromGuid(const std::string &guid);
+        remote_thrift_fmu fromGuid(const std::string &guid);
 
         void close();
 
-        virtual ~ThriftClient();
+        virtual ~thrift_client();
 
     };
 

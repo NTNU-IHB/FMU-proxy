@@ -27,11 +27,11 @@
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
-#include "../common/FmuService.h"
+#include "fmuproxy/thrift/common/fmu_service.h"
 
 namespace fmuproxy::thrift::client {
 
-    class RemoteFmuSlave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription> {
+    class remote_fmu_slave : public fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription> {
 
     private:
 
@@ -45,7 +45,7 @@ namespace fmuproxy::thrift::client {
         bool updateStatusAndReturnTrueOnOK(Status::type status);
 
     public:
-        RemoteFmuSlave(const InstanceId &instanceId, FmuServiceClient &client,
+        remote_fmu_slave(const InstanceId &instanceId, FmuServiceClient &client,
                        const fmi4cpp::fmi2::ModelDescriptionBase &modelDescription);
 
         fmi4cpp::Status getLastStatus() const override;
@@ -64,7 +64,7 @@ namespace fmuproxy::thrift::client {
 
         bool getFMUstate(fmi2FMUstate &state) override;
 
-        bool setFMUstate(const fmi2FMUstate state) override;
+        bool setFMUstate(fmi2FMUstate state) override;
 
         bool freeFMUstate(fmi2FMUstate &state) override;
 
@@ -77,43 +77,43 @@ namespace fmuproxy::thrift::client {
                                             const std::vector<fmi2Real> &dvKnownRef,
                                             std::vector<fmi2Real> &dvUnknownRef) override;
 
-        bool doStep(const double stepSize) override;
+        bool doStep(double stepSize) override;
 
         bool cancelStep() override;
 
-        bool readInteger(const fmi2ValueReference vr, fmi2Integer &ref) override;
+        bool readInteger(fmi2ValueReference vr, fmi2Integer &ref) override;
 
         bool readInteger(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2Integer> &ref) override;
 
-        bool readReal(const fmi2ValueReference vr, fmi2Real &ref) override;
+        bool readReal(fmi2ValueReference vr, fmi2Real &ref) override;
 
         bool readReal(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2Real> &ref) override;
 
-        bool readString(const fmi2ValueReference vr, fmi2String &ref) override;
+        bool readString(fmi2ValueReference vr, fmi2String &ref) override;
 
         bool readString(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2String> &ref) override;
 
-        bool readBoolean(const fmi2ValueReference vr, fmi2Boolean &ref) override;
+        bool readBoolean(fmi2ValueReference vr, fmi2Boolean &ref) override;
 
         bool readBoolean(const std::vector<fmi2ValueReference> &vr, std::vector<fmi2Boolean> &ref) override;
 
-        bool writeInteger(const fmi2ValueReference vr, fmi2Integer value) override;
+        bool writeInteger(fmi2ValueReference vr, fmi2Integer value) override;
 
         bool writeInteger(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Integer> &values) override;
 
-        bool writeReal(const fmi2ValueReference vr, fmi2Real value) override;
+        bool writeReal(fmi2ValueReference vr, fmi2Real value) override;
 
         bool writeReal(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Real> &values) override;
 
-        bool writeString(const fmi2ValueReference vr, fmi2String value) override;
+        bool writeString(fmi2ValueReference vr, fmi2String value) override;
 
         bool writeString(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2String> &values) override;
 
-        bool writeBoolean(const fmi2ValueReference vr, fmi2Boolean value) override;
+        bool writeBoolean(fmi2ValueReference vr, fmi2Boolean value) override;
 
         bool writeBoolean(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Boolean> &values) override;
 
-        virtual ~RemoteFmuSlave();
+        ~remote_fmu_slave() override;
 
     };
 

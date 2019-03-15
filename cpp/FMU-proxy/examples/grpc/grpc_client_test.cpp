@@ -24,7 +24,7 @@
 
 #include <vector>
 
-#include <fmuproxy/grpc/client/GrpcClient.hpp>
+#include <fmuproxy/grpc/client/grpc_fmu_client.hpp>
 
 #include "../example_util.hpp"
 
@@ -34,7 +34,7 @@ using namespace fmuproxy::grpc::client;
 const double stop = 2;
 const double step_size = 1E-2;
 
-void runSlave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>> slave) {
+void run_slave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>> slave) {
 
     auto md = slave->getModelDescription();
 
@@ -66,15 +66,15 @@ void runSlave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescr
 int main() {
     
 
-    auto client = GrpcClient("localhost", 9080);
+    auto client = grpc_fmu_client("localhost", 9080);
 
     auto fmu = client.fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
-    runSlave(fmu.newInstance());
+    run_slave(fmu.newInstance());
 
 
     auto remote_fmu = client.fromFile("../fmus/2.0/cs/20sim/4.6.4.8004/"
                                       "ControlledTemperature/ControlledTemperature.fmu");
-    runSlave(remote_fmu.newInstance());
+    run_slave(remote_fmu.newInstance());
 
     return 0;
 

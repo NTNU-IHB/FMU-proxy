@@ -34,7 +34,7 @@
 
 namespace fmuproxy::grpc::server {
 
-    class FmuServiceImpl : public fmuproxy::grpc::FmuService::Service {
+    class fmu_service_impl : public fmuproxy::grpc::FmuService::Service {
 
     private:
         std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus_;
@@ -42,7 +42,7 @@ namespace fmuproxy::grpc::server {
 
     public:
 
-        explicit FmuServiceImpl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
+        explicit fmu_service_impl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
 
         ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext *context,
                                                  const ::fmuproxy::grpc::GetCoSimulationAttributesRequest *request,

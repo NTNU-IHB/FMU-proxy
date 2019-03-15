@@ -22,36 +22,37 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_GRPCSERVER_HPP
-#define FMU_PROXY_GRPCSERVER_HPP
+#ifndef FMU_PROXY_HEARTBEAT_HPP
+#define FMU_PROXY_HEARTBEAT_HPP
 
+#include <string>
 #include <thread>
 #include <memory>
+#include <vector>
 #include <unordered_map>
+#include "remote_address.hpp"
 
-#include <fmi4cpp/fmi2/fmi2.hpp>
+namespace fmuproxy {
 
-#include "../common/service.grpc.pb.h"
-#include "FmuServiceImpl.hpp"
-
-using grpc::Server;
-
-namespace fmuproxy:: grpc::server {
-
-    class GrpcServer {
+    class heartbeat {
 
     private:
-        const unsigned int port_;
-        std::shared_ptr<Server> server_;
-        std::unique_ptr<std::thread> thread_;
-        std::shared_ptr<FmuServiceImpl> service_;
 
-        void wait();
+        bool stop_ = false;
+        bool connected_ = false;
+
+        std::unique_ptr<std::thread> thread_;
+        const std::vector<std::string> modelDescriptions_;
+
+        const fmuproxy::remote_address remote_;
+        const std::unordered_map<std::string, unsigned int> &ports_;
+
+        void run();
 
     public:
-        GrpcServer(std::unordered_map<std::string,
-                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmu,
-                const unsigned int port);
+        heartbeat(const remote_address &remote,
+                  const std::unordered_map<std::string, unsigned int> &ports,
+                  const std::vector<std::string> &modelDescriptions);
 
         void start();
 
@@ -61,4 +62,4 @@ namespace fmuproxy:: grpc::server {
 
 }
 
-#endif //FMU_PROXY_GRPCSERVER_HPP
+#endif //FMU_PROXY_HEARTBEAT_HPP

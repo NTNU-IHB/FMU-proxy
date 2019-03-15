@@ -30,18 +30,18 @@
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
-#include "../common/FmuService.h"
+#include "fmuproxy/thrift/common/fmu_service.h"
 
 namespace fmuproxy::thrift::server {
 
-    class FmuServiceHandler : virtual public FmuServiceIf {
+    class fmu_service_handler : virtual public FmuServiceIf {
 
     private:
         std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus_;
         std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>>> slaves_;
 
     public:
-        explicit FmuServiceHandler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
+        explicit fmu_service_handler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
 
         void loadFromUrl(FmuId &_return, const std::string &url) override;
 

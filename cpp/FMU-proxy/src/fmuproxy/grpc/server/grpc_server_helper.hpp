@@ -34,7 +34,7 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    const Status grpcType(fmi4cpp::Status status) {
+    const Status grpc_type(fmi4cpp::Status status) {
         switch (status) {
             case fmi4cpp::Status::OK:
                 return Status::OK_STATUS;
@@ -54,15 +54,15 @@ namespace {
     }
 
     template <typename T, typename U>
-    void setScalarVariableAttributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
+    void set_scalar_variable_attributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
         if (a.start) {
             t.set_start(*a.start);
         }
     }
 
     template <typename T, typename U>
-    void setBoundedScalarVariableAttributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
-        setScalarVariableAttributes<T, U>(t, a);
+    void set_bounded_scalar_variable_attributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
+        set_scalar_variable_attributes<T, U>(t, a);
         if (a.min) {
             t.set_min(*a.min);
         }
@@ -74,27 +74,27 @@ namespace {
         }
     }
 
-    void grpcType(IntegerAttribute &attribute, const fmi4cpp::fmi2::IntegerAttribute &a) {
-        setBoundedScalarVariableAttributes<IntegerAttribute, int>(attribute, a);
+    void grpc_type(IntegerAttribute &attribute, const fmi4cpp::fmi2::IntegerAttribute &a) {
+        set_bounded_scalar_variable_attributes<IntegerAttribute, int>(attribute, a);
     }
 
-    void grpcType(RealAttribute &attribute, const fmi4cpp::fmi2::RealAttribute &a) {
-        setBoundedScalarVariableAttributes<RealAttribute, double>(attribute, a);
+    void grpc_type(RealAttribute &attribute, const fmi4cpp::fmi2::RealAttribute &a) {
+        set_bounded_scalar_variable_attributes<RealAttribute, double>(attribute, a);
     }
 
-    void grpcType(StringAttribute &attribute, const fmi4cpp::fmi2::StringAttribute &a) {
-        setScalarVariableAttributes<StringAttribute, std::string >(attribute, a);
+    void grpc_type(StringAttribute &attribute, const fmi4cpp::fmi2::StringAttribute &a) {
+        set_scalar_variable_attributes<StringAttribute, std::string>(attribute, a);
     }
 
-    void grpcType(BooleanAttribute &attribute, const fmi4cpp::fmi2::BooleanAttribute &a) {
-        setScalarVariableAttributes<BooleanAttribute, bool>(attribute, a);
+    void grpc_type(BooleanAttribute &attribute, const fmi4cpp::fmi2::BooleanAttribute &a) {
+        set_scalar_variable_attributes<BooleanAttribute, bool>(attribute, a);
     }
 
-    void grpcType(EnumerationAttribute &attribute, const fmi4cpp::fmi2::EnumerationAttribute &a) {
-        setBoundedScalarVariableAttributes<EnumerationAttribute, int>(attribute, a);
+    void grpc_type(EnumerationAttribute &attribute, const fmi4cpp::fmi2::EnumerationAttribute &a) {
+        set_bounded_scalar_variable_attributes<EnumerationAttribute, int>(attribute, a);
     }
 
-    void grpcType(ScalarVariable &var, const fmi4cpp::fmi2::ScalarVariable &v) {
+    void grpc_type(ScalarVariable &var, const fmi4cpp::fmi2::ScalarVariable &v) {
 
         var.set_name(v.name);
         var.set_value_reference(v.valueReference);
@@ -109,22 +109,22 @@ namespace {
         var.set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
         if (v.isInteger()) {
-            grpcType(*var.mutable_integer_attribute(), v.asInteger().attribute());
+            grpc_type(*var.mutable_integer_attribute(), v.asInteger().attribute());
         } else if (v.isReal()) {
-            grpcType(*var.mutable_real_attribute(), v.asReal().attribute());
+            grpc_type(*var.mutable_real_attribute(), v.asReal().attribute());
         } else if (v.isString()) {
-            grpcType(*var.mutable_string_attribute(), v.asString().attribute());
+            grpc_type(*var.mutable_string_attribute(), v.asString().attribute());
         } else if (v.isBoolean()) {
-            grpcType(*var.mutable_boolean_attribute(), v.asBoolean().attribute());
+            grpc_type(*var.mutable_boolean_attribute(), v.asBoolean().attribute());
         } else if (v.isEnumeration()) {
-            grpcType(*var.mutable_enumeration_attribute(), v.asEnumeration().attribute());
+            grpc_type(*var.mutable_enumeration_attribute(), v.asEnumeration().attribute());
         } else {
             throw std::runtime_error("Fatal: No valid attribute found..");
         }
 
     }
 
-    void grpcType(ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
+    void grpc_type(ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
 
         md.set_guid(m.guid.c_str());
         md.set_fmi_version(m.fmiVersion);
@@ -174,7 +174,7 @@ namespace {
 
         for (const auto &var : *m.modelVariables) {
             auto v = md.add_model_variables();
-            grpcType(*v, var);
+            grpc_type(*v, var);
         }
 
     }

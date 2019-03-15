@@ -22,44 +22,57 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_HEARTBEAT_HPP
-#define FMU_PROXY_HEARTBEAT_HPP
+#ifndef FMU_PROXY_GRPCCLIENT_HPP
+#define FMU_PROXY_GRPCCLIENT_HPP
 
-#include <string>
-#include <thread>
 #include <memory>
-#include <vector>
-#include <unordered_map>
-#include "RemoteAddress.hpp"
+#include <string>
 
-namespace fmuproxy::heartbeat {
+#include <grpcpp/grpcpp.h>
 
-    class Heartbeat {
+#include "remote_fmu_slave.hpp"
+#include "../common/service.grpc.pb.h"
+
+
+namespace fmuproxy::grpc::client {
+
+    class remote_grpc_fmu {
 
     private:
 
-        bool stop_ = false;
-        bool connected_ = false;
-
-        std::unique_ptr<std::thread> thread_;
-        const std::vector<std::string> modelDescriptions_;
-
-        const fmuproxy::RemoteAddress remote_;
-        const std::unordered_map<std::string, unsigned int> &ports_;
-
-        void run();
+        const std::string fmuId_;
+        std::shared_ptr<FmuService::Stub> stub_;
+        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
 
     public:
-        Heartbeat(const RemoteAddress &remote,
-                  const std::unordered_map<std::string, unsigned int> &ports,
-                  const std::vector<std::string> &modelDescriptions);
 
-        void start();
+        remote_grpc_fmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
 
-        void stop();
+        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
+
+        std::unique_ptr<remote_fmu_slave> newInstance();
 
     };
 
+    class grpc_fmu_client {
+
+    private:
+
+        std::shared_ptr<FmuService::Stub> stub_;
+
+
+    public:
+        grpc_fmu_client(const std::string &host, unsigned int port);
+
+        remote_grpc_fmu fromUrl(const std::string &url);
+
+        remote_grpc_fmu fromFile(const std::string &file);
+
+        remote_grpc_fmu fromGuid(const std::string &guid);
+
+    };
+
+
 }
 
-#endif //FMU_PROXY_HEARTBEAT_HPP
+#endif //FMU_PROXY_GRPCCLIENT_HPP

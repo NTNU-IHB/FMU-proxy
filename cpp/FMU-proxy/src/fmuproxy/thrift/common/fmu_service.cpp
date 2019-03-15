@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include <fmuproxy/thrift/common/FmuService.h>
+#include <fmuproxy/thrift/common/fmu_service.h>
 
 namespace fmuproxy { namespace thrift {
 

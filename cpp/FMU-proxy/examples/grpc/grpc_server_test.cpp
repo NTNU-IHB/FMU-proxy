@@ -23,7 +23,7 @@
  */
 
 #include <unordered_map>
-#include <fmuproxy/grpc/server/GrpcServer.hpp>
+#include <fmuproxy/grpc/server/grpc_fmu_server.hpp>
 
 #include "../example_util.hpp"
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     auto md = fmu->getModelDescription();
     unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus = {{md->guid, fmu}};
     
-    GrpcServer server(fmus, 9080);
+    grpc_fmu_server server(fmus, 9080);
     server.start();
 
     wait_for_input();

@@ -25,30 +25,29 @@
 #include <iostream>
 #include <chrono>
 #include <curl/curl.h>
-#include <fmuproxy/heartbeat/Heartbeat.hpp>
+#include <fmuproxy/heartbeat/heartbeat.hpp>
 #include <nlohmann/json.hpp>
 #include "heartbeat_helper.hpp"
 
 using namespace std;
 using namespace fmuproxy;
-using namespace fmuproxy::heartbeat;
 
 using json = nlohmann::json;
 
-Heartbeat::Heartbeat(const RemoteAddress &remote, const unordered_map<string, unsigned int> &ports,
+heartbeat::heartbeat(const remote_address &remote, const unordered_map<string, unsigned int> &ports,
                      const vector<string> &modelDescriptions) : remote_(remote), ports_(ports),
                                                                 modelDescriptions_(modelDescriptions) {}
 
-void Heartbeat::start() {
-    thread_ = make_unique<thread>(&Heartbeat::run, this);
+void heartbeat::start() {
+    thread_ = make_unique<thread>(&heartbeat::run, this);
 }
 
-void Heartbeat::stop() {
+void heartbeat::stop() {
     stop_ = true;
     thread_->join();
 }
 
-void Heartbeat::run() {
+void heartbeat::run() {
 
     CURL *curl;
     CURLcode res;
@@ -94,7 +93,7 @@ void Heartbeat::run() {
                 string response;
                 res = post(remote_, curl, response, "register", json_str);
                 if (res != CURLE_OK) {
-                    fprintf(stderr, "Heartbeat failed: %s\n", curl_easy_strerror(res));
+                    fprintf(stderr, "heartbeat failed: %s\n", curl_easy_strerror(res));
                 } else {
                     trim(response);
                     connected_ = response == "success";

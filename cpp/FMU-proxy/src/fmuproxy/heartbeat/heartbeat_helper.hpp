@@ -37,7 +37,7 @@
 #include <curl/curl.h>
 #include <boost/algorithm/string/join.hpp>
 
-#include <fmuproxy/heartbeat/RemoteAddress.hpp>
+#include <fmuproxy/heartbeat/remote_address.hpp>
 
 
 namespace {
@@ -98,7 +98,7 @@ namespace {
         return size * nmemb;
     }
 
-    inline CURLcode post(const fmuproxy::RemoteAddress &remote, CURL *curl, std::string &response, const std::string &ctx,
+    inline CURLcode post(const fmuproxy::remote_address &remote, CURL *curl, std::string &response, const std::string &ctx,
                          const std::string &data) {
 
         const std::string url = "http://" + remote.host + ":" + std::to_string(remote.port) + "/fmu-proxy/" + ctx;

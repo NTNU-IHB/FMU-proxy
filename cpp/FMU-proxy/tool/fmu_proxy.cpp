@@ -27,23 +27,23 @@
 #include <unordered_map>
 #include <boost/program_options.hpp>
 
-#include <fmuproxy/heartbeat/Heartbeat.hpp>
-#include <fmuproxy/heartbeat/RemoteAddress.hpp>
+#include <fmuproxy/heartbeat/heartbeat.hpp>
+#include <fmuproxy/heartbeat/remote_address.hpp>
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
 #ifdef FMU_PROXY_WITH_GRPC
-#include <fmuproxy/grpc/server/GrpcServer.hpp>
-using fmuproxy::grpc::server::GrpcServer;
+#include <fmuproxy/grpc/server/grpc_fmu_server.hpp>
+using fmuproxy::grpc::server::grpc_fmu_server;
 #endif
 
 #ifdef FMU_PROXY_WITH_THRIFT
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
-using fmuproxy::thrift::server::ThriftServer;
+#include <fmuproxy/thrift/server/thrift_fmu_server.hpp>
+using fmuproxy::thrift::server::thrift_fmu_server;
 #endif
 
 using namespace std;
-using namespace fmuproxy::heartbeat;
+using namespace fmuproxy;
 
 namespace {
 
@@ -65,7 +65,7 @@ namespace {
     int run_application(
             vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus,
             unordered_map<string, unsigned int> ports,
-            const optional<fmuproxy::RemoteAddress> remote) {
+            const optional<remote_address> remote) {
 
         unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmu_map;
         vector<string> modelDescriptions;
@@ -81,35 +81,35 @@ namespace {
         unordered_map<string, unsigned int> servers;
 
 #ifdef FMU_PROXY_WITH_THRIFT
-        unique_ptr<ThriftServer> thrift_socket_server = nullptr;
+        unique_ptr<thrift_fmu_server> thrift_socket_server = nullptr;
         if (enable_thrift_tcp) {
             const unsigned int port = ports[THRIFT_TCP];
-            thrift_socket_server = make_unique<ThriftServer>(fmu_map, port, false, true);
+            thrift_socket_server = make_unique<thrift_fmu_server>(fmu_map, port, false, true);
             thrift_socket_server->start();
             servers[THRIFT_TCP] = port;
         }
 
-        unique_ptr<ThriftServer> thrift_http_server = nullptr;
+        unique_ptr<thrift_fmu_server> thrift_http_server = nullptr;
         if (enable_thrift_http) {
             const unsigned int port = ports[THRIFT_HTTP];
-            thrift_http_server = make_unique<ThriftServer>(fmu_map, port, true);
+            thrift_http_server = make_unique<thrift_fmu_server>(fmu_map, port, true);
             thrift_http_server->start();
             servers[THRIFT_HTTP] = port;
         }
 #endif
 
 #ifdef FMU_PROXY_WITH_GRPC
-        unique_ptr<GrpcServer> grpc_server = nullptr;
+        unique_ptr<grpc_fmu_server> grpc_server = nullptr;
         if (enable_grpc) {
             const unsigned int port = ports[GRPC];
-            grpc_server = make_unique<GrpcServer>(fmu_map, port);
+            grpc_server = make_unique<grpc_fmu_server>(fmu_map, port);
             grpc_server->start();
             servers[GRPC] = port;
         }
 #endif
-        unique_ptr<Heartbeat> beat = nullptr;
+        unique_ptr<heartbeat> beat = nullptr;
         if (remote) {
-            beat = make_unique<Heartbeat>(*remote, servers, modelDescriptions);
+            beat = make_unique<heartbeat>(*remote, servers, modelDescriptions);
             beat->start();
         }
 
@@ -201,10 +201,10 @@ int main(int argc, char** argv) {
             ports[GRPC] = vm[GRPC].as<unsigned int>();
         }
 
-        optional<fmuproxy::RemoteAddress> remote;
+        optional<fmuproxy::remote_address> remote;
         if (vm.count("remote")) {
             string str = vm["remote"].as<string>();
-            remote = fmuproxy::RemoteAddress(fmuproxy::RemoteAddress::parse (str));
+            remote = fmuproxy::remote_address(fmuproxy::remote_address::parse (str));
         }
 
         return run_application(fmus, ports, remote);

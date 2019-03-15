@@ -22,57 +22,44 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_GRPCCLIENT_HPP
-#define FMU_PROXY_GRPCCLIENT_HPP
+#ifndef FMU_PROXY_THRIFTSERVER_H
+#define FMU_PROXY_THRIFTSERVER_H
 
-#include <memory>
-#include <string>
+#include <thread>
+#include <unordered_map>
 
-#include <grpcpp/grpcpp.h>
+#include <fmi4cpp/fmi2/import/fmi2Fmu.hpp>
+#include <thrift/server/TServer.h>
 
-#include "RemoteFmuSlave.hpp"
-#include "../common/service.grpc.pb.h"
+#include "../common/service_types.h"
+#include "fmu_service_handler.hpp"
 
 
-namespace fmuproxy::grpc::client {
-
-    class RemoteGrpcFmu {
-
-    private:
-
-        const std::string fmuId_;
-        std::shared_ptr<FmuService::Stub> stub_;
-        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> modelDescription_;
-
-    public:
-
-        RemoteGrpcFmu(const std::string &fmuId, std::shared_ptr<FmuService::Stub> stub);
-
-        std::shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &getModelDescription();
-
-        std::unique_ptr<RemoteFmuSlave> newInstance();
-
-    };
-
-    class GrpcClient {
+namespace fmuproxy::thrift::server {
+        
+    class thrift_fmu_server {
 
     private:
 
-        std::shared_ptr<FmuService::Stub> stub_;
+        const bool http_;
+        const unsigned int port_;
+        std::unique_ptr<std::thread> thread_;
+        std::unique_ptr<apache::thrift::server::TServer> server_;
 
+        void serve();
 
     public:
-        GrpcClient(const std::string &host, unsigned int port);
 
-        RemoteGrpcFmu fromUrl(const std::string &url);
+        thrift_fmu_server(std::unordered_map<fmuproxy::thrift::FmuId,
+                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
+                unsigned int port, bool http=false, bool multiThreaded = false);
 
-        RemoteGrpcFmu fromFile(const std::string &file);
+        void start();
 
-        RemoteGrpcFmu fromGuid(const std::string &guid);
+        void stop();
 
     };
-
 
 }
 
-#endif //FMU_PROXY_GRPCCLIENT_HPP
+#endif //FMU_PROXY_THRIFTSERVER_H

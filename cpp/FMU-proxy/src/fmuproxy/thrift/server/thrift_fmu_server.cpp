@@ -25,7 +25,7 @@
 #include <iostream>
 #include <utility>
 
-#include <fmuproxy/thrift/server/ThriftServer.hpp>
+#include <fmuproxy/thrift/server/thrift_fmu_server.hpp>
 
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TNonblockingServerSocket.h>
@@ -48,10 +48,10 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::concurrency;
 
-ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
+thrift_fmu_server::thrift_fmu_server(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
                            unsigned int port, bool http, bool multiThreaded) : port_(port), http_(http) {
 
-    std::shared_ptr<FmuServiceHandler> handler(new FmuServiceHandler(fmus));
+    std::shared_ptr<fmu_service_handler> handler(new fmu_service_handler(fmus));
     std::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
 
     if (http) {
@@ -84,16 +84,16 @@ ThriftServer::ThriftServer(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fm
 
 }
 
-void ThriftServer::serve() {
+void thrift_fmu_server::serve() {
     server_->serve();
 }
 
-void ThriftServer::start() {
+void thrift_fmu_server::start() {
     std::cout << "Thrift " << (http_ ? "HTTP" : "TCP/IP") << " server listening to connections on port: " << std::to_string(port_) << std::endl;
-    thread_ = std::make_unique<std::thread>(&ThriftServer::serve, this);
+    thread_ = std::make_unique<std::thread>(&thrift_fmu_server::serve, this);
 }
 
-void ThriftServer::stop() {
+void thrift_fmu_server::stop() {
     server_->stop();
     thread_->join();
     std::cout << "Thrift " << (http_ ? "HTTP" : "TCP/IP") << " server stopped.." << std::endl;

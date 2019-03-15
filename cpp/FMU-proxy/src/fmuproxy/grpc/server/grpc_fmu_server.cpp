@@ -22,33 +22,35 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_REMOTEADDRESS_HPP
-#define FMU_PROXY_REMOTEADDRESS_HPP
+#include <iostream>
+#include <grpcpp/grpcpp.h>
+#include <fmuproxy/grpc/server/grpc_fmu_server.hpp>
 
-#include <string>
-#include <vector>
-#include <boost/algorithm/string.hpp>
+using grpc::Server;
+using grpc::ServerBuilder;
 
-namespace fmuproxy {
+using namespace std;
+using namespace fmuproxy::grpc::server;
 
-    struct RemoteAddress {
+grpc_fmu_server::grpc_fmu_server(unordered_map<string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus, const unsigned int port)
+        : port_(port), service_(make_shared<fmu_service_impl>(fmus)) {}
 
-        std::string host;
-        unsigned int port;
-
-        RemoteAddress(const std::string &host, const unsigned int port)
-                : host(host), port(port) {}
-
-        static RemoteAddress parse(std::string &address) {
-            std::vector<std::string> split;
-            boost::split(split, address, boost::is_any_of(":"));
-            const std::string host = split[0];
-            const unsigned int port = std::stoi(split[1]);
-            return {host, port};
-        }
-
-    };
-
+void grpc_fmu_server::wait() {
+    server_->Wait();
 }
 
-#endif //FMU_PROXY_REMOTEADDRESS_HPP
+void grpc_fmu_server::start() {
+
+    cout << "gRPC server listening to connections on port: " << port_ << endl;
+    ServerBuilder builder;
+    builder.AddListeningPort("localhost:" + to_string(port_), ::grpc::InsecureServerCredentials());
+    builder.RegisterService(service_.get());
+    server_ = move(builder.BuildAndStart());
+    thread_ = make_unique<thread>(&grpc_fmu_server::wait, this);
+}
+
+void grpc_fmu_server::stop() {
+    server_->Shutdown();
+    thread_->join();
+    cout << "gRPC server stopped.." << endl;
+}

@@ -22,44 +22,33 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_THRIFTSERVER_H
-#define FMU_PROXY_THRIFTSERVER_H
+#ifndef FMU_PROXY_REMOTEADDRESS_HPP
+#define FMU_PROXY_REMOTEADDRESS_HPP
 
-#include <thread>
-#include <unordered_map>
+#include <string>
+#include <vector>
+#include <boost/algorithm/string.hpp>
 
-#include <fmi4cpp/fmi2/import/fmi2Fmu.hpp>
-#include <thrift/server/TServer.h>
+namespace fmuproxy {
 
-#include "../common/service_types.h"
-#include "FmuServiceHandler.hpp"
+    struct remote_address {
 
+        std::string host;
+        unsigned int port;
 
-namespace fmuproxy::thrift::server {
-        
-    class ThriftServer {
+        remote_address(const std::string &host, const unsigned int port)
+                : host(host), port(port) {}
 
-    private:
-
-        const bool http_;
-        const unsigned int port_;
-        std::unique_ptr<std::thread> thread_;
-        std::unique_ptr<apache::thrift::server::TServer> server_;
-
-        void serve();
-
-    public:
-
-        ThriftServer(std::unordered_map<fmuproxy::thrift::FmuId,
-                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
-                unsigned int port, bool http=false, bool multiThreaded = false);
-
-        void start();
-
-        void stop();
+        static remote_address parse(std::string &address) {
+            std::vector<std::string> split;
+            boost::split(split, address, boost::is_any_of(":"));
+            const std::string host = split[0];
+            const unsigned int port = std::stoi(split[1]);
+            return {host, port};
+        }
 
     };
 
 }
 
-#endif //FMU_PROXY_THRIFTSERVER_H
+#endif //FMU_PROXY_REMOTEADDRESS_HPP

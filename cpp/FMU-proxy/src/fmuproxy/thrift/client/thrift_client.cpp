@@ -28,8 +28,8 @@
 #include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
 
-#include <fmuproxy/thrift/common/FmuService.h>
-#include <fmuproxy/thrift/client/ThriftClient.hpp>
+#include <fmuproxy/thrift/common/fmu_service.h>
+#include <fmuproxy/thrift/client/thrift_client.hpp>
 
 #include "thrift_client_helper.hpp"
 #include "../../util/file_util.hpp"
@@ -39,7 +39,7 @@ using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
 using namespace fmuproxy::thrift::client;
 
-ThriftClient::ThriftClient(const string &host, const unsigned int port) {
+thrift_client::thrift_client(const string &host, const unsigned int port) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
     transport_ = std::make_shared<TFramedTransport>(socket);
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport_));
@@ -47,43 +47,43 @@ ThriftClient::ThriftClient(const string &host, const unsigned int port) {
     transport_->open();
 }
 
-RemoteThriftFmu ThriftClient::fromUrl(const std::string &url) {
+remote_thrift_fmu thrift_client::fromUrl(const std::string &url) {
     FmuId guid;
     client_->loadFromUrl(guid, url);
-    return RemoteThriftFmu(guid, client_);
+    return remote_thrift_fmu(guid, client_);
 }
 
-RemoteThriftFmu ThriftClient::fromFile(const std::string &file) {
+remote_thrift_fmu thrift_client::fromFile(const std::string &file) {
 
     fs::path p(file);
     std::string name = p.stem().string();
 
     std::string data;
-    readData(file, data);
+    read_data(file, data);
 
     FmuId guid;
     client_->loadFromFile(guid, name, data);
-    return RemoteThriftFmu(guid, client_);
+    return remote_thrift_fmu(guid, client_);
 }
 
-RemoteThriftFmu ThriftClient::fromGuid(const std::string &guid) {
-    return RemoteThriftFmu(guid, client_);
+remote_thrift_fmu thrift_client::fromGuid(const std::string &guid) {
+    return remote_thrift_fmu(guid, client_);
 }
 
-void ThriftClient::close() {
+void thrift_client::close() {
     if (transport_->isOpen()) {
        transport_->close();
     }
 }
 
-ThriftClient::~ThriftClient() {
+thrift_client::~thrift_client() {
     close();
 }
 
-RemoteThriftFmu::RemoteThriftFmu(const FmuId &fmuId, shared_ptr<FmuServiceClient> client) : fmuId_(fmuId),
+remote_thrift_fmu::remote_thrift_fmu(const FmuId &fmuId, shared_ptr<FmuServiceClient> client) : fmuId_(fmuId),
                                                                                             client_(std::move(client)) {}
 
-shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &RemoteThriftFmu::getModelDescription() {
+shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &remote_thrift_fmu::getModelDescription() {
     if (!modelDescription_) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
         client_->getModelDescription(md, fmuId_);
@@ -92,8 +92,8 @@ shared_ptr<const fmi4cpp::fmi2::ModelDescriptionBase> &RemoteThriftFmu::getModel
     return modelDescription_;
 }
 
-unique_ptr<RemoteFmuSlave> RemoteThriftFmu::newInstance() {
+unique_ptr<remote_fmu_slave> remote_thrift_fmu::newInstance() {
     InstanceId instance_id;
     client_->createInstanceFromCS(instance_id, fmuId_);
-    return std::make_unique<RemoteFmuSlave>(instance_id, *client_, *getModelDescription());
+    return std::make_unique<remote_fmu_slave>(instance_id, *client_, *getModelDescription());
 }

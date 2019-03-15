@@ -26,13 +26,12 @@
 #include <unordered_map>
 
 #include <fmi4cpp/fmi2/fmi2.hpp>
-#include <fmuproxy/heartbeat/Heartbeat.hpp>
-#include <fmuproxy/heartbeat/RemoteAddress.hpp>
+#include <fmuproxy/heartbeat/heartbeat.hpp>
+#include <fmuproxy/heartbeat/remote_address.hpp>
 #include "../example_util.hpp"
 
 using namespace std;
 using namespace fmuproxy;
-using namespace fmuproxy::heartbeat;
 
 int main() {
 
@@ -40,12 +39,12 @@ int main() {
                             "ControlledTemperature/ControlledTemperature.fmu";
 
     auto fmu = fmi4cpp::fmi2::fmi2Fmu(fmu_path);
-    const RemoteAddress remote("localhost", 8080);
+    const remote_address remote("localhost", 8080);
     
     const unordered_map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
     const vector<string> modelDescriptions = {fmu.getModelDescriptionXml()};
     
-    Heartbeat beat(remote, servers, modelDescriptions);
+    heartbeat beat(remote, servers, modelDescriptions);
     beat.start();
 
     wait_for_input();
