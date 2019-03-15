@@ -105,7 +105,7 @@ void fmu_service_handler::createInstanceFromCS(InstanceId &_return, const FmuId 
 void fmu_service_handler::createInstanceFromME(InstanceId &_return, const FmuId &id, const fmuproxy::thrift::Solver &solver) {
     auto &fmu = fmus_.at(id);
 
-    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> solver_ = parse_solver(solver);
+    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> solver_ = parse_solver(solver.name, solver.settings);
     _return = generate_simple_id(10);
     slaves_[_return] = fmu->asModelExchangeFmu()->newInstance(solver_);
     cout << "Created new FMU slave from me with id=" << _return << endl;
