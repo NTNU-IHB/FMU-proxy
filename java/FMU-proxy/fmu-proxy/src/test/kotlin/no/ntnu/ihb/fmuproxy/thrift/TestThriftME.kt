@@ -1,8 +1,10 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.sfi.fmuproxy.TestUtils
+import org.apache.thrift.transport.TTransportException
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -13,7 +15,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
-@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestThriftME {
 
@@ -22,7 +23,7 @@ class TestThriftME {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/me/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
+            "2.0/me/Test-FMUs/0.0.1/VanDerPol/VanDerPol.fmu"))
 
     private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer().apply { addFmu(fmu) }
@@ -50,19 +51,18 @@ class TestThriftME {
     @Test
     fun testFMUSupportedTypes() {
         Assertions.assertTrue(client.canCreateInstanceFromME)
-        Assertions.assertFalse(client.canCreateInstanceFromCS)
+        Assertions.assertTrue(client.canCreateInstanceFromCS)
     }
 
-    @Test
-    fun testInstance() {
+    private fun testInstance(client: AbstractRpcFmuClient) {
 
-        val solver = Solver("Euler").apply {
+        val solver = Solver("euler").apply {
             addProperty("step_size", modelDescription.defaultExperiment?.stepSize ?: 1E-3)
         }
 
         client.newInstance(solver).use { slave ->
 
-            slave.simpleSetup()
+            Assertions.assertTrue(slave.simpleSetup())
             Assertions.assertTrue(slave.lastStatus.isOK())
 
             val variableName = "x0"
@@ -84,6 +84,23 @@ class TestThriftME {
 
             }
 
+        }
+    }
+
+    @Test
+    fun testInstance() {
+        testInstance(client)
+    }
+
+    @Test
+    fun testInstanceRemote() {
+
+        try {
+            ThriftFmuClient.socketClient("127.0.0.1", 9090).load(fmu.guid).use {
+                testInstance(it)
+            }
+        } catch (ex: TTransportException) {
+            LOG.warn("Unable to connect to remote..")
         }
 
     }
