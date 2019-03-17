@@ -29,6 +29,8 @@ import io.grpc.ManagedChannelBuilder
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.Real
+import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver

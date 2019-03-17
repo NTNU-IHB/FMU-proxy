@@ -29,10 +29,10 @@ import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
-import no.ntnu.ihb.fmi4j.common.RealArray
-import no.ntnu.ihb.fmi4j.common.StringArray
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.RealArray
+import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
@@ -171,7 +171,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = IntArray(vr.size)
-            val status = readInteger(vr, values)
+            val status = read(vr, values)
             Service.IntegerRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -184,7 +184,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = RealArray(vr.size)
-            val status = readReal(vr, values)
+            val status = read(vr, values)
             Service.RealRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -197,7 +197,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = StringArray(vr.size) { "" }
-            val status = readString(vr, values)
+            val status = read(vr, values)
             Service.StringRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -210,7 +210,7 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = BooleanArray(vr.size)
-            val status = readBoolean(vr, values)
+            val status = read(vr, values)
             Service.BooleanRead.newBuilder().setStatus(status.protoType()).apply {
                 values.forEach { addValues(it) }
                 responseObserver.onNext(build())
@@ -221,28 +221,28 @@ class GrpcFmuServiceImpl(
 
     override fun writeInteger(request: Service.WriteIntegerRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeInteger(request.valueReferencesList.toLongArray(), request.valuesList.toIntArray())
+            val status = write(request.valueReferencesList.toLongArray(), request.valuesList.toIntArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeReal(request: Service.WriteRealRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeReal(request.valueReferencesList.toLongArray(), request.valuesList.toDoubleArray())
+            val status = write(request.valueReferencesList.toLongArray(), request.valuesList.toDoubleArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeString(request: Service.WriteStringRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeString(request.valueReferencesList.toLongArray(), request.valuesList.toTypedArray())
+            val status = write(request.valueReferencesList.toLongArray(), request.valuesList.toTypedArray())
             statusReply(status, responseObserver)
         }
     }
 
     override fun writeBoolean(request: Service.WriteBooleanRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
         getSlave(request.instanceId, responseObserver) {
-            val status = writeBoolean(request.valueReferencesList.toLongArray(), request.valuesList.toBooleanArray())
+            val status = write(request.valueReferencesList.toLongArray(), request.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
         }
     }

@@ -1,5 +1,6 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
+import no.ntnu.ihb.fmi4j.common.read
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils

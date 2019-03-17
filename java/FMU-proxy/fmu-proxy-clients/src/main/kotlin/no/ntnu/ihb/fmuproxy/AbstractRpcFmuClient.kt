@@ -26,9 +26,7 @@ package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.IFmu
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -223,7 +221,7 @@ abstract class AbstractRpcFmuClient(
         }
 
 
-        override fun readInteger(vr: ValueReferences, ref: IntArray): FmiStatus {
+        override fun read(vr: ValueReferences, ref: IntArray): FmiStatus {
             return readInteger(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -232,7 +230,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun readReal(vr: ValueReferences, ref: RealArray): FmiStatus {
+        override fun read(vr: ValueReferences, ref: RealArray): FmiStatus {
             return readReal(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -241,7 +239,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun readString(vr: ValueReferences, ref: StringArray): FmiStatus {
+        override fun read(vr: ValueReferences, ref: StringArray): FmiStatus {
             return readString(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -250,7 +248,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun readBoolean(vr: ValueReferences, ref: BooleanArray): FmiStatus {
+        override fun read(vr: ValueReferences, ref: BooleanArray): FmiStatus {
             return readBoolean(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -259,19 +257,19 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun writeBoolean(vr: ValueReferences, value: BooleanArray): FmiStatus {
+        override fun write(vr: ValueReferences, value: BooleanArray): FmiStatus {
             return writeBoolean(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 
-        override fun writeInteger(vr: ValueReferences, value: IntArray): FmiStatus {
+        override fun write(vr: ValueReferences, value: IntArray): FmiStatus {
             return writeInteger(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 
-        override fun writeReal(vr: ValueReferences, value: RealArray): FmiStatus {
+        override fun write(vr: ValueReferences, value: RealArray): FmiStatus {
             return writeReal(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 
-        override fun writeString(vr: ValueReferences, value: StringArray): FmiStatus {
+        override fun write(vr: ValueReferences, value: StringArray): FmiStatus {
             return writeString(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 

@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.thrift.client
 
-import no.ntnu.ihb.fmi4j.common.ValueReference
+import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.ihb.fmuproxy.thrift.*
 import org.apache.thrift.protocol.TBinaryProtocol

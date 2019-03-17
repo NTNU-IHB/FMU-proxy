@@ -5,6 +5,7 @@ import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import info.laht.yajrpc.net.zmq.RpcZmqClient
+import no.ntnu.ihb.fmi4j.common.read
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
