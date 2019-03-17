@@ -30,6 +30,7 @@
 #include "../../util/simple_id.hpp"
 #include "../../util/file_util.hpp"
 #include "grpc_server_helper.hpp"
+#include "../../util/solver_util.hpp"
 
 using namespace std;
 using namespace fmuproxy::grpc;
@@ -116,8 +117,15 @@ fmu_service_impl::fmu_service_impl(unordered_map<string, shared_ptr<fmi4cpp::fmi
 
 ::Status fmu_service_impl::CreateInstanceFromME(ServerContext *context, const CreateInstanceFromMERequest *request,
                                               InstanceId *response) {
-    //TODO implement from Model Exchange
-    return ::Status(::grpc::StatusCode::UNIMPLEMENTED, "Model Exchange wrapper not available!");
+    auto &fmu = fmus_[request->fmu_id()];
+
+    const auto solver = request->solver();
+    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> solver_ = parse_solver(solver.name(), solver.settings());
+    const string instance_id = generate_simple_id(10);
+    slaves_[instance_id] = fmu->asModelExchangeFmu()->newInstance(solver_);
+    response->set_value(instance_id);
+    cout << "Created new FMU slave from me with id=" << instance_id << endl;
+    return ::Status::OK;
 }
 
 

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2019 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,21 +25,15 @@
 #ifndef FMU_PROXY_THRIFT_SERVER_HELPER_HPP
 #define FMU_PROXY_THRIFT_SERVER_HELPER_HPP
 
-#include <cfloat>
-#include <nlohmann/json.hpp>
-
+#include <fmi4cpp/fmi4cpp.hpp>
 #include <fmuproxy/thrift/common/service_types.h>
 
-#include <fmi4cpp/fmi2/fmi2.hpp>
-#include <fmi4cpp/fmi2/xml/ScalarVariableAttribute.hpp>
-#include <fmi4cpp/fmi4cpp.hpp>
-
-using namespace fmuproxy::thrift;
 using namespace fmi4cpp::fmi2;
+using namespace fmuproxy::thrift;
 
 namespace {
 
-    const Status::type thriftType(fmi4cpp::Status status) {
+    const Status::type thrift_type(fmi4cpp::Status status) {
         switch (status) {
             case fmi4cpp::Status::OK:
                 return Status::type::OK_STATUS;
@@ -79,37 +73,37 @@ namespace {
         }
     }
 
-    fmuproxy::thrift::IntegerAttribute thriftType(const fmi4cpp::fmi2::IntegerAttribute &a) {
+    fmuproxy::thrift::IntegerAttribute thrift_type(const fmi4cpp::fmi2::IntegerAttribute &a) {
         fmuproxy::thrift::IntegerAttribute attribute;
         set_bounded_scalar_variable_attributes<fmuproxy::thrift::IntegerAttribute, int>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::RealAttribute thriftType(const fmi4cpp::fmi2::RealAttribute &a) {
+    fmuproxy::thrift::RealAttribute thrift_type(const fmi4cpp::fmi2::RealAttribute &a) {
         fmuproxy::thrift::RealAttribute attribute;
         set_bounded_scalar_variable_attributes<fmuproxy::thrift::RealAttribute, double>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::StringAttribute thriftType(const fmi4cpp::fmi2::StringAttribute &a) {
+    fmuproxy::thrift::StringAttribute thrift_type(const fmi4cpp::fmi2::StringAttribute &a) {
         fmuproxy::thrift::StringAttribute attribute;
         set_scalar_variable_attributes<fmuproxy::thrift::StringAttribute, std::string>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::BooleanAttribute thriftType(const fmi4cpp::fmi2::BooleanAttribute &a) {
+    fmuproxy::thrift::BooleanAttribute thrift_type(const fmi4cpp::fmi2::BooleanAttribute &a) {
         fmuproxy::thrift::BooleanAttribute attribute;
         set_scalar_variable_attributes<fmuproxy::thrift::BooleanAttribute, bool>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift:: EnumerationAttribute thriftType(const fmi4cpp::fmi2::EnumerationAttribute &a) {
+    fmuproxy::thrift:: EnumerationAttribute thrift_type(const fmi4cpp::fmi2::EnumerationAttribute &a) {
         fmuproxy::thrift::EnumerationAttribute attribute;
         set_bounded_scalar_variable_attributes<fmuproxy::thrift::EnumerationAttribute, int>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::ScalarVariable thriftType(const fmi4cpp::fmi2::ScalarVariable &v) {
+    fmuproxy::thrift::ScalarVariable thrift_type(const fmi4cpp::fmi2::ScalarVariable &v) {
 
         fmuproxy::thrift::ScalarVariable var;
         var.__set_name(v.name);
@@ -125,15 +119,15 @@ namespace {
         var.__set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
         if (v.isInteger()) {
-            var.attribute.__set_integerAttribute(thriftType(v.asInteger().attribute()));
+            var.attribute.__set_integerAttribute(thrift_type(v.asInteger().attribute()));
         } else if (v.isReal()) {
-            var.attribute.__set_realAttribute(thriftType(v.asReal().attribute()));
+            var.attribute.__set_realAttribute(thrift_type(v.asReal().attribute()));
         } else if (v.isString()) {
-            var.attribute.__set_stringAttribute(thriftType(v.asString().attribute()));
+            var.attribute.__set_stringAttribute(thrift_type(v.asString().attribute()));
         } else if (v.isBoolean()) {
-            var.attribute.__set_booleanAttribute(thriftType(v.asBoolean().attribute()));
+            var.attribute.__set_booleanAttribute(thrift_type(v.asBoolean().attribute()));
         } else if (v.isEnumeration()) {
-            var.attribute.__set_enumerationAttribute(thriftType(v.asEnumeration().attribute()));
+            var.attribute.__set_enumerationAttribute(thrift_type(v.asEnumeration().attribute()));
         } else {
             throw std::runtime_error("Fatal: No valid attribute found..");
         }
@@ -144,7 +138,7 @@ namespace {
 
     void copy(fmuproxy::thrift::ModelVariables &variables, const fmi4cpp::fmi2::ModelVariables &mv) {
         for (const auto &var : mv) {
-            variables.push_back(thriftType(var));
+            variables.push_back(thrift_type(var));
         }
     }
 
@@ -163,7 +157,7 @@ namespace {
         }
     }
 
-    void thriftType(fmuproxy::thrift::ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
+    void thrift_type(fmuproxy::thrift::ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
 
         md.__set_guid(m.guid);
         md.__set_fmiVersion(m.fmiVersion);
@@ -203,27 +197,6 @@ namespace {
         fmuproxy::thrift::ModelVariables modelVariables;
         copy(modelVariables, *m.modelVariables);
         md.__set_modelVariables(modelVariables);
-
-    }
-
-    double parse_step_size(const std::string &data) {
-        using json = nlohmann::json;
-        auto parse = json::parse(data);
-        return parse["step_size"].get<double>();
-    }
-
-    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> parse_solver(const fmuproxy::thrift::Solver &solver) {
-
-        using namespace fmi4cpp::solver;
-
-        const auto name = solver.name;
-        if (name == "euler") {
-            return make_solver<EulerSolver>(parse_step_size(solver.settings));
-        } else if (name == "rk4") {
-            return make_solver<RK4Solver>(parse_step_size(solver.settings));
-        } else {
-            std::cerr << "Unknown solver name=" << name << std::endl;
-        }
 
     }
     
