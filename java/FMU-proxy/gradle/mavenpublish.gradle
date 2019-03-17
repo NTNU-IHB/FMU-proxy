@@ -1,6 +1,8 @@
 
 apply plugin: "maven-publish"
 
+group = "no.ntnu.ihb.fmuproxy"
+
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier = 'sources'
     from sourceSets.main.allSource
