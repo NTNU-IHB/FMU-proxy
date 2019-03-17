@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology
+ * Copyright 2017-2019 Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,43 +22,41 @@
  * THE SOFTWARE.
  */
 
-#ifndef FMU_PROXY_GRPCSERVER_HPP
-#define FMU_PROXY_GRPCSERVER_HPP
+#ifndef FMU_PROXY_SOLVER_HPP
+#define FMU_PROXY_SOLVER_HPP
 
-#include <thread>
 #include <memory>
-#include <unordered_map>
+#include <stdexcept>
 
-#include <fmi4cpp/fmi2/fmi2.hpp>
+#include <nlohmann/json.hpp>
+#include <fmi4cpp/fmi4cpp.hpp>
 
-#include "../common/service.grpc.pb.h"
-#include "fmu_service_impl.hpp"
+namespace {
 
-namespace fmuproxy::grpc::server {
+    const char* STEP_SIZE = "step_size";
 
-    class grpc_fmu_server {
+    double parse_step_size(const std::string &data) {
+        using json = nlohmann::json;
+        auto parse = json::parse(data);
+        return parse[STEP_SIZE].get<double>();
+    }
 
-    private:
+    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> parse_solver(const std::string &name, const std::string &settings) {
 
-        const unsigned int port_;
-        std::shared_ptr<::grpc::Server> server_;
-        std::unique_ptr<std::thread> thread_;
-        std::shared_ptr<fmu_service_impl> service_;
+        using namespace fmi4cpp::solver;
 
-        void wait();
+        if (name == "euler") {
+            return make_solver<EulerSolver>(parse_step_size(settings));
+        } else if (name == "rk4") {
+            return make_solver<RK4Solver>(parse_step_size(settings));
+        } else {
+            const auto err = "Unknown solver name=" + name;
+            throw std::runtime_error(err);
+        }
 
-    public:
-
-        grpc_fmu_server(std::unordered_map<std::string,
-                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmu,
-                unsigned int port);
-
-        void start();
-
-        void stop();
-
-    };
+    }
 
 }
 
-#endif //FMU_PROXY_GRPCSERVER_HPP
+
+#endif //FMU_PROXY_SOLVER_HPP

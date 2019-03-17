@@ -43,7 +43,6 @@ using fmuproxy::thrift::server::thrift_fmu_server;
 #endif
 
 using namespace std;
-using namespace fmuproxy;
 
 namespace {
 
@@ -65,11 +64,11 @@ namespace {
     int run_application(
             vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus,
             unordered_map<string, unsigned int> ports,
-            const optional<remote_address> remote) {
+            const optional<fmuproxy::remote_address> &remote) {
 
         unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmu_map;
         vector<string> modelDescriptions;
-        for (const auto fmu : fmus) {
+        for (const auto &fmu : fmus) {
             fmu_map[fmu->getModelDescription()->guid] = fmu;
             modelDescriptions.push_back(fmu->getModelDescriptionXml());
         }
@@ -107,9 +106,9 @@ namespace {
             servers[GRPC] = port;
         }
 #endif
-        unique_ptr<heartbeat> beat = nullptr;
+        unique_ptr<fmuproxy::heartbeat> beat = nullptr;
         if (remote) {
-            beat = make_unique<heartbeat>(*remote, servers, modelDescriptions);
+            beat = make_unique<fmuproxy::heartbeat>(*remote, servers, modelDescriptions);
             beat->start();
         }
 
@@ -182,7 +181,7 @@ int main(int argc, char** argv) {
         vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus;
         if (vm.count("fmu")) {
             const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
-            for (const auto fmu_path : fmu_paths) {
+            for (const auto &fmu_path : fmu_paths) {
                 fmus.push_back(make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path));
             }
         }
