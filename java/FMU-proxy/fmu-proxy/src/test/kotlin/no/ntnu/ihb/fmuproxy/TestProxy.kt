@@ -17,6 +17,7 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -151,43 +152,55 @@ class TestProxy {
 
     }
 
-    @Test
-    fun testJsonRpc() {
+    private fun testJsonRpc(client: JsonRpcFmuClient) {
 
-        Assertions.assertTimeout(testTimeout.multipliedBy(5)) {
-            val clients = mutableListOf(
-                    RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!),
-                    RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!),
-                    RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!)
-            ).apply {
-                if (!OS.LINUX.isCurrentOs) {
-                    add(RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
-                }
-            }.map { JsonRpcFmuClient(fmu.guid, it) }
+        val mdLocal = fmu.modelDescription
 
-            val mdLocal = fmu.modelDescription
+        Assertions.assertTimeout(testTimeout) {
+            client.use {
+                LOG.info("Testing client of type ${client.implementationName}")
 
-            clients.forEach {
+                Assertions.assertEquals(mdLocal.guid, client.guid)
+                Assertions.assertEquals(mdLocal.modelName, client.modelName)
+                Assertions.assertEquals(mdLocal.fmiVersion, client.modelDescription.fmiVersion)
 
-                it.use { client ->
-
-                    LOG.info("Testing client of type ${client.implementationName}")
-
-                    Assertions.assertEquals(mdLocal.guid, client.guid)
-                    Assertions.assertEquals(mdLocal.modelName, client.modelName)
-                    Assertions.assertEquals(mdLocal.fmiVersion, client.modelDescription.fmiVersion)
-
-                    client.newInstance().use { instance ->
-                        runSlave(instance, stepSize, stopTime).also {
-                            LOG.info("${client.implementationName} duration: ${it}ms")
-                        }
+                client.newInstance().use { instance ->
+                    runSlave(instance, stepSize, stopTime).also {
+                        LOG.info("${client.implementationName} duration: ${it}ms")
                     }
-
                 }
-
             }
         }
 
+    }
+
+    @Test
+    @DisabledOnOs(OS.LINUX)
+    fun testHttpJsonRpc() {
+        RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!).let {
+            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
+        }
+    }
+
+    @Test
+    fun testWsJsonRpc() {
+        RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!).let {
+            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
+        }
+    }
+
+    @Test
+    fun testTcpJsonRpc() {
+        RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!).let {
+            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
+        }
+    }
+
+    @Test
+    fun testZmqJsonRpc() {
+        RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!).let {
+            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
+        }
     }
 
 }

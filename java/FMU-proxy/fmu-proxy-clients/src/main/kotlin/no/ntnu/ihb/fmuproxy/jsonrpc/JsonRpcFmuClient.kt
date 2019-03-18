@@ -29,6 +29,8 @@ import info.laht.yajrpc.net.RpcClient
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.Real
+import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonCoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescription
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient

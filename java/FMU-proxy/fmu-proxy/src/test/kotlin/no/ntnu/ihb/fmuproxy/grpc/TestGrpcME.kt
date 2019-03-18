@@ -1,6 +1,7 @@
 package no.ntnu.ihb.fmuproxy.grpc
 
 import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.common.read
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.sfi.fmuproxy.TestUtils

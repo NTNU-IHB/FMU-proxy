@@ -26,6 +26,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.Duration
+import java.util.concurrent.ExecutionException
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class Benchmark {
@@ -153,22 +154,27 @@ class Benchmark {
     @Test
     fun measureTimeJsonWs() {
 
-        val service = RpcFmuService().apply {
-            addFmu(fmu)
-        }
+        try {
+            val service = RpcFmuService().apply {
+                addFmu(fmu)
+            }
 
-        Assertions.assertTimeout(testTimeout) {
-            FmuProxyJsonWsServer(service).use { server ->
-                JsonRpcFmuClient(fmu.guid, RpcWebSocketClient(host, server.start())).use { client ->
-                    client.newInstance().use { slave ->
-                        testSlave(slave).also {
-                            LOG.info("${client.implementationName} duration=${it}ms")
+            Assertions.assertTimeout(testTimeout) {
+                FmuProxyJsonWsServer(service).use { server ->
+                    JsonRpcFmuClient(fmu.guid, RpcWebSocketClient(host, server.start())).use { client ->
+                        client.newInstance().use { slave ->
+                            testSlave(slave).also {
+                                LOG.info("${client.implementationName} duration=${it}ms")
+                            }
                         }
                     }
                 }
-            }
 
+            }
+        } catch (ex: ExecutionException){
+            LOG.error("Test 'measureTimeJsonWs' FAILED", ex)
         }
+
     }
 
     @Test

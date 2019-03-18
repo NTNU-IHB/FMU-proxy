@@ -1,9 +1,9 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.common.RealArray
 import no.ntnu.ihb.fmi4j.common.readReal
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.apache.thrift.transport.TTransportException
@@ -40,7 +40,7 @@ class Benchmark {
 
                         client.newInstance().use { slave ->
                             runSlave(slave, stepSize, stop) {
-                                val status = slave.readReal(vr, buffer)
+                                val status = slave.read(vr, buffer)
                                 Assertions.assertEquals(FmiStatus.OK, status)
                                 Assertions.assertTrue(buffer[0] > 0)
                             }.also {

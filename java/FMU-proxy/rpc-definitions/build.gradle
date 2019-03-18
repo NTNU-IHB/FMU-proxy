@@ -4,64 +4,69 @@ plugins {
     id "com.google.protobuf" version '0.8.8'
 }
 
+    
 dependencies {
 
     api group: 'org.apache.thrift', name: 'libthrift', version: '0.12.0'
-    
+
     api group: 'io.grpc', name: 'grpc-stub', version: grpc_version
     api group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
 
 }
 
-def definitions = "../../../rpc-definitions"
+if (!getProperties().get("disableCodeGeneration", false)) {
+    
+    def definitions = "../../../rpc-definitions"
 
-task generateThrift(type: Exec) {
+    task generateThrift(type: Exec) {
 
-    def out = new File("src/main/java")
-    if (!out.exists()) {
-        out.mkdirs()
-    }
+        def out = new File("src/main/java")
+        if (!out.exists()) {
+            out.mkdirs()
+        }
 
-    try {
+        try {
 
-        commandLine 'thrift',
-                '-r',
-                '-out', 'src/main/java',
-                '--gen', 'java', "$definitions/thrift/service.thrift"
+            commandLine 'thrift',
+                    '-r',
+                    '-out', 'src/main/java',
+                    '--gen', 'java', "$definitions/thrift/service.thrift"
 
-    } catch (Exception ex) {
-        println ex
-    }
-}
-
-protobuf {
-    generatedFilesBaseDir = "$projectDir/src"
-    protoc {
-        artifact = 'com.google.protobuf:protoc:3.6.1'
-    }
-    plugins {
-        grpc {
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpc_version}"
+        } catch (Exception ex) {
+            println ex
         }
     }
-    generateProtoTasks {
-        ofSourceSet('main')*.plugins {
+
+    protobuf {
+        generatedFilesBaseDir = "$projectDir/src"
+        protoc {
+            artifact = 'com.google.protobuf:protoc:3.6.1'
+        }
+        plugins {
             grpc {
-                outputSubDir = 'java'
+                artifact = "io.grpc:protoc-gen-grpc-java:${grpc_version}"
+            }
+        }
+        generateProtoTasks {
+            ofSourceSet('main')*.plugins {
+                grpc {
+                    outputSubDir = 'java'
+                }
+            }
+        }
+
+    }
+
+    sourceSets {
+        main {
+            proto {
+                srcDir "$definitions/proto"
             }
         }
     }
 
-}
-
-sourceSets {
-    main {
-        proto {
-            srcDir "$definitions/proto"
-        }
+    task generateAll {
+        dependsOn 'generateProto', 'generateThrift'
     }
-}
-
-task generateAll {
-    dependsOn 'generateProto', 'generateThrift'
+    
 }

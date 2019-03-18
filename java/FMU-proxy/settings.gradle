@@ -1,7 +1,11 @@
 
 rootProject.name = 'FMU-proxy'
 
-include 'web'
-include 'fmu-proxy'
-include 'fmu-proxy-clients'
 include 'rpc-definitions'
+include 'fmu-proxy-clients'
+if (getProperties().get("buildClientsOnly", false)) {
+    println "Building client library only.."
+} else {
+    include 'web'
+    include 'fmu-proxy'
+}

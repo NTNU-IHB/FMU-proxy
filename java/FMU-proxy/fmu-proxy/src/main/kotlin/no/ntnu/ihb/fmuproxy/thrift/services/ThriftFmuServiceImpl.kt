@@ -25,10 +25,10 @@
 package no.ntnu.ihb.fmuproxy.thrift.services
 
 import no.ntnu.ihb.fmi4j.common.FmuSlave
-import no.ntnu.ihb.fmi4j.common.RealArray
-import no.ntnu.ihb.fmi4j.common.StringArray
-import no.ntnu.ihb.fmi4j.common.ValueReference
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.RealArray
+import no.ntnu.ihb.fmi4j.modeldescription.StringArray
+import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
@@ -188,7 +188,7 @@ class ThriftFmuServiceImpl(
     override fun readInteger(instanceId: InstanceId, vr: List<ValueReference>): IntegerRead {
         val values = IntArray(vr.size)
         return getSlave(instanceId).let {
-            val status = it.readInteger(vr.toLongArray(), values).thriftType()
+            val status = it.read(vr.toLongArray(), values).thriftType()
             IntegerRead(values.toList(), status)
         }
     }
@@ -196,7 +196,7 @@ class ThriftFmuServiceImpl(
     override fun readReal(instanceId: InstanceId, vr: List<ValueReference>): RealRead {
         val values = RealArray(vr.size)
         return getSlave(instanceId).let {
-            val status = it.readReal(vr.toLongArray(), values).thriftType()
+            val status = it.read(vr.toLongArray(), values).thriftType()
             RealRead(values.asList(), status)
         }
     }
@@ -204,7 +204,7 @@ class ThriftFmuServiceImpl(
     override fun readString(instanceId: InstanceId, vr: List<ValueReference>): StringRead {
         val values = StringArray(vr.size) { "" }
         return getSlave(instanceId).let {
-            val status = it.readString(vr.toLongArray(), values).thriftType()
+            val status = it.read(vr.toLongArray(), values).thriftType()
             StringRead(values.toList(), status)
         }
     }
@@ -212,7 +212,7 @@ class ThriftFmuServiceImpl(
     override fun readBoolean(instanceId: InstanceId, vr: List<ValueReference>): BooleanRead {
         val values = BooleanArray(vr.size)
         return getSlave(instanceId).let {
-            val status = it.readBoolean(vr.toLongArray(), values).thriftType()
+            val status = it.read(vr.toLongArray(), values).thriftType()
             BooleanRead(values.toList(), status)
         }
     }
@@ -220,25 +220,25 @@ class ThriftFmuServiceImpl(
 
     override fun writeInteger(instanceId: InstanceId, vr: List<ValueReference>, value: List<Int>): Status {
         return getSlave(instanceId).let {
-            it.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
+            it.write(vr.toLongArray(), value.toIntArray()).thriftType()
         }
     }
 
     override fun writeReal(instanceId: InstanceId, vr: List<ValueReference>, value: List<Double>): Status {
         return getSlave(instanceId).let {
-            it.writeReal(vr.toLongArray(), value.toDoubleArray()).thriftType()
+            it.write(vr.toLongArray(), value.toDoubleArray()).thriftType()
         }
     }
 
     override fun writeString(instanceId: InstanceId, vr: List<ValueReference>, value: List<String>): Status {
         return getSlave(instanceId).let {
-            it.writeString(vr.toLongArray(), value.toTypedArray()).thriftType()
+            it.write(vr.toLongArray(), value.toTypedArray()).thriftType()
         }
     }
 
     override fun writeBoolean(instanceId: InstanceId, vr: List<ValueReference>, value: List<Boolean>): Status {
         return getSlave(instanceId).let {
-            it.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
+            it.write(vr.toLongArray(), value.toBooleanArray()).thriftType()
         }
     }
 
