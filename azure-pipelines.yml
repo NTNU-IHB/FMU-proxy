@@ -9,6 +9,14 @@ jobs:
       vmImage: 'vs2017-win2016'
 
     steps:
+    
+      - task: Bash@3
+        inputs:
+          script: |
+            git submodule update --init --recursive
+          workingDirectory: '$(system.defaultWorkingDirectory)'
+          targetType: inline
+
 
       - task: Bash@3
         inputs:
@@ -19,7 +27,7 @@ jobs:
             ./vcpkg install curl grpc nlohmann-json libzip[core] spdlog boost-program-options boost-ublas boost-odeint --triplet x64-windows
           workingDirectory: '$(system.defaultWorkingDirectory)/..'
           targetType: inline
-
+          
       - task: CMake@1
         inputs:
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/build'
