@@ -63,10 +63,11 @@ jobs:
         inputs:
           script: |
             pip install conan --upgrade
-            conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
-            conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
+            conan remote add conan-center https://conan.bintray.com --f
+            conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan" --f
+            conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
             #conan install grpc/1.17.2@inexorgame/stable -s build_type=Release --install-folder=build
-            conan install . -s build_type=Release -s compiler.runtime=MD --install-folder=build -o thrift=False -o grpc=True --build=missing
+            conan install . -s build_type=Release --install-folder=build -o thrift=False -o grpc=True --build=missing
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/'
           targetType: inline
 
