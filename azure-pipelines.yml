@@ -17,7 +17,6 @@ jobs:
           workingDirectory: '$(system.defaultWorkingDirectory)'
           targetType: inline
 
-
       - task: Bash@3
         inputs:
           script: |
@@ -52,6 +51,13 @@ jobs:
       vmImage: 'vs2017-win2016'
 
     steps:
+
+      - task: Bash@3
+        inputs:
+          script: |
+            git submodule update --init --recursive
+          workingDirectory: '$(system.defaultWorkingDirectory)'
+          targetType: inline
 
       - task: Bash@3
         inputs:
