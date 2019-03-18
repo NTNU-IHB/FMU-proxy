@@ -62,12 +62,10 @@ jobs:
       - task: Bash@3
         inputs:
           script: |
-            python -m pip install
             pip install conan --upgrade
-            conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan"
             conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan"
             conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
-            conan install . -s build_type=Debug --install-folder=build -o thrift=False -o grpc=True --build=missing
+            conan install . -s build_type=Debug --install-folder=build -o thrift=False -o grpc=False --build=missing
           workingDirectory: '$(system.defaultWorkingDirectory)/cpp/FMU-proxy/'
           targetType: inline
 
