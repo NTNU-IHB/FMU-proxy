@@ -12,7 +12,7 @@ jobs:
     steps:
       - task: Gradle@2
         inputs:
-          workingDirectory: ''
+          workingDirectory: 'java/FMU-proxy'
           gradleWrapperFile: 'gradlew'
           gradleOptions: '-Xmx3072m'
           javaHomeOption: 'JDKVersion'
