@@ -9,7 +9,7 @@ apply from: rootProject.file("gradle/junit.gradle")
 apply from: rootProject.file("gradle/yajrpc.gradle")
 apply from: rootProject.file("gradle/jackson.gradle")
 
-mainClassName = "${group}.FmuProxy"
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxy"
 
 dependencies {
 
