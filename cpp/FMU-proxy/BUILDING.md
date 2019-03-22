@@ -13,7 +13,7 @@ Then tell CMake about your vcpkg installation by passing <br> ```-DCMAKE_TOOLCHA
 Using vcpkg, installing the required dependencies is as easy as:
 
 ```
-./vcpkg install curl thrift grpc nlohmann-json libzip[core] spdlog boost-program-options boost-ublas boost-odeint
+./vcpkg install curl thrift grpc nlohmann-json libzip[core] boost-program-options boost-ublas boost-odeint
 ```
 
 On windows you might want to specify the target architecture (defaults to x86) by appending
