@@ -62,15 +62,15 @@ namespace {
     }
 
     int run_application(
-            vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus,
+            vector<shared_ptr<fmi4cpp::fmi2::fmu>> fmus,
             unordered_map<string, unsigned int> ports,
             const optional<fmuproxy::remote_address> &remote) {
 
-        unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmu_map;
+        unordered_map<string, shared_ptr<fmi4cpp::fmi2::fmu>> fmu_map;
         vector<string> modelDescriptions;
         for (const auto &fmu : fmus) {
-            fmu_map[fmu->getModelDescription()->guid] = fmu;
-            modelDescriptions.push_back(fmu->getModelDescriptionXml());
+            fmu_map[fmu->get_model_description()->guid] = fmu;
+            modelDescriptions.push_back(fmu->get_model_description_xml());
         }
 
         bool enable_grpc = ports.count(GRPC) == 1;
@@ -178,11 +178,11 @@ int main(int argc, char** argv) {
         }
 
 
-        vector<shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus;
+        vector<shared_ptr<fmi4cpp::fmi2::fmu>> fmus;
         if (vm.count("fmu")) {
             const vector<string> fmu_paths = vm["fmu"].as<vector<string>>();
             for (const auto &fmu_path : fmu_paths) {
-                fmus.push_back(make_shared<fmi4cpp::fmi2::fmi2Fmu>(fmu_path));
+                fmus.push_back(make_shared<fmi4cpp::fmi2::fmu>(fmu_path));
             }
         }
 

@@ -33,19 +33,19 @@ using namespace fmuproxy::thrift;
 
 namespace {
 
-    const Status::type thrift_type(fmi4cpp::Status status) {
+    const Status::type thrift_type(fmi4cpp::status status) {
         switch (status) {
-            case fmi4cpp::Status::OK:
+            case fmi4cpp::status::OK:
                 return Status::type::OK_STATUS;
-            case fmi4cpp::Status::Warning:
+            case fmi4cpp::status::Warning:
                 return Status::type::WARNING_STATUS;
-            case fmi4cpp::Status::Pending:
+            case fmi4cpp::status::Pending:
                 return Status::type::PENDING_STATUS;
-            case fmi4cpp::Status::Discard:
+            case fmi4cpp::status::Discard:
                 return Status::type::DISCARD_STATUS;
-            case fmi4cpp::Status::Error:
+            case fmi4cpp::status::Error:
                 return Status::type::ERROR_STATUS;
-            case fmi4cpp::Status::Fatal:
+            case fmi4cpp::status::Fatal:
                 return Status::type::FATAL_STATUS;
             default:
                 throw std::runtime_error("Fatal: Unknown status type!");
@@ -53,14 +53,14 @@ namespace {
     }
 
     template <typename T, typename U>
-    void set_scalar_variable_attributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
+    void set_scalar_variable_attributes(T t, const fmi4cpp::fmi2::scalar_variable_attribute<U> &a) {
         if (a.start) {
             t.__set_start(*a.start);
         }
     }
 
     template <typename T, typename U>
-    void set_bounded_scalar_variable_attributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
+    void set_bounded_scalar_variable_attributes(T t, const fmi4cpp::fmi2::bounded_scalar_variable_attribute<U> &a) {
         set_scalar_variable_attributes<T, U>(t, a);
         if (a.min) {
             t.__set_min(*a.min);
@@ -73,41 +73,41 @@ namespace {
         }
     }
 
-    fmuproxy::thrift::IntegerAttribute thrift_type(const fmi4cpp::fmi2::IntegerAttribute &a) {
+    fmuproxy::thrift::IntegerAttribute thrift_type(const fmi4cpp::fmi2::integer_attribute &a) {
         fmuproxy::thrift::IntegerAttribute attribute;
         set_bounded_scalar_variable_attributes<fmuproxy::thrift::IntegerAttribute, int>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::RealAttribute thrift_type(const fmi4cpp::fmi2::RealAttribute &a) {
+    fmuproxy::thrift::RealAttribute thrift_type(const fmi4cpp::fmi2::real_attribute &a) {
         fmuproxy::thrift::RealAttribute attribute;
         set_bounded_scalar_variable_attributes<fmuproxy::thrift::RealAttribute, double>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::StringAttribute thrift_type(const fmi4cpp::fmi2::StringAttribute &a) {
+    fmuproxy::thrift::StringAttribute thrift_type(const fmi4cpp::fmi2::string_attribute &a) {
         fmuproxy::thrift::StringAttribute attribute;
         set_scalar_variable_attributes<fmuproxy::thrift::StringAttribute, std::string>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::BooleanAttribute thrift_type(const fmi4cpp::fmi2::BooleanAttribute &a) {
+    fmuproxy::thrift::BooleanAttribute thrift_type(const fmi4cpp::fmi2::boolean_attribute &a) {
         fmuproxy::thrift::BooleanAttribute attribute;
         set_scalar_variable_attributes<fmuproxy::thrift::BooleanAttribute, bool>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift:: EnumerationAttribute thrift_type(const fmi4cpp::fmi2::EnumerationAttribute &a) {
+    fmuproxy::thrift:: EnumerationAttribute thrift_type(const fmi4cpp::fmi2::enumeration_attribute &a) {
         fmuproxy::thrift::EnumerationAttribute attribute;
         set_bounded_scalar_variable_attributes<fmuproxy::thrift::EnumerationAttribute, int>(attribute, a);
         return attribute;
     }
 
-    fmuproxy::thrift::ScalarVariable thrift_type(const fmi4cpp::fmi2::ScalarVariable &v) {
+    fmuproxy::thrift::ScalarVariable thrift_type(const fmi4cpp::fmi2::scalar_variable &v) {
 
         fmuproxy::thrift::ScalarVariable var;
         var.__set_name(v.name);
-        var.__set_valueReference(v.valueReference);
+        var.__set_valueReference(v.value_reference);
 
         std::string description = v.description;
         if (!description.empty()) {
@@ -118,16 +118,16 @@ namespace {
         var.__set_variability(fmi4cpp::fmi2::to_string(v.variability));
         var.__set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
-        if (v.isInteger()) {
-            var.attribute.__set_integerAttribute(thrift_type(v.asInteger().attribute()));
-        } else if (v.isReal()) {
-            var.attribute.__set_realAttribute(thrift_type(v.asReal().attribute()));
-        } else if (v.isString()) {
-            var.attribute.__set_stringAttribute(thrift_type(v.asString().attribute()));
-        } else if (v.isBoolean()) {
-            var.attribute.__set_booleanAttribute(thrift_type(v.asBoolean().attribute()));
-        } else if (v.isEnumeration()) {
-            var.attribute.__set_enumerationAttribute(thrift_type(v.asEnumeration().attribute()));
+        if (v.is_integer()) {
+            var.attribute.__set_integerAttribute(thrift_type(v.as_integer().attribute()));
+        } else if (v.is_real()) {
+            var.attribute.__set_realAttribute(thrift_type(v.as_real().attribute()));
+        } else if (v.is_string()) {
+            var.attribute.__set_stringAttribute(thrift_type(v.as_string().attribute()));
+        } else if (v.is_boolean()) {
+            var.attribute.__set_booleanAttribute(thrift_type(v.as_boolean().attribute()));
+        } else if (v.is_enumeration()) {
+            var.attribute.__set_enumerationAttribute(thrift_type(v.as_enumeration().attribute()));
         } else {
             throw std::runtime_error("Fatal: No valid attribute found..");
         }
@@ -136,13 +136,13 @@ namespace {
 
     }
 
-    void copy(fmuproxy::thrift::ModelVariables &variables, const fmi4cpp::fmi2::ModelVariables &mv) {
+    void copy(fmuproxy::thrift::ModelVariables &variables, const fmi4cpp::fmi2::model_variables &mv) {
         for (const auto &var : mv) {
             variables.push_back(thrift_type(var));
         }
     }
 
-    void copy(fmuproxy::thrift::DefaultExperiment &to, const fmi4cpp::fmi2::DefaultExperiment &from) {
+    void copy(fmuproxy::thrift::DefaultExperiment &to, const fmi4cpp::fmi2::default_experiment &from) {
         if (from.startTime) {
             to.startTime = *from.startTime;
         }
@@ -157,11 +157,11 @@ namespace {
         }
     }
 
-    void thrift_type(fmuproxy::thrift::ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
+    void thrift_type(fmuproxy::thrift::ModelDescription &md, const fmi4cpp::fmi2::model_description_base &m) {
 
         md.__set_guid(m.guid);
-        md.__set_fmiVersion(m.fmiVersion);
-        md.__set_modelName(m.modelName);
+        md.__set_fmiVersion(m.fmi_version);
+        md.__set_modelName(m.model_name);
 
         if (m.version) {
             md.__set_version(*m.version);
@@ -178,24 +178,24 @@ namespace {
         if (m.description) {
             md.__set_description(*m.description);
         }
-        if (m.generationTool) {
-            md.__set_generationTool(*m.generationTool);
+        if (m.generation_tool) {
+            md.__set_generationTool(*m.generation_tool);
         }
-        if (m.generationDateAndTime) {
-            md.__set_generationDateAndTime(*m.generationDateAndTime);
+        if (m.generation_date_and_time) {
+            md.__set_generationDateAndTime(*m.generation_date_and_time);
         }
-        if (m.variableNamingConvention) {
-            md.__set_variableNamingConvention(*m.variableNamingConvention);
+        if (m.variable_naming_convention) {
+            md.__set_variableNamingConvention(*m.variable_naming_convention);
         }
 
-        if (m.defaultExperiment) {
+        if (m.default_experiment) {
             fmuproxy::thrift::DefaultExperiment ex;
-            copy(ex, *m.defaultExperiment);
+            copy(ex, *m.default_experiment);
             md.__set_defaultExperiment(ex);
         }
 
         fmuproxy::thrift::ModelVariables modelVariables;
-        copy(modelVariables, *m.modelVariables);
+        copy(modelVariables, *m.model_variables);
         md.__set_modelVariables(modelVariables);
 
     }

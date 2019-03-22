@@ -41,14 +41,14 @@ namespace {
         return parse[STEP_SIZE].get<double>();
     }
 
-    std::unique_ptr<fmi4cpp::solver::ModelExchangeSolver> parse_solver(const std::string &name, const std::string &settings) {
+    std::unique_ptr<fmi4cpp::solver::me_solver> parse_solver(const std::string &name, const std::string &settings) {
 
         using namespace fmi4cpp::solver;
 
         if (name == "euler") {
-            return make_solver<EulerSolver>(parse_step_size(settings));
+            return make_solver<euler_solver>(parse_step_size(settings));
         } else if (name == "rk4") {
-            return make_solver<RK4Solver>(parse_step_size(settings));
+            return make_solver<rk4_solver>(parse_step_size(settings));
         } else {
             const auto err = "Unknown solver name=" + name;
             throw std::runtime_error(err);

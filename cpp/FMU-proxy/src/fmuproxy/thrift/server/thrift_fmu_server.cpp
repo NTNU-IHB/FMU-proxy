@@ -48,7 +48,7 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::concurrency;
 
-thrift_fmu_server::thrift_fmu_server(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
+thrift_fmu_server::thrift_fmu_server(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus,
                            unsigned int port, bool http, bool multiThreaded) : port_(port), http_(http) {
 
     std::shared_ptr<fmu_service_handler> handler(new fmu_service_handler(fmus));

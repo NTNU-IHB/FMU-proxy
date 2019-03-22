@@ -38,11 +38,11 @@ int main() {
     const string fmu_path = "../fmus/2.0/cs/20sim/4.6.4.8004/"
                             "ControlledTemperature/ControlledTemperature.fmu";
 
-    auto fmu = fmi4cpp::fmi2::fmi2Fmu(fmu_path);
+    auto fmu = fmi4cpp::fmi2::fmu(fmu_path);
     const remote_address remote("localhost", 8080);
     
     const unordered_map<string, unsigned int> servers = {{"thrift/tcp", 9090}};
-    const vector<string> modelDescriptions = {fmu.getModelDescriptionXml()};
+    const vector<string> modelDescriptions = {fmu.get_model_description_xml()};
     
     heartbeat beat(remote, servers, modelDescriptions);
     beat.start();

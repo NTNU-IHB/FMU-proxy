@@ -28,20 +28,20 @@
 #include "../example_util.hpp"
 
 using namespace std;
-using namespace fmi4cpp::fmi2;
+using namespace fmi4cpp;
 using namespace fmuproxy::thrift::server;
 
 int main(int argc, char **argv) {
 
-    auto fmu1 = make_shared<fmi2Fmu>("../fmus/2.0/cs/20sim/4.6.4.8004/"
+    auto fmu1 = make_shared<fmi2::fmu>("../fmus/2.0/cs/20sim/4.6.4.8004/"
                                                    "ControlledTemperature/ControlledTemperature.fmu");
 
-    auto fmu2 = make_shared<fmi2Fmu>("../fmus/2.0/me/Test-FMUs/0.0.1/"
+    auto fmu2 = make_shared<fmi2::fmu>("../fmus/2.0/me/Test-FMUs/0.0.1/"
                                                     "VanDerPol/VanDerPol.fmu");
 
-    unordered_map<string, shared_ptr<fmi2Fmu>> fmus = {
-            {fmu1->getModelDescription()->guid, fmu1},
-            {fmu2->getModelDescription()->guid, fmu2}
+    unordered_map<string, shared_ptr<fmi2::fmu>> fmus = {
+            {fmu1->get_model_description()->guid, fmu1},
+            {fmu2->get_model_description()->guid, fmu2}
     };
 
     thrift_fmu_server socket_server(fmus, 9090, false, true);

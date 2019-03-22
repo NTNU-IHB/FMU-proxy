@@ -37,12 +37,12 @@ namespace fmuproxy::grpc::server {
     class fmu_service_impl : public fmuproxy::grpc::FmuService::Service {
 
     private:
-        std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> fmus_;
-        std::unordered_map<std::string, std::unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>>> slaves_;
+        std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmu>> fmus_;
+        std::unordered_map<std::string, std::unique_ptr<fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_description>>> slaves_;
 
     public:
 
-        explicit fmu_service_impl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
+        explicit fmu_service_impl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus);
 
         ::grpc::Status GetCoSimulationAttributes(::grpc::ServerContext *context,
                                                  const ::fmuproxy::grpc::GetCoSimulationAttributesRequest *request,

@@ -34,19 +34,19 @@ using namespace fmuproxy::grpc;
 
 namespace {
 
-    const Status grpc_type(fmi4cpp::Status status) {
+    const Status grpc_type(fmi4cpp::status status) {
         switch (status) {
-            case fmi4cpp::Status::OK:
+            case fmi4cpp::status::OK:
                 return Status::OK_STATUS;
-            case fmi4cpp::Status::Warning:
+            case fmi4cpp::status::Warning:
                 return Status::WARNING_STATUS;
-            case fmi4cpp::Status::Pending:
+            case fmi4cpp::status::Pending:
                 return Status::PENDING_STATUS;
-            case fmi4cpp::Status::Discard:
+            case fmi4cpp::status::Discard:
                 return Status::DISCARD_STATUS;
-            case fmi4cpp::Status::Error:
+            case fmi4cpp::status::Error:
                 return Status::ERROR_STATUS;
-            case fmi4cpp::Status::Fatal:
+            case fmi4cpp::status::Fatal:
                 return Status::FATAL_STATUS;
             default:
                 throw std::runtime_error("Invalid status!");
@@ -54,14 +54,14 @@ namespace {
     }
 
     template <typename T, typename U>
-    void set_scalar_variable_attributes(T t, const fmi4cpp::fmi2::ScalarVariableAttribute<U> &a) {
+    void set_scalar_variable_attributes(T t, const fmi4cpp::fmi2::scalar_variable_attribute<U> &a) {
         if (a.start) {
             t.set_start(*a.start);
         }
     }
 
     template <typename T, typename U>
-    void set_bounded_scalar_variable_attributes(T t, const fmi4cpp::fmi2::BoundedScalarVariableAttribute<U> &a) {
+    void set_bounded_scalar_variable_attributes(T t, const fmi4cpp::fmi2::bounded_scalar_variable_attribute<U> &a) {
         set_scalar_variable_attributes<T, U>(t, a);
         if (a.min) {
             t.set_min(*a.min);
@@ -74,30 +74,30 @@ namespace {
         }
     }
 
-    void grpc_type(IntegerAttribute &attribute, const fmi4cpp::fmi2::IntegerAttribute &a) {
+    void grpc_type(IntegerAttribute &attribute, const fmi4cpp::fmi2::integer_attribute &a) {
         set_bounded_scalar_variable_attributes<IntegerAttribute, int>(attribute, a);
     }
 
-    void grpc_type(RealAttribute &attribute, const fmi4cpp::fmi2::RealAttribute &a) {
+    void grpc_type(RealAttribute &attribute, const fmi4cpp::fmi2::real_attribute &a) {
         set_bounded_scalar_variable_attributes<RealAttribute, double>(attribute, a);
     }
 
-    void grpc_type(StringAttribute &attribute, const fmi4cpp::fmi2::StringAttribute &a) {
+    void grpc_type(StringAttribute &attribute, const fmi4cpp::fmi2::string_attribute &a) {
         set_scalar_variable_attributes<StringAttribute, std::string>(attribute, a);
     }
 
-    void grpc_type(BooleanAttribute &attribute, const fmi4cpp::fmi2::BooleanAttribute &a) {
+    void grpc_type(BooleanAttribute &attribute, const fmi4cpp::fmi2::boolean_attribute &a) {
         set_scalar_variable_attributes<BooleanAttribute, bool>(attribute, a);
     }
 
-    void grpc_type(EnumerationAttribute &attribute, const fmi4cpp::fmi2::EnumerationAttribute &a) {
+    void grpc_type(EnumerationAttribute &attribute, const fmi4cpp::fmi2::enumeration_attribute &a) {
         set_bounded_scalar_variable_attributes<EnumerationAttribute, int>(attribute, a);
     }
 
-    void grpc_type(ScalarVariable &var, const fmi4cpp::fmi2::ScalarVariable &v) {
+    void grpc_type(ScalarVariable &var, const fmi4cpp::fmi2::scalar_variable &v) {
 
         var.set_name(v.name);
-        var.set_value_reference(v.valueReference);
+        var.set_value_reference(v.value_reference);
 
         std::string description = v.description;
         if (!description.empty()) {
@@ -108,27 +108,27 @@ namespace {
         var.set_variability(fmi4cpp::fmi2::to_string(v.variability));
         var.set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
-        if (v.isInteger()) {
-            grpc_type(*var.mutable_integer_attribute(), v.asInteger().attribute());
-        } else if (v.isReal()) {
-            grpc_type(*var.mutable_real_attribute(), v.asReal().attribute());
-        } else if (v.isString()) {
-            grpc_type(*var.mutable_string_attribute(), v.asString().attribute());
-        } else if (v.isBoolean()) {
-            grpc_type(*var.mutable_boolean_attribute(), v.asBoolean().attribute());
-        } else if (v.isEnumeration()) {
-            grpc_type(*var.mutable_enumeration_attribute(), v.asEnumeration().attribute());
+        if (v.is_integer()) {
+            grpc_type(*var.mutable_integer_attribute(), v.as_integer().attribute());
+        } else if (v.is_real()) {
+            grpc_type(*var.mutable_real_attribute(), v.as_real().attribute());
+        } else if (v.is_string()) {
+            grpc_type(*var.mutable_string_attribute(), v.as_string().attribute());
+        } else if (v.is_boolean()) {
+            grpc_type(*var.mutable_boolean_attribute(), v.as_boolean().attribute());
+        } else if (v.is_enumeration()) {
+            grpc_type(*var.mutable_enumeration_attribute(), v.as_enumeration().attribute());
         } else {
             throw std::runtime_error("Fatal: No valid attribute found..");
         }
 
     }
 
-    void grpc_type(ModelDescription &md, const fmi4cpp::fmi2::ModelDescriptionBase &m) {
+    void grpc_type(ModelDescription &md, const fmi4cpp::fmi2::model_description_base &m) {
 
         md.set_guid(m.guid.c_str());
-        md.set_fmi_version(m.fmiVersion);
-        md.set_model_name(m.modelName);
+        md.set_fmi_version(m.fmi_version);
+        md.set_model_name(m.model_name);
 
         if (m.license) {
             md.set_license(*m.license);
@@ -145,19 +145,19 @@ namespace {
         if (m.description) {
             md.set_description(*m.description);
         }
-        if (m.generationDateAndTime) {
-            md.set_generation_date_and_time(*m.generationDateAndTime);
+        if (m.generation_date_and_time) {
+            md.set_generation_date_and_time(*m.generation_date_and_time);
         }
-        if (m.generationTool) {
-            md.set_generation_tool(*m.generationTool);
+        if (m.generation_tool) {
+            md.set_generation_tool(*m.generation_tool);
         }
-        if (m.variableNamingConvention) {
-            md.set_variable_naming_convention(*m.variableNamingConvention);
+        if (m.variable_naming_convention) {
+            md.set_variable_naming_convention(*m.variable_naming_convention);
         }
 
-        if (m.defaultExperiment) {
+        if (m.default_experiment) {
             auto to = md.default_experiment();
-            auto from = *m.defaultExperiment;
+            auto from = *m.default_experiment;
             if (from.startTime) {
                 to.set_start_time(*from.startTime);
             }
@@ -172,7 +172,7 @@ namespace {
             }
         }
 
-        for (const auto &var : *m.modelVariables) {
+        for (const auto &var : *m.model_variables) {
             auto v = md.add_model_variables();
             grpc_type(*v, var);
         }
