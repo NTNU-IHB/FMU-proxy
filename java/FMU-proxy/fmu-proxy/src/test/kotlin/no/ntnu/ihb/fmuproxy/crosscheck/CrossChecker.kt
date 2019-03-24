@@ -6,7 +6,7 @@ import no.ntnu.ihb.fmi4j.driver.Rejection
 import no.ntnu.ihb.fmi4j.driver.SlaveDriver
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionProvider
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
@@ -21,21 +21,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
 
 
-private const val FMU_PROXY_VERSION = "0.1.0"
-
-private const val README = """
-        The cross-check results have been generated with FMI4j's FmuDriver.
-        To get more information download the 'fmu-driver' tool from https://github.com/NTNU-IHB/FMI4j/releases and run:
-
-        ```
-        java -jar fmu-driver.jar -h
-        ```
-        """
-
 class CrossChecker(
         private val pair: Pair<FmuProxyServer, (String, Int) -> AbstractRpcFmuClient>,
-        private val fmuDir: File,
-        resultDir: File
+        private val fmuDir: File
 ) {
 
     private var failedOrRejected = false
@@ -52,12 +40,6 @@ class CrossChecker(
         it.name.endsWith(".opt")
     } ?: throw IllegalArgumentException("No .opt file present in FMU dir!")
 
-    private val outputFolder = File(resultDir, getDefaultOutputDir(fmuDir)).apply {
-        if (!exists()) {
-            mkdirs()
-        }
-    }.absolutePath
-
     private val options: DriverOptions by lazy {
 
         val variables = parseVariables(refData)
@@ -69,34 +51,22 @@ class CrossChecker(
                 stepSize = defaults.stepSize,
 
                 outputVariables = variables,
-                outputFolder = outputFolder,
 
                 failOnLargeSize = true
         )
     }
 
     private fun reject(reason: String) {
-        File(outputFolder, "rejected").apply {
-            createNewFile()
-            writeText(reason)
-        }
         LOG.warn("Rejected FMU '$fmuPath'. Reason: $reason")
         failedOrRejected = true
     }
 
     private fun fail(reason: String) {
-        File(outputFolder, "failed").apply {
-            createNewFile()
-            writeText(reason)
-        }
         LOG.warn("Failed to handle FMU '$fmuPath'. Reason: $reason")
         failedOrRejected = true
     }
 
     private fun pass() {
-        File(outputFolder, "passed").apply {
-            createNewFile()
-        }
         LOG.info("FMU '$fmuPath' passed crosscheck")
     }
 
@@ -108,7 +78,7 @@ class CrossChecker(
 
         var md: ModelDescriptionProvider? = null
         try {
-            md = JacksonModelDescriptionParser.parse(fmuPath)
+            md = JaxbModelDescriptionParser.parse(fmuPath)
         } catch (ex: Exception) {
             LOG.error("Failed to parse model description!", ex)
             fail("Failed to parse model description!")
@@ -155,10 +125,6 @@ class CrossChecker(
             }
         }
 
-        File(outputFolder, "README.md").apply {
-            writeText(README)
-        }
-
         return !failedOrRejected
 
     }
@@ -181,14 +147,6 @@ class CrossChecker(
             val platform = OsUtil.currentOS
             val csPath = File("$crossCheckDir/fmus/2.0/cs/$platform")
 
-            File("$crossCheckDir/results/2.0/cs/$platform/FMU-proxy/$FMU_PROXY_VERSION").apply {
-                if (exists()) deleteRecursively()
-            }
-
-            File("$crossCheckDir/results/2.0/me/$platform/FMU-proxy/$FMU_PROXY_VERSION").apply {
-                if (exists()) deleteRecursively()
-            }
-
             fun crosscheck(dir: File): Int {
 
                 val numPassed = AtomicInteger(0)
@@ -205,7 +163,7 @@ class CrossChecker(
                 }
 
                 fmus.parallelStream().forEach { fmuDir ->
-                    if (CrossChecker(pair, fmuDir, File(crossCheckDir, "results")).run()) {
+                    if (CrossChecker(pair, fmuDir).run()) {
                         numPassed.incrementAndGet()
                     }
                 }
@@ -238,40 +196,20 @@ class CrossChecker(
 
         }
 
-        private fun getDefaultOutputDir(fmuFile: File): String {
-            var currentFile = fmuFile
-            val names = mutableListOf<String>()
-            for (i in 0..2) {
-                names.add(currentFile.name)
-                currentFile = currentFile.parentFile
-            }
-
-            names.addAll(listOf(FMU_PROXY_VERSION, "FMU-proxy"))
-
-            for (i in 0..2) {
-                names.add(currentFile.name)
-                currentFile = currentFile.parentFile
-            }
-            return names.reverse().let { names.joinToString("/") }
-        }
-
     }
 
 }
 
 
-fun getServerClientPair(i: Int): Pair<FmuProxyServer, (String, Int) -> AbstractRpcFmuClient> {
-    return when (i) {
-        0 -> ThriftFmuSocketServer() to { guid: String, port: Int ->
-            ThriftFmuClient.socketClient("localhost", port)
-                    .load(guid)
-        }
-        1 -> GrpcFmuServer() to { guid: String, port: Int ->
-            GrpcFmuClient("localhost", port)
-                    .load(guid)
-        }
-        else -> throw IllegalArgumentException()
-    }
+fun getServerClientPairs(): List<Pair<FmuProxyServer, (String, Int) -> AbstractRpcFmuClient>> {
+    return listOf(
+            ThriftFmuSocketServer() to { guid: String, port: Int ->
+                ThriftFmuClient.socketClient("localhost", port).load(guid)
+            },
+            GrpcFmuServer() to { guid: String, port: Int ->
+                GrpcFmuClient("localhost", port).load(guid)
+            }
+    )
 }
 
 
@@ -282,12 +220,14 @@ fun main(args: Array<String>) {
     }
     val crossCheckDir = args[0]
 
-    val pair = getServerClientPair(args[1].toInt())
-    pair.first.start()
+    getServerClientPairs().forEach { pair ->
+        pair.first.start()
 
-    val elapsed = measureTimeMillis {
-        CrossChecker.run(crossCheckDir, pair)
+        val elapsed = measureTimeMillis {
+            CrossChecker.run(crossCheckDir, pair)
+        }
+        LoggerFactory.getLogger(CrossChecker::class.java).info("Crosscheck took $elapsed ms")
+        pair.first.stop()
     }
-    LoggerFactory.getLogger(CrossChecker::class.java).info("Crosscheck took $elapsed ms")
-    pair.first.stop()
+
 }
