@@ -52,7 +52,7 @@ thrift_fmu_server::thrift_fmu_server(std::unordered_map<FmuId, std::shared_ptr<f
                            unsigned int port, bool http, bool multiThreaded) : port_(port), http_(http) {
 
     std::shared_ptr<fmu_service_handler> handler(new fmu_service_handler(fmus));
-    std::shared_ptr<TProcessor> processor(new FmuServiceProcessor(handler));
+    std::shared_ptr<TProcessor> processor(new fmu_serviceProcessor(handler));
 
     if (http) {
 

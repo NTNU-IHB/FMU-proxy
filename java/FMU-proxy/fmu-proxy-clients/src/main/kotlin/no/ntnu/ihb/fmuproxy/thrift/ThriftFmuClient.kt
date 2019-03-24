@@ -43,6 +43,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileInputStream
+import java.lang.UnsupportedOperationException
 import java.net.URL
 import java.nio.ByteBuffer
 
@@ -89,19 +90,19 @@ class ThriftFmuClient private constructor(
         }
 
         override val canCreateInstanceFromCS: Boolean by lazy {
-            client.canCreateInstanceFromCS(fmuId)
+            client.canCreateInstanceFromCs(fmuId)
         }
 
         override val canCreateInstanceFromME: Boolean by lazy {
-            client.canCreateInstanceFromME(fmuId)
+            client.canCreateInstanceFromMe(fmuId)
         }
 
         override fun createInstanceFromCS(): String {
-            return client.createInstanceFromCS(fmuId)
+            return client.createInstanceFromCs(fmuId)
         }
 
         override fun createInstanceFromME(solver: Solver): String {
-            return client.createInstanceFromME(fmuId, solver.thriftType())
+            return client.createInstanceFromMe(fmuId, solver.thriftType())
         }
 
         override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
@@ -172,38 +173,44 @@ class ThriftFmuClient private constructor(
             return client.writeBoolean(instanceId, vr, value).convert()
         }
 
-        override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
-            return client.deSerializeFMUstate(instanceId, ByteBuffer.wrap(state)).let {
-                it.state to it.status.convert()
-            }
-        }
-
-        override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
-            return client.freeFMUstate(instanceId, state).convert()
-
-        }
-
-        override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
-            return client.getFMUstate(instanceId).let {
-                it.state to it.status.convert()
-            }
-        }
-
-        override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
-            return client.serializeFMUstate(instanceId, state).let {
-                it.state.array() to it.status.convert()
-            }
-        }
-
-        override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
-            return client.setFMUstate(instanceId, state).convert()
-        }
-
         override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
             return client.getDirectionalDerivative(instanceId, vUnknownRef, vKnownRef, dvKnownRef).let {
                 it.dvUnknownRef to it.status.convert()
             }
         }
+
+        override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return client.deSerializeFMUstate(instanceId, ByteBuffer.wrap(state)).let {
+//                it.state to it.status.convert()
+//            }
+        }
+
+        override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return client.freeFMUstate(instanceId, state).convert()
+
+        }
+
+        override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return client.getFMUstate(instanceId).let {
+//                it.state to it.status.convert()
+//            }
+        }
+
+        override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return client.serializeFMUstate(instanceId, state).let {
+//                it.state.array() to it.status.convert()
+//            }
+        }
+
+        override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return client.setFMUstate(instanceId, state).convert()
+        }
+
     }
 
 

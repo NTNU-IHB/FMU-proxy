@@ -151,8 +151,8 @@ internal fun no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes.thriftTyp
         a.maxOutputDerivativeOrder = maxOutputDerivativeOrder
 
         a.modelIdentifier = modelIdentifier
-        a.isCanGetAndSetFMUstate = canGetAndSetFMUstate
-        a.isCanSerializeFMUstate = canSerializeFMUstate
+        a.isCanGetAndSetFmuState = canGetAndSetFMUstate
+        a.isCanSerializeFmuState = canSerializeFMUstate
         a.isProvidesDirectionalDerivative = providesDirectionalDerivative
     }
 }

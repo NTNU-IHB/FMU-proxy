@@ -157,7 +157,7 @@ internal fun no.ntnu.ihb.fmuproxy.thrift.BooleanAttribute.convert(): no.ntnu.ihb
         override val declaredType: String?
             get() = null
         override val start: Boolean?
-            get() = this@convert.start
+            get() = this@convert.isStart
     }
 }
 
@@ -225,11 +225,11 @@ internal fun CoSimulationAttributes.convert(): no.ntnu.ihb.fmi4j.modeldescriptio
         override val canBeInstantiatedOnlyOncePerProcess: Boolean
             get() = false
         override val canGetAndSetFMUstate: Boolean
-            get() = this@convert.isCanGetAndSetFMUstate
+            get() = this@convert.isCanGetAndSetFmuState
         override val canNotUseMemoryManagementFunctions: Boolean
             get() = false
         override val canSerializeFMUstate: Boolean
-            get() = this@convert.isSetCanSerializeFMUstate
+            get() = this@convert.isSetCanSerializeFmuState
         override val modelIdentifier: String
             get() = this@convert.modelIdentifier
         override val needsExecutionTool: Boolean

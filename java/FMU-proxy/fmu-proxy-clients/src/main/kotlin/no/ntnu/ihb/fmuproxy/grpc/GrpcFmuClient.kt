@@ -250,53 +250,58 @@ class GrpcFmuClient(
         }
 
         override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
-            return Service.DeSerializeFMUstateRequest.newBuilder()
-                    .setInstanceId(instanceId)
-                    .setState(ByteString.copyFrom(state))
-                    .build().let { request ->
-                        stub.deSerializeFMUstate(request).get().let { response ->
-                            response.state to response.status.convert()
-                        }
-                    }
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return Service.DeSerializeFMUstateRequest.newBuilder()
+//                    .setInstanceId(instanceId)
+//                    .setState(ByteString.copyFrom(state))
+//                    .build().let { request ->
+//                        stub.deSerializeFMUstate(request).get().let { response ->
+//                            response.state to response.status.convert()
+//                        }
+//                    }
         }
 
         override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
-            return Service.FreeFMUstateRequest.newBuilder()
-                    .setInstanceId(instanceId)
-                    .setState(state)
-                    .build().let { request ->
-                        stub.freeFMUstate(request).get().convert()
-                    }
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return Service.FreeFMUstateRequest.newBuilder()
+//                    .setInstanceId(instanceId)
+//                    .setState(state)
+//                    .build().let { request ->
+//                        stub.freeFMUstate(request).get().convert()
+//                    }
         }
 
         override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
-            return Service.GetFMUstateRequest.newBuilder()
-                    .setInstanceId(instanceId)
-                    .build().let { request ->
-                        stub.getFMUstate(request).get().let { response ->
-                            response.state to response.status.convert()
-                        }
-                    }
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return Service.GetFMUstateRequest.newBuilder()
+//                    .setInstanceId(instanceId)
+//                    .build().let { request ->
+//                        stub.getFMUstate(request).get().let { response ->
+//                            response.state to response.status.convert()
+//                        }
+//                    }
         }
 
         override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
-            return Service.SerializeFMUstateRequest.newBuilder()
-                    .setInstanceId(instanceId)
-                    .setState(state)
-                    .build().let { request ->
-                        stub.serializeFMUstate(request).get().let { response ->
-                            response.state.toByteArray() to response.status.convert()
-                        }
-                    }
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return Service.SerializeFMUstateRequest.newBuilder()
+//                    .setInstanceId(instanceId)
+//                    .setState(state)
+//                    .build().let { request ->
+//                        stub.serializeFMUstate(request).get().let { response ->
+//                            response.state.toByteArray() to response.status.convert()
+//                        }
+//                    }
         }
 
         override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
-            return Service.SetFMUstateRequest.newBuilder()
-                    .setInstanceId(instanceId)
-                    .setState(state)
-                    .build().let { request ->
-                        stub.setFMUstate(request).get().convert()
-                    }
+            throw UnsupportedOperationException("Not implemented yet!")
+//            return Service.SetFMUstateRequest.newBuilder()
+//                    .setInstanceId(instanceId)
+//                    .setState(state)
+//                    .build().let { request ->
+//                        stub.setFMUstate(request).get().convert()
+//                    }
         }
 
         override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {

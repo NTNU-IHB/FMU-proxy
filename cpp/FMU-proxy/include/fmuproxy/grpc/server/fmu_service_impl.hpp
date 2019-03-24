@@ -128,26 +128,6 @@ namespace fmuproxy::grpc::server {
                      ::fmuproxy::grpc::StatusResponse *response) override;
 
         ::grpc::Status
-        GetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::GetFMUstateRequest *request,
-                    ::fmuproxy::grpc::GetFMUstateResponse *response) override;
-
-        ::grpc::Status
-        SetFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SetFMUstateRequest *request,
-                    ::fmuproxy::grpc::StatusResponse *response) override;
-
-        ::grpc::Status
-        FreeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::FreeFMUstateRequest *request,
-                     ::fmuproxy::grpc::StatusResponse *response) override;
-
-        ::grpc::Status
-        SerializeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::SerializeFMUstateRequest *request,
-                          ::fmuproxy::grpc::SerializeFMUstateResponse *response) override;
-
-        ::grpc::Status
-        DeSerializeFMUstate(::grpc::ServerContext *context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest *request,
-                            ::fmuproxy::grpc::DeSerializeFMUstateResponse *response) override;
-
-        ::grpc::Status
         GetDirectionalDerivative(::grpc::ServerContext *context,
                                  const ::fmuproxy::grpc::GetDirectionalDerivativeRequest *request,
                                  ::fmuproxy::grpc::GetDirectionalDerivativeResponse *response) override;

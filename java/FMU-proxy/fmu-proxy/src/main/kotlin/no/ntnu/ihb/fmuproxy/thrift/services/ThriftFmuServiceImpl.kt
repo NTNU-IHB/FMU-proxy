@@ -99,15 +99,15 @@ class ThriftFmuServiceImpl(
         return getFmu(fmuId).modelDescription.thriftType()
     }
 
-    override fun canCreateInstanceFromCS(fmuId: FmuId): Boolean {
+    override fun canCreateInstanceFromCs(fmuId: FmuId): Boolean {
         return getFmu(fmuId).supportsCoSimulation
     }
 
-    override fun canCreateInstanceFromME(fmuId: FmuId): Boolean {
+    override fun canCreateInstanceFromMe(fmuId: FmuId): Boolean {
         return getFmu(fmuId).supportsModelExchange
     }
 
-    override fun createInstanceFromCS(fmuId: FmuId): InstanceId {
+    override fun createInstanceFromCs(fmuId: FmuId): InstanceId {
         return getFmu(fmuId).let { fmu ->
             if (!fmu.supportsCoSimulation) {
                 throw UnsupportedOperationException("FMU does not support Co-simulation!")
@@ -116,7 +116,7 @@ class ThriftFmuServiceImpl(
         }
     }
 
-    override fun createInstanceFromME(fmuId: FmuId, solver: Solver): InstanceId {
+    override fun createInstanceFromMe(fmuId: FmuId, solver: Solver): InstanceId {
         return getFmu(fmuId).let { fmu ->
             if (!fmu.supportsModelExchange) {
                 throw UnsupportedOperationException("FMU does not support Model Exchange!")
@@ -242,54 +242,6 @@ class ThriftFmuServiceImpl(
         }
     }
 
-    override fun getFMUstate(instanceId: InstanceId): GetFmuStateResult {
-        return getSlave(instanceId).let {
-            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-            }
-            GetFmuStateResult(it.getFMUstate(), it.lastStatus.thriftType())
-        }
-    }
-
-    override fun setFMUstate(instanceId: InstanceId, state: Long): Status {
-        return getSlave(instanceId).let {
-            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-            }
-            it.setFMUstate(state)
-            it.lastStatus.thriftType()
-        }
-    }
-
-    override fun freeFMUstate(instanceId: InstanceId, state: Long): Status {
-        return getSlave(instanceId).let {
-            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-            }
-            it.freeFMUstate(state)
-            it.lastStatus.thriftType()
-        }
-    }
-
-    override fun serializeFMUstate(instanceId: InstanceId, state: Long): SerializeFmuStateResult {
-        return getSlave(instanceId).let {
-            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-            }
-            val bytes = ByteBuffer.wrap(it.serializeFMUstate(state))
-            SerializeFmuStateResult(bytes, it.lastStatus.thriftType())
-        }
-    }
-
-    override fun deSerializeFMUstate(instanceId: InstanceId, state: ByteBuffer): DeSerializeFmuStateResult {
-        return getSlave(instanceId).let {
-            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-            }
-            DeSerializeFmuStateResult(it.deSerializeFMUstate(state.array()), it.lastStatus.thriftType())
-        }
-    }
-
     override fun getDirectionalDerivative(instanceId: InstanceId, vUnkownRef: List<Long>, vKnownRef: List<Long>, dvUnkownRef: List<Double>): DirectionalDerivativeResult {
         return getSlave(instanceId).let {
             if (!it.modelDescription.attributes.providesDirectionalDerivative) {
@@ -299,6 +251,54 @@ class ThriftFmuServiceImpl(
             DirectionalDerivativeResult(dvUnknown, it.lastStatus.thriftType())
         }
     }
+
+//    override fun getFMUstate(instanceId: InstanceId): GetFmuStateResult {
+//        return getSlave(instanceId).let {
+//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
+//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
+//            }
+//            GetFmuStateResult(it.getFMUstate(), it.lastStatus.thriftType())
+//        }
+//    }
+//
+//    override fun setFMUstate(instanceId: InstanceId, state: Long): Status {
+//        return getSlave(instanceId).let {
+//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
+//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
+//            }
+//            it.setFMUstate(state)
+//            it.lastStatus.thriftType()
+//        }
+//    }
+//
+//    override fun freeFMUstate(instanceId: InstanceId, state: Long): Status {
+//        return getSlave(instanceId).let {
+//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
+//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
+//            }
+//            it.freeFMUstate(state)
+//            it.lastStatus.thriftType()
+//        }
+//    }
+//
+//    override fun serializeFMUstate(instanceId: InstanceId, state: Long): SerializeFmuStateResult {
+//        return getSlave(instanceId).let {
+//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
+//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
+//            }
+//            val bytes = ByteBuffer.wrap(it.serializeFMUstate(state))
+//            SerializeFmuStateResult(bytes, it.lastStatus.thriftType())
+//        }
+//    }
+//
+//    override fun deSerializeFMUstate(instanceId: InstanceId, state: ByteBuffer): DeSerializeFmuStateResult {
+//        return getSlave(instanceId).let {
+//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
+//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
+//            }
+//            DeSerializeFmuStateResult(it.deSerializeFMUstate(state.array()), it.lastStatus.thriftType())
+//        }
+//    }
 
 }
 

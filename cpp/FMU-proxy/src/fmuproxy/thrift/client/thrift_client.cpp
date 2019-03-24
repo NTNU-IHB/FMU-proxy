@@ -43,13 +43,13 @@ thrift_client::thrift_client(const string &host, const unsigned int port) {
     shared_ptr<TTransport> socket(new TSocket(host, port));
     transport_ = std::make_shared<TFramedTransport>(socket);
     shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport_));
-    client_ = std::make_shared<FmuServiceClient>(protocol);
+    client_ = std::make_shared<fmu_serviceClient>(protocol);
     transport_->open();
 }
 
 remote_thrift_fmu thrift_client::from_url(const std::string &url) {
     FmuId guid;
-    client_->loadFromUrl(guid, url);
+    client_->load_from_url(guid, url);
     return remote_thrift_fmu(guid, client_);
 }
 
@@ -62,7 +62,7 @@ remote_thrift_fmu thrift_client::from_file(const std::string &file) {
     read_data(file, data);
 
     FmuId guid;
-    client_->loadFromFile(guid, name, data);
+    client_->load_from_file(guid, name, data);
     return remote_thrift_fmu(guid, client_);
 }
 
@@ -80,13 +80,13 @@ thrift_client::~thrift_client() {
     close();
 }
 
-remote_thrift_fmu::remote_thrift_fmu(const FmuId &fmuId, shared_ptr<FmuServiceClient> client) : fmuId_(fmuId),
+remote_thrift_fmu::remote_thrift_fmu(const FmuId &fmuId, shared_ptr<fmu_serviceClient> client) : fmuId_(fmuId),
                                                                                             client_(std::move(client)) {}
 
 shared_ptr<const fmi4cpp::fmi2::model_description_base> &remote_thrift_fmu::getModelDescription() {
     if (!modelDescription_) {
         fmuproxy::thrift::ModelDescription md = ModelDescription();
-        client_->getModelDescription(md, fmuId_);
+        client_->get_model_description(md, fmuId_);
         modelDescription_ = std::move(convert(md));
     }
     return modelDescription_;
@@ -94,6 +94,6 @@ shared_ptr<const fmi4cpp::fmi2::model_description_base> &remote_thrift_fmu::getM
 
 unique_ptr<remote_fmu_slave> remote_thrift_fmu::newInstance() {
     InstanceId instance_id;
-    client_->createInstanceFromCS(instance_id, fmuId_);
+    client_->create_instance_from_cs(instance_id, fmuId_);
     return std::make_unique<remote_fmu_slave>(instance_id, *client_, *getModelDescription());
 }

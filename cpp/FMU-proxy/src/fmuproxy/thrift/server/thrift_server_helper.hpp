@@ -107,7 +107,7 @@ namespace {
 
         fmuproxy::thrift::ScalarVariable var;
         var.__set_name(v.name);
-        var.__set_valueReference(v.value_reference);
+        var.__set_value_reference(v.value_reference);
 
         std::string description = v.description;
         if (!description.empty()) {
@@ -119,15 +119,15 @@ namespace {
         var.__set_initial(fmi4cpp::fmi2::to_string(v.initial));
 
         if (v.is_integer()) {
-            var.attribute.__set_integerAttribute(thrift_type(v.as_integer().attribute()));
+            var.attribute.__set_integer_attribute(thrift_type(v.as_integer().attribute()));
         } else if (v.is_real()) {
-            var.attribute.__set_realAttribute(thrift_type(v.as_real().attribute()));
+            var.attribute.__set_real_attribute(thrift_type(v.as_real().attribute()));
         } else if (v.is_string()) {
-            var.attribute.__set_stringAttribute(thrift_type(v.as_string().attribute()));
+            var.attribute.__set_string_attribute(thrift_type(v.as_string().attribute()));
         } else if (v.is_boolean()) {
-            var.attribute.__set_booleanAttribute(thrift_type(v.as_boolean().attribute()));
+            var.attribute.__set_boolean_attribute(thrift_type(v.as_boolean().attribute()));
         } else if (v.is_enumeration()) {
-            var.attribute.__set_enumerationAttribute(thrift_type(v.as_enumeration().attribute()));
+            var.attribute.__set_enumeration_attribute(thrift_type(v.as_enumeration().attribute()));
         } else {
             throw std::runtime_error("Fatal: No valid attribute found..");
         }
@@ -160,7 +160,7 @@ namespace {
     void thrift_type(fmuproxy::thrift::ModelDescription &md, const fmi4cpp::fmi2::model_description_base &m) {
 
         md.__set_guid(m.guid);
-        md.__set_fmiVersion(m.fmi_version);
+        md.__set_fmi_version(m.fmi_version);
         md.__set_modelName(m.model_name);
 
         if (m.version) {
@@ -179,24 +179,24 @@ namespace {
             md.__set_description(*m.description);
         }
         if (m.generation_tool) {
-            md.__set_generationTool(*m.generation_tool);
+            md.__set_generation_tool(*m.generation_tool);
         }
         if (m.generation_date_and_time) {
-            md.__set_generationDateAndTime(*m.generation_date_and_time);
+            md.__set_generation_date_and_time(*m.generation_date_and_time);
         }
         if (m.variable_naming_convention) {
-            md.__set_variableNamingConvention(*m.variable_naming_convention);
+            md.__set_variable_naming_convention(*m.variable_naming_convention);
         }
 
         if (m.default_experiment) {
             fmuproxy::thrift::DefaultExperiment ex;
             copy(ex, *m.default_experiment);
-            md.__set_defaultExperiment(ex);
+            md.__set_default_experiment(ex);
         }
 
         fmuproxy::thrift::ModelVariables modelVariables;
         copy(modelVariables, *m.model_variables);
-        md.__set_modelVariables(modelVariables);
+        md.__set_model_variables(modelVariables);
 
     }
     

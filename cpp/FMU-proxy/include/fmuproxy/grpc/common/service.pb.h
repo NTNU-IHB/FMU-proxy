@@ -39,7 +39,7 @@ namespace protobuf_service_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[51];
+  static const ::google::protobuf::internal::ParseTable schema[43];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -72,12 +72,6 @@ extern CreateInstanceFromCSRequestDefaultTypeInternal _CreateInstanceFromCSReque
 class CreateInstanceFromMERequest;
 class CreateInstanceFromMERequestDefaultTypeInternal;
 extern CreateInstanceFromMERequestDefaultTypeInternal _CreateInstanceFromMERequest_default_instance_;
-class DeSerializeFMUstateRequest;
-class DeSerializeFMUstateRequestDefaultTypeInternal;
-extern DeSerializeFMUstateRequestDefaultTypeInternal _DeSerializeFMUstateRequest_default_instance_;
-class DeSerializeFMUstateResponse;
-class DeSerializeFMUstateResponseDefaultTypeInternal;
-extern DeSerializeFMUstateResponseDefaultTypeInternal _DeSerializeFMUstateResponse_default_instance_;
 class DefaultExperiment;
 class DefaultExperimentDefaultTypeInternal;
 extern DefaultExperimentDefaultTypeInternal _DefaultExperiment_default_instance_;
@@ -96,9 +90,6 @@ extern FileDefaultTypeInternal _File_default_instance_;
 class FmuId;
 class FmuIdDefaultTypeInternal;
 extern FmuIdDefaultTypeInternal _FmuId_default_instance_;
-class FreeFMUstateRequest;
-class FreeFMUstateRequestDefaultTypeInternal;
-extern FreeFMUstateRequestDefaultTypeInternal _FreeFMUstateRequest_default_instance_;
 class GetCoSimulationAttributesRequest;
 class GetCoSimulationAttributesRequestDefaultTypeInternal;
 extern GetCoSimulationAttributesRequestDefaultTypeInternal _GetCoSimulationAttributesRequest_default_instance_;
@@ -108,12 +99,6 @@ extern GetDirectionalDerivativeRequestDefaultTypeInternal _GetDirectionalDerivat
 class GetDirectionalDerivativeResponse;
 class GetDirectionalDerivativeResponseDefaultTypeInternal;
 extern GetDirectionalDerivativeResponseDefaultTypeInternal _GetDirectionalDerivativeResponse_default_instance_;
-class GetFMUstateRequest;
-class GetFMUstateRequestDefaultTypeInternal;
-extern GetFMUstateRequestDefaultTypeInternal _GetFMUstateRequest_default_instance_;
-class GetFMUstateResponse;
-class GetFMUstateResponseDefaultTypeInternal;
-extern GetFMUstateResponseDefaultTypeInternal _GetFMUstateResponse_default_instance_;
 class GetModelDescriptionRequest;
 class GetModelDescriptionRequestDefaultTypeInternal;
 extern GetModelDescriptionRequestDefaultTypeInternal _GetModelDescriptionRequest_default_instance_;
@@ -150,15 +135,6 @@ extern ResetRequestDefaultTypeInternal _ResetRequest_default_instance_;
 class ScalarVariable;
 class ScalarVariableDefaultTypeInternal;
 extern ScalarVariableDefaultTypeInternal _ScalarVariable_default_instance_;
-class SerializeFMUstateRequest;
-class SerializeFMUstateRequestDefaultTypeInternal;
-extern SerializeFMUstateRequestDefaultTypeInternal _SerializeFMUstateRequest_default_instance_;
-class SerializeFMUstateResponse;
-class SerializeFMUstateResponseDefaultTypeInternal;
-extern SerializeFMUstateResponseDefaultTypeInternal _SerializeFMUstateResponse_default_instance_;
-class SetFMUstateRequest;
-class SetFMUstateRequestDefaultTypeInternal;
-extern SetFMUstateRequestDefaultTypeInternal _SetFMUstateRequest_default_instance_;
 class SetupExperimentRequest;
 class SetupExperimentRequestDefaultTypeInternal;
 extern SetupExperimentRequestDefaultTypeInternal _SetupExperimentRequest_default_instance_;
@@ -213,20 +189,15 @@ template<> ::fmuproxy::grpc::CanCreateInstanceFromMERequest* Arena::CreateMaybeM
 template<> ::fmuproxy::grpc::CoSimulationAttributes* Arena::CreateMaybeMessage<::fmuproxy::grpc::CoSimulationAttributes>(Arena*);
 template<> ::fmuproxy::grpc::CreateInstanceFromCSRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::CreateInstanceFromCSRequest>(Arena*);
 template<> ::fmuproxy::grpc::CreateInstanceFromMERequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::CreateInstanceFromMERequest>(Arena*);
-template<> ::fmuproxy::grpc::DeSerializeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::DeSerializeFMUstateRequest>(Arena*);
-template<> ::fmuproxy::grpc::DeSerializeFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::DeSerializeFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::DefaultExperiment* Arena::CreateMaybeMessage<::fmuproxy::grpc::DefaultExperiment>(Arena*);
 template<> ::fmuproxy::grpc::EnterInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnterInitializationModeRequest>(Arena*);
 template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::EnumerationAttribute>(Arena*);
 template<> ::fmuproxy::grpc::ExitInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ExitInitializationModeRequest>(Arena*);
 template<> ::fmuproxy::grpc::File* Arena::CreateMaybeMessage<::fmuproxy::grpc::File>(Arena*);
 template<> ::fmuproxy::grpc::FmuId* Arena::CreateMaybeMessage<::fmuproxy::grpc::FmuId>(Arena*);
-template<> ::fmuproxy::grpc::FreeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::FreeFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetCoSimulationAttributesRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetCoSimulationAttributesRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetDirectionalDerivativeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetDirectionalDerivativeRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetDirectionalDerivativeResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetDirectionalDerivativeResponse>(Arena*);
-template<> ::fmuproxy::grpc::GetFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetFMUstateRequest>(Arena*);
-template<> ::fmuproxy::grpc::GetFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetFMUstateResponse>(Arena*);
 template<> ::fmuproxy::grpc::GetModelDescriptionRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetModelDescriptionRequest>(Arena*);
 template<> ::fmuproxy::grpc::InstanceId* Arena::CreateMaybeMessage<::fmuproxy::grpc::InstanceId>(Arena*);
 template<> ::fmuproxy::grpc::IntegerAttribute* Arena::CreateMaybeMessage<::fmuproxy::grpc::IntegerAttribute>(Arena*);
@@ -239,9 +210,6 @@ template<> ::fmuproxy::grpc::RealAttribute* Arena::CreateMaybeMessage<::fmuproxy
 template<> ::fmuproxy::grpc::RealRead* Arena::CreateMaybeMessage<::fmuproxy::grpc::RealRead>(Arena*);
 template<> ::fmuproxy::grpc::ResetRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ResetRequest>(Arena*);
 template<> ::fmuproxy::grpc::ScalarVariable* Arena::CreateMaybeMessage<::fmuproxy::grpc::ScalarVariable>(Arena*);
-template<> ::fmuproxy::grpc::SerializeFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SerializeFMUstateRequest>(Arena*);
-template<> ::fmuproxy::grpc::SerializeFMUstateResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::SerializeFMUstateResponse>(Arena*);
-template<> ::fmuproxy::grpc::SetFMUstateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SetFMUstateRequest>(Arena*);
 template<> ::fmuproxy::grpc::SetupExperimentRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::SetupExperimentRequest>(Arena*);
 template<> ::fmuproxy::grpc::Solver* Arena::CreateMaybeMessage<::fmuproxy::grpc::Solver>(Arena*);
 template<> ::fmuproxy::grpc::StatusResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::StatusResponse>(Arena*);
@@ -689,17 +657,17 @@ class CoSimulationAttributes : public ::google::protobuf::Message /* @@protoc_in
   ::std::string* release_model_identifier();
   void set_allocated_model_identifier(::std::string* model_identifier);
 
-  // bool can_get_and_set_FMUstate = 2;
-  void clear_can_get_and_set_fmustate();
-  static const int kCanGetAndSetFMUstateFieldNumber = 2;
-  bool can_get_and_set_fmustate() const;
-  void set_can_get_and_set_fmustate(bool value);
+  // bool can_get_and_set_fmu_state = 2;
+  void clear_can_get_and_set_fmu_state();
+  static const int kCanGetAndSetFmuStateFieldNumber = 2;
+  bool can_get_and_set_fmu_state() const;
+  void set_can_get_and_set_fmu_state(bool value);
 
-  // bool can_serialize_FMUstate = 3;
-  void clear_can_serialize_fmustate();
-  static const int kCanSerializeFMUstateFieldNumber = 3;
-  bool can_serialize_fmustate() const;
-  void set_can_serialize_fmustate(bool value);
+  // bool can_serialize_fmu_state = 3;
+  void clear_can_serialize_fmu_state();
+  static const int kCanSerializeFmuStateFieldNumber = 3;
+  bool can_serialize_fmu_state() const;
+  void set_can_serialize_fmu_state(bool value);
 
   // bool provides_directional_derivative = 4;
   void clear_provides_directional_derivative();
@@ -730,8 +698,8 @@ class CoSimulationAttributes : public ::google::protobuf::Message /* @@protoc_in
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr model_identifier_;
-  bool can_get_and_set_fmustate_;
-  bool can_serialize_fmustate_;
+  bool can_get_and_set_fmu_state_;
+  bool can_serialize_fmu_state_;
   bool provides_directional_derivative_;
   bool can_handle_variable_communication_step_size_;
   bool can_interpolate_inputs_;
@@ -5110,935 +5078,6 @@ class Bool : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
 };
 // -------------------------------------------------------------------
 
-class GetFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.GetFMUstateRequest) */ {
- public:
-  GetFMUstateRequest();
-  virtual ~GetFMUstateRequest();
-
-  GetFMUstateRequest(const GetFMUstateRequest& from);
-
-  inline GetFMUstateRequest& operator=(const GetFMUstateRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  GetFMUstateRequest(GetFMUstateRequest&& from) noexcept
-    : GetFMUstateRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline GetFMUstateRequest& operator=(GetFMUstateRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const GetFMUstateRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const GetFMUstateRequest* internal_default_instance() {
-    return reinterpret_cast<const GetFMUstateRequest*>(
-               &_GetFMUstateRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    37;
-
-  void Swap(GetFMUstateRequest* other);
-  friend void swap(GetFMUstateRequest& a, GetFMUstateRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline GetFMUstateRequest* New() const final {
-    return CreateMaybeMessage<GetFMUstateRequest>(NULL);
-  }
-
-  GetFMUstateRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<GetFMUstateRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const GetFMUstateRequest& from);
-  void MergeFrom(const GetFMUstateRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(GetFMUstateRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string instance_id = 1;
-  void clear_instance_id();
-  static const int kInstanceIdFieldNumber = 1;
-  const ::std::string& instance_id() const;
-  void set_instance_id(const ::std::string& value);
-  #if LANG_CXX11
-  void set_instance_id(::std::string&& value);
-  #endif
-  void set_instance_id(const char* value);
-  void set_instance_id(const char* value, size_t size);
-  ::std::string* mutable_instance_id();
-  ::std::string* release_instance_id();
-  void set_allocated_instance_id(::std::string* instance_id);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.GetFMUstateRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr instance_id_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class GetFMUstateResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.GetFMUstateResponse) */ {
- public:
-  GetFMUstateResponse();
-  virtual ~GetFMUstateResponse();
-
-  GetFMUstateResponse(const GetFMUstateResponse& from);
-
-  inline GetFMUstateResponse& operator=(const GetFMUstateResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  GetFMUstateResponse(GetFMUstateResponse&& from) noexcept
-    : GetFMUstateResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline GetFMUstateResponse& operator=(GetFMUstateResponse&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const GetFMUstateResponse& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const GetFMUstateResponse* internal_default_instance() {
-    return reinterpret_cast<const GetFMUstateResponse*>(
-               &_GetFMUstateResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    38;
-
-  void Swap(GetFMUstateResponse* other);
-  friend void swap(GetFMUstateResponse& a, GetFMUstateResponse& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline GetFMUstateResponse* New() const final {
-    return CreateMaybeMessage<GetFMUstateResponse>(NULL);
-  }
-
-  GetFMUstateResponse* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<GetFMUstateResponse>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const GetFMUstateResponse& from);
-  void MergeFrom(const GetFMUstateResponse& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(GetFMUstateResponse* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int64 state = 1;
-  void clear_state();
-  static const int kStateFieldNumber = 1;
-  ::google::protobuf::int64 state() const;
-  void set_state(::google::protobuf::int64 value);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.GetFMUstateResponse)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int64 state_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class SetFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.SetFMUstateRequest) */ {
- public:
-  SetFMUstateRequest();
-  virtual ~SetFMUstateRequest();
-
-  SetFMUstateRequest(const SetFMUstateRequest& from);
-
-  inline SetFMUstateRequest& operator=(const SetFMUstateRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  SetFMUstateRequest(SetFMUstateRequest&& from) noexcept
-    : SetFMUstateRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline SetFMUstateRequest& operator=(SetFMUstateRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const SetFMUstateRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SetFMUstateRequest* internal_default_instance() {
-    return reinterpret_cast<const SetFMUstateRequest*>(
-               &_SetFMUstateRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    39;
-
-  void Swap(SetFMUstateRequest* other);
-  friend void swap(SetFMUstateRequest& a, SetFMUstateRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SetFMUstateRequest* New() const final {
-    return CreateMaybeMessage<SetFMUstateRequest>(NULL);
-  }
-
-  SetFMUstateRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SetFMUstateRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const SetFMUstateRequest& from);
-  void MergeFrom(const SetFMUstateRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SetFMUstateRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string instance_id = 1;
-  void clear_instance_id();
-  static const int kInstanceIdFieldNumber = 1;
-  const ::std::string& instance_id() const;
-  void set_instance_id(const ::std::string& value);
-  #if LANG_CXX11
-  void set_instance_id(::std::string&& value);
-  #endif
-  void set_instance_id(const char* value);
-  void set_instance_id(const char* value, size_t size);
-  ::std::string* mutable_instance_id();
-  ::std::string* release_instance_id();
-  void set_allocated_instance_id(::std::string* instance_id);
-
-  // int64 state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  ::google::protobuf::int64 state() const;
-  void set_state(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.SetFMUstateRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr instance_id_;
-  ::google::protobuf::int64 state_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class FreeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.FreeFMUstateRequest) */ {
- public:
-  FreeFMUstateRequest();
-  virtual ~FreeFMUstateRequest();
-
-  FreeFMUstateRequest(const FreeFMUstateRequest& from);
-
-  inline FreeFMUstateRequest& operator=(const FreeFMUstateRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  FreeFMUstateRequest(FreeFMUstateRequest&& from) noexcept
-    : FreeFMUstateRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline FreeFMUstateRequest& operator=(FreeFMUstateRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const FreeFMUstateRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const FreeFMUstateRequest* internal_default_instance() {
-    return reinterpret_cast<const FreeFMUstateRequest*>(
-               &_FreeFMUstateRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    40;
-
-  void Swap(FreeFMUstateRequest* other);
-  friend void swap(FreeFMUstateRequest& a, FreeFMUstateRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline FreeFMUstateRequest* New() const final {
-    return CreateMaybeMessage<FreeFMUstateRequest>(NULL);
-  }
-
-  FreeFMUstateRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<FreeFMUstateRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const FreeFMUstateRequest& from);
-  void MergeFrom(const FreeFMUstateRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(FreeFMUstateRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string instance_id = 1;
-  void clear_instance_id();
-  static const int kInstanceIdFieldNumber = 1;
-  const ::std::string& instance_id() const;
-  void set_instance_id(const ::std::string& value);
-  #if LANG_CXX11
-  void set_instance_id(::std::string&& value);
-  #endif
-  void set_instance_id(const char* value);
-  void set_instance_id(const char* value, size_t size);
-  ::std::string* mutable_instance_id();
-  ::std::string* release_instance_id();
-  void set_allocated_instance_id(::std::string* instance_id);
-
-  // int64 state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  ::google::protobuf::int64 state() const;
-  void set_state(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.FreeFMUstateRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr instance_id_;
-  ::google::protobuf::int64 state_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class SerializeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.SerializeFMUstateRequest) */ {
- public:
-  SerializeFMUstateRequest();
-  virtual ~SerializeFMUstateRequest();
-
-  SerializeFMUstateRequest(const SerializeFMUstateRequest& from);
-
-  inline SerializeFMUstateRequest& operator=(const SerializeFMUstateRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  SerializeFMUstateRequest(SerializeFMUstateRequest&& from) noexcept
-    : SerializeFMUstateRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline SerializeFMUstateRequest& operator=(SerializeFMUstateRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const SerializeFMUstateRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SerializeFMUstateRequest* internal_default_instance() {
-    return reinterpret_cast<const SerializeFMUstateRequest*>(
-               &_SerializeFMUstateRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    41;
-
-  void Swap(SerializeFMUstateRequest* other);
-  friend void swap(SerializeFMUstateRequest& a, SerializeFMUstateRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SerializeFMUstateRequest* New() const final {
-    return CreateMaybeMessage<SerializeFMUstateRequest>(NULL);
-  }
-
-  SerializeFMUstateRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SerializeFMUstateRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const SerializeFMUstateRequest& from);
-  void MergeFrom(const SerializeFMUstateRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SerializeFMUstateRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string instance_id = 1;
-  void clear_instance_id();
-  static const int kInstanceIdFieldNumber = 1;
-  const ::std::string& instance_id() const;
-  void set_instance_id(const ::std::string& value);
-  #if LANG_CXX11
-  void set_instance_id(::std::string&& value);
-  #endif
-  void set_instance_id(const char* value);
-  void set_instance_id(const char* value, size_t size);
-  ::std::string* mutable_instance_id();
-  ::std::string* release_instance_id();
-  void set_allocated_instance_id(::std::string* instance_id);
-
-  // int64 state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  ::google::protobuf::int64 state() const;
-  void set_state(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.SerializeFMUstateRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr instance_id_;
-  ::google::protobuf::int64 state_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class SerializeFMUstateResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.SerializeFMUstateResponse) */ {
- public:
-  SerializeFMUstateResponse();
-  virtual ~SerializeFMUstateResponse();
-
-  SerializeFMUstateResponse(const SerializeFMUstateResponse& from);
-
-  inline SerializeFMUstateResponse& operator=(const SerializeFMUstateResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  SerializeFMUstateResponse(SerializeFMUstateResponse&& from) noexcept
-    : SerializeFMUstateResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline SerializeFMUstateResponse& operator=(SerializeFMUstateResponse&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const SerializeFMUstateResponse& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SerializeFMUstateResponse* internal_default_instance() {
-    return reinterpret_cast<const SerializeFMUstateResponse*>(
-               &_SerializeFMUstateResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    42;
-
-  void Swap(SerializeFMUstateResponse* other);
-  friend void swap(SerializeFMUstateResponse& a, SerializeFMUstateResponse& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SerializeFMUstateResponse* New() const final {
-    return CreateMaybeMessage<SerializeFMUstateResponse>(NULL);
-  }
-
-  SerializeFMUstateResponse* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SerializeFMUstateResponse>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const SerializeFMUstateResponse& from);
-  void MergeFrom(const SerializeFMUstateResponse& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SerializeFMUstateResponse* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // bytes state = 1;
-  void clear_state();
-  static const int kStateFieldNumber = 1;
-  const ::std::string& state() const;
-  void set_state(const ::std::string& value);
-  #if LANG_CXX11
-  void set_state(::std::string&& value);
-  #endif
-  void set_state(const char* value);
-  void set_state(const void* value, size_t size);
-  ::std::string* mutable_state();
-  ::std::string* release_state();
-  void set_allocated_state(::std::string* state);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.SerializeFMUstateResponse)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr state_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class DeSerializeFMUstateRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.DeSerializeFMUstateRequest) */ {
- public:
-  DeSerializeFMUstateRequest();
-  virtual ~DeSerializeFMUstateRequest();
-
-  DeSerializeFMUstateRequest(const DeSerializeFMUstateRequest& from);
-
-  inline DeSerializeFMUstateRequest& operator=(const DeSerializeFMUstateRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  DeSerializeFMUstateRequest(DeSerializeFMUstateRequest&& from) noexcept
-    : DeSerializeFMUstateRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline DeSerializeFMUstateRequest& operator=(DeSerializeFMUstateRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const DeSerializeFMUstateRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DeSerializeFMUstateRequest* internal_default_instance() {
-    return reinterpret_cast<const DeSerializeFMUstateRequest*>(
-               &_DeSerializeFMUstateRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    43;
-
-  void Swap(DeSerializeFMUstateRequest* other);
-  friend void swap(DeSerializeFMUstateRequest& a, DeSerializeFMUstateRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline DeSerializeFMUstateRequest* New() const final {
-    return CreateMaybeMessage<DeSerializeFMUstateRequest>(NULL);
-  }
-
-  DeSerializeFMUstateRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<DeSerializeFMUstateRequest>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const DeSerializeFMUstateRequest& from);
-  void MergeFrom(const DeSerializeFMUstateRequest& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(DeSerializeFMUstateRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string instance_id = 1;
-  void clear_instance_id();
-  static const int kInstanceIdFieldNumber = 1;
-  const ::std::string& instance_id() const;
-  void set_instance_id(const ::std::string& value);
-  #if LANG_CXX11
-  void set_instance_id(::std::string&& value);
-  #endif
-  void set_instance_id(const char* value);
-  void set_instance_id(const char* value, size_t size);
-  ::std::string* mutable_instance_id();
-  ::std::string* release_instance_id();
-  void set_allocated_instance_id(::std::string* instance_id);
-
-  // bytes state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  const ::std::string& state() const;
-  void set_state(const ::std::string& value);
-  #if LANG_CXX11
-  void set_state(::std::string&& value);
-  #endif
-  void set_state(const char* value);
-  void set_state(const void* value, size_t size);
-  ::std::string* mutable_state();
-  ::std::string* release_state();
-  void set_allocated_state(::std::string* state);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.DeSerializeFMUstateRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr instance_id_;
-  ::google::protobuf::internal::ArenaStringPtr state_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
-class DeSerializeFMUstateResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.DeSerializeFMUstateResponse) */ {
- public:
-  DeSerializeFMUstateResponse();
-  virtual ~DeSerializeFMUstateResponse();
-
-  DeSerializeFMUstateResponse(const DeSerializeFMUstateResponse& from);
-
-  inline DeSerializeFMUstateResponse& operator=(const DeSerializeFMUstateResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  DeSerializeFMUstateResponse(DeSerializeFMUstateResponse&& from) noexcept
-    : DeSerializeFMUstateResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline DeSerializeFMUstateResponse& operator=(DeSerializeFMUstateResponse&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const DeSerializeFMUstateResponse& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const DeSerializeFMUstateResponse* internal_default_instance() {
-    return reinterpret_cast<const DeSerializeFMUstateResponse*>(
-               &_DeSerializeFMUstateResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    44;
-
-  void Swap(DeSerializeFMUstateResponse* other);
-  friend void swap(DeSerializeFMUstateResponse& a, DeSerializeFMUstateResponse& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline DeSerializeFMUstateResponse* New() const final {
-    return CreateMaybeMessage<DeSerializeFMUstateResponse>(NULL);
-  }
-
-  DeSerializeFMUstateResponse* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<DeSerializeFMUstateResponse>(arena);
-  }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const DeSerializeFMUstateResponse& from);
-  void MergeFrom(const DeSerializeFMUstateResponse& from);
-  void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) final;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(DeSerializeFMUstateResponse* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // int64 state = 1;
-  void clear_state();
-  static const int kStateFieldNumber = 1;
-  ::google::protobuf::int64 state() const;
-  void set_state(::google::protobuf::int64 value);
-
-  // .fmuproxy.grpc.Status status = 2;
-  void clear_status();
-  static const int kStatusFieldNumber = 2;
-  ::fmuproxy::grpc::Status status() const;
-  void set_status(::fmuproxy::grpc::Status value);
-
-  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.DeSerializeFMUstateResponse)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int64 state_;
-  int status_;
-  mutable ::google::protobuf::internal::CachedSize _cached_size_;
-  friend struct ::protobuf_service_2eproto::TableStruct;
-};
-// -------------------------------------------------------------------
-
 class CanCreateInstanceFromCSRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.CanCreateInstanceFromCSRequest) */ {
  public:
   CanCreateInstanceFromCSRequest();
@@ -6074,7 +5113,7 @@ class CanCreateInstanceFromCSRequest : public ::google::protobuf::Message /* @@p
                &_CanCreateInstanceFromCSRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    37;
 
   void Swap(CanCreateInstanceFromCSRequest* other);
   friend void swap(CanCreateInstanceFromCSRequest& a, CanCreateInstanceFromCSRequest& b) {
@@ -6185,7 +5224,7 @@ class CanCreateInstanceFromMERequest : public ::google::protobuf::Message /* @@p
                &_CanCreateInstanceFromMERequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    38;
 
   void Swap(CanCreateInstanceFromMERequest* other);
   friend void swap(CanCreateInstanceFromMERequest& a, CanCreateInstanceFromMERequest& b) {
@@ -6296,7 +5335,7 @@ class GetDirectionalDerivativeRequest : public ::google::protobuf::Message /* @@
                &_GetDirectionalDerivativeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    39;
 
   void Swap(GetDirectionalDerivativeRequest* other);
   friend void swap(GetDirectionalDerivativeRequest& a, GetDirectionalDerivativeRequest& b) {
@@ -6449,7 +5488,7 @@ class GetDirectionalDerivativeResponse : public ::google::protobuf::Message /* @
                &_GetDirectionalDerivativeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    40;
 
   void Swap(GetDirectionalDerivativeResponse* other);
   friend void swap(GetDirectionalDerivativeResponse& a, GetDirectionalDerivativeResponse& b) {
@@ -6566,7 +5605,7 @@ class Url : public ::google::protobuf::Message /* @@protoc_insertion_point(class
                &_Url_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    41;
 
   void Swap(Url* other);
   friend void swap(Url& a, Url& b) {
@@ -6677,7 +5716,7 @@ class File : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
                &_File_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    42;
 
   void Swap(File* other);
   friend void swap(File& a, File& b) {
@@ -7555,32 +6594,32 @@ inline void CoSimulationAttributes::set_allocated_model_identifier(::std::string
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.CoSimulationAttributes.model_identifier)
 }
 
-// bool can_get_and_set_FMUstate = 2;
-inline void CoSimulationAttributes::clear_can_get_and_set_fmustate() {
-  can_get_and_set_fmustate_ = false;
+// bool can_get_and_set_fmu_state = 2;
+inline void CoSimulationAttributes::clear_can_get_and_set_fmu_state() {
+  can_get_and_set_fmu_state_ = false;
 }
-inline bool CoSimulationAttributes::can_get_and_set_fmustate() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_get_and_set_FMUstate)
-  return can_get_and_set_fmustate_;
+inline bool CoSimulationAttributes::can_get_and_set_fmu_state() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_get_and_set_fmu_state)
+  return can_get_and_set_fmu_state_;
 }
-inline void CoSimulationAttributes::set_can_get_and_set_fmustate(bool value) {
+inline void CoSimulationAttributes::set_can_get_and_set_fmu_state(bool value) {
   
-  can_get_and_set_fmustate_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_get_and_set_FMUstate)
+  can_get_and_set_fmu_state_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_get_and_set_fmu_state)
 }
 
-// bool can_serialize_FMUstate = 3;
-inline void CoSimulationAttributes::clear_can_serialize_fmustate() {
-  can_serialize_fmustate_ = false;
+// bool can_serialize_fmu_state = 3;
+inline void CoSimulationAttributes::clear_can_serialize_fmu_state() {
+  can_serialize_fmu_state_ = false;
 }
-inline bool CoSimulationAttributes::can_serialize_fmustate() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_serialize_FMUstate)
-  return can_serialize_fmustate_;
+inline bool CoSimulationAttributes::can_serialize_fmu_state() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.CoSimulationAttributes.can_serialize_fmu_state)
+  return can_serialize_fmu_state_;
 }
-inline void CoSimulationAttributes::set_can_serialize_fmustate(bool value) {
+inline void CoSimulationAttributes::set_can_serialize_fmu_state(bool value) {
   
-  can_serialize_fmustate_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_serialize_FMUstate)
+  can_serialize_fmu_state_ = value;
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.CoSimulationAttributes.can_serialize_fmu_state)
 }
 
 // bool provides_directional_derivative = 4;
@@ -10650,521 +9689,6 @@ inline void Bool::set_value(bool value) {
 
 // -------------------------------------------------------------------
 
-// GetFMUstateRequest
-
-// string instance_id = 1;
-inline void GetFMUstateRequest::clear_instance_id() {
-  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& GetFMUstateRequest::instance_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-  return instance_id_.GetNoArena();
-}
-inline void GetFMUstateRequest::set_instance_id(const ::std::string& value) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-}
-#if LANG_CXX11
-inline void GetFMUstateRequest::set_instance_id(::std::string&& value) {
-  
-  instance_id_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-}
-#endif
-inline void GetFMUstateRequest::set_instance_id(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-}
-inline void GetFMUstateRequest::set_instance_id(const char* value, size_t size) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-}
-inline ::std::string* GetFMUstateRequest::mutable_instance_id() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* GetFMUstateRequest::release_instance_id() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-  
-  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void GetFMUstateRequest::set_allocated_instance_id(::std::string* instance_id) {
-  if (instance_id != NULL) {
-    
-  } else {
-    
-  }
-  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.GetFMUstateRequest.instance_id)
-}
-
-// -------------------------------------------------------------------
-
-// GetFMUstateResponse
-
-// int64 state = 1;
-inline void GetFMUstateResponse::clear_state() {
-  state_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 GetFMUstateResponse::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetFMUstateResponse.state)
-  return state_;
-}
-inline void GetFMUstateResponse::set_state(::google::protobuf::int64 value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetFMUstateResponse.state)
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void GetFMUstateResponse::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status GetFMUstateResponse::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.GetFMUstateResponse.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void GetFMUstateResponse::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.GetFMUstateResponse.status)
-}
-
-// -------------------------------------------------------------------
-
-// SetFMUstateRequest
-
-// string instance_id = 1;
-inline void SetFMUstateRequest::clear_instance_id() {
-  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& SetFMUstateRequest::instance_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-  return instance_id_.GetNoArena();
-}
-inline void SetFMUstateRequest::set_instance_id(const ::std::string& value) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-}
-#if LANG_CXX11
-inline void SetFMUstateRequest::set_instance_id(::std::string&& value) {
-  
-  instance_id_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-}
-#endif
-inline void SetFMUstateRequest::set_instance_id(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-}
-inline void SetFMUstateRequest::set_instance_id(const char* value, size_t size) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-}
-inline ::std::string* SetFMUstateRequest::mutable_instance_id() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* SetFMUstateRequest::release_instance_id() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-  
-  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void SetFMUstateRequest::set_allocated_instance_id(::std::string* instance_id) {
-  if (instance_id != NULL) {
-    
-  } else {
-    
-  }
-  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.SetFMUstateRequest.instance_id)
-}
-
-// int64 state = 2;
-inline void SetFMUstateRequest::clear_state() {
-  state_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 SetFMUstateRequest::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SetFMUstateRequest.state)
-  return state_;
-}
-inline void SetFMUstateRequest::set_state(::google::protobuf::int64 value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SetFMUstateRequest.state)
-}
-
-// -------------------------------------------------------------------
-
-// FreeFMUstateRequest
-
-// string instance_id = 1;
-inline void FreeFMUstateRequest::clear_instance_id() {
-  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& FreeFMUstateRequest::instance_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-  return instance_id_.GetNoArena();
-}
-inline void FreeFMUstateRequest::set_instance_id(const ::std::string& value) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-}
-#if LANG_CXX11
-inline void FreeFMUstateRequest::set_instance_id(::std::string&& value) {
-  
-  instance_id_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-}
-#endif
-inline void FreeFMUstateRequest::set_instance_id(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-}
-inline void FreeFMUstateRequest::set_instance_id(const char* value, size_t size) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-}
-inline ::std::string* FreeFMUstateRequest::mutable_instance_id() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* FreeFMUstateRequest::release_instance_id() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-  
-  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void FreeFMUstateRequest::set_allocated_instance_id(::std::string* instance_id) {
-  if (instance_id != NULL) {
-    
-  } else {
-    
-  }
-  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.FreeFMUstateRequest.instance_id)
-}
-
-// int64 state = 2;
-inline void FreeFMUstateRequest::clear_state() {
-  state_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 FreeFMUstateRequest::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.FreeFMUstateRequest.state)
-  return state_;
-}
-inline void FreeFMUstateRequest::set_state(::google::protobuf::int64 value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.FreeFMUstateRequest.state)
-}
-
-// -------------------------------------------------------------------
-
-// SerializeFMUstateRequest
-
-// string instance_id = 1;
-inline void SerializeFMUstateRequest::clear_instance_id() {
-  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& SerializeFMUstateRequest::instance_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-  return instance_id_.GetNoArena();
-}
-inline void SerializeFMUstateRequest::set_instance_id(const ::std::string& value) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-}
-#if LANG_CXX11
-inline void SerializeFMUstateRequest::set_instance_id(::std::string&& value) {
-  
-  instance_id_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-}
-#endif
-inline void SerializeFMUstateRequest::set_instance_id(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-}
-inline void SerializeFMUstateRequest::set_instance_id(const char* value, size_t size) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-}
-inline ::std::string* SerializeFMUstateRequest::mutable_instance_id() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* SerializeFMUstateRequest::release_instance_id() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-  
-  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void SerializeFMUstateRequest::set_allocated_instance_id(::std::string* instance_id) {
-  if (instance_id != NULL) {
-    
-  } else {
-    
-  }
-  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.SerializeFMUstateRequest.instance_id)
-}
-
-// int64 state = 2;
-inline void SerializeFMUstateRequest::clear_state() {
-  state_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 SerializeFMUstateRequest::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SerializeFMUstateRequest.state)
-  return state_;
-}
-inline void SerializeFMUstateRequest::set_state(::google::protobuf::int64 value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SerializeFMUstateRequest.state)
-}
-
-// -------------------------------------------------------------------
-
-// SerializeFMUstateResponse
-
-// bytes state = 1;
-inline void SerializeFMUstateResponse::clear_state() {
-  state_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& SerializeFMUstateResponse::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SerializeFMUstateResponse.state)
-  return state_.GetNoArena();
-}
-inline void SerializeFMUstateResponse::set_state(const ::std::string& value) {
-  
-  state_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SerializeFMUstateResponse.state)
-}
-#if LANG_CXX11
-inline void SerializeFMUstateResponse::set_state(::std::string&& value) {
-  
-  state_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.SerializeFMUstateResponse.state)
-}
-#endif
-inline void SerializeFMUstateResponse::set_state(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  state_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.SerializeFMUstateResponse.state)
-}
-inline void SerializeFMUstateResponse::set_state(const void* value, size_t size) {
-  
-  state_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.SerializeFMUstateResponse.state)
-}
-inline ::std::string* SerializeFMUstateResponse::mutable_state() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.SerializeFMUstateResponse.state)
-  return state_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* SerializeFMUstateResponse::release_state() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.SerializeFMUstateResponse.state)
-  
-  return state_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void SerializeFMUstateResponse::set_allocated_state(::std::string* state) {
-  if (state != NULL) {
-    
-  } else {
-    
-  }
-  state_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), state);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.SerializeFMUstateResponse.state)
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void SerializeFMUstateResponse::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status SerializeFMUstateResponse::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.SerializeFMUstateResponse.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void SerializeFMUstateResponse::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.SerializeFMUstateResponse.status)
-}
-
-// -------------------------------------------------------------------
-
-// DeSerializeFMUstateRequest
-
-// string instance_id = 1;
-inline void DeSerializeFMUstateRequest::clear_instance_id() {
-  instance_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& DeSerializeFMUstateRequest::instance_id() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-  return instance_id_.GetNoArena();
-}
-inline void DeSerializeFMUstateRequest::set_instance_id(const ::std::string& value) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-}
-#if LANG_CXX11
-inline void DeSerializeFMUstateRequest::set_instance_id(::std::string&& value) {
-  
-  instance_id_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-}
-#endif
-inline void DeSerializeFMUstateRequest::set_instance_id(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-}
-inline void DeSerializeFMUstateRequest::set_instance_id(const char* value, size_t size) {
-  
-  instance_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-}
-inline ::std::string* DeSerializeFMUstateRequest::mutable_instance_id() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-  return instance_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* DeSerializeFMUstateRequest::release_instance_id() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-  
-  return instance_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void DeSerializeFMUstateRequest::set_allocated_instance_id(::std::string* instance_id) {
-  if (instance_id != NULL) {
-    
-  } else {
-    
-  }
-  instance_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instance_id);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.DeSerializeFMUstateRequest.instance_id)
-}
-
-// bytes state = 2;
-inline void DeSerializeFMUstateRequest::clear_state() {
-  state_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& DeSerializeFMUstateRequest::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-  return state_.GetNoArena();
-}
-inline void DeSerializeFMUstateRequest::set_state(const ::std::string& value) {
-  
-  state_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-}
-#if LANG_CXX11
-inline void DeSerializeFMUstateRequest::set_state(::std::string&& value) {
-  
-  state_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-}
-#endif
-inline void DeSerializeFMUstateRequest::set_state(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  state_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-}
-inline void DeSerializeFMUstateRequest::set_state(const void* value, size_t size) {
-  
-  state_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-}
-inline ::std::string* DeSerializeFMUstateRequest::mutable_state() {
-  
-  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-  return state_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* DeSerializeFMUstateRequest::release_state() {
-  // @@protoc_insertion_point(field_release:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-  
-  return state_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void DeSerializeFMUstateRequest::set_allocated_state(::std::string* state) {
-  if (state != NULL) {
-    
-  } else {
-    
-  }
-  state_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), state);
-  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.DeSerializeFMUstateRequest.state)
-}
-
-// -------------------------------------------------------------------
-
-// DeSerializeFMUstateResponse
-
-// int64 state = 1;
-inline void DeSerializeFMUstateResponse::clear_state() {
-  state_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 DeSerializeFMUstateResponse::state() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DeSerializeFMUstateResponse.state)
-  return state_;
-}
-inline void DeSerializeFMUstateResponse::set_state(::google::protobuf::int64 value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DeSerializeFMUstateResponse.state)
-}
-
-// .fmuproxy.grpc.Status status = 2;
-inline void DeSerializeFMUstateResponse::clear_status() {
-  status_ = 0;
-}
-inline ::fmuproxy::grpc::Status DeSerializeFMUstateResponse::status() const {
-  // @@protoc_insertion_point(field_get:fmuproxy.grpc.DeSerializeFMUstateResponse.status)
-  return static_cast< ::fmuproxy::grpc::Status >(status_);
-}
-inline void DeSerializeFMUstateResponse::set_status(::fmuproxy::grpc::Status value) {
-  
-  status_ = value;
-  // @@protoc_insertion_point(field_set:fmuproxy.grpc.DeSerializeFMUstateResponse.status)
-}
-
-// -------------------------------------------------------------------
-
 // CanCreateInstanceFromCSRequest
 
 // string fmu_id = 1;
@@ -11642,22 +10166,6 @@ inline void File::set_allocated_data(::std::string* data) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

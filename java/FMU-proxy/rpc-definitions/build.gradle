@@ -18,7 +18,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     
     def definitions = "../../../rpc-definitions"
 
-    task generateThrift(type: Exec) {
+    task (generateThrift, type: Exec) {
 
         def out = new File("src/main/java")
         if (!out.exists()) {
@@ -30,7 +30,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
             commandLine 'thrift',
                     '-r',
                     '-out', 'src/main/java',
-                    '--gen', 'java', "$definitions/thrift/service.thrift"
+                    '--gen', 'java:private-members,fullcamel', "$definitions/thrift/service.thrift"
 
         } catch (Exception ex) {
             println ex

@@ -34,7 +34,7 @@
 
 namespace fmuproxy::thrift::server {
 
-    class fmu_service_handler : virtual public FmuServiceIf {
+    class fmu_service_handler : virtual public fmu_serviceIf {
 
     private:
         std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus_;
@@ -43,24 +43,31 @@ namespace fmuproxy::thrift::server {
     public:
         explicit fmu_service_handler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus);
 
-        void loadFromUrl(FmuId &_return, const std::string &url) override;
+        void load_from_url(FmuId &_return, const std::string &url) override;
 
-        void loadFromFile(FmuId &_return, const std::string &name, const std::string &data) override;
+        void load_from_file(FmuId &_return, const std::string &name, const std::string &data) override;
 
-        void getModelDescription(ModelDescription &_return, const FmuId &fmu_id) override;
+        bool can_create_instance_from_cs(const FmuId &fmuId) override;
 
-        void createInstanceFromCS(InstanceId &_return, const FmuId &fmu_id) override;
+        bool can_create_instance_from_me(const FmuId &fmuId) override;
 
+        void get_model_description(ModelDescription &_return, const FmuId &fmu_id) override;
 
-        void createInstanceFromME(InstanceId &_return, const FmuId &fmu_id,
+        void create_instance_from_cs(InstanceId &_return, const FmuId &fmu_id) override;
+
+        void create_instance_from_me(InstanceId &_return, const FmuId &fmu_id,
                                   const ::fmuproxy::thrift::Solver &solver) override;
 
-        Status::type setupExperiment(const InstanceId &instanceId, double start, double stop,
+
+        void get_co_simulation_attributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
+                                          const InstanceId &instanceId) override;
+
+        Status::type setup_experiment(const InstanceId &instanceId, double start, double stop,
                                      double tolerance) override;
 
-        Status::type enterInitializationMode(const InstanceId &instanceId) override;
+        Status::type enter_initialization_mode(const InstanceId &instanceId) override;
 
-        Status::type exitInitializationMode(const InstanceId &instanceId) override;
+        Status::type exit_initialization_mode(const InstanceId &instanceId) override;
 
         void step(::fmuproxy::thrift::StepResult &_return, const InstanceId &instance_id,
                   double step_size) override;
@@ -69,50 +76,31 @@ namespace fmuproxy::thrift::server {
 
         Status::type terminate(const InstanceId &instance_id) override;
 
-        void readInteger(::fmuproxy::thrift::IntegerRead &_return, const InstanceId &instance_id,
+        void read_integer(::fmuproxy::thrift::IntegerRead &_return, const InstanceId &instance_id,
                          const ValueReferences &vr) override;
 
-        void readReal(::fmuproxy::thrift::RealRead &_return, const InstanceId &instance_id,
+        void read_real(::fmuproxy::thrift::RealRead &_return, const InstanceId &instance_id,
                       const ValueReferences &vr) override;
 
-        void readString(::fmuproxy::thrift::StringRead &_return, const InstanceId &instance_id,
+        void read_string(::fmuproxy::thrift::StringRead &_return, const InstanceId &instance_id,
                         const ValueReferences &vr) override;
 
-        void readBoolean(::fmuproxy::thrift::BooleanRead &_return, const InstanceId &instance_id,
+        void read_boolean(::fmuproxy::thrift::BooleanRead &_return, const InstanceId &instance_id,
                          const ValueReferences &vr) override;
 
-        Status::type writeInteger(const InstanceId &instance_id, const ValueReferences &vr,
+        Status::type write_integer(const InstanceId &instance_id, const ValueReferences &vr,
                                   const IntArray &value) override;
 
-        Status::type writeReal(const InstanceId &instance_id, const ValueReferences &vr,
+        Status::type write_real(const InstanceId &instance_id, const ValueReferences &vr,
                                const RealArray &value) override;
 
-        Status::type writeString(const InstanceId &instance_id, const ValueReferences &vr,
+        Status::type write_string(const InstanceId &instance_id, const ValueReferences &vr,
                                  const StringArray &values) override;
 
-        Status::type writeBoolean(const InstanceId &instance_id, const ValueReferences &vr,
+        Status::type write_boolean(const InstanceId &instance_id, const ValueReferences &vr,
                                   const BooleanArray &value) override;
 
-        void getFMUstate(GetFmuStateResult &_return, const InstanceId &instance_id) override;
-
-        Status::type setFMUstate(const InstanceId &instance_id, FmuState state) override;
-
-        Status::type freeFMUstate(const InstanceId &instance_id, FmuState state) override;
-
-        void serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &instance_id,
-                               FmuState state) override;
-
-        void deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &instance_id,
-                                 const std::string &state) override;
-
-        void getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
-                                       const InstanceId &instanceId) override;
-
-        bool canCreateInstanceFromCS(const FmuId &fmuId) override;
-
-        bool canCreateInstanceFromME(const FmuId &fmuId) override;
-
-        void getDirectionalDerivative(DirectionalDerivativeResult &_return, const InstanceId &slave_id,
+        void get_directional_derivative(DirectionalDerivativeResult &_return, const InstanceId &slave_id,
                                       const ValueReferences &vUnknownRef, const ValueReferences &vKnownRef,
                                       const std::vector<double> &dvKnownRef) override;
 

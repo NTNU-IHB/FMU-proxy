@@ -46,8 +46,8 @@ message ModelDescription {
 
 message CoSimulationAttributes {
     string model_identifier = 1;
-    bool can_get_and_set_FMUstate = 2;
-    bool can_serialize_FMUstate = 3;
+    bool can_get_and_set_fmu_state = 2;
+    bool can_serialize_fmu_state = 3;
     bool provides_directional_derivative = 4;
     bool can_handle_variable_communication_step_size = 5;
     bool can_interpolate_inputs = 6;
@@ -251,45 +251,6 @@ message Bool {
     bool value = 1;
 }
 
-message GetFMUstateRequest {
-    string instance_id = 1;
-}
-
-message GetFMUstateResponse {
-    int64 state = 1;
-    Status status = 2;
-}
-
-message SetFMUstateRequest {
-    string instance_id = 1;
-    int64 state = 2;
-}
-
-message FreeFMUstateRequest {
-    string instance_id = 1;
-    int64 state = 2;
-}
-
-message SerializeFMUstateRequest {
-    string instance_id = 1;
-    int64 state = 2;
-}
-
-message SerializeFMUstateResponse {
-    bytes state = 1;
-    Status status = 2;
-}
-
-message DeSerializeFMUstateRequest {
-    string instance_id = 1;
-    bytes state = 2;
-}
-
-message DeSerializeFMUstateResponse {
-    int64 state = 1;
-    Status status = 2;
-}
-
 message CanCreateInstanceFromCSRequest {
     string fmu_id = 1;
 }
@@ -351,13 +312,6 @@ service FmuService {
     rpc WriteString (WriteStringRequest) returns (StatusResponse);
     rpc WriteBoolean (WriteBooleanRequest) returns (StatusResponse);
 
-    rpc GetFMUstate(GetFMUstateRequest) returns (GetFMUstateResponse);
-    rpc SetFMUstate(SetFMUstateRequest) returns (StatusResponse);
-    rpc FreeFMUstate(FreeFMUstateRequest) returns (StatusResponse);
-
-    rpc SerializeFMUstate(SerializeFMUstateRequest) returns (SerializeFMUstateResponse);
-    rpc DeSerializeFMUstate(DeSerializeFMUstateRequest) returns (DeSerializeFMUstateResponse);
-    
     rpc GetDirectionalDerivative(GetDirectionalDerivativeRequest) returns (GetDirectionalDerivativeResponse);
 
 }

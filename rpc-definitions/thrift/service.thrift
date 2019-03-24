@@ -76,16 +76,16 @@ struct EnumerationAttribute {
 }
 
 union ScalarVariableAttribute {
-    1: IntegerAttribute integerAttribute,
-    2: RealAttribute realAttribute,
-    3: StringAttribute stringAttribute,
-    4: BooleanAttribute booleanAttribute,
-    5: EnumerationAttribute enumerationAttribute
+    1: IntegerAttribute integer_attribute,
+    2: RealAttribute real_attribute,
+    3: StringAttribute string_attribute,
+    4: BooleanAttribute boolean_attribute,
+    5: EnumerationAttribute enumeration_attribute
 }
 
 struct ScalarVariable {
     1: string name,
-    2: ValueReference valueReference,
+    2: ValueReference value_reference,
     3: optional string description,
     4: optional string initial,
     5: optional string causality,
@@ -98,13 +98,13 @@ typedef list<ScalarVariable> ModelVariables
 struct Unknown {
     1: i32 index,
     2: list<i32> dependencies,
-    3: list<string> dependenciesKind
+    3: list<string> dependencies_kind
 }
 
 struct ModelStructure {
     1: list<Unknown> outputs,
     2: list<Unknown> derivatives,
-    3: list<Unknown> initialUnknowns
+    3: list<Unknown> initial_unknowns
 }
 
 struct DefaultExperiment {
@@ -116,7 +116,7 @@ struct DefaultExperiment {
 
 struct StepResult {
     1: Status status,
-    2: double simulationTime
+    2: double simulation_time
 }
 
 struct IntegerRead {
@@ -146,29 +146,29 @@ struct Solver {
 
 struct ModelDescription {
     1: string guid,
-    2: string fmiVersion,
+    2: string fmi_version,
     3: string modelName,
     4: optional string license,
     5: optional string copyright,
     6: optional string author,
     7: optional string version,
     8: optional string description,
-    9: optional string generationTool,
-    10: optional string generationDateAndTime,
-    11: optional DefaultExperiment defaultExperiment,
-    12: optional string variableNamingConvention,
-    13: ModelVariables modelVariables,
-    14: ModelStructure modelStructure
+    9: optional string generation_tool,
+    10: optional string generation_date_and_time,
+    11: optional DefaultExperiment default_experiment,
+    12: optional string variable_naming_convention,
+    13: ModelVariables model_variables,
+    14: ModelStructure model_structure
 }
 
 struct CoSimulationAttributes {
-    1: string modelIdentifier,
-    2: bool canGetAndSetFMUstate,
-    3: bool canSerializeFMUstate,
-    4: bool providesDirectionalDerivative,
-    5: bool canHandleVariableCommunicationStepSize,
-    6: bool canInterpolateInputs,
-    7: i32 maxOutputDerivativeOrder
+    1: string model_identifier,
+    2: bool can_get_and_set_fmu_state,
+    3: bool can_serialize_fmu_state,
+    4: bool provides_directional_derivative,
+    5: bool can_handle_variable_communication_step_size,
+    6: bool can_interpolate_inputs,
+    7: i32 max_output_derivative_order
 }
 
 exception NoSuchFmuException {
@@ -187,66 +187,43 @@ exception UnsupportedOperationException {
     1: string message
 }
 
-struct GetFmuStateResult {
-    1: FmuState state
-    2: Status status;
-}
-
-struct SerializeFmuStateResult {
-    1: binary state
-    2: Status status
-}
-
-struct DeSerializeFmuStateResult {
-    1: FmuState state
-    2: Status status
-}
-
 struct DirectionalDerivativeResult {
-    1: DirectionalDerivative dvUnknownRef
+    1: DirectionalDerivative dv_unknown_ref
     2: Status status
 }
 
-service FmuService {
+service fmu_service {
 
-    FmuId loadFromUrl(1: string url)
+    FmuId load_from_url(1: string url)
+    FmuId load_from_file(1: string name, 2: binary data)
 
-    FmuId loadFromFile(1: string name, 2: binary data)
+    ModelDescription get_model_description(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    CoSimulationAttributes get_co_simulation_attributes(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
 
-    ModelDescription getModelDescription(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
-    CoSimulationAttributes getCoSimulationAttributes(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    bool can_create_instance_from_cs(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    bool can_create_instance_from_me(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
 
-    bool canCreateInstanceFromCS(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
-    bool canCreateInstanceFromME(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    InstanceId create_instance_from_cs(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
+    InstanceId create_instance_from_me(1: FmuId fmuId, 2: Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
 
-    InstanceId createInstanceFromCS(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
-    InstanceId createInstanceFromME(1: FmuId fmuId, 2: Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
-
-    Status setupExperiment(1: InstanceId instanceId, 2: double start, 3: double stop, 4: double tolerance) throws (1: NoSuchInstanceException ex)
-    Status enterInitializationMode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
-    Status exitInitializationMode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    Status setup_experiment(1: InstanceId instanceId, 2: double start, 3: double stop, 4: double tolerance) throws (1: NoSuchInstanceException ex)
+    Status enter_initialization_mode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    Status exit_initialization_mode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
     
     StepResult step(1: InstanceId instanceId, 2: double stepSize) throws (1: NoSuchInstanceException ex)
     Status reset(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
     Status terminate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
 
-    IntegerRead readInteger(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    RealRead readReal(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    StringRead readString(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    BooleanRead readBoolean(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    IntegerRead read_integer(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    RealRead read_real(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    StringRead read_string(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    BooleanRead read_boolean(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
 
-    Status writeInteger(1: InstanceId instanceId, 2: ValueReferences vr, 3: IntArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    Status writeReal(1: InstanceId instanceId, 2: ValueReferences vr, 3: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    Status writeString(1: InstanceId instanceId, 2: ValueReferences vr, 3: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    Status writeBoolean(1: InstanceId instanceId, 2: ValueReferences vr, 3: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    Status write_integer(1: InstanceId instanceId, 2: ValueReferences vr, 3: IntArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    Status write_real(1: InstanceId instanceId, 2: ValueReferences vr, 3: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    Status write_string(1: InstanceId instanceId, 2: ValueReferences vr, 3: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    Status write_boolean(1: InstanceId instanceId, 2: ValueReferences vr, 3: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
 
-    GetFmuStateResult getFMUstate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-    Status setFMUstate(1: InstanceId instanceId, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-    Status freeFMUstate(1: InstanceId instanceId, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-
-    SerializeFmuStateResult serializeFMUstate(1: InstanceId instanceId, 2: FmuState state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-    DeSerializeFmuStateResult deSerializeFMUstate(1: InstanceId instanceId, 2: binary state) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
-
-    DirectionalDerivativeResult getDirectionalDerivative(1: InstanceId instanceId, 2: ValueReferences vUnknownRef, 3: ValueReferences vKnownRef, 4: list<double> dvKnownRef) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
+    DirectionalDerivativeResult get_directional_derivative(1: InstanceId instanceId, 2: ValueReferences vUnknownRef, 3: ValueReferences vKnownRef, 4: list<double> dvKnownRef) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
     
 }
