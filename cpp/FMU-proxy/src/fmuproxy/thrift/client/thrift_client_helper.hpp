@@ -118,21 +118,21 @@ namespace {
         fmi4cpp::fmi2::scalar_variable_base base;
         base.name = v.name;
         base.description = v.description;
-        base.value_reference = (fmi2ValueReference) v.valueReference;
+        base.value_reference = (fmi2ValueReference) v.value_reference;
         base.variability = fmi4cpp::fmi2::parse_variability(v.variability);
         base.causality = fmi4cpp::fmi2::parse_causality(v.causality);
         base.initial = fmi4cpp::fmi2::parse_initial(v.initial);
 
-        if (v.attribute.__isset.integerAttribute) {
-            return {base, convert(v.attribute.integerAttribute)};
-        } else if (v.attribute.__isset.realAttribute) {
-            return {base, convert(v.attribute.realAttribute)};
-        } else if (v.attribute.__isset.stringAttribute) {
-            return {base, convert(v.attribute.stringAttribute)};
-        } else if (v.attribute.__isset.booleanAttribute) {
-            return {base, convert(v.attribute.booleanAttribute)};
-        } else if (v.attribute.__isset.enumerationAttribute) {
-            return {base, convert(v.attribute.enumerationAttribute)};
+        if (v.attribute.__isset.integer_attribute) {
+            return {base, convert(v.attribute.integer_attribute)};
+        } else if (v.attribute.__isset.real_attribute) {
+            return {base, convert(v.attribute.real_attribute)};
+        } else if (v.attribute.__isset.string_attribute) {
+            return {base, convert(v.attribute.string_attribute)};
+        } else if (v.attribute.__isset.boolean_attribute) {
+            return {base, convert(v.attribute.boolean_attribute)};
+        } else if (v.attribute.__isset.enumeration_attribute) {
+            return {base, convert(v.attribute.enumeration_attribute)};
         } else {
             throw std::runtime_error("Fatal: no attribute set!");
         }
