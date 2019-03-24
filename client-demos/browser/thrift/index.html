@@ -6,7 +6,7 @@
         <title>Thrift Javascript test</title>
 
         <script src="js/thrift.js"></script>
-        <script src="js/FmuService.js"></script>
+        <script src="js/fmu_service.js"></script>
         <script src="js/service_types.js"></script>
         
     </head>
@@ -14,42 +14,42 @@
     
         <script>
 
-            // Demo showcasing a Thift Javascript client talking to a Thrift server over HTTP with JSON encoding.
+            // Demo showcasing a Thrift Javascript client talking to a Thrift server over HTTP with JSON encoding.
             // The client supports both synchronous and asynchronous operation
 
             (function() {
 
                 var transport = new Thrift.TXHRTransport("http://localhost:9091/thrift")
                 var protocol  = new Thrift.TJSONProtocol(transport)
-                var client    = new FmuServiceClient(protocol)
+                var client    = new fmu_serviceClient(protocol)
 
-                var fmu_id = client.load("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
-                console.log(client.getModelDescription(fmu_id))
+                var fmu_id = client.load_from_url("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
+                console.log(client.get_model_description(fmu_id))
 
-                var instance_id = client.createInstanceFromCS(fmu_id)
+                var instance_id = client.create_instance_from_cs(fmu_id)
                 
                 var t = 0.0
-		var status = undefined;
-                status = client.setupExperiment(instance_id, t)
-                status = client.enterInitializationMode(instance_id)
-                status = client.exitInitializationMode(instance_id)
+		        var status = undefined;
+                status = client.setup_experiment(instance_id, t)
+                status = client.enter_initialization_mode(instance_id)
+                status = client.exit_initialization_mode(instance_id)
 
-		var vr = 47
-		var stop = 0.1
+                var vr = 47
+                var stop = 0.1
                 var step_size = 1E-2
 
                 var t0 = performance.now()
 
                 while ( t < stop ) {
 
-		    var read = client.readReal(instance_id, [vr]);
-		   // console.log("t=" + t + ", " + read.value)
+                    var read = client.read_real(instance_id, [vr]);
+                   // console.log("t=" + t + ", " + read.value)
                     var result = client.step(instance_id, step_size)
                     if (result.status != 0) {
-			console.error("Step failed!")
+			            console.error("Step failed!")
                         break
                     }
-                    t = result.simulationTime
+                    t = result.simulation_time
 
                 }
 
