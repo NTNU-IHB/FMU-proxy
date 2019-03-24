@@ -43,16 +43,16 @@ grpc_fmu_client::grpc_fmu_client(const std::string &host, const unsigned int por
     stub_ = move(FmuService::NewStub(channel));
 }
 
-remote_grpc_fmu grpc_fmu_client::fromUrl(const std::string &url) {
+remote_grpc_fmu grpc_fmu_client::from_url(const std::string &url) {
     ClientContext ctx;
     Url url_;
     FmuId fmuId;
     url_.set_url(url);
     stub_->LoadFromUrl(&ctx, url_, &fmuId);
-    return fromGuid(fmuId.value());
+    return from_guid(fmuId.value());
 }
 
-remote_grpc_fmu grpc_fmu_client::fromFile(const std::string &file) {
+remote_grpc_fmu grpc_fmu_client::from_file(const std::string &file) {
 
     fs::path p(file);
     std::string name = p.stem().string();
@@ -67,10 +67,10 @@ remote_grpc_fmu grpc_fmu_client::fromFile(const std::string &file) {
     file_.set_data(data);
 
     stub_->LoadFromFile(&ctx, file_, &fmuId);
-    return fromGuid(fmuId.value());
+    return from_guid(fmuId.value());
 }
 
-remote_grpc_fmu grpc_fmu_client::fromGuid(const std::string &guid) {
+remote_grpc_fmu grpc_fmu_client::from_guid(const std::string &guid) {
     return remote_grpc_fmu(guid, stub_);
 }
 

@@ -42,7 +42,7 @@ namespace fmuproxy::thrift::client {
         bool terminated_ = false;
         Status::type lastStatus_;
 
-        bool updateStatusAndReturnTrueOnOK(Status::type status);
+        bool update_status_and_return_true_on_ok(Status::type status);
 
     public:
         remote_fmu_slave(const InstanceId &instanceId, FmuServiceClient &client,

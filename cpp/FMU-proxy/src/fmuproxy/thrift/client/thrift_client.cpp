@@ -47,13 +47,13 @@ thrift_client::thrift_client(const string &host, const unsigned int port) {
     transport_->open();
 }
 
-remote_thrift_fmu thrift_client::fromUrl(const std::string &url) {
+remote_thrift_fmu thrift_client::from_url(const std::string &url) {
     FmuId guid;
     client_->loadFromUrl(guid, url);
     return remote_thrift_fmu(guid, client_);
 }
 
-remote_thrift_fmu thrift_client::fromFile(const std::string &file) {
+remote_thrift_fmu thrift_client::from_file(const std::string &file) {
 
     fs::path p(file);
     std::string name = p.stem().string();
@@ -66,7 +66,7 @@ remote_thrift_fmu thrift_client::fromFile(const std::string &file) {
     return remote_thrift_fmu(guid, client_);
 }
 
-remote_thrift_fmu thrift_client::fromGuid(const std::string &guid) {
+remote_thrift_fmu thrift_client::from_guid(const std::string &guid) {
     return remote_thrift_fmu(guid, client_);
 }
 

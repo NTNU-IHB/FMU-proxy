@@ -42,7 +42,7 @@ class remote_fmu_slave : public fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_descr
         bool terminated_ = false;
         fmuproxy::grpc::Status lastStatus_;
 
-        bool updateStatusAndReturnTrueOnOK(fmuproxy::grpc::Status status);
+        bool update_status_and_return_true_on_ok(fmuproxy::grpc::Status status);
 
     public:
         remote_fmu_slave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub,

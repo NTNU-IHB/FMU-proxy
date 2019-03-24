@@ -28,6 +28,7 @@
 #include <fmuproxy/heartbeat/heartbeat.hpp>
 #include <nlohmann/json.hpp>
 #include "heartbeat_helper.hpp"
+#include "../util/simple_id.hpp"
 
 using namespace std;
 using namespace fmuproxy;

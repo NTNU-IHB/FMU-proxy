@@ -43,7 +43,7 @@ namespace fmuproxy {
             std::vector<std::string> split;
             boost::split(split, address, boost::is_any_of(":"));
             const std::string host = split[0];
-            const unsigned int port = std::stoi(split[1]);
+            const auto port = static_cast<const unsigned int>(std::stoi(split[1]));
             return {host, port};
         }
 

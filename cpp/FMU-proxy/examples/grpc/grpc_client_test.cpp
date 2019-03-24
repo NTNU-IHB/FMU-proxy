@@ -68,12 +68,12 @@ int main() {
 
     auto client = grpc_fmu_client("localhost", 9080);
 
-    auto fmu = client.fromGuid("{06c2700b-b39c-4895-9151-304ddde28443}");
+    auto fmu = client.from_guid("{06c2700b-b39c-4895-9151-304ddde28443}");
     run_slave(fmu.newInstance());
 
 
-    auto remote_fmu = client.fromFile("../fmus/2.0/cs/20sim/4.6.4.8004/"
-                                      "ControlledTemperature/ControlledTemperature.fmu");
+    auto remote_fmu = client.from_file("../fmus/2.0/cs/20sim/4.6.4.8004/"
+                                       "ControlledTemperature/ControlledTemperature.fmu");
     run_slave(remote_fmu.newInstance());
 
     return 0;

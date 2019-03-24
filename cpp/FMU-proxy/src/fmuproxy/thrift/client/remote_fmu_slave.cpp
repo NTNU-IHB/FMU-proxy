@@ -41,7 +41,7 @@ remote_fmu_slave::remote_fmu_slave(const InstanceId &instanceId, FmuServiceClien
                                                                                               convert(attributes));
 }
 
-bool remote_fmu_slave::updateStatusAndReturnTrueOnOK(Status::type status) {
+bool remote_fmu_slave::update_status_and_return_true_on_ok(Status::type status) {
     lastStatus_ = status;
     return status == Status::type::OK_STATUS;
 }
@@ -56,39 +56,39 @@ std::shared_ptr<const fmi4cpp::fmi2::cs_model_description> remote_fmu_slave::get
 
 
 bool remote_fmu_slave::setup_experiment(double startTime, double stopTime, double tolerance) {
-    return updateStatusAndReturnTrueOnOK(client_.setupExperiment(instanceId_, startTime, stopTime, tolerance));
+    return update_status_and_return_true_on_ok(client_.setupExperiment(instanceId_, startTime, stopTime, tolerance));
 }
 
 bool remote_fmu_slave::enter_initialization_mode() {
-    return updateStatusAndReturnTrueOnOK(client_.enterInitializationMode(instanceId_));
+    return update_status_and_return_true_on_ok(client_.enterInitializationMode(instanceId_));
 }
 
 bool remote_fmu_slave::exit_initialization_mode() {
-    return updateStatusAndReturnTrueOnOK(client_.exitInitializationMode(instanceId_));
+    return update_status_and_return_true_on_ok(client_.exitInitializationMode(instanceId_));
 }
 
 bool remote_fmu_slave::step(const double step_size) {
     StepResult stepResult;
     client_.step(stepResult, instanceId_, step_size);
     simulationTime_ = stepResult.simulationTime;
-    return updateStatusAndReturnTrueOnOK(stepResult.status);
+    return update_status_and_return_true_on_ok(stepResult.status);
 }
 
 bool remote_fmu_slave::cancel_step() {
-    return updateStatusAndReturnTrueOnOK(Status::type::DISCARD_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::DISCARD_STATUS);
 }
 
 bool remote_fmu_slave::terminate() {
     if (!terminated_) {
         terminated_ = true;
-        return updateStatusAndReturnTrueOnOK(client_.terminate(instanceId_));
+        return update_status_and_return_true_on_ok(client_.terminate(instanceId_));
     } else {
         return true;
     }
 }
 
 bool remote_fmu_slave::reset() {
-    return updateStatusAndReturnTrueOnOK(client_.reset(instanceId_));
+    return update_status_and_return_true_on_ok(client_.reset(instanceId_));
 }
 
 bool remote_fmu_slave::read_integer(const fmi2ValueReference vr, fmi2Integer &ref) {
@@ -104,7 +104,7 @@ bool remote_fmu_slave::read_integer(const std::vector<fmi2ValueReference> &vr, s
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     client_.readInteger(integerRead, instanceId_, _vr);
     ref = integerRead.value;
-    return updateStatusAndReturnTrueOnOK(integerRead.status);
+    return update_status_and_return_true_on_ok(integerRead.status);
 }
 
 bool remote_fmu_slave::read_real(const fmi2ValueReference vr, fmi2Real &ref) {
@@ -120,7 +120,7 @@ bool remote_fmu_slave::read_real(const std::vector<fmi2ValueReference> &vr, std:
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     client_.readReal(realRead, instanceId_, _vr);
     ref = realRead.value;
-    return updateStatusAndReturnTrueOnOK(realRead.status);
+    return update_status_and_return_true_on_ok(realRead.status);
 }
 
 bool remote_fmu_slave::read_string(const fmi2ValueReference vr, fmi2String &ref) {
@@ -139,7 +139,7 @@ bool remote_fmu_slave::read_string(const std::vector<fmi2ValueReference> &vr, st
     std::transform(read.begin(), read.end(), std::back_inserter(ref), [](std::string str) -> const char * {
         return str.c_str();
     });
-    return updateStatusAndReturnTrueOnOK(stringRead.status);
+    return update_status_and_return_true_on_ok(stringRead.status);
 }
 
 bool remote_fmu_slave::read_boolean(const fmi2ValueReference vr, fmi2Boolean &ref) {
@@ -156,7 +156,7 @@ bool remote_fmu_slave::read_boolean(const std::vector<fmi2ValueReference> &vr, s
     client_.readBoolean(booleanRead, instanceId_, _vr);
     const std::vector<bool> read = booleanRead.value;
     ref = std::vector<fmi2Boolean>(read.begin(), read.end());
-    return updateStatusAndReturnTrueOnOK(booleanRead.status);
+    return update_status_and_return_true_on_ok(booleanRead.status);
 }
 
 bool remote_fmu_slave::write_integer(const fmi2ValueReference vr, const fmi2Integer value) {
@@ -167,7 +167,7 @@ bool remote_fmu_slave::write_integer(const fmi2ValueReference vr, const fmi2Inte
 
 bool remote_fmu_slave::write_integer(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Integer> &value) {
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
-    return updateStatusAndReturnTrueOnOK(client_.writeInteger(instanceId_, _vr, value));
+    return update_status_and_return_true_on_ok(client_.writeInteger(instanceId_, _vr, value));
 }
 
 bool remote_fmu_slave::write_real(const fmi2ValueReference vr, const fmi2Real value) {
@@ -178,7 +178,7 @@ bool remote_fmu_slave::write_real(const fmi2ValueReference vr, const fmi2Real va
 
 bool remote_fmu_slave::write_real(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Real> &value) {
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
-    return updateStatusAndReturnTrueOnOK(client_.writeReal(instanceId_, _vr, value));
+    return update_status_and_return_true_on_ok(client_.writeReal(instanceId_, _vr, value));
 }
 
 bool remote_fmu_slave::write_string(const fmi2ValueReference vr, const fmi2String value) {
@@ -190,7 +190,7 @@ bool remote_fmu_slave::write_string(const fmi2ValueReference vr, const fmi2Strin
 bool remote_fmu_slave::write_string(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2String> &value) {
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     const StringArray _value = std::vector<std::string>(value.begin(), value.end());
-    return updateStatusAndReturnTrueOnOK(client_.writeString(instanceId_, _vr, _value));
+    return update_status_and_return_true_on_ok(client_.writeString(instanceId_, _vr, _value));
 }
 
 bool remote_fmu_slave::write_boolean(const fmi2ValueReference vr, const fmi2Boolean value) {
@@ -202,34 +202,34 @@ bool remote_fmu_slave::write_boolean(const fmi2ValueReference vr, const fmi2Bool
 bool remote_fmu_slave::write_boolean(const std::vector<fmi2ValueReference> &vr, const std::vector<fmi2Boolean> &value) {
     const ValueReferences _vr = std::vector<int64_t>(vr.begin(), vr.end());
     const BooleanArray _value = std::vector<bool>(value.begin(), value.end());
-    return updateStatusAndReturnTrueOnOK(client_.writeBoolean(instanceId_, _vr, _value));
+    return update_status_and_return_true_on_ok(client_.writeBoolean(instanceId_, _vr, _value));
 }
 
 bool remote_fmu_slave::get_directional_derivative(const std::vector<fmi2ValueReference> &vUnknownRef,
                                               const std::vector<fmi2ValueReference> &vKnownRef,
                                               const std::vector<fmi2Real> &dvKnownRef,
                                               std::vector<fmi2Real> &dvUnknown) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::get_fmu_state(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::set_fmu_state(const fmi2FMUstate state) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::free_fmu_state(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::serialize_fmu_state(const fmi2FMUstate &state, std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::de_serialize_fmu_state(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(Status::type::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(Status::type::ERROR_STATUS);
 }
 
 remote_fmu_slave::~remote_fmu_slave() {

@@ -41,19 +41,7 @@
 
 
 namespace {
-
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_int_distribution<int> dist(0, 9);
-
-    inline std::string generate_simple_id(unsigned int len) {
-        std::string id;
-        for (unsigned int i = 0; i < len; i++) {
-            id += std::to_string(dist(mt));
-        }
-        return id;
-    }
-
+    
     // trim from start (in place)
     inline void ltrim(std::string &s) {
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
@@ -75,7 +63,7 @@ namespace {
     }
 
     //https://stackoverflow.com/questions/7724448/simple-json-string-escape-for-c
-    inline std::string toJSON(const std::string &s) {
+    inline std::string to_JSON(const std::string &s) {
         std::ostringstream o;
         for (auto c = s.cbegin(); c != s.cend(); c++) {
             if (*c == '"' || *c == '\\' || ('\x00' <= *c && *c <= '\x1f')) {

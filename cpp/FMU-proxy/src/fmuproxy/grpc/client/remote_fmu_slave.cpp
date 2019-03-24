@@ -55,7 +55,7 @@ shared_ptr<const fmi4cpp::fmi2::cs_model_description> remote_fmu_slave::get_mode
     return csModelDescription_;
 }
 
-bool remote_fmu_slave::updateStatusAndReturnTrueOnOK(fmuproxy::grpc::Status status) {
+bool remote_fmu_slave::update_status_and_return_true_on_ok(fmuproxy::grpc::Status status) {
     lastStatus_ = status;
     return status == fmuproxy::grpc::Status::OK_STATUS;
 }
@@ -72,7 +72,7 @@ bool remote_fmu_slave::setup_experiment(double startTime, double stopTime, doubl
 
     stub_.SetupExperiment(&ctx, request, &response);
     simulationTime_ = startTime;
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::enter_initialization_mode() {
@@ -83,7 +83,7 @@ bool remote_fmu_slave::enter_initialization_mode() {
     request.set_instance_id(instanceId_);
 
     stub_.EnterInitializationMode(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::exit_initialization_mode() {
@@ -94,7 +94,7 @@ bool remote_fmu_slave::exit_initialization_mode() {
     request.set_instance_id(instanceId_);
 
     stub_.ExitInitializationMode(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 
@@ -109,7 +109,7 @@ bool remote_fmu_slave::step(const double step_size) {
 
     stub_.Step(&ctx, request, &response);
     simulationTime_ = response.simulation_time();
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::terminate() {
@@ -123,7 +123,7 @@ bool remote_fmu_slave::terminate() {
         request.set_instance_id(instanceId_);
 
         stub_.Terminate(&ctx, request, &response);
-        return updateStatusAndReturnTrueOnOK(response.status());
+        return update_status_and_return_true_on_ok(response.status());
     } else {
         return true;
     }
@@ -143,7 +143,7 @@ bool remote_fmu_slave::reset() {
     request.set_instance_id(instanceId_);
 
     stub_.Reset(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::read_integer(const fmi2ValueReference vr, fmi2Integer &ref) {
@@ -171,7 +171,7 @@ bool remote_fmu_slave::read_integer(const vector<fmi2ValueReference> &vr, vector
     for (const auto v : response.values()) {
         ref.push_back(v);
     }
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::read_real(const fmi2ValueReference vr, fmi2Real &ref) {
@@ -199,7 +199,7 @@ bool remote_fmu_slave::read_real(const vector<fmi2ValueReference> &vr, vector<fm
     for (const auto &v : response.values()) {
         ref.push_back(v);
     }
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::read_string(const fmi2ValueReference vr, fmi2String &ref) {
@@ -227,7 +227,7 @@ bool remote_fmu_slave::read_string(const vector<fmi2ValueReference> &vr, vector<
     for (const auto &v : response.values()) {
         ref.push_back(v.c_str());
     }
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::read_boolean(const fmi2ValueReference vr, fmi2Boolean &ref) {
@@ -255,7 +255,7 @@ bool remote_fmu_slave::read_boolean(const vector<fmi2ValueReference> &vr, vector
     for (const auto v : response.values()) {
         ref.push_back(v ? 1 : 0);
     }
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::write_integer(const fmi2ValueReference vr, fmi2Integer value) {
@@ -281,7 +281,7 @@ bool remote_fmu_slave::write_integer(const vector<fmi2ValueReference> &vr, const
     }
 
     stub_.WriteInteger(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::write_real(const fmi2ValueReference vr, fmi2Real value) {
@@ -307,7 +307,7 @@ bool remote_fmu_slave::write_real(const vector<fmi2ValueReference> &vr, const ve
     }
 
     stub_.WriteReal(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::write_string(const fmi2ValueReference vr, fmi2String value) {
@@ -333,7 +333,7 @@ bool remote_fmu_slave::write_string(const vector<fmi2ValueReference> &vr, const 
     }
 
     stub_.WriteString(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 bool remote_fmu_slave::write_boolean(const fmi2ValueReference vr, fmi2Boolean value) {
@@ -359,7 +359,7 @@ bool remote_fmu_slave::write_boolean(const vector<fmi2ValueReference> &vr, const
     }
 
     stub_.WriteBoolean(&ctx, request, &response);
-    return updateStatusAndReturnTrueOnOK(response.status());
+    return update_status_and_return_true_on_ok(response.status());
 }
 
 
@@ -434,28 +434,28 @@ bool remote_fmu_slave::get_directional_derivative(const std::vector<fmi2ValueRef
                                               const std::vector<fmi2ValueReference> &vKnownRef,
                                               const std::vector<fmi2Real> &dvKnownRef,
                                               std::vector<fmi2Real> &dvUnknown) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(grpc::Status::ERROR_STATUS);
 }
 
 
 bool remote_fmu_slave::get_fmu_state(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(grpc::Status::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::set_fmu_state(fmi2FMUstate state) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(grpc::Status::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::free_fmu_state(fmi2FMUstate &state) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(grpc::Status::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::serialize_fmu_state(const fmi2FMUstate &state, std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(grpc::Status::ERROR_STATUS);
 }
 
 bool remote_fmu_slave::de_serialize_fmu_state(fmi2FMUstate &state, const std::vector<fmi2Byte> &serializedState) {
-    return updateStatusAndReturnTrueOnOK(grpc::Status::ERROR_STATUS);
+    return update_status_and_return_true_on_ok(grpc::Status::ERROR_STATUS);
 }
 
 remote_fmu_slave::~remote_fmu_slave() {

@@ -60,13 +60,14 @@ namespace fmuproxy::thrift::client {
 
 
     public:
+
         thrift_client(const std::string &host, unsigned int port);
 
-        remote_thrift_fmu fromUrl(const std::string &url);
+        remote_thrift_fmu from_url(const std::string &url);
 
-        remote_thrift_fmu fromFile(const std::string &file);
+        remote_thrift_fmu from_file(const std::string &file);
 
-        remote_thrift_fmu fromGuid(const std::string &guid);
+        remote_thrift_fmu from_guid(const std::string &guid);
 
         void close();
 

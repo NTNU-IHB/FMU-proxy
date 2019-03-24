@@ -50,6 +50,7 @@ namespace fmuproxy {
         void run();
 
     public:
+
         heartbeat(const remote_address &remote,
                   const std::unordered_map<std::string, unsigned int> &ports,
                   const std::vector<std::string> &modelDescriptions);

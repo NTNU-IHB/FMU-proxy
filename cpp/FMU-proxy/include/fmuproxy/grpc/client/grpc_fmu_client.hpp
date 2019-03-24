@@ -62,13 +62,14 @@ namespace fmuproxy::grpc::client {
 
 
     public:
+
         grpc_fmu_client(const std::string &host, unsigned int port);
 
-        remote_grpc_fmu fromUrl(const std::string &url);
+        remote_grpc_fmu from_url(const std::string &url);
 
-        remote_grpc_fmu fromFile(const std::string &file);
+        remote_grpc_fmu from_file(const std::string &file);
 
-        remote_grpc_fmu fromGuid(const std::string &guid);
+        remote_grpc_fmu from_guid(const std::string &guid);
 
     };
 
