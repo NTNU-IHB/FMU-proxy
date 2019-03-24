@@ -28,7 +28,7 @@
 #include <thread>
 #include <unordered_map>
 
-#include <fmi4cpp/fmi2/import/fmi2Fmu.hpp>
+#include <fmi4cpp/fmi2/fmu.hpp>
 #include <thrift/server/TServer.h>
 
 #include "../common/service_types.h"
@@ -51,7 +51,7 @@ namespace fmuproxy::thrift::server {
     public:
 
         thrift_fmu_server(std::unordered_map<fmuproxy::thrift::FmuId,
-                std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus,
+                std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus,
                 unsigned int port, bool http=false, bool multiThreaded = false);
 
         void start();

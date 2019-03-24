@@ -11,7 +11,6 @@ class FMUProxyConan(ConanFile):
         "OpenSSL/1.0.2o@conan/stable",
         "libcurl/7.61.1@bincrafters/stable",
         "libzip/1.5.1@bincrafters/stable",
-        "spdlog/1.3.1@bincrafters/stable",
         "jsonformoderncpp/3.5.0@vthiery/stable"
     )
     options = {

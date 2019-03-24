@@ -34,26 +34,26 @@ using namespace fmuproxy::grpc::client;
 const double stop = 2;
 const double step_size = 1E-2;
 
-void run_slave(unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>> slave) {
+void run_slave(unique_ptr<fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_description>> slave) {
 
-    auto md = slave->getModelDescription();
+    auto md = slave->get_model_description();
 
     cout << "GUID=" << md->guid << endl;
-    cout << "modelName=" << md->modelName << endl;
+    cout << "modelName=" << md->model_name << endl;
     cout << "license=" << md->license.value_or("-") << endl;
 
-    slave->setupExperiment();
-    slave->enterInitializationMode();
-    slave->exitInitializationMode();
+    slave->setup_experiment();
+    slave->enter_initialization_mode();
+    slave->exit_initialization_mode();
 
     auto elapsed = measure_time_sec([&slave, &md]{
         vector<fmi2Real > ref(2);
-        vector<fmi2ValueReference > vr = {md->getValueReference("Temperature_Reference"),
-                                          md->getValueReference("Temperature_Room")};
+        vector<fmi2ValueReference > vr = {md->get_value_reference("Temperature_Reference"),
+                                          md->get_value_reference("Temperature_Room")};
 
-        while ( (slave->getSimulationTime() ) < stop) {
-            slave->doStep(step_size);
-            slave->readReal(vr, ref);
+        while ( (slave->get_simulation_time() ) < stop) {
+            slave->step(step_size);
+            slave->read_real(vr, ref);
         }
     });
 

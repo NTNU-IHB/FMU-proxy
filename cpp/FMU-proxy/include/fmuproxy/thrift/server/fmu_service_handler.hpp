@@ -37,11 +37,11 @@ namespace fmuproxy::thrift::server {
     class fmu_service_handler : virtual public FmuServiceIf {
 
     private:
-        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus_;
-        std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::FmuSlave<fmi4cpp::fmi2::CoSimulationModelDescription>>> slaves_;
+        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus_;
+        std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_description>>> slaves_;
 
     public:
-        explicit fmu_service_handler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmi2Fmu>> &fmus);
+        explicit fmu_service_handler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus);
 
         void loadFromUrl(FmuId &_return, const std::string &url) override;
 
