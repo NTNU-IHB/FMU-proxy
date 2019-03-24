@@ -39,11 +39,6 @@ static const char* FmuService_method_names[] = {
   "/fmuproxy.grpc.FmuService/WriteReal",
   "/fmuproxy.grpc.FmuService/WriteString",
   "/fmuproxy.grpc.FmuService/WriteBoolean",
-  "/fmuproxy.grpc.FmuService/GetFMUstate",
-  "/fmuproxy.grpc.FmuService/SetFMUstate",
-  "/fmuproxy.grpc.FmuService/FreeFMUstate",
-  "/fmuproxy.grpc.FmuService/SerializeFMUstate",
-  "/fmuproxy.grpc.FmuService/DeSerializeFMUstate",
   "/fmuproxy.grpc.FmuService/GetDirectionalDerivative",
 };
 
@@ -76,12 +71,7 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   , rpcmethod_WriteReal_(FmuService_method_names[19], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_WriteString_(FmuService_method_names[20], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_WriteBoolean_(FmuService_method_names[21], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetFMUstate_(FmuService_method_names[22], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SetFMUstate_(FmuService_method_names[23], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_FreeFMUstate_(FmuService_method_names[24], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SerializeFMUstate_(FmuService_method_names[25], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeSerializeFMUstate_(FmuService_method_names[26], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetDirectionalDerivative_(FmuService_method_names[27], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetDirectionalDerivative_(FmuService_method_names[22], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status FmuService::Stub::LoadFromUrl(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url& request, ::fmuproxy::grpc::FmuId* response) {
@@ -348,66 +338,6 @@ FmuService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_WriteBoolean_, context, request, false);
 }
 
-::grpc::Status FmuService::Stub::GetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::fmuproxy::grpc::GetFMUstateResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetFMUstate_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetFMUstateResponse>* FmuService::Stub::AsyncGetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::GetFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_GetFMUstate_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::GetFMUstateResponse>* FmuService::Stub::PrepareAsyncGetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::GetFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_GetFMUstate_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::SetFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetFMUstateRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_SetFMUstate_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::AsyncSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_SetFMUstate_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::PrepareAsyncSetFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_SetFMUstate_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::FreeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::FreeFMUstateRequest& request, ::fmuproxy::grpc::StatusResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_FreeFMUstate_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::AsyncFreeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::FreeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_FreeFMUstate_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::StatusResponse>* FmuService::Stub::PrepareAsyncFreeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::FreeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::StatusResponse>::Create(channel_.get(), cq, rpcmethod_FreeFMUstate_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::SerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest& request, ::fmuproxy::grpc::SerializeFMUstateResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_SerializeFMUstate_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::SerializeFMUstateResponse>* FmuService::Stub::AsyncSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::SerializeFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_SerializeFMUstate_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::SerializeFMUstateResponse>* FmuService::Stub::PrepareAsyncSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::SerializeFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_SerializeFMUstate_, context, request, false);
-}
-
-::grpc::Status FmuService::Stub::DeSerializeFMUstate(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::fmuproxy::grpc::DeSerializeFMUstateResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_DeSerializeFMUstate_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* FmuService::Stub::AsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::DeSerializeFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_DeSerializeFMUstate_, context, request, true);
-}
-
-::grpc::ClientAsyncResponseReader< ::fmuproxy::grpc::DeSerializeFMUstateResponse>* FmuService::Stub::PrepareAsyncDeSerializeFMUstateRaw(::grpc::ClientContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::fmuproxy::grpc::DeSerializeFMUstateResponse>::Create(channel_.get(), cq, rpcmethod_DeSerializeFMUstate_, context, request, false);
-}
-
 ::grpc::Status FmuService::Stub::GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest& request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_GetDirectionalDerivative_, context, request, response);
 }
@@ -533,31 +463,6 @@ FmuService::Service::Service() {
           std::mem_fn(&FmuService::Service::WriteBoolean), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       FmuService_method_names[22],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetFMUstateRequest, ::fmuproxy::grpc::GetFMUstateResponse>(
-          std::mem_fn(&FmuService::Service::GetFMUstate), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[23],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::SetFMUstateRequest, ::fmuproxy::grpc::StatusResponse>(
-          std::mem_fn(&FmuService::Service::SetFMUstate), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[24],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::FreeFMUstateRequest, ::fmuproxy::grpc::StatusResponse>(
-          std::mem_fn(&FmuService::Service::FreeFMUstate), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[25],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::SerializeFMUstateRequest, ::fmuproxy::grpc::SerializeFMUstateResponse>(
-          std::mem_fn(&FmuService::Service::SerializeFMUstate), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[26],
-      ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::DeSerializeFMUstateRequest, ::fmuproxy::grpc::DeSerializeFMUstateResponse>(
-          std::mem_fn(&FmuService::Service::DeSerializeFMUstate), this)));
-  AddMethod(new ::grpc::internal::RpcServiceMethod(
-      FmuService_method_names[27],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< FmuService::Service, ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>(
           std::mem_fn(&FmuService::Service::GetDirectionalDerivative), this)));
@@ -714,41 +619,6 @@ FmuService::Service::~Service() {
 }
 
 ::grpc::Status FmuService::Service::WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::GetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetFMUstateRequest* request, ::fmuproxy::grpc::GetFMUstateResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::SetFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetFMUstateRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::FreeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::FreeFMUstateRequest* request, ::fmuproxy::grpc::StatusResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::SerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::SerializeFMUstateRequest* request, ::fmuproxy::grpc::SerializeFMUstateResponse* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status FmuService::Service::DeSerializeFMUstate(::grpc::ServerContext* context, const ::fmuproxy::grpc::DeSerializeFMUstateRequest* request, ::fmuproxy::grpc::DeSerializeFMUstateResponse* response) {
   (void) context;
   (void) request;
   (void) response;

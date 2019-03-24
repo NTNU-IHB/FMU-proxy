@@ -89,8 +89,8 @@ internal fun CoSimulationAttributes.protoType(): Service.CoSimulationAttributes 
         a.maxOutputDerivativeOrder = maxOutputDerivativeOrder
 
         a.modelIdentifier = modelIdentifier
-        a.canGetAndSetFMUstate = canGetAndSetFMUstate
-        a.canSerializeFMUstate = canSerializeFMUstate
+        a.canGetAndSetFmuState = canGetAndSetFMUstate
+        a.canSerializeFmuState = canSerializeFMUstate
         a.providesDirectionalDerivative = providesDirectionalDerivative
 
     }.build()

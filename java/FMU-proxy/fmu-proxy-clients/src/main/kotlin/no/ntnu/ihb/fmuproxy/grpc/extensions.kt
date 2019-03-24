@@ -229,11 +229,11 @@ internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
         override val canBeInstantiatedOnlyOncePerProcess: Boolean
             get() = false
         override val canGetAndSetFMUstate: Boolean
-            get() = this@convert.canGetAndSetFMUstate
+            get() = this@convert.canGetAndSetFmuState
         override val canNotUseMemoryManagementFunctions: Boolean
             get() = false
         override val canSerializeFMUstate: Boolean
-            get() = this@convert.canSerializeFMUstate
+            get() = this@convert.canSerializeFmuState
         override val modelIdentifier: String
             get() = this@convert.modelIdentifier
         override val needsExecutionTool: Boolean

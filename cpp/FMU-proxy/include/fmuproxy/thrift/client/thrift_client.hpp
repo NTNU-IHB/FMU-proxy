@@ -38,12 +38,12 @@ namespace fmuproxy::thrift::client {
     private:
 
         const FmuId fmuId_;
-        std::shared_ptr<FmuServiceClient> client_;
+        std::shared_ptr<fmu_service_client> client_;
         std::shared_ptr<const fmi4cpp::fmi2::model_description_base> modelDescription_;
 
     public:
 
-        remote_thrift_fmu(const FmuId &fmuId, std::shared_ptr<FmuServiceClient> client);
+        remote_thrift_fmu(const FmuId &fmuId, std::shared_ptr<fmu_service_client> client);
 
         std::shared_ptr<const fmi4cpp::fmi2::model_description_base> &getModelDescription();
 
@@ -55,7 +55,7 @@ namespace fmuproxy::thrift::client {
 
     private:
 
-        std::shared_ptr<FmuServiceClient> client_;
+        std::shared_ptr<fmu_service_client> client_;
         std::shared_ptr<apache::thrift::transport::TTransport> transport_;
 
 

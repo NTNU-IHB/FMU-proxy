@@ -40,7 +40,7 @@ using namespace fmuproxy::thrift::server;
 
 namespace {
 
-    const char* strToChar(const std::string &s) {
+    const char* str_to_char(const std::string &s) {
         char *pc = new char[s.size()+1];
         std::strcpy(pc, s.c_str());
         return pc;
@@ -50,25 +50,25 @@ namespace {
 
 fmu_service_handler::fmu_service_handler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::fmu>> &fmus) : fmus_(fmus) {}
 
-void fmu_service_handler::getCoSimulationAttributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
+void fmu_service_handler::get_co_simulation_attributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
                                                   const InstanceId &instanceId) {}
 
-bool fmu_service_handler::canCreateInstanceFromCS(const FmuId &fmuId) {
+bool fmu_service_handler::can_create_instance_from_cs(const FmuId &fmuId) {
     const auto &fmu = fmus_.at(fmuId);
     return fmu->supports_cs();
 }
 
-bool fmu_service_handler::canCreateInstanceFromME(const FmuId &fmuId) {
+bool fmu_service_handler::can_create_instance_from_me(const FmuId &fmuId) {
     const auto &fmu = fmus_.at(fmuId);
     return fmu->supports_me();
 }
 
-void fmu_service_handler::getModelDescription(fmuproxy::thrift::ModelDescription &_return, const FmuId &id) {
+void fmu_service_handler::get_model_description(fmuproxy::thrift::ModelDescription &_return, const FmuId &id) {
     const auto &fmu = fmus_.at(id);
     thrift_type(_return, *fmu->get_model_description());
 }
 
-void fmu_service_handler::loadFromUrl(FmuId &_return, const std::string &url) {
+void fmu_service_handler::load_from_url(FmuId &_return, const std::string &url) {
     cout << "Loading FMU from url " << url << endl;
     auto fmu = fmi4cpp::fmi2::fmu::from_url(url);
     auto guid = fmu->get_model_description()->guid;
@@ -78,7 +78,7 @@ void fmu_service_handler::loadFromUrl(FmuId &_return, const std::string &url) {
     _return = guid;
 }
 
-void fmu_service_handler::loadFromFile(FmuId &_return, const std::string &name, const std::string &data) {
+void fmu_service_handler::load_from_file(FmuId &_return, const std::string &name, const std::string &data) {
 
     fs::path tmp(fs::temp_directory_path() /= fs::path(name + "_" + generate_simple_id(8) + ".fmu"));
     const std::string fmuPath = tmp.string();
@@ -95,14 +95,14 @@ void fmu_service_handler::loadFromFile(FmuId &_return, const std::string &name, 
     _return = guid;
 }
 
-void fmu_service_handler::createInstanceFromCS(InstanceId &_return, const FmuId &id) {
+void fmu_service_handler::create_instance_from_cs(InstanceId &_return, const FmuId &id) {
     auto &fmu = fmus_.at(id);
     _return = generate_simple_id(10);
     slaves_[_return] = fmu->as_cs_fmu()->new_instance();
     cout << "Created new FMU slave from cs with id=" << _return << endl;
 }
 
-void fmu_service_handler::createInstanceFromME(InstanceId &_return, const FmuId &id, const fmuproxy::thrift::Solver &solver) {
+void fmu_service_handler::create_instance_from_me(InstanceId &_return, const FmuId &id, const fmuproxy::thrift::Solver &solver) {
     auto &fmu = fmus_.at(id);
 
     std::unique_ptr<fmi4cpp::solver::me_solver> solver_ = parse_solver(solver.name, solver.settings);
@@ -113,20 +113,20 @@ void fmu_service_handler::createInstanceFromME(InstanceId &_return, const FmuId 
 }
 
 
-Status::type fmu_service_handler::setupExperiment(const InstanceId &instanceId, const double start, const double stop,
+Status::type fmu_service_handler::setup_experiment(const InstanceId &instanceId, const double start, const double stop,
                                                 const double tolerance) {
     auto &slave = slaves_[instanceId];
     bool success = slave->setup_experiment(start, stop, tolerance);
     return thrift_type(slave->last_status());
 }
 
-Status::type fmu_service_handler::enterInitializationMode(const InstanceId &instanceId) {
+Status::type fmu_service_handler::enter_initialization_mode(const InstanceId &instanceId) {
     auto &slave = slaves_[instanceId];
     bool success = slave->enter_initialization_mode();
     return thrift_type(slave->last_status());
 }
 
-Status::type fmu_service_handler::exitInitializationMode(const InstanceId &instanceId) {
+Status::type fmu_service_handler::exit_initialization_mode(const InstanceId &instanceId) {
     auto &slave = slaves_[instanceId];
     bool success = slave->exit_initialization_mode();
     return thrift_type(slave->last_status());
@@ -136,7 +136,7 @@ Status::type fmu_service_handler::exitInitializationMode(const InstanceId &insta
 void fmu_service_handler::step(StepResult &_return, const InstanceId &slave_id, const double step_size) {
     auto &slave = slaves_[slave_id];
     bool success = slave->step(step_size);
-    _return.simulationTime = slave->get_simulation_time();
+    _return.simulation_time = slave->get_simulation_time();
     _return.status = thrift_type(slave->last_status());
 }
 
@@ -155,7 +155,7 @@ Status::type fmu_service_handler::reset(const InstanceId &slave_id) {
     return thrift_type(slave->last_status());
 }
 
-void fmu_service_handler::readInteger(IntegerRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
+void fmu_service_handler::read_integer(IntegerRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     vector<fmi2Integer> _value(vr.size());
@@ -164,7 +164,7 @@ void fmu_service_handler::readInteger(IntegerRead &_return, const InstanceId &sl
     _return.value = _value;
 }
 
-void fmu_service_handler::readReal(RealRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
+void fmu_service_handler::read_real(RealRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     vector<fmi2Real> _value(vr.size());
@@ -174,7 +174,7 @@ void fmu_service_handler::readReal(RealRead &_return, const InstanceId &slave_id
 }
 
 
-void fmu_service_handler::readString(StringRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
+void fmu_service_handler::read_string(StringRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     vector<fmi2String> _value(vr.size());
@@ -183,7 +183,7 @@ void fmu_service_handler::readString(StringRead &_return, const InstanceId &slav
     _return.value = vector<string>(_value.begin(), _value.end());
 }
 
-void fmu_service_handler::readBoolean(BooleanRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
+void fmu_service_handler::read_boolean(BooleanRead &_return, const InstanceId &slave_id, const ValueReferences &vr) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     vector<fmi2Boolean> _value(vr.size());
@@ -193,7 +193,7 @@ void fmu_service_handler::readBoolean(BooleanRead &_return, const InstanceId &sl
 }
 
 Status::type
-fmu_service_handler::writeInteger(const InstanceId &slave_id, const ValueReferences &vr, const IntArray &value) {
+fmu_service_handler::write_integer(const InstanceId &slave_id, const ValueReferences &vr, const IntArray &value) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     bool success = slave->write_integer(_vr, value);
@@ -202,7 +202,7 @@ fmu_service_handler::writeInteger(const InstanceId &slave_id, const ValueReferen
 
 
 Status::type
-fmu_service_handler::writeReal(const InstanceId &slave_id, const ValueReferences &vr, const RealArray &value) {
+fmu_service_handler::write_real(const InstanceId &slave_id, const ValueReferences &vr, const RealArray &value) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     bool success = slave->write_real(_vr, value);
@@ -211,18 +211,18 @@ fmu_service_handler::writeReal(const InstanceId &slave_id, const ValueReferences
 
 
 Status::type
-fmu_service_handler::writeString(const InstanceId &slave_id, const ValueReferences &vr, const StringArray &values) {
+fmu_service_handler::write_string(const InstanceId &slave_id, const ValueReferences &vr, const StringArray &values) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     vector<fmi2String > _values(_vr.size());
-    std::transform(values.begin(), values.end(), std::back_inserter(_values), strToChar);
+    std::transform(values.begin(), values.end(), std::back_inserter(_values), str_to_char);
     bool success = slave->write_string(_vr, _values);
     return thrift_type(slave->last_status());
 }
 
 
 Status::type
-fmu_service_handler::writeBoolean(const InstanceId &slave_id, const ValueReferences &vr, const BooleanArray &value) {
+fmu_service_handler::write_boolean(const InstanceId &slave_id, const ValueReferences &vr, const BooleanArray &value) {
     auto &slave = slaves_[slave_id];
     const vector<fmi2ValueReference> _vr(vr.begin(), vr.end());
     const vector<int> _value(value.begin(), value.end());
@@ -230,91 +230,9 @@ fmu_service_handler::writeBoolean(const InstanceId &slave_id, const ValueReferen
     return thrift_type(slave->last_status());
 }
 
-void fmu_service_handler::getFMUstate(GetFmuStateResult &_return, const InstanceId &slave_id) {
-    auto &slave = slaves_[slave_id];
-    if (!slave->get_model_description()->can_get_and_set_fmu_state) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
-        throw ex;
-    }
-
-    //TODO
-
-//    bool success = slave->getFMUstate(_return.state);
-//    _return.status = thrift_type(status);
-    _return.__set_status(Status::type::ERROR_STATUS);
-}
-
-Status::type fmu_service_handler::setFMUstate(const InstanceId &slave_id, const FmuState state) {
-    auto &slave = slaves_[slave_id];
-    if (!slave->get_model_description()->can_get_and_set_fmu_state) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
-        throw ex;
-    }
-
-    //TODO
-
-//    return thrift_type(slave->setFMUstate(state));
-    return Status::type::ERROR_STATUS;
-}
-
-Status::type fmu_service_handler::freeFMUstate(const InstanceId &slave_id, FmuState state) {
-    auto &slave = slaves_[slave_id];
-    if (!slave->get_model_description()->can_get_and_set_fmu_state) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
-        throw ex;
-    }
-
-    //TODO
-
-//    return thrift_type(slave->freeFMUstate(state));
-    return Status::type::ERROR_STATUS;
-}
-
-void fmu_service_handler::serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &slave_id,
-                                          const FmuState state) {
-    auto &slave = slaves_[slave_id];
-    if (!slave->get_model_description()->can_serialize_fmu_state) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'SerializeFMUstate'";
-        throw ex;
-    }
-
-    //TODO
-
-//    string serializedState;
-//    bool success = thrift_type(slave->serializeFMUstate(state, serializedState));
-//
-//    _return.__set_status(status);
-//    _return.__set_state(serializedState.data());
-    _return.__set_status(Status::type::ERROR_STATUS);
-}
-
-void fmu_service_handler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &slave_id,
-                                            const string &serializedState) {
-    auto &slave = slaves_[slave_id];
-    if (!slave->get_model_description()->can_serialize_fmu_state) {
-        auto ex = UnsupportedOperationException();
-        ex.message = "FMU does not have capability 'deSerializeFMUstate'";
-        throw ex;
-    }
-
-    //TODO
-
-//    int64_t state;
-//    bool success = thrift_type(slave->deSerializeFMUstate(serializedState, state));
-//
-//    _return.__set_state(state);
-//    _return.__set_status(status);
-    _return.__set_status(Status::type::ERROR_STATUS);
-
-}
-
-void fmu_service_handler::getDirectionalDerivative(DirectionalDerivativeResult &_return, const InstanceId &slave_id,
-                                                 const ValueReferences &vUnknownRef, const ValueReferences &vKnownRef,
-                                                 const std::vector<double> &dvKnownRef) {
+void fmu_service_handler::get_directional_derivative(DirectionalDerivativeResult &_return, const InstanceId &slave_id,
+                                                     const ValueReferences &vUnknownRef, const ValueReferences &vKnownRef,
+                                                     const std::vector<double> &dvKnownRef) {
     auto &slave = slaves_[slave_id];
     if (!slave->get_model_description()->provides_directional_derivative) {
         auto ex = UnsupportedOperationException();
@@ -329,6 +247,59 @@ void fmu_service_handler::getDirectionalDerivative(DirectionalDerivativeResult &
     bool success = slave->get_directional_derivative(_vUnknownRef, _vKnownRef, dvKnownRef, dvUnknownRef);
 
     _return.status = thrift_type(slave->last_status());
-    _return.dvUnknownRef = dvUnknownRef;
+    _return.dv_unknown_ref = dvUnknownRef;
 
 }
+
+//void fmu_service_handler::getFMUstate(get_fmu_state_result &_return, const InstanceId &slave_id) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->get_model_description()->can_get_and_set_fmu_state) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
+//        throw ex;
+//    }
+//    _return.__set_status(Status::type::ERROR_STATUS);
+//}
+//
+//Status::type fmu_service_handler::setFMUstate(const InstanceId &slave_id, const FmuState state) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->get_model_description()->can_get_and_set_fmu_state) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
+//        throw ex;
+//    }
+//    return Status::type::ERROR_STATUS;
+//}
+//
+//Status::type fmu_service_handler::freeFMUstate(const InstanceId &slave_id, FmuState state) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->get_model_description()->can_get_and_set_fmu_state) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'GetAndSetFMUstate'";
+//        throw ex;
+//    }
+//    return Status::type::ERROR_STATUS;
+//}
+//
+//void fmu_service_handler::serializeFMUstate(SerializeFmuStateResult &_return, const InstanceId &slave_id,
+//                                          const FmuState state) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->get_model_description()->can_serialize_fmu_state) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'SerializeFMUstate'";
+//        throw ex;
+//    }
+//    _return.__set_status(Status::type::ERROR_STATUS);
+//}
+//
+//void fmu_service_handler::deSerializeFMUstate(DeSerializeFmuStateResult &_return, const InstanceId &slave_id,
+//                                            const string &serializedState) {
+//    auto &slave = slaves_[slave_id];
+//    if (!slave->get_model_description()->can_serialize_fmu_state) {
+//        auto ex = UnsupportedOperationException();
+//        ex.message = "FMU does not have capability 'deSerializeFMUstate'";
+//        throw ex;
+//    }
+//    _return.__set_status(Status::type::ERROR_STATUS);
+//
+//}

@@ -1,1 +1,1 @@
-__all__ = ['ttypes', 'FmuService']
+__all__ = ['ttypes', 'fmu_service']

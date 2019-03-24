@@ -143,8 +143,8 @@ namespace {
 
         fmi4cpp::fmi2::cs_attributes attributes;
         attributes.model_identifier = a.model_identifier();
-        attributes.can_get_and_set_fmu_state = a.can_get_and_set_fmustate();
-        attributes.can_serialize_fmu_state = a.can_serialize_fmustate();
+        attributes.can_get_and_set_fmu_state = a.can_get_and_set_fmu_state();
+        attributes.can_serialize_fmu_state = a.can_serialize_fmu_state();
         attributes.provides_directional_derivative = a.provides_directional_derivative();
 
         attributes.can_interpolate_inputs = a.can_interpolate_inputs();

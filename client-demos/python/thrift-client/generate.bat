@@ -3,4 +3,4 @@ rmdir /Q /S service
 move gen-py/service service
 rmdir /Q /S gen-py
 del "constants.py" /Q /S
-@echo __all__ = ['ttypes', 'FmuService'] > service/__init__.py
+@echo __all__ = ['ttypes', 'fmu_service'] > service/__init__.py

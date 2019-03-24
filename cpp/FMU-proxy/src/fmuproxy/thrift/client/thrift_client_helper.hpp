@@ -118,21 +118,21 @@ namespace {
         fmi4cpp::fmi2::scalar_variable_base base;
         base.name = v.name;
         base.description = v.description;
-        base.value_reference = (fmi2ValueReference) v.valueReference;
+        base.value_reference = (fmi2ValueReference) v.value_reference;
         base.variability = fmi4cpp::fmi2::parse_variability(v.variability);
         base.causality = fmi4cpp::fmi2::parse_causality(v.causality);
         base.initial = fmi4cpp::fmi2::parse_initial(v.initial);
 
-        if (v.attribute.__isset.integerAttribute) {
-            return {base, convert(v.attribute.integerAttribute)};
-        } else if (v.attribute.__isset.realAttribute) {
-            return {base, convert(v.attribute.realAttribute)};
-        } else if (v.attribute.__isset.stringAttribute) {
-            return {base, convert(v.attribute.stringAttribute)};
-        } else if (v.attribute.__isset.booleanAttribute) {
-            return {base, convert(v.attribute.booleanAttribute)};
-        } else if (v.attribute.__isset.enumerationAttribute) {
-            return {base, convert(v.attribute.enumerationAttribute)};
+        if (v.attribute.__isset.integer_attribute) {
+            return {base, convert(v.attribute.integer_attribute)};
+        } else if (v.attribute.__isset.real_attribute) {
+            return {base, convert(v.attribute.real_attribute)};
+        } else if (v.attribute.__isset.string_attribute) {
+            return {base, convert(v.attribute.string_attribute)};
+        } else if (v.attribute.__isset.boolean_attribute) {
+            return {base, convert(v.attribute.boolean_attribute)};
+        } else if (v.attribute.__isset.enumeration_attribute) {
+            return {base, convert(v.attribute.enumeration_attribute)};
         } else {
             throw std::runtime_error("Fatal: no attribute set!");
         }
@@ -142,14 +142,14 @@ namespace {
     fmi4cpp::fmi2::cs_attributes convert(const fmuproxy::thrift::CoSimulationAttributes &a) {
 
         fmi4cpp::fmi2::cs_attributes attributes;
-        attributes.model_identifier = a.modelIdentifier;
-        attributes.can_get_and_set_fmu_state = a.canGetAndSetFMUstate;
-        attributes.can_serialize_fmu_state = a.canSerializeFMUstate;
-        attributes.provides_directional_derivative = a.providesDirectionalDerivative;
+        attributes.model_identifier = a.model_identifier;
+        attributes.can_get_and_set_fmu_state = a.can_get_and_set_fmu_state;
+        attributes.can_serialize_fmu_state = a.can_serialize_fmu_state;
+        attributes.provides_directional_derivative = a.provides_directional_derivative;
 
-        attributes.can_interpolate_inputs = a.canInterpolateInputs;
-        attributes.can_handle_variable_communication_step_size = a.canHandleVariableCommunicationStepSize;
-        attributes.max_output_derivative_order = static_cast<unsigned int>(a.maxOutputDerivativeOrder);
+        attributes.can_interpolate_inputs = a.can_interpolate_inputs;
+        attributes.can_handle_variable_communication_step_size = a.can_handle_variable_communication_step_size;
+        attributes.max_output_derivative_order = static_cast<unsigned int>(a.max_output_derivative_order);
 
         return attributes;
 
@@ -167,14 +167,14 @@ namespace {
 
         auto base = std::make_unique<fmi4cpp::fmi2::model_description_base>();
         base->guid = from.guid;
-        base-> fmi_version = from.fmiVersion;
+        base-> fmi_version = from.fmi_version;
         base->description = from.description;
         base->model_name = from.modelName;
-        base->model_variables = std::move(convert(from.modelVariables));
-        base->variable_naming_convention = from.variableNamingConvention;
-        base->default_experiment = convert(from.defaultExperiment);
-        base->generation_date_and_time = from.generationDateAndTime;
-        base->generation_tool = from.generationTool;
+        base->model_variables = std::move(convert(from.model_variables));
+        base->variable_naming_convention = from.variable_naming_convention;
+        base->default_experiment = convert(from.default_experiment);
+        base->generation_date_and_time = from.generation_date_and_time;
+        base->generation_tool = from.generation_tool;
         base->license = from.license;
         base->version = from.version;
         base->copyright = from.copyright;

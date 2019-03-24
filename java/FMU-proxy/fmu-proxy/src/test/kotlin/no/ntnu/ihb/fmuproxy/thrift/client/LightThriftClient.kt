@@ -80,7 +80,7 @@ class LightThriftClient(
     }
 
     fun newInstance(solver: Solver? = null): FmuInstance {
-        val instanceId = if (solver == null) client.createInstanceFromCS(fmuId) else client.createInstanceFromME(fmuId, solver.thriftType())
+        val instanceId = if (solver == null) client.createInstanceFromCs(fmuId) else client.createInstanceFromMe(fmuId, solver.thriftType())
         return FmuInstance(instanceId).also {
             FmuInstances.add(it)
         }

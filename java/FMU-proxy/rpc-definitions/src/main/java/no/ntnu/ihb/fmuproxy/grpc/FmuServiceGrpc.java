@@ -731,166 +731,6 @@ public final class FmuServiceGrpc {
      return getWriteBooleanMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse> getGetFMUstateMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetFMUstate",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse> getGetFMUstateMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse> getGetFMUstateMethod;
-    if ((getGetFMUstateMethod = FmuServiceGrpc.getGetFMUstateMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getGetFMUstateMethod = FmuServiceGrpc.getGetFMUstateMethod) == null) {
-          FmuServiceGrpc.getGetFMUstateMethod = getGetFMUstateMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "GetFMUstate"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("GetFMUstate"))
-                  .build();
-          }
-        }
-     }
-     return getGetFMUstateMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> getSetFMUstateMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "SetFMUstate",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> getSetFMUstateMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> getSetFMUstateMethod;
-    if ((getSetFMUstateMethod = FmuServiceGrpc.getSetFMUstateMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getSetFMUstateMethod = FmuServiceGrpc.getSetFMUstateMethod) == null) {
-          FmuServiceGrpc.getSetFMUstateMethod = getSetFMUstateMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "SetFMUstate"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("SetFMUstate"))
-                  .build();
-          }
-        }
-     }
-     return getSetFMUstateMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> getFreeFMUstateMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "FreeFMUstate",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> getFreeFMUstateMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> getFreeFMUstateMethod;
-    if ((getFreeFMUstateMethod = FmuServiceGrpc.getFreeFMUstateMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getFreeFMUstateMethod = FmuServiceGrpc.getFreeFMUstateMethod) == null) {
-          FmuServiceGrpc.getFreeFMUstateMethod = getFreeFMUstateMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "FreeFMUstate"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("FreeFMUstate"))
-                  .build();
-          }
-        }
-     }
-     return getFreeFMUstateMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse> getSerializeFMUstateMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "SerializeFMUstate",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse> getSerializeFMUstateMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse> getSerializeFMUstateMethod;
-    if ((getSerializeFMUstateMethod = FmuServiceGrpc.getSerializeFMUstateMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getSerializeFMUstateMethod = FmuServiceGrpc.getSerializeFMUstateMethod) == null) {
-          FmuServiceGrpc.getSerializeFMUstateMethod = getSerializeFMUstateMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "SerializeFMUstate"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("SerializeFMUstate"))
-                  .build();
-          }
-        }
-     }
-     return getSerializeFMUstateMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse> getDeSerializeFMUstateMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "DeSerializeFMUstate",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse> getDeSerializeFMUstateMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse> getDeSerializeFMUstateMethod;
-    if ((getDeSerializeFMUstateMethod = FmuServiceGrpc.getDeSerializeFMUstateMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getDeSerializeFMUstateMethod = FmuServiceGrpc.getDeSerializeFMUstateMethod) == null) {
-          FmuServiceGrpc.getDeSerializeFMUstateMethod = getDeSerializeFMUstateMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "DeSerializeFMUstate"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("DeSerializeFMUstate"))
-                  .build();
-          }
-        }
-     }
-     return getDeSerializeFMUstateMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest,
       no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse> getGetDirectionalDerivativeMethod;
 
@@ -1106,41 +946,6 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public void getFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetFMUstateMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void setFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getSetFMUstateMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void freeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getFreeFMUstateMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void serializeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getSerializeFMUstateMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void deSerializeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getDeSerializeFMUstateMethod(), responseObserver);
-    }
-
-    /**
-     */
     public void getDirectionalDerivative(no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetDirectionalDerivativeMethod(), responseObserver);
@@ -1302,41 +1107,6 @@ public final class FmuServiceGrpc {
                 no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest,
                 no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>(
                   this, METHODID_WRITE_BOOLEAN)))
-          .addMethod(
-            getGetFMUstateMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse>(
-                  this, METHODID_GET_FMUSTATE)))
-          .addMethod(
-            getSetFMUstateMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>(
-                  this, METHODID_SET_FMUSTATE)))
-          .addMethod(
-            getFreeFMUstateMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>(
-                  this, METHODID_FREE_FMUSTATE)))
-          .addMethod(
-            getSerializeFMUstateMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse>(
-                  this, METHODID_SERIALIZE_FMUSTATE)))
-          .addMethod(
-            getDeSerializeFMUstateMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse>(
-                  this, METHODID_DE_SERIALIZE_FMUSTATE)))
           .addMethod(
             getGetDirectionalDerivativeMethod(),
             asyncUnaryCall(
@@ -1544,46 +1314,6 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public void getFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetFMUstateMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void setFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getSetFMUstateMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void freeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getFreeFMUstateMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void serializeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getSerializeFMUstateMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void deSerializeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getDeSerializeFMUstateMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
     public void getDirectionalDerivative(no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse> responseObserver) {
       asyncUnaryCall(
@@ -1761,41 +1491,6 @@ public final class FmuServiceGrpc {
     public no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse writeBoolean(no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest request) {
       return blockingUnaryCall(
           getChannel(), getWriteBooleanMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse getFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getGetFMUstateMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse setFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getSetFMUstateMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse freeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getFreeFMUstateMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse serializeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getSerializeFMUstateMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse deSerializeFMUstate(no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getDeSerializeFMUstateMethod(), getCallOptions(), request);
     }
 
     /**
@@ -2002,46 +1697,6 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse> getFMUstate(
-        no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getGetFMUstateMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> setFMUstate(
-        no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getSetFMUstateMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse> freeFMUstate(
-        no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getFreeFMUstateMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse> serializeFMUstate(
-        no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getSerializeFMUstateMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse> deSerializeFMUstate(
-        no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getDeSerializeFMUstateMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
     public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse> getDirectionalDerivative(
         no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest request) {
       return futureUnaryCall(
@@ -2071,12 +1726,7 @@ public final class FmuServiceGrpc {
   private static final int METHODID_WRITE_REAL = 19;
   private static final int METHODID_WRITE_STRING = 20;
   private static final int METHODID_WRITE_BOOLEAN = 21;
-  private static final int METHODID_GET_FMUSTATE = 22;
-  private static final int METHODID_SET_FMUSTATE = 23;
-  private static final int METHODID_FREE_FMUSTATE = 24;
-  private static final int METHODID_SERIALIZE_FMUSTATE = 25;
-  private static final int METHODID_DE_SERIALIZE_FMUSTATE = 26;
-  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 27;
+  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 22;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -2183,26 +1833,6 @@ public final class FmuServiceGrpc {
           serviceImpl.writeBoolean((no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>) responseObserver);
           break;
-        case METHODID_GET_FMUSTATE:
-          serviceImpl.getFMUstate((no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.GetFMUstateResponse>) responseObserver);
-          break;
-        case METHODID_SET_FMUSTATE:
-          serviceImpl.setFMUstate((no.ntnu.ihb.fmuproxy.grpc.Service.SetFMUstateRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>) responseObserver);
-          break;
-        case METHODID_FREE_FMUSTATE:
-          serviceImpl.freeFMUstate((no.ntnu.ihb.fmuproxy.grpc.Service.FreeFMUstateRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>) responseObserver);
-          break;
-        case METHODID_SERIALIZE_FMUSTATE:
-          serviceImpl.serializeFMUstate((no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.SerializeFMUstateResponse>) responseObserver);
-          break;
-        case METHODID_DE_SERIALIZE_FMUSTATE:
-          serviceImpl.deSerializeFMUstate((no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.DeSerializeFMUstateResponse>) responseObserver);
-          break;
         case METHODID_GET_DIRECTIONAL_DERIVATIVE:
           serviceImpl.getDirectionalDerivative((no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse>) responseObserver);
@@ -2290,11 +1920,6 @@ public final class FmuServiceGrpc {
               .addMethod(getWriteRealMethod())
               .addMethod(getWriteStringMethod())
               .addMethod(getWriteBooleanMethod())
-              .addMethod(getGetFMUstateMethod())
-              .addMethod(getSetFMUstateMethod())
-              .addMethod(getFreeFMUstateMethod())
-              .addMethod(getSerializeFMUstateMethod())
-              .addMethod(getDeSerializeFMUstateMethod())
               .addMethod(getGetDirectionalDerivativeMethod())
               .build();
         }
