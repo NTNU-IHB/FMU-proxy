@@ -192,7 +192,15 @@ struct DirectionalDerivativeResult {
     2: Status status
 }
 
+struct AvailableFmu {
+	1: FmuId fmuId
+	2: string name
+	3: string description
+}
+
 service fmu_service {
+
+	list<AvailableFmu> get_available_fmus()
 
     FmuId load_from_url(1: string url)
     FmuId load_from_file(1: string name, 2: binary data)

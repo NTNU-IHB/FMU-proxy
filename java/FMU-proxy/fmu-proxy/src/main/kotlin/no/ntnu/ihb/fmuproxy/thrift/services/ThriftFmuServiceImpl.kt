@@ -53,7 +53,6 @@ class ThriftFmuServiceImpl(
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
     }
 
-
     private fun getFmu(fmuId: FmuId): Fmu {
         synchronized(fmus) {
             return fmus[fmuId] ?: throw NoSuchFmuException("No such FMU with guid: '$fmuId'")
