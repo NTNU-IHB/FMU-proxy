@@ -73,6 +73,7 @@ object FmuSlaves {
                     it.terminate()
                 }
             }
+            slaves.clear()
         }
     }
 
