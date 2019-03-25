@@ -35,24 +35,24 @@ gretty {
     logDir = "$projectDir/logs"
 }
 
-task copyThrift(type: Copy) {
-    from '../../..rpc-definitions/thrift'
+task ('copyThrift', type: Copy) {
+    from '../../../rpc-definitions/thrift'
     into 'src/main/webapp/resources/schemas/thrift'
     include '*.thrift'
 }
 
-task copyProto(type: Copy) {
+task ('copyProto', type: Copy) {
     from '../../../rpc-definitions/proto'
     into 'src/main/webapp/resources/schemas/proto'
     include '*.proto'
 }
 
-task copySchemas(type: Copy) {
+task ('copySchemas', type: Copy) {
     dependsOn 'copyThrift'
     dependsOn 'copyProto'
 }
 
-task copySchemasZip(type: Zip) {
+task ('copySchemasZip', type: Zip) {
     from fileTree(dir: '../../../rpc-definitions')
     archiveFileName = 'fmu-proxy-schemas.zip'
     destinationDirectory = file('src/main/webapp/resources/schemas')
