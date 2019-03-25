@@ -3469,6 +3469,7 @@ class fmu_serviceConcurrentClient : virtual public fmu_serviceIf {
 typedef fmu_serviceIf fmu_service_if;
 typedef fmu_serviceClient fmu_service_client;
 typedef fmu_serviceProcessor fmu_service_processor;
+typedef fmu_serviceConcurrentClient fmu_service_concurrent_client;
 }} // namespace
 
 #endif
