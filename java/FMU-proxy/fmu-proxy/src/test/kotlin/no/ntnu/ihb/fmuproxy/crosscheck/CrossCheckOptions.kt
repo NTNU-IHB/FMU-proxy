@@ -1,39 +1,37 @@
 package no.ntnu.ihb.fmuproxy.crosscheck
 
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 
-data class CrossCheckOptions(
-        var startTime: Double = 0.0,
-        var stopTime: Double = 10.0,
-        var stepSize: Double = 1e-3,
-        var relTol: Double = 1e-3,
-        var absTol: Double = 1e-3
-) {
 
-    companion object {
+class DefaultExperimentImpl : DefaultExperiment {
 
-        fun parse(txt: String): CrossCheckOptions {
+    override var startTime: Double = 0.0
+    override var stepSize: Double = 1.0/100
+    override var stopTime: Double = 10.0
+    override var tolerance: Double = 0.0
 
-            return CrossCheckOptions().apply {
+}
 
-                txt.trim().split("\n").forEach { line ->
+object CrossCheckOptions {
 
-                    val split = line.split(",")
-                    if (split.isNotEmpty()) {
-                        val (fst, snd) = split
-                        when (fst) {
-                            "StartTime" -> startTime = snd.toDouble()
-                            "StopTime" -> stopTime = snd.toDouble()
-                            "StepSize" -> stepSize = snd.toDouble()
-                            "RelTol" -> relTol = snd.toDouble()
-                            "AbsTol" ->  absTol = snd.toDouble()
-                        }
+    fun parse(txt: String): DefaultExperiment {
+
+        return DefaultExperimentImpl().apply {
+            txt.trim().split("\n").forEach { line ->
+
+                val split = line.split(",")
+                if (split.isNotEmpty()) {
+                    val (fst, snd) = split
+                    when (fst) {
+//                        "StartTime" -> startTime = snd.toDouble()
+//                        "StopTime" -> stopTime = snd.toDouble()
+                        "StepSize" -> stepSize = snd.toDouble()
                     }
-
                 }
 
             }
-
         }
 
     }
+
 }

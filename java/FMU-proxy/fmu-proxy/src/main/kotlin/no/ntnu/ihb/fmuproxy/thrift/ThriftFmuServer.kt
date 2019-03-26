@@ -25,6 +25,9 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
+import no.ntnu.ihb.fmuproxy.FmuId
+import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.services.ThriftFmuServiceImpl
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -58,7 +61,7 @@ abstract class ThriftFmuServer(
 
     override var port: Int? = null
     private var server: IServer? = null
-    private val handler = ThriftFmuServiceImpl(fmus)
+    internal var xcDefaults: Map<FmuId, DefaultExperiment>? = null
 
     override fun addFmu(fmu: Fmu) {
         synchronized(fmus) {
@@ -76,13 +79,13 @@ abstract class ThriftFmuServer(
 
         if (server == null) {
             this.port = port
-            this.server = setup(port, FmuService.Processor(handler)).apply {
+            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmus, xcDefaults))).apply {
                 Thread { serve() }.start()
             }
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")
         } else {
-            LOG.warn("Server already started!")
+            LOG.warn("${javaClass.simpleName} server already started!")
         }
 
     }

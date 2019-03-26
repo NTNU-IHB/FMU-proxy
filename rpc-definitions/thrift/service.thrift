@@ -194,8 +194,7 @@ struct DirectionalDerivativeResult {
 
 struct AvailableFmu {
 	1: FmuId fmuId
-	2: string name
-	3: string description
+	2: optional DefaultExperiment default_experiment
 }
 
 service FmuService {

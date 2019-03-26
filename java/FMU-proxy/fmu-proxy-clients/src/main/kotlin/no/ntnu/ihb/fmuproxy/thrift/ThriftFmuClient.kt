@@ -26,6 +26,7 @@ package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.Real
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
@@ -80,10 +81,10 @@ class ThriftFmuClient private constructor(
         }
     }
 
-    val availableFmus: List<AbstractRpcFmuClient>
+    val availableFmus: List<Pair<AbstractRpcFmuClient, DefaultExperiment>>
         get() {
             return client.availableFmus.map {
-                ThriftFmu(it.fmuId)
+                ThriftFmu(it.fmuId) to it.defaultExperiment.convert()
             }
         }
 

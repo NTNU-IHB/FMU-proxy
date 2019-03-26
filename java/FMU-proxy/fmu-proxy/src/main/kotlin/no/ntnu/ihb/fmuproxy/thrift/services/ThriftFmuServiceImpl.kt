@@ -26,6 +26,7 @@ package no.ntnu.ihb.fmuproxy.thrift.services
 
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
@@ -46,7 +47,8 @@ import java.nio.ByteBuffer
  * @author Lars Ivar Hatledal
  */
 class ThriftFmuServiceImpl(
-        private val fmus: MutableMap<FmuId, Fmu>
+        private val fmus: MutableMap<FmuId, Fmu>,
+        internal var xcDefaults: Map<FmuId, DefaultExperiment>? = null
 ) : FmuService.Iface {
 
     private companion object {
@@ -65,7 +67,12 @@ class ThriftFmuServiceImpl(
 
     override fun getAvailableFmus(): List<AvailableFmu> {
         return fmus.values.map {
-            AvailableFmu(it.guid, it.modelName, it.modelDescription.description)
+            AvailableFmu().apply {
+                fmuId = it.guid
+                xcDefaults?.get(fmuId)?.also {
+                    defaultExperiment = it.thriftType()
+                }
+            }
         }
     }
 
