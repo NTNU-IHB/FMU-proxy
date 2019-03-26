@@ -7,6 +7,7 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 fun filter(fmuDir: File): Fmu? {
 
@@ -72,7 +73,7 @@ object ThriftServer {
 
         }
 
-        val server = ThriftFmuSocketServer().use { server ->
+        ThriftFmuSocketServer().use { server ->
             fmus.forEach {
                 server.addFmu(it)
             }
@@ -107,50 +108,32 @@ object ThriftClient {
         println("$host:$port")
 
         ThriftFmuClient.socketClient(host, port).use { client1 ->
-            client1.availableFmus.parallelStream().forEach { avail ->
 
-                ThriftFmuClient.socketClient(host, port).use { client2 ->
-                    client2.load(avail.fmuId).use {
-                        it.newInstance().use { slave ->
-                            slave.setup()
-                            slave.enterInitializationMode()
-                            slave.exitInitializationMode()
-                            while (slave.simulationTime < 1.0) {
-                                slave.doStep(1.0/100)
+            val elapsed = measureTimeMillis {
+                client1.availableFmus.parallelStream().forEach { avail ->
+
+                    ThriftFmuClient.socketClient(host, port).use { client2 ->
+                        client2.load(avail.fmuId).use {
+                            it.newInstance().use { slave ->
+                                slave.setup()
+                                slave.enterInitializationMode()
+                                slave.exitInitializationMode()
+                                while (slave.simulationTime < 1.0) {
+                                    slave.doStep(1.0/100)
+                                }
+                                slave.terminate()
                             }
-                            slave.terminate()
                         }
                     }
-                }
 
+                }
             }
+
+            println("Elapsed=${elapsed}ms")
 
         }
 
     }
-}
-
-object RemoteTest {
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-
-        if (args.isEmpty()) {
-            throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
-        }
-
-        val server = ThriftFmuSocketServer()
-        File(args[0], "fmus/2.0/cs/${OsUtil.currentOS}").listFiles().forEach { vendor ->
-            vendor.listFiles().forEach { version ->
-                version.listFiles().forEach { fmuFile ->
-                    server.addFmu(Fmu.from(fmuFile))
-                }
-            }
-
-        }
-
-    }
-
 }
 
 private fun cleanup() {
