@@ -27,6 +27,8 @@ package no.ntnu.ihb.fmuproxy.grpc
 import io.grpc.Server
 import io.grpc.ServerBuilder
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
+import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.grpc.services.GrpcFmuServiceImpl
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
@@ -51,7 +53,7 @@ class GrpcFmuServer(
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
-    private val service = GrpcFmuServiceImpl(fmus)
+    internal var xcDefaults: Map<FmuId, DefaultExperiment>? = null
 
     private val isRunning: Boolean
         get() = server != null
@@ -72,7 +74,7 @@ class GrpcFmuServer(
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
-                addService(service)
+                addService(GrpcFmuServiceImpl(fmus))
             }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")

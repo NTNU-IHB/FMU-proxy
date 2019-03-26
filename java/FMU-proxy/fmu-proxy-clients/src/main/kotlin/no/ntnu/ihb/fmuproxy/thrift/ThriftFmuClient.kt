@@ -94,7 +94,6 @@ class ThriftFmuClient private constructor(
         }
     }
 
-
     private inner class ThriftFmu(
             fmuId: String
     ) : AbstractRpcFmuClient(fmuId) {
@@ -153,9 +152,6 @@ class ThriftFmuClient private constructor(
 
         override fun close() {
             super.close()
-            if (protocol.transport.isOpen) {
-                protocol.transport.close()
-            }
             LOG.debug("$implementationName closed..")
         }
 

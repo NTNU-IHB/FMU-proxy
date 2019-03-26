@@ -6,11 +6,16 @@ import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.FmuId
+import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
+import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.grpc.Service
+import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
+import java.time.Duration
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.system.measureTimeMillis
 
 fun filter(fmuDir: File): Pair<Fmu, DefaultExperiment>? {
@@ -104,10 +109,33 @@ object RunLocal {
                 pair.first.close()
             }
         }.sum().also {
-            println("Elapsed local: ${it}ms")
+            println("Elapsed local: ${TimeUnit.MILLISECONDS.toSeconds(it)}ms")
         }
 
     }
+}
+
+fun runServer(xcDir: String, server: FmuProxyServer, port: Int) {
+
+    server.use {
+        val xcDefaults = mutableMapOf<FmuId, DefaultExperiment>()
+        assembleFmus(xcDir).forEach {
+            server.addFmu(it.first)
+            xcDefaults[it.first.guid] = it.second
+        }
+        if (server is ThriftFmuSocketServer) {
+            server.xcDefaults = xcDefaults
+        } else if (server is GrpcFmuServer) {
+            server.xcDefaults = xcDefaults
+        }
+        server.start(port)
+
+        println("Press eny key to exit..")
+        if (Scanner(System.`in`).hasNext()) {
+            println("Exiting..")
+        }
+    }
+
 }
 
 object ThriftServer {
@@ -119,21 +147,8 @@ object ThriftServer {
             throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
         }
 
-        ThriftFmuSocketServer().use { server ->
-            val xcDefaults = mutableMapOf<FmuId, DefaultExperiment>()
-            assembleFmus(args[0]).forEach {
-                server.addFmu(it.first)
-                xcDefaults[it.first.guid] = it.second
-            }
-            server.xcDefaults = xcDefaults
-            server.start(9090)
-
-            println("Press eny key to exit..")
-            if (Scanner(System.`in`).hasNext()) {
-                println("Exiting..")
-            }
-
-        }
+        val xcDir = args[0]
+        runServer(xcDir, ThriftFmuSocketServer(), 9090)
 
         System.exit(0)
 
@@ -166,7 +181,58 @@ object ThriftClient {
                 elapsed
 
             }.sum().also {
-                println("Elapsed remote: ${it}ms")
+                println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
+            }
+
+        }
+
+    }
+}
+
+object GrpcServer {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+
+        if (args.isEmpty()) {
+            throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
+        }
+
+        val xcDir = args[0]
+        runServer(xcDir, GrpcFmuServer(), 9091)
+
+        System.exit(0)
+
+    }
+
+}
+
+
+object GrpcClient {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+
+        if (args.isEmpty()) {
+            throw IllegalArgumentException("Missing host and port!")
+        }
+
+        val host = args[0]
+        val port = args[1].toInt()
+
+        GrpcFmuClient(host, port).use { client ->
+
+            client.availableFmus.parallelStream().mapToLong { avail ->
+
+                var elapsed = 0L
+                client.load(avail.first.fmuId).use {
+                    elapsed += runSlave(it.newInstance(), avail.second)
+                }
+
+                elapsed
+
+            }.sum().also {
+                println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
             }
 
         }

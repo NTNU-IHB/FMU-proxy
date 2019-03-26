@@ -27,15 +27,13 @@ package no.ntnu.ihb.fmuproxy.grpc
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
 import no.ntnu.ihb.fmi4j.common.*
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.Real
-import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
+import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
 import java.io.File
 import java.io.FileInputStream
 import java.net.URL
@@ -47,15 +45,21 @@ import java.util.concurrent.TimeUnit
 class GrpcFmuClient(
         host: String,
         port: Int
-)  {
+) : Closeable {
 
     private val channel = ManagedChannelBuilder
             .forAddress(host, port)
             .usePlaintext()
             .build()
 
-    private val stub
-            = FmuServiceGrpc.newFutureStub(channel)
+    private val stub = FmuServiceGrpc.newFutureStub(channel)
+
+    val availableFmus: List<Pair<AbstractRpcFmuClient, DefaultExperiment>>
+        get() {
+            return stub.getAvailableFmus(Service.Void.getDefaultInstance()).get().fmusList.map {
+                GrpcFmu(it.fmuId) to it.defaultExperiment.convert()
+            }
+        }
 
     fun load(fmuId: String): AbstractRpcFmuClient {
         return GrpcFmu(fmuId);
@@ -84,9 +88,14 @@ class GrpcFmuClient(
                 }
     }
 
+    override fun close() {
+        channel.shutdownNow()
+        channel.awaitTermination(500, TimeUnit.MILLISECONDS)
+    }
+
     private inner class GrpcFmu(
             fmuId: String
-    ): AbstractRpcFmuClient(fmuId) {
+    ) : AbstractRpcFmuClient(fmuId) {
 
         override val implementationName: String = "GrpcClient"
 
@@ -320,8 +329,6 @@ class GrpcFmuClient(
 
         override fun close() {
             super.close()
-            channel.shutdownNow()
-            channel.awaitTermination(500, TimeUnit.MILLISECONDS)
             LOG.debug("$implementationName closed..")
         }
 
@@ -329,7 +336,7 @@ class GrpcFmuClient(
 
     private companion object {
 
-        val LOG:Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
+        val LOG: Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
 
         private fun getReadRequest(instanceId: String, vr: List<ValueReference>): Service.ReadRequest {
             return Service.ReadRequest.newBuilder()

@@ -33309,6 +33309,1944 @@ public final class Service {
 
   }
 
+  public interface AvailableFmuOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:fmuproxy.grpc.AvailableFmu)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string fmu_id = 1;</code>
+     */
+    java.lang.String getFmuId();
+    /**
+     * <code>string fmu_id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getFmuIdBytes();
+
+    /**
+     * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+     */
+    boolean hasDefaultExperiment();
+    /**
+     * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+     */
+    no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment getDefaultExperiment();
+    /**
+     * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+     */
+    no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder getDefaultExperimentOrBuilder();
+  }
+  /**
+   * Protobuf type {@code fmuproxy.grpc.AvailableFmu}
+   */
+  public  static final class AvailableFmu extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:fmuproxy.grpc.AvailableFmu)
+      AvailableFmuOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AvailableFmu.newBuilder() to construct.
+    private AvailableFmu(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AvailableFmu() {
+      fmuId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AvailableFmu(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              fmuId_ = s;
+              break;
+            }
+            case 18: {
+              no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder subBuilder = null;
+              if (defaultExperiment_ != null) {
+                subBuilder = defaultExperiment_.toBuilder();
+              }
+              defaultExperiment_ = input.readMessage(no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(defaultExperiment_);
+                defaultExperiment_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmu_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmu_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.class, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder.class);
+    }
+
+    public static final int FMU_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object fmuId_;
+    /**
+     * <code>string fmu_id = 1;</code>
+     */
+    public java.lang.String getFmuId() {
+      java.lang.Object ref = fmuId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        fmuId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string fmu_id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFmuIdBytes() {
+      java.lang.Object ref = fmuId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        fmuId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DEFAULT_EXPERIMENT_FIELD_NUMBER = 2;
+    private no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment defaultExperiment_;
+    /**
+     * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+     */
+    public boolean hasDefaultExperiment() {
+      return defaultExperiment_ != null;
+    }
+    /**
+     * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+     */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment getDefaultExperiment() {
+      return defaultExperiment_ == null ? no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.getDefaultInstance() : defaultExperiment_;
+    }
+    /**
+     * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+     */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder getDefaultExperimentOrBuilder() {
+      return getDefaultExperiment();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getFmuIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fmuId_);
+      }
+      if (defaultExperiment_ != null) {
+        output.writeMessage(2, getDefaultExperiment());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getFmuIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fmuId_);
+      }
+      if (defaultExperiment_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getDefaultExperiment());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu)) {
+        return super.equals(obj);
+      }
+      no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu other = (no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu) obj;
+
+      boolean result = true;
+      result = result && getFmuId()
+          .equals(other.getFmuId());
+      result = result && (hasDefaultExperiment() == other.hasDefaultExperiment());
+      if (hasDefaultExperiment()) {
+        result = result && getDefaultExperiment()
+            .equals(other.getDefaultExperiment());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FMU_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getFmuId().hashCode();
+      if (hasDefaultExperiment()) {
+        hash = (37 * hash) + DEFAULT_EXPERIMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getDefaultExperiment().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code fmuproxy.grpc.AvailableFmu}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:fmuproxy.grpc.AvailableFmu)
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmu_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmu_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.class, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder.class);
+      }
+
+      // Construct using no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        fmuId_ = "";
+
+        if (defaultExperimentBuilder_ == null) {
+          defaultExperiment_ = null;
+        } else {
+          defaultExperiment_ = null;
+          defaultExperimentBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmu_descriptor;
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu getDefaultInstanceForType() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu build() {
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu buildPartial() {
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu result = new no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu(this);
+        result.fmuId_ = fmuId_;
+        if (defaultExperimentBuilder_ == null) {
+          result.defaultExperiment_ = defaultExperiment_;
+        } else {
+          result.defaultExperiment_ = defaultExperimentBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu) {
+          return mergeFrom((no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu other) {
+        if (other == no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.getDefaultInstance()) return this;
+        if (!other.getFmuId().isEmpty()) {
+          fmuId_ = other.fmuId_;
+          onChanged();
+        }
+        if (other.hasDefaultExperiment()) {
+          mergeDefaultExperiment(other.getDefaultExperiment());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object fmuId_ = "";
+      /**
+       * <code>string fmu_id = 1;</code>
+       */
+      public java.lang.String getFmuId() {
+        java.lang.Object ref = fmuId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          fmuId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string fmu_id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFmuIdBytes() {
+        java.lang.Object ref = fmuId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          fmuId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string fmu_id = 1;</code>
+       */
+      public Builder setFmuId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        fmuId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string fmu_id = 1;</code>
+       */
+      public Builder clearFmuId() {
+        
+        fmuId_ = getDefaultInstance().getFmuId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string fmu_id = 1;</code>
+       */
+      public Builder setFmuIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        fmuId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment defaultExperiment_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder> defaultExperimentBuilder_;
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public boolean hasDefaultExperiment() {
+        return defaultExperimentBuilder_ != null || defaultExperiment_ != null;
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment getDefaultExperiment() {
+        if (defaultExperimentBuilder_ == null) {
+          return defaultExperiment_ == null ? no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.getDefaultInstance() : defaultExperiment_;
+        } else {
+          return defaultExperimentBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public Builder setDefaultExperiment(no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment value) {
+        if (defaultExperimentBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          defaultExperiment_ = value;
+          onChanged();
+        } else {
+          defaultExperimentBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public Builder setDefaultExperiment(
+          no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder builderForValue) {
+        if (defaultExperimentBuilder_ == null) {
+          defaultExperiment_ = builderForValue.build();
+          onChanged();
+        } else {
+          defaultExperimentBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public Builder mergeDefaultExperiment(no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment value) {
+        if (defaultExperimentBuilder_ == null) {
+          if (defaultExperiment_ != null) {
+            defaultExperiment_ =
+              no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.newBuilder(defaultExperiment_).mergeFrom(value).buildPartial();
+          } else {
+            defaultExperiment_ = value;
+          }
+          onChanged();
+        } else {
+          defaultExperimentBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public Builder clearDefaultExperiment() {
+        if (defaultExperimentBuilder_ == null) {
+          defaultExperiment_ = null;
+          onChanged();
+        } else {
+          defaultExperiment_ = null;
+          defaultExperimentBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder getDefaultExperimentBuilder() {
+        
+        onChanged();
+        return getDefaultExperimentFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder getDefaultExperimentOrBuilder() {
+        if (defaultExperimentBuilder_ != null) {
+          return defaultExperimentBuilder_.getMessageOrBuilder();
+        } else {
+          return defaultExperiment_ == null ?
+              no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.getDefaultInstance() : defaultExperiment_;
+        }
+      }
+      /**
+       * <code>.fmuproxy.grpc.DefaultExperiment default_experiment = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder> 
+          getDefaultExperimentFieldBuilder() {
+        if (defaultExperimentBuilder_ == null) {
+          defaultExperimentBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder>(
+                  getDefaultExperiment(),
+                  getParentForChildren(),
+                  isClean());
+          defaultExperiment_ = null;
+        }
+        return defaultExperimentBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:fmuproxy.grpc.AvailableFmu)
+    }
+
+    // @@protoc_insertion_point(class_scope:fmuproxy.grpc.AvailableFmu)
+    private static final no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu();
+    }
+
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AvailableFmu>
+        PARSER = new com.google.protobuf.AbstractParser<AvailableFmu>() {
+      @java.lang.Override
+      public AvailableFmu parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AvailableFmu(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AvailableFmu> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AvailableFmu> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AvailableFmusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:fmuproxy.grpc.AvailableFmus)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu> 
+        getFmusList();
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu getFmus(int index);
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    int getFmusCount();
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    java.util.List<? extends no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder> 
+        getFmusOrBuilderList();
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder getFmusOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code fmuproxy.grpc.AvailableFmus}
+   */
+  public  static final class AvailableFmus extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:fmuproxy.grpc.AvailableFmus)
+      AvailableFmusOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AvailableFmus.newBuilder() to construct.
+    private AvailableFmus(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AvailableFmus() {
+      fmus_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AvailableFmus(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                fmus_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              fmus_.add(
+                  input.readMessage(no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          fmus_ = java.util.Collections.unmodifiableList(fmus_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmus_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.class, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.Builder.class);
+    }
+
+    public static final int FMUS_FIELD_NUMBER = 1;
+    private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu> fmus_;
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    public java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu> getFmusList() {
+      return fmus_;
+    }
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    public java.util.List<? extends no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder> 
+        getFmusOrBuilderList() {
+      return fmus_;
+    }
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    public int getFmusCount() {
+      return fmus_.size();
+    }
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu getFmus(int index) {
+      return fmus_.get(index);
+    }
+    /**
+     * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+     */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder getFmusOrBuilder(
+        int index) {
+      return fmus_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < fmus_.size(); i++) {
+        output.writeMessage(1, fmus_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < fmus_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, fmus_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus)) {
+        return super.equals(obj);
+      }
+      no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus other = (no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus) obj;
+
+      boolean result = true;
+      result = result && getFmusList()
+          .equals(other.getFmusList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getFmusCount() > 0) {
+        hash = (37 * hash) + FMUS_FIELD_NUMBER;
+        hash = (53 * hash) + getFmusList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code fmuproxy.grpc.AvailableFmus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:fmuproxy.grpc.AvailableFmus)
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmus_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.class, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.Builder.class);
+      }
+
+      // Construct using no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getFmusFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (fmusBuilder_ == null) {
+          fmus_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          fmusBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_AvailableFmus_descriptor;
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus getDefaultInstanceForType() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus build() {
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus buildPartial() {
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus result = new no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus(this);
+        int from_bitField0_ = bitField0_;
+        if (fmusBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            fmus_ = java.util.Collections.unmodifiableList(fmus_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.fmus_ = fmus_;
+        } else {
+          result.fmus_ = fmusBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus) {
+          return mergeFrom((no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus other) {
+        if (other == no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus.getDefaultInstance()) return this;
+        if (fmusBuilder_ == null) {
+          if (!other.fmus_.isEmpty()) {
+            if (fmus_.isEmpty()) {
+              fmus_ = other.fmus_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureFmusIsMutable();
+              fmus_.addAll(other.fmus_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.fmus_.isEmpty()) {
+            if (fmusBuilder_.isEmpty()) {
+              fmusBuilder_.dispose();
+              fmusBuilder_ = null;
+              fmus_ = other.fmus_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              fmusBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getFmusFieldBuilder() : null;
+            } else {
+              fmusBuilder_.addAllMessages(other.fmus_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu> fmus_ =
+        java.util.Collections.emptyList();
+      private void ensureFmusIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          fmus_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu>(fmus_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder> fmusBuilder_;
+
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu> getFmusList() {
+        if (fmusBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(fmus_);
+        } else {
+          return fmusBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public int getFmusCount() {
+        if (fmusBuilder_ == null) {
+          return fmus_.size();
+        } else {
+          return fmusBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu getFmus(int index) {
+        if (fmusBuilder_ == null) {
+          return fmus_.get(index);
+        } else {
+          return fmusBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder setFmus(
+          int index, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu value) {
+        if (fmusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFmusIsMutable();
+          fmus_.set(index, value);
+          onChanged();
+        } else {
+          fmusBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder setFmus(
+          int index, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder builderForValue) {
+        if (fmusBuilder_ == null) {
+          ensureFmusIsMutable();
+          fmus_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          fmusBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder addFmus(no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu value) {
+        if (fmusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFmusIsMutable();
+          fmus_.add(value);
+          onChanged();
+        } else {
+          fmusBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder addFmus(
+          int index, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu value) {
+        if (fmusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFmusIsMutable();
+          fmus_.add(index, value);
+          onChanged();
+        } else {
+          fmusBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder addFmus(
+          no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder builderForValue) {
+        if (fmusBuilder_ == null) {
+          ensureFmusIsMutable();
+          fmus_.add(builderForValue.build());
+          onChanged();
+        } else {
+          fmusBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder addFmus(
+          int index, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder builderForValue) {
+        if (fmusBuilder_ == null) {
+          ensureFmusIsMutable();
+          fmus_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          fmusBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder addAllFmus(
+          java.lang.Iterable<? extends no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu> values) {
+        if (fmusBuilder_ == null) {
+          ensureFmusIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, fmus_);
+          onChanged();
+        } else {
+          fmusBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder clearFmus() {
+        if (fmusBuilder_ == null) {
+          fmus_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          fmusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public Builder removeFmus(int index) {
+        if (fmusBuilder_ == null) {
+          ensureFmusIsMutable();
+          fmus_.remove(index);
+          onChanged();
+        } else {
+          fmusBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder getFmusBuilder(
+          int index) {
+        return getFmusFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder getFmusOrBuilder(
+          int index) {
+        if (fmusBuilder_ == null) {
+          return fmus_.get(index);  } else {
+          return fmusBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public java.util.List<? extends no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder> 
+           getFmusOrBuilderList() {
+        if (fmusBuilder_ != null) {
+          return fmusBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(fmus_);
+        }
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder addFmusBuilder() {
+        return getFmusFieldBuilder().addBuilder(
+            no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder addFmusBuilder(
+          int index) {
+        return getFmusFieldBuilder().addBuilder(
+            index, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .fmuproxy.grpc.AvailableFmu fmus = 1;</code>
+       */
+      public java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder> 
+           getFmusBuilderList() {
+        return getFmusFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder> 
+          getFmusFieldBuilder() {
+        if (fmusBuilder_ == null) {
+          fmusBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmu.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmuOrBuilder>(
+                  fmus_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          fmus_ = null;
+        }
+        return fmusBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:fmuproxy.grpc.AvailableFmus)
+    }
+
+    // @@protoc_insertion_point(class_scope:fmuproxy.grpc.AvailableFmus)
+    private static final no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus();
+    }
+
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AvailableFmus>
+        PARSER = new com.google.protobuf.AbstractParser<AvailableFmus>() {
+      @java.lang.Override
+      public AvailableFmus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AvailableFmus(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AvailableFmus> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AvailableFmus> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public no.ntnu.ihb.fmuproxy.grpc.Service.AvailableFmus getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface VoidOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:fmuproxy.grpc.Void)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code fmuproxy.grpc.Void}
+   */
+  public  static final class Void extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:fmuproxy.grpc.Void)
+      VoidOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Void.newBuilder() to construct.
+    private Void(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Void() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Void(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_Void_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_Void_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              no.ntnu.ihb.fmuproxy.grpc.Service.Void.class, no.ntnu.ihb.fmuproxy.grpc.Service.Void.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof no.ntnu.ihb.fmuproxy.grpc.Service.Void)) {
+        return super.equals(obj);
+      }
+      no.ntnu.ihb.fmuproxy.grpc.Service.Void other = (no.ntnu.ihb.fmuproxy.grpc.Service.Void) obj;
+
+      boolean result = true;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(no.ntnu.ihb.fmuproxy.grpc.Service.Void prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code fmuproxy.grpc.Void}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:fmuproxy.grpc.Void)
+        no.ntnu.ihb.fmuproxy.grpc.Service.VoidOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_Void_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_Void_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                no.ntnu.ihb.fmuproxy.grpc.Service.Void.class, no.ntnu.ihb.fmuproxy.grpc.Service.Void.Builder.class);
+      }
+
+      // Construct using no.ntnu.ihb.fmuproxy.grpc.Service.Void.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.internal_static_fmuproxy_grpc_Void_descriptor;
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.Void getDefaultInstanceForType() {
+        return no.ntnu.ihb.fmuproxy.grpc.Service.Void.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.Void build() {
+        no.ntnu.ihb.fmuproxy.grpc.Service.Void result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public no.ntnu.ihb.fmuproxy.grpc.Service.Void buildPartial() {
+        no.ntnu.ihb.fmuproxy.grpc.Service.Void result = new no.ntnu.ihb.fmuproxy.grpc.Service.Void(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof no.ntnu.ihb.fmuproxy.grpc.Service.Void) {
+          return mergeFrom((no.ntnu.ihb.fmuproxy.grpc.Service.Void)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(no.ntnu.ihb.fmuproxy.grpc.Service.Void other) {
+        if (other == no.ntnu.ihb.fmuproxy.grpc.Service.Void.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        no.ntnu.ihb.fmuproxy.grpc.Service.Void parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (no.ntnu.ihb.fmuproxy.grpc.Service.Void) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:fmuproxy.grpc.Void)
+    }
+
+    // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Void)
+    private static final no.ntnu.ihb.fmuproxy.grpc.Service.Void DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new no.ntnu.ihb.fmuproxy.grpc.Service.Void();
+    }
+
+    public static no.ntnu.ihb.fmuproxy.grpc.Service.Void getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Void>
+        PARSER = new com.google.protobuf.AbstractParser<Void>() {
+      @java.lang.Override
+      public Void parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Void(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Void> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Void> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public no.ntnu.ihb.fmuproxy.grpc.Service.Void getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_fmuproxy_grpc_ModelDescription_descriptor;
   private static final 
@@ -33524,6 +35462,21 @@ public final class Service {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_fmuproxy_grpc_File_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fmuproxy_grpc_AvailableFmu_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_fmuproxy_grpc_AvailableFmu_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fmuproxy_grpc_AvailableFmus_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_fmuproxy_grpc_AvailableFmus_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_fmuproxy_grpc_Void_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_fmuproxy_grpc_Void_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -33627,59 +35580,65 @@ public final class Service {
       "nse\022\026\n\016dv_unknown_ref\030\001 \003(\001\022%\n\006status\030\002 " +
       "\001(\0162\025.fmuproxy.grpc.Status\"\022\n\003Url\022\013\n\003url" +
       "\030\001 \001(\t\"\"\n\004File\022\014\n\004name\030\001 \001(\t\022\014\n\004data\030\002 \001" +
-      "(\014*w\n\006Status\022\r\n\tOK_STATUS\020\000\022\022\n\016WARNING_S" +
-      "TATUS\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERROR_STA" +
-      "TUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING_STATU" +
-      "S\020\0052\245\017\n\nFmuService\0227\n\013LoadFromUrl\022\022.fmup" +
-      "roxy.grpc.Url\032\024.fmuproxy.grpc.FmuId\0229\n\014L" +
-      "oadFromFile\022\023.fmuproxy.grpc.File\032\024.fmupr" +
-      "oxy.grpc.FmuId\022a\n\023GetModelDescription\022)." +
-      "fmuproxy.grpc.GetModelDescriptionRequest" +
-      "\032\037.fmuproxy.grpc.ModelDescription\022s\n\031Get" +
-      "CoSimulationAttributes\022/.fmuproxy.grpc.G" +
-      "etCoSimulationAttributesRequest\032%.fmupro" +
-      "xy.grpc.CoSimulationAttributes\022]\n\027CanCre" +
-      "ateInstanceFromCS\022-.fmuproxy.grpc.CanCre" +
-      "ateInstanceFromCSRequest\032\023.fmuproxy.grpc" +
-      ".Bool\022]\n\027CanCreateInstanceFromME\022-.fmupr" +
-      "oxy.grpc.CanCreateInstanceFromMERequest\032" +
-      "\023.fmuproxy.grpc.Bool\022]\n\024CreateInstanceFr" +
-      "omCS\022*.fmuproxy.grpc.CreateInstanceFromC" +
-      "SRequest\032\031.fmuproxy.grpc.InstanceId\022]\n\024C" +
-      "reateInstanceFromME\022*.fmuproxy.grpc.Crea" +
-      "teInstanceFromMERequest\032\031.fmuproxy.grpc." +
-      "InstanceId\022W\n\017SetupExperiment\022%.fmuproxy" +
-      ".grpc.SetupExperimentRequest\032\035.fmuproxy." +
-      "grpc.StatusResponse\022g\n\027EnterInitializati" +
-      "onMode\022-.fmuproxy.grpc.EnterInitializati" +
-      "onModeRequest\032\035.fmuproxy.grpc.StatusResp" +
-      "onse\022e\n\026ExitInitializationMode\022,.fmuprox" +
-      "y.grpc.ExitInitializationModeRequest\032\035.f" +
-      "muproxy.grpc.StatusResponse\022?\n\004Step\022\032.fm" +
-      "uproxy.grpc.StepRequest\032\033.fmuproxy.grpc." +
-      "StepResponse\022C\n\005Reset\022\033.fmuproxy.grpc.Re" +
-      "setRequest\032\035.fmuproxy.grpc.StatusRespons" +
-      "e\022K\n\tTerminate\022\037.fmuproxy.grpc.Terminate" +
-      "Request\032\035.fmuproxy.grpc.StatusResponse\022E" +
-      "\n\013ReadInteger\022\032.fmuproxy.grpc.ReadReques" +
-      "t\032\032.fmuproxy.grpc.IntegerRead\022?\n\010ReadRea" +
-      "l\022\032.fmuproxy.grpc.ReadRequest\032\027.fmuproxy" +
-      ".grpc.RealRead\022C\n\nReadString\022\032.fmuproxy." +
-      "grpc.ReadRequest\032\031.fmuproxy.grpc.StringR" +
-      "ead\022E\n\013ReadBoolean\022\032.fmuproxy.grpc.ReadR" +
-      "equest\032\032.fmuproxy.grpc.BooleanRead\022Q\n\014Wr" +
-      "iteInteger\022\".fmuproxy.grpc.WriteIntegerR" +
-      "equest\032\035.fmuproxy.grpc.StatusResponse\022K\n" +
-      "\tWriteReal\022\037.fmuproxy.grpc.WriteRealRequ" +
-      "est\032\035.fmuproxy.grpc.StatusResponse\022O\n\013Wr" +
-      "iteString\022!.fmuproxy.grpc.WriteStringReq" +
-      "uest\032\035.fmuproxy.grpc.StatusResponse\022Q\n\014W" +
-      "riteBoolean\022\".fmuproxy.grpc.WriteBoolean" +
-      "Request\032\035.fmuproxy.grpc.StatusResponse\022{" +
-      "\n\030GetDirectionalDerivative\022..fmuproxy.gr" +
-      "pc.GetDirectionalDerivativeRequest\032/.fmu" +
-      "proxy.grpc.GetDirectionalDerivativeRespo" +
-      "nseB\033\n\031no.ntnu.ihb.fmuproxy.grpcb\006proto3"
+      "(\014\"\\\n\014AvailableFmu\022\016\n\006fmu_id\030\001 \001(\t\022<\n\022de" +
+      "fault_experiment\030\002 \001(\0132 .fmuproxy.grpc.D" +
+      "efaultExperiment\":\n\rAvailableFmus\022)\n\004fmu" +
+      "s\030\001 \003(\0132\033.fmuproxy.grpc.AvailableFmu\"\006\n\004" +
+      "Void*w\n\006Status\022\r\n\tOK_STATUS\020\000\022\022\n\016WARNING" +
+      "_STATUS\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERROR_S" +
+      "TATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING_STA" +
+      "TUS\020\0052\354\017\n\nFmuService\022E\n\020GetAvailableFmus" +
+      "\022\023.fmuproxy.grpc.Void\032\034.fmuproxy.grpc.Av" +
+      "ailableFmus\0227\n\013LoadFromUrl\022\022.fmuproxy.gr" +
+      "pc.Url\032\024.fmuproxy.grpc.FmuId\0229\n\014LoadFrom" +
+      "File\022\023.fmuproxy.grpc.File\032\024.fmuproxy.grp" +
+      "c.FmuId\022a\n\023GetModelDescription\022).fmuprox" +
+      "y.grpc.GetModelDescriptionRequest\032\037.fmup" +
+      "roxy.grpc.ModelDescription\022s\n\031GetCoSimul" +
+      "ationAttributes\022/.fmuproxy.grpc.GetCoSim" +
+      "ulationAttributesRequest\032%.fmuproxy.grpc" +
+      ".CoSimulationAttributes\022]\n\027CanCreateInst" +
+      "anceFromCS\022-.fmuproxy.grpc.CanCreateInst" +
+      "anceFromCSRequest\032\023.fmuproxy.grpc.Bool\022]" +
+      "\n\027CanCreateInstanceFromME\022-.fmuproxy.grp" +
+      "c.CanCreateInstanceFromMERequest\032\023.fmupr" +
+      "oxy.grpc.Bool\022]\n\024CreateInstanceFromCS\022*." +
+      "fmuproxy.grpc.CreateInstanceFromCSReques" +
+      "t\032\031.fmuproxy.grpc.InstanceId\022]\n\024CreateIn" +
+      "stanceFromME\022*.fmuproxy.grpc.CreateInsta" +
+      "nceFromMERequest\032\031.fmuproxy.grpc.Instanc" +
+      "eId\022W\n\017SetupExperiment\022%.fmuproxy.grpc.S" +
+      "etupExperimentRequest\032\035.fmuproxy.grpc.St" +
+      "atusResponse\022g\n\027EnterInitializationMode\022" +
+      "-.fmuproxy.grpc.EnterInitializationModeR" +
+      "equest\032\035.fmuproxy.grpc.StatusResponse\022e\n" +
+      "\026ExitInitializationMode\022,.fmuproxy.grpc." +
+      "ExitInitializationModeRequest\032\035.fmuproxy" +
+      ".grpc.StatusResponse\022?\n\004Step\022\032.fmuproxy." +
+      "grpc.StepRequest\032\033.fmuproxy.grpc.StepRes" +
+      "ponse\022C\n\005Reset\022\033.fmuproxy.grpc.ResetRequ" +
+      "est\032\035.fmuproxy.grpc.StatusResponse\022K\n\tTe" +
+      "rminate\022\037.fmuproxy.grpc.TerminateRequest" +
+      "\032\035.fmuproxy.grpc.StatusResponse\022E\n\013ReadI" +
+      "nteger\022\032.fmuproxy.grpc.ReadRequest\032\032.fmu" +
+      "proxy.grpc.IntegerRead\022?\n\010ReadReal\022\032.fmu" +
+      "proxy.grpc.ReadRequest\032\027.fmuproxy.grpc.R" +
+      "ealRead\022C\n\nReadString\022\032.fmuproxy.grpc.Re" +
+      "adRequest\032\031.fmuproxy.grpc.StringRead\022E\n\013" +
+      "ReadBoolean\022\032.fmuproxy.grpc.ReadRequest\032" +
+      "\032.fmuproxy.grpc.BooleanRead\022Q\n\014WriteInte" +
+      "ger\022\".fmuproxy.grpc.WriteIntegerRequest\032" +
+      "\035.fmuproxy.grpc.StatusResponse\022K\n\tWriteR" +
+      "eal\022\037.fmuproxy.grpc.WriteRealRequest\032\035.f" +
+      "muproxy.grpc.StatusResponse\022O\n\013WriteStri" +
+      "ng\022!.fmuproxy.grpc.WriteStringRequest\032\035." +
+      "fmuproxy.grpc.StatusResponse\022Q\n\014WriteBoo" +
+      "lean\022\".fmuproxy.grpc.WriteBooleanRequest" +
+      "\032\035.fmuproxy.grpc.StatusResponse\022{\n\030GetDi" +
+      "rectionalDerivative\022..fmuproxy.grpc.GetD" +
+      "irectionalDerivativeRequest\032/.fmuproxy.g" +
+      "rpc.GetDirectionalDerivativeResponseB\033\n\031" +
+      "no.ntnu.ihb.fmuproxy.grpcb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -33951,6 +35910,24 @@ public final class Service {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_fmuproxy_grpc_File_descriptor,
         new java.lang.String[] { "Name", "Data", });
+    internal_static_fmuproxy_grpc_AvailableFmu_descriptor =
+      getDescriptor().getMessageTypes().get(43);
+    internal_static_fmuproxy_grpc_AvailableFmu_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_fmuproxy_grpc_AvailableFmu_descriptor,
+        new java.lang.String[] { "FmuId", "DefaultExperiment", });
+    internal_static_fmuproxy_grpc_AvailableFmus_descriptor =
+      getDescriptor().getMessageTypes().get(44);
+    internal_static_fmuproxy_grpc_AvailableFmus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_fmuproxy_grpc_AvailableFmus_descriptor,
+        new java.lang.String[] { "Fmus", });
+    internal_static_fmuproxy_grpc_Void_descriptor =
+      getDescriptor().getMessageTypes().get(45);
+    internal_static_fmuproxy_grpc_Void_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_fmuproxy_grpc_Void_descriptor,
+        new java.lang.String[] { });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

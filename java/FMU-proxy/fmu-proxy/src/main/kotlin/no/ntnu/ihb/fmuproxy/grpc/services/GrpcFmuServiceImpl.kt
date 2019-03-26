@@ -31,6 +31,7 @@ import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
+import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
@@ -39,6 +40,7 @@ import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
 import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
+import no.ntnu.ihb.fmuproxy.thrift.AvailableFmu
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
@@ -49,7 +51,8 @@ import java.nio.file.Files
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServiceImpl(
-        private val fmus: MutableMap<String, Fmu>
+        private val fmus: MutableMap<String, Fmu>,
+        internal val xcDefaults: DefaultExperiment? = null
 ) : FmuServiceGrpc.FmuServiceImplBase() {
 
     private inline fun getFmu(fmuId: String, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
@@ -60,6 +63,25 @@ class GrpcFmuServiceImpl(
 
     private inline fun getSlave(instanceId: String, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
+    }
+
+    override fun getAvailableFmus(request: Service.Void, responseObserver: StreamObserver<Service.AvailableFmus>) {
+
+        synchronized(fmus) {
+
+            val availableFmus = fmus.map { entry ->
+                Service.AvailableFmu.newBuilder().also { availableFmu ->
+                    availableFmu.fmuId = entry.key
+                    xcDefaults?.also { de ->
+                        availableFmu.defaultExperiment = de.protoType()
+                    }
+                }.build()
+            }
+            responseObserver.onNext(Service.AvailableFmus.newBuilder().addAllFmus(availableFmus).build())
+        }
+
+        responseObserver.onCompleted()
+
     }
 
     override fun loadFromUrl(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
