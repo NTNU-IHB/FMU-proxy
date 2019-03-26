@@ -198,7 +198,7 @@ struct AvailableFmu {
 	3: string description
 }
 
-service fmu_service {
+service FmuService {
 
 	list<AvailableFmu> get_available_fmus()
 

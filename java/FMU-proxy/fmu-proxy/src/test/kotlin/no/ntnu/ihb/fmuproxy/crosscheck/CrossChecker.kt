@@ -1,16 +1,10 @@
 package no.ntnu.ihb.fmuproxy.crosscheck
 
-import no.ntnu.ihb.fmi4j.driver.DriverOptions
-import no.ntnu.ihb.fmi4j.driver.Failure
-import no.ntnu.ihb.fmi4j.driver.Rejection
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionProvider
 import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.util.OsUtil
-import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
+import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.*
 
@@ -78,19 +72,21 @@ object ThriftServer {
 
         }
 
-        val server = ThriftFmuSocketServer().apply {
+        val server = ThriftFmuSocketServer().use { server ->
             fmus.forEach {
-                addFmu(it)
+                server.addFmu(it)
             }
-            start(9090)
+            server.start(9090)
+
+            println("Press eny key to exit..")
+            if (Scanner(System.`in`).hasNext()) {
+                println("Exiting..")
+            }
+
         }
 
-        println("Press eny key to exit..")
-        if (Scanner(System.`in`).hasNext()) {
-            println("Exiting..")
-        }
-        server.stop()
         cleanup()
+        System.exit(0)
 
     }
 
@@ -101,8 +97,37 @@ object ThriftClient {
     @JvmStatic
     fun main(args: Array<String>) {
 
-    }
+        if (args.isEmpty()) {
+            throw IllegalArgumentException("Missing host and port!")
+        }
 
+        val host = args[0]
+        val port = args[1].toInt()
+
+        println("$host:$port")
+
+        ThriftFmuClient.socketClient(host, port).use { client1 ->
+            client1.availableFmus.parallelStream().forEach { avail ->
+
+                ThriftFmuClient.socketClient(host, port).use { client2 ->
+                    client2.load(avail.fmuId).use {
+                        it.newInstance().use { slave ->
+                            slave.setup()
+                            slave.enterInitializationMode()
+                            slave.exitInitializationMode()
+                            while (slave.simulationTime < 1.0) {
+                                slave.doStep(1.0/100)
+                            }
+                            slave.terminate()
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+    }
 }
 
 object RemoteTest {

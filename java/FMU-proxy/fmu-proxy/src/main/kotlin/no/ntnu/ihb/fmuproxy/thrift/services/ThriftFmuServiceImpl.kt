@@ -63,6 +63,12 @@ class ThriftFmuServiceImpl(
         return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
     }
 
+    override fun getAvailableFmus(): List<AvailableFmu> {
+        return fmus.values.map {
+            AvailableFmu(it.guid, it.modelName, it.modelDescription.description)
+        }
+    }
+
     override fun loadFromUrl(url: String): String {
         @Suppress("NAME_SHADOWING") val url = URL(url)
         val md = JacksonModelDescriptionParser.parse(url)

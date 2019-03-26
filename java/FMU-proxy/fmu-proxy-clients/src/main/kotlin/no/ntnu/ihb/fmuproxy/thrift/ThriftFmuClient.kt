@@ -41,6 +41,7 @@ import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
 import java.io.File
 import java.io.FileInputStream
 import java.lang.UnsupportedOperationException
@@ -53,7 +54,7 @@ import java.nio.ByteBuffer
  */
 class ThriftFmuClient private constructor(
         private val protocol: TProtocol
-) {
+): Closeable {
 
     private val client = FmuService.Client(protocol)
 
@@ -79,9 +80,23 @@ class ThriftFmuClient private constructor(
         }
     }
 
+    val availableFmus: List<AbstractRpcFmuClient>
+        get() {
+            return client.availableFmus.map {
+                ThriftFmu(it.fmuId)
+            }
+        }
+
+    override fun close() {
+        if (protocol.transport.isOpen) {
+            protocol.transport.close()
+        }
+    }
+
+
     private inner class ThriftFmu(
             fmuId: String
-    ): AbstractRpcFmuClient(fmuId) {
+    ) : AbstractRpcFmuClient(fmuId) {
 
         override val implementationName: String = "ThriftClient"
 
@@ -137,7 +152,9 @@ class ThriftFmuClient private constructor(
 
         override fun close() {
             super.close()
-            protocol.transport.close()
+            if (protocol.transport.isOpen) {
+                protocol.transport.close()
+            }
             LOG.debug("$implementationName closed..")
         }
 
