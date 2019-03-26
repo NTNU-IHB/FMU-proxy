@@ -1,5 +1,6 @@
 package no.ntnu.ihb.fmuproxy.crosscheck
 
+import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.util.OsUtil
@@ -32,7 +33,7 @@ fun filter(fmuDir: File): Fmu? {
     if (refData.length() > 1E6) {
         println("FMU Rejected, reason: Reference data > 1MB")
         return null
-    } else if ( OsUtil.isLinux && "JModelica.org" in fmuDir.absolutePath) {
+    } else if (OsUtil.isLinux && "JModelica.org" in fmuDir.absolutePath) {
         println("FMU Rejected, reason: JModelica.org FMUs makes Linux crash.")
         return null
     } else if (defaults.stepSize == 0.0) {
@@ -41,7 +42,7 @@ fun filter(fmuDir: File): Fmu? {
     } else if (inputData != null) {
         println("FMU Rejected, reason: FMU requires execution tool.")
         return null
-    }else if (JaxbModelDescriptionParser.parse(fmuFile).asCoSimulationModelDescription().attributes.needsExecutionTool) {
+    } else if (JaxbModelDescriptionParser.parse(fmuFile).asCoSimulationModelDescription().attributes.needsExecutionTool) {
         println("FMU Rejected, reason: FMU requires execution tool.")
         return null
     }
@@ -50,6 +51,56 @@ fun filter(fmuDir: File): Fmu? {
 
 }
 
+fun assembleFmus(xcDir: String): List<Fmu> {
+    val fmus = mutableListOf<Fmu>()
+    File(xcDir, "fmus/2.0/cs/${OsUtil.currentOS}").listFiles().forEach { vendor ->
+        vendor.listFiles().forEach { version ->
+            version.listFiles().forEach { fmuDir ->
+                filter(fmuDir)?.also {
+                    println("Loading fmu $it")
+                    fmus.add(it)
+                }
+            }
+        }
+
+    }
+    return fmus
+}
+
+fun runSlave(slave: FmuSlave): Long {
+    return measureTimeMillis {
+        slave.setup()
+        slave.enterInitializationMode()
+        slave.exitInitializationMode()
+        while (slave.simulationTime < 1.0) {
+            slave.doStep(1.0 / 100)
+        }
+        slave.terminate()
+    }
+}
+
+object RunLocal {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+
+        if (args.isEmpty()) {
+            throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
+        }
+
+        assembleFmus(args[0]).parallelStream().mapToLong { fmu ->
+            runSlave(fmu.asCoSimulationFmu().newInstance()).also {
+                fmu.close()
+            }
+        }.sum().also {
+            println("Elapsed local: ${it}ms")
+        }
+
+        cleanup()
+
+
+    }
+}
 
 object ThriftServer {
 
@@ -60,19 +111,7 @@ object ThriftServer {
             throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
         }
 
-        val fmus = mutableListOf<Fmu>()
-        File(args[0], "fmus/2.0/cs/${OsUtil.currentOS}").listFiles().forEach { vendor ->
-            vendor.listFiles().forEach { version ->
-                version.listFiles().forEach { fmuDir ->
-                    filter(fmuDir)?.also {
-                        println("Loading fmu $it")
-                        fmus.add(it)
-                    }
-                }
-            }
-
-        }
-
+        val fmus = assembleFmus(args[0])
         ThriftFmuSocketServer().use { server ->
             fmus.forEach {
                 server.addFmu(it)
@@ -109,27 +148,20 @@ object ThriftClient {
 
         ThriftFmuClient.socketClient(host, port).use { client1 ->
 
-            val elapsed = measureTimeMillis {
-                client1.availableFmus.parallelStream().forEach { avail ->
+            client1.availableFmus.parallelStream().mapToLong { avail ->
 
-                    ThriftFmuClient.socketClient(host, port).use { client2 ->
-                        client2.load(avail.fmuId).use {
-                            it.newInstance().use { slave ->
-                                slave.setup()
-                                slave.enterInitializationMode()
-                                slave.exitInitializationMode()
-                                while (slave.simulationTime < 1.0) {
-                                    slave.doStep(1.0/100)
-                                }
-                                slave.terminate()
-                            }
-                        }
+                var elapsed = 0L
+                ThriftFmuClient.socketClient(host, port).use { client2 ->
+                    client2.load(avail.fmuId).use {
+                        elapsed += runSlave(it.newInstance())
                     }
-
                 }
+                elapsed
+
+            }.sum().also {
+                println("Elapsed remote: ${it}ms")
             }
 
-            println("Elapsed=${elapsed}ms")
 
         }
 

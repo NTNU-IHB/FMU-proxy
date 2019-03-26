@@ -63,5 +63,6 @@ __pycache__
 /**/protoc
 
 /**/thrift
+*.exe
 
-/cpp/FMU-proxy/vcpkg
+/**/vcpkg
