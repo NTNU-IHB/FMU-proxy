@@ -81,10 +81,10 @@ class ThriftFmuClient private constructor(
         }
     }
 
-    val availableFmus: List<Pair<AbstractRpcFmuClient, DefaultExperiment>>
+    val availableFmus: List<Pair<String, DefaultExperiment>>
         get() {
             return client.availableFmus.map {
-                ThriftFmu(it.fmuId) to it.defaultExperiment.convert()
+                it.fmuId to it.defaultExperiment.convert()
             }
         }
 
