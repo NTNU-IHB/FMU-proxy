@@ -81,7 +81,7 @@ fun assembleFmus(xcDir: String): List<Pair<Fmu, DefaultExperiment>> {
 
     }
     return fmus.also {
-        println("Assembled ${it.size} fmus, with a total simulation time of ${it.map { it.second.stopTime }.sum() }")
+        println("Assembled ${it.size} fmus, with a total simulation time of ${it.map { it.second.stopTime }.sum()}")
     }
 }
 
@@ -106,12 +106,14 @@ object RunLocal {
             throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
         }
 
-        assembleFmus(args[0]).parallelStream().mapToLong { pair ->
-            runSlave(pair.first.asCoSimulationFmu().newInstance(), pair.second).also {
-                pair.first.close()
+        measureTimeMillis {
+            assembleFmus(args[0]).parallelStream().mapToLong { pair ->
+                runSlave(pair.first.asCoSimulationFmu().newInstance(), pair.second)
+            }.sum().also {
+                println("Accumulated time local: ${it}ms")
             }
-        }.sum().also {
-            println("Elapsed local: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
+        }.also {
+            println("Total time local: ${it}ms")
         }
 
     }
@@ -165,29 +167,37 @@ object ThriftClient {
             throw IllegalArgumentException("Missing host and port!")
         }
 
-        ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { client1 ->
+        val availableFmus
+                = ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { it.availableFmus }
+
+        val clients = List(availableFmus.size) { ThriftFmuClient.socketClient(args[0], args[1].toInt()) }
+        val slaves = clients.mapIndexed { i, client ->
+            val (fmuId, de) = availableFmus[i]
+            client.load(fmuId).newInstance() to de
+        }
+
+        val elapsed = measureTimeMillis {
 
             val count = AtomicInteger()
-            val availableFmus = client1.availableFmus
-            availableFmus.parallelStream().mapToLong { avail ->
-
-                ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { client2 ->
-                    client2.load(avail.first.fmuId).use { fmu ->
-                        runSlave(fmu.newInstance(), avail.second).also {
-                            println("${count.incrementAndGet()} of ${availableFmus.size} finished. ${fmu.modelName}, took ${it}ms")
-                        }
-
-                    }
+            slaves.parallelStream().mapToLong {
+                runSlave(it.first, it.second).also {
+                    println("${count.incrementAndGet()} of ${availableFmus.size} finished. Took ${it}ms")
                 }
-
             }.sum().also {
-                println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
+                println("Accumulated time elapsed: ${it}ms")
             }
 
         }
 
+        println("Total time elapsed: ${elapsed}ms")
+
+        clients.forEach {
+            it.close()
+        }
+
     }
 }
+
 
 object GrpcServer {
 
@@ -234,7 +244,7 @@ object GrpcClient {
 class DefaultExperimentImpl : DefaultExperiment {
 
     override var startTime: Double = 0.0
-    override var stepSize: Double = 1.0/100
+    override var stepSize: Double = 1.0 / 100
     override var stopTime: Double = 1.0
     override var tolerance: Double = 0.0
 
