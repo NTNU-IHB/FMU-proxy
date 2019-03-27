@@ -12,6 +12,7 @@ import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
+import java.lang.IllegalStateException
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
@@ -86,14 +87,28 @@ fun assembleFmus(xcDir: String): List<Pair<Fmu, DefaultExperiment>> {
 }
 
 fun runSlave(slave: FmuSlave, options: DefaultExperiment): Long {
-    return measureTimeMillis {
-        slave.setup(options.startTime, options.stopTime)
-        slave.enterInitializationMode()
-        slave.exitInitializationMode()
-        while (slave.simulationTime <= (options.stopTime - options.stepSize)) {
-            slave.doStep(options.stepSize)
+
+    fun assert(flag: Boolean) {
+        if (!flag) {
+            throw IllegalStateException()
         }
-        slave.terminate()
+    }
+
+    val v = slave.modelDescription.modelVariables.find { it.isReal }!!.asRealVariable()
+
+    val vr = longArrayOf(v.valueReference)
+    val ref = DoubleArray(vr.size)
+
+    return measureTimeMillis {
+
+        assert(slave.setup(options.startTime, options.stopTime))
+        assert(slave.enterInitializationMode())
+        assert(slave.exitInitializationMode())
+        while (slave.simulationTime <= (options.stopTime - options.stepSize)) {
+            assert(slave.doStep(options.stepSize))
+            slave.read(vr, ref)
+        }
+        assert(slave.terminate())
     }
 }
 
@@ -167,8 +182,7 @@ object ThriftClient {
             throw IllegalArgumentException("Missing host and port!")
         }
 
-        val availableFmus
-                = ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { it.availableFmus }
+        val availableFmus = ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { it.availableFmus }
 
         val clients = List(availableFmus.size) { ThriftFmuClient.socketClient(args[0], args[1].toInt()) }
         val slaves = clients.mapIndexed { i, client ->
@@ -262,6 +276,7 @@ class DefaultExperimentImpl : DefaultExperiment {
                             "StartTime" -> startTime = snd.toDouble()
                             "StopTime" -> stopTime = snd.toDouble()
                             "StepSize" -> stepSize = snd.toDouble()
+                            "RelTol" -> tolerance = snd.toDouble()
                         }
                     }
 
