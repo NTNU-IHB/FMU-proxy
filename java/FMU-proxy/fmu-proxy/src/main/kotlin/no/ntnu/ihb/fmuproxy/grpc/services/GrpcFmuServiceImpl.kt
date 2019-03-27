@@ -24,7 +24,6 @@
 
 package no.ntnu.ihb.fmuproxy.grpc.services
 
-import com.google.protobuf.ByteString
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import no.ntnu.ihb.fmi4j.common.FmiStatus
@@ -36,51 +35,49 @@ import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
+import no.ntnu.ihb.fmuproxy.FmuId
+import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
 import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
-import no.ntnu.ihb.fmuproxy.thrift.AvailableFmu
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
-import java.nio.file.Files
 
 /**
  *
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServiceImpl(
-        private val fmus: MutableMap<String, Fmu>,
-        internal val xcDefaults: DefaultExperiment? = null
+        private val fmus: MutableMap<FmuId, Fmu>,
+        private val xcDefaults: Map<FmuId, DefaultExperiment>? = null
 ) : FmuServiceGrpc.FmuServiceImplBase() {
 
-    private inline fun getFmu(fmuId: String, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
+    private inline fun getFmu(fmuId: FmuId, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
         synchronized(fmus) {
             fmus[fmuId]?.apply(block) ?: noSuchFmuReply(fmuId, responseObserver)
         }
     }
 
-    private inline fun getSlave(instanceId: String, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
+    private inline fun getSlave(instanceId: InstanceId, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
     }
 
     override fun getAvailableFmus(request: Service.Void, responseObserver: StreamObserver<Service.AvailableFmus>) {
 
         synchronized(fmus) {
-
             val availableFmus = fmus.map { entry ->
                 Service.AvailableFmu.newBuilder().also { availableFmu ->
                     availableFmu.fmuId = entry.key
-                    xcDefaults?.also { de ->
+                    xcDefaults?.get(entry.key)?.also { de ->
                         availableFmu.defaultExperiment = de.protoType()
                     }
                 }.build()
             }
             responseObserver.onNext(Service.AvailableFmus.newBuilder().addAllFmus(availableFmus).build())
+            responseObserver.onCompleted()
         }
-
-        responseObserver.onCompleted()
 
     }
 
@@ -271,6 +268,7 @@ class GrpcFmuServiceImpl(
 
 
     override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.debug("setupExperiment called")
         getSlave(request.instanceId, responseObserver) {
             setup(request.start, request.stop, request.tolerance)
             statusReply(lastStatus, responseObserver)
@@ -278,6 +276,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun enterInitializationMode(request: Service.EnterInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.debug("enterInitializationMode called")
         getSlave(request.instanceId, responseObserver) {
             enterInitializationMode()
             statusReply(lastStatus, responseObserver)
@@ -285,6 +284,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun exitInitializationMode(request: Service.ExitInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.debug("exitInitializationMode called")
         getSlave(request.instanceId, responseObserver) {
             exitInitializationMode()
             statusReply(lastStatus, responseObserver)
@@ -292,6 +292,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun step(request: Service.StepRequest, responseObserver: StreamObserver<Service.StepResponse>) {
+        LOG.trace("step called, with stepSize=${request.stepSize}")
         getSlave(request.instanceId, responseObserver) {
             doStep(request.stepSize)
             Service.StepResponse.newBuilder()
@@ -305,6 +306,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun terminate(request: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.debug("terminate called")
         getSlave(request.instanceId, responseObserver) {
             terminate()
             lastStatus.also { status ->

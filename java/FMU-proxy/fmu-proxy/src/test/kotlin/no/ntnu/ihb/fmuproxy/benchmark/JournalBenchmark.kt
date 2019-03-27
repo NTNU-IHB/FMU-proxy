@@ -1,4 +1,4 @@
-package no.ntnu.ihb.fmuproxy.crosscheck
+package no.ntnu.ihb.fmuproxy.benchmark
 
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.importer.Fmu
@@ -8,12 +8,10 @@ import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
-import no.ntnu.ihb.fmuproxy.grpc.Service
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
-import java.time.Duration
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureTimeMillis
@@ -32,7 +30,7 @@ fun filter(fmuDir: File): Pair<Fmu, DefaultExperiment>? {
         it.name.endsWith(".opt")
     } ?: return null
 
-    val defaults = CrossCheckOptions.parse(defaultsData.readText())
+    val defaults = DefaultExperimentImpl.parse(defaultsData.readText())
 
     val inputData = fmuDir.listFiles().find {
         it.name.endsWith("in.csv")
@@ -109,7 +107,7 @@ object RunLocal {
                 pair.first.close()
             }
         }.sum().also {
-            println("Elapsed local: ${TimeUnit.MILLISECONDS.toSeconds(it)}ms")
+            println("Elapsed local: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
         }
 
     }
@@ -228,9 +226,7 @@ object GrpcClient {
                 client.load(avail.first.fmuId).use {
                     elapsed += runSlave(it.newInstance(), avail.second)
                 }
-
                 elapsed
-
             }.sum().also {
                 println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
             }
@@ -239,4 +235,39 @@ object GrpcClient {
 
     }
 }
+
+
+class DefaultExperimentImpl : DefaultExperiment {
+
+    override var startTime: Double = 0.0
+    override var stepSize: Double = 1.0/100
+    override var stopTime: Double = 1.0
+    override var tolerance: Double = 0.0
+
+    companion object {
+
+        fun parse(txt: String): DefaultExperiment {
+
+            return DefaultExperimentImpl().apply {
+                txt.trim().split("\n").forEach { line ->
+
+                    val split = line.split(",")
+                    if (split.isNotEmpty()) {
+                        val (fst, snd) = split
+                        when (fst) {
+                            "StartTime" -> startTime = snd.toDouble()
+                            "StopTime" -> stopTime = snd.toDouble()
+                            "StepSize" -> stepSize = snd.toDouble()
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+    }
+
+}
+
 

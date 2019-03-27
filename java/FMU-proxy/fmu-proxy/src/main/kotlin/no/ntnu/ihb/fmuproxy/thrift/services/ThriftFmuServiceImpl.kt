@@ -48,7 +48,7 @@ import java.nio.ByteBuffer
  */
 class ThriftFmuServiceImpl(
         private val fmus: MutableMap<FmuId, Fmu>,
-        internal var xcDefaults: Map<FmuId, DefaultExperiment>? = null
+        private var xcDefaults: Map<FmuId, DefaultExperiment>? = null
 ) : FmuService.Iface {
 
     private companion object {

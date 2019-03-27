@@ -57,3 +57,22 @@ subprojects { sub ->
 
 }
 
+
+tasks.create('cleanTemp') {
+
+    doLast {
+        def temp = new File(System.getProperty("java.io.tmpdir"))
+        temp.listFiles(new FilenameFilter() {
+            @Override
+            boolean accept(File dir, String name) {
+                return dir == temp && name.startsWith("fmi4j_")
+            }
+        }).each {
+            it.deleteDir()
+        }
+    }
+
+}
+
+clean.dependsOn(cleanTemp)
+

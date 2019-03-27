@@ -1,4 +1,4 @@
-package no.ntnu.ihb.fmuproxy
+package no.ntnu.ihb.fmuproxy.benchmark
 
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
@@ -8,6 +8,7 @@ import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.common.readReal
 import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmuproxy.disableLog4jLoggers
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.*
@@ -47,7 +48,7 @@ class Benchmark {
     }
 
     private fun testSlave(slave: FmuSlave): Long {
-        return runSlave(slave, stepSize, stop) {
+        return no.ntnu.ihb.fmuproxy.runSlave(slave, stepSize, stop) {
             slave.readReal("Temperature_Room").also { read ->
                 Assertions.assertEquals(FmiStatus.OK, read.status)
                 Assertions.assertTrue(read.value > 0)

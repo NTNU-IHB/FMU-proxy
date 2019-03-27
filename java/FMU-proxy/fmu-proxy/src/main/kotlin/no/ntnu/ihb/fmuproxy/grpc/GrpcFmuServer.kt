@@ -74,7 +74,7 @@ class GrpcFmuServer(
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
-                addService(GrpcFmuServiceImpl(fmus))
+                addService(GrpcFmuServiceImpl(fmus, xcDefaults))
             }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")

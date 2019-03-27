@@ -52,11 +52,11 @@ class GrpcFmuClient(
             .usePlaintext()
             .build()
 
-    private val stub = FmuServiceGrpc.newFutureStub(channel)
+    private val stub = FmuServiceGrpc.newBlockingStub(channel)
 
     val availableFmus: List<Pair<AbstractRpcFmuClient, DefaultExperiment>>
         get() {
-            return stub.getAvailableFmus(Service.Void.getDefaultInstance()).get().fmusList.map {
+            return stub.getAvailableFmus(Service.Void.getDefaultInstance()).fmusList.map {
                 GrpcFmu(it.fmuId) to it.defaultExperiment.convert()
             }
         }
@@ -69,7 +69,7 @@ class GrpcFmuClient(
         return Service.Url.newBuilder()
                 .setUrl(url.toString())
                 .build().let {
-                    load(stub.loadFromUrl(it).get().value)
+                    load(stub.loadFromUrl(it).value)
                 }
     }
 
@@ -84,7 +84,7 @@ class GrpcFmuClient(
                 .setName(file.nameWithoutExtension)
                 .setData(data)
                 .build().let {
-                    load(stub.loadFromFile(it).get().value)
+                    load(stub.loadFromFile(it).value)
                 }
     }
 
@@ -103,7 +103,7 @@ class GrpcFmuClient(
             Service.GetModelDescriptionRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        stub.getModelDescription(it).get().convert()
+                        stub.getModelDescription(it).convert()
                     }
         }
 
@@ -111,7 +111,7 @@ class GrpcFmuClient(
             Service.CanCreateInstanceFromCSRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        stub.canCreateInstanceFromCS(it).get().value
+                        stub.canCreateInstanceFromCS(it).value
                     }
 
         }
@@ -120,7 +120,7 @@ class GrpcFmuClient(
             Service.CanCreateInstanceFromMERequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        stub.canCreateInstanceFromME(it).get().value
+                        stub.canCreateInstanceFromME(it).value
                     }
         }
 
@@ -128,7 +128,7 @@ class GrpcFmuClient(
             return Service.CreateInstanceFromCSRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        stub.createInstanceFromCS(it).get().value
+                        stub.createInstanceFromCS(it).value
                     }
         }
 
@@ -137,7 +137,7 @@ class GrpcFmuClient(
                     .setFmuId(fmuId)
                     .setSolver(solver.protoType())
                     .build().let {
-                        stub.createInstanceFromME(it).get().value
+                        stub.createInstanceFromME(it).value
                     }
         }
 
@@ -145,7 +145,7 @@ class GrpcFmuClient(
             return Service.GetCoSimulationAttributesRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        stub.getCoSimulationAttributes(it).get().convert()
+                        stub.getCoSimulationAttributes(it).convert()
                     }
         }
 
@@ -156,7 +156,7 @@ class GrpcFmuClient(
                     .setStop(stop)
                     .setTolerance(tolerance)
                     .build().let {
-                        stub.setupExperiment(it).get().convert()
+                        stub.setupExperiment(it).convert()
                     }
         }
 
@@ -164,7 +164,7 @@ class GrpcFmuClient(
             return Service.EnterInitializationModeRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        stub.enterInitializationMode(it).get().convert()
+                        stub.enterInitializationMode(it).convert()
                     }
         }
 
@@ -172,7 +172,7 @@ class GrpcFmuClient(
             return Service.ExitInitializationModeRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        stub.exitInitializationMode(it).get().convert()
+                        stub.exitInitializationMode(it).convert()
                     }
         }
 
@@ -181,7 +181,7 @@ class GrpcFmuClient(
                     .setInstanceId(instanceId)
                     .setStepSize(stepSize)
                     .build().let {
-                        stub.step(it).get().let {
+                        stub.step(it).let {
                             it.simulationTime to it.status.convert()
                         }
                     }
@@ -191,30 +191,30 @@ class GrpcFmuClient(
             return Service.ResetRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .build().let {
-                        stub.reset(it).get().status.convert()
+                        stub.reset(it).status.convert()
                     }
         }
 
         override fun terminate(instanceId: String): FmiStatus {
             return Service.TerminateRequest.newBuilder().setInstanceId(instanceId).build().let {
-                stub.terminate(it).get().status.convert()
+                stub.terminate(it).status.convert()
             }
         }
 
         override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
-            return stub.readInteger(getReadRequest(instanceId, vr)).get().convert()
+            return stub.readInteger(getReadRequest(instanceId, vr)).convert()
         }
 
         override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
-            return stub.readReal(getReadRequest(instanceId, vr)).get().convert()
+            return stub.readReal(getReadRequest(instanceId, vr)).convert()
         }
 
         override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
-            return stub.readString(getReadRequest(instanceId, vr)).get().convert()
+            return stub.readString(getReadRequest(instanceId, vr)).convert()
         }
 
         override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
-            return stub.readBoolean(getReadRequest(instanceId, vr)).get().convert()
+            return stub.readBoolean(getReadRequest(instanceId, vr)).convert()
         }
 
         override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
@@ -223,7 +223,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        stub.writeInteger(request).get().convert()
+                        stub.writeInteger(request).convert()
                     }
         }
 
@@ -234,7 +234,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        stub.writeReal(request).get().convert()
+                        stub.writeReal(request).convert()
                     }
         }
 
@@ -244,7 +244,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        stub.writeString(request).get().convert()
+                        stub.writeString(request).convert()
                     }
         }
 
@@ -254,7 +254,7 @@ class GrpcFmuClient(
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
-                        stub.writeBoolean(request).get().convert()
+                        stub.writeBoolean(request).convert()
                     }
         }
 
@@ -264,7 +264,7 @@ class GrpcFmuClient(
 //                    .setInstanceId(instanceId)
 //                    .setState(ByteString.copyFrom(state))
 //                    .build().let { request ->
-//                        stub.deSerializeFMUstate(request).get().let { response ->
+//                        stub.deSerializeFMUstate(request).let { response ->
 //                            response.state to response.status.convert()
 //                        }
 //                    }
@@ -276,7 +276,7 @@ class GrpcFmuClient(
 //                    .setInstanceId(instanceId)
 //                    .setState(state)
 //                    .build().let { request ->
-//                        stub.freeFMUstate(request).get().convert()
+//                        stub.freeFMUstate(request).convert()
 //                    }
         }
 
@@ -285,7 +285,7 @@ class GrpcFmuClient(
 //            return Service.GetFMUstateRequest.newBuilder()
 //                    .setInstanceId(instanceId)
 //                    .build().let { request ->
-//                        stub.getFMUstate(request).get().let { response ->
+//                        stub.getFMUstate(request).let { response ->
 //                            response.state to response.status.convert()
 //                        }
 //                    }
@@ -297,7 +297,7 @@ class GrpcFmuClient(
 //                    .setInstanceId(instanceId)
 //                    .setState(state)
 //                    .build().let { request ->
-//                        stub.serializeFMUstate(request).get().let { response ->
+//                        stub.serializeFMUstate(request).let { response ->
 //                            response.state.toByteArray() to response.status.convert()
 //                        }
 //                    }
@@ -309,7 +309,7 @@ class GrpcFmuClient(
 //                    .setInstanceId(instanceId)
 //                    .setState(state)
 //                    .build().let { request ->
-//                        stub.setFMUstate(request).get().convert()
+//                        stub.setFMUstate(request).convert()
 //                    }
         }
 
@@ -319,7 +319,7 @@ class GrpcFmuClient(
                     .addAllVUnknownRef(vUnknownRef)
                     .addAllVKnownRef(vKnownRef)
                     .addAllDvKnownRef(dvKnownRef).build().let { request ->
-                        stub.getDirectionalDerivative(request).get().let { response ->
+                        stub.getDirectionalDerivative(request).let { response ->
                             response.dvUnknownRefList to response.status.convert()
                         }
                     }
