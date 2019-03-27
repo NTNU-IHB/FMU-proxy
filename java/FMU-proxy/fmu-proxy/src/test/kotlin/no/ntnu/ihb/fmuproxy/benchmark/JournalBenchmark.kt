@@ -77,7 +77,7 @@ fun assembleFmus(xcDir: String): List<Pair<Fmu, DefaultExperiment>> {
 
     }
     return fmus.also {
-        println("Assembled ${it.size} fmus")
+        println("Assembled ${it.size} fmus, with a total simulation time of ${it.map { it.second.stopTime }.sum() }")
     }
 }
 
