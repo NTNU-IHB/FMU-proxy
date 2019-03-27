@@ -14,6 +14,7 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
 
 fun filter(fmuDir: File): Pair<Fmu, DefaultExperiment>? {
@@ -56,6 +57,9 @@ fun filter(fmuDir: File): Pair<Fmu, DefaultExperiment>? {
         return null
     } else if (defaults.stepSize < 1e-4) {
         println("FMU Rejected, reason: StepSize to small.")
+        return null
+    } else if (defaults.stopTime > 20) {
+        println("FMU Rejected, reason: stopTime to large.")
         return null
     }
 
@@ -145,9 +149,7 @@ object ThriftServer {
             throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
         }
 
-        val xcDir = args[0]
-        runServer(xcDir, ThriftFmuSocketServer(), 9090)
-
+        runServer(args[0], ThriftFmuSocketServer(), 9090)
         System.exit(0)
 
     }
@@ -163,20 +165,20 @@ object ThriftClient {
             throw IllegalArgumentException("Missing host and port!")
         }
 
-        val host = args[0]
-        val port = args[1].toInt()
+        ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { client1 ->
 
-        ThriftFmuClient.socketClient(host, port).use { client1 ->
+            val count = AtomicInteger()
+            val availableFmus = client1.availableFmus
+            availableFmus.parallelStream().mapToLong { avail ->
 
-            client1.availableFmus.parallelStream().mapToLong { avail ->
+                ThriftFmuClient.socketClient(args[0], args[1].toInt()).use { client2 ->
+                    client2.load(avail.first.fmuId).use { fmu ->
+                        runSlave(fmu.newInstance(), avail.second).also {
+                            println("${count.incrementAndGet()} of ${availableFmus.size} finished. ${fmu.modelName}, took ${it}ms")
+                        }
 
-                var elapsed = 0L
-                ThriftFmuClient.socketClient(host, port).use { client2 ->
-                    client2.load(avail.first.fmuId).use {
-                        elapsed += runSlave(it.newInstance(), avail.second)
                     }
                 }
-                elapsed
 
             }.sum().also {
                 println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
@@ -196,9 +198,7 @@ object GrpcServer {
             throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
         }
 
-        val xcDir = args[0]
-        runServer(xcDir, GrpcFmuServer(), 9091)
-
+        runServer(args[0], GrpcFmuServer(), 9091)
         System.exit(0)
 
     }
@@ -215,18 +215,12 @@ object GrpcClient {
             throw IllegalArgumentException("Missing host and port!")
         }
 
-        val host = args[0]
-        val port = args[1].toInt()
-
-        GrpcFmuClient(host, port).use { client ->
+        GrpcFmuClient(args[0], args[1].toInt()).use { client ->
 
             client.availableFmus.parallelStream().mapToLong { avail ->
-
-                var elapsed = 0L
                 client.load(avail.first.fmuId).use {
-                    elapsed += runSlave(it.newInstance(), avail.second)
+                    runSlave(it.newInstance(), avail.second)
                 }
-                elapsed
             }.sum().also {
                 println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
             }
