@@ -1,5 +1,6 @@
 package no.ntnu.ihb.fmuproxy
 
+import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
@@ -152,23 +153,35 @@ class TestProxy {
 
     }
 
-    private fun testJsonRpc(client: JsonRpcFmuClient) {
+    private fun testJsonRpc(client: RpcClient) {
+
+
+
 
         val mdLocal = fmu.modelDescription
 
         Assertions.assertTimeout(testTimeout) {
-            client.use {
-                LOG.info("Testing client of type ${client.implementationName}")
 
-                Assertions.assertEquals(mdLocal.guid, client.guid)
-                Assertions.assertEquals(mdLocal.modelName, client.modelName)
-                Assertions.assertEquals(mdLocal.fmiVersion, client.modelDescription.fmiVersion)
 
-                client.newInstance().use { instance ->
-                    runSlave(instance, stepSize, stopTime).also {
-                        LOG.info("${client.implementationName} duration: ${it}ms")
+            JsonRpcFmuClient(client).use {
+
+                it.load(fmu.guid).use { slave ->
+
+                    LOG.info("Testing client of type ${slave.implementationName}")
+                    Assertions.assertEquals(mdLocal.guid, slave.guid)
+                    Assertions.assertEquals(mdLocal.modelName, slave.modelName)
+                    Assertions.assertEquals(mdLocal.fmiVersion, slave.modelDescription.fmiVersion)
+
+                    slave.newInstance().use { instance ->
+                        runSlave(instance, stepSize, stopTime).also {
+                            LOG.info("${slave.implementationName} duration: ${it}ms")
+                        }
                     }
                 }
+            }
+
+            client.use {
+
             }
         }
 
@@ -177,30 +190,22 @@ class TestProxy {
     @Test
     @DisabledOnOs(OS.LINUX)
     fun testHttpJsonRpc() {
-        RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!).let {
-            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
-        }
+        testJsonRpc(RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
     }
 
     @Test
     fun testWsJsonRpc() {
-        RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!).let {
-            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
-        }
+        testJsonRpc(RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!))
     }
 
     @Test
     fun testTcpJsonRpc() {
-        RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!).let {
-            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
-        }
+        testJsonRpc(RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!))
     }
 
     @Test
     fun testZmqJsonRpc() {
-        RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!).let {
-            testJsonRpc(JsonRpcFmuClient(fmu.guid, it))
-        }
+        testJsonRpc(RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!))
     }
 
 }

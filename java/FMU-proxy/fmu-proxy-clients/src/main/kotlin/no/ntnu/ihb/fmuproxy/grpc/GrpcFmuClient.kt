@@ -31,6 +31,8 @@ import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
+import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
+import no.ntnu.ihb.fmuproxy.thrift.DirectionalDerivativeResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -54,10 +56,10 @@ class GrpcFmuClient(
 
     private val stub = FmuServiceGrpc.newBlockingStub(channel)
 
-    val availableFmus: List<Pair<AbstractRpcFmuClient, DefaultExperiment>>
+    val availableFmus: List<Pair<String, DefaultExperiment>>
         get() {
             return stub.getAvailableFmus(Service.Void.getDefaultInstance()).fmusList.map {
-                GrpcFmu(it.fmuId) to it.defaultExperiment.convert()
+                it.fmuId to it.defaultExperiment.convert()
             }
         }
 
@@ -176,13 +178,13 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun step(instanceId: String, stepSize: Double): Pair<Double, FmiStatus> {
+        override fun step(instanceId: String, stepSize: Double): StepResult {
             return Service.StepRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .setStepSize(stepSize)
                     .build().let {
                         stub.step(it).let {
-                            it.simulationTime to it.status.convert()
+                            StepResult(it.simulationTime, it.status.convert())
                         }
                     }
         }
@@ -258,69 +260,14 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun deSerializeFMUstate(instanceId: String, state: ByteArray): Pair<FmuState, FmiStatus> {
-            throw UnsupportedOperationException("Not implemented yet!")
-//            return Service.DeSerializeFMUstateRequest.newBuilder()
-//                    .setInstanceId(instanceId)
-//                    .setState(ByteString.copyFrom(state))
-//                    .build().let { request ->
-//                        stub.deSerializeFMUstate(request).let { response ->
-//                            response.state to response.status.convert()
-//                        }
-//                    }
-        }
-
-        override fun freeFMUstate(instanceId: String, state: FmuState): FmiStatus {
-            throw UnsupportedOperationException("Not implemented yet!")
-//            return Service.FreeFMUstateRequest.newBuilder()
-//                    .setInstanceId(instanceId)
-//                    .setState(state)
-//                    .build().let { request ->
-//                        stub.freeFMUstate(request).convert()
-//                    }
-        }
-
-        override fun getFMUstate(instanceId: String): Pair<FmuState, FmiStatus> {
-            throw UnsupportedOperationException("Not implemented yet!")
-//            return Service.GetFMUstateRequest.newBuilder()
-//                    .setInstanceId(instanceId)
-//                    .build().let { request ->
-//                        stub.getFMUstate(request).let { response ->
-//                            response.state to response.status.convert()
-//                        }
-//                    }
-        }
-
-        override fun serializeFMUstate(instanceId: String, state: FmuState): Pair<ByteArray, FmiStatus> {
-            throw UnsupportedOperationException("Not implemented yet!")
-//            return Service.SerializeFMUstateRequest.newBuilder()
-//                    .setInstanceId(instanceId)
-//                    .setState(state)
-//                    .build().let { request ->
-//                        stub.serializeFMUstate(request).let { response ->
-//                            response.state.toByteArray() to response.status.convert()
-//                        }
-//                    }
-        }
-
-        override fun setFMUstate(instanceId: String, state: FmuState): FmiStatus {
-            throw UnsupportedOperationException("Not implemented yet!")
-//            return Service.SetFMUstateRequest.newBuilder()
-//                    .setInstanceId(instanceId)
-//                    .setState(state)
-//                    .build().let { request ->
-//                        stub.setFMUstate(request).convert()
-//                    }
-        }
-
-        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus> {
+        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult {
             return Service.GetDirectionalDerivativeRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .addAllVUnknownRef(vUnknownRef)
                     .addAllVKnownRef(vKnownRef)
                     .addAllDvKnownRef(dvKnownRef).build().let { request ->
                         stub.getDirectionalDerivative(request).let { response ->
-                            response.dvUnknownRefList to response.status.convert()
+                            no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult(response.dvUnknownRefList.toDoubleArray(), response.status.convert())
                         }
                     }
 

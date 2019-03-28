@@ -1,5 +1,6 @@
 
 plugins {
+    id 'kotlin'
     id 'java-library'
     id "com.google.protobuf" version '0.8.8'
 }
@@ -7,10 +8,12 @@ plugins {
     
 dependencies {
 
-    api group: 'org.apache.thrift', name: 'libthrift', version: '0.12.0'
-
     api group: 'io.grpc', name: 'grpc-stub', version: grpc_version
     api group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
+
+    api group: 'org.apache.thrift', name: 'libthrift', version: '0.12.0'
+
+    api group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
 
 }
 
@@ -18,7 +21,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     
     def definitions = "../../../rpc-definitions"
 
-    task (generateThrift, type: Exec) {
+    task ('generateThrift', type: Exec) {
 
         def out = new File("src/main/java")
         if (!out.exists()) {
@@ -65,7 +68,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
         }
     }
 
-    task generateAll {
+    task ('generateAll') {
         dependsOn 'generateProto', 'generateThrift'
     }
     

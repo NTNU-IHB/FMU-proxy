@@ -14,11 +14,29 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import java.io.File
 import java.lang.IllegalStateException
 import java.util.*
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
 
-fun filter(fmuDir: File): Pair<Fmu, DefaultExperiment>? {
+class BenchmarkData(
+        val fmuFile: File,
+        val defaults: DefaultExperiment
+) {
+
+    val fmu = Fmu.from(fmuFile)
+
+    val version: String
+        get() {
+            return fmuFile.parentFile.parentFile.name
+        }
+
+    val vendor: String
+        get() {
+            return fmuFile.parentFile.parentFile.parentFile.name
+        }
+
+}
+
+fun filter(fmuDir: File): BenchmarkData? {
 
     val fmuFile = fmuDir.listFiles().find {
         it.name.endsWith(".fmu")
@@ -38,43 +56,43 @@ fun filter(fmuDir: File): Pair<Fmu, DefaultExperiment>? {
         it.name.endsWith("in.csv")
     }
 
-    if (refData.length() > 1E6) {
-        println("FMU Rejected, reason: Reference data > 1MB")
+    val md = JaxbModelDescriptionParser.parse(fmuFile).asCoSimulationModelDescription()
+
+    if (OsUtil.isLinux && "JModelica.org" in fmuDir.absolutePath) {
+//        println("FMU Rejected, reason: JModelica.org FMUs makes Linux crash.")
         return null
-    } else if (OsUtil.isLinux && "JModelica.org" in fmuDir.absolutePath) {
-        println("FMU Rejected, reason: JModelica.org FMUs makes Linux crash.")
-        return null
-    } else if ("FMUSDK" in fmuDir.absolutePath || "Easy5" in fmuDir.absolutePath && fmuDir.absolutePath.contains("vanderpol", ignoreCase = true)) {
-        println("FMU Rejected, reason: FMUSDK/vanDerPol.")
+    } else if (listOf("FMUSDK", "Easy5", "Silver").any { fmuDir.absolutePath.contains(it) }) {
+//        println("FMU Rejected, reason: FMUSDK/vanDerPol.")
         return null
     } else if (defaults.stepSize == 0.0) {
-        println("FMU Rejected, reason: stepSize == 0.0")
+//        println("FMU Rejected, reason: stepSize == 0.0")
         return null
-    } else if (inputData != null) {
-        println("FMU Rejected, reason: Requires input data.")
-        return null
-    } else if (JaxbModelDescriptionParser.parse(fmuFile).asCoSimulationModelDescription().attributes.needsExecutionTool) {
-        println("FMU Rejected, reason: FMU requires execution tool.")
+    } else if (md.attributes.needsExecutionTool) {
+//        println("FMU Rejected, reason: FMU requires execution tool.")
         return null
     } else if (defaults.stepSize < 1e-4) {
-        println("FMU Rejected, reason: StepSize to small.")
+//        println("FMU Rejected, reason: StepSize to small.")
         return null
     } else if (defaults.stopTime > 20) {
-        println("FMU Rejected, reason: stopTime to large.")
+//        println("FMU Rejected, reason: stopTime to large.")
+        return null
+    } else if ("DS_FMU_Export_from_Simulink" in fmuDir.absolutePath && listOf("2.1.1", "2.1.2", "2.2.0").any { fmuDir.absolutePath.contains(it) }) {
+        return null
+    } else if ("MapleSim" in fmuDir.absolutePath && listOf("2015.2", "2016.1", "2016.2").any { fmuDir.absolutePath.contains(it) }) {
         return null
     }
 
-    return Fmu.from(fmuFile) to defaults
+    return BenchmarkData(fmuFile, defaults)
 
 }
 
-fun assembleFmus(xcDir: String): List<Pair<Fmu, DefaultExperiment>> {
-    val fmus = mutableListOf<Pair<Fmu, DefaultExperiment>>()
+fun assembleFmus(xcDir: String): List<BenchmarkData> {
+    val fmus = mutableListOf<BenchmarkData>()
     File(xcDir, "fmus/2.0/cs/${OsUtil.currentOS}").listFiles().forEach { vendor ->
         vendor.listFiles().forEach { version ->
             version.listFiles().forEach { fmuDir ->
                 filter(fmuDir)?.also {
-                    println("Loading fmu $fmuDir")
+                    println("Loading fmu $fmuDir, stopTime=${it.defaults.stopTime}, stepSize=${it.defaults.stepSize}")
                     fmus.add(it)
                 }
             }
@@ -82,7 +100,7 @@ fun assembleFmus(xcDir: String): List<Pair<Fmu, DefaultExperiment>> {
 
     }
     return fmus.also {
-        println("Assembled ${it.size} fmus, with a total simulation time of ${it.map { it.second.stopTime }.sum()}")
+        println("Assembled ${it.size} fmus, with a total simulation time of ${it.map { it.defaults.stopTime }.sum()}")
     }
 }
 
@@ -95,7 +113,6 @@ fun runSlave(slave: FmuSlave, options: DefaultExperiment): Long {
     }
 
     val v = slave.modelDescription.modelVariables.find { it.isReal }!!.asRealVariable()
-
     val vr = longArrayOf(v.valueReference)
     val ref = DoubleArray(vr.size)
 
@@ -106,7 +123,7 @@ fun runSlave(slave: FmuSlave, options: DefaultExperiment): Long {
         assert(slave.exitInitializationMode())
         while (slave.simulationTime <= (options.stopTime - options.stepSize)) {
             assert(slave.doStep(options.stepSize))
-            slave.read(vr, ref)
+//            slave.read(vr, ref)
         }
         assert(slave.terminate())
     }
@@ -121,9 +138,14 @@ object RunLocal {
             throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
         }
 
+        val count = AtomicInteger()
+        val availableFmus =  assembleFmus(args[0])
         measureTimeMillis {
-            assembleFmus(args[0]).parallelStream().mapToLong { pair ->
-                runSlave(pair.first.asCoSimulationFmu().newInstance(), pair.second)
+           availableFmus.stream().mapToLong { data ->
+                runSlave(data.fmu.asCoSimulationFmu().newInstance(), data.defaults).also { elapsed ->
+//                    val md = data.fmu.modelDescription
+//                    println("${count.incrementAndGet()} of ${availableFmus.size} finished. ${md.generationTool}/${md.modelName} took ${elapsed}ms")
+                }
             }.sum().also {
                 println("Accumulated time local: ${it}ms")
             }
@@ -139,8 +161,8 @@ fun runServer(xcDir: String, server: FmuProxyServer, port: Int) {
     server.use {
         val xcDefaults = mutableMapOf<FmuId, DefaultExperiment>()
         assembleFmus(xcDir).forEach {
-            server.addFmu(it.first)
-            xcDefaults[it.first.guid] = it.second
+            server.addFmu(it.fmu)
+            xcDefaults[it.fmu.guid] = it.defaults
         }
         if (server is ThriftFmuSocketServer) {
             server.xcDefaults = xcDefaults
@@ -190,20 +212,21 @@ object ThriftClient {
             client.load(fmuId).newInstance() to de
         }
 
-        val elapsed = measureTimeMillis {
+        measureTimeMillis {
 
             val count = AtomicInteger()
-            slaves.parallelStream().mapToLong {
-                runSlave(it.first, it.second).also {
-                    println("${count.incrementAndGet()} of ${availableFmus.size} finished. Took ${it}ms")
+            slaves.parallelStream().mapToLong { (instance, defaults) ->
+                runSlave(instance, defaults).also { elapsed ->
+//                    val md = instance.modelDescription
+//                    println("${count.incrementAndGet()} of ${availableFmus.size} finished. ${md.generationTool}/${md.modelName} took ${elapsed}ms")
                 }
             }.sum().also {
                 println("Accumulated time elapsed: ${it}ms")
             }
 
+        }.also {
+            println("Total time elapsed: ${it}ms")
         }
-
-        println("Total time elapsed: ${elapsed}ms")
 
         clients.forEach {
             it.close()
@@ -239,20 +262,95 @@ object GrpcClient {
             throw IllegalArgumentException("Missing host and port!")
         }
 
-        GrpcFmuClient(args[0], args[1].toInt()).use { client ->
+        val availableFmus = GrpcFmuClient(args[0], args[1].toInt()).use { it.availableFmus }
 
-            client.availableFmus.parallelStream().mapToLong { avail ->
-                client.load(avail.first.fmuId).use {
-                    runSlave(it.newInstance(), avail.second)
+        val clients = List(availableFmus.size) { GrpcFmuClient(args[0], args[1].toInt()) }
+        val slaves = clients.mapIndexed { i, client ->
+            val (fmuId, de) = availableFmus[i]
+            client.load(fmuId).newInstance() to de
+        }
+
+        val elapsed = measureTimeMillis {
+
+            val count = AtomicInteger()
+            slaves.stream().mapToLong { (instance, defaults) ->
+                runSlave(instance, defaults).also { elapsed ->
+//                    val md = instance.modelDescription
+//                    println("${count.incrementAndGet()} of ${availableFmus.size} finished. ${md.generationTool}/${md.modelName} took ${elapsed}ms")
                 }
             }.sum().also {
-                println("Elapsed remote: ${TimeUnit.MILLISECONDS.toSeconds(it)}s")
+                println("Accumulated time elapsed: ${it}ms")
             }
 
         }
 
+        println("Total time elapsed: ${elapsed}ms")
+
+        clients.forEach {
+            it.close()
+        }
+
+
     }
 }
+
+
+//object JsonServer {
+//
+//    @JvmStatic
+//    fun main(args: Array<String>) {
+//
+//        if (args.isEmpty()) {
+//            throw IllegalArgumentException("Missing path to fmi-cross-check folder!")
+//        }
+//
+//        runServer(args[0], FmuProxyJsonTcpServer(RpcFmuService()), 9092)
+//        System.exit(0)
+//
+//    }
+//
+//}
+//
+//object JsonClient {
+//
+//    @JvmStatic
+//    fun main(args: Array<String>) {
+//
+//        if (args.isEmpty()) {
+//            throw IllegalArgumentException("Missing host and port!")
+//        }
+//
+//        val availableFmus = JsonRpcFmuClient(RpcTcpClient(args[0], args[1].toInt())).use { it.availableFmus }
+//
+//        val clients = List(availableFmus.size) { GrpcFmuClient(args[0], args[1].toInt()) }
+//        val slaves = clients.mapIndexed { i, client ->
+//            val avail = availableFmus[i]
+//            client.load(avail.fmuId).newInstance() to avail.defaultExperiment
+//        }
+//
+//        val elapsed = measureTimeMillis {
+//
+//            val count = AtomicInteger()
+//            slaves.parallelStream().mapToLong { (instance, defaults) ->
+//                runSlave(instance, defaults!!).also { elapsed ->
+//                    val md = instance.modelDescription
+//                    println("${count.incrementAndGet()} of ${availableFmus.size} finished. ${md.generationTool}/${md.modelName} took ${elapsed}ms")
+//                }
+//            }.sum().also {
+//                println("Accumulated time elapsed: ${it}ms")
+//            }
+//
+//        }
+//
+//        println("Total time elapsed: ${elapsed}ms")
+//
+//        clients.forEach {
+//            it.close()
+//        }
+//
+//
+//    }
+//}
 
 
 class DefaultExperimentImpl : DefaultExperiment {

@@ -34,16 +34,14 @@ import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
+import no.ntnu.ihb.fmuproxy.jsonrpc.AvailableFmu
+import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
+import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.util.*
-
-class StepResult(
-        val status: FmiStatus,
-        val simulationTime: Double
-)
 
 class Solver(
         val name: String,
@@ -82,7 +80,16 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun load(url: String): FmuId {
+    fun getAvailableFmus(): List<AvailableFmu> {
+        synchronized(fmus) {
+            return fmus.map {
+                AvailableFmu(it.key, it.value.modelDescription.defaultExperiment)
+            }
+        }
+    }
+
+    @RpcMethod
+    fun loadFromUrl(url: String): FmuId {
         @Suppress("NAME_SHADOWING") val url = URL(url)
         val md = JacksonModelDescriptionParser.parse(url)
         val guid = md.guid
@@ -271,6 +278,14 @@ class RpcFmuService(
     @RpcMethod
     fun writeBoolean(instanceId: InstanceId, vr: ValueReferences, value: BooleanArray): FmiStatus {
         return getSlave(instanceId).write(vr, value)
+    }
+
+    @RpcMethod
+    fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: ValueReferences, vKnownRef: ValueReferences, dvKnownRef: RealArray): DirectionalDerivativeResult {
+        return getSlave(instanceId).let {
+            val result = it.getDirectionalDerivative(vUnknownRef, vKnownRef, dvKnownRef)
+                DirectionalDerivativeResult(result, it.lastStatus)
+        }
     }
 
     private companion object {

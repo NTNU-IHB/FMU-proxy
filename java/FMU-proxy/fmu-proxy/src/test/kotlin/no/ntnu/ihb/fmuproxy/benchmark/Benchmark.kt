@@ -140,10 +140,10 @@ class Benchmark {
 
         Assertions.assertTimeout(testTimeout) {
             FmuProxyJsonHttpServer(service).use { server ->
-                JsonRpcFmuClient(fmu.guid, RpcHttpClient(host, server.start())).use { client ->
-                    client.newInstance().use { slave ->
+                JsonRpcFmuClient( RpcHttpClient(host, server.start())).use { client ->
+                    client.load(fmu.guid).newInstance().use { slave ->
                         testSlave(slave).also {
-                            LOG.info("${client.implementationName} duration=${it}ms")
+                            LOG.info("RpcHttpClient duration=${it}ms")
                         }
                     }
                 }
@@ -162,10 +162,10 @@ class Benchmark {
 
             Assertions.assertTimeout(testTimeout) {
                 FmuProxyJsonWsServer(service).use { server ->
-                    JsonRpcFmuClient(fmu.guid, RpcWebSocketClient(host, server.start())).use { client ->
-                        client.newInstance().use { slave ->
+                    JsonRpcFmuClient(RpcWebSocketClient(host, server.start())).use { client ->
+                        client.load(fmu.guid).newInstance().use { slave ->
                             testSlave(slave).also {
-                                LOG.info("${client.implementationName} duration=${it}ms")
+                                LOG.info("RpcWebSocketClient duration=${it}ms")
                             }
                         }
                     }
@@ -187,10 +187,10 @@ class Benchmark {
 
         Assertions.assertTimeout(testTimeout) {
             FmuProxyJsonZmqServer(service).use { server ->
-                JsonRpcFmuClient(fmu.guid, RpcZmqClient(host, server.start())).use { client ->
-                    client.newInstance().use { slave ->
+                JsonRpcFmuClient(RpcZmqClient(host, server.start())).use { client ->
+                    client.load(fmu.guid).newInstance().use { slave ->
                         testSlave(slave).also {
-                            LOG.info("${client.implementationName} duration=${it}ms")
+                            LOG.info("RpcZmqClient duration=${it}ms")
                         }
                     }
                 }
@@ -208,10 +208,10 @@ class Benchmark {
 
         Assertions.assertTimeout(testTimeout) {
             FmuProxyJsonTcpServer(service).use { server ->
-                JsonRpcFmuClient(fmu.guid, RpcTcpClient(host, server.start())).use { client ->
-                    client.newInstance().use { slave ->
+                JsonRpcFmuClient(RpcTcpClient(host, server.start())).use { client ->
+                    client.load(fmu.guid).newInstance().use { slave ->
                         testSlave(slave).also {
-                            LOG.info("${client.implementationName} duration=${it}ms")
+                            LOG.info("RpcTcpClient duration=${it}ms")
                         }
                     }
                 }

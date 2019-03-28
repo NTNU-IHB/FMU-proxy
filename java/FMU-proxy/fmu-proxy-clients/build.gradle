@@ -10,7 +10,7 @@ apply from: rootProject.file("gradle/mavenpublish.gradle")
 dependencies {
 
     api project(":rpc-definitions")
-    api group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
+   
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
     

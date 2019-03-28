@@ -115,16 +115,18 @@ class TestJsonRpcClients {
 
     private fun testClient(client: RpcClient) {
 
-        JsonRpcFmuClient(fmu.guid, client).use {
-            LOG.info("Testing client of type ${it.implementationName}")
-            Assertions.assertEquals(fmu.modelDescription.modelName, it.modelName)
-            Assertions.assertEquals(fmu.modelDescription.guid, it.guid)
+        JsonRpcFmuClient( client).use {
+            it.load(fmu.guid).also {
+                LOG.info("Testing client of type ${it.implementationName}")
+                Assertions.assertEquals(fmu.modelDescription.modelName, it.modelName)
+                Assertions.assertEquals(fmu.modelDescription.guid, it.guid)
 
-            it.newInstance().use { slave ->
-                runSlave(slave, stepSize, stop) {
-                    temperatureVariable.read(slave)
+                it.newInstance().use { slave ->
+                    runSlave(slave, stepSize, stop) {
+                        temperatureVariable.read(slave)
+                    }
+                    LOG.info(" ${it.implementationName} duration: ${it}ms")
                 }
-                LOG.info(" ${it.implementationName} duration: ${it}ms")
             }
         }
 

@@ -27,6 +27,8 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.IFmu
 import no.ntnu.ihb.fmi4j.modeldescription.*
+import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
+import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -50,7 +52,7 @@ abstract class AbstractRpcFmuClient(
     protected abstract fun enterInitializationMode(instanceId: InstanceId): FmiStatus
     protected abstract fun exitInitializationMode(instanceId: InstanceId): FmiStatus
 
-    protected abstract fun step(instanceId: InstanceId, stepSize: Double): Pair<Double, FmiStatus>
+    protected abstract fun step(instanceId: InstanceId, stepSize: Double): StepResult
     protected abstract fun reset(instanceId: InstanceId): FmiStatus
     protected abstract fun terminate(instanceId: InstanceId): FmiStatus
 
@@ -64,14 +66,7 @@ abstract class AbstractRpcFmuClient(
     internal abstract fun writeString(instanceId: InstanceId, vr: List<ValueReference>, value: List<String>): FmiStatus
     internal abstract fun writeBoolean(instanceId: InstanceId, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
 
-    internal abstract fun getFMUstate(instanceId: InstanceId): Pair<FmuState, FmiStatus>
-    internal abstract fun setFMUstate(instanceId: InstanceId, state: FmuState): FmiStatus
-    internal abstract fun freeFMUstate(instanceId: InstanceId, state: FmuState): FmiStatus
-
-    internal abstract fun serializeFMUstate(instanceId: InstanceId, state: FmuState): Pair<ByteArray, FmiStatus>
-    internal abstract fun deSerializeFMUstate(instanceId: InstanceId, state: ByteArray): Pair<FmuState, FmiStatus>
-
-    internal abstract fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): Pair<List<Double>, FmiStatus>
+    internal abstract fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult
 
     private val fmuInstances = mutableListOf<FmuInstance>()
 
@@ -138,8 +133,8 @@ abstract class AbstractRpcFmuClient(
 
         override fun doStep(stepSize: Double): Boolean {
             val stepResult = step(instanceId, stepSize)
-            simulationTime = stepResult.first
-            return stepResult.second.let {
+            simulationTime = stepResult.simulationTime
+            return stepResult.status.let {
                 lastStatus = it
                 it == FmiStatus.OK
             }
@@ -177,46 +172,10 @@ abstract class AbstractRpcFmuClient(
             terminate()
         }
 
-        override fun getFMUstate(): FmuState {
-            return getFMUstate(instanceId).let {
-                lastStatus = it.second
-                it.first
-            }
-        }
-
-        override fun setFMUstate(state: FmuState): Boolean {
-            return setFMUstate(instanceId, state).let {
-                lastStatus = it
-                it == FmiStatus.OK
-            }
-        }
-
-        override fun freeFMUstate(state: FmuState): Boolean {
-            return freeFMUstate(instanceId, state).let {
-                lastStatus = it
-                it == FmiStatus.OK
-            }
-        }
-
-
-        override fun serializeFMUstate(state: FmuState): ByteArray {
-            return serializeFMUstate(instanceId, state).let {
-                lastStatus = it.second
-                it.first
-            }
-        }
-
-        override fun deSerializeFMUstate(state: ByteArray): FmuState {
-            return deSerializeFMUstate(instanceId, state).let {
-                lastStatus = it.second
-                it.first
-            }
-        }
-
         override fun getDirectionalDerivative(vUnknownRef: ValueReferences, vKnownRef: ValueReferences, dvKnown: RealArray): RealArray {
             return getDirectionalDerivative(instanceId, vKnownRef.toList(), vUnknownRef.toList(), dvKnown.toList()).let {
-                lastStatus = it.second
-                it.first.toDoubleArray()
+                lastStatus = it.status
+                it.directionalDerivative
             }
         }
 
@@ -272,6 +231,28 @@ abstract class AbstractRpcFmuClient(
         override fun write(vr: ValueReferences, value: StringArray): FmiStatus {
             return writeString(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
+
+
+        override fun getFMUstate(): FmuState {
+            throw UnsupportedOperationException("Not supported yet!")
+        }
+
+        override fun setFMUstate(state: FmuState): Boolean {
+            throw UnsupportedOperationException("Not supported yet!")
+        }
+
+        override fun freeFMUstate(state: FmuState): Boolean {
+            throw UnsupportedOperationException("Not supported yet!")
+        }
+
+        override fun serializeFMUstate(state: FmuState): ByteArray {
+            throw UnsupportedOperationException("Not supported yet!")
+        }
+
+        override fun deSerializeFMUstate(state: ByteArray): FmuState {
+            throw UnsupportedOperationException("Not supported yet!")
+        }
+
 
 
     }

@@ -1,5 +1,6 @@
 package no.ntnu.ihb.fmuproxy.grpc
 
+import io.grpc.StatusRuntimeException
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.readReal
 import no.ntnu.ihb.fmi4j.importer.Fmu
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.net.ConnectException
 import java.util.concurrent.ExecutionException
 
 
@@ -77,7 +79,7 @@ class Benchmark {
                     }
                 }
 
-            } catch (ex: ExecutionException) {
+            } catch (ex: StatusRuntimeException) {
                 LOG.warn("Could not connect to remote server..")
                 break
             }
