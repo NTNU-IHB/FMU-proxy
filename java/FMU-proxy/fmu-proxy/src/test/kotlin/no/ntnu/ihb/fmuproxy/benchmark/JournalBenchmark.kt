@@ -43,19 +43,11 @@ fun filter(fmuDir: File): BenchmarkData? {
         it.name.endsWith(".fmu")
     } ?: return null
 
-    val refData = fmuDir.listFiles().find {
-        it.name.endsWith("ref.csv")
-    } ?: return null
-
     val defaultsData = fmuDir.listFiles().find {
         it.name.endsWith(".opt")
     } ?: return null
 
     val defaults = DefaultExperimentImpl.parse(defaultsData.readText())
-
-    val inputData = fmuDir.listFiles().find {
-        it.name.endsWith("in.csv")
-    }
 
     val md = JaxbModelDescriptionParser.parse(fmuFile).asCoSimulationModelDescription()
 
