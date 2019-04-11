@@ -5,7 +5,6 @@ plugins {
     id "com.google.protobuf" version '0.8.8'
 }
 
-    
 dependencies {
 
     api group: 'io.grpc', name: 'grpc-stub', version: grpc_version
@@ -21,7 +20,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     
     def definitions = "../../../rpc-definitions"
 
-    task ('generateThrift', type: Task) {
+    tasks.create ('generateThrift') {
 
         def out = new File("src/main/java")
         if (!out.exists()) {
@@ -36,7 +35,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
             }
 
         } catch (Exception ex) {
-            println ex
+//            println ex
         }
     }
 
@@ -68,10 +67,8 @@ if (!getProperties().get("disableCodeGeneration", false)) {
         }
     }
 
-    task ('generateAll') {
+    tasks.create ('generateAll') {
         dependsOn 'generateProto', 'generateThrift'
     }
 
-    build.dependsOn 'generateThrift'
-    
 }
