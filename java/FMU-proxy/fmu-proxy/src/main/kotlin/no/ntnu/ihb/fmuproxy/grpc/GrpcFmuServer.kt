@@ -53,7 +53,6 @@ class GrpcFmuServer(
     override val simpleName = "grpc/http2"
 
     private var server: Server? = null
-    internal var xcDefaults: Map<FmuId, DefaultExperiment>? = null
 
     private val isRunning: Boolean
         get() = server != null
@@ -74,7 +73,7 @@ class GrpcFmuServer(
         if (!isRunning) {
             this.port = port
             server = ServerBuilder.forPort(port).apply {
-                addService(GrpcFmuServiceImpl(fmus, xcDefaults))
+                addService(GrpcFmuServiceImpl(fmus))
             }.build().start()
 
             LOG.info("${javaClass.simpleName} listening for connections on port: $port")

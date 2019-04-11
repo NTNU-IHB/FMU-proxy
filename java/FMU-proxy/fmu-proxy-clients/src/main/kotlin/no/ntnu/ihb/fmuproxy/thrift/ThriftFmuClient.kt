@@ -83,13 +83,6 @@ class ThriftFmuClient private constructor(
         }
     }
 
-    val availableFmus: List<Pair<String, DefaultExperiment>>
-        get() {
-            return client.availableFmus.map {
-                it.fmuId to it.defaultExperiment.convert()
-            }
-        }
-
     override fun close() {
         if (protocol.transport.isOpen) {
             protocol.transport.close()
