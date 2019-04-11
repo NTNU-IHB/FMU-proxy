@@ -107,9 +107,9 @@ fun runSlave(slave: FmuSlave, options: DefaultExperiment): Long {
         }
     }
 
-    val v = slave.modelDescription.modelVariables.find { it.isReal }!!.asRealVariable()
-    val vr = longArrayOf(v.valueReference)
-    val ref = DoubleArray(vr.size)
+//    val v = slave.modelDescription.modelVariables.find { it.isReal }!!.asRealVariable()
+//    val vr = longArrayOf(v.valueReference)
+//    val ref = DoubleArray(vr.size)
 
     return measureTimeMillis {
 
@@ -118,7 +118,6 @@ fun runSlave(slave: FmuSlave, options: DefaultExperiment): Long {
         assert(slave.exitInitializationMode())
         while (slave.simulationTime <= (options.stopTime - options.stepSize)) {
             assert(slave.doStep(options.stepSize))
-
         }
         assert(slave.terminate())
     }
