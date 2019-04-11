@@ -268,7 +268,7 @@ class GrpcFmuServiceImpl(
 
 
     override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.debug("setupExperiment called")
+        LOG.trace("setupExperiment called")
         getSlave(request.instanceId, responseObserver) {
             setup(request.start, request.stop, request.tolerance)
             statusReply(lastStatus, responseObserver)
@@ -276,7 +276,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun enterInitializationMode(request: Service.EnterInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.debug("enterInitializationMode called")
+        LOG.trace("enterInitializationMode called")
         getSlave(request.instanceId, responseObserver) {
             enterInitializationMode()
             statusReply(lastStatus, responseObserver)
@@ -284,7 +284,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun exitInitializationMode(request: Service.ExitInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.debug("exitInitializationMode called")
+        LOG.trace("exitInitializationMode called")
         getSlave(request.instanceId, responseObserver) {
             exitInitializationMode()
             statusReply(lastStatus, responseObserver)
@@ -306,7 +306,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun terminate(request: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.debug("terminate called")
+        LOG.trace("terminate called")
         getSlave(request.instanceId, responseObserver) {
             terminate()
             lastStatus.also { status ->
@@ -349,83 +349,6 @@ class GrpcFmuServiceImpl(
             }
         }
     }
-
-//    override fun getFMUstate(request: Service.GetFMUstateRequest, responseObserver: StreamObserver<Service.GetFMUstateResponse>) {
-//        getSlave(request.instanceId, responseObserver) {
-//            if (!modelDescription.attributes.canGetAndSetFMUstate) {
-//                unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
-//            } else {
-//
-//                Service.GetFMUstateResponse.newBuilder()
-//                        .setState(getFMUstate())
-//                        .setStatus(lastStatus.protoType()).also {
-//                            responseObserver.onNext(it.build())
-//                            responseObserver.onCompleted()
-//                        }
-//
-//            }
-//        }
-//    }
-//
-//    override fun setFMUstate(request: Service.SetFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-//        getSlave(request.instanceId, responseObserver) {
-//            if (!modelDescription.attributes.canGetAndSetFMUstate) {
-//                unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
-//            } else {
-//
-//                setFMUstate(request.state)
-//                statusReply(lastStatus, responseObserver)
-//
-//            }
-//        }
-//    }
-//
-//    override fun freeFMUstate(request: Service.FreeFMUstateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-//        getSlave(request.instanceId, responseObserver) {
-//            if (!modelDescription.attributes.canGetAndSetFMUstate) {
-//                unSupportedOperationException(responseObserver, "FMU does not have capability 'canGetAndSetFMUstate'!")
-//            } else {
-//
-//                freeFMUstate(request.state)
-//                statusReply(lastStatus, responseObserver)
-//
-//            }
-//        }
-//    }
-//
-//    override fun serializeFMUstate(request: Service.SerializeFMUstateRequest, responseObserver: StreamObserver<Service.SerializeFMUstateResponse>) {
-//        getSlave(request.instanceId, responseObserver) {
-//            if (!modelDescription.attributes.canSerializeFMUstate) {
-//                unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
-//            } else {
-//
-//                Service.SerializeFMUstateResponse.newBuilder()
-//                        .setState(ByteString.copyFrom(serializeFMUstate(request.state)))
-//                        .setStatus(lastStatus.protoType()).also {
-//                            responseObserver.onNext(it.build())
-//                            responseObserver.onCompleted()
-//                        }
-//
-//            }
-//        }
-//    }
-//
-//    override fun deSerializeFMUstate(request: Service.DeSerializeFMUstateRequest, responseObserver: StreamObserver<Service.DeSerializeFMUstateResponse>) {
-//        getSlave(request.instanceId, responseObserver) {
-//
-//            if (!modelDescription.attributes.canSerializeFMUstate) {
-//                unSupportedOperationException(responseObserver, "FMU does not have capability 'canSerializeFMUstate'!")
-//            } else {
-//
-//                Service.DeSerializeFMUstateResponse.newBuilder()
-//                        .setState(getFMUstate())
-//                        .setStatus(lastStatus.protoType()).also {
-//                            responseObserver.onNext(it.build())
-//                            responseObserver.onCompleted()
-//                        }
-//            }
-//        }
-//    }
 
     private companion object {
         val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServiceImpl::class.java)
