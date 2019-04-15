@@ -16,7 +16,7 @@ mark_as_advanced(LIBEVENT_INCLUDE_DIR)
 find_library(THRIFT_LIBRARY NAMES thrift thriftmd thriftmdd)
 mark_as_advanced(THRIFT_LIBRARY)
 
-find_library(THRIFT_NB_LIBRARY NAMES thriftnb thriftnbmd)
+find_library(THRIFT_NB_LIBRARY NAMES thriftnb thriftnbmd thriftnbmdd)
 mark_as_advanced(THRIFT_NB_LIBRARY)
 
 find_library(LIBEVENT_LIBRARY NAMES event libevent)
