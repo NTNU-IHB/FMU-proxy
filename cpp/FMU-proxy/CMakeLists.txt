@@ -6,7 +6,7 @@ option(FMU_PROXY_WITH_GRPC "Build with gRPC support" ON)
 option(FMU_PROXY_WITH_THRIFT "Build with Thrift support" ON)
 option(FMU_PROXY_USING_CONAN "Build using conan" OFF)
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 project(FMU_PROXY)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -22,10 +22,12 @@ if (FMU_PROXY_USING_CONAN)
     endif()
 endif()
 
+add_compile_definitions(BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
+
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
     add_definitions("-DNOMINMAX" "-D_WIN32_WINNT=0x600" "-D_CRT_SECURE_NO_WARNINGS")
-    add_compile_options("/wd4996" "/wd4251")
+    add_compile_options("/wd4996" "/wd4251" "/wd4244" "/wd4267")
 endif()
 
 if (FMU_PROXY_BUILD_TESTS)
@@ -42,9 +44,6 @@ find_package(JSON REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
     find_package(Thrift REQUIRED)
-    if (NOT FMU_PROXY_USING_CONAN)
-        find_package(Libevent CONFIG REQUIRED)
-    endif()
 endif()
 
 if (FMU_PROXY_WITH_GRPC)
