@@ -36,7 +36,7 @@ namespace fmuproxy::thrift::client {
     private:
 
         const InstanceId instanceId_;
-        fmu_serviceClient &client_;
+        fmu_service_client &client_;
         std::shared_ptr<const fmi4cpp::fmi2::cs_model_description> csModelDescription_;
 
         bool terminated_ = false;
@@ -46,7 +46,7 @@ namespace fmuproxy::thrift::client {
 
     public:
 
-        remote_fmu_slave(const InstanceId &instanceId, fmu_serviceClient &client,
+        remote_fmu_slave(const InstanceId &instanceId, fmu_service_client &client,
                        const fmi4cpp::fmi2::model_description_base &modelDescription);
 
         fmi4cpp::status last_status() const override;

@@ -280,20 +280,7 @@ message File {
     bytes data = 2;
 }
 
-message AvailableFmu {
-	string fmu_id = 1;
-	DefaultExperiment default_experiment = 2;
-}
-
-message AvailableFmus {
-	repeated AvailableFmu fmus = 1;
-}
-
-message Void {}
-
 service FmuService {
-
-	rpc GetAvailableFmus(Void) returns (AvailableFmus);
 
     rpc LoadFromUrl(Url) returns (FmuId);
     rpc LoadFromFile(File) returns (FmuId);

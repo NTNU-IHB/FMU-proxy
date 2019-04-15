@@ -34,7 +34,7 @@
 
 namespace fmuproxy::thrift::server {
 
-    class fmu_service_handler : virtual public fmu_serviceIf {
+    class fmu_service_handler : virtual public fmu_service_if {
 
     private:
         std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus_;

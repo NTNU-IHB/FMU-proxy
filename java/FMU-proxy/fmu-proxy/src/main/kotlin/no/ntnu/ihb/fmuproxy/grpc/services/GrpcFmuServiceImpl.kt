@@ -50,8 +50,7 @@ import java.net.URL
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServiceImpl(
-        private val fmus: MutableMap<FmuId, Fmu>,
-        private val xcDefaults: Map<FmuId, DefaultExperiment>? = null
+        private val fmus: MutableMap<FmuId, Fmu>
 ) : FmuServiceGrpc.FmuServiceImplBase() {
 
     private inline fun getFmu(fmuId: FmuId, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
@@ -62,23 +61,6 @@ class GrpcFmuServiceImpl(
 
     private inline fun getSlave(instanceId: InstanceId, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
-    }
-
-    override fun getAvailableFmus(request: Service.Void, responseObserver: StreamObserver<Service.AvailableFmus>) {
-
-        synchronized(fmus) {
-            val availableFmus = fmus.map { entry ->
-                Service.AvailableFmu.newBuilder().also { availableFmu ->
-                    availableFmu.fmuId = entry.key
-                    xcDefaults?.get(entry.key)?.also { de ->
-                        availableFmu.defaultExperiment = de.protoType()
-                    }
-                }.build()
-            }
-            responseObserver.onNext(Service.AvailableFmus.newBuilder().addAllFmus(availableFmus).build())
-            responseObserver.onCompleted()
-        }
-
     }
 
     override fun loadFromUrl(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {

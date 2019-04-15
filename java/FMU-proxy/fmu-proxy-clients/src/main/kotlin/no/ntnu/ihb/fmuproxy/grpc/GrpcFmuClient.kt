@@ -56,13 +56,6 @@ class GrpcFmuClient(
 
     private val stub = FmuServiceGrpc.newBlockingStub(channel)
 
-    val availableFmus: List<Pair<String, DefaultExperiment>>
-        get() {
-            return stub.getAvailableFmus(Service.Void.getDefaultInstance()).fmusList.map {
-                it.fmuId to it.defaultExperiment.convert()
-            }
-        }
-
     fun load(fmuId: String): AbstractRpcFmuClient {
         return GrpcFmu(fmuId);
     }
