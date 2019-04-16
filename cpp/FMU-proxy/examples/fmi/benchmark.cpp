@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     vector<fmi2ValueReference > vr = {md->get_value_reference("Temperature_Reference"),
                                       md->get_value_reference("Temperature_Room")};
 
-    auto elapsed = measure_time_sec([&slave, &vr, &ref]{
+    auto elapsed = fmuproxy::measure_time_sec([&slave, &vr, &ref]{
 
         while ( (slave->get_simulation_time() ) <= (stop-step_size) ) {
             if (!slave->step(step_size)) {

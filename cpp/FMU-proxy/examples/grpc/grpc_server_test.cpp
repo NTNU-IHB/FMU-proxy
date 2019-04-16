@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     grpc_fmu_server server(fmus, 9080);
     server.start();
 
-    wait_for_input();
+    fmuproxy::wait_for_input();
     server.stop();
 
     return 0;
