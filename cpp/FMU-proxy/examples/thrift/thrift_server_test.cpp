@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 
+#include <memory>
 #include <unordered_map>
 #include <fmuproxy/thrift/server/thrift_fmu_server.hpp>
 
@@ -50,7 +51,7 @@ int main(int argc, char **argv) {
     thrift_fmu_server http_server(fmus, 9091, true);
     http_server.start();
 
-    wait_for_input();
+    fmuproxy::wait_for_input();
 
     socket_server.stop();
     http_server.stop();
