@@ -29,7 +29,7 @@ import info.laht.yajrpc.RpcService
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
@@ -80,18 +80,9 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun getAvailableFmus(): List<AvailableFmu> {
-        synchronized(fmus) {
-            return fmus.map {
-                AvailableFmu(it.key, it.value.modelDescription.defaultExperiment)
-            }
-        }
-    }
-
-    @RpcMethod
     fun loadFromUrl(url: String): FmuId {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = JacksonModelDescriptionParser.parse(url)
+        val md = JaxbModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {

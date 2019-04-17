@@ -28,8 +28,9 @@ import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonCoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.FmiModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.convert
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
@@ -41,11 +42,6 @@ import java.io.Closeable
 class JsonRpcFmuClient(
         private val client: RpcClient
 ): Closeable {
-
-    val availableFmus: List<AvailableFmu> by lazy {
-        client.write("getAvailableFmus", RpcParams.noParams()).get()
-                .getResult<List<AvailableFmu>>()!!
-    }
 
     fun load(fmuId: String): RemoteFmu {
         return RemoteFmu(fmuId)
@@ -63,7 +59,7 @@ class JsonRpcFmuClient(
 
         override val modelDescription: ModelDescription by lazy {
             client.write("getModelDescription", RpcParams.listParams(fmuId)).get()
-                    .getResult<JacksonModelDescription>()!!
+                    .getResult<JaxbModelDescription>()!!
         }
 
         override val canCreateInstanceFromCS: Boolean
@@ -76,7 +72,7 @@ class JsonRpcFmuClient(
 
         override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
             return client.write("getCoSimulationAttributes", RpcParams.listParams(instanceId)).get()
-                    .getResult<JacksonCoSimulationAttributes>()!!
+                    .getResult<CoSimulationAttributes>()!!
         }
 
         override fun createInstanceFromCS(): String {

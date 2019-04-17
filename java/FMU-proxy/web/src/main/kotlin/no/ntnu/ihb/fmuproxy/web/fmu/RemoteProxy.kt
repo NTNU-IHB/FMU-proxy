@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.web.fmu
 
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import java.net.InetAddress
 import javax.faces.bean.ManagedBean
 
@@ -51,7 +51,7 @@ class RemoteProxy(
 
     val fmus: List<RemoteFmu> by lazy {
         modelDescriptions.map {
-            RemoteFmu(host!!, ports, JacksonModelDescriptionParser.parse(it))
+            RemoteFmu(host!!, ports, JaxbModelDescriptionParser.parse(it))
         }
     }
 

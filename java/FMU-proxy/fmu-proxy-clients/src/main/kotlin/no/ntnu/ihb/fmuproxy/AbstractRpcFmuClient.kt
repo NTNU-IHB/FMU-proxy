@@ -25,18 +25,18 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.common.*
-import no.ntnu.ihb.fmi4j.importer.IFmu
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
 import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
 
 typealias InstanceId = String
 
 abstract class AbstractRpcFmuClient(
         val fmuId: String
-) : IFmu {
+) : SlaveProvider {
 
     abstract val implementationName: String
 
@@ -70,13 +70,15 @@ abstract class AbstractRpcFmuClient(
 
     private val fmuInstances = mutableListOf<FmuInstance>()
 
-    @JvmOverloads
-    fun newInstance(solver: Solver? = null): FmuInstance {
-        val instanceId = if (solver == null) {
-            createInstanceFromCS()
-        } else {
-            createInstanceFromME(solver)
-        }
+    override fun newInstance(): FmuSlave {
+        return newInstance(createInstanceFromCS())
+    }
+
+    fun newInstance(solver: Solver): FmuSlave {
+        return newInstance(createInstanceFromME(solver))
+    }
+
+    private fun newInstance(instanceId: InstanceId): FmuSlave {
         return FmuInstance(instanceId).also {
             fmuInstances.add(it)
         }
@@ -252,7 +254,6 @@ abstract class AbstractRpcFmuClient(
         override fun deSerializeFMUstate(state: ByteArray): FmuState {
             throw UnsupportedOperationException("Not supported yet!")
         }
-
 
 
     }

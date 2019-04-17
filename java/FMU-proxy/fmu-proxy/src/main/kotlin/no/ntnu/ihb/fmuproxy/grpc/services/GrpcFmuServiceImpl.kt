@@ -33,7 +33,7 @@ import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
@@ -65,7 +65,7 @@ class GrpcFmuServiceImpl(
 
     override fun loadFromUrl(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
         val url = URL(request.url)
-        val md = JacksonModelDescriptionParser.parse(url)
+        val md = JaxbModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
@@ -162,7 +162,7 @@ class GrpcFmuServiceImpl(
 
     override fun getCoSimulationAttributes(request: Service.GetCoSimulationAttributesRequest, responseObserver: StreamObserver<Service.CoSimulationAttributes>) {
         getSlave(request.instanceId, responseObserver) {
-            responseObserver.onNext((modelDescription as CoSimulationAttributes).protoType())
+            responseObserver.onNext((modelDescription.attributes).protoType())
             responseObserver.onCompleted()
         }
     }

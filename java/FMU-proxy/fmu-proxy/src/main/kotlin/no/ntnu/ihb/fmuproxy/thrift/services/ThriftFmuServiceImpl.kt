@@ -30,7 +30,7 @@ import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescriptionParser
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
@@ -67,7 +67,7 @@ class ThriftFmuServiceImpl(
 
     override fun loadFromUrl(url: String): String {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = JacksonModelDescriptionParser.parse(url)
+        val md = JaxbModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
@@ -136,9 +136,7 @@ class ThriftFmuServiceImpl(
     }
 
     override fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes {
-        val attributes = getSlave(instanceId).modelDescription
-                as no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-        return attributes.thriftType()
+        return getSlave(instanceId).modelDescription.attributes.thriftType()
     }
 
     override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): Status {
@@ -162,9 +160,11 @@ class ThriftFmuServiceImpl(
         }
     }
 
-    override fun step(instanceId: InstanceId, vr: Double): StepResult {
+    override fun step(instanceId: InstanceId, stepSize: Double): StepResult {
         return getSlave(instanceId).let {
-            it.doStep(vr)
+            if (!it.doStep(stepSize)) {
+                LOG.error("doStep returned with status: ${it.lastStatus}")
+            }
             StepResult().apply {
                 simulationTime = it.simulationTime
                 status = it.lastStatus.thriftType()
