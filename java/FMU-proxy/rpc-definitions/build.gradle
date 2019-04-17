@@ -72,7 +72,5 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     tasks.create('generateAll') {
         dependsOn 'generateProto', 'generateThrift'
     }
-
-    build.dependsOn 'generateThrift'
     
 }
