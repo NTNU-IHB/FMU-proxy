@@ -23,20 +23,24 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
     tasks.create('generateThrift') {
 
-        def out = new File("src/main/java")
-        if (!out.exists()) {
-            out.mkdirs()
-        }
-
-        try {
-
-            exec {
-                executable 'thrift'
-                args '-r', '-out', 'src/main/java', '--gen', 'java:private-members,fullcamel', "$definitions/thrift/service.thrift"
+        doLast {
+            
+            def out = new File("src/main/java")
+            if (!out.exists()) {
+                out.mkdirs()
             }
 
-        } catch (Exception ex) {
-            println ex
+            try {
+
+                exec {
+                    executable 'thrift'
+                    args '-r', '-out', 'src/main/java', '--gen', 'java:private-members,fullcamel', "$definitions/thrift/service.thrift"
+                }
+
+            } catch (Exception ex) {
+                println ex
+            }
+            
         }
 
     }
@@ -72,5 +76,5 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     tasks.create('generateAll') {
         dependsOn 'generateProto', 'generateThrift'
     }
-    
+
 }

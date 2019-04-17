@@ -4,7 +4,10 @@ import info.laht.yajrpc.*
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuRealArrayRead
 import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.FmiModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbCoSimulationModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.jaxb.convert
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.*
@@ -44,32 +47,11 @@ class TestService {
         }
         """.let {
             YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!)
-                    .getResult<JacksonModelDescription>()!!
+                    .getResult<JaxbModelDescription>()!!
         }
 
         Assertions.assertEquals(fmu.guid, md.guid)
         Assertions.assertEquals(fmu.modelName, md.modelName)
-
-    }
-
-    @Test
-    @Disabled
-    fun testAvailableFmus() {
-
-        val avail = """
-        {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "getAvailableFmus",
-            "params": []
-        }
-        """.let {
-            YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!)
-                    .getResult<Array<AvailableFmu>>()!!
-        }
-
-        Assertions.assertEquals(1, avail.size)
-        Assertions.assertEquals(fmu.guid, avail[0].fmuId)
 
     }
 

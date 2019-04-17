@@ -26,10 +26,8 @@ package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.common.*
 import no.ntnu.ihb.fmi4j.modeldescription.LogCategories
-import no.ntnu.ihb.fmi4j.modeldescription.SourceFiles
 import no.ntnu.ihb.fmi4j.modeldescription.TypeDefinitions
 import no.ntnu.ihb.fmi4j.modeldescription.UnitDefinitions
-import no.ntnu.ihb.fmi4j.modeldescription.jacskon.JacksonScalarVariable
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
@@ -59,47 +57,37 @@ internal fun StringRead.convert(): FmuStringArrayRead {
     return FmuStringArrayRead(value.toTypedArray(), status.convert())
 }
 
-
 internal fun BooleanRead.convert(): FmuBooleanArrayRead {
     return FmuBooleanArrayRead(value.toBooleanArray(), status.convert())
 }
 
 internal fun DefaultExperiment.convert(): no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment {
-    return object : no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment {
-        override val startTime: Double
-            get() = this@convert.startTime
-        override val stepSize: Double
-            get() = this@convert.stepSize
-        override val stopTime: Double
-            get() = this@convert.stopTime
-        override val tolerance: Double
-            get() = this@convert.tolerance
-    }
+    return no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment(
+            startTime = this@convert.startTime,
+            stepSize = this@convert.stepSize,
+            stopTime = this@convert.stopTime,
+            tolerance = this@convert.tolerance
+    )
 }
 
 internal fun Unknown.convert(): no.ntnu.ihb.fmi4j.modeldescription.Unknown {
-    return object : no.ntnu.ihb.fmi4j.modeldescription.Unknown {
-        override val dependencies: List<Int>
-            get() = getDependencies() ?: emptyList()
-        override val dependenciesKind: List<String>
-            get() = getDependenciesKind()
-        override val index: Int
-            get() = getIndex()
-    }
+    return no.ntnu.ihb.fmi4j.modeldescription.Unknown(
+            index = index,
+            dependencies = dependencies ?: emptyList(),
+            dependenciesKind = dependenciesKind ?: emptyList()
+    )
 }
 
-internal fun no.ntnu.ihb.fmuproxy.thrift.ModelStructure.convert(): no.ntnu.ihb.fmi4j.modeldescription.ModelStructure {
-    return object : no.ntnu.ihb.fmi4j.modeldescription.ModelStructure {
-        override val derivatives: List<no.ntnu.ihb.fmi4j.modeldescription.Unknown>
-            get() = getDerivatives()?.map { it.convert() } ?: emptyList()
-        override val initialUnknowns: List<no.ntnu.ihb.fmi4j.modeldescription.Unknown>
-            get() = getInitialUnknowns()?.map { it.convert() } ?: emptyList()
-        override val outputs: List<no.ntnu.ihb.fmi4j.modeldescription.Unknown>
-            get() = getOutputs()?.map { it.convert() } ?: emptyList()
-    }
+internal fun ModelStructure.convert(): no.ntnu.ihb.fmi4j.modeldescription.ModelStructure {
+    return no.ntnu.ihb.fmi4j.modeldescription.ModelStructure(
+            outputs = outputs?.map { it.convert() } ?: emptyList(),
+            derivatives = derivatives?.map { it.convert() } ?: emptyList(),
+            initialUnknowns = initialUnknowns?.map { it.convert() } ?: emptyList()
+
+    )
 }
 
-internal fun no.ntnu.ihb.fmuproxy.thrift.IntegerAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.IntegerAttribute {
+internal fun IntegerAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.IntegerAttribute {
     return object : no.ntnu.ihb.fmi4j.modeldescription.variables.IntegerAttribute {
         override val declaredType: String?
             get() = null
@@ -114,7 +102,7 @@ internal fun no.ntnu.ihb.fmuproxy.thrift.IntegerAttribute.convert(): no.ntnu.ihb
     }
 }
 
-internal fun no.ntnu.ihb.fmuproxy.thrift.RealAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.RealAttribute {
+internal fun RealAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.RealAttribute {
     return object : no.ntnu.ihb.fmi4j.modeldescription.variables.RealAttribute {
         override val declaredType: String?
             get() = null
@@ -143,7 +131,7 @@ internal fun no.ntnu.ihb.fmuproxy.thrift.RealAttribute.convert(): no.ntnu.ihb.fm
     }
 }
 
-internal fun no.ntnu.ihb.fmuproxy.thrift.StringAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.StringAttribute {
+internal fun StringAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.StringAttribute {
     return object : no.ntnu.ihb.fmi4j.modeldescription.variables.StringAttribute {
         override val declaredType: String?
             get() = null
@@ -152,7 +140,7 @@ internal fun no.ntnu.ihb.fmuproxy.thrift.StringAttribute.convert(): no.ntnu.ihb.
     }
 }
 
-internal fun no.ntnu.ihb.fmuproxy.thrift.BooleanAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.BooleanAttribute {
+internal fun BooleanAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.BooleanAttribute {
     return object : no.ntnu.ihb.fmi4j.modeldescription.variables.BooleanAttribute {
         override val declaredType: String?
             get() = null
@@ -161,8 +149,8 @@ internal fun no.ntnu.ihb.fmuproxy.thrift.BooleanAttribute.convert(): no.ntnu.ihb
     }
 }
 
-internal fun no.ntnu.ihb.fmuproxy.thrift.EnumerationAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.EnumerationAttribute {
-    return object: no.ntnu.ihb.fmi4j.modeldescription.variables.EnumerationAttribute {
+internal fun EnumerationAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variables.EnumerationAttribute {
+    return object : no.ntnu.ihb.fmi4j.modeldescription.variables.EnumerationAttribute {
         override val declaredType: String?
             get() = null
         override val max: Int?
@@ -178,18 +166,24 @@ internal fun no.ntnu.ihb.fmuproxy.thrift.EnumerationAttribute.convert(): no.ntnu
 
 internal fun ScalarVariable.convert(): TypedScalarVariable<*> {
 
-    val v = JacksonScalarVariable(
-            name = name,
-            description = description,
-            valueReference = valueReference,
-            causality = causality?.let { Causality.valueOf(it.toUpperCase()) },
-            variability = variability?.let { Variability.valueOf(it.toUpperCase()) },
-            initial = initial?.let { Initial.valueOf(it.toUpperCase()) }
-    )
+    val v = object: no.ntnu.ihb.fmi4j.modeldescription.variables.ScalarVariable {
+        override val name: String
+            get() = this@convert.name
+        override val valueReference: Long
+            get() = this@convert.valueReference
+        override val description: String?
+            get() = this@convert.description
+        override val causality: Causality?
+            get() = this@convert.causality?.let { Causality.valueOf(it.toUpperCase()) }
+        override val variability: Variability?
+            get() = this@convert.variability?.let { Variability.valueOf(it.toUpperCase()) }
+        override val initial: Initial?
+            get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
+    }
 
     return when {
         attribute.isSetIntegerAttribute -> attribute.integerAttribute.convert().let { IntegerVariable(v, it) }
-        attribute.isSetRealAttribute ->  attribute.realAttribute.convert().let { RealVariable(v, it) }
+        attribute.isSetRealAttribute -> attribute.realAttribute.convert().let { RealVariable(v, it) }
         attribute.isSetStringAttribute -> attribute.stringAttribute.convert().let { StringVariable(v, it) }
         attribute.isSetBooleanAttribute -> attribute.booleanAttribute.convert().let { BooleanVariable(v, it) }
         attribute.isSetEnumerationAttribute -> attribute.enumerationAttribute.convert().let { EnumerationVariable(v, it) }
@@ -220,35 +214,23 @@ internal fun ModelDescription.convert(): no.ntnu.ihb.fmi4j.modeldescription.Mode
 
 internal fun CoSimulationAttributes.convert(): no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes {
 
-    return object : no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes {
+    return no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes(
 
-        override val canBeInstantiatedOnlyOncePerProcess: Boolean
-            get() = false
-        override val canGetAndSetFMUstate: Boolean
-            get() = this@convert.isCanGetAndSetFmuState
-        override val canNotUseMemoryManagementFunctions: Boolean
-            get() = false
-        override val canSerializeFMUstate: Boolean
-            get() = this@convert.isSetCanSerializeFmuState
-        override val modelIdentifier: String
-            get() = this@convert.modelIdentifier
-        override val needsExecutionTool: Boolean
-            get() = false
-        override val providesDirectionalDerivative: Boolean
-            get() = this@convert.isProvidesDirectionalDerivative
-        override val sourceFiles: SourceFiles
-            get() = emptyList()
+            needsExecutionTool = false,
+            canRunAsynchronuously = false,
+            maxOutputDerivativeOrder = 0,
+            canNotUseMemoryManagementFunctions = false,
+            canBeInstantiatedOnlyOncePerProcess = false,
 
-        override val canHandleVariableCommunicationStepSize: Boolean
-            get() = this@convert.isCanHandleVariableCommunicationStepSize
-        override val canInterpolateInputs: Boolean
-            get() = this@convert.isCanInterpolateInputs
-        override val canRunAsynchronuously: Boolean
-            get() = false
-        override val maxOutputDerivativeOrder: Int
-            get() = this@convert.maxOutputDerivativeOrder
+            modelIdentifier = this@convert.modelIdentifier,
+            canGetAndSetFMUstate = this@convert.isCanGetAndSetFmuState,
+            canSerializeFMUstate = this@convert.isCanSerializeFmuState,
+            canInterpolateInputs = this@convert.isCanInterpolateInputs,
+            providesDirectionalDerivative = this@convert.isProvidesDirectionalDerivative,
+            canHandleVariableCommunicationStepSize = this@convert.isCanHandleVariableCommunicationStepSize,
+            sourceFiles = emptyList()
 
-    }
+    )
 }
 
 class ThriftModelDescription(
@@ -259,8 +241,7 @@ class ThriftModelDescription(
         get() = modelDescription.author
     override val copyright: String?
         get() = modelDescription.copyright
-    override val defaultExperiment: no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment?
-            = modelDescription.defaultExperiment?.convert()
+    override val defaultExperiment: no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment? = modelDescription.defaultExperiment?.convert()
     override val description: String?
         get() = modelDescription.description
     override val fmiVersion: String
@@ -281,17 +262,14 @@ class ThriftModelDescription(
         get() = null
     override val modelName: String
         get() = modelDescription.modelName
-    override val modelStructure: no.ntnu.ihb.fmi4j.modeldescription.ModelStructure
-            = modelDescription.modelStructure.convert()
-    override val modelVariables: ModelVariables
-            = modelDescription.modelVariables.convert()
-    override val variableNamingConvention: String?
-            = modelDescription.variableNamingConvention
+    override val modelStructure: no.ntnu.ihb.fmi4j.modeldescription.ModelStructure = modelDescription.modelStructure.convert()
+    override val modelVariables: ModelVariables = modelDescription.modelVariables.convert()
+    override val variableNamingConvention: String? = modelDescription.variableNamingConvention
     override val version: String?
         get() = modelDescription.version
 
 }
 
 fun Solver.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Solver {
-    return no.ntnu.ihb.fmuproxy.thrift.Solver(name, settings)
+    return Solver(name, settings)
 }

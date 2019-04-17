@@ -16,6 +16,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 
+@EnabledOnOs(OS.WINDOWS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TestThriftME {
 
@@ -24,7 +25,7 @@ class TestThriftME {
     }
 
     private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-            "2.0/me/Test-FMUs/0.0.1/VanDerPol/VanDerPol.fmu"))
+            "2.0/me/FMUSDK/2.0.4/vanDerPol/vanDerPol.fmu"))
 
     private val modelDescription = fmu.modelDescription
     private val server = ThriftFmuSocketServer().apply { addFmu(fmu) }
@@ -52,7 +53,7 @@ class TestThriftME {
     @Test
     fun testFMUSupportedTypes() {
         Assertions.assertTrue(client.canCreateInstanceFromME)
-        Assertions.assertTrue(client.canCreateInstanceFromCS)
+        Assertions.assertFalse(client.canCreateInstanceFromCS)
     }
 
     private fun testInstance(client: AbstractRpcFmuClient) {
@@ -78,11 +79,8 @@ class TestThriftME {
             val stop = 2.0
             val stepSize = 1E-2
             while (slave.simulationTime <= stop) {
-                val step = slave.doStep(stepSize)
-                Assertions.assertTrue(step)
-
+                Assertions.assertTrue(slave.doStep(stepSize))
                 LOG.info("$variableName=${variable.read(slave)}")
-
             }
 
         }

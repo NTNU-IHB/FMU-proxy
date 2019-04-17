@@ -62,39 +62,30 @@ internal fun Service.BooleanRead.convert(): FmuBooleanArrayRead {
 }
 
 internal fun Service.DefaultExperiment.convert(): DefaultExperiment {
-    return object: DefaultExperiment{
-        override val startTime: Double
-            get() = this@convert.startTime
-        override val stepSize: Double
-            get() = this@convert.stepSize
-        override val stopTime: Double
-            get() = this@convert.stopTime
-        override val tolerance: Double
-            get() = this@convert.tolerance
-    }
+    return DefaultExperiment(
+            startTime = this@convert.startTime,
+            stepSize = this@convert.stepSize,
+            stopTime = this@convert.stopTime,
+            tolerance = this@convert.tolerance
+    )
 }
 
 
 internal fun Service.Unknown.convert(): Unknown {
-    return object: Unknown {
-        override val index: Int
-            get() = getIndex()
-        override val dependencies: List<Int>
-            get() = dependenciesList
-        override val dependenciesKind: List<String>
-            get() = dependenciesKindList
-    }
+    return Unknown(
+            index = index,
+            dependencies = dependenciesList ?: emptyList(),
+            dependenciesKind = dependenciesKindList ?: emptyList()
+    )
 }
 
 internal fun Service.ModelStructure.convert(): ModelStructure {
-    return object: ModelStructure {
-        override val derivatives: List<Unknown>
-            get() = derivativesList?.map { it.convert() } ?: emptyList()
-        override val initialUnknowns: List<Unknown>
-            get() = initialUnknownsList?.map { it.convert() } ?: emptyList()
-        override val outputs: List<Unknown>
-            get() = outputsList?.map { it.convert() } ?: emptyList()
-    }
+    return ModelStructure(
+            outputs = outputsList?.map { it.convert() } ?: emptyList(),
+            derivatives = derivativesList?.map { it.convert() } ?: emptyList(),
+            initialUnknowns = initialUnknownsList?.map { it.convert() } ?: emptyList()
+
+    )
 }
 
 internal fun Service.IntegerAttribute.convert(): IntegerAttribute {
@@ -177,18 +168,18 @@ internal fun Service.EnumerationAttribute.convert(): EnumerationAttribute {
 internal fun Service.ScalarVariable.convert(): TypedScalarVariable<*> {
 
     val v = object: ScalarVariable {
-        override val causality: Causality?
-            get() = this@convert.causality?.let { Causality.valueOf(it.toUpperCase()) }
-        override val description: String?
-            get() = this@convert.description
-        override val initial: Initial?
-            get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
         override val name: String
             get() = this@convert.name
         override val valueReference: Long
             get() = this@convert.valueReference
+        override val description: String?
+            get() = this@convert.description
+        override val causality: Causality?
+            get() = this@convert.causality?.let { Causality.valueOf(it.toUpperCase()) }
         override val variability: Variability?
             get() = this@convert.variability?.let { Variability.valueOf(it.toUpperCase()) }
+        override val initial: Initial?
+            get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
     }
 
     return when(attributeCase) {
@@ -224,34 +215,23 @@ internal fun Service.ModelDescription.convert(): ModelDescription {
 
 internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
 
-    return object: CoSimulationAttributes {
+    return CoSimulationAttributes(
 
-        override val canBeInstantiatedOnlyOncePerProcess: Boolean
-            get() = false
-        override val canGetAndSetFMUstate: Boolean
-            get() = this@convert.canGetAndSetFmuState
-        override val canNotUseMemoryManagementFunctions: Boolean
-            get() = false
-        override val canSerializeFMUstate: Boolean
-            get() = this@convert.canSerializeFmuState
-        override val modelIdentifier: String
-            get() = this@convert.modelIdentifier
-        override val needsExecutionTool: Boolean
-            get() = false
-        override val providesDirectionalDerivative: Boolean
-            get() = this@convert.providesDirectionalDerivative
-        override val sourceFiles: SourceFiles
-            get() = emptyList()
+            needsExecutionTool = false,
+            canRunAsynchronuously = false,
+            maxOutputDerivativeOrder = 0,
+            canNotUseMemoryManagementFunctions = false,
+            canBeInstantiatedOnlyOncePerProcess = false,
 
-        override val canHandleVariableCommunicationStepSize: Boolean
-            get() = this@convert.canHandleVariableCommunicationStepSize
-        override val canInterpolateInputs: Boolean
-            get() = this@convert.canInterpolateInputs
-        override val canRunAsynchronuously: Boolean
-            get() = false
-        override val maxOutputDerivativeOrder: Int
-            get() = this@convert.maxOutputDerivativeOrder
-    }
+            modelIdentifier = this@convert.modelIdentifier,
+            canGetAndSetFMUstate = this@convert.canGetAndSetFmuState,
+            canSerializeFMUstate = this@convert.canSerializeFmuState,
+            canInterpolateInputs = this@convert.canInterpolateInputs,
+            providesDirectionalDerivative = this@convert.providesDirectionalDerivative,
+            canHandleVariableCommunicationStepSize = this@convert.canHandleVariableCommunicationStepSize,
+            sourceFiles = emptyList()
+
+    )
 
 }
 

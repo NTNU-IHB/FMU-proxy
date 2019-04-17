@@ -155,13 +155,9 @@ class TestProxy {
 
     private fun testJsonRpc(client: RpcClient) {
 
-
-
-
         val mdLocal = fmu.modelDescription
 
         Assertions.assertTimeout(testTimeout) {
-
 
             JsonRpcFmuClient(client).use {
 
@@ -180,9 +176,6 @@ class TestProxy {
                 }
             }
 
-            client.use {
-
-            }
         }
 
     }
