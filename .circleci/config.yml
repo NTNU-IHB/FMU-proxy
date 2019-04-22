@@ -33,26 +33,6 @@ jobs:
               path: 'java/FMU-proxy/fmu-proxy/build/libs/fmu-proxy.jar'
               destination: 'fmu-proxy.jar'
 
-    "cpp_vcpkg":
-        docker:
-          - image: laht/fmu-proxy-cpp:latest
-        steps:
-          - checkout
-
-          - run:
-              name: Initialize git sub-modules
-              command: 'git submodule update --init --recursive && git submodule update --remote'
-          - run:
-              name: Creating Build Files
-              command: 'cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_USING_VCPKG=ON -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DCMAKE_TOOLCHAIN_FILE=/home/vcpkg/scripts/buildsystems/vcpkg.cmake'
-          - run:
-              name: Creating Binary Files
-              command: 'cd cpp/FMU-proxy && cmake --build build'
-
-          - store_artifacts:
-              path: 'cpp/FMU-proxy/build/tool/fmu_proxy'
-              destination: 'fmu_proxy_cpp'
-
     "cpp_conan":
       docker:
         - image: lasote/conangcc7
@@ -106,5 +86,4 @@ workflows:
     build:
         jobs: 
             - "java"
-            - "cpp_vcpkg"
             - "cpp_conan"
