@@ -4,29 +4,6 @@
 See below for notes on building the project for both Windows and Unix.
 
 
-#### Using vcpkg
-
-Download and install the [vcpkg package system from GitHub](https://github.com/Microsoft/vcpkg).
-
-Then tell CMake about your vcpkg installation by passing <br> ```-DCMAKE_TOOLCHAIN_FILE=<path/to/vcpkg>\scripts\buildsystems\vcpkg.cmake``` to it. 
-
-Using vcpkg, installing the required dependencies is as easy as:
-
-```
-./vcpkg install curl thrift grpc nlohmann-json libzip[core] boost-program-options boost-ublas boost-odeint
-```
-
-On windows you might want to specify the target architecture (defaults to x86) by appending
-
-```bash
---triplet [x86-windows|x64-windows]
-```
-
-_Note:_
-* You don't need to install thrift if you build with `-DFMU_PROXY_WITH_THRIFT=OFF`
-* You don't need to install grpc if you build with `-DFMU_PROXY_WITH_GRPC=OFF`
-
-
 #### Using conan
 
 First, install [conan](https://conan.io/).
@@ -47,7 +24,6 @@ conan install . -s build_type=Release --install-folder=cmake-build-release -o th
 On Linux you should add `-s compiler.libcxx=libstdc++11` to the command.
 
 
-
 _Note:_
 *  The `thrift` option can be set to `False` if you plan to build with `-DFMU_PROXY_WITH_THRIFT=OFF`
 *  The `grpc` option can be set to `False` if you plan to build with `-DFMU_PROXY_WITH_GRPC=OFF`
@@ -64,11 +40,4 @@ git submodule update --init --recursive
 To update it, run:
 ```bash
 git submodule update --recursive
-```
-### Running tests
-
-If you also want to build the tests, add:
-
-```
-./vcpkg install boost-test
 ```
