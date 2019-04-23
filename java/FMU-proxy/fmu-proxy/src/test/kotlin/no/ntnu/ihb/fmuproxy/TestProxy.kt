@@ -4,7 +4,6 @@ import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
-import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
@@ -14,10 +13,7 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import no.ntnu.sfi.fmuproxy.TestUtils
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
@@ -50,7 +46,6 @@ class TestProxy {
         RpcFmuService().apply { addFmu(fmu) }.also {
             addServer(FmuProxyJsonWsServer(it))
             addServer(FmuProxyJsonTcpServer(it))
-            addServer(FmuProxyJsonZmqServer(it))
             if (!OS.LINUX.isCurrentOs) {
                 addServer(FmuProxyJsonHttpServer(it))
             }
@@ -187,6 +182,7 @@ class TestProxy {
     }
 
     @Test
+    @Disabled
     fun testWsJsonRpc() {
         testJsonRpc(RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!))
     }
@@ -194,11 +190,6 @@ class TestProxy {
     @Test
     fun testTcpJsonRpc() {
         testJsonRpc(RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!))
-    }
-
-    @Test
-    fun testZmqJsonRpc() {
-        testJsonRpc(RpcZmqClient(host, proxy.getPortFor<FmuProxyJsonZmqServer>()!!))
     }
 
 }

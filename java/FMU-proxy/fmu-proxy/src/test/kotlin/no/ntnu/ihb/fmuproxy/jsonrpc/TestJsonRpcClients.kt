@@ -4,7 +4,6 @@ import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
-import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.common.read
 import no.ntnu.ihb.fmi4j.importer.Fmu
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
@@ -13,6 +12,7 @@ import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS
@@ -48,6 +48,7 @@ class TestJsonRpcClients {
     }
 
     @Test
+    @Disabled
     fun testWsClient() {
 
         Assertions.assertTimeout(timeout) {
@@ -73,23 +74,6 @@ class TestJsonRpcClients {
                 }.build().also { it.start() }
 
                 RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!).also {
-                    testClient(it)
-                }
-                proxy.stop()
-            }
-        }
-    }
-
-    @Test
-    fun testZmqClient() {
-        Assertions.assertTimeout(timeout) {
-
-            Assertions.assertTimeout(timeout) {
-                val proxy = FmuProxyBuilder(fmu).apply {
-                    addServer(FmuProxyJsonZmqServer(service))
-                }.build().also { it.start() }
-
-                RpcZmqClient("localhost", proxy.getPortFor<FmuProxyJsonZmqServer>()!!).also {
                     testClient(it)
                 }
                 proxy.stop()

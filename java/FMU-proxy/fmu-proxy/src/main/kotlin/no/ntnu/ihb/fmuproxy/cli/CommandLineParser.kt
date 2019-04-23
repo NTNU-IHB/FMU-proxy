@@ -32,7 +32,6 @@ import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonHttpServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonTcpServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonWsServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonZmqServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
@@ -82,15 +81,11 @@ class Args : Callable<FmuProxy> {
     @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)."])
     var jsonHttpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Manually specify the JSON-RPC WS port (optional)."])
-    var jsonWsPort: Int? = null
-
     @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Manually specify the JSON-RPC TCP/IP port (optional)."])
     var jsonTcpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/zmq"], description = ["Manually specify the JSON-RPC ZMQ port (optional)."])
-    var jsonZmqPort: Int? = null
-
+    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Manually specify the JSON-RPC WS port (optional)."])
+    var jsonWsPort: Int? = null
 
     override fun call(): FmuProxy? {
 
@@ -121,16 +116,13 @@ class Args : Callable<FmuProxy> {
                         }
                     }
 
-                    FmuProxyJsonWsServer(service).apply {
-                        addServer(this, jsonWsPort)
-                    }
 
                     FmuProxyJsonTcpServer(service).apply {
                         addServer(this, jsonTcpPort)
                     }
 
-                    FmuProxyJsonZmqServer(service).apply {
-                        addServer(this, jsonZmqPort)
+                    FmuProxyJsonWsServer(service).apply {
+                        addServer(this, jsonWsPort)
                     }
 
                 }
@@ -141,7 +133,7 @@ class Args : Callable<FmuProxy> {
     }
 
     override fun toString(): String {
-        return "Args(showHelp=$showHelp, fmus=$fmus, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, jsonHttpPort=$jsonHttpPort, jsonWsPort=$jsonWsPort, jsonTcpPort=$jsonTcpPort, jsonZmqPort=$jsonZmqPort)"
+        return "Args(showHelp=$showHelp, fmus=$fmus, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, jsonHttpPort=$jsonHttpPort, jsonTcpPort=$jsonTcpPort /*jsonWsPort=$jsonWsPort)"
     }
 
 }

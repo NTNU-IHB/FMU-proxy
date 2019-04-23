@@ -3,7 +3,6 @@ package no.ntnu.ihb.fmuproxy.benchmark
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
-import info.laht.yajrpc.net.zmq.RpcZmqClient
 import no.ntnu.ihb.fmi4j.common.FmiStatus
 import no.ntnu.ihb.fmi4j.common.FmuSlave
 import no.ntnu.ihb.fmi4j.common.readReal
@@ -17,10 +16,7 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import no.ntnu.sfi.fmuproxy.TestUtils
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.condition.DisabledOnOs
 import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
@@ -153,6 +149,7 @@ class Benchmark {
     }
 
     @Test
+    @Disabled
     fun measureTimeJsonWs() {
 
         try {
@@ -178,26 +175,6 @@ class Benchmark {
 
     }
 
-    @Test
-    fun measureTimeJsonZmq() {
-
-        val service = RpcFmuService().apply {
-            addFmu(fmu)
-        }
-
-        Assertions.assertTimeout(testTimeout) {
-            FmuProxyJsonZmqServer(service).use { server ->
-                JsonRpcFmuClient(RpcZmqClient(host, server.start())).use { client ->
-                    client.load(fmu.guid).newInstance().use { slave ->
-                        testSlave(slave).also {
-                            LOG.info("RpcZmqClient duration=${it}ms")
-                        }
-                    }
-                }
-            }
-
-        }
-    }
 
     @Test
     fun measureTimeJsonTcp() {

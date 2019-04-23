@@ -20,7 +20,7 @@ While an FMU is free to only provide the C-code in its binary form, other resour
 
 In order to overcome these challenges, we present an open-source framework for working with functional mock-up units across languages and platforms. 
 This is done by wrapping a set of FMUs inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. 
-Currently, Apache Thrift (HTTP, TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP, ZMQ) are supported. 
+Currently, Apache Thrift (HTTP, TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP) are supported. 
 
 Together, they allow FMUs to be invoked from virtually any language on any platform.
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected.
