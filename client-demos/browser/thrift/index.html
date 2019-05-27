@@ -6,7 +6,7 @@
         <title>Thrift Javascript test</title>
 
         <script src="js/thrift.js"></script>
-        <script src="js/fmu_service.js"></script>
+        <script src="js/FmuService.js"></script>
         <script src="js/service_types.js"></script>
         
     </head>
@@ -21,7 +21,7 @@
 
                 var transport = new Thrift.TXHRTransport("http://localhost:9091/thrift")
                 var protocol  = new Thrift.TJSONProtocol(transport)
-                var client    = new fmu_serviceClient(protocol)
+                var client    = new FmuServiceClient(protocol)
 
                 var fmu_id = client.load_from_url("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
                 console.log(client.get_model_description(fmu_id))
