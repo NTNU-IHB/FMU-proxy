@@ -23,7 +23,8 @@ class FMUProxyConan(ConanFile):
         "boost:shared=True",
         "libzip:shared=True",
         "libcurl:shared=True",
-        "thrift:build_compiler=False"
+        "thrift:build_compiler=False",
+        "grpc:build_codegen=False"
     )
 
     def imports(self):
