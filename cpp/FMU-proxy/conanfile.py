@@ -22,7 +22,9 @@ class FMUProxyConan(ConanFile):
         "grpc=True",
         "boost:shared=True",
         "libzip:shared=True",
-        "libcurl:shared=True"
+        "libcurl:shared=True",
+        "thrift:build_compiler=False",
+        "grpc:build_codegen=False"
     )
 
     def imports(self):
@@ -36,4 +38,4 @@ class FMUProxyConan(ConanFile):
         if self.options.thrift:
             self.requires("thrift/0.12.0@helmesjo/stable")
         if self.options.grpc:
-            self.requires("grpc/1.17.2@inexorgame/stable")
+            self.requires("grpc/1.20.0@inexorgame/stable")
