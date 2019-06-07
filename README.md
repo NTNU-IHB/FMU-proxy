@@ -135,7 +135,7 @@ This repository comes bundled with simple client implementations in Python for g
 
 ### <a name="javascript"></a> JavaScript
 
-A simple Thrift client running in the browser can be found [here](browser/thrift/index.html). 
+A simple Thrift client running in the browser can be found [here](client-demos/browser/thrift/index.html). 
 
 
 ## Software Architecture

@@ -48,8 +48,7 @@ jobs:
 
         - restore_cache:
             keys:
-              - v1-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
-              - v1-conan-cache-
+              - v2-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
 
         - run:
             name: Add conan remotes 'helmesjo'
@@ -68,11 +67,11 @@ jobs:
         - save_cache:
             paths:
               - ~/.conan
-            key: v1-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
+            key: v2-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
 
         - run:
             name: Creating Build Files
-            command: 'cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON -DFMU_PROXY_USING_CONAN=ON'
+            command: 'cd cpp/FMU-proxy && cmake -H. -Bbuild -DFMU_PROXY_BUILD_TOOL=ON -DFMU_PROXY_BUILD_TESTS=ON -DFMU_PROXY_BUILD_EXAMPLES=ON'
         - run:
             name: Creating Binary Files
             command: 'cd cpp/FMU-proxy && cmake --build build'
