@@ -2,15 +2,15 @@
 plugins {
     id "base"
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.3.30" apply false //apply in sub-projects
+    id "org.jetbrains.kotlin.jvm" version "1.3.31" apply false //apply in sub-projects
 }
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.fmi4j_snapshot = false
-ext.fmi4j_version = fmi4j_snapshot ? 'refactor-SNAPSHOT' : '0.20.0'
+ext.fmi4j_version = fmi4j_snapshot ? 'master-SNAPSHOT' : '0.20.0'
 
-ext.grpc_version = '1.20.0'
+ext.grpc_version = '1.21.0'
 ext.slf4j_version = '1.7.25'
 
 wrapper {
@@ -32,11 +32,10 @@ subprojects { sub ->
 
         sub.plugins.withId('kotlin') {
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.30'
+            implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.31'
         }
         
     }
-
     
     sub.plugins.withId('kotlin') {
         compileKotlin {

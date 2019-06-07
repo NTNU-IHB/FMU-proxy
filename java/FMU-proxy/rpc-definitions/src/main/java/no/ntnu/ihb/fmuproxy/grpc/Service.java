@@ -443,7 +443,7 @@ public final class Service {
               break;
             }
             case 106: {
-              if (!((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+              if (!((mutable_bitField0_ & 0x00001000) != 0)) {
                 modelVariables_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable>();
                 mutable_bitField0_ |= 0x00001000;
               }
@@ -465,7 +465,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -479,7 +479,7 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+        if (((mutable_bitField0_ & 0x00001000) != 0)) {
           modelVariables_ = java.util.Collections.unmodifiableList(modelVariables_);
         }
         this.unknownFields = unknownFields.build();
@@ -1076,43 +1076,42 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription other = (no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription) obj;
 
-      boolean result = true;
-      result = result && getFmiVersion()
-          .equals(other.getFmiVersion());
-      result = result && getGuid()
-          .equals(other.getGuid());
-      result = result && getModelName()
-          .equals(other.getModelName());
-      result = result && getLicense()
-          .equals(other.getLicense());
-      result = result && getCopyright()
-          .equals(other.getCopyright());
-      result = result && getAuthor()
-          .equals(other.getAuthor());
-      result = result && getVersion()
-          .equals(other.getVersion());
-      result = result && getDescription()
-          .equals(other.getDescription());
-      result = result && getGenerationTool()
-          .equals(other.getGenerationTool());
-      result = result && getGenerationDateAndTime()
-          .equals(other.getGenerationDateAndTime());
-      result = result && (hasDefaultExperiment() == other.hasDefaultExperiment());
+      if (!getFmiVersion()
+          .equals(other.getFmiVersion())) return false;
+      if (!getGuid()
+          .equals(other.getGuid())) return false;
+      if (!getModelName()
+          .equals(other.getModelName())) return false;
+      if (!getLicense()
+          .equals(other.getLicense())) return false;
+      if (!getCopyright()
+          .equals(other.getCopyright())) return false;
+      if (!getAuthor()
+          .equals(other.getAuthor())) return false;
+      if (!getVersion()
+          .equals(other.getVersion())) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (!getGenerationTool()
+          .equals(other.getGenerationTool())) return false;
+      if (!getGenerationDateAndTime()
+          .equals(other.getGenerationDateAndTime())) return false;
+      if (hasDefaultExperiment() != other.hasDefaultExperiment()) return false;
       if (hasDefaultExperiment()) {
-        result = result && getDefaultExperiment()
-            .equals(other.getDefaultExperiment());
+        if (!getDefaultExperiment()
+            .equals(other.getDefaultExperiment())) return false;
       }
-      result = result && getVariableNamingConvention()
-          .equals(other.getVariableNamingConvention());
-      result = result && getModelVariablesList()
-          .equals(other.getModelVariablesList());
-      result = result && (hasModelStructure() == other.hasModelStructure());
+      if (!getVariableNamingConvention()
+          .equals(other.getVariableNamingConvention())) return false;
+      if (!getModelVariablesList()
+          .equals(other.getModelVariablesList())) return false;
+      if (hasModelStructure() != other.hasModelStructure()) return false;
       if (hasModelStructure()) {
-        result = result && getModelStructure()
-            .equals(other.getModelStructure());
+        if (!getModelStructure()
+            .equals(other.getModelStructure())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1375,7 +1374,7 @@ public final class Service {
         }
         result.variableNamingConvention_ = variableNamingConvention_;
         if (modelVariablesBuilder_ == null) {
-          if (((bitField0_ & 0x00001000) == 0x00001000)) {
+          if (((bitField0_ & 0x00001000) != 0)) {
             modelVariables_ = java.util.Collections.unmodifiableList(modelVariables_);
             bitField0_ = (bitField0_ & ~0x00001000);
           }
@@ -1395,35 +1394,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2233,7 +2232,7 @@ public final class Service {
         return this;
       }
 
-      private no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment defaultExperiment_ = null;
+      private no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment defaultExperiment_;
       private com.google.protobuf.SingleFieldBuilderV3<
           no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperimentOrBuilder> defaultExperimentBuilder_;
       /**
@@ -2422,7 +2421,7 @@ public final class Service {
       private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable> modelVariables_ =
         java.util.Collections.emptyList();
       private void ensureModelVariablesIsMutable() {
-        if (!((bitField0_ & 0x00001000) == 0x00001000)) {
+        if (!((bitField0_ & 0x00001000) != 0)) {
           modelVariables_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable>(modelVariables_);
           bitField0_ |= 0x00001000;
          }
@@ -2651,7 +2650,7 @@ public final class Service {
           modelVariablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable, no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariableOrBuilder>(
                   modelVariables_,
-                  ((bitField0_ & 0x00001000) == 0x00001000),
+                  ((bitField0_ & 0x00001000) != 0),
                   getParentForChildren(),
                   isClean());
           modelVariables_ = null;
@@ -2659,7 +2658,7 @@ public final class Service {
         return modelVariablesBuilder_;
       }
 
-      private no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure modelStructure_ = null;
+      private no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure modelStructure_;
       private com.google.protobuf.SingleFieldBuilderV3<
           no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure, no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructureOrBuilder> modelStructureBuilder_;
       /**
@@ -2778,7 +2777,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2886,12 +2885,6 @@ public final class Service {
     }
     private CoSimulationAttributes() {
       modelIdentifier_ = "";
-      canGetAndSetFmuState_ = false;
-      canSerializeFmuState_ = false;
-      providesDirectionalDerivative_ = false;
-      canHandleVariableCommunicationStepSize_ = false;
-      canInterpolateInputs_ = false;
-      maxOutputDerivativeOrder_ = 0;
     }
 
     @java.lang.Override
@@ -2955,7 +2948,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3160,23 +3153,22 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes other = (no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes) obj;
 
-      boolean result = true;
-      result = result && getModelIdentifier()
-          .equals(other.getModelIdentifier());
-      result = result && (getCanGetAndSetFmuState()
-          == other.getCanGetAndSetFmuState());
-      result = result && (getCanSerializeFmuState()
-          == other.getCanSerializeFmuState());
-      result = result && (getProvidesDirectionalDerivative()
-          == other.getProvidesDirectionalDerivative());
-      result = result && (getCanHandleVariableCommunicationStepSize()
-          == other.getCanHandleVariableCommunicationStepSize());
-      result = result && (getCanInterpolateInputs()
-          == other.getCanInterpolateInputs());
-      result = result && (getMaxOutputDerivativeOrder()
-          == other.getMaxOutputDerivativeOrder());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getModelIdentifier()
+          .equals(other.getModelIdentifier())) return false;
+      if (getCanGetAndSetFmuState()
+          != other.getCanGetAndSetFmuState()) return false;
+      if (getCanSerializeFmuState()
+          != other.getCanSerializeFmuState()) return false;
+      if (getProvidesDirectionalDerivative()
+          != other.getProvidesDirectionalDerivative()) return false;
+      if (getCanHandleVariableCommunicationStepSize()
+          != other.getCanHandleVariableCommunicationStepSize()) return false;
+      if (getCanInterpolateInputs()
+          != other.getCanInterpolateInputs()) return false;
+      if (getMaxOutputDerivativeOrder()
+          != other.getMaxOutputDerivativeOrder()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3391,35 +3383,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3711,7 +3703,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -3803,9 +3795,6 @@ public final class Service {
       super(builder);
     }
     private IntegerAttribute() {
-      min_ = 0;
-      max_ = 0;
-      start_ = 0;
       quantity_ = "";
     }
 
@@ -3855,7 +3844,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -4012,17 +4001,16 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.IntegerAttribute other = (no.ntnu.ihb.fmuproxy.grpc.Service.IntegerAttribute) obj;
 
-      boolean result = true;
-      result = result && (getMin()
-          == other.getMin());
-      result = result && (getMax()
-          == other.getMax());
-      result = result && (getStart()
-          == other.getStart());
-      result = result && getQuantity()
-          .equals(other.getQuantity());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getMin()
+          != other.getMin()) return false;
+      if (getMax()
+          != other.getMax()) return false;
+      if (getStart()
+          != other.getStart()) return false;
+      if (!getQuantity()
+          .equals(other.getQuantity())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4217,35 +4205,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4450,7 +4438,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -4542,9 +4530,6 @@ public final class Service {
       super(builder);
     }
     private RealAttribute() {
-      min_ = 0D;
-      max_ = 0D;
-      start_ = 0D;
       quantity_ = "";
     }
 
@@ -4594,7 +4579,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -4751,23 +4736,19 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.RealAttribute other = (no.ntnu.ihb.fmuproxy.grpc.Service.RealAttribute) obj;
 
-      boolean result = true;
-      result = result && (
-          java.lang.Double.doubleToLongBits(getMin())
-          == java.lang.Double.doubleToLongBits(
-              other.getMin()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getMax())
-          == java.lang.Double.doubleToLongBits(
-              other.getMax()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStart())
-          == java.lang.Double.doubleToLongBits(
-              other.getStart()));
-      result = result && getQuantity()
-          .equals(other.getQuantity());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (java.lang.Double.doubleToLongBits(getMin())
+          != java.lang.Double.doubleToLongBits(
+              other.getMin())) return false;
+      if (java.lang.Double.doubleToLongBits(getMax())
+          != java.lang.Double.doubleToLongBits(
+              other.getMax())) return false;
+      if (java.lang.Double.doubleToLongBits(getStart())
+          != java.lang.Double.doubleToLongBits(
+              other.getStart())) return false;
+      if (!getQuantity()
+          .equals(other.getQuantity())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4965,35 +4946,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -5198,7 +5179,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -5309,7 +5290,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -5418,11 +5399,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.StringAttribute other = (no.ntnu.ihb.fmuproxy.grpc.Service.StringAttribute) obj;
 
-      boolean result = true;
-      result = result && getStart()
-          .equals(other.getStart());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getStart()
+          .equals(other.getStart())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5602,35 +5582,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -5748,7 +5728,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -5820,7 +5800,6 @@ public final class Service {
       super(builder);
     }
     private BooleanAttribute() {
-      start_ = false;
     }
 
     @java.lang.Override
@@ -5853,7 +5832,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -5938,11 +5917,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.BooleanAttribute other = (no.ntnu.ihb.fmuproxy.grpc.Service.BooleanAttribute) obj;
 
-      boolean result = true;
-      result = result && (getStart()
-          == other.getStart());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getStart()
+          != other.getStart()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6123,35 +6101,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -6225,7 +6203,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -6317,9 +6295,6 @@ public final class Service {
       super(builder);
     }
     private EnumerationAttribute() {
-      min_ = 0;
-      max_ = 0;
-      start_ = 0;
       quantity_ = "";
     }
 
@@ -6369,7 +6344,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -6526,17 +6501,16 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.EnumerationAttribute other = (no.ntnu.ihb.fmuproxy.grpc.Service.EnumerationAttribute) obj;
 
-      boolean result = true;
-      result = result && (getMin()
-          == other.getMin());
-      result = result && (getMax()
-          == other.getMax());
-      result = result && (getStart()
-          == other.getStart());
-      result = result && getQuantity()
-          .equals(other.getQuantity());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getMin()
+          != other.getMin()) return false;
+      if (getMax()
+          != other.getMax()) return false;
+      if (getStart()
+          != other.getStart()) return false;
+      if (!getQuantity()
+          .equals(other.getQuantity())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6731,35 +6705,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -6964,7 +6938,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -7153,7 +7127,6 @@ public final class Service {
       super(builder);
     }
     private ScalarVariable() {
-      valueReference_ = 0L;
       name_ = "";
       description_ = "";
       initial_ = "";
@@ -7291,7 +7264,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -7785,48 +7758,45 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable other = (no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable) obj;
 
-      boolean result = true;
-      result = result && (getValueReference()
-          == other.getValueReference());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getDescription()
-          .equals(other.getDescription());
-      result = result && getInitial()
-          .equals(other.getInitial());
-      result = result && getCausality()
-          .equals(other.getCausality());
-      result = result && getVariability()
-          .equals(other.getVariability());
-      result = result && getAttributeCase().equals(
-          other.getAttributeCase());
-      if (!result) return false;
+      if (getValueReference()
+          != other.getValueReference()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (!getInitial()
+          .equals(other.getInitial())) return false;
+      if (!getCausality()
+          .equals(other.getCausality())) return false;
+      if (!getVariability()
+          .equals(other.getVariability())) return false;
+      if (!getAttributeCase().equals(other.getAttributeCase())) return false;
       switch (attributeCase_) {
         case 10:
-          result = result && getIntegerAttribute()
-              .equals(other.getIntegerAttribute());
+          if (!getIntegerAttribute()
+              .equals(other.getIntegerAttribute())) return false;
           break;
         case 11:
-          result = result && getRealAttribute()
-              .equals(other.getRealAttribute());
+          if (!getRealAttribute()
+              .equals(other.getRealAttribute())) return false;
           break;
         case 12:
-          result = result && getStringAttribute()
-              .equals(other.getStringAttribute());
+          if (!getStringAttribute()
+              .equals(other.getStringAttribute())) return false;
           break;
         case 13:
-          result = result && getBooleanAttribute()
-              .equals(other.getBooleanAttribute());
+          if (!getBooleanAttribute()
+              .equals(other.getBooleanAttribute())) return false;
           break;
         case 14:
-          result = result && getEnumerationAttribute()
-              .equals(other.getEnumerationAttribute());
+          if (!getEnumerationAttribute()
+              .equals(other.getEnumerationAttribute())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8094,35 +8064,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -9281,7 +9251,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -9368,10 +9338,6 @@ public final class Service {
       super(builder);
     }
     private DefaultExperiment() {
-      startTime_ = 0D;
-      stopTime_ = 0D;
-      tolerance_ = 0D;
-      stepSize_ = 0D;
     }
 
     @java.lang.Override
@@ -9419,7 +9385,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -9552,25 +9518,20 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment other = (no.ntnu.ihb.fmuproxy.grpc.Service.DefaultExperiment) obj;
 
-      boolean result = true;
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStartTime())
-          == java.lang.Double.doubleToLongBits(
-              other.getStartTime()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStopTime())
-          == java.lang.Double.doubleToLongBits(
-              other.getStopTime()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getTolerance())
-          == java.lang.Double.doubleToLongBits(
-              other.getTolerance()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStepSize())
-          == java.lang.Double.doubleToLongBits(
-              other.getStepSize()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (java.lang.Double.doubleToLongBits(getStartTime())
+          != java.lang.Double.doubleToLongBits(
+              other.getStartTime())) return false;
+      if (java.lang.Double.doubleToLongBits(getStopTime())
+          != java.lang.Double.doubleToLongBits(
+              other.getStopTime())) return false;
+      if (java.lang.Double.doubleToLongBits(getTolerance())
+          != java.lang.Double.doubleToLongBits(
+              other.getTolerance())) return false;
+      if (java.lang.Double.doubleToLongBits(getStepSize())
+          != java.lang.Double.doubleToLongBits(
+              other.getStepSize())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9769,35 +9730,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -9958,7 +9919,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -10062,8 +10023,7 @@ public final class Service {
       super(builder);
     }
     private Unknown() {
-      index_ = 0;
-      dependencies_ = java.util.Collections.emptyList();
+      dependencies_ = emptyIntList();
       dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
@@ -10097,29 +10057,29 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                dependencies_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                dependencies_ = newIntList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              dependencies_.add(input.readUInt32());
+              dependencies_.addInt(input.readUInt32());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                dependencies_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                dependencies_ = newIntList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                dependencies_.add(input.readUInt32());
+                dependencies_.addInt(input.readUInt32());
               }
               input.popLimit(limit);
               break;
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 dependenciesKind_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000004;
               }
@@ -10127,7 +10087,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -10141,10 +10101,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          dependencies_ = java.util.Collections.unmodifiableList(dependencies_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          dependencies_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           dependenciesKind_ = dependenciesKind_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -10175,7 +10135,7 @@ public final class Service {
     }
 
     public static final int DEPENDENCIES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Integer> dependencies_;
+    private com.google.protobuf.Internal.IntList dependencies_;
     /**
      * <code>repeated uint32 dependencies = 2;</code>
      */
@@ -10193,7 +10153,7 @@ public final class Service {
      * <code>repeated uint32 dependencies = 2;</code>
      */
     public int getDependencies(int index) {
-      return dependencies_.get(index);
+      return dependencies_.getInt(index);
     }
     private int dependenciesMemoizedSerializedSize = -1;
 
@@ -10249,7 +10209,7 @@ public final class Service {
         output.writeUInt32NoTag(dependenciesMemoizedSerializedSize);
       }
       for (int i = 0; i < dependencies_.size(); i++) {
-        output.writeUInt32NoTag(dependencies_.get(i));
+        output.writeUInt32NoTag(dependencies_.getInt(i));
       }
       for (int i = 0; i < dependenciesKind_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, dependenciesKind_.getRaw(i));
@@ -10271,7 +10231,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < dependencies_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt32SizeNoTag(dependencies_.get(i));
+            .computeUInt32SizeNoTag(dependencies_.getInt(i));
         }
         size += dataSize;
         if (!getDependenciesList().isEmpty()) {
@@ -10304,15 +10264,14 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.Unknown other = (no.ntnu.ihb.fmuproxy.grpc.Service.Unknown) obj;
 
-      boolean result = true;
-      result = result && (getIndex()
-          == other.getIndex());
-      result = result && getDependenciesList()
-          .equals(other.getDependenciesList());
-      result = result && getDependenciesKindList()
-          .equals(other.getDependenciesKindList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getIndex()
+          != other.getIndex()) return false;
+      if (!getDependenciesList()
+          .equals(other.getDependenciesList())) return false;
+      if (!getDependenciesKindList()
+          .equals(other.getDependenciesKindList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10467,7 +10426,7 @@ public final class Service {
         super.clear();
         index_ = 0;
 
-        dependencies_ = java.util.Collections.emptyList();
+        dependencies_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000002);
         dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -10500,12 +10459,12 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.index_ = index_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          dependencies_ = java.util.Collections.unmodifiableList(dependencies_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          dependencies_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.dependencies_ = dependencies_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000004) != 0)) {
           dependenciesKind_ = dependenciesKind_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
@@ -10517,35 +10476,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -10638,10 +10597,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Integer> dependencies_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.IntList dependencies_ = emptyIntList();
       private void ensureDependenciesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          dependencies_ = new java.util.ArrayList<java.lang.Integer>(dependencies_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          dependencies_ = mutableCopy(dependencies_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -10650,7 +10609,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Integer>
           getDependenciesList() {
-        return java.util.Collections.unmodifiableList(dependencies_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(dependencies_) : dependencies_;
       }
       /**
        * <code>repeated uint32 dependencies = 2;</code>
@@ -10662,7 +10622,7 @@ public final class Service {
        * <code>repeated uint32 dependencies = 2;</code>
        */
       public int getDependencies(int index) {
-        return dependencies_.get(index);
+        return dependencies_.getInt(index);
       }
       /**
        * <code>repeated uint32 dependencies = 2;</code>
@@ -10670,7 +10630,7 @@ public final class Service {
       public Builder setDependencies(
           int index, int value) {
         ensureDependenciesIsMutable();
-        dependencies_.set(index, value);
+        dependencies_.setInt(index, value);
         onChanged();
         return this;
       }
@@ -10679,7 +10639,7 @@ public final class Service {
        */
       public Builder addDependencies(int value) {
         ensureDependenciesIsMutable();
-        dependencies_.add(value);
+        dependencies_.addInt(value);
         onChanged();
         return this;
       }
@@ -10698,7 +10658,7 @@ public final class Service {
        * <code>repeated uint32 dependencies = 2;</code>
        */
       public Builder clearDependencies() {
-        dependencies_ = java.util.Collections.emptyList();
+        dependencies_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
@@ -10706,7 +10666,7 @@ public final class Service {
 
       private com.google.protobuf.LazyStringList dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureDependenciesKindIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           dependenciesKind_ = new com.google.protobuf.LazyStringArrayList(dependenciesKind_);
           bitField0_ |= 0x00000004;
          }
@@ -10800,7 +10760,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -10969,7 +10929,7 @@ public final class Service {
               done = true;
               break;
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 outputs_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -10978,7 +10938,7 @@ public final class Service {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 derivatives_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown>();
                 mutable_bitField0_ |= 0x00000002;
               }
@@ -10987,7 +10947,7 @@ public final class Service {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 initialUnknowns_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown>();
                 mutable_bitField0_ |= 0x00000004;
               }
@@ -10996,7 +10956,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -11010,13 +10970,13 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           outputs_ = java.util.Collections.unmodifiableList(outputs_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           derivatives_ = java.util.Collections.unmodifiableList(derivatives_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           initialUnknowns_ = java.util.Collections.unmodifiableList(initialUnknowns_);
         }
         this.unknownFields = unknownFields.build();
@@ -11200,15 +11160,14 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure other = (no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure) obj;
 
-      boolean result = true;
-      result = result && getOutputsList()
-          .equals(other.getOutputsList());
-      result = result && getDerivativesList()
-          .equals(other.getDerivativesList());
-      result = result && getInitialUnknownsList()
-          .equals(other.getInitialUnknownsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getOutputsList()
+          .equals(other.getOutputsList())) return false;
+      if (!getDerivativesList()
+          .equals(other.getDerivativesList())) return false;
+      if (!getInitialUnknownsList()
+          .equals(other.getInitialUnknownsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11412,7 +11371,7 @@ public final class Service {
         no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure result = new no.ntnu.ihb.fmuproxy.grpc.Service.ModelStructure(this);
         int from_bitField0_ = bitField0_;
         if (outputsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             outputs_ = java.util.Collections.unmodifiableList(outputs_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -11421,7 +11380,7 @@ public final class Service {
           result.outputs_ = outputsBuilder_.build();
         }
         if (derivativesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             derivatives_ = java.util.Collections.unmodifiableList(derivatives_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -11430,7 +11389,7 @@ public final class Service {
           result.derivatives_ = derivativesBuilder_.build();
         }
         if (initialUnknownsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             initialUnknowns_ = java.util.Collections.unmodifiableList(initialUnknowns_);
             bitField0_ = (bitField0_ & ~0x00000004);
           }
@@ -11444,35 +11403,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -11597,7 +11556,7 @@ public final class Service {
       private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown> outputs_ =
         java.util.Collections.emptyList();
       private void ensureOutputsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           outputs_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown>(outputs_);
           bitField0_ |= 0x00000001;
          }
@@ -11826,7 +11785,7 @@ public final class Service {
           outputsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               no.ntnu.ihb.fmuproxy.grpc.Service.Unknown, no.ntnu.ihb.fmuproxy.grpc.Service.Unknown.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.UnknownOrBuilder>(
                   outputs_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           outputs_ = null;
@@ -11837,7 +11796,7 @@ public final class Service {
       private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown> derivatives_ =
         java.util.Collections.emptyList();
       private void ensureDerivativesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           derivatives_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown>(derivatives_);
           bitField0_ |= 0x00000002;
          }
@@ -12066,7 +12025,7 @@ public final class Service {
           derivativesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               no.ntnu.ihb.fmuproxy.grpc.Service.Unknown, no.ntnu.ihb.fmuproxy.grpc.Service.Unknown.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.UnknownOrBuilder>(
                   derivatives_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           derivatives_ = null;
@@ -12077,7 +12036,7 @@ public final class Service {
       private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown> initialUnknowns_ =
         java.util.Collections.emptyList();
       private void ensureInitialUnknownsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           initialUnknowns_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.Unknown>(initialUnknowns_);
           bitField0_ |= 0x00000004;
          }
@@ -12306,7 +12265,7 @@ public final class Service {
           initialUnknownsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               no.ntnu.ihb.fmuproxy.grpc.Service.Unknown, no.ntnu.ihb.fmuproxy.grpc.Service.Unknown.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.UnknownOrBuilder>(
                   initialUnknowns_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           initialUnknowns_ = null;
@@ -12316,7 +12275,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -12427,7 +12386,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -12536,11 +12495,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.FmuId other = (no.ntnu.ihb.fmuproxy.grpc.Service.FmuId) obj;
 
-      boolean result = true;
-      result = result && getValue()
-          .equals(other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12720,35 +12678,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -12866,7 +12824,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -12977,7 +12935,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -13086,11 +13044,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId other = (no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId) obj;
 
-      boolean result = true;
-      result = result && getValue()
-          .equals(other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13270,35 +13227,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -13416,7 +13373,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -13527,7 +13484,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -13636,11 +13593,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescriptionXml other = (no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescriptionXml) obj;
 
-      boolean result = true;
-      result = result && getXml()
-          .equals(other.getXml());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getXml()
+          .equals(other.getXml())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13820,35 +13776,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -13966,7 +13922,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -14076,7 +14032,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -14169,10 +14125,9 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse other = (no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse) obj;
 
-      boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (status_ != other.status_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14352,35 +14307,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -14473,7 +14428,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -14555,7 +14510,6 @@ public final class Service {
     }
     private StepResponse() {
       status_ = 0;
-      simulationTime_ = 0D;
     }
 
     @java.lang.Override
@@ -14594,7 +14548,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -14703,14 +14657,12 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.StepResponse other = (no.ntnu.ihb.fmuproxy.grpc.Service.StepResponse) obj;
 
-      boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && (
-          java.lang.Double.doubleToLongBits(getSimulationTime())
-          == java.lang.Double.doubleToLongBits(
-              other.getSimulationTime()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (status_ != other.status_) return false;
+      if (java.lang.Double.doubleToLongBits(getSimulationTime())
+          != java.lang.Double.doubleToLongBits(
+              other.getSimulationTime())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14896,35 +14848,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -15046,7 +14998,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -15157,7 +15109,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -15266,11 +15218,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest) obj;
 
-      boolean result = true;
-      result = result && getFmuId()
-          .equals(other.getFmuId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getFmuId()
+          .equals(other.getFmuId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -15450,35 +15401,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -15596,7 +15547,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -15733,7 +15684,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -15870,16 +15821,15 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest) obj;
 
-      boolean result = true;
-      result = result && getFmuId()
-          .equals(other.getFmuId());
-      result = result && (hasSolver() == other.hasSolver());
+      if (!getFmuId()
+          .equals(other.getFmuId())) return false;
+      if (hasSolver() != other.hasSolver()) return false;
       if (hasSolver()) {
-        result = result && getSolver()
-            .equals(other.getSolver());
+        if (!getSolver()
+            .equals(other.getSolver())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16074,35 +16024,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -16221,7 +16171,7 @@ public final class Service {
         return this;
       }
 
-      private no.ntnu.ihb.fmuproxy.grpc.Service.Solver solver_ = null;
+      private no.ntnu.ihb.fmuproxy.grpc.Service.Solver solver_;
       private com.google.protobuf.SingleFieldBuilderV3<
           no.ntnu.ihb.fmuproxy.grpc.Service.Solver, no.ntnu.ihb.fmuproxy.grpc.Service.Solver.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.SolverOrBuilder> solverBuilder_;
       /**
@@ -16340,7 +16290,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -16451,7 +16401,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -16560,11 +16510,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest) obj;
 
-      boolean result = true;
-      result = result && getFmuId()
-          .equals(other.getFmuId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getFmuId()
+          .equals(other.getFmuId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16744,35 +16693,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -16890,7 +16839,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -17001,7 +16950,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -17110,11 +17059,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -17294,35 +17242,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -17440,7 +17388,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -17533,9 +17481,6 @@ public final class Service {
     }
     private SetupExperimentRequest() {
       instanceId_ = "";
-      start_ = 0D;
-      stop_ = 0D;
-      tolerance_ = 0D;
     }
 
     @java.lang.Override
@@ -17584,7 +17529,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -17741,23 +17686,19 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.SetupExperimentRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.SetupExperimentRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStart())
-          == java.lang.Double.doubleToLongBits(
-              other.getStart()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStop())
-          == java.lang.Double.doubleToLongBits(
-              other.getStop()));
-      result = result && (
-          java.lang.Double.doubleToLongBits(getTolerance())
-          == java.lang.Double.doubleToLongBits(
-              other.getTolerance()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (java.lang.Double.doubleToLongBits(getStart())
+          != java.lang.Double.doubleToLongBits(
+              other.getStart())) return false;
+      if (java.lang.Double.doubleToLongBits(getStop())
+          != java.lang.Double.doubleToLongBits(
+              other.getStop())) return false;
+      if (java.lang.Double.doubleToLongBits(getTolerance())
+          != java.lang.Double.doubleToLongBits(
+              other.getTolerance())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -17955,35 +17896,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -18188,7 +18129,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -18299,7 +18240,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -18408,11 +18349,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.EnterInitializationModeRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.EnterInitializationModeRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -18592,35 +18532,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -18738,7 +18678,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -18849,7 +18789,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -18958,11 +18898,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ExitInitializationModeRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.ExitInitializationModeRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19142,35 +19081,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -19288,7 +19227,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -19371,7 +19310,6 @@ public final class Service {
     }
     private StepRequest() {
       instanceId_ = "";
-      stepSize_ = 0D;
     }
 
     @java.lang.Override
@@ -19410,7 +19348,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -19535,15 +19473,13 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.StepRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.StepRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && (
-          java.lang.Double.doubleToLongBits(getStepSize())
-          == java.lang.Double.doubleToLongBits(
-              other.getStepSize()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (java.lang.Double.doubleToLongBits(getStepSize())
+          != java.lang.Double.doubleToLongBits(
+              other.getStepSize())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19729,35 +19665,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -19904,7 +19840,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -20015,7 +19951,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -20124,11 +20060,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ResetRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.ResetRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -20308,35 +20243,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -20454,7 +20389,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -20565,7 +20500,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -20674,11 +20609,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -20858,35 +20792,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -21004,7 +20938,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -21095,7 +21029,7 @@ public final class Service {
     }
     private ReadRequest() {
       instanceId_ = "";
-      valueReferences_ = java.util.Collections.emptyList();
+      valueReferences_ = emptyLongList();
     }
 
     @java.lang.Override
@@ -21129,28 +21063,28 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              valueReferences_.add(input.readUInt64());
+              valueReferences_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                valueReferences_.add(input.readUInt64());
+                valueReferences_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -21164,8 +21098,8 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -21220,7 +21154,7 @@ public final class Service {
     }
 
     public static final int VALUE_REFERENCES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> valueReferences_;
+    private com.google.protobuf.Internal.LongList valueReferences_;
     /**
      * <code>repeated uint64 value_references = 2;</code>
      */
@@ -21238,7 +21172,7 @@ public final class Service {
      * <code>repeated uint64 value_references = 2;</code>
      */
     public long getValueReferences(int index) {
-      return valueReferences_.get(index);
+      return valueReferences_.getLong(index);
     }
     private int valueReferencesMemoizedSerializedSize = -1;
 
@@ -21265,7 +21199,7 @@ public final class Service {
         output.writeUInt32NoTag(valueReferencesMemoizedSerializedSize);
       }
       for (int i = 0; i < valueReferences_.size(); i++) {
-        output.writeUInt64NoTag(valueReferences_.get(i));
+        output.writeUInt64NoTag(valueReferences_.getLong(i));
       }
       unknownFields.writeTo(output);
     }
@@ -21283,7 +21217,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < valueReferences_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(valueReferences_.get(i));
+            .computeUInt64SizeNoTag(valueReferences_.getLong(i));
         }
         size += dataSize;
         if (!getValueReferencesList().isEmpty()) {
@@ -21308,13 +21242,12 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && getValueReferencesList()
-          .equals(other.getValueReferencesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getValueReferencesList()
+          .equals(other.getValueReferencesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -21465,7 +21398,7 @@ public final class Service {
         super.clear();
         instanceId_ = "";
 
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -21496,8 +21429,8 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.valueReferences_ = valueReferences_;
@@ -21508,35 +21441,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -21663,10 +21596,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Long> valueReferences_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = new java.util.ArrayList<java.lang.Long>(valueReferences_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_ = mutableCopy(valueReferences_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -21675,7 +21608,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return java.util.Collections.unmodifiableList(valueReferences_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -21687,7 +21621,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public long getValueReferences(int index) {
-        return valueReferences_.get(index);
+        return valueReferences_.getLong(index);
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -21695,7 +21629,7 @@ public final class Service {
       public Builder setValueReferences(
           int index, long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.set(index, value);
+        valueReferences_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -21704,7 +21638,7 @@ public final class Service {
        */
       public Builder addValueReferences(long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.add(value);
+        valueReferences_.addLong(value);
         onChanged();
         return this;
       }
@@ -21723,7 +21657,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public Builder clearValueReferences() {
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
@@ -21731,7 +21665,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -21835,8 +21769,8 @@ public final class Service {
     }
     private WriteIntegerRequest() {
       instanceId_ = "";
-      valueReferences_ = java.util.Collections.emptyList();
-      values_ = java.util.Collections.emptyList();
+      valueReferences_ = emptyLongList();
+      values_ = emptyIntList();
     }
 
     @java.lang.Override
@@ -21870,49 +21804,49 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              valueReferences_.add(input.readUInt64());
+              valueReferences_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                valueReferences_.add(input.readUInt64());
+                valueReferences_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                values_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                values_ = newIntList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              values_.add(input.readInt32());
+              values_.addInt(input.readInt32());
               break;
             }
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+                values_ = newIntList();
                 mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readInt32());
+                values_.addInt(input.readInt32());
               }
               input.popLimit(limit);
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -21926,11 +21860,11 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -21985,7 +21919,7 @@ public final class Service {
     }
 
     public static final int VALUE_REFERENCES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> valueReferences_;
+    private com.google.protobuf.Internal.LongList valueReferences_;
     /**
      * <code>repeated uint64 value_references = 2;</code>
      */
@@ -22003,12 +21937,12 @@ public final class Service {
      * <code>repeated uint64 value_references = 2;</code>
      */
     public long getValueReferences(int index) {
-      return valueReferences_.get(index);
+      return valueReferences_.getLong(index);
     }
     private int valueReferencesMemoizedSerializedSize = -1;
 
     public static final int VALUES_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Integer> values_;
+    private com.google.protobuf.Internal.IntList values_;
     /**
      * <code>repeated int32 values = 3;</code>
      */
@@ -22026,7 +21960,7 @@ public final class Service {
      * <code>repeated int32 values = 3;</code>
      */
     public int getValues(int index) {
-      return values_.get(index);
+      return values_.getInt(index);
     }
     private int valuesMemoizedSerializedSize = -1;
 
@@ -22053,14 +21987,14 @@ public final class Service {
         output.writeUInt32NoTag(valueReferencesMemoizedSerializedSize);
       }
       for (int i = 0; i < valueReferences_.size(); i++) {
-        output.writeUInt64NoTag(valueReferences_.get(i));
+        output.writeUInt64NoTag(valueReferences_.getLong(i));
       }
       if (getValuesList().size() > 0) {
         output.writeUInt32NoTag(26);
         output.writeUInt32NoTag(valuesMemoizedSerializedSize);
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeInt32NoTag(values_.get(i));
+        output.writeInt32NoTag(values_.getInt(i));
       }
       unknownFields.writeTo(output);
     }
@@ -22078,7 +22012,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < valueReferences_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(valueReferences_.get(i));
+            .computeUInt64SizeNoTag(valueReferences_.getLong(i));
         }
         size += dataSize;
         if (!getValueReferencesList().isEmpty()) {
@@ -22092,7 +22026,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < values_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(values_.get(i));
+            .computeInt32SizeNoTag(values_.getInt(i));
         }
         size += dataSize;
         if (!getValuesList().isEmpty()) {
@@ -22117,15 +22051,14 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && getValueReferencesList()
-          .equals(other.getValueReferencesList());
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getValueReferencesList()
+          .equals(other.getValueReferencesList())) return false;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -22280,9 +22213,9 @@ public final class Service {
         super.clear();
         instanceId_ = "";
 
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -22313,13 +22246,13 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((bitField0_ & 0x00000004) != 0)) {
+          values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.values_ = values_;
@@ -22330,35 +22263,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -22495,10 +22428,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Long> valueReferences_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = new java.util.ArrayList<java.lang.Long>(valueReferences_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_ = mutableCopy(valueReferences_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -22507,7 +22440,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return java.util.Collections.unmodifiableList(valueReferences_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -22519,7 +22453,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public long getValueReferences(int index) {
-        return valueReferences_.get(index);
+        return valueReferences_.getLong(index);
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -22527,7 +22461,7 @@ public final class Service {
       public Builder setValueReferences(
           int index, long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.set(index, value);
+        valueReferences_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -22536,7 +22470,7 @@ public final class Service {
        */
       public Builder addValueReferences(long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.add(value);
+        valueReferences_.addLong(value);
         onChanged();
         return this;
       }
@@ -22555,16 +22489,16 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public Builder clearValueReferences() {
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
 
-      private java.util.List<java.lang.Integer> values_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.IntList values_ = emptyIntList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = new java.util.ArrayList<java.lang.Integer>(values_);
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          values_ = mutableCopy(values_);
           bitField0_ |= 0x00000004;
          }
       }
@@ -22573,7 +22507,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Integer>
           getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
+        return ((bitField0_ & 0x00000004) != 0) ?
+                 java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
        * <code>repeated int32 values = 3;</code>
@@ -22585,7 +22520,7 @@ public final class Service {
        * <code>repeated int32 values = 3;</code>
        */
       public int getValues(int index) {
-        return values_.get(index);
+        return values_.getInt(index);
       }
       /**
        * <code>repeated int32 values = 3;</code>
@@ -22593,7 +22528,7 @@ public final class Service {
       public Builder setValues(
           int index, int value) {
         ensureValuesIsMutable();
-        values_.set(index, value);
+        values_.setInt(index, value);
         onChanged();
         return this;
       }
@@ -22602,7 +22537,7 @@ public final class Service {
        */
       public Builder addValues(int value) {
         ensureValuesIsMutable();
-        values_.add(value);
+        values_.addInt(value);
         onChanged();
         return this;
       }
@@ -22621,7 +22556,7 @@ public final class Service {
        * <code>repeated int32 values = 3;</code>
        */
       public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
@@ -22629,7 +22564,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -22733,8 +22668,8 @@ public final class Service {
     }
     private WriteRealRequest() {
       instanceId_ = "";
-      valueReferences_ = java.util.Collections.emptyList();
-      values_ = java.util.Collections.emptyList();
+      valueReferences_ = emptyLongList();
+      values_ = emptyDoubleList();
     }
 
     @java.lang.Override
@@ -22768,49 +22703,49 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              valueReferences_.add(input.readUInt64());
+              valueReferences_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                valueReferences_.add(input.readUInt64());
+                valueReferences_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             case 25: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                values_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                values_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              values_.add(input.readDouble());
+              values_.addDouble(input.readDouble());
               break;
             }
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+                values_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readDouble());
+                values_.addDouble(input.readDouble());
               }
               input.popLimit(limit);
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -22824,11 +22759,11 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -22883,7 +22818,7 @@ public final class Service {
     }
 
     public static final int VALUE_REFERENCES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> valueReferences_;
+    private com.google.protobuf.Internal.LongList valueReferences_;
     /**
      * <code>repeated uint64 value_references = 2;</code>
      */
@@ -22901,12 +22836,12 @@ public final class Service {
      * <code>repeated uint64 value_references = 2;</code>
      */
     public long getValueReferences(int index) {
-      return valueReferences_.get(index);
+      return valueReferences_.getLong(index);
     }
     private int valueReferencesMemoizedSerializedSize = -1;
 
     public static final int VALUES_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Double> values_;
+    private com.google.protobuf.Internal.DoubleList values_;
     /**
      * <code>repeated double values = 3;</code>
      */
@@ -22924,7 +22859,7 @@ public final class Service {
      * <code>repeated double values = 3;</code>
      */
     public double getValues(int index) {
-      return values_.get(index);
+      return values_.getDouble(index);
     }
     private int valuesMemoizedSerializedSize = -1;
 
@@ -22951,14 +22886,14 @@ public final class Service {
         output.writeUInt32NoTag(valueReferencesMemoizedSerializedSize);
       }
       for (int i = 0; i < valueReferences_.size(); i++) {
-        output.writeUInt64NoTag(valueReferences_.get(i));
+        output.writeUInt64NoTag(valueReferences_.getLong(i));
       }
       if (getValuesList().size() > 0) {
         output.writeUInt32NoTag(26);
         output.writeUInt32NoTag(valuesMemoizedSerializedSize);
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeDoubleNoTag(values_.get(i));
+        output.writeDoubleNoTag(values_.getDouble(i));
       }
       unknownFields.writeTo(output);
     }
@@ -22976,7 +22911,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < valueReferences_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(valueReferences_.get(i));
+            .computeUInt64SizeNoTag(valueReferences_.getLong(i));
         }
         size += dataSize;
         if (!getValueReferencesList().isEmpty()) {
@@ -23012,15 +22947,14 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && getValueReferencesList()
-          .equals(other.getValueReferencesList());
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getValueReferencesList()
+          .equals(other.getValueReferencesList())) return false;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -23175,9 +23109,9 @@ public final class Service {
         super.clear();
         instanceId_ = "";
 
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -23208,13 +23142,13 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((bitField0_ & 0x00000004) != 0)) {
+          values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.values_ = values_;
@@ -23225,35 +23159,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -23390,10 +23324,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Long> valueReferences_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = new java.util.ArrayList<java.lang.Long>(valueReferences_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_ = mutableCopy(valueReferences_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -23402,7 +23336,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return java.util.Collections.unmodifiableList(valueReferences_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -23414,7 +23349,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public long getValueReferences(int index) {
-        return valueReferences_.get(index);
+        return valueReferences_.getLong(index);
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -23422,7 +23357,7 @@ public final class Service {
       public Builder setValueReferences(
           int index, long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.set(index, value);
+        valueReferences_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -23431,7 +23366,7 @@ public final class Service {
        */
       public Builder addValueReferences(long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.add(value);
+        valueReferences_.addLong(value);
         onChanged();
         return this;
       }
@@ -23450,16 +23385,16 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public Builder clearValueReferences() {
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
 
-      private java.util.List<java.lang.Double> values_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.DoubleList values_ = emptyDoubleList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = new java.util.ArrayList<java.lang.Double>(values_);
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          values_ = mutableCopy(values_);
           bitField0_ |= 0x00000004;
          }
       }
@@ -23468,7 +23403,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Double>
           getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
+        return ((bitField0_ & 0x00000004) != 0) ?
+                 java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
        * <code>repeated double values = 3;</code>
@@ -23480,7 +23416,7 @@ public final class Service {
        * <code>repeated double values = 3;</code>
        */
       public double getValues(int index) {
-        return values_.get(index);
+        return values_.getDouble(index);
       }
       /**
        * <code>repeated double values = 3;</code>
@@ -23488,7 +23424,7 @@ public final class Service {
       public Builder setValues(
           int index, double value) {
         ensureValuesIsMutable();
-        values_.set(index, value);
+        values_.setDouble(index, value);
         onChanged();
         return this;
       }
@@ -23497,7 +23433,7 @@ public final class Service {
        */
       public Builder addValues(double value) {
         ensureValuesIsMutable();
-        values_.add(value);
+        values_.addDouble(value);
         onChanged();
         return this;
       }
@@ -23516,7 +23452,7 @@ public final class Service {
        * <code>repeated double values = 3;</code>
        */
       public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
@@ -23524,7 +23460,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -23634,7 +23570,7 @@ public final class Service {
     }
     private WriteStringRequest() {
       instanceId_ = "";
-      valueReferences_ = java.util.Collections.emptyList();
+      valueReferences_ = emptyLongList();
       values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
@@ -23669,29 +23605,29 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              valueReferences_.add(input.readUInt64());
+              valueReferences_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                valueReferences_.add(input.readUInt64());
+                valueReferences_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 values_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000004;
               }
@@ -23699,7 +23635,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -23713,10 +23649,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           values_ = values_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -23772,7 +23708,7 @@ public final class Service {
     }
 
     public static final int VALUE_REFERENCES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> valueReferences_;
+    private com.google.protobuf.Internal.LongList valueReferences_;
     /**
      * <code>repeated uint64 value_references = 2;</code>
      */
@@ -23790,7 +23726,7 @@ public final class Service {
      * <code>repeated uint64 value_references = 2;</code>
      */
     public long getValueReferences(int index) {
-      return valueReferences_.get(index);
+      return valueReferences_.getLong(index);
     }
     private int valueReferencesMemoizedSerializedSize = -1;
 
@@ -23846,7 +23782,7 @@ public final class Service {
         output.writeUInt32NoTag(valueReferencesMemoizedSerializedSize);
       }
       for (int i = 0; i < valueReferences_.size(); i++) {
-        output.writeUInt64NoTag(valueReferences_.get(i));
+        output.writeUInt64NoTag(valueReferences_.getLong(i));
       }
       for (int i = 0; i < values_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, values_.getRaw(i));
@@ -23867,7 +23803,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < valueReferences_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(valueReferences_.get(i));
+            .computeUInt64SizeNoTag(valueReferences_.getLong(i));
         }
         size += dataSize;
         if (!getValueReferencesList().isEmpty()) {
@@ -23900,15 +23836,14 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && getValueReferencesList()
-          .equals(other.getValueReferencesList());
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getValueReferencesList()
+          .equals(other.getValueReferencesList())) return false;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -24063,7 +23998,7 @@ public final class Service {
         super.clear();
         instanceId_ = "";
 
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -24096,12 +24031,12 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000004) != 0)) {
           values_ = values_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
@@ -24113,35 +24048,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -24278,10 +24213,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Long> valueReferences_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = new java.util.ArrayList<java.lang.Long>(valueReferences_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_ = mutableCopy(valueReferences_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -24290,7 +24225,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return java.util.Collections.unmodifiableList(valueReferences_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -24302,7 +24238,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public long getValueReferences(int index) {
-        return valueReferences_.get(index);
+        return valueReferences_.getLong(index);
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -24310,7 +24246,7 @@ public final class Service {
       public Builder setValueReferences(
           int index, long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.set(index, value);
+        valueReferences_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -24319,7 +24255,7 @@ public final class Service {
        */
       public Builder addValueReferences(long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.add(value);
+        valueReferences_.addLong(value);
         onChanged();
         return this;
       }
@@ -24338,7 +24274,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public Builder clearValueReferences() {
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
@@ -24346,7 +24282,7 @@ public final class Service {
 
       private com.google.protobuf.LazyStringList values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           values_ = new com.google.protobuf.LazyStringArrayList(values_);
           bitField0_ |= 0x00000004;
          }
@@ -24440,7 +24376,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -24544,8 +24480,8 @@ public final class Service {
     }
     private WriteBooleanRequest() {
       instanceId_ = "";
-      valueReferences_ = java.util.Collections.emptyList();
-      values_ = java.util.Collections.emptyList();
+      valueReferences_ = emptyLongList();
+      values_ = emptyBooleanList();
     }
 
     @java.lang.Override
@@ -24579,49 +24515,49 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              valueReferences_.add(input.readUInt64());
+              valueReferences_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                valueReferences_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                valueReferences_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                valueReferences_.add(input.readUInt64());
+                valueReferences_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                values_ = new java.util.ArrayList<java.lang.Boolean>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                values_ = newBooleanList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              values_.add(input.readBool());
+              values_.addBoolean(input.readBool());
               break;
             }
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Boolean>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+                values_ = newBooleanList();
                 mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readBool());
+                values_.addBoolean(input.readBool());
               }
               input.popLimit(limit);
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -24635,11 +24571,11 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -24694,7 +24630,7 @@ public final class Service {
     }
 
     public static final int VALUE_REFERENCES_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> valueReferences_;
+    private com.google.protobuf.Internal.LongList valueReferences_;
     /**
      * <code>repeated uint64 value_references = 2;</code>
      */
@@ -24712,12 +24648,12 @@ public final class Service {
      * <code>repeated uint64 value_references = 2;</code>
      */
     public long getValueReferences(int index) {
-      return valueReferences_.get(index);
+      return valueReferences_.getLong(index);
     }
     private int valueReferencesMemoizedSerializedSize = -1;
 
     public static final int VALUES_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Boolean> values_;
+    private com.google.protobuf.Internal.BooleanList values_;
     /**
      * <code>repeated bool values = 3;</code>
      */
@@ -24735,7 +24671,7 @@ public final class Service {
      * <code>repeated bool values = 3;</code>
      */
     public boolean getValues(int index) {
-      return values_.get(index);
+      return values_.getBoolean(index);
     }
     private int valuesMemoizedSerializedSize = -1;
 
@@ -24762,14 +24698,14 @@ public final class Service {
         output.writeUInt32NoTag(valueReferencesMemoizedSerializedSize);
       }
       for (int i = 0; i < valueReferences_.size(); i++) {
-        output.writeUInt64NoTag(valueReferences_.get(i));
+        output.writeUInt64NoTag(valueReferences_.getLong(i));
       }
       if (getValuesList().size() > 0) {
         output.writeUInt32NoTag(26);
         output.writeUInt32NoTag(valuesMemoizedSerializedSize);
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeBoolNoTag(values_.get(i));
+        output.writeBoolNoTag(values_.getBoolean(i));
       }
       unknownFields.writeTo(output);
     }
@@ -24787,7 +24723,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < valueReferences_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(valueReferences_.get(i));
+            .computeUInt64SizeNoTag(valueReferences_.getLong(i));
         }
         size += dataSize;
         if (!getValueReferencesList().isEmpty()) {
@@ -24823,15 +24759,14 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && getValueReferencesList()
-          .equals(other.getValueReferencesList());
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getValueReferencesList()
+          .equals(other.getValueReferencesList())) return false;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -24986,9 +24921,9 @@ public final class Service {
         super.clear();
         instanceId_ = "";
 
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyBooleanList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -25019,13 +24954,13 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = java.util.Collections.unmodifiableList(valueReferences_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((bitField0_ & 0x00000004) != 0)) {
+          values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.values_ = values_;
@@ -25036,35 +24971,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -25201,10 +25136,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Long> valueReferences_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          valueReferences_ = new java.util.ArrayList<java.lang.Long>(valueReferences_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          valueReferences_ = mutableCopy(valueReferences_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -25213,7 +25148,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return java.util.Collections.unmodifiableList(valueReferences_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -25225,7 +25161,7 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public long getValueReferences(int index) {
-        return valueReferences_.get(index);
+        return valueReferences_.getLong(index);
       }
       /**
        * <code>repeated uint64 value_references = 2;</code>
@@ -25233,7 +25169,7 @@ public final class Service {
       public Builder setValueReferences(
           int index, long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.set(index, value);
+        valueReferences_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -25242,7 +25178,7 @@ public final class Service {
        */
       public Builder addValueReferences(long value) {
         ensureValueReferencesIsMutable();
-        valueReferences_.add(value);
+        valueReferences_.addLong(value);
         onChanged();
         return this;
       }
@@ -25261,16 +25197,16 @@ public final class Service {
        * <code>repeated uint64 value_references = 2;</code>
        */
       public Builder clearValueReferences() {
-        valueReferences_ = java.util.Collections.emptyList();
+        valueReferences_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
 
-      private java.util.List<java.lang.Boolean> values_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.BooleanList values_ = emptyBooleanList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          values_ = new java.util.ArrayList<java.lang.Boolean>(values_);
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          values_ = mutableCopy(values_);
           bitField0_ |= 0x00000004;
          }
       }
@@ -25279,7 +25215,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Boolean>
           getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
+        return ((bitField0_ & 0x00000004) != 0) ?
+                 java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
        * <code>repeated bool values = 3;</code>
@@ -25291,7 +25228,7 @@ public final class Service {
        * <code>repeated bool values = 3;</code>
        */
       public boolean getValues(int index) {
-        return values_.get(index);
+        return values_.getBoolean(index);
       }
       /**
        * <code>repeated bool values = 3;</code>
@@ -25299,7 +25236,7 @@ public final class Service {
       public Builder setValues(
           int index, boolean value) {
         ensureValuesIsMutable();
-        values_.set(index, value);
+        values_.setBoolean(index, value);
         onChanged();
         return this;
       }
@@ -25308,7 +25245,7 @@ public final class Service {
        */
       public Builder addValues(boolean value) {
         ensureValuesIsMutable();
-        values_.add(value);
+        values_.addBoolean(value);
         onChanged();
         return this;
       }
@@ -25327,7 +25264,7 @@ public final class Service {
        * <code>repeated bool values = 3;</code>
        */
       public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyBooleanList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
@@ -25335,7 +25272,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -25424,7 +25361,7 @@ public final class Service {
       super(builder);
     }
     private IntegerRead() {
-      values_ = java.util.Collections.emptyList();
+      values_ = emptyIntList();
       status_ = 0;
     }
 
@@ -25453,22 +25390,22 @@ public final class Service {
               done = true;
               break;
             case 8: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                values_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                values_ = newIntList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              values_.add(input.readInt32());
+              values_.addInt(input.readInt32());
               break;
             }
             case 10: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Integer>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                values_ = newIntList();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readInt32());
+                values_.addInt(input.readInt32());
               }
               input.popLimit(limit);
               break;
@@ -25480,7 +25417,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -25494,8 +25431,8 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -25516,7 +25453,7 @@ public final class Service {
 
     private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Integer> values_;
+    private com.google.protobuf.Internal.IntList values_;
     /**
      * <code>repeated int32 values = 1;</code>
      */
@@ -25534,7 +25471,7 @@ public final class Service {
      * <code>repeated int32 values = 1;</code>
      */
     public int getValues(int index) {
-      return values_.get(index);
+      return values_.getInt(index);
     }
     private int valuesMemoizedSerializedSize = -1;
 
@@ -25575,7 +25512,7 @@ public final class Service {
         output.writeUInt32NoTag(valuesMemoizedSerializedSize);
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeInt32NoTag(values_.get(i));
+        output.writeInt32NoTag(values_.getInt(i));
       }
       if (status_ != no.ntnu.ihb.fmuproxy.grpc.Service.Status.OK_STATUS.getNumber()) {
         output.writeEnum(2, status_);
@@ -25593,7 +25530,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < values_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(values_.get(i));
+            .computeInt32SizeNoTag(values_.getInt(i));
         }
         size += dataSize;
         if (!getValuesList().isEmpty()) {
@@ -25622,12 +25559,11 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead other = (no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead) obj;
 
-      boolean result = true;
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && status_ == other.status_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (status_ != other.status_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -25776,7 +25712,7 @@ public final class Service {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
         status_ = 0;
 
@@ -25808,8 +25744,8 @@ public final class Service {
         no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((bitField0_ & 0x00000001) != 0)) {
+          values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
@@ -25821,35 +25757,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -25906,10 +25842,10 @@ public final class Service {
       }
       private int bitField0_;
 
-      private java.util.List<java.lang.Integer> values_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.IntList values_ = emptyIntList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = new java.util.ArrayList<java.lang.Integer>(values_);
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          values_ = mutableCopy(values_);
           bitField0_ |= 0x00000001;
          }
       }
@@ -25918,7 +25854,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Integer>
           getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
        * <code>repeated int32 values = 1;</code>
@@ -25930,7 +25867,7 @@ public final class Service {
        * <code>repeated int32 values = 1;</code>
        */
       public int getValues(int index) {
-        return values_.get(index);
+        return values_.getInt(index);
       }
       /**
        * <code>repeated int32 values = 1;</code>
@@ -25938,7 +25875,7 @@ public final class Service {
       public Builder setValues(
           int index, int value) {
         ensureValuesIsMutable();
-        values_.set(index, value);
+        values_.setInt(index, value);
         onChanged();
         return this;
       }
@@ -25947,7 +25884,7 @@ public final class Service {
        */
       public Builder addValues(int value) {
         ensureValuesIsMutable();
-        values_.add(value);
+        values_.addInt(value);
         onChanged();
         return this;
       }
@@ -25966,7 +25903,7 @@ public final class Service {
        * <code>repeated int32 values = 1;</code>
        */
       public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyIntList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -26019,7 +25956,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -26108,7 +26045,7 @@ public final class Service {
       super(builder);
     }
     private RealRead() {
-      values_ = java.util.Collections.emptyList();
+      values_ = emptyDoubleList();
       status_ = 0;
     }
 
@@ -26137,22 +26074,22 @@ public final class Service {
               done = true;
               break;
             case 9: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                values_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                values_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              values_.add(input.readDouble());
+              values_.addDouble(input.readDouble());
               break;
             }
             case 10: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                values_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readDouble());
+                values_.addDouble(input.readDouble());
               }
               input.popLimit(limit);
               break;
@@ -26164,7 +26101,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -26178,8 +26115,8 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -26200,7 +26137,7 @@ public final class Service {
 
     private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Double> values_;
+    private com.google.protobuf.Internal.DoubleList values_;
     /**
      * <code>repeated double values = 1;</code>
      */
@@ -26218,7 +26155,7 @@ public final class Service {
      * <code>repeated double values = 1;</code>
      */
     public double getValues(int index) {
-      return values_.get(index);
+      return values_.getDouble(index);
     }
     private int valuesMemoizedSerializedSize = -1;
 
@@ -26259,7 +26196,7 @@ public final class Service {
         output.writeUInt32NoTag(valuesMemoizedSerializedSize);
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeDoubleNoTag(values_.get(i));
+        output.writeDoubleNoTag(values_.getDouble(i));
       }
       if (status_ != no.ntnu.ihb.fmuproxy.grpc.Service.Status.OK_STATUS.getNumber()) {
         output.writeEnum(2, status_);
@@ -26303,12 +26240,11 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.RealRead other = (no.ntnu.ihb.fmuproxy.grpc.Service.RealRead) obj;
 
-      boolean result = true;
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && status_ == other.status_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (status_ != other.status_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -26457,7 +26393,7 @@ public final class Service {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000001);
         status_ = 0;
 
@@ -26489,8 +26425,8 @@ public final class Service {
         no.ntnu.ihb.fmuproxy.grpc.Service.RealRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.RealRead(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((bitField0_ & 0x00000001) != 0)) {
+          values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
@@ -26502,35 +26438,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -26587,10 +26523,10 @@ public final class Service {
       }
       private int bitField0_;
 
-      private java.util.List<java.lang.Double> values_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.DoubleList values_ = emptyDoubleList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = new java.util.ArrayList<java.lang.Double>(values_);
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          values_ = mutableCopy(values_);
           bitField0_ |= 0x00000001;
          }
       }
@@ -26599,7 +26535,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Double>
           getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
        * <code>repeated double values = 1;</code>
@@ -26611,7 +26548,7 @@ public final class Service {
        * <code>repeated double values = 1;</code>
        */
       public double getValues(int index) {
-        return values_.get(index);
+        return values_.getDouble(index);
       }
       /**
        * <code>repeated double values = 1;</code>
@@ -26619,7 +26556,7 @@ public final class Service {
       public Builder setValues(
           int index, double value) {
         ensureValuesIsMutable();
-        values_.set(index, value);
+        values_.setDouble(index, value);
         onChanged();
         return this;
       }
@@ -26628,7 +26565,7 @@ public final class Service {
        */
       public Builder addValues(double value) {
         ensureValuesIsMutable();
-        values_.add(value);
+        values_.addDouble(value);
         onChanged();
         return this;
       }
@@ -26647,7 +26584,7 @@ public final class Service {
        * <code>repeated double values = 1;</code>
        */
       public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -26700,7 +26637,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -26825,7 +26762,7 @@ public final class Service {
               break;
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 values_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -26839,7 +26776,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -26853,7 +26790,7 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           values_ = values_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -26976,12 +26913,11 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.StringRead other = (no.ntnu.ihb.fmuproxy.grpc.Service.StringRead) obj;
 
-      boolean result = true;
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && status_ == other.status_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (status_ != other.status_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -27162,7 +27098,7 @@ public final class Service {
         no.ntnu.ihb.fmuproxy.grpc.Service.StringRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.StringRead(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           values_ = values_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
@@ -27175,35 +27111,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -27262,7 +27198,7 @@ public final class Service {
 
       private com.google.protobuf.LazyStringList values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           values_ = new com.google.protobuf.LazyStringArrayList(values_);
           bitField0_ |= 0x00000001;
          }
@@ -27401,7 +27337,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -27490,7 +27426,7 @@ public final class Service {
       super(builder);
     }
     private BooleanRead() {
-      values_ = java.util.Collections.emptyList();
+      values_ = emptyBooleanList();
       status_ = 0;
     }
 
@@ -27519,22 +27455,22 @@ public final class Service {
               done = true;
               break;
             case 8: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                values_ = new java.util.ArrayList<java.lang.Boolean>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                values_ = newBooleanList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              values_.add(input.readBool());
+              values_.addBoolean(input.readBool());
               break;
             }
             case 10: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                values_ = new java.util.ArrayList<java.lang.Boolean>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                values_ = newBooleanList();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                values_.add(input.readBool());
+                values_.addBoolean(input.readBool());
               }
               input.popLimit(limit);
               break;
@@ -27546,7 +27482,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -27560,8 +27496,8 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -27582,7 +27518,7 @@ public final class Service {
 
     private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Boolean> values_;
+    private com.google.protobuf.Internal.BooleanList values_;
     /**
      * <code>repeated bool values = 1;</code>
      */
@@ -27600,7 +27536,7 @@ public final class Service {
      * <code>repeated bool values = 1;</code>
      */
     public boolean getValues(int index) {
-      return values_.get(index);
+      return values_.getBoolean(index);
     }
     private int valuesMemoizedSerializedSize = -1;
 
@@ -27641,7 +27577,7 @@ public final class Service {
         output.writeUInt32NoTag(valuesMemoizedSerializedSize);
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeBoolNoTag(values_.get(i));
+        output.writeBoolNoTag(values_.getBoolean(i));
       }
       if (status_ != no.ntnu.ihb.fmuproxy.grpc.Service.Status.OK_STATUS.getNumber()) {
         output.writeEnum(2, status_);
@@ -27685,12 +27621,11 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead other = (no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead) obj;
 
-      boolean result = true;
-      result = result && getValuesList()
-          .equals(other.getValuesList());
-      result = result && status_ == other.status_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (status_ != other.status_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -27839,7 +27774,7 @@ public final class Service {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyBooleanList();
         bitField0_ = (bitField0_ & ~0x00000001);
         status_ = 0;
 
@@ -27871,8 +27806,8 @@ public final class Service {
         no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = java.util.Collections.unmodifiableList(values_);
+        if (((bitField0_ & 0x00000001) != 0)) {
+          values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
@@ -27884,35 +27819,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -27969,10 +27904,10 @@ public final class Service {
       }
       private int bitField0_;
 
-      private java.util.List<java.lang.Boolean> values_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.BooleanList values_ = emptyBooleanList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          values_ = new java.util.ArrayList<java.lang.Boolean>(values_);
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          values_ = mutableCopy(values_);
           bitField0_ |= 0x00000001;
          }
       }
@@ -27981,7 +27916,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Boolean>
           getValuesList() {
-        return java.util.Collections.unmodifiableList(values_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
        * <code>repeated bool values = 1;</code>
@@ -27993,7 +27929,7 @@ public final class Service {
        * <code>repeated bool values = 1;</code>
        */
       public boolean getValues(int index) {
-        return values_.get(index);
+        return values_.getBoolean(index);
       }
       /**
        * <code>repeated bool values = 1;</code>
@@ -28001,7 +27937,7 @@ public final class Service {
       public Builder setValues(
           int index, boolean value) {
         ensureValuesIsMutable();
-        values_.set(index, value);
+        values_.setBoolean(index, value);
         onChanged();
         return this;
       }
@@ -28010,7 +27946,7 @@ public final class Service {
        */
       public Builder addValues(boolean value) {
         ensureValuesIsMutable();
-        values_.add(value);
+        values_.addBoolean(value);
         onChanged();
         return this;
       }
@@ -28029,7 +27965,7 @@ public final class Service {
        * <code>repeated bool values = 1;</code>
        */
       public Builder clearValues() {
-        values_ = java.util.Collections.emptyList();
+        values_ = emptyBooleanList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -28082,7 +28018,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -28210,7 +28146,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -28359,13 +28295,12 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.Solver other = (no.ntnu.ihb.fmuproxy.grpc.Service.Solver) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getSettings()
-          .equals(other.getSettings());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getSettings()
+          .equals(other.getSettings())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -28550,35 +28485,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -28769,7 +28704,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -28841,7 +28776,6 @@ public final class Service {
       super(builder);
     }
     private Bool() {
-      value_ = false;
     }
 
     @java.lang.Override
@@ -28874,7 +28808,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -28959,11 +28893,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.Bool other = (no.ntnu.ihb.fmuproxy.grpc.Service.Bool) obj;
 
-      boolean result = true;
-      result = result && (getValue()
-          == other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getValue()
+          != other.getValue()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -29144,35 +29077,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -29246,7 +29179,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -29357,7 +29290,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -29466,11 +29399,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest) obj;
 
-      boolean result = true;
-      result = result && getFmuId()
-          .equals(other.getFmuId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getFmuId()
+          .equals(other.getFmuId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -29650,35 +29582,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -29796,7 +29728,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -29907,7 +29839,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -30016,11 +29948,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest) obj;
 
-      boolean result = true;
-      result = result && getFmuId()
-          .equals(other.getFmuId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getFmuId()
+          .equals(other.getFmuId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -30200,35 +30131,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -30346,7 +30277,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -30463,9 +30394,9 @@ public final class Service {
     }
     private GetDirectionalDerivativeRequest() {
       instanceId_ = "";
-      vUnknownRef_ = java.util.Collections.emptyList();
-      vKnownRef_ = java.util.Collections.emptyList();
-      dvKnownRef_ = java.util.Collections.emptyList();
+      vUnknownRef_ = emptyLongList();
+      vKnownRef_ = emptyLongList();
+      dvKnownRef_ = emptyDoubleList();
     }
 
     @java.lang.Override
@@ -30499,70 +30430,70 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                vUnknownRef_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                vUnknownRef_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
-              vUnknownRef_.add(input.readUInt64());
+              vUnknownRef_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                vUnknownRef_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                vUnknownRef_ = newLongList();
                 mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
-                vUnknownRef_.add(input.readUInt64());
+                vUnknownRef_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                vKnownRef_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                vKnownRef_ = newLongList();
                 mutable_bitField0_ |= 0x00000004;
               }
-              vKnownRef_.add(input.readUInt64());
+              vKnownRef_.addLong(input.readUInt64());
               break;
             }
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                vKnownRef_ = new java.util.ArrayList<java.lang.Long>();
+              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+                vKnownRef_ = newLongList();
                 mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
-                vKnownRef_.add(input.readUInt64());
+                vKnownRef_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
             }
             case 33: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                dvKnownRef_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                dvKnownRef_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000008;
               }
-              dvKnownRef_.add(input.readDouble());
+              dvKnownRef_.addDouble(input.readDouble());
               break;
             }
             case 34: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008) && input.getBytesUntilLimit() > 0) {
-                dvKnownRef_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000008) != 0) && input.getBytesUntilLimit() > 0) {
+                dvKnownRef_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000008;
               }
               while (input.getBytesUntilLimit() > 0) {
-                dvKnownRef_.add(input.readDouble());
+                dvKnownRef_.addDouble(input.readDouble());
               }
               input.popLimit(limit);
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -30576,14 +30507,14 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          vUnknownRef_ = java.util.Collections.unmodifiableList(vUnknownRef_);
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          vUnknownRef_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          vKnownRef_ = java.util.Collections.unmodifiableList(vKnownRef_);
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          vKnownRef_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          dvKnownRef_ = java.util.Collections.unmodifiableList(dvKnownRef_);
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          dvKnownRef_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -30638,7 +30569,7 @@ public final class Service {
     }
 
     public static final int V_UNKNOWN_REF_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> vUnknownRef_;
+    private com.google.protobuf.Internal.LongList vUnknownRef_;
     /**
      * <code>repeated uint64 v_unknown_ref = 2;</code>
      */
@@ -30656,12 +30587,12 @@ public final class Service {
      * <code>repeated uint64 v_unknown_ref = 2;</code>
      */
     public long getVUnknownRef(int index) {
-      return vUnknownRef_.get(index);
+      return vUnknownRef_.getLong(index);
     }
     private int vUnknownRefMemoizedSerializedSize = -1;
 
     public static final int V_KNOWN_REF_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Long> vKnownRef_;
+    private com.google.protobuf.Internal.LongList vKnownRef_;
     /**
      * <code>repeated uint64 v_known_ref = 3;</code>
      */
@@ -30679,12 +30610,12 @@ public final class Service {
      * <code>repeated uint64 v_known_ref = 3;</code>
      */
     public long getVKnownRef(int index) {
-      return vKnownRef_.get(index);
+      return vKnownRef_.getLong(index);
     }
     private int vKnownRefMemoizedSerializedSize = -1;
 
     public static final int DV_KNOWN_REF_FIELD_NUMBER = 4;
-    private java.util.List<java.lang.Double> dvKnownRef_;
+    private com.google.protobuf.Internal.DoubleList dvKnownRef_;
     /**
      * <code>repeated double dv_known_ref = 4;</code>
      */
@@ -30702,7 +30633,7 @@ public final class Service {
      * <code>repeated double dv_known_ref = 4;</code>
      */
     public double getDvKnownRef(int index) {
-      return dvKnownRef_.get(index);
+      return dvKnownRef_.getDouble(index);
     }
     private int dvKnownRefMemoizedSerializedSize = -1;
 
@@ -30729,21 +30660,21 @@ public final class Service {
         output.writeUInt32NoTag(vUnknownRefMemoizedSerializedSize);
       }
       for (int i = 0; i < vUnknownRef_.size(); i++) {
-        output.writeUInt64NoTag(vUnknownRef_.get(i));
+        output.writeUInt64NoTag(vUnknownRef_.getLong(i));
       }
       if (getVKnownRefList().size() > 0) {
         output.writeUInt32NoTag(26);
         output.writeUInt32NoTag(vKnownRefMemoizedSerializedSize);
       }
       for (int i = 0; i < vKnownRef_.size(); i++) {
-        output.writeUInt64NoTag(vKnownRef_.get(i));
+        output.writeUInt64NoTag(vKnownRef_.getLong(i));
       }
       if (getDvKnownRefList().size() > 0) {
         output.writeUInt32NoTag(34);
         output.writeUInt32NoTag(dvKnownRefMemoizedSerializedSize);
       }
       for (int i = 0; i < dvKnownRef_.size(); i++) {
-        output.writeDoubleNoTag(dvKnownRef_.get(i));
+        output.writeDoubleNoTag(dvKnownRef_.getDouble(i));
       }
       unknownFields.writeTo(output);
     }
@@ -30761,7 +30692,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < vUnknownRef_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(vUnknownRef_.get(i));
+            .computeUInt64SizeNoTag(vUnknownRef_.getLong(i));
         }
         size += dataSize;
         if (!getVUnknownRefList().isEmpty()) {
@@ -30775,7 +30706,7 @@ public final class Service {
         int dataSize = 0;
         for (int i = 0; i < vKnownRef_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(vKnownRef_.get(i));
+            .computeUInt64SizeNoTag(vKnownRef_.getLong(i));
         }
         size += dataSize;
         if (!getVKnownRefList().isEmpty()) {
@@ -30811,17 +30742,16 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest other = (no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest) obj;
 
-      boolean result = true;
-      result = result && getInstanceId()
-          .equals(other.getInstanceId());
-      result = result && getVUnknownRefList()
-          .equals(other.getVUnknownRefList());
-      result = result && getVKnownRefList()
-          .equals(other.getVKnownRefList());
-      result = result && getDvKnownRefList()
-          .equals(other.getDvKnownRefList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getVUnknownRefList()
+          .equals(other.getVUnknownRefList())) return false;
+      if (!getVKnownRefList()
+          .equals(other.getVKnownRefList())) return false;
+      if (!getDvKnownRefList()
+          .equals(other.getDvKnownRefList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -30980,11 +30910,11 @@ public final class Service {
         super.clear();
         instanceId_ = "";
 
-        vUnknownRef_ = java.util.Collections.emptyList();
+        vUnknownRef_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
-        vKnownRef_ = java.util.Collections.emptyList();
+        vKnownRef_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000004);
-        dvKnownRef_ = java.util.Collections.emptyList();
+        dvKnownRef_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -31015,18 +30945,18 @@ public final class Service {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          vUnknownRef_ = java.util.Collections.unmodifiableList(vUnknownRef_);
+        if (((bitField0_ & 0x00000002) != 0)) {
+          vUnknownRef_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.vUnknownRef_ = vUnknownRef_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          vKnownRef_ = java.util.Collections.unmodifiableList(vKnownRef_);
+        if (((bitField0_ & 0x00000004) != 0)) {
+          vKnownRef_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.vKnownRef_ = vKnownRef_;
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          dvKnownRef_ = java.util.Collections.unmodifiableList(dvKnownRef_);
+        if (((bitField0_ & 0x00000008) != 0)) {
+          dvKnownRef_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.dvKnownRef_ = dvKnownRef_;
@@ -31037,35 +30967,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -31212,10 +31142,10 @@ public final class Service {
         return this;
       }
 
-      private java.util.List<java.lang.Long> vUnknownRef_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList vUnknownRef_ = emptyLongList();
       private void ensureVUnknownRefIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          vUnknownRef_ = new java.util.ArrayList<java.lang.Long>(vUnknownRef_);
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          vUnknownRef_ = mutableCopy(vUnknownRef_);
           bitField0_ |= 0x00000002;
          }
       }
@@ -31224,7 +31154,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getVUnknownRefList() {
-        return java.util.Collections.unmodifiableList(vUnknownRef_);
+        return ((bitField0_ & 0x00000002) != 0) ?
+                 java.util.Collections.unmodifiableList(vUnknownRef_) : vUnknownRef_;
       }
       /**
        * <code>repeated uint64 v_unknown_ref = 2;</code>
@@ -31236,7 +31167,7 @@ public final class Service {
        * <code>repeated uint64 v_unknown_ref = 2;</code>
        */
       public long getVUnknownRef(int index) {
-        return vUnknownRef_.get(index);
+        return vUnknownRef_.getLong(index);
       }
       /**
        * <code>repeated uint64 v_unknown_ref = 2;</code>
@@ -31244,7 +31175,7 @@ public final class Service {
       public Builder setVUnknownRef(
           int index, long value) {
         ensureVUnknownRefIsMutable();
-        vUnknownRef_.set(index, value);
+        vUnknownRef_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -31253,7 +31184,7 @@ public final class Service {
        */
       public Builder addVUnknownRef(long value) {
         ensureVUnknownRefIsMutable();
-        vUnknownRef_.add(value);
+        vUnknownRef_.addLong(value);
         onChanged();
         return this;
       }
@@ -31272,16 +31203,16 @@ public final class Service {
        * <code>repeated uint64 v_unknown_ref = 2;</code>
        */
       public Builder clearVUnknownRef() {
-        vUnknownRef_ = java.util.Collections.emptyList();
+        vUnknownRef_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
 
-      private java.util.List<java.lang.Long> vKnownRef_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList vKnownRef_ = emptyLongList();
       private void ensureVKnownRefIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          vKnownRef_ = new java.util.ArrayList<java.lang.Long>(vKnownRef_);
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          vKnownRef_ = mutableCopy(vKnownRef_);
           bitField0_ |= 0x00000004;
          }
       }
@@ -31290,7 +31221,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getVKnownRefList() {
-        return java.util.Collections.unmodifiableList(vKnownRef_);
+        return ((bitField0_ & 0x00000004) != 0) ?
+                 java.util.Collections.unmodifiableList(vKnownRef_) : vKnownRef_;
       }
       /**
        * <code>repeated uint64 v_known_ref = 3;</code>
@@ -31302,7 +31234,7 @@ public final class Service {
        * <code>repeated uint64 v_known_ref = 3;</code>
        */
       public long getVKnownRef(int index) {
-        return vKnownRef_.get(index);
+        return vKnownRef_.getLong(index);
       }
       /**
        * <code>repeated uint64 v_known_ref = 3;</code>
@@ -31310,7 +31242,7 @@ public final class Service {
       public Builder setVKnownRef(
           int index, long value) {
         ensureVKnownRefIsMutable();
-        vKnownRef_.set(index, value);
+        vKnownRef_.setLong(index, value);
         onChanged();
         return this;
       }
@@ -31319,7 +31251,7 @@ public final class Service {
        */
       public Builder addVKnownRef(long value) {
         ensureVKnownRefIsMutable();
-        vKnownRef_.add(value);
+        vKnownRef_.addLong(value);
         onChanged();
         return this;
       }
@@ -31338,16 +31270,16 @@ public final class Service {
        * <code>repeated uint64 v_known_ref = 3;</code>
        */
       public Builder clearVKnownRef() {
-        vKnownRef_ = java.util.Collections.emptyList();
+        vKnownRef_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
 
-      private java.util.List<java.lang.Double> dvKnownRef_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.DoubleList dvKnownRef_ = emptyDoubleList();
       private void ensureDvKnownRefIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          dvKnownRef_ = new java.util.ArrayList<java.lang.Double>(dvKnownRef_);
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          dvKnownRef_ = mutableCopy(dvKnownRef_);
           bitField0_ |= 0x00000008;
          }
       }
@@ -31356,7 +31288,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Double>
           getDvKnownRefList() {
-        return java.util.Collections.unmodifiableList(dvKnownRef_);
+        return ((bitField0_ & 0x00000008) != 0) ?
+                 java.util.Collections.unmodifiableList(dvKnownRef_) : dvKnownRef_;
       }
       /**
        * <code>repeated double dv_known_ref = 4;</code>
@@ -31368,7 +31301,7 @@ public final class Service {
        * <code>repeated double dv_known_ref = 4;</code>
        */
       public double getDvKnownRef(int index) {
-        return dvKnownRef_.get(index);
+        return dvKnownRef_.getDouble(index);
       }
       /**
        * <code>repeated double dv_known_ref = 4;</code>
@@ -31376,7 +31309,7 @@ public final class Service {
       public Builder setDvKnownRef(
           int index, double value) {
         ensureDvKnownRefIsMutable();
-        dvKnownRef_.set(index, value);
+        dvKnownRef_.setDouble(index, value);
         onChanged();
         return this;
       }
@@ -31385,7 +31318,7 @@ public final class Service {
        */
       public Builder addDvKnownRef(double value) {
         ensureDvKnownRefIsMutable();
-        dvKnownRef_.add(value);
+        dvKnownRef_.addDouble(value);
         onChanged();
         return this;
       }
@@ -31404,7 +31337,7 @@ public final class Service {
        * <code>repeated double dv_known_ref = 4;</code>
        */
       public Builder clearDvKnownRef() {
-        dvKnownRef_ = java.util.Collections.emptyList();
+        dvKnownRef_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
@@ -31412,7 +31345,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -31501,7 +31434,7 @@ public final class Service {
       super(builder);
     }
     private GetDirectionalDerivativeResponse() {
-      dvUnknownRef_ = java.util.Collections.emptyList();
+      dvUnknownRef_ = emptyDoubleList();
       status_ = 0;
     }
 
@@ -31530,22 +31463,22 @@ public final class Service {
               done = true;
               break;
             case 9: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                dvUnknownRef_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                dvUnknownRef_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              dvUnknownRef_.add(input.readDouble());
+              dvUnknownRef_.addDouble(input.readDouble());
               break;
             }
             case 10: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                dvUnknownRef_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                dvUnknownRef_ = newDoubleList();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                dvUnknownRef_.add(input.readDouble());
+                dvUnknownRef_.addDouble(input.readDouble());
               }
               input.popLimit(limit);
               break;
@@ -31557,7 +31490,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -31571,8 +31504,8 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          dvUnknownRef_ = java.util.Collections.unmodifiableList(dvUnknownRef_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          dvUnknownRef_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -31593,7 +31526,7 @@ public final class Service {
 
     private int bitField0_;
     public static final int DV_UNKNOWN_REF_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Double> dvUnknownRef_;
+    private com.google.protobuf.Internal.DoubleList dvUnknownRef_;
     /**
      * <code>repeated double dv_unknown_ref = 1;</code>
      */
@@ -31611,7 +31544,7 @@ public final class Service {
      * <code>repeated double dv_unknown_ref = 1;</code>
      */
     public double getDvUnknownRef(int index) {
-      return dvUnknownRef_.get(index);
+      return dvUnknownRef_.getDouble(index);
     }
     private int dvUnknownRefMemoizedSerializedSize = -1;
 
@@ -31652,7 +31585,7 @@ public final class Service {
         output.writeUInt32NoTag(dvUnknownRefMemoizedSerializedSize);
       }
       for (int i = 0; i < dvUnknownRef_.size(); i++) {
-        output.writeDoubleNoTag(dvUnknownRef_.get(i));
+        output.writeDoubleNoTag(dvUnknownRef_.getDouble(i));
       }
       if (status_ != no.ntnu.ihb.fmuproxy.grpc.Service.Status.OK_STATUS.getNumber()) {
         output.writeEnum(2, status_);
@@ -31696,12 +31629,11 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse other = (no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse) obj;
 
-      boolean result = true;
-      result = result && getDvUnknownRefList()
-          .equals(other.getDvUnknownRefList());
-      result = result && status_ == other.status_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDvUnknownRefList()
+          .equals(other.getDvUnknownRefList())) return false;
+      if (status_ != other.status_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -31850,7 +31782,7 @@ public final class Service {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        dvUnknownRef_ = java.util.Collections.emptyList();
+        dvUnknownRef_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000001);
         status_ = 0;
 
@@ -31882,8 +31814,8 @@ public final class Service {
         no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse result = new no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          dvUnknownRef_ = java.util.Collections.unmodifiableList(dvUnknownRef_);
+        if (((bitField0_ & 0x00000001) != 0)) {
+          dvUnknownRef_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.dvUnknownRef_ = dvUnknownRef_;
@@ -31895,35 +31827,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -31980,10 +31912,10 @@ public final class Service {
       }
       private int bitField0_;
 
-      private java.util.List<java.lang.Double> dvUnknownRef_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.DoubleList dvUnknownRef_ = emptyDoubleList();
       private void ensureDvUnknownRefIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          dvUnknownRef_ = new java.util.ArrayList<java.lang.Double>(dvUnknownRef_);
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          dvUnknownRef_ = mutableCopy(dvUnknownRef_);
           bitField0_ |= 0x00000001;
          }
       }
@@ -31992,7 +31924,8 @@ public final class Service {
        */
       public java.util.List<java.lang.Double>
           getDvUnknownRefList() {
-        return java.util.Collections.unmodifiableList(dvUnknownRef_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(dvUnknownRef_) : dvUnknownRef_;
       }
       /**
        * <code>repeated double dv_unknown_ref = 1;</code>
@@ -32004,7 +31937,7 @@ public final class Service {
        * <code>repeated double dv_unknown_ref = 1;</code>
        */
       public double getDvUnknownRef(int index) {
-        return dvUnknownRef_.get(index);
+        return dvUnknownRef_.getDouble(index);
       }
       /**
        * <code>repeated double dv_unknown_ref = 1;</code>
@@ -32012,7 +31945,7 @@ public final class Service {
       public Builder setDvUnknownRef(
           int index, double value) {
         ensureDvUnknownRefIsMutable();
-        dvUnknownRef_.set(index, value);
+        dvUnknownRef_.setDouble(index, value);
         onChanged();
         return this;
       }
@@ -32021,7 +31954,7 @@ public final class Service {
        */
       public Builder addDvUnknownRef(double value) {
         ensureDvUnknownRefIsMutable();
-        dvUnknownRef_.add(value);
+        dvUnknownRef_.addDouble(value);
         onChanged();
         return this;
       }
@@ -32040,7 +31973,7 @@ public final class Service {
        * <code>repeated double dv_unknown_ref = 1;</code>
        */
       public Builder clearDvUnknownRef() {
-        dvUnknownRef_ = java.util.Collections.emptyList();
+        dvUnknownRef_ = emptyDoubleList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -32093,7 +32026,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -32204,7 +32137,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -32313,11 +32246,10 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.Url other = (no.ntnu.ihb.fmuproxy.grpc.Service.Url) obj;
 
-      boolean result = true;
-      result = result && getUrl()
-          .equals(other.getUrl());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUrl()
+          .equals(other.getUrl())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -32497,35 +32429,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -32643,7 +32575,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -32765,7 +32697,7 @@ public final class Service {
               break;
             }
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -32890,13 +32822,12 @@ public final class Service {
       }
       no.ntnu.ihb.fmuproxy.grpc.Service.File other = (no.ntnu.ihb.fmuproxy.grpc.Service.File) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getData()
-          .equals(other.getData());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -33081,35 +33012,35 @@ public final class Service {
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -33259,7 +33190,7 @@ public final class Service {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override

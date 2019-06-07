@@ -18,7 +18,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.20.0)",
+    value = "by gRPC proto compiler (version 1.21.0)",
     comments = "Source: service.proto")
 public final class FmuServiceGrpc {
 
