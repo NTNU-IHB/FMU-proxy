@@ -24,9 +24,8 @@
 
 package no.ntnu.ihb.fmuproxy.thrift
 
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.Real
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
@@ -34,7 +33,6 @@ import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
-import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TJSONProtocol
@@ -47,7 +45,6 @@ import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.io.File
 import java.io.FileInputStream
-import java.lang.UnsupportedOperationException
 import java.net.URL
 import java.nio.ByteBuffer
 
@@ -150,19 +147,19 @@ class ThriftFmuClient private constructor(
             LOG.debug("$implementationName closed..")
         }
 
-        override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
+        override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerArrayRead {
             return client.readInteger(instanceId, vr).convert()
         }
 
-        override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
+        override fun readReal(instanceId: String, vr: List<ValueReference>): RealArrayRead {
             return client.readReal(instanceId, vr).convert()
         }
 
-        override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
+        override fun readString(instanceId: String, vr: List<ValueReference>): StringArrayRead {
             return client.readString(instanceId, vr).convert()
         }
 
-        override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
+        override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanArrayRead {
             return client.readBoolean(instanceId, vr).convert()
         }
 

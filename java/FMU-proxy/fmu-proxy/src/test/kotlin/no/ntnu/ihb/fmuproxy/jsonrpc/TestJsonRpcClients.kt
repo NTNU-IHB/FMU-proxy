@@ -4,8 +4,8 @@ import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
-import no.ntnu.ihb.fmi4j.common.read
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
+import no.ntnu.ihb.fmi4j.read
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.runSlave
@@ -99,17 +99,17 @@ class TestJsonRpcClients {
 
     private fun testClient(client: RpcClient) {
 
-        JsonRpcFmuClient( client).use {
-            it.load(fmu.guid).also {
-                LOG.info("Testing client of type ${it.implementationName}")
-                Assertions.assertEquals(fmu.modelDescription.modelName, it.modelName)
-                Assertions.assertEquals(fmu.modelDescription.guid, it.guid)
+        JsonRpcFmuClient(client).use {
+            it.load(fmu.guid).also { fmu ->
+                LOG.info("Testing client of type ${fmu.implementationName}")
+                Assertions.assertEquals(fmu.modelDescription.modelName, fmu.modelDescription.modelName)
+                Assertions.assertEquals(fmu.modelDescription.guid, fmu.modelDescription.guid)
 
-                it.newInstance().use { slave ->
-                    runSlave(slave, stepSize, stop) {
+                fmu.newInstance().use { slave ->
+                    val duration = runSlave(slave, stepSize, stop) {
                         temperatureVariable.read(slave)
                     }
-                    LOG.info(" ${it.implementationName} duration: ${it}ms")
+                    LOG.info(" ${fmu.implementationName} duration: ${duration}ms")
                 }
             }
         }

@@ -26,13 +26,12 @@ package no.ntnu.ihb.fmuproxy.grpc
 
 import com.google.protobuf.ByteString
 import io.grpc.ManagedChannelBuilder
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
-import no.ntnu.ihb.fmuproxy.thrift.DirectionalDerivativeResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -196,19 +195,19 @@ class GrpcFmuClient(
             }
         }
 
-        override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
+        override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerArrayRead {
             return stub.readInteger(getReadRequest(instanceId, vr)).convert()
         }
 
-        override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
+        override fun readReal(instanceId: String, vr: List<ValueReference>): RealArrayRead {
             return stub.readReal(getReadRequest(instanceId, vr)).convert()
         }
 
-        override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
+        override fun readString(instanceId: String, vr: List<ValueReference>): StringArrayRead {
             return stub.readString(getReadRequest(instanceId, vr)).convert()
         }
 
-        override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
+        override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanArrayRead {
             return stub.readBoolean(getReadRequest(instanceId, vr)).convert()
         }
 

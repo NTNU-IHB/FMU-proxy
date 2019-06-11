@@ -24,19 +24,19 @@
 
 package no.ntnu.ihb.fmuproxy.thrift.services
 
-import no.ntnu.ihb.fmi4j.common.FmuSlave
-import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
-import no.ntnu.ihb.fmi4j.modeldescription.RealArray
-import no.ntnu.ihb.fmi4j.modeldescription.StringArray
-import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
+import no.ntnu.ihb.fmi4j.FMI4j
+import no.ntnu.ihb.fmi4j.SlaveInstance
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import no.ntnu.ihb.fmuproxy.thrift.*
+import no.ntnu.ihb.fmuproxy.thrift.CoSimulationAttributes
+import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
@@ -47,31 +47,30 @@ import java.nio.ByteBuffer
  * @author Lars Ivar Hatledal
  */
 class ThriftFmuServiceImpl(
-        private val fmus: MutableMap<FmuId, Fmu>,
-        private var xcDefaults: Map<FmuId, DefaultExperiment>? = null
+        private val fmus: MutableMap<FmuId, AbstractFmu>
 ) : FmuService.Iface {
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
     }
 
-    private fun getFmu(fmuId: FmuId): Fmu {
+    private fun getFmu(fmuId: FmuId): AbstractFmu {
         synchronized(fmus) {
             return fmus[fmuId] ?: throw NoSuchFmuException("No such FMU with guid: '$fmuId'")
         }
     }
 
-    private fun getSlave(instanceId: InstanceId): FmuSlave {
+    private fun getSlave(instanceId: InstanceId): SlaveInstance {
         return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
     }
 
     override fun loadFromUrl(url: String): String {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = JaxbModelDescriptionParser.parse(url)
+        val md = ModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
-                val fmu = Fmu.from(url)
+                val fmu = AbstractFmu.from(url)
                 fmus[guid] = fmu
                 LOG.info("Loaded new FMU with guid=$guid!")
             } else {
@@ -82,7 +81,7 @@ class ThriftFmuServiceImpl(
     }
 
     override fun loadFromFile(name: String, data: ByteBuffer): String {
-        val fmu = Fmu.from(name, data.compact().array())
+        val fmu = AbstractFmu.from(name, data.compact().array())
         val guid = fmu.guid
         synchronized(fmus) {
             if (guid !in fmus) {
@@ -122,12 +121,17 @@ class ThriftFmuServiceImpl(
             if (!fmu.supportsModelExchange) {
                 throw UnsupportedOperationException("FMU does not support Model Exchange!")
             }
+            if (fmu.modelDescription.fmiVersion != "2.0") {
+                throw UnsupportedOperationException("Feature only available for FMI 2.0")
+            }
             fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
                 LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
                 return ApacheSolvers.euler(stepSize)
             }
 
+            @Suppress("NAME_SHADOWING")
+            val fmu = fmu as Fmu
             (parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()).let {
                 FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it))
             }

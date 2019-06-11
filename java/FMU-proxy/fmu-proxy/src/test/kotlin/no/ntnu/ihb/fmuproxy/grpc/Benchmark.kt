@@ -1,10 +1,10 @@
 package no.ntnu.ihb.fmuproxy.grpc
 
 import io.grpc.StatusRuntimeException
-import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.common.readReal
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.FmiStatus
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
+import no.ntnu.ihb.fmi4j.readReal
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.Assertions
@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.net.ConnectException
-import java.util.concurrent.ExecutionException
 
 
 class Benchmark {

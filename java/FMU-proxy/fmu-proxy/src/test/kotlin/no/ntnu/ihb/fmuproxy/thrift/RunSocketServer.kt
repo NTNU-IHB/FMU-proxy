@@ -1,6 +1,6 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import java.io.File
 import java.util.*
 

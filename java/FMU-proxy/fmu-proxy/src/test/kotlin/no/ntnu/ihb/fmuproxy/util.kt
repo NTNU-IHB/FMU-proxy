@@ -1,12 +1,12 @@
 package no.ntnu.ihb.fmuproxy
 
-import no.ntnu.ihb.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.SlaveInstance
 import org.apache.log4j.Level
 import org.apache.log4j.LogManager
 import org.junit.jupiter.api.Assertions
 import kotlin.system.measureTimeMillis
 
-internal inline fun runSlave(slave: FmuSlave, dt: Double, stop: Double, callback: () -> Unit = {}): Long {
+internal inline fun runSlave(slave: SlaveInstance, dt: Double, stop: Double, callback: () -> Unit = {}): Long {
 
     slave.setup()
     slave.enterInitializationMode()

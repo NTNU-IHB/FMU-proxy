@@ -26,14 +26,13 @@ package no.ntnu.ihb.fmuproxy.grpc.services
 
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
-import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.common.FmuSlave
-import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
+import no.ntnu.ihb.fmi4j.FmiStatus
+import no.ntnu.ihb.fmi4j.SlaveInstance
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionParser
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
@@ -50,26 +49,26 @@ import java.net.URL
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServiceImpl(
-        private val fmus: MutableMap<FmuId, Fmu>
+        private val fmus: MutableMap<FmuId, AbstractFmu>
 ) : FmuServiceGrpc.FmuServiceImplBase() {
 
-    private inline fun getFmu(fmuId: FmuId, responseObserver: StreamObserver<*>, block: Fmu.() -> Unit) {
+    private inline fun getFmu(fmuId: FmuId, responseObserver: StreamObserver<*>, block: AbstractFmu.() -> Unit) {
         synchronized(fmus) {
             fmus[fmuId]?.apply(block) ?: noSuchFmuReply(fmuId, responseObserver)
         }
     }
 
-    private inline fun getSlave(instanceId: InstanceId, responseObserver: StreamObserver<*>, block: FmuSlave.() -> Unit) {
+    private inline fun getSlave(instanceId: InstanceId, responseObserver: StreamObserver<*>, block: SlaveInstance.() -> Unit) {
         FmuSlaves[instanceId]?.apply(block) ?: noSuchInstanceReply(instanceId, responseObserver)
     }
 
     override fun loadFromUrl(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
         val url = URL(request.url)
-        val md = JaxbModelDescriptionParser.parse(url)
+        val md = ModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
-                val fmu = Fmu.from(url)
+                val fmu = AbstractFmu.from(url)
                 fmus[guid] = fmu
                 LOG.info("Loaded new FMU with guid=$guid!")
             } else {
@@ -82,7 +81,7 @@ class GrpcFmuServiceImpl(
     }
 
     override fun loadFromFile(request: Service.File, responseObserver: StreamObserver<Service.FmuId>) {
-        val fmu = Fmu.from(request.name, request.data.toByteArray())
+        val fmu = AbstractFmu.from(request.name, request.data.toByteArray())
         val guid = fmu.guid
         synchronized(fmus) {
             if (guid !in fmus) {
@@ -140,6 +139,8 @@ class GrpcFmuServiceImpl(
         getFmu(request.fmuId, responseObserver) {
             if (!supportsModelExchange) {
                 unSupportedOperationException(responseObserver, "FMU does not support Model Exchange!")
+            } else if (modelDescription.fmiVersion != "2.0") {
+                unSupportedOperationException(responseObserver, "Feature only available for FMI 2.0")
             } else {
                 fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                     val stepSize = modelDescription.defaultExperiment?.stepSize ?: 1E-3
@@ -147,8 +148,10 @@ class GrpcFmuServiceImpl(
                     return ApacheSolvers.euler(stepSize)
                 }
 
+                @Suppress("NAME_SHADOWING")
+                val fmu = this as Fmu
                 (parseSolver(request.solver.name, request.solver.settings) ?: selectDefaultIntegrator()).let {
-                    FmuSlaves.put(asModelExchangeFmu().newInstance(it)).also { id ->
+                    FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it)).also { id ->
                         Service.InstanceId.newBuilder().setValue(id).also {
                             responseObserver.onNext(it.build())
                             responseObserver.onCompleted()
@@ -372,5 +375,3 @@ class GrpcFmuServiceImpl(
     }
 
 }
-
-

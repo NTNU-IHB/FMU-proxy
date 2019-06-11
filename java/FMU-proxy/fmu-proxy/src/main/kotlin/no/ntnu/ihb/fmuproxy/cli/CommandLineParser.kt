@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.cli
 
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
@@ -89,7 +89,7 @@ class Args : Callable<FmuProxy> {
 
     override fun call(): FmuProxy? {
 
-        return fmus.map { Fmu.from(it) }.let { fmus ->
+        return fmus.map { AbstractFmu.from(it) }.let { fmus ->
             FmuProxyBuilder(fmus).apply {
 
                 setRemote(remote)
