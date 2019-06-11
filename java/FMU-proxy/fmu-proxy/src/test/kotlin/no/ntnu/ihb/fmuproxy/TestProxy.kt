@@ -40,14 +40,14 @@ class TestProxy {
     }
 
     private val proxy = FmuProxyBuilder(fmu).apply {
-        addServer(GrpcFmuServer().apply { addFmu(fmu) })
-        addServer(ThriftFmuSocketServer().apply { addFmu(fmu) })
-        addServer(ThriftFmuServlet().apply { addFmu(fmu) })
+        addServer(GrpcFmuServer().apply { addFmu(fmu) }, 9090)
+        addServer(ThriftFmuSocketServer().apply { addFmu(fmu) }, 9091)
+        addServer(ThriftFmuServlet().apply { addFmu(fmu) }, 9092)
         RpcFmuService().apply { addFmu(fmu) }.also {
-            addServer(FmuProxyJsonWsServer(it))
-            addServer(FmuProxyJsonTcpServer(it))
+            addServer(FmuProxyJsonWsServer(it), 9093)
+            addServer(FmuProxyJsonTcpServer(it), 9094)
             if (!OS.LINUX.isCurrentOs) {
-                addServer(FmuProxyJsonHttpServer(it))
+                addServer(FmuProxyJsonHttpServer(it), 9095)
             }
         }
 

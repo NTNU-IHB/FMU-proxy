@@ -142,15 +142,14 @@ class FmuProxyBuilder(
     constructor(fmu: AbstractFmu): this(listOf(fmu))
 
     private var remote: SimpleSocketAddress? = null
-    private val servers = mutableMapOf<FmuProxyServer, Int?>()
+    private val servers = mutableMapOf<FmuProxyServer, Int>()
 
     fun setRemote(remote: SimpleSocketAddress?): FmuProxyBuilder {
         this.remote = remote
         return this
     }
 
-    @JvmOverloads
-    fun addServer(server: FmuProxyServer, port: Int? = null): FmuProxyBuilder {
+    fun addServer(server: FmuProxyServer, port: Int): FmuProxyBuilder {
         servers[server] = port
         return this
     }

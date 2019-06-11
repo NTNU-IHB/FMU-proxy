@@ -96,33 +96,46 @@ class Args : Callable<FmuProxy> {
 
                 val map = Collections.synchronizedMap(fmus.associate { it.modelDescription.guid to it }.toMutableMap())
 
-                GrpcFmuServer(map).apply {
-                    addServer(this, grpcPort)
+                grpcPort?.also {
+                    GrpcFmuServer(map).apply {
+                        addServer(this, it)
+                    }
                 }
 
-                ThriftFmuSocketServer(map).apply {
-                    addServer(this, thriftTcpPort)
+                thriftTcpPort?.also {
+                    ThriftFmuSocketServer(map).apply {
+                        addServer(this, it)
+                    }
                 }
 
-                ThriftFmuServlet(map).apply {
-                    addServer(this, thriftHttpPort)
+                thriftHttpPort?.also {
+                    ThriftFmuServlet(map).apply {
+                        addServer(this, it)
+                    }
                 }
 
                 RpcFmuService(map).also { service ->
 
                     if (!OsUtil.isLinux) {
+
+                        jsonHttpPort?.also {
+                            FmuProxyJsonHttpServer(service).apply {
+                                addServer(this, it)
+                            }
+                        }
+
+                    }
+
+                    jsonTcpPort?.also {
                         FmuProxyJsonHttpServer(service).apply {
-                            addServer(this, jsonHttpPort)
+                            addServer(this, it)
                         }
                     }
 
-
-                    FmuProxyJsonTcpServer(service).apply {
-                        addServer(this, jsonTcpPort)
-                    }
-
-                    FmuProxyJsonWsServer(service).apply {
-                        addServer(this, jsonWsPort)
+                    jsonWsPort?.also {
+                        FmuProxyJsonHttpServer(service).apply {
+                            addServer(this, it)
+                        }
                     }
 
                 }

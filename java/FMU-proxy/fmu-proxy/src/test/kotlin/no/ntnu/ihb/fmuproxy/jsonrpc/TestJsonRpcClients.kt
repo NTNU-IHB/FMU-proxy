@@ -47,16 +47,16 @@ class TestJsonRpcClients {
 
     }
 
+
     @Test
-    @Disabled
-    fun testWsClient() {
+    fun testTcpClient() {
 
         Assertions.assertTimeout(timeout) {
             val proxy = FmuProxyBuilder(fmu).apply {
-                addServer(FmuProxyJsonWsServer(service))
+                addServer(FmuProxyJsonTcpServer(service), 9090)
             }.build().also { it.start() }
 
-            RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!).also {
+            RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!).also {
                 testClient(it)
             }
             proxy.stop()
@@ -65,36 +65,36 @@ class TestJsonRpcClients {
     }
 
     @Test
-    fun testTcpClient() {
+    @DisabledOnOs(OS.LINUX)
+    fun testHttpClient() {
+
         Assertions.assertTimeout(timeout) {
-
-            Assertions.assertTimeout(timeout) {
-                val proxy = FmuProxyBuilder(fmu).apply {
-                    addServer(FmuProxyJsonTcpServer(service))
-                }.build().also { it.start() }
-
-                RpcTcpClient("localhost", proxy.getPortFor<FmuProxyJsonTcpServer>()!!).also {
-                    testClient(it)
-                }
-                proxy.stop()
+            val proxy = FmuProxyBuilder(fmu).apply {
+                addServer(FmuProxyJsonHttpServer(service), 9091)
+            }.build().also { it.start() }
+            RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!).also {
+                testClient(it)
             }
+            proxy.stop()
         }
+
     }
 
     @Test
-    @DisabledOnOs(OS.LINUX)
-    fun testHttpClient() {
+    @Disabled
+    fun testWsClient() {
+
         Assertions.assertTimeout(timeout) {
-            Assertions.assertTimeout(timeout) {
-                val proxy = FmuProxyBuilder(fmu).apply {
-                    addServer(FmuProxyJsonHttpServer(service))
-                }.build().also { it.start() }
-                RpcHttpClient("localhost", proxy.getPortFor<FmuProxyJsonHttpServer>()!!).also {
-                    testClient(it)
-                }
-                proxy.stop()
+            val proxy = FmuProxyBuilder(fmu).apply {
+                addServer(FmuProxyJsonWsServer(service), 9092)
+            }.build().also { it.start() }
+
+            RpcWebSocketClient("localhost", proxy.getPortFor<FmuProxyJsonWsServer>()!!).also {
+                testClient(it)
             }
+            proxy.stop()
         }
+
     }
 
     private fun testClient(client: RpcClient) {
