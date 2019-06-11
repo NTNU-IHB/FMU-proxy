@@ -1,9 +1,9 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
-import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.common.readReal
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.FmiStatus
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
+import no.ntnu.ihb.fmi4j.readReal
 import no.ntnu.ihb.fmuproxy.runSlave
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.apache.thrift.transport.TTransportException

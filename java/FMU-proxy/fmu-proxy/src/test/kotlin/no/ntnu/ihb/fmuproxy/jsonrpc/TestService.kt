@@ -1,13 +1,10 @@
 package no.ntnu.ihb.fmuproxy.jsonrpc
 
 import info.laht.yajrpc.*
-import no.ntnu.ihb.fmi4j.common.FmiStatus
-import no.ntnu.ihb.fmi4j.common.FmuRealArrayRead
-import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.FmiModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbCoSimulationModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.convert
+import no.ntnu.ihb.fmi4j.FmiStatus
+import no.ntnu.ihb.fmi4j.RealArrayRead
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
+import no.ntnu.ihb.fmi4j.modeldescription.fmi2.JaxbModelDescription
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.*
@@ -92,7 +89,7 @@ class TestService {
                 methodName = "readReal",
                 params = RpcParams.listParams(instanceId, listOf(0))
         ).toJson().let{ YAJRPC.fromJson<RpcResponse>(handler.handle(it)!!) }
-                .getResult<FmuRealArrayRead>()!!
+                .getResult<RealArrayRead>()!!
 
         Assertions.assertEquals(0.1, h.value[0])
 

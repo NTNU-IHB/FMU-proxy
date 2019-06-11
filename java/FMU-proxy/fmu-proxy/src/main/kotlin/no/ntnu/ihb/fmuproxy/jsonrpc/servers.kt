@@ -28,7 +28,7 @@ import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.net.http.RpcHttpServer
 import info.laht.yajrpc.net.tcp.RpcTcpServer
 import info.laht.yajrpc.net.ws.RpcWebSocketServer
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 
@@ -42,11 +42,11 @@ class FmuProxyJsonHttpServer(
 
     override val simpleName = "jsonRpc/http"
 
-    override fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: AbstractFmu) {
         service.addFmu(fmu)
     }
 
-    override fun removeFmu(fmu: Fmu) {
+    override fun removeFmu(fmu: AbstractFmu) {
         service.removeFmu(fmu)
     }
 
@@ -61,11 +61,11 @@ class FmuProxyJsonTcpServer(
 
     override val simpleName = "jsonRpc/tcp"
 
-    override fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: AbstractFmu) {
         service.addFmu(fmu)
     }
 
-    override fun removeFmu(fmu: Fmu) {
+    override fun removeFmu(fmu: AbstractFmu) {
         service.removeFmu(fmu)
     }
 
@@ -80,11 +80,11 @@ class FmuProxyJsonWsServer(
 
     override val simpleName = "jsonRpc/ws"
 
-    override fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: AbstractFmu) {
         service.addFmu(fmu)
     }
 
-    override fun removeFmu(fmu: Fmu) {
+    override fun removeFmu(fmu: AbstractFmu) {
         service.removeFmu(fmu)
     }
 

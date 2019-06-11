@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy
 
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.heartbeat.Heartbeat
@@ -42,7 +42,7 @@ typealias InstanceId = String
  * @author Lars Ivar Hatledal
  */
 class FmuProxy(
-        private val fmus: List<Fmu>,
+        private val fmus: List<AbstractFmu>,
         private val remote: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
@@ -136,10 +136,10 @@ class FmuProxy(
  * @author Lars Ivar Hatledal
  */
 class FmuProxyBuilder(
-        private val fmus: List<Fmu>
+        private val fmus: List<AbstractFmu>
 ) {
 
-    constructor(fmu: Fmu): this(listOf(fmu))
+    constructor(fmu: AbstractFmu): this(listOf(fmu))
 
     private var remote: SimpleSocketAddress? = null
     private val servers = mutableMapOf<FmuProxyServer, Int?>()

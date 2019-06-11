@@ -26,11 +26,9 @@ package no.ntnu.ihb.fmuproxy.jsonrpc
 
 import info.laht.yajrpc.RpcParams
 import info.laht.yajrpc.net.RpcClient
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.FmiModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.convert
+import no.ntnu.ihb.fmi4j.modeldescription.fmi2.JaxbModelDescription
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.Solver
@@ -115,24 +113,24 @@ class JsonRpcFmuClient(
                     .getResult<FmiStatus>()!!
         }
 
-        override fun readInteger(instanceId: String, vr: List<ValueReference>): FmuIntegerArrayRead {
+        override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerArrayRead {
             return client.write("readInteger", RpcParams.listParams(instanceId, vr)).get()
-                    .getResult<FmuIntegerArrayRead>()!!
+                    .getResult<IntegerArrayRead>()!!
         }
 
-        override fun readReal(instanceId: String, vr: List<ValueReference>): FmuRealArrayRead {
+        override fun readReal(instanceId: String, vr: List<ValueReference>): RealArrayRead {
             return client.write("readReal", RpcParams.listParams(instanceId, vr)).get()
-                    .getResult<FmuRealArrayRead>()!!
+                    .getResult<RealArrayRead>()!!
         }
 
-        override fun readString(instanceId: String, vr: List<ValueReference>): FmuStringArrayRead {
+        override fun readString(instanceId: String, vr: List<ValueReference>): StringArrayRead {
             return client.write("readString", RpcParams.listParams(instanceId, vr)).get()
-                    .getResult<FmuStringArrayRead>()!!
+                    .getResult<StringArrayRead>()!!
         }
 
-        override fun readBoolean(instanceId: String, vr: List<ValueReference>): FmuBooleanArrayRead {
+        override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanArrayRead {
             return client.write("readBoolean", RpcParams.listParams(instanceId, vr)).get()
-                    .getResult<FmuBooleanArrayRead>()!!
+                    .getResult<BooleanArrayRead>()!!
         }
 
 
@@ -164,4 +162,3 @@ class JsonRpcFmuClient(
     }
 
 }
-

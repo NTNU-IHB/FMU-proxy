@@ -24,19 +24,18 @@
 
 package no.ntnu.ihb.fmuproxy
 
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
 import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.Closeable
 
 typealias InstanceId = String
 
 abstract class AbstractRpcFmuClient(
         val fmuId: String
-) : SlaveProvider {
+) : Model {
 
     abstract val implementationName: String
 
@@ -56,10 +55,10 @@ abstract class AbstractRpcFmuClient(
     protected abstract fun reset(instanceId: InstanceId): FmiStatus
     protected abstract fun terminate(instanceId: InstanceId): FmiStatus
 
-    internal abstract fun readInteger(instanceId: InstanceId, vr: List<ValueReference>): FmuIntegerArrayRead
-    internal abstract fun readReal(instanceId: InstanceId, vr: List<ValueReference>): FmuRealArrayRead
-    internal abstract fun readString(instanceId: InstanceId, vr: List<ValueReference>): FmuStringArrayRead
-    internal abstract fun readBoolean(instanceId: InstanceId, vr: List<ValueReference>): FmuBooleanArrayRead
+    internal abstract fun readInteger(instanceId: InstanceId, vr: List<ValueReference>): IntegerArrayRead
+    internal abstract fun readReal(instanceId: InstanceId, vr: List<ValueReference>): RealArrayRead
+    internal abstract fun readString(instanceId: InstanceId, vr: List<ValueReference>): StringArrayRead
+    internal abstract fun readBoolean(instanceId: InstanceId, vr: List<ValueReference>): BooleanArrayRead
 
     internal abstract fun writeInteger(instanceId: InstanceId, vr: List<ValueReference>, value: List<Int>): FmiStatus
     internal abstract fun writeReal(instanceId: InstanceId, vr: List<ValueReference>, value: List<Real>): FmiStatus
@@ -70,15 +69,15 @@ abstract class AbstractRpcFmuClient(
 
     private val fmuInstances = mutableListOf<FmuInstance>()
 
-    override fun newInstance(): FmuSlave {
+    override fun newInstance(): SlaveInstance {
         return newInstance(createInstanceFromCS())
     }
 
-    fun newInstance(solver: Solver): FmuSlave {
+    fun newInstance(solver: Solver): SlaveInstance {
         return newInstance(createInstanceFromME(solver))
     }
 
-    private fun newInstance(instanceId: InstanceId): FmuSlave {
+    private fun newInstance(instanceId: InstanceId): SlaveInstance {
         return FmuInstance(instanceId).also {
             fmuInstances.add(it)
         }
@@ -100,7 +99,7 @@ abstract class AbstractRpcFmuClient(
 
     inner class FmuInstance internal constructor(
             private val instanceId: String
-    ) : FmuSlave {
+    ) : SlaveInstance {
 
         override var isTerminated = false
             private set
@@ -140,10 +139,6 @@ abstract class AbstractRpcFmuClient(
                 lastStatus = it
                 it == FmiStatus.OK
             }
-        }
-
-        override fun cancelStep(): Boolean {
-            throw UnsupportedOperationException("cancelStep is not supported!")
         }
 
         override fun terminate(): Boolean {

@@ -25,7 +25,7 @@
 package no.ntnu.ihb.fmuproxy.net
 
 import info.laht.yajrpc.net.RpcServer
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 
 
 /**
@@ -35,9 +35,9 @@ interface FmuProxyServer: RpcServer {
 
     val simpleName: String
 
-    fun addFmu(fmu: Fmu)
+    fun addFmu(fmu: AbstractFmu)
 
-    fun removeFmu(fmu: Fmu)
+    fun removeFmu(fmu: AbstractFmu)
 
 }
 

@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.grpc
 
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmuproxy.Solver
@@ -45,20 +45,20 @@ internal fun Service.Status.convert(): FmiStatus {
         Service.Status.UNRECOGNIZED -> throw AssertionError("Fatal: Unrecognized status type: $this")
     }
 }
-internal fun Service.IntegerRead.convert(): FmuIntegerArrayRead {
-    return FmuIntegerArrayRead(valuesList.toIntArray(), status.convert())
+internal fun Service.IntegerRead.convert(): IntegerArrayRead {
+    return IntegerArrayRead(valuesList.toIntArray(), status.convert())
 }
 
-internal fun Service.RealRead.convert(): FmuRealArrayRead {
-    return FmuRealArrayRead(valuesList.toDoubleArray(), status.convert())
+internal fun Service.RealRead.convert(): RealArrayRead {
+    return RealArrayRead(valuesList.toDoubleArray(), status.convert())
 }
 
-internal fun Service.StringRead.convert(): FmuStringArrayRead {
-    return FmuStringArrayRead(valuesList.toTypedArray(), status.convert())
+internal fun Service.StringRead.convert(): StringArrayRead {
+    return StringArrayRead(valuesList.toTypedArray(), status.convert())
 }
 
-internal fun Service.BooleanRead.convert(): FmuBooleanArrayRead {
-    return FmuBooleanArrayRead(valuesList.toBooleanArray(), status.convert())
+internal fun Service.BooleanRead.convert(): BooleanArrayRead {
+    return BooleanArrayRead(valuesList.toBooleanArray(), status.convert())
 }
 
 internal fun Service.DefaultExperiment.convert(): DefaultExperiment {
@@ -69,7 +69,6 @@ internal fun Service.DefaultExperiment.convert(): DefaultExperiment {
             tolerance = this@convert.tolerance
     )
 }
-
 
 internal fun Service.Unknown.convert(): Unknown {
     return Unknown(
@@ -123,10 +122,10 @@ internal fun Service.RealAttribute.convert(): RealAttribute {
             get() = null
         override val reinit: Boolean
             get() = false
-        override val relativeQuantity: Boolean?
-            get() = null
-        override val unbounded: Boolean?
-            get() = null
+        override val relativeQuantity: Boolean
+            get() = false
+        override val unbounded: Boolean
+            get() = false
         override val unit: String?
             get() = null
     }

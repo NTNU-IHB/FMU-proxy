@@ -26,15 +26,14 @@ package no.ntnu.ihb.fmuproxy.jsonrpc.service
 
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
-import no.ntnu.ihb.fmi4j.common.*
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.*
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmi4j.modeldescription.jaxb.JaxbModelDescriptionParser
 import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
-import no.ntnu.ihb.fmuproxy.jsonrpc.AvailableFmu
 import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
 import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import no.ntnu.ihb.fmuproxy.solver.parseSolver
@@ -52,41 +51,41 @@ class Solver(
  * @author Lars Ivar Hatledal
  */
 class RpcFmuService(
-        private val fmus: MutableMap<FmuId, Fmu> = Collections.synchronizedMap(mutableMapOf())
+        private val fmus: MutableMap<FmuId, AbstractFmu> = Collections.synchronizedMap(mutableMapOf())
 ) : RpcService {
 
     override val serviceName = "FmuService"
 
-    fun addFmu(fmu: Fmu) {
+    fun addFmu(fmu: AbstractFmu) {
         synchronized(fmus) {
             fmus[fmu.guid] = fmu
         }
     }
 
-    fun removeFmu(fmu: Fmu) {
+    fun removeFmu(fmu: AbstractFmu) {
         synchronized(fmus) {
             fmus.remove(fmu.guid)
         }
     }
 
-    private fun getFmu(id: String): Fmu {
+    private fun getFmu(id: String): AbstractFmu {
         synchronized(fmus) {
             return fmus[id] ?: throw IllegalArgumentException("No FMU with id=$id")
         }
     }
 
-    private fun getSlave(id: InstanceId): FmuSlave {
+    private fun getSlave(id: InstanceId): SlaveInstance {
         return FmuSlaves[id] ?: throw IllegalArgumentException("No slave with id=$id")
     }
 
     @RpcMethod
     fun loadFromUrl(url: String): FmuId {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = JaxbModelDescriptionParser.parse(url)
+        val md = ModelDescriptionParser.parse(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
-                val fmu = Fmu.from(url)
+                val fmu = AbstractFmu.from(url)
                 fmus[guid] = fmu
             }
         }
@@ -120,12 +119,22 @@ class RpcFmuService(
     fun createInstanceFromME(fmuId: FmuId, solver: Solver): String {
         LOG.trace("createInstanceFromME $fmuId")
         return getFmu(fmuId).let { fmu ->
+
+            if (!fmu.supportsModelExchange) {
+                throw UnsupportedOperationException("FMU does not support Model Exchange!")
+            }
+            if (fmu.modelDescription.fmiVersion != "2.0") {
+                throw UnsupportedOperationException("Feature only available for FMI 2.0")
+            }
+
             fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
                 val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
                 LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
                 return ApacheSolvers.euler(stepSize)
             }
 
+            @Suppress("NAME_SHADOWING")
+            val fmu = fmu as Fmu
             (parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()).let {
                 FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it))
             }
@@ -215,34 +224,34 @@ class RpcFmuService(
     }
 
     @RpcMethod
-    fun readInteger(instanceId: InstanceId, vr: ValueReferences): FmuIntegerArrayRead {
+    fun readInteger(instanceId: InstanceId, vr: ValueReferences): IntegerArrayRead {
         val values = IntArray(vr.size)
         return getSlave(instanceId).read(vr, values).let {
-            FmuIntegerArrayRead(values, it)
+            IntegerArrayRead(values, it)
         }
     }
 
     @RpcMethod
-    fun readReal(instanceId: InstanceId, vr: ValueReferences): FmuRealArrayRead {
+    fun readReal(instanceId: InstanceId, vr: ValueReferences): RealArrayRead {
         val values = RealArray(vr.size)
         return getSlave(instanceId).read(vr, values).let {
-            FmuRealArrayRead(values, it)
+            RealArrayRead(values, it)
         }
     }
 
     @RpcMethod
-    fun readString(instanceId: InstanceId, vr: ValueReferences): FmuStringArrayRead {
+    fun readString(instanceId: InstanceId, vr: ValueReferences): StringArrayRead {
         val values = StringArray(vr.size) { "" }
         return getSlave(instanceId).read(vr, values).let {
-            FmuStringArrayRead(values, it)
+            StringArrayRead(values, it)
         }
     }
 
     @RpcMethod
-    fun readBoolean(instanceId: InstanceId, vr: ValueReferences): FmuBooleanArrayRead {
+    fun readBoolean(instanceId: InstanceId, vr: ValueReferences): BooleanArrayRead {
         val values = BooleanArray(vr.size)
         return getSlave(instanceId).read(vr, values).let {
-            FmuBooleanArrayRead(values, it)
+            BooleanArrayRead(values, it)
         }
     }
 

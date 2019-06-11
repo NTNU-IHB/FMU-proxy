@@ -26,9 +26,7 @@ package no.ntnu.ihb.fmuproxy.grpc
 
 import io.grpc.Server
 import io.grpc.ServerBuilder
-import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
-import no.ntnu.ihb.fmuproxy.FmuId
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.grpc.services.GrpcFmuServiceImpl
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
@@ -40,7 +38,7 @@ import java.util.*
  * @author Lars Ivar Hatledal
  */
 class GrpcFmuServer(
-        private val fmus: MutableMap<String, Fmu> = Collections.synchronizedMap(mutableMapOf())
+        private val fmus: MutableMap<String, AbstractFmu> = Collections.synchronizedMap(mutableMapOf())
 ) : FmuProxyServer {
 
     private companion object {
@@ -57,13 +55,13 @@ class GrpcFmuServer(
     private val isRunning: Boolean
         get() = server != null
 
-    override fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: AbstractFmu) {
         synchronized(fmus) {
             fmus[fmu.guid] = fmu
         }
     }
 
-    override fun removeFmu(fmu: Fmu) {
+    override fun removeFmu(fmu: AbstractFmu) {
         synchronized(fmus) {
             fmus.remove(fmu.guid)
         }
@@ -100,6 +98,3 @@ class GrpcFmuServer(
     }
 
 }
-
-
-

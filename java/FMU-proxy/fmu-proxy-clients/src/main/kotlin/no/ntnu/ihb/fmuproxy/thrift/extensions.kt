@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.thrift
 
-import no.ntnu.ihb.fmi4j.common.*
+import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.LogCategories
 import no.ntnu.ihb.fmi4j.modeldescription.TypeDefinitions
 import no.ntnu.ihb.fmi4j.modeldescription.UnitDefinitions
@@ -45,20 +45,20 @@ internal fun Status.convert(): FmiStatus {
     }
 }
 
-internal fun IntegerRead.convert(): FmuIntegerArrayRead {
-    return FmuIntegerArrayRead(value.toIntArray(), status.convert())
+internal fun IntegerRead.convert(): IntegerArrayRead {
+    return IntegerArrayRead(value.toIntArray(), status.convert())
 }
 
-internal fun RealRead.convert(): FmuRealArrayRead {
-    return FmuRealArrayRead(value.toDoubleArray(), status.convert())
+internal fun RealRead.convert(): RealArrayRead {
+    return RealArrayRead(value.toDoubleArray(), status.convert())
 }
 
-internal fun StringRead.convert(): FmuStringArrayRead {
-    return FmuStringArrayRead(value.toTypedArray(), status.convert())
+internal fun StringRead.convert(): StringArrayRead {
+    return StringArrayRead(value.toTypedArray(), status.convert())
 }
 
-internal fun BooleanRead.convert(): FmuBooleanArrayRead {
-    return FmuBooleanArrayRead(value.toBooleanArray(), status.convert())
+internal fun BooleanRead.convert(): BooleanArrayRead {
+    return BooleanArrayRead(value.toBooleanArray(), status.convert())
 }
 
 internal fun DefaultExperiment.convert(): no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment {
@@ -122,10 +122,10 @@ internal fun RealAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.variabl
             get() = null
         override val reinit: Boolean
             get() = false
-        override val relativeQuantity: Boolean?
-            get() = null
-        override val unbounded: Boolean?
-            get() = null
+        override val relativeQuantity: Boolean
+            get() = false
+        override val unbounded: Boolean
+            get() = false
         override val unit: String?
             get() = null
     }

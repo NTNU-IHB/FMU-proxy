@@ -4,7 +4,7 @@ import info.laht.yajrpc.net.RpcClient
 import info.laht.yajrpc.net.http.RpcHttpClient
 import info.laht.yajrpc.net.tcp.RpcTcpClient
 import info.laht.yajrpc.net.ws.RpcWebSocketClient
-import no.ntnu.ihb.fmi4j.importer.Fmu
+import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.*
@@ -159,8 +159,8 @@ class TestProxy {
                 it.load(fmu.guid).use { slave ->
 
                     LOG.info("Testing client of type ${slave.implementationName}")
-                    Assertions.assertEquals(mdLocal.guid, slave.guid)
-                    Assertions.assertEquals(mdLocal.modelName, slave.modelName)
+                    Assertions.assertEquals(mdLocal.guid, slave.modelDescription.guid)
+                    Assertions.assertEquals(mdLocal.modelName, slave.modelDescription.modelName)
                     Assertions.assertEquals(mdLocal.fmiVersion, slave.modelDescription.fmiVersion)
 
                     slave.newInstance().use { instance ->

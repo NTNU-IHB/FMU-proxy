@@ -24,10 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.thrift
 
-import no.ntnu.ihb.fmi4j.importer.Fmu
-import no.ntnu.ihb.fmi4j.modeldescription.DefaultExperiment
-import no.ntnu.ihb.fmuproxy.FmuId
-import no.ntnu.ihb.fmuproxy.grpc.Service
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.services.ThriftFmuServiceImpl
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -51,7 +48,7 @@ interface IServer {
 }
 
 abstract class ThriftFmuServer(
-        private val fmus: MutableMap<String, Fmu>
+        private val fmus: MutableMap<String, AbstractFmu>
 ) : FmuProxyServer {
 
     companion object {
@@ -61,15 +58,14 @@ abstract class ThriftFmuServer(
 
     override var port: Int? = null
     private var server: IServer? = null
-    internal var xcDefaults: Map<FmuId, DefaultExperiment>? = null
 
-    override fun addFmu(fmu: Fmu) {
+    override fun addFmu(fmu: AbstractFmu) {
         synchronized(fmus) {
             fmus[fmu.guid] = fmu
         }
     }
 
-    override fun removeFmu(fmu: Fmu) {
+    override fun removeFmu(fmu: AbstractFmu) {
         synchronized(fmus) {
             fmus.remove(fmu.guid)
         }
@@ -79,7 +75,7 @@ abstract class ThriftFmuServer(
 
         if (server == null) {
             this.port = port
-            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmus, xcDefaults))).apply {
+            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmus))).apply {
                 Thread { serve() }.start()
             }
 
@@ -104,7 +100,7 @@ abstract class ThriftFmuServer(
 
 
 class ThriftFmuSocketServer(
-        fmus: MutableMap<String, Fmu> = Collections.synchronizedMap(mutableMapOf())
+        fmus: MutableMap<String, AbstractFmu> = Collections.synchronizedMap(mutableMapOf())
 ) : ThriftFmuServer(fmus) {
 
     override val simpleName = "thrift/tcp"
@@ -131,7 +127,7 @@ class ThriftFmuSocketServer(
 }
 
 class ThriftFmuServlet(
-        fmus: MutableMap<String, Fmu> = Collections.synchronizedMap(mutableMapOf())
+        fmus: MutableMap<String, AbstractFmu> = Collections.synchronizedMap(mutableMapOf())
 ) : ThriftFmuServer(fmus) {
 
     override val simpleName = "thrift/http"

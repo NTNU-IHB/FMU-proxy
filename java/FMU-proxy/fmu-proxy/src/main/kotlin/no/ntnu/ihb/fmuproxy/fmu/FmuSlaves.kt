@@ -24,7 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.fmu
 
-import no.ntnu.ihb.fmi4j.common.FmuSlave
+import no.ntnu.ihb.fmi4j.SlaveInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -36,9 +36,9 @@ object FmuSlaves {
 
     private val LOG: Logger = LoggerFactory.getLogger(FmuSlaves::class.java)
 
-    private val slaves = Collections.synchronizedMap(mutableMapOf<String, FmuSlave>())
+    private val slaves = Collections.synchronizedMap(mutableMapOf<String, SlaveInstance>())
 
-    fun put(slave: FmuSlave): String {
+    fun put(slave: SlaveInstance): String {
         return UUID.randomUUID().toString().also {
             synchronized(slaves) {
                 slaves[it] = slave
@@ -46,7 +46,7 @@ object FmuSlaves {
         }
     }
 
-    fun remove(instanceId: String): FmuSlave? {
+    fun remove(instanceId: String): SlaveInstance? {
         synchronized(slaves) {
             return slaves.remove(instanceId).also {
                 if (it == null) {
@@ -56,7 +56,7 @@ object FmuSlaves {
         }
     }
 
-    operator fun get(instanceId: String): FmuSlave? {
+    operator fun get(instanceId: String): SlaveInstance? {
         synchronized(slaves) {
             return slaves[instanceId].also {
                 if (it == null) {

@@ -1,6 +1,6 @@
 package no.ntnu.ihb.fmuproxy.jsonrpc
 
-import no.ntnu.ihb.fmi4j.common.FmiStatus
+import no.ntnu.ihb.fmi4j.FmiStatus
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 
 class DirectionalDerivativeResult (
