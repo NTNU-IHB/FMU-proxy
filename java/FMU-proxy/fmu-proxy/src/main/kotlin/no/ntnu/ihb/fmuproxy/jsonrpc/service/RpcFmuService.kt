@@ -81,7 +81,7 @@ class RpcFmuService(
     @RpcMethod
     fun loadFromUrl(url: String): FmuId {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = ModelDescriptionParser.parseModelDescription(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {

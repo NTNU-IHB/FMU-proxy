@@ -51,7 +51,7 @@ class RemoteProxy(
 
     val fmus: List<RemoteFmu> by lazy {
         modelDescriptions.map {
-            RemoteFmu(host!!, ports, ModelDescriptionParser.parse(it))
+            RemoteFmu(host!!, ports, ModelDescriptionParser.parseModelDescription(it))
         }
     }
 

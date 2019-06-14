@@ -66,7 +66,7 @@ class ThriftFmuServiceImpl(
 
     override fun loadFromUrl(url: String): String {
         @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = ModelDescriptionParser.parseModelDescription(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {

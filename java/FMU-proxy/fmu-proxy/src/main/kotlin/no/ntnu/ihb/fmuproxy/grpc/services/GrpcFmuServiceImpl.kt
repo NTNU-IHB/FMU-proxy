@@ -64,7 +64,7 @@ class GrpcFmuServiceImpl(
 
     override fun loadFromUrl(request: Service.Url, responseObserver: StreamObserver<Service.FmuId>) {
         val url = URL(request.url)
-        val md = ModelDescriptionParser.parse(url)
+        val md = ModelDescriptionParser.parseModelDescription(url)
         val guid = md.guid
         synchronized(fmus) {
             if (guid !in fmus) {
