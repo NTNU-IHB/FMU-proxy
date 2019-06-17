@@ -83,10 +83,10 @@ class GrpcFmuServer(
     override fun stop() {
         if (isRunning) {
             server?.also {
-                LOG.info("Stopping ${javaClass.simpleName} ...")
+                LOG.debug("Stopping ${javaClass.simpleName} ...")
                 it.shutdownNow()
                 it.awaitTermination()
-                LOG.info("${javaClass.simpleName} stopped!")
+                LOG.debug("${javaClass.simpleName} stopped!")
             }
             server = null
 

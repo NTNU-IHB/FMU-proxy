@@ -70,7 +70,7 @@ class GrpcFmuServiceImpl(
             if (guid !in fmus) {
                 val fmu = AbstractFmu.from(url)
                 fmus[guid] = fmu
-                LOG.info("Loaded new FMU with guid=$guid!")
+                LOG.info("Loaded new FMU '${fmu.modelDescription.modelName}' with guid=$guid!")
             } else {
                 LOG.debug("FMU with guid=$guid already loaded, re-using it!")
             }
@@ -86,7 +86,7 @@ class GrpcFmuServiceImpl(
         synchronized(fmus) {
             if (guid !in fmus) {
                 fmus[guid] = fmu
-                LOG.info("Loaded new FMU with guid=$guid!")
+                LOG.info("Loaded new FMU '${fmu.modelDescription.modelName}' with guid=$guid!")
             } else {
                 fmu.close()
                 LOG.debug("FMU with guid=$guid already loaded, re-using it!")

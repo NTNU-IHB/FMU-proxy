@@ -90,9 +90,9 @@ abstract class ThriftFmuServer(
 
     override fun stop() {
         server?.also {
-            LOG.info("Stopping ${javaClass.simpleName} ...")
+            LOG.debug("Stopping ${javaClass.simpleName} ...")
             it.stop()
-            LOG.info("${javaClass.simpleName} stopped!")
+            LOG.debug("${javaClass.simpleName} stopped!")
         }
     }
 

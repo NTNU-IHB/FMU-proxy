@@ -72,9 +72,9 @@ class ThriftFmuServiceImpl(
             if (guid !in fmus) {
                 val fmu = AbstractFmu.from(url)
                 fmus[guid] = fmu
-                LOG.info("Loaded new FMU with guid=$guid!")
+                LOG.info("Loaded new FMU '${md.modelName}' with guid=$guid!")
             } else {
-                LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+                LOG.debug("FMU '${md.modelName}' with guid=$guid already loaded, re-using it!")
             }
             return guid
         }
@@ -86,10 +86,10 @@ class ThriftFmuServiceImpl(
         synchronized(fmus) {
             if (guid !in fmus) {
                 fmus[guid] = fmu
-                LOG.info("Loaded new FMU with guid=$guid!")
+                LOG.info("Loaded new FMU '${fmu.modelDescription.modelName}' with guid=$guid!")
             } else {
                 fmu.close()
-                LOG.debug("FMU with guid=$guid already loaded, re-using it!")
+                LOG.info("FMU '${fmu.modelDescription.modelName}' with guid=$guid already loaded, re-using it!")
             }
             return guid
         }
@@ -177,9 +177,11 @@ class ThriftFmuServiceImpl(
     }
 
     override fun terminate(instanceId: InstanceId): Status {
-        return getSlave(instanceId).let {
-            it.terminate()
-            it.lastStatus.thriftType()
+        return getSlave(instanceId).let { slave ->
+            slave.terminate()
+            val status = slave.lastStatus
+            LOG.info("Terminated instance of ${slave.modelDescription.modelName} with status $status")
+            status.thriftType()
         }
     }
 
@@ -306,4 +308,3 @@ class ThriftFmuServiceImpl(
 //    }
 
 }
-
