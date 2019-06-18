@@ -75,26 +75,20 @@ The interface is specified by FMI4j, allowing local and remote FMU instances to 
 #### FMU-proxy executable
 
 ```
-Usage: fmu-proxy [-h] [-grpc=<grpcPort>]
-                 [-jsonrpc/http=<jsonHttpPort>] [-jsonrpc/tcp=<jsonTcpPort>]
-                 [-jsonrpc/ws=<jsonWsPort>] [-jsonrpc/zmq=<jsonZmqPort>]
+Usage: fmu-proxy [-h] 
+                 [-grpc=<grpcPort>] [-jsonrpc/http=<jsonHttpPort>] 
+                 [-jsonrpc/tcp=<jsonTcpPort>] [-jsonrpc/ws=<jsonWsPort>]
                  [-r=<remote>] [-thrift/http=<thriftHttpPort>]
                  [-thrift/tcp=<thriftTcpPort>] FMUs...
       FMUs...             FMU(s) to include.
-      -grpc=<grpcPort>    Manually specify the gRPC port (optional).
+      -grpc=<grpcPort>    Specify the gRPC port (enables this server).
   -h, --help              Print this message and quits.
-      -jsonrpc/http=<jsonHttpPort>
-                          Manually specify the JSON-RPC HTTP port (optional).
-      -jsonrpc/tcp=<jsonTcpPort>
-                          Manually specify the JSON-RPC TCP/IP port (optional).
-      -jsonrpc/ws=<jsonWsPort>
-                          Manually specify the JSON-RPC WS port (optional).
-  -r, --remote=<remote>   Specify an address for the remoteAddress tracking server
-                            (optional).
-      -thrift/http=<thriftHttpPort>
-                          Manually specify the Thrift http port (optional).
-      -thrift/tcp=<thriftTcpPort>
-                          Manually specify the Thrift tcp port (optional).
+      -jsonrpc/http=<jsonHttpPort> Specify the JSON-RPC HTTP port (enables this server).
+      -jsonrpc/tcp=<jsonTcpPort> Specify the JSON-RPC TCP/IP port (enables this server).
+      -jsonrpc/ws=<jsonWsPort>  Manually specify the JSON-RPC WS port (enables this server).
+  -r, --remote=<remote>   Specify an address for the remoteAddress tracking server (optional).
+      -thrift/http=<thriftHttpPort> Specify the Thrift http port (enables this server).
+      -thrift/tcp=<thriftTcpPort> Specify the Thrift tcp port (enables this server).
 
 ```
 
@@ -120,12 +114,10 @@ FMU-proxy
 Options:
   -h [ --help ]         Print this help message and quits.
   --fmu arg             Path to FMUs.
-  -r [ --remote ] arg   IP address of the remote tracking server.
-  --thrift/tcp arg      Specify the network port to be used by the Thrift 
-                        (TCP/IP) server.
-  --thrift/http arg     Specify the network port to be used by the Thrift 
-                        (HTTP) server.
-  --grpc arg      Specify the network port to be used by the gRPC server.
+  -r [ --remote ] arg   IP address of the remote tracking server (optional).
+  --thrift/tcp arg      Specify the Thrift tcp port (enables this server).
+  --thrift/http arg     Specify the Thrift http port  (enables this server).
+  --grpc arg            Specify gRPC port (enables this server).
 ```
 
 ### <a name="python"></a> Python
@@ -152,5 +144,3 @@ The response is a JSON array with the necessary information required to connect 
 The service features a web-based GUI, where users can lookup information retrieved from the FMUs _modelDescription.xml_.
 
 ***
-
-
