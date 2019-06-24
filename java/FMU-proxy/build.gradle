@@ -76,4 +76,3 @@ tasks.create('cleanTemp') {
 }
 
 clean.dependsOn(cleanTemp)
-
