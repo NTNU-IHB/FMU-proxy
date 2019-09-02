@@ -42,7 +42,7 @@ typealias InstanceId = String
  * @author Lars Ivar Hatledal
  */
 class FmuProxy(
-        private val fmus: List<AbstractFmu>,
+        private val modelDescriptions: List<String>,
         private val remote: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int?>
 ): Closeable {
@@ -63,7 +63,7 @@ class FmuProxy(
                 server.simpleName to (servers[server] ?: server.port ?: -1)
             }
             beat = remote?.let {
-                Heartbeat(remote, ports, fmus.map { it.modelDescriptionXml }).apply {
+                Heartbeat(remote, ports, modelDescriptions).apply {
                     start()
                 }
             }
@@ -136,8 +136,10 @@ class FmuProxy(
  * @author Lars Ivar Hatledal
  */
 class FmuProxyBuilder(
-        private val fmus: List<AbstractFmu>
+       fmus: List<AbstractFmu>
 ) {
+
+    private val modelDescriptions = fmus.map { it.modelDescriptionXml }
 
     constructor(fmu: AbstractFmu): this(listOf(fmu))
 
@@ -155,7 +157,7 @@ class FmuProxyBuilder(
     }
 
     fun build(): FmuProxy {
-        return FmuProxy(fmus, remote, servers)
+        return FmuProxy(modelDescriptions, remote, servers)
     }
 
 }
