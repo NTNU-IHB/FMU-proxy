@@ -89,12 +89,16 @@ class Args : Callable<FmuProxy> {
 
     override fun call(): FmuProxy? {
 
+        if (grpcPort == null && thriftTcpPort == null && thriftHttpPort == null && jsonHttpPort == null && jsonTcpPort == null && jsonWsPort === null) {
+            return null
+        }
+
         return fmus.map { AbstractFmu.from(it) }.let { fmus ->
             FmuProxyBuilder(fmus).apply {
 
                 setRemote(remote)
 
-                val map = Collections.synchronizedMap(fmus.associate { it.modelDescription.guid to it }.toMutableMap())
+                val map = Collections.synchronizedMap(fmus.associateBy { it.modelDescription.guid }.toMutableMap())
 
                 grpcPort?.also {
                     GrpcFmuServer(map).apply {
