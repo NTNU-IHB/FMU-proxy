@@ -10,8 +10,9 @@ class FMUProxyConan(ConanFile):
         "boost/1.66.0@conan/stable",
         "OpenSSL/1.0.2o@conan/stable",
         "libcurl/7.61.1@bincrafters/stable",
-        "libzip/1.5.1@bincrafters/stable",
-        "jsonformoderncpp/3.5.0@vthiery/stable"
+        "libzip/1.5.2@bincrafters/stable",
+        "jsonformoderncpp/3.5.0@vthiery/stable",
+        "bzip2/1.0.8@conan/stable"
     )
     options = {
         "thrift": [True, False],
@@ -21,8 +22,6 @@ class FMUProxyConan(ConanFile):
         "thrift=True",
         "grpc=True",
         "boost:shared=True",
-        "libzip:shared=True",
-        "libcurl:shared=True",
         "thrift:build_compiler=False",
         "grpc:build_codegen=False"
     )
