@@ -69,22 +69,22 @@ class Args : Callable<FmuProxy> {
     @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
     var remote: SimpleSocketAddress? = null
 
-    @CommandLine.Option(names = ["-grpc"], description = ["Manually specify the gRPC port (optional)."])
+    @CommandLine.Option(names = ["-grpc"], description = ["Enable gRPC using the specified port (optional)."])
     var grpcPort: Int? = null
 
-    @CommandLine.Option(names = ["-thrift/tcp"], description = ["Manually specify the Thrift tcp port (optional)."])
+    @CommandLine.Option(names = ["-thrift/tcp"], description = ["Enable Thrift TCP/IP using the specified port (optional)."])
     var thriftTcpPort: Int? = null
 
-    @CommandLine.Option(names = ["-thrift/http"], description = ["Manually specify the Thrift http port (optional)."])
+    @CommandLine.Option(names = ["-thrift/http"], description = ["Enable Thrift HTTP using the specified port (optional)."])
     var thriftHttpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Manually specify the JSON-RPC HTTP port (optional)."])
+    @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Enable JSON-RPC HTTP using the specified port (optional)."])
     var jsonHttpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Manually specify the JSON-RPC TCP/IP port (optional)."])
+    @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Enable JSON-RPC TCP/IP using the specified port (optional)."])
     var jsonTcpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Manually specify the JSON-RPC WS port (optional)."])
+    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Enable JSON-RPC WS using the specified port (optional)."])
     var jsonWsPort: Int? = null
 
     override fun call(): FmuProxy? {
