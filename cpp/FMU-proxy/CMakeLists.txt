@@ -40,7 +40,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 find_package(JSON REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
-    find_package(Thrift REQUIRED)
+    find_package(THRIFT REQUIRED)
 endif()
 
 if (FMU_PROXY_WITH_GRPC)
