@@ -21,6 +21,7 @@ class FMUProxyConan(ConanFile):
     default_options = (
         "thrift=True",
         "grpc=True",
+        "libcurl:shared=True",
         "boost:shared=True",
         "thrift:build_compiler=False",
         "grpc:build_codegen=False"
