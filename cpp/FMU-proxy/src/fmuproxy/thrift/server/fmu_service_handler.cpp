@@ -69,13 +69,9 @@ void fmu_service_handler::get_model_description(fmuproxy::thrift::ModelDescripti
 }
 
 void fmu_service_handler::load_from_url(FmuId &_return, const std::string &url) {
-    cout << "Loading FMU from url " << url << endl;
-    auto fmu = fmi4cpp::fmi2::fmu::from_url(url);
-    auto guid = fmu->get_model_description()->guid;
-    if (!fmus_.count(guid)) {
-        fmus_[guid] = move(fmu);
-    }
-    _return = guid;
+    auto ex = UnsupportedOperationException();
+    ex.message = "load_from_url is unsupported!";
+    throw ex;
 }
 
 void fmu_service_handler::load_from_file(FmuId &_return, const std::string &name, const std::string &data) {

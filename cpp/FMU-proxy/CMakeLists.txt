@@ -38,9 +38,10 @@ find_package(Boost 1.65 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(JSON REQUIRED)
+find_package(CURL REQUIRED)
 
 if (FMU_PROXY_WITH_THRIFT)
-    find_package(Thrift REQUIRED)
+    find_package(THRIFT REQUIRED)
 endif()
 
 if (FMU_PROXY_WITH_GRPC)
@@ -53,7 +54,6 @@ option(FMI4CPP_BUILD_EXAMPLES "" OFF)
 option(FMI4CPP_BUILD_TESTS "" OFF)
 option(FMI4CPP_BUILD_TOOL "" OFF)
 option(FMI4CPP_WITH_ODEINT "" ON)
-option(FMI4CPP_WITH_CURL "" ON)
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)

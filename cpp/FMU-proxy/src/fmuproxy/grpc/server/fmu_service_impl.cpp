@@ -53,13 +53,8 @@ fmu_service_impl::fmu_service_impl(unordered_map<string, shared_ptr<fmi4cpp::fmi
 
 ::Status fmu_service_impl::LoadFromUrl(ServerContext *context, const ::fmuproxy::grpc::Url *request,
                             ::fmuproxy::grpc::FmuId *response) {
-    auto fmu = fmi4cpp::fmi2::fmu::from_url(request->url());
-    auto guid = fmu->get_model_description()->guid;
-    if (!fmus_.count(guid)) {
-        fmus_[guid] = move(fmu);
-    }
-    response->set_value(guid);
-    return ::Status::OK;
+
+    return ::Status::CANCELLED;
 }
 
 
