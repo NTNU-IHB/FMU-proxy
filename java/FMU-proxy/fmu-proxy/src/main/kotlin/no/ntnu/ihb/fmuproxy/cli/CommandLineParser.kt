@@ -30,8 +30,6 @@ import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonHttpServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonTcpServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonWsServer
 import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
@@ -63,6 +61,9 @@ class Args : Callable<FmuProxy> {
     @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
     var showHelp = false
 
+    @CommandLine.Option(names = ["-v", "--version"], description = ["Print the version of this application."])
+    var showVersion = false
+
     @CommandLine.Parameters(arity = "0..*", paramLabel = "FMUs", description = ["Optional FMU(s) to include."])
     var fmus = mutableListOf<File>()
 
@@ -89,7 +90,13 @@ class Args : Callable<FmuProxy> {
 
     override fun call(): FmuProxy? {
 
+        if (showVersion) {
+            println("0.5.3")
+            return null
+        }
+
         if (grpcPort == null && thriftTcpPort == null && thriftHttpPort == null && jsonHttpPort == null && jsonTcpPort == null && jsonWsPort === null) {
+            System.err.println("Error! no ports specified. No server(s) will be started. Exiting..")
             return null
         }
 
