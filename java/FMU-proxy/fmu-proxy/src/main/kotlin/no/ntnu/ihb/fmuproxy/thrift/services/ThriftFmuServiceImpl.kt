@@ -24,7 +24,6 @@
 
 package no.ntnu.ihb.fmuproxy.thrift.services
 
-import no.ntnu.ihb.fmi4j.FMI4j
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu

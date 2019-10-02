@@ -21,7 +21,7 @@ dependencies {
     compile group: 'com.sun.faces', name: 'jsf-api', version: faces_version
     runtime group: 'com.sun.faces', name: 'jsf-impl', version: faces_version
 
-    implementation group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
+    implementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtime group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version

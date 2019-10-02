@@ -13,7 +13,7 @@ dependencies {
     api group: 'org.apache.thrift', name: 'libthrift', version: '0.12.0'
     compile("javax.annotation:javax.annotation-api:1.3.2")
 
-    api group: 'com.github.NTNU-IHB.FMI4j', name: 'fmi-import', version: fmi4j_version, changing: fmi4j_snapshot
+    api "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 
 }
 

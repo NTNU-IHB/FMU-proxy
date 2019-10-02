@@ -10,7 +10,6 @@ apply from: rootProject.file("gradle/mavenpublish.gradle")
 dependencies {
 
     api project(":rpc-definitions")
-   
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
     

@@ -7,8 +7,7 @@ plugins {
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
-ext.fmi4j_snapshot = false
-ext.fmi4j_version = fmi4j_snapshot ? 'master-SNAPSHOT' : 'v0.22.5'
+ext.fmi4j_version = '0.24.2'
 
 ext.grpc_version = '1.21.0'
 ext.slf4j_version = '1.7.25'
@@ -22,6 +21,7 @@ subprojects { sub ->
     repositories {
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        maven { url  "https://dl.bintray.com/ntnu-ihb/mvn"  }
     }
 
     configurations.all {
