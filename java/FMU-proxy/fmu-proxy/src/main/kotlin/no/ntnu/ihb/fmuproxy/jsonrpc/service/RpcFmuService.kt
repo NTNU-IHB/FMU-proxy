@@ -144,9 +144,7 @@ class RpcFmuService(
     @RpcMethod
     fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes {
         LOG.trace("getCoSimulationAttributes $instanceId")
-        return getSlave(instanceId).let {
-            it.modelDescription.attributes
-        }
+        return getSlave(instanceId).modelDescription.attributes
     }
 
     @RpcMethod
@@ -267,11 +265,6 @@ class RpcFmuService(
 
     @RpcMethod
     fun writeString(instanceId: InstanceId, vr: ValueReferences, value: StringArray): FmiStatus {
-        return getSlave(instanceId).write(vr, value)
-    }
-
-    @RpcMethod
-    fun writeBoolean(instanceId: InstanceId, vr: ValueReference, value: Boolean): FmiStatus {
         return getSlave(instanceId).write(vr, value)
     }
 
