@@ -7,7 +7,7 @@ plugins {
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
-ext.fmi4j_version = '0.24.2'
+ext.fmi4j_version = '0.24.3'
 
 ext.grpc_version = '1.21.0'
 ext.slf4j_version = '1.7.25'
