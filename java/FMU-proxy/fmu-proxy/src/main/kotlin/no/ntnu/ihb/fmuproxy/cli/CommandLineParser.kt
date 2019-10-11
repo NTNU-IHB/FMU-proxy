@@ -39,6 +39,7 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.Callable
 
+private const val VERSION = "0.5.4"
 
 object CommandLineParser {
 
@@ -91,7 +92,7 @@ class Args : Callable<FmuProxy> {
     override fun call(): FmuProxy? {
 
         if (showVersion) {
-            println("0.5.3")
+            println(VERSION)
             return null
         }
 
