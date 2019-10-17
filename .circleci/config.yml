@@ -42,7 +42,7 @@ jobs:
         - run:
             name: Installing tools and libraries
             command: 'apt-get update && apt-get install -y sudo gcc g++ cmake && rm -rf /var/lib/apt/lists/*'
-        
+
         - run:
             name: Initialize git sub-modules
             command: 'git submodule update --init --recursive && git submodule update --remote'
