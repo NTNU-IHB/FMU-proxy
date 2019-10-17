@@ -38,6 +38,10 @@ jobs:
         - image: lasote/conangcc7
       steps:
         - checkout
+        
+        - run:
+            name: Install pip3
+            command: 'sudo apt install python3-pip'
 
         - run:
             name: Initialize git sub-modules
