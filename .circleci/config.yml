@@ -38,8 +38,8 @@ jobs:
         - image: circleci/python:3.7.4-buster
       steps:
         - checkout
-		
-		- run:
+
+        - run:
             name: Installing tools and libraries
             command: 'apt-get update && apt-get install -y sudo gcc g++ cmake && rm -rf /var/lib/apt/lists/*'
         
