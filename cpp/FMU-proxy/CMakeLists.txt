@@ -27,6 +27,8 @@ if(MSVC)
     add_compile_options("/wd4996" "/wd4251" "/wd4244" "/wd4267")
 endif()
 
+set(BOOST_COMPONENTS filesystem)
+
 if (FMU_PROXY_BUILD_TESTS)
     list(APPEND BOOST_COMPONENTS unit_test_framework)
 endif()
@@ -50,10 +52,6 @@ if (FMU_PROXY_WITH_GRPC)
 endif()
 
 # add subdiretories
-option(FMI4CPP_BUILD_EXAMPLES "" OFF)
-option(FMI4CPP_BUILD_TESTS "" OFF)
-option(FMI4CPP_BUILD_TOOL "" OFF)
-option(FMI4CPP_WITH_ODEINT "" ON)
 add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)

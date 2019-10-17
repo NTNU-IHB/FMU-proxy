@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f
 conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f
 conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan" --f
 
