@@ -24,6 +24,8 @@
 
 #include <iostream>
 
+#include <boost/filesystem.hpp>
+
 #include <thrift/transport/TSocket.h>
 #include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/transport/TTransportUtils.h>
@@ -38,6 +40,8 @@ using namespace std;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
 using namespace fmuproxy::thrift::client;
+
+namespace fs = boost::filesystem;
 
 thrift_client::thrift_client(const string &host, const unsigned int port) {
     shared_ptr<TTransport> socket(new TSocket(host, port));

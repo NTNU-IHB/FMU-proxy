@@ -28,7 +28,7 @@ IncludeBlocks: Regroup
 IncludeCategories:
   - Regex:      '^[<"]fmuproxy[/.]'
     Priority:   20
-  - Regex:      '^[<"](boost|fmi4cpp|zip)[/.]'
+  - Regex:      '^[<"](boost|fmi4cpp|grcp|thrift|zip)[/.]'
     Priority:   30
   - Regex:      '^"'
     Priority:   10
