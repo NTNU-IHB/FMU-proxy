@@ -44,15 +44,12 @@ jobs:
             command: 'git submodule update --init --recursive && git submodule update --remote'
         - run:
             name: Update conan
-            command: 'sudo pip install conan --upgrade'
+            command: 'sudo pip3 install conan --upgrade'
 
         - restore_cache:
             keys:
               - v2-conan-cache-{{ checksum "cpp/FMU-proxy/conanfile.py" }}
 
-        - run:
-            name: Add conan remotes 'helmesjo'
-            command: 'conan remote add helmesjo "https://api.bintray.com/conan/helmesjo/public-conan" --f'
         - run:
             name: Add conan remote 'inexorgame'
             command: 'conan remote add inexorgame "https://api.bintray.com/conan/inexorgame/inexor-conan" --f'
