@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2019 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -139,11 +139,6 @@ struct BooleanRead {
     2: Status status
 }
 
-struct Solver {
-    1: string name,
-    2: string settings
-}
-
 struct ModelDescription {
     1: string guid,
     2: string fmi_version,
@@ -158,17 +153,15 @@ struct ModelDescription {
     11: optional DefaultExperiment default_experiment,
     12: optional string variable_naming_convention,
     13: ModelVariables model_variables,
-    14: ModelStructure model_structure
-}
-
-struct CoSimulationAttributes {
-    1: string model_identifier,
-    2: bool can_get_and_set_fmu_state,
-    3: bool can_serialize_fmu_state,
-    4: bool provides_directional_derivative,
-    5: bool can_handle_variable_communication_step_size,
-    6: bool can_interpolate_inputs,
-    7: i32 max_output_derivative_order
+    14: ModelStructure model_structure,
+	
+    15: string model_identifier,
+    16: bool can_get_and_set_fmu_state,
+    17: bool can_serialize_fmu_state,
+    18: bool provides_directional_derivative,
+    19: bool can_handle_variable_communication_step_size,
+    20: bool can_interpolate_inputs,
+    21: i32 max_output_derivative_order
 }
 
 exception NoSuchFmuException {
@@ -198,13 +191,8 @@ service FmuService {
     FmuId load_from_file(1: string name, 2: binary data)
 
     ModelDescription get_model_description(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
-    CoSimulationAttributes get_co_simulation_attributes(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
 
-    bool can_create_instance_from_cs(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
-    bool can_create_instance_from_me(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
-
-    InstanceId create_instance_from_cs(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
-    InstanceId create_instance_from_me(1: FmuId fmuId, 2: Solver solver) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
+    InstanceId create_instance(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
 
     Status setup_experiment(1: InstanceId instanceId, 2: double start, 3: double stop, 4: double tolerance) throws (1: NoSuchInstanceException ex)
     Status enter_initialization_mode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
