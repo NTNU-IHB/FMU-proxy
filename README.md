@@ -20,7 +20,7 @@ While an FMU is free to only provide the C-code in its binary form, other resour
 
 In order to overcome these challenges, we present an open-source framework for working with functional mock-up units across languages and platforms. 
 This is done by wrapping a set of FMUs inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. 
-Currently, Apache Thrift (HTTP, TCP/IP), gRPC (HTTP/2) and JSON-RPC (HTTP, WebSockets, TPC/IP) are supported. 
+Currently, Apache Thrift (HTTP, TCP/IP) and gRPC (HTTP/2) are supported. 
 
 Together, they allow FMUs to be invoked from virtually any language on any platform.
 As users don't have direct access to the FMU or the resources within it, IP is effectively protected.
@@ -52,7 +52,6 @@ The available **client** implementations are given in the table below:
 |   gRPC   	|  x  	|  x  	|    x   	|  			|
 |  Thrift/TCP  	|  x  	|  x  	|    x   	|  			|  
 |  Thrift/HTTP  |  x  	|   x 	|       	|	x		|
-| JSON-RPC/ALL 	|  x  	|     	|        	|			|
 
 
 **NOTE:** Thanks to the language independent nature of the RPC technologies and network protocols involved, servers and clients may be implemented in virtually any language with relative ease. 
@@ -62,10 +61,9 @@ The available **client** implementations are given in the table below:
 
 The JVM implementation of FMU-proxy is written in Kotlin and uses the gradle build system. 
 
-It features a server implementation that supports Apache Thrift (HTTP/JSON, TCP/IP/binary), gRPC(HTTP2) and JSON-RPC(HTTP, WebSockets, TCP/IP) RPCs.
+It features a server implementation that supports Apache Thrift (HTTP/JSON, TCP/IP/binary) and gRPC(HTTP2) RPCs.
 
 For interacting with the FMUs on the JVM, [FMI4j](https://github.com/NTNU-IHB/FMI4j) is used. 
-The JSON-RPC client and server implementation can be found [here](https://github.com/markaren/YAJ-RPC).
 
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
 The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangeably in user code. 
@@ -76,16 +74,12 @@ The interface is specified by FMI4j, allowing local and remote FMU instances to 
 
 ```
 Usage: fmu-proxy [-h] 
-                 [-grpc=<grpcPort>] [-jsonrpc/http=<jsonHttpPort>] 
-                 [-jsonrpc/tcp=<jsonTcpPort>] [-jsonrpc/ws=<jsonWsPort>]
+                 [-grpc=<grpcPort>]
                  [-r=<remote>] [-thrift/http=<thriftHttpPort>]
                  [-thrift/tcp=<thriftTcpPort>] FMUs...
       FMUs...             FMU(s) to include.
       -grpc=<grpcPort>    Specify the gRPC port (enables this server).
   -h, --help              Print this message and quits.
-      -jsonrpc/http=<jsonHttpPort> Specify the JSON-RPC HTTP port (enables this server).
-      -jsonrpc/tcp=<jsonTcpPort> Specify the JSON-RPC TCP/IP port (enables this server).
-      -jsonrpc/ws=<jsonWsPort>  Manually specify the JSON-RPC WS port (enables this server).
   -r, --remote=<remote>   Specify an address for the remoteAddress tracking server (optional).
       -thrift/http=<thriftHttpPort> Specify the Thrift http port (enables this server).
       -thrift/tcp=<thriftTcpPort> Specify the Thrift tcp port (enables this server).
@@ -93,7 +87,6 @@ Usage: fmu-proxy [-h]
 ```
 
 You can now connect to the FMU in a language of your choosing using one of the schemas available from the web server or located [here](rpc-definitions). 
-When using JSON-RPC, no schema is required.
 
 ### <a name="cpp"></a> C++
 

@@ -29,8 +29,6 @@ import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.FmuProxyJsonHttpServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
@@ -124,32 +122,6 @@ class Args : Callable<FmuProxy> {
                     ThriftFmuServlet(map).apply {
                         addServer(this, it)
                     }
-                }
-
-                RpcFmuService(map).also { service ->
-
-                    if (!OsUtil.isLinux) {
-
-                        jsonHttpPort?.also {
-                            FmuProxyJsonHttpServer(service).apply {
-                                addServer(this, it)
-                            }
-                        }
-
-                    }
-
-                    jsonTcpPort?.also {
-                        FmuProxyJsonHttpServer(service).apply {
-                            addServer(this, it)
-                        }
-                    }
-
-                    jsonWsPort?.also {
-                        FmuProxyJsonHttpServer(service).apply {
-                            addServer(this, it)
-                        }
-                    }
-
                 }
 
             }.build()
