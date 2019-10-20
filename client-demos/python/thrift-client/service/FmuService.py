@@ -44,43 +44,10 @@ class Iface(object):
         """
         pass
 
-    def get_co_simulation_attributes(self, instanceId):
-        """
-        Parameters:
-         - instanceId
-
-        """
-        pass
-
-    def can_create_instance_from_cs(self, fmuId):
+    def create_instance(self, fmuId):
         """
         Parameters:
          - fmuId
-
-        """
-        pass
-
-    def can_create_instance_from_me(self, fmuId):
-        """
-        Parameters:
-         - fmuId
-
-        """
-        pass
-
-    def create_instance_from_cs(self, fmuId):
-        """
-        Parameters:
-         - fmuId
-
-        """
-        pass
-
-    def create_instance_from_me(self, fmuId, solver):
-        """
-        Parameters:
-         - fmuId
-         - solver
 
         """
         pass
@@ -332,58 +299,24 @@ class Client(Iface):
             raise result.ex
         raise TApplicationException(TApplicationException.MISSING_RESULT, "get_model_description failed: unknown result")
 
-    def get_co_simulation_attributes(self, instanceId):
-        """
-        Parameters:
-         - instanceId
-
-        """
-        self.send_get_co_simulation_attributes(instanceId)
-        return self.recv_get_co_simulation_attributes()
-
-    def send_get_co_simulation_attributes(self, instanceId):
-        self._oprot.writeMessageBegin('get_co_simulation_attributes', TMessageType.CALL, self._seqid)
-        args = get_co_simulation_attributes_args()
-        args.instanceId = instanceId
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_get_co_simulation_attributes(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = get_co_simulation_attributes_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex is not None:
-            raise result.ex
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "get_co_simulation_attributes failed: unknown result")
-
-    def can_create_instance_from_cs(self, fmuId):
+    def create_instance(self, fmuId):
         """
         Parameters:
          - fmuId
 
         """
-        self.send_can_create_instance_from_cs(fmuId)
-        return self.recv_can_create_instance_from_cs()
+        self.send_create_instance(fmuId)
+        return self.recv_create_instance()
 
-    def send_can_create_instance_from_cs(self, fmuId):
-        self._oprot.writeMessageBegin('can_create_instance_from_cs', TMessageType.CALL, self._seqid)
-        args = can_create_instance_from_cs_args()
+    def send_create_instance(self, fmuId):
+        self._oprot.writeMessageBegin('create_instance', TMessageType.CALL, self._seqid)
+        args = create_instance_args()
         args.fmuId = fmuId
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_can_create_instance_from_cs(self):
+    def recv_create_instance(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -391,75 +324,7 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = can_create_instance_from_cs_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex is not None:
-            raise result.ex
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "can_create_instance_from_cs failed: unknown result")
-
-    def can_create_instance_from_me(self, fmuId):
-        """
-        Parameters:
-         - fmuId
-
-        """
-        self.send_can_create_instance_from_me(fmuId)
-        return self.recv_can_create_instance_from_me()
-
-    def send_can_create_instance_from_me(self, fmuId):
-        self._oprot.writeMessageBegin('can_create_instance_from_me', TMessageType.CALL, self._seqid)
-        args = can_create_instance_from_me_args()
-        args.fmuId = fmuId
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_can_create_instance_from_me(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = can_create_instance_from_me_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex is not None:
-            raise result.ex
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "can_create_instance_from_me failed: unknown result")
-
-    def create_instance_from_cs(self, fmuId):
-        """
-        Parameters:
-         - fmuId
-
-        """
-        self.send_create_instance_from_cs(fmuId)
-        return self.recv_create_instance_from_cs()
-
-    def send_create_instance_from_cs(self, fmuId):
-        self._oprot.writeMessageBegin('create_instance_from_cs', TMessageType.CALL, self._seqid)
-        args = create_instance_from_cs_args()
-        args.fmuId = fmuId
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_create_instance_from_cs(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = create_instance_from_cs_result()
+        result = create_instance_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.success is not None:
@@ -468,45 +333,7 @@ class Client(Iface):
             raise result.ex1
         if result.ex2 is not None:
             raise result.ex2
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "create_instance_from_cs failed: unknown result")
-
-    def create_instance_from_me(self, fmuId, solver):
-        """
-        Parameters:
-         - fmuId
-         - solver
-
-        """
-        self.send_create_instance_from_me(fmuId, solver)
-        return self.recv_create_instance_from_me()
-
-    def send_create_instance_from_me(self, fmuId, solver):
-        self._oprot.writeMessageBegin('create_instance_from_me', TMessageType.CALL, self._seqid)
-        args = create_instance_from_me_args()
-        args.fmuId = fmuId
-        args.solver = solver
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_create_instance_from_me(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = create_instance_from_me_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.ex1 is not None:
-            raise result.ex1
-        if result.ex2 is not None:
-            raise result.ex2
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "create_instance_from_me failed: unknown result")
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "create_instance failed: unknown result")
 
     def setup_experiment(self, instanceId, start, stop, tolerance):
         """
@@ -1082,11 +909,7 @@ class Processor(Iface, TProcessor):
         self._processMap["load_from_url"] = Processor.process_load_from_url
         self._processMap["load_from_file"] = Processor.process_load_from_file
         self._processMap["get_model_description"] = Processor.process_get_model_description
-        self._processMap["get_co_simulation_attributes"] = Processor.process_get_co_simulation_attributes
-        self._processMap["can_create_instance_from_cs"] = Processor.process_can_create_instance_from_cs
-        self._processMap["can_create_instance_from_me"] = Processor.process_can_create_instance_from_me
-        self._processMap["create_instance_from_cs"] = Processor.process_create_instance_from_cs
-        self._processMap["create_instance_from_me"] = Processor.process_create_instance_from_me
+        self._processMap["create_instance"] = Processor.process_create_instance
         self._processMap["setup_experiment"] = Processor.process_setup_experiment
         self._processMap["enter_initialization_mode"] = Processor.process_enter_initialization_mode
         self._processMap["exit_initialization_mode"] = Processor.process_exit_initialization_mode
@@ -1190,91 +1013,13 @@ class Processor(Iface, TProcessor):
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_get_co_simulation_attributes(self, seqid, iprot, oprot):
-        args = get_co_simulation_attributes_args()
+    def process_create_instance(self, seqid, iprot, oprot):
+        args = create_instance_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = get_co_simulation_attributes_result()
+        result = create_instance_result()
         try:
-            result.success = self._handler.get_co_simulation_attributes(args.instanceId)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except NoSuchInstanceException as ex:
-            msg_type = TMessageType.REPLY
-            result.ex = ex
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("get_co_simulation_attributes", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
-    def process_can_create_instance_from_cs(self, seqid, iprot, oprot):
-        args = can_create_instance_from_cs_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = can_create_instance_from_cs_result()
-        try:
-            result.success = self._handler.can_create_instance_from_cs(args.fmuId)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except NoSuchFmuException as ex:
-            msg_type = TMessageType.REPLY
-            result.ex = ex
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("can_create_instance_from_cs", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
-    def process_can_create_instance_from_me(self, seqid, iprot, oprot):
-        args = can_create_instance_from_me_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = can_create_instance_from_me_result()
-        try:
-            result.success = self._handler.can_create_instance_from_me(args.fmuId)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except NoSuchFmuException as ex:
-            msg_type = TMessageType.REPLY
-            result.ex = ex
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("can_create_instance_from_me", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
-    def process_create_instance_from_cs(self, seqid, iprot, oprot):
-        args = create_instance_from_cs_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = create_instance_from_cs_result()
-        try:
-            result.success = self._handler.create_instance_from_cs(args.fmuId)
+            result.success = self._handler.create_instance(args.fmuId)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -1292,36 +1037,7 @@ class Processor(Iface, TProcessor):
             logging.exception('Unexpected exception in handler')
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("create_instance_from_cs", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
-
-    def process_create_instance_from_me(self, seqid, iprot, oprot):
-        args = create_instance_from_me_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = create_instance_from_me_result()
-        try:
-            result.success = self._handler.create_instance_from_me(args.fmuId, args.solver)
-            msg_type = TMessageType.REPLY
-        except TTransport.TTransportException:
-            raise
-        except UnsupportedOperationException as ex1:
-            msg_type = TMessageType.REPLY
-            result.ex1 = ex1
-        except NoSuchFmuException as ex2:
-            msg_type = TMessageType.REPLY
-            result.ex2 = ex2
-        except TApplicationException as ex:
-            logging.exception('TApplication exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = ex
-        except Exception:
-            logging.exception('Unexpected exception in handler')
-            msg_type = TMessageType.EXCEPTION
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("create_instance_from_me", msg_type, seqid)
+        oprot.writeMessageBegin("create_instance", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -2141,144 +1857,7 @@ get_model_description_result.thrift_spec = (
 )
 
 
-class get_co_simulation_attributes_args(object):
-    """
-    Attributes:
-     - instanceId
-
-    """
-
-
-    def __init__(self, instanceId=None,):
-        self.instanceId = instanceId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.instanceId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('get_co_simulation_attributes_args')
-        if self.instanceId is not None:
-            oprot.writeFieldBegin('instanceId', TType.STRING, 1)
-            oprot.writeString(self.instanceId.encode('utf-8') if sys.version_info[0] == 2 else self.instanceId)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(get_co_simulation_attributes_args)
-get_co_simulation_attributes_args.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'instanceId', 'UTF8', None, ),  # 1
-)
-
-
-class get_co_simulation_attributes_result(object):
-    """
-    Attributes:
-     - success
-     - ex
-
-    """
-
-
-    def __init__(self, success=None, ex=None,):
-        self.success = success
-        self.ex = ex
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.STRUCT:
-                    self.success = CoSimulationAttributes()
-                    self.success.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex = NoSuchInstanceException()
-                    self.ex.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('get_co_simulation_attributes_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.STRUCT, 0)
-            self.success.write(oprot)
-            oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(get_co_simulation_attributes_result)
-get_co_simulation_attributes_result.thrift_spec = (
-    (0, TType.STRUCT, 'success', [CoSimulationAttributes, None], None, ),  # 0
-    (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
-)
-
-
-class can_create_instance_from_cs_args(object):
+class create_instance_args(object):
     """
     Attributes:
      - fmuId
@@ -2312,7 +1891,7 @@ class can_create_instance_from_cs_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('can_create_instance_from_cs_args')
+        oprot.writeStructBegin('create_instance_args')
         if self.fmuId is not None:
             oprot.writeFieldBegin('fmuId', TType.STRING, 1)
             oprot.writeString(self.fmuId.encode('utf-8') if sys.version_info[0] == 2 else self.fmuId)
@@ -2333,286 +1912,14 @@ class can_create_instance_from_cs_args(object):
 
     def __ne__(self, other):
         return not (self == other)
-all_structs.append(can_create_instance_from_cs_args)
-can_create_instance_from_cs_args.thrift_spec = (
+all_structs.append(create_instance_args)
+create_instance_args.thrift_spec = (
     None,  # 0
     (1, TType.STRING, 'fmuId', 'UTF8', None, ),  # 1
 )
 
 
-class can_create_instance_from_cs_result(object):
-    """
-    Attributes:
-     - success
-     - ex
-
-    """
-
-
-    def __init__(self, success=None, ex=None,):
-        self.success = success
-        self.ex = ex
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.BOOL:
-                    self.success = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex = NoSuchFmuException()
-                    self.ex.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('can_create_instance_from_cs_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.BOOL, 0)
-            oprot.writeBool(self.success)
-            oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(can_create_instance_from_cs_result)
-can_create_instance_from_cs_result.thrift_spec = (
-    (0, TType.BOOL, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [NoSuchFmuException, None], None, ),  # 1
-)
-
-
-class can_create_instance_from_me_args(object):
-    """
-    Attributes:
-     - fmuId
-
-    """
-
-
-    def __init__(self, fmuId=None,):
-        self.fmuId = fmuId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.fmuId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('can_create_instance_from_me_args')
-        if self.fmuId is not None:
-            oprot.writeFieldBegin('fmuId', TType.STRING, 1)
-            oprot.writeString(self.fmuId.encode('utf-8') if sys.version_info[0] == 2 else self.fmuId)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(can_create_instance_from_me_args)
-can_create_instance_from_me_args.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'fmuId', 'UTF8', None, ),  # 1
-)
-
-
-class can_create_instance_from_me_result(object):
-    """
-    Attributes:
-     - success
-     - ex
-
-    """
-
-
-    def __init__(self, success=None, ex=None,):
-        self.success = success
-        self.ex = ex
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.BOOL:
-                    self.success = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex = NoSuchFmuException()
-                    self.ex.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('can_create_instance_from_me_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.BOOL, 0)
-            oprot.writeBool(self.success)
-            oprot.writeFieldEnd()
-        if self.ex is not None:
-            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
-            self.ex.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(can_create_instance_from_me_result)
-can_create_instance_from_me_result.thrift_spec = (
-    (0, TType.BOOL, 'success', None, None, ),  # 0
-    (1, TType.STRUCT, 'ex', [NoSuchFmuException, None], None, ),  # 1
-)
-
-
-class create_instance_from_cs_args(object):
-    """
-    Attributes:
-     - fmuId
-
-    """
-
-
-    def __init__(self, fmuId=None,):
-        self.fmuId = fmuId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.fmuId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('create_instance_from_cs_args')
-        if self.fmuId is not None:
-            oprot.writeFieldBegin('fmuId', TType.STRING, 1)
-            oprot.writeString(self.fmuId.encode('utf-8') if sys.version_info[0] == 2 else self.fmuId)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(create_instance_from_cs_args)
-create_instance_from_cs_args.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'fmuId', 'UTF8', None, ),  # 1
-)
-
-
-class create_instance_from_cs_result(object):
+class create_instance_result(object):
     """
     Attributes:
      - success
@@ -2662,7 +1969,7 @@ class create_instance_from_cs_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
-        oprot.writeStructBegin('create_instance_from_cs_result')
+        oprot.writeStructBegin('create_instance_result')
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.STRING, 0)
             oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
@@ -2691,170 +1998,8 @@ class create_instance_from_cs_result(object):
 
     def __ne__(self, other):
         return not (self == other)
-all_structs.append(create_instance_from_cs_result)
-create_instance_from_cs_result.thrift_spec = (
-    (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
-    (1, TType.STRUCT, 'ex1', [UnsupportedOperationException, None], None, ),  # 1
-    (2, TType.STRUCT, 'ex2', [NoSuchFmuException, None], None, ),  # 2
-)
-
-
-class create_instance_from_me_args(object):
-    """
-    Attributes:
-     - fmuId
-     - solver
-
-    """
-
-
-    def __init__(self, fmuId=None, solver=None,):
-        self.fmuId = fmuId
-        self.solver = solver
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.fmuId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRUCT:
-                    self.solver = Solver()
-                    self.solver.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('create_instance_from_me_args')
-        if self.fmuId is not None:
-            oprot.writeFieldBegin('fmuId', TType.STRING, 1)
-            oprot.writeString(self.fmuId.encode('utf-8') if sys.version_info[0] == 2 else self.fmuId)
-            oprot.writeFieldEnd()
-        if self.solver is not None:
-            oprot.writeFieldBegin('solver', TType.STRUCT, 2)
-            self.solver.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(create_instance_from_me_args)
-create_instance_from_me_args.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'fmuId', 'UTF8', None, ),  # 1
-    (2, TType.STRUCT, 'solver', [Solver, None], None, ),  # 2
-)
-
-
-class create_instance_from_me_result(object):
-    """
-    Attributes:
-     - success
-     - ex1
-     - ex2
-
-    """
-
-
-    def __init__(self, success=None, ex1=None, ex2=None,):
-        self.success = success
-        self.ex1 = ex1
-        self.ex2 = ex2
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.STRING:
-                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.ex1 = UnsupportedOperationException()
-                    self.ex1.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRUCT:
-                    self.ex2 = NoSuchFmuException()
-                    self.ex2.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('create_instance_from_me_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.STRING, 0)
-            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
-            oprot.writeFieldEnd()
-        if self.ex1 is not None:
-            oprot.writeFieldBegin('ex1', TType.STRUCT, 1)
-            self.ex1.write(oprot)
-            oprot.writeFieldEnd()
-        if self.ex2 is not None:
-            oprot.writeFieldBegin('ex2', TType.STRUCT, 2)
-            self.ex2.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-all_structs.append(create_instance_from_me_result)
-create_instance_from_me_result.thrift_spec = (
+all_structs.append(create_instance_result)
+create_instance_result.thrift_spec = (
     (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
     (1, TType.STRUCT, 'ex1', [UnsupportedOperationException, None], None, ),  # 1
     (2, TType.STRUCT, 'ex2', [NoSuchFmuException, None], None, ),  # 2

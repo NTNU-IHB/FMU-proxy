@@ -121,7 +121,7 @@ internal fun ModelStructure.thriftType(): no.ntnu.ihb.fmuproxy.thrift.ModelStruc
     }
 }
 
-internal fun no.ntnu.ihb.fmi4j.modeldescription.ModelDescription.thriftType(): ModelDescription {
+internal fun no.ntnu.ihb.fmi4j.modeldescription.CoSimulationModelDescription.thriftType(): ModelDescription {
     return ModelDescription().also { md ->
 
         md.guid = guid
@@ -140,20 +140,15 @@ internal fun no.ntnu.ihb.fmi4j.modeldescription.ModelDescription.thriftType(): M
         defaultExperiment?.also { md.defaultExperiment = it.thriftType() }
         variableNamingConvention?.also { md.variableNamingConvention = it }
 
-    }
-}
+        md.isCanHandleVariableCommunicationStepSize = attributes.canHandleVariableCommunicationStepSize
+        md.isCanInterpolateInputs = attributes.canInterpolateInputs
+        md.maxOutputDerivativeOrder = attributes.maxOutputDerivativeOrder
 
-internal fun no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes.thriftType(): CoSimulationAttributes {
-    return CoSimulationAttributes().also { a ->
+        md.modelIdentifier = attributes.modelIdentifier
+        md.isCanGetAndSetFmuState = attributes.canGetAndSetFMUstate
+        md.isCanSerializeFmuState = attributes.canSerializeFMUstate
+        md.isProvidesDirectionalDerivative = attributes.providesDirectionalDerivative
 
-        a.isCanHandleVariableCommunicationStepSize = canHandleVariableCommunicationStepSize
-        a.isCanInterpolateInputs = canInterpolateInputs
-        a.maxOutputDerivativeOrder = maxOutputDerivativeOrder
-
-        a.modelIdentifier = modelIdentifier
-        a.isCanGetAndSetFmuState = canGetAndSetFMUstate
-        a.isCanSerializeFmuState = canSerializeFMUstate
-        a.isProvidesDirectionalDerivative = providesDirectionalDerivative
     }
 }
 

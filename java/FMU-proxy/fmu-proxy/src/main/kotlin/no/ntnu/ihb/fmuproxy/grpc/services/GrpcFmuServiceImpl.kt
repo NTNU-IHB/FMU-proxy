@@ -29,17 +29,14 @@ import io.grpc.stub.StreamObserver
 import no.ntnu.ihb.fmi4j.FmiStatus
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
-import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.ModelDescriptionParser
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
-import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
 import no.ntnu.ihb.fmuproxy.grpc.Service
-import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.net.URL
@@ -99,26 +96,12 @@ class GrpcFmuServiceImpl(
 
     override fun getModelDescription(request: Service.GetModelDescriptionRequest, responseObserver: StreamObserver<Service.ModelDescription>) {
         getFmu(request.fmuId, responseObserver) {
-            responseObserver.onNext(modelDescription.protoType())
+            responseObserver.onNext(modelDescription.asCoSimulationModelDescription().protoType())
             responseObserver.onCompleted()
         }
     }
 
-    override fun canCreateInstanceFromCS(request: Service.CanCreateInstanceFromCSRequest, responseObserver: StreamObserver<Service.Bool>) {
-        getFmu(request.fmuId, responseObserver) {
-            responseObserver.onNext(supportsCoSimulation.protoType())
-            responseObserver.onCompleted()
-        }
-    }
-
-    override fun canCreateInstanceFromME(request: Service.CanCreateInstanceFromMERequest, responseObserver: StreamObserver<Service.Bool>) {
-        getFmu(request.fmuId, responseObserver) {
-            responseObserver.onNext(supportsModelExchange.protoType())
-            responseObserver.onCompleted()
-        }
-    }
-
-    override fun createInstanceFromCS(request: Service.CreateInstanceFromCSRequest, responseObserver: StreamObserver<Service.InstanceId>) {
+    override fun createInstance(request: Service.CreateInstanceRequest, responseObserver: StreamObserver<Service.InstanceId>) {
 
         getFmu(request.fmuId, responseObserver) {
             if (!supportsCoSimulation) {
@@ -131,42 +114,6 @@ class GrpcFmuServiceImpl(
                     }
                 }
             }
-        }
-    }
-
-    override fun createInstanceFromME(request: Service.CreateInstanceFromMERequest, responseObserver: StreamObserver<Service.InstanceId>) {
-
-        getFmu(request.fmuId, responseObserver) {
-            if (!supportsModelExchange) {
-                unSupportedOperationException(responseObserver, "FMU does not support Model Exchange!")
-            } else if (modelDescription.fmiVersion != "2.0") {
-                unSupportedOperationException(responseObserver, "Feature only available for FMI 2.0")
-            } else {
-                fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
-                    val stepSize = modelDescription.defaultExperiment?.stepSize ?: 1E-3
-                    LOG.warn("No valid solver found.. Defaulting to Euler with $stepSize stepSize")
-                    return ApacheSolvers.euler(stepSize)
-                }
-
-                @Suppress("NAME_SHADOWING")
-                val fmu = this as Fmu
-                (parseSolver(request.solver.name, request.solver.settings) ?: selectDefaultIntegrator()).let {
-                    FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it)).also { id ->
-                        Service.InstanceId.newBuilder().setValue(id).also {
-                            responseObserver.onNext(it.build())
-                            responseObserver.onCompleted()
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
-    override fun getCoSimulationAttributes(request: Service.GetCoSimulationAttributesRequest, responseObserver: StreamObserver<Service.CoSimulationAttributes>) {
-        getSlave(request.instanceId, responseObserver) {
-            responseObserver.onNext((modelDescription.attributes).protoType())
-            responseObserver.onCompleted()
         }
     }
 

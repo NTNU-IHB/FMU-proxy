@@ -1320,74 +1320,6 @@ class BooleanRead(object):
         return not (self == other)
 
 
-class Solver(object):
-    """
-    Attributes:
-     - name
-     - settings
-
-    """
-
-
-    def __init__(self, name=None, settings=None,):
-        self.name = name
-        self.settings = settings
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.settings = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('Solver')
-        if self.name is not None:
-            oprot.writeFieldBegin('name', TType.STRING, 1)
-            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
-            oprot.writeFieldEnd()
-        if self.settings is not None:
-            oprot.writeFieldBegin('settings', TType.STRING, 2)
-            oprot.writeString(self.settings.encode('utf-8') if sys.version_info[0] == 2 else self.settings)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
 class ModelDescription(object):
     """
     Attributes:
@@ -1405,11 +1337,18 @@ class ModelDescription(object):
      - variable_naming_convention
      - model_variables
      - model_structure
+     - model_identifier
+     - can_get_and_set_fmu_state
+     - can_serialize_fmu_state
+     - provides_directional_derivative
+     - can_handle_variable_communication_step_size
+     - can_interpolate_inputs
+     - max_output_derivative_order
 
     """
 
 
-    def __init__(self, guid=None, fmi_version=None, modelName=None, license=None, copyright=None, author=None, version=None, description=None, generation_tool=None, generation_date_and_time=None, default_experiment=None, variable_naming_convention=None, model_variables=None, model_structure=None,):
+    def __init__(self, guid=None, fmi_version=None, modelName=None, license=None, copyright=None, author=None, version=None, description=None, generation_tool=None, generation_date_and_time=None, default_experiment=None, variable_naming_convention=None, model_variables=None, model_structure=None, model_identifier=None, can_get_and_set_fmu_state=None, can_serialize_fmu_state=None, provides_directional_derivative=None, can_handle_variable_communication_step_size=None, can_interpolate_inputs=None, max_output_derivative_order=None,):
         self.guid = guid
         self.fmi_version = fmi_version
         self.modelName = modelName
@@ -1424,6 +1363,13 @@ class ModelDescription(object):
         self.variable_naming_convention = variable_naming_convention
         self.model_variables = model_variables
         self.model_structure = model_structure
+        self.model_identifier = model_identifier
+        self.can_get_and_set_fmu_state = can_get_and_set_fmu_state
+        self.can_serialize_fmu_state = can_serialize_fmu_state
+        self.provides_directional_derivative = provides_directional_derivative
+        self.can_handle_variable_communication_step_size = can_handle_variable_communication_step_size
+        self.can_interpolate_inputs = can_interpolate_inputs
+        self.max_output_derivative_order = max_output_derivative_order
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1512,6 +1458,41 @@ class ModelDescription(object):
                     self.model_structure.read(iprot)
                 else:
                     iprot.skip(ftype)
+            elif fid == 15:
+                if ftype == TType.STRING:
+                    self.model_identifier = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 16:
+                if ftype == TType.BOOL:
+                    self.can_get_and_set_fmu_state = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 17:
+                if ftype == TType.BOOL:
+                    self.can_serialize_fmu_state = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 18:
+                if ftype == TType.BOOL:
+                    self.provides_directional_derivative = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 19:
+                if ftype == TType.BOOL:
+                    self.can_handle_variable_communication_step_size = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 20:
+                if ftype == TType.BOOL:
+                    self.can_interpolate_inputs = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 21:
+                if ftype == TType.I32:
+                    self.max_output_derivative_order = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1581,127 +1562,32 @@ class ModelDescription(object):
             oprot.writeFieldBegin('model_structure', TType.STRUCT, 14)
             self.model_structure.write(oprot)
             oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class CoSimulationAttributes(object):
-    """
-    Attributes:
-     - model_identifier
-     - can_get_and_set_fmu_state
-     - can_serialize_fmu_state
-     - provides_directional_derivative
-     - can_handle_variable_communication_step_size
-     - can_interpolate_inputs
-     - max_output_derivative_order
-
-    """
-
-
-    def __init__(self, model_identifier=None, can_get_and_set_fmu_state=None, can_serialize_fmu_state=None, provides_directional_derivative=None, can_handle_variable_communication_step_size=None, can_interpolate_inputs=None, max_output_derivative_order=None,):
-        self.model_identifier = model_identifier
-        self.can_get_and_set_fmu_state = can_get_and_set_fmu_state
-        self.can_serialize_fmu_state = can_serialize_fmu_state
-        self.provides_directional_derivative = provides_directional_derivative
-        self.can_handle_variable_communication_step_size = can_handle_variable_communication_step_size
-        self.can_interpolate_inputs = can_interpolate_inputs
-        self.max_output_derivative_order = max_output_derivative_order
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.model_identifier = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.BOOL:
-                    self.can_get_and_set_fmu_state = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.BOOL:
-                    self.can_serialize_fmu_state = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 4:
-                if ftype == TType.BOOL:
-                    self.provides_directional_derivative = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 5:
-                if ftype == TType.BOOL:
-                    self.can_handle_variable_communication_step_size = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 6:
-                if ftype == TType.BOOL:
-                    self.can_interpolate_inputs = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 7:
-                if ftype == TType.I32:
-                    self.max_output_derivative_order = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
-            return
-        oprot.writeStructBegin('CoSimulationAttributes')
         if self.model_identifier is not None:
-            oprot.writeFieldBegin('model_identifier', TType.STRING, 1)
+            oprot.writeFieldBegin('model_identifier', TType.STRING, 15)
             oprot.writeString(self.model_identifier.encode('utf-8') if sys.version_info[0] == 2 else self.model_identifier)
             oprot.writeFieldEnd()
         if self.can_get_and_set_fmu_state is not None:
-            oprot.writeFieldBegin('can_get_and_set_fmu_state', TType.BOOL, 2)
+            oprot.writeFieldBegin('can_get_and_set_fmu_state', TType.BOOL, 16)
             oprot.writeBool(self.can_get_and_set_fmu_state)
             oprot.writeFieldEnd()
         if self.can_serialize_fmu_state is not None:
-            oprot.writeFieldBegin('can_serialize_fmu_state', TType.BOOL, 3)
+            oprot.writeFieldBegin('can_serialize_fmu_state', TType.BOOL, 17)
             oprot.writeBool(self.can_serialize_fmu_state)
             oprot.writeFieldEnd()
         if self.provides_directional_derivative is not None:
-            oprot.writeFieldBegin('provides_directional_derivative', TType.BOOL, 4)
+            oprot.writeFieldBegin('provides_directional_derivative', TType.BOOL, 18)
             oprot.writeBool(self.provides_directional_derivative)
             oprot.writeFieldEnd()
         if self.can_handle_variable_communication_step_size is not None:
-            oprot.writeFieldBegin('can_handle_variable_communication_step_size', TType.BOOL, 5)
+            oprot.writeFieldBegin('can_handle_variable_communication_step_size', TType.BOOL, 19)
             oprot.writeBool(self.can_handle_variable_communication_step_size)
             oprot.writeFieldEnd()
         if self.can_interpolate_inputs is not None:
-            oprot.writeFieldBegin('can_interpolate_inputs', TType.BOOL, 6)
+            oprot.writeFieldBegin('can_interpolate_inputs', TType.BOOL, 20)
             oprot.writeBool(self.can_interpolate_inputs)
             oprot.writeFieldEnd()
         if self.max_output_derivative_order is not None:
-            oprot.writeFieldBegin('max_output_derivative_order', TType.I32, 7)
+            oprot.writeFieldBegin('max_output_derivative_order', TType.I32, 21)
             oprot.writeI32(self.max_output_derivative_order)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -2142,12 +2028,6 @@ BooleanRead.thrift_spec = (
     (1, TType.LIST, 'value', (TType.BOOL, None, False), None, ),  # 1
     (2, TType.I32, 'status', None, None, ),  # 2
 )
-all_structs.append(Solver)
-Solver.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
-    (2, TType.STRING, 'settings', 'UTF8', None, ),  # 2
-)
 all_structs.append(ModelDescription)
 ModelDescription.thrift_spec = (
     None,  # 0
@@ -2165,17 +2045,13 @@ ModelDescription.thrift_spec = (
     (12, TType.STRING, 'variable_naming_convention', 'UTF8', None, ),  # 12
     (13, TType.LIST, 'model_variables', (TType.STRUCT, [ScalarVariable, None], False), None, ),  # 13
     (14, TType.STRUCT, 'model_structure', [ModelStructure, None], None, ),  # 14
-)
-all_structs.append(CoSimulationAttributes)
-CoSimulationAttributes.thrift_spec = (
-    None,  # 0
-    (1, TType.STRING, 'model_identifier', 'UTF8', None, ),  # 1
-    (2, TType.BOOL, 'can_get_and_set_fmu_state', None, None, ),  # 2
-    (3, TType.BOOL, 'can_serialize_fmu_state', None, None, ),  # 3
-    (4, TType.BOOL, 'provides_directional_derivative', None, None, ),  # 4
-    (5, TType.BOOL, 'can_handle_variable_communication_step_size', None, None, ),  # 5
-    (6, TType.BOOL, 'can_interpolate_inputs', None, None, ),  # 6
-    (7, TType.I32, 'max_output_derivative_order', None, None, ),  # 7
+    (15, TType.STRING, 'model_identifier', 'UTF8', None, ),  # 15
+    (16, TType.BOOL, 'can_get_and_set_fmu_state', None, None, ),  # 16
+    (17, TType.BOOL, 'can_serialize_fmu_state', None, None, ),  # 17
+    (18, TType.BOOL, 'provides_directional_derivative', None, None, ),  # 18
+    (19, TType.BOOL, 'can_handle_variable_communication_step_size', None, None, ),  # 19
+    (20, TType.BOOL, 'can_interpolate_inputs', None, None, ),  # 20
+    (21, TType.I32, 'max_output_derivative_order', None, None, ),  # 21
 )
 all_structs.append(NoSuchFmuException)
 NoSuchFmuException.thrift_spec = (

@@ -25,14 +25,11 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.*
-import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
-import no.ntnu.ihb.fmi4j.modeldescription.ModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.Real
-import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
+import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
+import no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult
 import no.ntnu.ihb.fmuproxy.InstanceId
-import no.ntnu.ihb.fmuproxy.Solver
-import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
+import no.ntnu.ihb.fmuproxy.StepResult
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TJSONProtocol
@@ -92,28 +89,12 @@ class ThriftFmuClient private constructor(
 
         override val implementationName: String = "ThriftClient"
 
-        override val modelDescription: ModelDescription by lazy {
+        override val modelDescription: CoSimulationModelDescription by lazy {
             client.getModelDescription(fmuId).convert()
         }
 
-        override val canCreateInstanceFromCS: Boolean by lazy {
-            client.canCreateInstanceFromCs(fmuId)
-        }
-
-        override val canCreateInstanceFromME: Boolean by lazy {
-            client.canCreateInstanceFromMe(fmuId)
-        }
-
-        override fun createInstanceFromCS(): String {
-            return client.createInstanceFromCs(fmuId)
-        }
-
-        override fun createInstanceFromME(solver: Solver): String {
-            return client.createInstanceFromMe(fmuId, solver.thriftType())
-        }
-
-        override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
-            return client.getCoSimulationAttributes(instanceId).convert();
+        override fun createInstance(): String {
+            return client.createInstance(fmuId)
         }
 
         override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
@@ -132,9 +113,9 @@ class ThriftFmuClient private constructor(
             return client.terminate(instanceId).convert()
         }
 
-        override fun step(instanceId: String, stepSize: Double):  no.ntnu.ihb.fmuproxy.jsonrpc.StepResult {
+        override fun step(instanceId: String, stepSize: Double):  StepResult {
             return client.step(instanceId, stepSize).let {
-                no.ntnu.ihb.fmuproxy.jsonrpc.StepResult(it.simulationTime, it.status.convert())
+                StepResult(it.simulationTime, it.status.convert())
             }
         }
 
@@ -179,7 +160,7 @@ class ThriftFmuClient private constructor(
             return client.writeBoolean(instanceId, vr, value).convert()
         }
 
-        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult {
+        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult {
             return client.getDirectionalDerivative(instanceId, vUnknownRef, vKnownRef, dvKnownRef).let {
                 DirectionalDerivativeResult(it.dvUnknownRef.toDoubleArray(), it.status.convert())
             }

@@ -25,6 +25,7 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.*
+import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes
 import no.ntnu.ihb.fmi4j.modeldescription.LogCategories
 import no.ntnu.ihb.fmi4j.modeldescription.TypeDefinitions
 import no.ntnu.ihb.fmi4j.modeldescription.UnitDefinitions
@@ -32,7 +33,6 @@ import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Variability
-import no.ntnu.ihb.fmuproxy.Solver
 
 internal fun Status.convert(): FmiStatus {
     return when (this) {
@@ -166,7 +166,7 @@ internal fun EnumerationAttribute.convert(): no.ntnu.ihb.fmi4j.modeldescription.
 
 internal fun ScalarVariable.convert(): TypedScalarVariable<*> {
 
-    val v = object: no.ntnu.ihb.fmi4j.modeldescription.variables.ScalarVariable {
+    val v = object : no.ntnu.ihb.fmi4j.modeldescription.variables.ScalarVariable {
         override val name: String
             get() = this@convert.name
         override val valueReference: Long
@@ -208,34 +208,14 @@ internal fun List<ScalarVariable>.convert(): ModelVariables {
     return MyModelVariables(this)
 }
 
-internal fun ModelDescription.convert(): no.ntnu.ihb.fmi4j.modeldescription.ModelDescription {
+internal fun ModelDescription.convert(): no.ntnu.ihb.fmi4j.modeldescription.CoSimulationModelDescription {
     return ThriftModelDescription(this)
 }
 
-internal fun CoSimulationAttributes.convert(): no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes {
-
-    return no.ntnu.ihb.fmi4j.modeldescription.CoSimulationAttributes(
-
-            needsExecutionTool = false,
-            canRunAsynchronuously = false,
-            maxOutputDerivativeOrder = 0,
-            canNotUseMemoryManagementFunctions = false,
-            canBeInstantiatedOnlyOncePerProcess = false,
-
-            modelIdentifier = this@convert.modelIdentifier,
-            canGetAndSetFMUstate = this@convert.isCanGetAndSetFmuState,
-            canSerializeFMUstate = this@convert.isCanSerializeFmuState,
-            canInterpolateInputs = this@convert.isCanInterpolateInputs,
-            providesDirectionalDerivative = this@convert.isProvidesDirectionalDerivative,
-            canHandleVariableCommunicationStepSize = this@convert.isCanHandleVariableCommunicationStepSize,
-            sourceFiles = emptyList()
-
-    )
-}
 
 class ThriftModelDescription(
         private val modelDescription: ModelDescription
-) : no.ntnu.ihb.fmi4j.modeldescription.ModelDescription {
+) : no.ntnu.ihb.fmi4j.modeldescription.CoSimulationModelDescription {
 
     override val author: String?
         get() = modelDescription.author
@@ -268,8 +248,22 @@ class ThriftModelDescription(
     override val version: String?
         get() = modelDescription.version
 
-}
+    override val attributes: CoSimulationAttributes
+        get() = CoSimulationAttributes(
+                needsExecutionTool = false,
+                canRunAsynchronuously = false,
+                maxOutputDerivativeOrder = 0,
+                canNotUseMemoryManagementFunctions = false,
+                canBeInstantiatedOnlyOncePerProcess = false,
 
-fun Solver.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Solver {
-    return Solver(name, settings)
+                sourceFiles = emptyList(),
+                modelIdentifier = modelDescription.modelIdentifier,
+                canGetAndSetFMUstate = modelDescription.isCanGetAndSetFmuState,
+                canSerializeFMUstate = modelDescription.isCanSerializeFmuState,
+                canInterpolateInputs = modelDescription.isCanInterpolateInputs,
+                providesDirectionalDerivative = modelDescription.isProvidesDirectionalDerivative,
+                canHandleVariableCommunicationStepSize = modelDescription.isCanHandleVariableCommunicationStepSize
+
+        )
+
 }

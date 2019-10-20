@@ -45,7 +45,7 @@ internal fun FmiStatus.protoType(): Service.Status {
     }
 }
 
-internal fun ModelDescription.protoType(): Service.ModelDescription {
+internal fun CoSimulationModelDescription.protoType(): Service.ModelDescription {
 
     return Service.ModelDescription.newBuilder().also { md ->
 
@@ -65,6 +65,15 @@ internal fun ModelDescription.protoType(): Service.ModelDescription {
         defaultExperiment?.also { md.defaultExperiment = it.protoType() }
         variableNamingConvention?.also { md.variableNamingConvention = it }
 
+        md.canHandleVariableCommunicationStepSize = attributes.canHandleVariableCommunicationStepSize
+        md.canInterpolateInputs = attributes.canInterpolateInputs
+        md.maxOutputDerivativeOrder = attributes.maxOutputDerivativeOrder
+
+        md.modelIdentifier = attributes.modelIdentifier
+        md.canGetAndSetFmuState = attributes.canGetAndSetFMUstate
+        md.canSerializeFmuState = attributes.canSerializeFMUstate
+        md.providesDirectionalDerivative = attributes.providesDirectionalDerivative
+
     }.build()
 
 }
@@ -76,23 +85,6 @@ internal fun DefaultExperiment.protoType(): Service.DefaultExperiment {
         it.stopTime = stopTime
         it.stepSize = stepSize
         it.tolerance = tolerance
-    }.build()
-
-}
-
-internal fun CoSimulationAttributes.protoType(): Service.CoSimulationAttributes {
-
-    return Service.CoSimulationAttributes.newBuilder().also { a ->
-
-        a.canHandleVariableCommunicationStepSize = canHandleVariableCommunicationStepSize
-        a.canInterpolateInputs = canInterpolateInputs
-        a.maxOutputDerivativeOrder = maxOutputDerivativeOrder
-
-        a.modelIdentifier = modelIdentifier
-        a.canGetAndSetFmuState = canGetAndSetFMUstate
-        a.canSerializeFmuState = canSerializeFMUstate
-        a.providesDirectionalDerivative = providesDirectionalDerivative
-
     }.build()
 
 }

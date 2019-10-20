@@ -1364,69 +1364,6 @@ BooleanRead.prototype.write = function(output) {
   return;
 };
 
-Solver = function(args) {
-  this.name = null;
-  this.settings = null;
-  if (args) {
-    if (args.name !== undefined && args.name !== null) {
-      this.name = args.name;
-    }
-    if (args.settings !== undefined && args.settings !== null) {
-      this.settings = args.settings;
-    }
-  }
-};
-Solver.prototype = {};
-Solver.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true) {
-    var ret = input.readFieldBegin();
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid) {
-      case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.name = input.readString().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.STRING) {
-        this.settings = input.readString().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Solver.prototype.write = function(output) {
-  output.writeStructBegin('Solver');
-  if (this.name !== null && this.name !== undefined) {
-    output.writeFieldBegin('name', Thrift.Type.STRING, 1);
-    output.writeString(this.name);
-    output.writeFieldEnd();
-  }
-  if (this.settings !== null && this.settings !== undefined) {
-    output.writeFieldBegin('settings', Thrift.Type.STRING, 2);
-    output.writeString(this.settings);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
 ModelDescription = function(args) {
   this.guid = null;
   this.fmi_version = null;
@@ -1442,6 +1379,13 @@ ModelDescription = function(args) {
   this.variable_naming_convention = null;
   this.model_variables = null;
   this.model_structure = null;
+  this.model_identifier = null;
+  this.can_get_and_set_fmu_state = null;
+  this.can_serialize_fmu_state = null;
+  this.provides_directional_derivative = null;
+  this.can_handle_variable_communication_step_size = null;
+  this.can_interpolate_inputs = null;
+  this.max_output_derivative_order = null;
   if (args) {
     if (args.guid !== undefined && args.guid !== null) {
       this.guid = args.guid;
@@ -1484,6 +1428,27 @@ ModelDescription = function(args) {
     }
     if (args.model_structure !== undefined && args.model_structure !== null) {
       this.model_structure = new ModelStructure(args.model_structure);
+    }
+    if (args.model_identifier !== undefined && args.model_identifier !== null) {
+      this.model_identifier = args.model_identifier;
+    }
+    if (args.can_get_and_set_fmu_state !== undefined && args.can_get_and_set_fmu_state !== null) {
+      this.can_get_and_set_fmu_state = args.can_get_and_set_fmu_state;
+    }
+    if (args.can_serialize_fmu_state !== undefined && args.can_serialize_fmu_state !== null) {
+      this.can_serialize_fmu_state = args.can_serialize_fmu_state;
+    }
+    if (args.provides_directional_derivative !== undefined && args.provides_directional_derivative !== null) {
+      this.provides_directional_derivative = args.provides_directional_derivative;
+    }
+    if (args.can_handle_variable_communication_step_size !== undefined && args.can_handle_variable_communication_step_size !== null) {
+      this.can_handle_variable_communication_step_size = args.can_handle_variable_communication_step_size;
+    }
+    if (args.can_interpolate_inputs !== undefined && args.can_interpolate_inputs !== null) {
+      this.can_interpolate_inputs = args.can_interpolate_inputs;
+    }
+    if (args.max_output_derivative_order !== undefined && args.max_output_derivative_order !== null) {
+      this.max_output_derivative_order = args.max_output_derivative_order;
     }
   }
 };
@@ -1607,6 +1572,55 @@ ModelDescription.prototype.read = function(input) {
         input.skip(ftype);
       }
       break;
+      case 15:
+      if (ftype == Thrift.Type.STRING) {
+        this.model_identifier = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 16:
+      if (ftype == Thrift.Type.BOOL) {
+        this.can_get_and_set_fmu_state = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 17:
+      if (ftype == Thrift.Type.BOOL) {
+        this.can_serialize_fmu_state = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 18:
+      if (ftype == Thrift.Type.BOOL) {
+        this.provides_directional_derivative = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 19:
+      if (ftype == Thrift.Type.BOOL) {
+        this.can_handle_variable_communication_step_size = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 20:
+      if (ftype == Thrift.Type.BOOL) {
+        this.can_interpolate_inputs = input.readBool().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 21:
+      if (ftype == Thrift.Type.I32) {
+        this.max_output_derivative_order = input.readI32().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
       default:
         input.skip(ftype);
     }
@@ -1695,146 +1709,38 @@ ModelDescription.prototype.write = function(output) {
     this.model_structure.write(output);
     output.writeFieldEnd();
   }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-CoSimulationAttributes = function(args) {
-  this.model_identifier = null;
-  this.can_get_and_set_fmu_state = null;
-  this.can_serialize_fmu_state = null;
-  this.provides_directional_derivative = null;
-  this.can_handle_variable_communication_step_size = null;
-  this.can_interpolate_inputs = null;
-  this.max_output_derivative_order = null;
-  if (args) {
-    if (args.model_identifier !== undefined && args.model_identifier !== null) {
-      this.model_identifier = args.model_identifier;
-    }
-    if (args.can_get_and_set_fmu_state !== undefined && args.can_get_and_set_fmu_state !== null) {
-      this.can_get_and_set_fmu_state = args.can_get_and_set_fmu_state;
-    }
-    if (args.can_serialize_fmu_state !== undefined && args.can_serialize_fmu_state !== null) {
-      this.can_serialize_fmu_state = args.can_serialize_fmu_state;
-    }
-    if (args.provides_directional_derivative !== undefined && args.provides_directional_derivative !== null) {
-      this.provides_directional_derivative = args.provides_directional_derivative;
-    }
-    if (args.can_handle_variable_communication_step_size !== undefined && args.can_handle_variable_communication_step_size !== null) {
-      this.can_handle_variable_communication_step_size = args.can_handle_variable_communication_step_size;
-    }
-    if (args.can_interpolate_inputs !== undefined && args.can_interpolate_inputs !== null) {
-      this.can_interpolate_inputs = args.can_interpolate_inputs;
-    }
-    if (args.max_output_derivative_order !== undefined && args.max_output_derivative_order !== null) {
-      this.max_output_derivative_order = args.max_output_derivative_order;
-    }
-  }
-};
-CoSimulationAttributes.prototype = {};
-CoSimulationAttributes.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true) {
-    var ret = input.readFieldBegin();
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid) {
-      case 1:
-      if (ftype == Thrift.Type.STRING) {
-        this.model_identifier = input.readString().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 2:
-      if (ftype == Thrift.Type.BOOL) {
-        this.can_get_and_set_fmu_state = input.readBool().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 3:
-      if (ftype == Thrift.Type.BOOL) {
-        this.can_serialize_fmu_state = input.readBool().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 4:
-      if (ftype == Thrift.Type.BOOL) {
-        this.provides_directional_derivative = input.readBool().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 5:
-      if (ftype == Thrift.Type.BOOL) {
-        this.can_handle_variable_communication_step_size = input.readBool().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 6:
-      if (ftype == Thrift.Type.BOOL) {
-        this.can_interpolate_inputs = input.readBool().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 7:
-      if (ftype == Thrift.Type.I32) {
-        this.max_output_derivative_order = input.readI32().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-CoSimulationAttributes.prototype.write = function(output) {
-  output.writeStructBegin('CoSimulationAttributes');
   if (this.model_identifier !== null && this.model_identifier !== undefined) {
-    output.writeFieldBegin('model_identifier', Thrift.Type.STRING, 1);
+    output.writeFieldBegin('model_identifier', Thrift.Type.STRING, 15);
     output.writeString(this.model_identifier);
     output.writeFieldEnd();
   }
   if (this.can_get_and_set_fmu_state !== null && this.can_get_and_set_fmu_state !== undefined) {
-    output.writeFieldBegin('can_get_and_set_fmu_state', Thrift.Type.BOOL, 2);
+    output.writeFieldBegin('can_get_and_set_fmu_state', Thrift.Type.BOOL, 16);
     output.writeBool(this.can_get_and_set_fmu_state);
     output.writeFieldEnd();
   }
   if (this.can_serialize_fmu_state !== null && this.can_serialize_fmu_state !== undefined) {
-    output.writeFieldBegin('can_serialize_fmu_state', Thrift.Type.BOOL, 3);
+    output.writeFieldBegin('can_serialize_fmu_state', Thrift.Type.BOOL, 17);
     output.writeBool(this.can_serialize_fmu_state);
     output.writeFieldEnd();
   }
   if (this.provides_directional_derivative !== null && this.provides_directional_derivative !== undefined) {
-    output.writeFieldBegin('provides_directional_derivative', Thrift.Type.BOOL, 4);
+    output.writeFieldBegin('provides_directional_derivative', Thrift.Type.BOOL, 18);
     output.writeBool(this.provides_directional_derivative);
     output.writeFieldEnd();
   }
   if (this.can_handle_variable_communication_step_size !== null && this.can_handle_variable_communication_step_size !== undefined) {
-    output.writeFieldBegin('can_handle_variable_communication_step_size', Thrift.Type.BOOL, 5);
+    output.writeFieldBegin('can_handle_variable_communication_step_size', Thrift.Type.BOOL, 19);
     output.writeBool(this.can_handle_variable_communication_step_size);
     output.writeFieldEnd();
   }
   if (this.can_interpolate_inputs !== null && this.can_interpolate_inputs !== undefined) {
-    output.writeFieldBegin('can_interpolate_inputs', Thrift.Type.BOOL, 6);
+    output.writeFieldBegin('can_interpolate_inputs', Thrift.Type.BOOL, 20);
     output.writeBool(this.can_interpolate_inputs);
     output.writeFieldEnd();
   }
   if (this.max_output_derivative_order !== null && this.max_output_derivative_order !== undefined) {
-    output.writeFieldBegin('max_output_derivative_order', Thrift.Type.I32, 7);
+    output.writeFieldBegin('max_output_derivative_order', Thrift.Type.I32, 21);
     output.writeI32(this.max_output_derivative_order);
     output.writeFieldEnd();
   }

@@ -25,7 +25,6 @@
 package no.ntnu.ihb.fmuproxy.thrift.client
 
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmuproxy.Solver
 import no.ntnu.ihb.fmuproxy.thrift.*
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TFramedTransport
@@ -79,19 +78,11 @@ class LightThriftClient(
         return client.readReal(instanceId, vr)
     }
 
-    fun newInstance(solver: Solver? = null): FmuInstance {
-        val instanceId = if (solver == null) client.createInstanceFromCs(fmuId) else client.createInstanceFromMe(fmuId, solver.thriftType())
-        return FmuInstance(instanceId).also {
-            FmuInstances.add(it)
-        }
-    }
-
     inner class FmuInstance(
             private val instanceId: String
     ): Closeable {
 
        var isTerminated = false
-
        var simulationTime: Double = 0.0
 
        fun init(start: Double = 0.0, stop: Double = 0.0) {

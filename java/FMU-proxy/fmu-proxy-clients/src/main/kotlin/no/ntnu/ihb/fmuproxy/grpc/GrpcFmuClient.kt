@@ -29,9 +29,9 @@ import io.grpc.ManagedChannelBuilder
 import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
+import no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult
 import no.ntnu.ihb.fmuproxy.InstanceId
-import no.ntnu.ihb.fmuproxy.Solver
-import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
+import no.ntnu.ihb.fmuproxy.StepResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -93,7 +93,7 @@ class GrpcFmuClient(
 
         override val implementationName: String = "GrpcClient"
 
-        override val modelDescription: ModelDescription by lazy {
+        override val modelDescription: CoSimulationModelDescription by lazy {
             Service.GetModelDescriptionRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
@@ -101,45 +101,11 @@ class GrpcFmuClient(
                     }
         }
 
-        override val canCreateInstanceFromCS: Boolean by lazy {
-            Service.CanCreateInstanceFromCSRequest.newBuilder()
+        override fun createInstance(): String {
+            return Service.CreateInstanceRequest.newBuilder()
                     .setFmuId(fmuId)
                     .build().let {
-                        stub.canCreateInstanceFromCS(it).value
-                    }
-
-        }
-
-        override val canCreateInstanceFromME: Boolean by lazy {
-            Service.CanCreateInstanceFromMERequest.newBuilder()
-                    .setFmuId(fmuId)
-                    .build().let {
-                        stub.canCreateInstanceFromME(it).value
-                    }
-        }
-
-        override fun createInstanceFromCS(): String {
-            return Service.CreateInstanceFromCSRequest.newBuilder()
-                    .setFmuId(fmuId)
-                    .build().let {
-                        stub.createInstanceFromCS(it).value
-                    }
-        }
-
-        override fun createInstanceFromME(solver: Solver): String {
-            return Service.CreateInstanceFromMERequest.newBuilder()
-                    .setFmuId(fmuId)
-                    .setSolver(solver.protoType())
-                    .build().let {
-                        stub.createInstanceFromME(it).value
-                    }
-        }
-
-        override fun getCoSimulationAttributes(instanceId: String): CoSimulationAttributes {
-            return Service.GetCoSimulationAttributesRequest.newBuilder()
-                    .setInstanceId(instanceId)
-                    .build().let {
-                        stub.getCoSimulationAttributes(it).convert()
+                        stub.createInstance(it).value
                     }
         }
 
@@ -174,9 +140,9 @@ class GrpcFmuClient(
             return Service.StepRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .setStepSize(stepSize)
-                    .build().let {
-                        stub.step(it).let {
-                            StepResult(it.simulationTime, it.status.convert())
+                    .build().let { req ->
+                        stub.step(req).let { response ->
+                            StepResult(response.simulationTime, response.status.convert())
                         }
                     }
         }
@@ -252,14 +218,14 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult {
+        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult {
             return Service.GetDirectionalDerivativeRequest.newBuilder()
                     .setInstanceId(instanceId)
                     .addAllVUnknownRef(vUnknownRef)
                     .addAllVKnownRef(vKnownRef)
                     .addAllDvKnownRef(dvKnownRef).build().let { request ->
                         stub.getDirectionalDerivative(request).let { response ->
-                            no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult(response.dvUnknownRefList.toDoubleArray(), response.status.convert())
+                            DirectionalDerivativeResult(response.dvUnknownRefList.toDoubleArray(), response.status.convert())
                         }
                     }
 

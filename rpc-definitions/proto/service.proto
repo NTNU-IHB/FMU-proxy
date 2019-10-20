@@ -147,21 +147,12 @@ message StepResponse {
     double simulation_time = 2;
 }
 
-message CreateInstanceFromCSRequest {
+message CreateInstanceRequest {
     string fmu_id = 1;
-}
-
-message CreateInstanceFromMERequest {
-    string fmu_id = 1;
-    Solver solver = 2;
 }
 
 message GetModelDescriptionRequest {
     string fmu_id = 1;
-}
-
-message GetCoSimulationAttributesRequest {
-    string instance_id = 1;
 }
 
 message SetupExperimentRequest {
@@ -273,7 +264,7 @@ service FmuService {
 
     rpc GetModelDescription (GetModelDescriptionRequest) returns (ModelDescription);
 	
-    rpc CreateInstance(CreateInstanceFromCSRequest) returns (InstanceId);
+    rpc CreateInstance(CreateInstanceRequest) returns (InstanceId);
 
     rpc SetupExperiment (SetupExperimentRequest) returns (StatusResponse);
     rpc EnterInitializationMode (EnterInitializationModeRequest) returns (StatusResponse);

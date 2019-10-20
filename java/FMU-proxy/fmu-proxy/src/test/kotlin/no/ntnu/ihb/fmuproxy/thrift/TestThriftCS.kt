@@ -46,12 +46,6 @@ class TestThriftCS {
     }
 
     @Test
-    fun testFMUSupportedTypes() {
-        Assertions.assertFalse(client.canCreateInstanceFromME)
-        Assertions.assertTrue(client.canCreateInstanceFromCS)
-    }
-
-    @Test
     fun testInstance() {
 
         client.newInstance().use { slave ->
