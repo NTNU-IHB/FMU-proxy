@@ -44,7 +44,7 @@ typealias InstanceId = String
 class FmuProxy(
         private val modelDescriptions: List<String>,
         private val remote: SimpleSocketAddress? = null,
-        private val servers: Map<FmuProxyServer, Int?>
+        private val servers: Map<FmuProxyServer, Int>
 ): Closeable {
 
     private var hasStarted = false
@@ -55,12 +55,11 @@ class FmuProxy(
      */
     fun start() {
         if (!hasStarted.also { hasStarted = true }) {
-            servers.forEach {
-                val (server, port) = it
-                if (port == null) server.start() else server.start(port)
+            servers.forEach { (server, port) ->
+                server.start(port)
             }
             val ports = servers.keys.associate { server ->
-                server.simpleName to (servers[server] ?: server.port ?: -1)
+                server.simpleName to servers.getValue(server)
             }
             beat = remote?.let {
                 Heartbeat(remote, ports, modelDescriptions).apply {

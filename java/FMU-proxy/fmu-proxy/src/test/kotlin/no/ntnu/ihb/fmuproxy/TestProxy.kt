@@ -1,21 +1,13 @@
 package no.ntnu.ihb.fmuproxy
 
-import info.laht.yajrpc.net.RpcClient
-import info.laht.yajrpc.net.http.RpcHttpClient
-import info.laht.yajrpc.net.tcp.RpcTcpClient
-import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.*
-import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.junit.jupiter.api.*
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -43,13 +35,6 @@ class TestProxy {
         addServer(GrpcFmuServer().apply { addFmu(fmu) }, 9090)
         addServer(ThriftFmuSocketServer().apply { addFmu(fmu) }, 9091)
         addServer(ThriftFmuServlet().apply { addFmu(fmu) }, 9092)
-        RpcFmuService().apply { addFmu(fmu) }.also {
-            addServer(FmuProxyJsonWsServer(it), 9093)
-            addServer(FmuProxyJsonTcpServer(it), 9094)
-            if (!OS.LINUX.isCurrentOs) {
-                addServer(FmuProxyJsonHttpServer(it), 9095)
-            }
-        }
 
     }.build().apply {
         start()
@@ -146,50 +131,6 @@ class TestProxy {
             }
         }
 
-    }
-
-    private fun testJsonRpc(client: RpcClient) {
-
-        val mdLocal = fmu.modelDescription
-
-        Assertions.assertTimeout(testTimeout) {
-
-            JsonRpcFmuClient(client).use {
-
-                it.load(fmu.guid).use { slave ->
-
-                    LOG.info("Testing client of type ${slave.implementationName}")
-                    Assertions.assertEquals(mdLocal.guid, slave.modelDescription.guid)
-                    Assertions.assertEquals(mdLocal.modelName, slave.modelDescription.modelName)
-                    Assertions.assertEquals(mdLocal.fmiVersion, slave.modelDescription.fmiVersion)
-
-                    slave.newInstance().use { instance ->
-                        runSlave(instance, stepSize, stopTime).also {
-                            LOG.info("${slave.implementationName} duration: ${it}ms")
-                        }
-                    }
-                }
-            }
-
-        }
-
-    }
-
-    @Test
-    @DisabledOnOs(OS.LINUX)
-    fun testHttpJsonRpc() {
-        testJsonRpc(RpcHttpClient(host, proxy.getPortFor<FmuProxyJsonHttpServer>()!!))
-    }
-
-    @Test
-    @Disabled
-    fun testWsJsonRpc() {
-        testJsonRpc(RpcWebSocketClient(host, proxy.getPortFor<FmuProxyJsonWsServer>()!!))
-    }
-
-    @Test
-    fun testTcpJsonRpc() {
-        testJsonRpc(RpcTcpClient(host, proxy.getPortFor<FmuProxyJsonTcpServer>()!!))
     }
 
 }

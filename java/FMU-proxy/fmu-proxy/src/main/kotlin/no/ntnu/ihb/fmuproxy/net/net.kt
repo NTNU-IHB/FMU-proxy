@@ -24,20 +24,63 @@
 
 package no.ntnu.ihb.fmuproxy.net
 
-import info.laht.yajrpc.net.RpcServer
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
+import java.io.Closeable
+import java.net.ServerSocket
 
 
 /**
  * @author Lars Ivar Hatledal
  */
-interface FmuProxyServer: RpcServer {
+interface FmuProxyServer: Closeable {
+
+    val port: Int
 
     val simpleName: String
+
+    /**
+     * Start the server using some available port
+     * @return the port used
+     */
+    @JvmDefault
+    fun start(): Int {
+        return getAvailablePort().also {
+            start(it)
+        }
+    }
+
+    /**
+     * Start the server using the provided port
+     * @param port the port to use
+     */
+    fun start(port: Int)
+
+
+    /**
+     * Stop the server
+     */
+    fun stop()
+
+    /**
+     * Same as stop()
+     */
+    @JvmDefault
+    override fun close() {
+        stop()
+    }
 
     fun addFmu(fmu: AbstractFmu)
 
     fun removeFmu(fmu: AbstractFmu)
+
+    /**
+     * Finds and returns an available port
+     */
+    fun getAvailablePort(): Int {
+        return ServerSocket(0).use {
+            it.localPort
+        }
+    }
 
 }
 
