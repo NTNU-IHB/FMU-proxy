@@ -8,7 +8,6 @@
 
 
 [![CircleCI](https://circleci.com/gh/NTNU-IHB/FMU-proxy.svg?style=svg)](https://circleci.com/gh/NTNU-IHB/FMU-proxy)
-[![Build Status](https://dev.azure.com/laht/laht/_apis/build/status/NTNU-IHB.FMU-proxy?branchName=master)](https://dev.azure.com/laht/laht/_build/latest?definitionId=4&branchName=master)
 
 The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models to be shared across tools. 
 To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. 
