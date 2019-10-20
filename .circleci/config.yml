@@ -16,17 +16,17 @@ jobs:
 
           - restore_cache:
               keys:
-              - v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
-              - v1-dependencies-
+              - v2-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
+              - v2-dependencies-
 
           - run: 'cd java/FMU-proxy && gradle dependencies'
 
           - save_cache:
               paths:
                 - ~/.gradle
-              key: v1-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
+              key: v2-dependencies-{{ checksum "java/FMU-proxy/build.gradle" }}
 
-          - run: 'cd java/FMU-proxy && gradle test'
+          - run: 'cd java/FMU-proxy && gradle clean build'
           - run: 'cd java/FMU-proxy && gradle shadowJar'
 
           - store_artifacts:
