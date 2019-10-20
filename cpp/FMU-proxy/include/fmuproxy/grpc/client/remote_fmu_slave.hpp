@@ -37,7 +37,7 @@ class remote_fmu_slave : public fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_descr
         
         const std::string instanceId_;
         fmuproxy::grpc::FmuService::Stub &stub_;
-        std::shared_ptr<const fmi4cpp::fmi2::cs_model_description> csModelDescription_;
+        std::shared_ptr<const fmi4cpp::fmi2::cs_model_description> modelDescription_;
 
         bool terminated_ = false;
         fmuproxy::grpc::Status lastStatus_;
@@ -45,8 +45,7 @@ class remote_fmu_slave : public fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_descr
         bool update_status_and_return_true_on_ok(fmuproxy::grpc::Status status);
 
     public:
-        remote_fmu_slave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub,
-                       const fmi4cpp::fmi2::model_description_base &modelDescription);
+        remote_fmu_slave(const std::string &instance_id, fmuproxy::grpc::FmuService::Stub &stub);
 
         fmi4cpp::status last_status() const override;
 

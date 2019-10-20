@@ -36,4 +36,4 @@ class FMUProxyConan(ConanFile):
         if self.options.thrift:
             self.requires("thrift/0.12.0@bincrafters/stable")
         if self.options.grpc:
-            self.requires("grpc/1.20.0@inexorgame/stable")
+            self.requires("grpc/1.23.0@inexorgame/stable")

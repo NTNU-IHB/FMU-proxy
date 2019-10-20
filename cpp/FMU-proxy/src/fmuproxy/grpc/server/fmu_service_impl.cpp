@@ -84,23 +84,6 @@ fmu_service_impl::fmu_service_impl(unordered_map<string, shared_ptr<fmi4cpp::fmi
     return ::Status::OK;
 }
 
-
-::Status fmu_service_impl::CanCreateInstanceFromCS(ServerContext* context,
-    const ::fmuproxy::grpc::CanCreateInstanceFromCSRequest* request,
-    Bool* response)
-{
-    auto& fmu = fmus_[request->fmu_id()];
-    response->set_value(fmu->supports_cs());
-    return ::Status::OK;
-}
-
-::Status fmu_service_impl::CanCreateInstanceFromME(ServerContext* context,
-    const CanCreateInstanceFromMERequest* request, Bool* response)
-{
-    response->set_value(false);
-    return ::Status::OK;
-}
-
 ::Status fmu_service_impl::GetModelDescription(ServerContext* context, const GetModelDescriptionRequest* request,
     ModelDescription* response)
 {
@@ -109,7 +92,7 @@ fmu_service_impl::fmu_service_impl(unordered_map<string, shared_ptr<fmi4cpp::fmi
     return ::Status::OK;
 }
 
-::Status fmu_service_impl::CreateInstanceFromCS(ServerContext* context, const CreateInstanceFromCSRequest* request,
+::Status fmu_service_impl::CreateInstance(ServerContext* context, const CreateInstanceRequest* request,
     InstanceId* response)
 {
     auto& fmu = fmus_[request->fmu_id()];
@@ -119,12 +102,6 @@ fmu_service_impl::fmu_service_impl(unordered_map<string, shared_ptr<fmi4cpp::fmi
     response->set_value(instance_id);
     cout << "Created new FMU instance with id=" << instance_id << endl;
     return ::Status::OK;
-}
-
-::Status fmu_service_impl::CreateInstanceFromME(ServerContext* context, const CreateInstanceFromMERequest* request,
-    InstanceId* response)
-{
-    return ::Status::CANCELLED;
 }
 
 ::Status
@@ -285,25 +262,6 @@ fmu_service_impl::WriteBoolean(ServerContext* context, const WriteBooleanRequest
     response->set_status(grpc_type(slave->last_status()));
     return ::Status::OK;
 }
-
-
-::Status fmu_service_impl::GetCoSimulationAttributes(ServerContext* context,
-    const GetCoSimulationAttributesRequest* request,
-    CoSimulationAttributes* response)
-{
-    auto& slave = slaves_[request->instance_id()];
-    auto md = slave->get_model_description();
-
-    response->set_model_identifier(md->model_identifier);
-    response->set_can_get_and_set_fmu_state(md->can_get_and_set_fmu_state);
-    response->set_can_serialize_fmu_state(md->can_serialize_fmu_state);
-    response->set_can_handle_variable_communication_step_size(md->can_handle_variable_communication_step_size);
-    response->set_max_output_derivative_order(md->max_output_derivative_order);
-    response->set_provides_directional_derivative(md->provides_directional_derivative);
-
-    return ::Status::OK;
-}
-
 
 ::Status fmu_service_impl::GetDirectionalDerivative(ServerContext* context,
     const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request,

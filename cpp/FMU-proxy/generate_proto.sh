@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir -p gen
-./protoc -I="../../rpc-definitions/proto" --plugin=protoc-gen-grpc=grpc_cpp_plugin --cpp_out="gen" --grpc_out="gen" service.proto
+./protoc.exe -I="../../rpc-definitions/proto" --plugin=protoc-gen-grpc=grpc_cpp_plugin.exe --cpp_out="gen" --grpc_out="gen" service.proto
 
 sed -i 's/"service.pb.h"/<fmuproxy\/grpc\/common\/service.pb.h>/' gen/service.pb.cc
 sed -i 's/"service.pb.h"/<fmuproxy\/grpc\/common\/service.pb.h>/' gen/service.grpc.pb.cc

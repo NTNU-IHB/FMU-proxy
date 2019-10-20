@@ -30,7 +30,6 @@
 
 #include <boost/filesystem.hpp>
 
-using namespace std;
 using namespace grpc;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
@@ -77,14 +76,14 @@ remote_grpc_fmu grpc_fmu_client::from_guid(const std::string& guid)
     return remote_grpc_fmu(guid, stub_);
 }
 
-remote_grpc_fmu::remote_grpc_fmu(const string& fmuId, shared_ptr<FmuService::Stub> stub)
+remote_grpc_fmu::remote_grpc_fmu(const string& fmuId, std::shared_ptr<FmuService::Stub> stub)
     : fmuId_(fmuId)
     , stub_(stub)
 {}
 
 std::shared_ptr<const fmi4cpp::fmi2::model_description_base>& remote_grpc_fmu::getModelDescription()
 {
-    if (!modelDescription_) {
+    if (modelDescription_ == nullptr) {
         ClientContext ctx;
         GetModelDescriptionRequest request;
         request.set_fmu_id(fmuId_);
@@ -95,12 +94,12 @@ std::shared_ptr<const fmi4cpp::fmi2::model_description_base>& remote_grpc_fmu::g
     return modelDescription_;
 }
 
-unique_ptr<remote_fmu_slave> remote_grpc_fmu::newInstance()
+std::unique_ptr<remote_fmu_slave> remote_grpc_fmu::newInstance()
 {
     ClientContext ctx;
     InstanceId instance_id;
-    CreateInstanceFromCSRequest request;
+    CreateInstanceRequest request;
     request.set_fmu_id(fmuId_);
-    stub_->CreateInstanceFromCS(&ctx, request, &instance_id);
-    return make_unique<remote_fmu_slave>(instance_id.value(), *stub_, *getModelDescription());
+    stub_->CreateInstance(&ctx, request, &instance_id);
+    return std::make_unique<remote_fmu_slave>(instance_id.value(), *stub_, *getModelDescription());
 }

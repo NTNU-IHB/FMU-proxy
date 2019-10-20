@@ -124,7 +124,7 @@ namespace {
 
     }
 
-    void grpc_type(ModelDescription &md, const fmi4cpp::fmi2::model_description_base &m) {
+    void grpc_type(ModelDescription &md, const fmi4cpp::fmi2::cs_model_description &m) {
 
         md.set_guid(m.guid.c_str());
         md.set_fmi_version(m.fmi_version);
@@ -176,6 +176,14 @@ namespace {
             auto v = md.add_model_variables();
             grpc_type(*v, var);
         }
+
+        md.set_model_identifier(m.model_identifier);
+        md.set_can_get_and_set_fmu_state(m.can_get_and_set_fmu_state);
+        md.set_can_serialize_fmu_state(m.can_serialize_fmu_state);
+        md.set_can_handle_variable_communication_step_size(m.can_handle_variable_communication_step_size);
+        md.set_max_output_derivative_order(m.max_output_derivative_order);
+        md.set_provides_directional_derivative(m.provides_directional_derivative);
+        md.set_can_interpolate_inputs(m.can_interpolate_inputs);
 
     }
 

@@ -25,40 +25,39 @@
 #ifndef FMU_PROXY_GRPCSERVER_HPP
 #define FMU_PROXY_GRPCSERVER_HPP
 
-#include <thread>
-#include <memory>
-#include <unordered_map>
-
-#include <fmi4cpp/fmi2/fmi2.hpp>
-
 #include "../common/service.grpc.pb.h"
 #include "fmu_service_impl.hpp"
 
-namespace fmuproxy::grpc::server {
+#include <fmi4cpp/fmi2/fmi2.hpp>
 
-    class grpc_fmu_server {
+#include <memory>
+#include <thread>
+#include <unordered_map>
 
-    private:
+namespace fmuproxy::grpc::server
+{
 
-        const unsigned int port_;
-        std::shared_ptr<::grpc::Server> server_;
-        std::unique_ptr<std::thread> thread_;
-        std::shared_ptr<fmu_service_impl> service_;
+class grpc_fmu_server
+{
 
-        void wait();
+private:
+    const unsigned int port_;
+    std::shared_ptr<::grpc::ServerInterface> server_;
+    std::unique_ptr<std::thread> thread_;
+    std::shared_ptr<fmu_service_impl> service_;
 
-    public:
+    void wait();
 
-        grpc_fmu_server(std::unordered_map<std::string,
-                std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmu,
-                unsigned int port);
+public:
+    grpc_fmu_server(std::unordered_map<std::string,
+                        std::shared_ptr<fmi4cpp::fmi2::cs_fmu>>& fmu,
+        unsigned int port);
 
-        void start();
+    void start();
 
-        void stop();
+    void stop();
+};
 
-    };
-
-}
+} // namespace fmuproxy::grpc::server
 
 #endif //FMU_PROXY_GRPCSERVER_HPP

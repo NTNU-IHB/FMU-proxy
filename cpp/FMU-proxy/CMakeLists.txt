@@ -36,7 +36,7 @@ if (FMU_PROXY_BUILD_TOOL)
     list(APPEND BOOST_COMPONENTS program_options)
 endif()
 
-find_package(Boost 1.65 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
+find_package(Boost 1.66 COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(JSON REQUIRED)
