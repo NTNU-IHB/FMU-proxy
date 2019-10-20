@@ -1,8 +1,5 @@
 package no.ntnu.ihb.fmuproxy.benchmark
 
-import info.laht.yajrpc.net.http.RpcHttpClient
-import info.laht.yajrpc.net.tcp.RpcTcpClient
-import info.laht.yajrpc.net.ws.RpcWebSocketClient
 import no.ntnu.ihb.fmi4j.FmiStatus
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
@@ -10,8 +7,6 @@ import no.ntnu.ihb.fmi4j.readReal
 import no.ntnu.ihb.fmuproxy.disableLog4jLoggers
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
-import no.ntnu.ihb.fmuproxy.jsonrpc.*
-import no.ntnu.ihb.fmuproxy.jsonrpc.service.RpcFmuService
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
@@ -123,77 +118,6 @@ class Benchmark {
                     }
                 }
             }
-        }
-    }
-
-    @Test
-    @DisabledOnOs(OS.LINUX)
-    fun measureTimeJsonHttp() {
-
-        val service = RpcFmuService().apply {
-            addFmu(fmu)
-        }
-
-        Assertions.assertTimeout(testTimeout) {
-            FmuProxyJsonHttpServer(service).use { server ->
-                JsonRpcFmuClient( RpcHttpClient(host, server.start())).use { client ->
-                    client.load(fmu.guid).newInstance().use { slave ->
-                        testSlave(slave).also {
-                            LOG.info("RpcHttpClient duration=${it}ms")
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-
-    @Test
-    @Disabled
-    fun measureTimeJsonWs() {
-
-        try {
-            val service = RpcFmuService().apply {
-                addFmu(fmu)
-            }
-
-            Assertions.assertTimeout(testTimeout) {
-                FmuProxyJsonWsServer(service).use { server ->
-                    JsonRpcFmuClient(RpcWebSocketClient(host, server.start())).use { client ->
-                        client.load(fmu.guid).newInstance().use { slave ->
-                            testSlave(slave).also {
-                                LOG.info("RpcWebSocketClient duration=${it}ms")
-                            }
-                        }
-                    }
-                }
-
-            }
-        } catch (ex: ExecutionException){
-            LOG.error("Test 'measureTimeJsonWs' FAILED", ex)
-        }
-
-    }
-
-
-    @Test
-    fun measureTimeJsonTcp() {
-
-        val service = RpcFmuService().apply {
-            addFmu(fmu)
-        }
-
-        Assertions.assertTimeout(testTimeout) {
-            FmuProxyJsonTcpServer(service).use { server ->
-                JsonRpcFmuClient(RpcTcpClient(host, server.start())).use { client ->
-                    client.load(fmu.guid).newInstance().use { slave ->
-                        testSlave(slave).also {
-                            LOG.info("RpcTcpClient duration=${it}ms")
-                        }
-                    }
-                }
-            }
-
         }
     }
 

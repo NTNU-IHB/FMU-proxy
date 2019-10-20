@@ -32,6 +32,7 @@ import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
+import kotlin.properties.Delegates
 
 /**
  *
@@ -45,7 +46,7 @@ class GrpcFmuServer(
         private val LOG: Logger = LoggerFactory.getLogger(GrpcFmuServer::class.java)
     }
 
-    override var port: Int? = null
+    override var port: Int by Delegates.notNull()
         private set
 
     override val simpleName = "grpc/http2"

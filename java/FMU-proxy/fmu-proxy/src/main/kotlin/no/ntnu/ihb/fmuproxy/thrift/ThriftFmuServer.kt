@@ -41,6 +41,7 @@ import org.eclipse.jetty.servlets.CrossOriginFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
+import kotlin.properties.Delegates
 
 interface IServer {
     fun serve()
@@ -56,7 +57,8 @@ abstract class ThriftFmuServer(
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
     }
 
-    override var port: Int? = null
+    override var port: Int by Delegates.notNull()
+
     private var server: IServer? = null
 
     override fun addFmu(fmu: AbstractFmu) {
