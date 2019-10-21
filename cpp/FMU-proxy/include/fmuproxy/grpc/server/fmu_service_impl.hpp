@@ -40,11 +40,11 @@ class fmu_service_impl : public fmuproxy::grpc::FmuService::Service
 {
 
 private:
-    std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmu>> fmus_;
+    std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::cs_fmu>> fmus_;
     std::unordered_map<std::string, std::unique_ptr<fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_description>>> slaves_;
 
 public:
-    explicit fmu_service_impl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::fmu>>& fmus);
+    explicit fmu_service_impl(std::unordered_map<std::string, std::shared_ptr<fmi4cpp::fmi2::cs_fmu>>& fmus);
 
     ::grpc::Status
     GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request,
@@ -56,9 +56,9 @@ public:
     ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request,
         ::fmuproxy::grpc::FmuId* response) override;
 
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context,
-        const ::fmuproxy::grpc::CreateInstanceRequest* request,
+    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request,
         ::fmuproxy::grpc::InstanceId* response) override;
+
     ::grpc::Status
     SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request,
         ::fmuproxy::grpc::StatusResponse* response) override;

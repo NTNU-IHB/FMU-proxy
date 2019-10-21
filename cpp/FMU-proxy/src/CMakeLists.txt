@@ -31,7 +31,7 @@ if(FMU_PROXY_WITH_GRPC)
             fmuproxy/grpc/server/fmu_service_impl.cpp)
 
     add_library(grpc-common ${GRPC_COMMON_SRC})
-    target_link_libraries(grpc-common PUBLIC gRPC::grpc gRPC::grpc++ PRIVATE protobuf::libprotobuf ${OPENSSL_LIBRARIES})
+    target_link_libraries(grpc-common PUBLIC gRPC::grpc gRPC::grpc++ gRPC::grpc_unsecure PRIVATE protobuf::libprotobuf ${OPENSSL_LIBRARIES})
 
     add_library(grpc-client ${GRPC_CLIENT_SRC})
     target_link_libraries(grpc-client PUBLIC grpc-common fmi4cpp::fmi4cpp)

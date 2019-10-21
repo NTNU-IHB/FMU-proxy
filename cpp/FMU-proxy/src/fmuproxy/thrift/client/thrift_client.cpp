@@ -103,8 +103,6 @@ shared_ptr<const fmi4cpp::fmi2::cs_model_description>& remote_thrift_fmu::getMod
         client_->get_model_description(desc, fmuId_);
         modelDescription_ = convert(desc);
     }
-
-
     return modelDescription_;
 }
 
@@ -112,5 +110,5 @@ unique_ptr<remote_fmu_slave> remote_thrift_fmu::newInstance()
 {
     InstanceId instance_id;
     client_->create_instance(instance_id, fmuId_);
-    return std::make_unique<remote_fmu_slave>(instance_id, *client_, *getModelDescription());
+    return std::make_unique<remote_fmu_slave>(instance_id, *client_, getModelDescription());
 }

@@ -34,7 +34,7 @@
 using namespace fmuproxy::thrift::client;
 
 remote_fmu_slave::remote_fmu_slave(InstanceId instanceId, fmu_service_client& client,
-    const std::shared_ptr<fmi4cpp::fmi2::cs_model_description>& modelDescription)
+    std::shared_ptr<const fmi4cpp::fmi2::cs_model_description>& modelDescription)
     : instanceId_(std::move(instanceId))
     , client_(client)
     , modelDescription_(modelDescription)

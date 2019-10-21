@@ -35,20 +35,29 @@
 #include <grpcpp/impl/codegen/async_stream.h>
 #include <grpcpp/impl/codegen/async_unary_call.h>
 #include <grpcpp/impl/codegen/client_callback.h>
+#include <grpcpp/impl/codegen/client_context.h>
+#include <grpcpp/impl/codegen/completion_queue.h>
 #include <grpcpp/impl/codegen/method_handler_impl.h>
 #include <grpcpp/impl/codegen/proto_utils.h>
 #include <grpcpp/impl/codegen/rpc_method.h>
 #include <grpcpp/impl/codegen/server_callback.h>
+#include <grpcpp/impl/codegen/server_context.h>
 #include <grpcpp/impl/codegen/service_type.h>
 #include <grpcpp/impl/codegen/status.h>
 #include <grpcpp/impl/codegen/stub_options.h>
 #include <grpcpp/impl/codegen/sync_stream.h>
 
-namespace grpc {
+namespace grpc_impl {
 class CompletionQueue;
-class Channel;
 class ServerCompletionQueue;
 class ServerContext;
+}  // namespace grpc_impl
+
+namespace grpc {
+namespace experimental {
+template <typename RequestT, typename ResponseT>
+class MessageAllocator;
+}  // namespace experimental
 }  // namespace grpc
 
 namespace fmuproxy {
@@ -200,42 +209,80 @@ class FmuService final {
       virtual ~experimental_async_interface() {}
       virtual void LoadFromUrl(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) = 0;
       virtual void LoadFromUrl(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void LoadFromUrl(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void LoadFromUrl(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void LoadFromFile(::grpc::ClientContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) = 0;
       virtual void LoadFromFile(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void LoadFromFile(::grpc::ClientContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void LoadFromFile(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetModelDescription(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::ModelDescription* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void GetModelDescription(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::ModelDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void CreateInstance(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response, std::function<void(::grpc::Status)>) = 0;
       virtual void CreateInstance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::InstanceId* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void CreateInstance(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void CreateInstance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::InstanceId* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void SetupExperiment(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SetupExperiment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetupExperiment(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void SetupExperiment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void EnterInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void EnterInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void EnterInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void EnterInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void ExitInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ExitInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ExitInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void ExitInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void Step(::grpc::ClientContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void Step(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StepResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Step(::grpc::ClientContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void Step(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StepResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void Reset(::grpc::ClientContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void Reset(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Reset(::grpc::ClientContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void Reset(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void Terminate(::grpc::ClientContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void Terminate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Terminate(::grpc::ClientContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void Terminate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void ReadInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ReadInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::IntegerRead* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ReadInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void ReadInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::IntegerRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void ReadReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ReadReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::RealRead* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ReadReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void ReadReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::RealRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void ReadString(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ReadString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StringRead* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ReadString(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void ReadString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StringRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void ReadBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ReadBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::BooleanRead* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ReadBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void ReadBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::BooleanRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void WriteInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void WriteInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void WriteReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void WriteReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void WriteString(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void WriteString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteString(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void WriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void WriteBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       virtual void GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetDirectionalDerivative(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      virtual void GetDirectionalDerivative(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
     };
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
@@ -419,42 +466,80 @@ class FmuService final {
      public:
       void LoadFromUrl(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) override;
       void LoadFromUrl(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) override;
+      void LoadFromUrl(::grpc::ClientContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void LoadFromUrl(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void LoadFromFile(::grpc::ClientContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) override;
       void LoadFromFile(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, std::function<void(::grpc::Status)>) override;
+      void LoadFromFile(::grpc::ClientContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void LoadFromFile(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response, std::function<void(::grpc::Status)>) override;
       void GetModelDescription(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::ModelDescription* response, std::function<void(::grpc::Status)>) override;
+      void GetModelDescription(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void GetModelDescription(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::ModelDescription* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void CreateInstance(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response, std::function<void(::grpc::Status)>) override;
       void CreateInstance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::InstanceId* response, std::function<void(::grpc::Status)>) override;
+      void CreateInstance(::grpc::ClientContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void CreateInstance(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::InstanceId* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void SetupExperiment(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void SetupExperiment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void SetupExperiment(::grpc::ClientContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void SetupExperiment(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void EnterInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void EnterInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void EnterInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void EnterInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void ExitInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void ExitInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void ExitInitializationMode(::grpc::ClientContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void ExitInitializationMode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void Step(::grpc::ClientContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response, std::function<void(::grpc::Status)>) override;
       void Step(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StepResponse* response, std::function<void(::grpc::Status)>) override;
+      void Step(::grpc::ClientContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void Step(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StepResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void Reset(::grpc::ClientContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void Reset(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void Reset(::grpc::ClientContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void Reset(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void Terminate(::grpc::ClientContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void Terminate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void Terminate(::grpc::ClientContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void Terminate(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void ReadInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response, std::function<void(::grpc::Status)>) override;
       void ReadInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::IntegerRead* response, std::function<void(::grpc::Status)>) override;
+      void ReadInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void ReadInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::IntegerRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void ReadReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response, std::function<void(::grpc::Status)>) override;
       void ReadReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::RealRead* response, std::function<void(::grpc::Status)>) override;
+      void ReadReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void ReadReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::RealRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void ReadString(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response, std::function<void(::grpc::Status)>) override;
       void ReadString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StringRead* response, std::function<void(::grpc::Status)>) override;
+      void ReadString(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void ReadString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StringRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void ReadBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response, std::function<void(::grpc::Status)>) override;
       void ReadBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::BooleanRead* response, std::function<void(::grpc::Status)>) override;
+      void ReadBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void ReadBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::BooleanRead* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void WriteInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void WriteInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteInteger(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void WriteInteger(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void WriteReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void WriteReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteReal(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void WriteReal(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void WriteString(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void WriteString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteString(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void WriteString(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void WriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
       void WriteBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteBoolean(::grpc::ClientContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void WriteBoolean(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       void GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, std::function<void(::grpc::Status)>) override;
       void GetDirectionalDerivative(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetDirectionalDerivative(::grpc::ClientContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      void GetDirectionalDerivative(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -938,13 +1023,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_LoadFromUrl() {
       ::grpc::Service::experimental().MarkMethodCallback(0,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::Url, ::fmuproxy::grpc::FmuId>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::Url, ::fmuproxy::grpc::FmuId>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::Url* request,
                  ::fmuproxy::grpc::FmuId* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->LoadFromUrl(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_LoadFromUrl(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::Url, ::fmuproxy::grpc::FmuId>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::Url, ::fmuproxy::grpc::FmuId>*>(
+          ::grpc::Service::experimental().GetHandler(0))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_LoadFromUrl() override {
       BaseClassMustBeDerivedFromService(this);
@@ -963,13 +1054,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_LoadFromFile() {
       ::grpc::Service::experimental().MarkMethodCallback(1,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::File, ::fmuproxy::grpc::FmuId>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::File, ::fmuproxy::grpc::FmuId>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::File* request,
                  ::fmuproxy::grpc::FmuId* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->LoadFromFile(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_LoadFromFile(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::File, ::fmuproxy::grpc::FmuId>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::File, ::fmuproxy::grpc::FmuId>*>(
+          ::grpc::Service::experimental().GetHandler(1))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_LoadFromFile() override {
       BaseClassMustBeDerivedFromService(this);
@@ -988,13 +1085,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_GetModelDescription() {
       ::grpc::Service::experimental().MarkMethodCallback(2,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::GetModelDescriptionRequest, ::fmuproxy::grpc::ModelDescription>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::GetModelDescriptionRequest, ::fmuproxy::grpc::ModelDescription>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::GetModelDescriptionRequest* request,
                  ::fmuproxy::grpc::ModelDescription* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->GetModelDescription(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_GetModelDescription(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::GetModelDescriptionRequest, ::fmuproxy::grpc::ModelDescription>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::GetModelDescriptionRequest, ::fmuproxy::grpc::ModelDescription>*>(
+          ::grpc::Service::experimental().GetHandler(2))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_GetModelDescription() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1013,13 +1116,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_CreateInstance() {
       ::grpc::Service::experimental().MarkMethodCallback(3,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::CreateInstanceRequest, ::fmuproxy::grpc::InstanceId>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::CreateInstanceRequest, ::fmuproxy::grpc::InstanceId>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::CreateInstanceRequest* request,
                  ::fmuproxy::grpc::InstanceId* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->CreateInstance(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_CreateInstance(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::CreateInstanceRequest, ::fmuproxy::grpc::InstanceId>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::CreateInstanceRequest, ::fmuproxy::grpc::InstanceId>*>(
+          ::grpc::Service::experimental().GetHandler(3))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_CreateInstance() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1038,13 +1147,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_SetupExperiment() {
       ::grpc::Service::experimental().MarkMethodCallback(4,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::SetupExperimentRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::SetupExperimentRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::SetupExperimentRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->SetupExperiment(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_SetupExperiment(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::SetupExperimentRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::SetupExperimentRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(4))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_SetupExperiment() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1063,13 +1178,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_EnterInitializationMode() {
       ::grpc::Service::experimental().MarkMethodCallback(5,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::EnterInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::EnterInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::EnterInitializationModeRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->EnterInitializationMode(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_EnterInitializationMode(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::EnterInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::EnterInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(5))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_EnterInitializationMode() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1088,13 +1209,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_ExitInitializationMode() {
       ::grpc::Service::experimental().MarkMethodCallback(6,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ExitInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ExitInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::ExitInitializationModeRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->ExitInitializationMode(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_ExitInitializationMode(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::ExitInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ExitInitializationModeRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(6))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_ExitInitializationMode() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1113,13 +1240,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_Step() {
       ::grpc::Service::experimental().MarkMethodCallback(7,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::StepRequest* request,
                  ::fmuproxy::grpc::StepResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->Step(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_Step(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::StepRequest, ::fmuproxy::grpc::StepResponse>*>(
+          ::grpc::Service::experimental().GetHandler(7))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_Step() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1138,13 +1271,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_Reset() {
       ::grpc::Service::experimental().MarkMethodCallback(8,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ResetRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ResetRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::ResetRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->Reset(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_Reset(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::ResetRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ResetRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(8))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_Reset() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1163,13 +1302,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_Terminate() {
       ::grpc::Service::experimental().MarkMethodCallback(9,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::TerminateRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::TerminateRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::TerminateRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->Terminate(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_Terminate(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::TerminateRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::TerminateRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(9))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_Terminate() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1188,13 +1333,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_ReadInteger() {
       ::grpc::Service::experimental().MarkMethodCallback(10,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::ReadRequest* request,
                  ::fmuproxy::grpc::IntegerRead* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->ReadInteger(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_ReadInteger(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::IntegerRead>*>(
+          ::grpc::Service::experimental().GetHandler(10))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_ReadInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1213,13 +1364,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_ReadReal() {
       ::grpc::Service::experimental().MarkMethodCallback(11,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::ReadRequest* request,
                  ::fmuproxy::grpc::RealRead* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->ReadReal(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_ReadReal(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::RealRead>*>(
+          ::grpc::Service::experimental().GetHandler(11))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_ReadReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1238,13 +1395,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_ReadString() {
       ::grpc::Service::experimental().MarkMethodCallback(12,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::ReadRequest* request,
                  ::fmuproxy::grpc::StringRead* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->ReadString(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_ReadString(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::StringRead>*>(
+          ::grpc::Service::experimental().GetHandler(12))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_ReadString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1263,13 +1426,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_ReadBoolean() {
       ::grpc::Service::experimental().MarkMethodCallback(13,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::ReadRequest* request,
                  ::fmuproxy::grpc::BooleanRead* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->ReadBoolean(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_ReadBoolean(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::ReadRequest, ::fmuproxy::grpc::BooleanRead>*>(
+          ::grpc::Service::experimental().GetHandler(13))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_ReadBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1288,13 +1457,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_WriteInteger() {
       ::grpc::Service::experimental().MarkMethodCallback(14,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::WriteIntegerRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->WriteInteger(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_WriteInteger(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteIntegerRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(14))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_WriteInteger() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1313,13 +1488,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_WriteReal() {
       ::grpc::Service::experimental().MarkMethodCallback(15,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::WriteRealRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->WriteReal(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_WriteReal(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteRealRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(15))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_WriteReal() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1338,13 +1519,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_WriteString() {
       ::grpc::Service::experimental().MarkMethodCallback(16,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::WriteStringRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->WriteString(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_WriteString(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteStringRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(16))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_WriteString() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1363,13 +1550,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_WriteBoolean() {
       ::grpc::Service::experimental().MarkMethodCallback(17,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::WriteBooleanRequest* request,
                  ::fmuproxy::grpc::StatusResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->WriteBoolean(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_WriteBoolean(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::WriteBooleanRequest, ::fmuproxy::grpc::StatusResponse>*>(
+          ::grpc::Service::experimental().GetHandler(17))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_WriteBoolean() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1388,13 +1581,19 @@ class FmuService final {
    public:
     ExperimentalWithCallbackMethod_GetDirectionalDerivative() {
       ::grpc::Service::experimental().MarkMethodCallback(18,
-        new ::grpc::internal::CallbackUnaryHandler< ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>(
           [this](::grpc::ServerContext* context,
                  const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request,
                  ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
                    return this->GetDirectionalDerivative(context, request, response, controller);
                  }));
+    }
+    void SetMessageAllocatorFor_GetDirectionalDerivative(
+        ::grpc::experimental::MessageAllocator< ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>* allocator) {
+      static_cast<::grpc_impl::internal::CallbackUnaryHandler< ::fmuproxy::grpc::GetDirectionalDerivativeRequest, ::fmuproxy::grpc::GetDirectionalDerivativeResponse>*>(
+          ::grpc::Service::experimental().GetHandler(18))
+              ->SetMessageAllocator(allocator);
     }
     ~ExperimentalWithCallbackMethod_GetDirectionalDerivative() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2117,7 +2316,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_LoadFromUrl() {
       ::grpc::Service::experimental().MarkMethodRawCallback(0,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2142,7 +2341,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_LoadFromFile() {
       ::grpc::Service::experimental().MarkMethodRawCallback(1,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2167,7 +2366,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_GetModelDescription() {
       ::grpc::Service::experimental().MarkMethodRawCallback(2,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2192,7 +2391,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_CreateInstance() {
       ::grpc::Service::experimental().MarkMethodRawCallback(3,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2217,7 +2416,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_SetupExperiment() {
       ::grpc::Service::experimental().MarkMethodRawCallback(4,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2242,7 +2441,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_EnterInitializationMode() {
       ::grpc::Service::experimental().MarkMethodRawCallback(5,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2267,7 +2466,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_ExitInitializationMode() {
       ::grpc::Service::experimental().MarkMethodRawCallback(6,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2292,7 +2491,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_Step() {
       ::grpc::Service::experimental().MarkMethodRawCallback(7,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2317,7 +2516,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_Reset() {
       ::grpc::Service::experimental().MarkMethodRawCallback(8,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2342,7 +2541,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_Terminate() {
       ::grpc::Service::experimental().MarkMethodRawCallback(9,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2367,7 +2566,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_ReadInteger() {
       ::grpc::Service::experimental().MarkMethodRawCallback(10,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2392,7 +2591,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_ReadReal() {
       ::grpc::Service::experimental().MarkMethodRawCallback(11,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2417,7 +2616,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_ReadString() {
       ::grpc::Service::experimental().MarkMethodRawCallback(12,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2442,7 +2641,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_ReadBoolean() {
       ::grpc::Service::experimental().MarkMethodRawCallback(13,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2467,7 +2666,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_WriteInteger() {
       ::grpc::Service::experimental().MarkMethodRawCallback(14,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2492,7 +2691,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_WriteReal() {
       ::grpc::Service::experimental().MarkMethodRawCallback(15,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2517,7 +2716,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_WriteString() {
       ::grpc::Service::experimental().MarkMethodRawCallback(16,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2542,7 +2741,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_WriteBoolean() {
       ::grpc::Service::experimental().MarkMethodRawCallback(17,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
@@ -2567,7 +2766,7 @@ class FmuService final {
    public:
     ExperimentalWithRawCallbackMethod_GetDirectionalDerivative() {
       ::grpc::Service::experimental().MarkMethodRawCallback(18,
-        new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+        new ::grpc_impl::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,

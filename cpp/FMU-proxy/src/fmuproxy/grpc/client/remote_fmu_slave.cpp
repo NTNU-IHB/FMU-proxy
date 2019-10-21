@@ -27,20 +27,17 @@
 #include <fmuproxy/grpc/client/remote_fmu_slave.hpp>
 
 #include <grpcpp/client_context.h>
+#include <utility>
 
 using namespace grpc;
 using namespace fmuproxy::grpc;
 using namespace fmuproxy::grpc::client;
 
-remote_fmu_slave::remote_fmu_slave(const std::string& instance_id, FmuService::Stub& stub)
-    : instanceId_(instance_id)
+remote_fmu_slave::remote_fmu_slave(std::string instance_id, FmuService::Stub& stub, std::shared_ptr<const fmi4cpp::fmi2::cs_model_description> modelDescription)
+    : instanceId_(std::move(instance_id))
     , stub_(stub)
+    , modelDescription_(std::move(modelDescription))
 {
-    ClientContext ctx;
-    GetModelDescriptionRequest req;
-    ModelDescription response;
-    stub.GetModelDescription(&ctx, req, &response);
-    modelDescription_ =
 }
 
 fmi4cpp::status remote_fmu_slave::last_status() const
