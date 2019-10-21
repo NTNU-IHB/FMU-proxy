@@ -20,7 +20,6 @@ subprojects { sub ->
     
     repositories {
         mavenCentral()
-        maven { url 'https://jitpack.io' }
         maven { url  "https://dl.bintray.com/ntnu-ihb/mvn"  }
     }
 
@@ -32,7 +31,7 @@ subprojects { sub ->
 
         sub.plugins.withId('kotlin') {
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.50'
+            implementation 'org.jetbrains.kotlin:kotlin-reflect'
         }
         
     }
