@@ -1,5 +1,4 @@
 
-option(FMU_PROXY_BUILD_TESTS "Build tests" OFF)
 option(FMU_PROXY_BUILD_EXAMPLES "Build examples" ON)
 option(FMU_PROXY_BUILD_TOOL "Build the server executable" ON)
 option(FMU_PROXY_WITH_GRPC "Build with gRPC support" ON)
@@ -29,9 +28,6 @@ endif()
 
 set(BOOST_COMPONENTS filesystem)
 
-if (FMU_PROXY_BUILD_TESTS)
-    list(APPEND BOOST_COMPONENTS unit_test_framework)
-endif()
 if (FMU_PROXY_BUILD_TOOL)
     list(APPEND BOOST_COMPONENTS program_options)
 endif()
@@ -56,12 +52,8 @@ add_subdirectory(FMI4cpp)
 
 add_subdirectory(src)
 
-if (FMU_PROXY_BUILD_TESTS OR FMU_PROXY_BUILD_EXAMPLES)
+if (FMU_PROXY_BUILD_EXAMPLES)
     file(COPY ../../test/fmus DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-    if (FMU_PROXY_BUILD_TESTS)
-        add_subdirectory(tests)
-    endif()
 
     if (FMU_PROXY_BUILD_EXAMPLES)
         add_subdirectory(examples)
