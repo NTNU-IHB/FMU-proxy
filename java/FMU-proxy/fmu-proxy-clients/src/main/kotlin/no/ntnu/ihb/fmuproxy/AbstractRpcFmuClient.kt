@@ -33,11 +33,9 @@ typealias InstanceId = String
 
 abstract class AbstractRpcFmuClient(
         val fmuId: String
-) : Model {
+) : CoSimulationModel {
 
     abstract val implementationName: String
-
-    abstract override val modelDescription: CoSimulationModelDescription
 
     protected abstract fun createInstance(): InstanceId
 
