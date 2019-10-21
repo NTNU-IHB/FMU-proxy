@@ -78,15 +78,6 @@ class Args : Callable<FmuProxy> {
     @CommandLine.Option(names = ["-thrift/http"], description = ["Enable Thrift HTTP using the specified port (optional)."])
     var thriftHttpPort: Int? = null
 
-    @CommandLine.Option(names = ["-jsonrpc/http"], description = ["Enable JSON-RPC HTTP using the specified port (optional)."])
-    var jsonHttpPort: Int? = null
-
-    @CommandLine.Option(names = ["-jsonrpc/tcp"], description = ["Enable JSON-RPC TCP/IP using the specified port (optional)."])
-    var jsonTcpPort: Int? = null
-
-    @CommandLine.Option(names = ["-jsonrpc/ws"], description = ["Enable JSON-RPC WS using the specified port (optional)."])
-    var jsonWsPort: Int? = null
-
     override fun call(): FmuProxy? {
 
         if (showVersion) {
@@ -94,7 +85,7 @@ class Args : Callable<FmuProxy> {
             return null
         }
 
-        if (grpcPort == null && thriftTcpPort == null && thriftHttpPort == null && jsonHttpPort == null && jsonTcpPort == null && jsonWsPort === null) {
+        if (grpcPort == null && thriftTcpPort == null && thriftHttpPort == null) {
             System.err.println("Error! no ports specified. No server(s) will be started. Exiting..")
             return null
         }
@@ -130,7 +121,7 @@ class Args : Callable<FmuProxy> {
     }
 
     override fun toString(): String {
-        return "Args(showHelp=$showHelp, fmus=$fmus, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort, jsonHttpPort=$jsonHttpPort, jsonTcpPort=$jsonTcpPort /*jsonWsPort=$jsonWsPort)"
+        return "Args(showHelp=$showHelp, fmus=$fmus, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort)"
     }
 
 }
