@@ -27,7 +27,6 @@ package no.ntnu.ihb.fmuproxy.grpc
 import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
-import no.ntnu.ihb.fmuproxy.Solver
 
 
 internal fun Service.StatusResponse.convert(): FmiStatus {
@@ -208,35 +207,13 @@ internal fun List<Service.ScalarVariable>.convert(): ModelVariables {
     return MyModelVariables(this)
 }
 
-internal fun Service.ModelDescription.convert(): ModelDescription {
+internal fun Service.ModelDescription.convert(): CoSimulationModelDescription {
     return GrpcModelDescription(this)
-}
-
-internal fun Service.CoSimulationAttributes.convert(): CoSimulationAttributes {
-
-    return CoSimulationAttributes(
-
-            needsExecutionTool = false,
-            canRunAsynchronuously = false,
-            maxOutputDerivativeOrder = 0,
-            canNotUseMemoryManagementFunctions = false,
-            canBeInstantiatedOnlyOncePerProcess = false,
-
-            modelIdentifier = this@convert.modelIdentifier,
-            canGetAndSetFMUstate = this@convert.canGetAndSetFmuState,
-            canSerializeFMUstate = this@convert.canSerializeFmuState,
-            canInterpolateInputs = this@convert.canInterpolateInputs,
-            providesDirectionalDerivative = this@convert.providesDirectionalDerivative,
-            canHandleVariableCommunicationStepSize = this@convert.canHandleVariableCommunicationStepSize,
-            sourceFiles = emptyList()
-
-    )
-
 }
 
 class GrpcModelDescription(
         private val modelDescription: Service.ModelDescription
-): ModelDescription {
+): CoSimulationModelDescription {
 
     override val author: String?
         get() = modelDescription.author
@@ -268,11 +245,22 @@ class GrpcModelDescription(
     override val variableNamingConvention: String? = modelDescription.variableNamingConvention
     override val version: String?
         get() = modelDescription.version
-}
 
-fun Solver.protoType(): Service.Solver {
-    return Service.Solver.newBuilder()
-            .setName(name)
-            .setSettings(settings)
-            .build()
+    override val attributes: CoSimulationAttributes
+        get() = CoSimulationAttributes(
+                needsExecutionTool = false,
+                canRunAsynchronuously = false,
+                maxOutputDerivativeOrder = 0,
+                canNotUseMemoryManagementFunctions = false,
+                canBeInstantiatedOnlyOncePerProcess = false,
+
+                sourceFiles = emptyList(),
+                modelIdentifier = modelDescription.modelIdentifier,
+                canGetAndSetFMUstate = modelDescription.canGetAndSetFmuState,
+                canSerializeFMUstate = modelDescription.canSerializeFmuState,
+                canInterpolateInputs = modelDescription.canInterpolateInputs,
+                providesDirectionalDerivative = modelDescription.providesDirectionalDerivative,
+                canHandleVariableCommunicationStepSize = modelDescription.canHandleVariableCommunicationStepSize
+
+        )
 }

@@ -139,40 +139,35 @@ namespace {
         return std::make_unique<const fmi4cpp::fmi2::model_variables>(variables);
     }
 
-    const fmi4cpp::fmi2::cs_attributes convert(const fmuproxy::grpc::CoSimulationAttributes &a) {
+    std::unique_ptr<const fmi4cpp::fmi2::cs_model_description> convert(const fmuproxy::grpc::ModelDescription &from) {
+
+        fmi4cpp::fmi2::model_description_base base;
+        base.guid = from.guid();
+        base. fmi_version = from.fmi_version();
+        base.description = from.description();
+        base.model_name = from.model_name();
+        base.model_variables = std::move(convert(from.model_variables()));
+        base.variable_naming_convention = from.variable_naming_convention();
+        base.default_experiment = convert(from.default_experiment());
+        base.generation_date_and_time = from.generation_date_and_time();
+        base.generation_tool = from.generation_tool();
+        base.license = from.license();
+        base.version = from.version();
+        base.copyright = from.copyright();
+        base.author = from.author();
+        base.model_structure = nullptr;
 
         fmi4cpp::fmi2::cs_attributes attributes;
-        attributes.model_identifier = a.model_identifier();
-        attributes.can_get_and_set_fmu_state = a.can_get_and_set_fmu_state();
-        attributes.can_serialize_fmu_state = a.can_serialize_fmu_state();
-        attributes.provides_directional_derivative = a.provides_directional_derivative();
+        attributes.model_identifier = from.model_identifier();
+        attributes.can_get_and_set_fmu_state = from.can_get_and_set_fmu_state();
+        attributes.can_serialize_fmu_state = from.can_serialize_fmu_state();
+        attributes.provides_directional_derivative = from.provides_directional_derivative();
 
-        attributes.can_interpolate_inputs = a.can_interpolate_inputs();
-        attributes.can_handle_variable_communication_step_size = a.can_handle_variable_communication_step_size();
-        attributes.max_output_derivative_order = a.max_output_derivative_order();
+        attributes.can_interpolate_inputs = from.can_interpolate_inputs();
+        attributes.can_handle_variable_communication_step_size = from.can_handle_variable_communication_step_size();
+        attributes.max_output_derivative_order = from.max_output_derivative_order();
 
-        return attributes;
-
-    }
-
-    std::unique_ptr<const fmi4cpp::fmi2::model_description_base> convert(const fmuproxy::grpc::ModelDescription &from) {
-
-        auto base = std::make_unique<fmi4cpp::fmi2::model_description_base>();
-        base->guid = from.guid();
-        base-> fmi_version = from.fmi_version();
-        base->description = from.description();
-        base->model_name = from.model_name();
-        base->model_variables = std::move(convert(from.model_variables()));
-        base->variable_naming_convention = from.variable_naming_convention();
-        base->default_experiment = convert(from.default_experiment());
-        base->generation_date_and_time = from.generation_date_and_time();
-        base->generation_tool = from.generation_tool();
-        base->license = from.license();
-        base->version = from.version();
-        base->copyright = from.copyright();
-        base->author = from.author();
-        base->model_structure = nullptr;
-        return base;
+        return std::make_unique<fmi4cpp::fmi2::cs_model_description>(base, attributes);
 
     }
 

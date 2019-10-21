@@ -52,23 +52,9 @@ const char* str_to_char(const std::string& s)
 
 } // namespace
 
-fmu_service_handler::fmu_service_handler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::fmu>>& fmus)
+fmu_service_handler::fmu_service_handler(unordered_map<FmuId, shared_ptr<fmi4cpp::fmi2::cs_fmu>>& fmus)
     : fmus_(fmus)
 {}
-
-void fmu_service_handler::get_co_simulation_attributes(::fmuproxy::thrift::CoSimulationAttributes& _return,
-    const InstanceId& instanceId) {}
-
-bool fmu_service_handler::can_create_instance_from_cs(const FmuId& fmuId)
-{
-    const auto& fmu = fmus_.at(fmuId);
-    return fmu->supports_cs();
-}
-
-bool fmu_service_handler::can_create_instance_from_me(const FmuId& fmuId)
-{
-    return false;
-}
 
 void fmu_service_handler::get_model_description(fmuproxy::thrift::ModelDescription& _return, const FmuId& id)
 {
@@ -89,7 +75,7 @@ void fmu_service_handler::load_from_file(FmuId& _return, const std::string& name
     const std::string fmuPath = tmp.string();
     write_data(fmuPath, data);
 
-    auto fmu = std::make_shared<fmi4cpp::fmi2::fmu>(fmuPath);
+    auto fmu = fmi4cpp::fmi2::fmu(fmuPath).as_cs_fmu();
 
     fs::remove_all(tmp);
 
@@ -100,19 +86,12 @@ void fmu_service_handler::load_from_file(FmuId& _return, const std::string& name
     _return = guid;
 }
 
-void fmu_service_handler::create_instance_from_cs(InstanceId& _return, const FmuId& id)
+void fmu_service_handler::create_instance(InstanceId& _return, const FmuId& id)
 {
     auto& fmu = fmus_.at(id);
     _return = generate_simple_id(10);
-    slaves_[_return] = fmu->as_cs_fmu()->new_instance();
+    slaves_[_return] = fmu->new_instance();
     cout << "Created new FMU slave from cs with id=" << _return << endl;
-}
-
-void fmu_service_handler::create_instance_from_me(InstanceId& _return, const FmuId& id, const fmuproxy::thrift::Solver& solver)
-{
-    auto ex = UnsupportedOperationException();
-    ex.message = "Creating instance from ME is unsupported!";
-    throw ex;
 }
 
 Status::type fmu_service_handler::setup_experiment(const InstanceId& instanceId, const double start, const double stop,

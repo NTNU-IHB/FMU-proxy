@@ -26,8 +26,6 @@ package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmuproxy.jsonrpc.DirectionalDerivativeResult
-import no.ntnu.ihb.fmuproxy.jsonrpc.StepResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -39,13 +37,9 @@ abstract class AbstractRpcFmuClient(
 
     abstract val implementationName: String
 
-    abstract val canCreateInstanceFromCS: Boolean
-    abstract val canCreateInstanceFromME: Boolean
+    abstract override val modelDescription: CoSimulationModelDescription
 
-    protected abstract fun createInstanceFromCS(): InstanceId
-    protected abstract fun createInstanceFromME(solver: Solver): InstanceId
-
-    protected abstract fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes
+    protected abstract fun createInstance(): InstanceId
 
     protected abstract fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
     protected abstract fun enterInitializationMode(instanceId: InstanceId): FmiStatus
@@ -70,11 +64,7 @@ abstract class AbstractRpcFmuClient(
     private val fmuInstances = mutableListOf<FmuInstance>()
 
     override fun newInstance(): SlaveInstance {
-        return newInstance(createInstanceFromCS())
-    }
-
-    fun newInstance(solver: Solver): SlaveInstance {
-        return newInstance(createInstanceFromME(solver))
+        return newInstance(createInstance())
     }
 
     private fun newInstance(instanceId: InstanceId): SlaveInstance {
@@ -107,10 +97,7 @@ abstract class AbstractRpcFmuClient(
         override var simulationTime: Double = 0.0
         override var lastStatus = FmiStatus.NONE
         override val modelDescription: CoSimulationModelDescription by lazy {
-            object : CoSimulationModelDescription, ModelDescription by this@AbstractRpcFmuClient.modelDescription {
-                override val attributes: CoSimulationAttributes
-                    get() = getCoSimulationAttributes(instanceId)
-            }
+            this@AbstractRpcFmuClient.modelDescription
         }
 
         override fun setup(start: Double, stop: Double, tolerance: Double): Boolean {
@@ -249,7 +236,6 @@ abstract class AbstractRpcFmuClient(
         override fun deSerializeFMUstate(state: ByteArray): FmuState {
             throw UnsupportedOperationException("Not supported yet!")
         }
-
 
     }
 

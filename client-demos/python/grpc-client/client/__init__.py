@@ -68,7 +68,7 @@ class RemoteFmuInstance:
         self.remote_fmu = remote_fmu
         self.instance_id = instance_id  # type: str
         self.model_description = remote_fmu.model_description  # type: ModelDescription
-        self.simulation_time = None  # type: float
+        self.simulation_time = -1  # type: float
 
     def setup_experiment(self, start=0.0, stop=0.0, tolerance=0.0) -> Status:
         self.simulation_time = start
@@ -148,15 +148,8 @@ class RemoteFmu:
                 return key
         raise Exception("No variable with name '" + var_name + "' found!")
 
-    def create_instance(self, solver: Solver=None) -> RemoteFmuInstance:
-        if solver is None:
-            request = CreateInstanceFromCSRequest()
-            request.fmu_id = self.fmu_id
-            instance_id = self.stub.CreateInstanceFromCS(request).value
-        else:
-            request = CreateInstanceFromMERequest()
-            request.fmu_id = self.fmu_id
-            request.solver = solver
-            instance_id = self.stub.CreateInstanceFromME(solver).value
+    def create_instance(self) -> RemoteFmuInstance:
+        request = CreateInstanceRequest()
+        request.fmu_id = self.fmu_id
+        instance_id = self.stub.CreateInstance(request).value
         return RemoteFmuInstance(self, instance_id)
-

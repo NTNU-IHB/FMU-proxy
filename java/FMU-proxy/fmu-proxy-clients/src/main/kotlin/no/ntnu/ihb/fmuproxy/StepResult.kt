@@ -1,14 +1,14 @@
-package no.ntnu.ihb.fmuproxy.jsonrpc
+package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.FmiStatus
 
-class StepResult(
+data class StepResult(
         val simulationTime: Double,
         val status: FmiStatus
 ) {
-    fun asPair() = simulationTime to status
 
     override fun toString(): String {
         return "StepResult(simulationTime=$simulationTime, status=$status)"
     }
+
 }

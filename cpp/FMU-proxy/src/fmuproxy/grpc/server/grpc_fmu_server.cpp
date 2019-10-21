@@ -22,9 +22,10 @@
  * THE SOFTWARE.
  */
 
-#include <iostream>
-#include <grpcpp/grpcpp.h>
 #include <fmuproxy/grpc/server/grpc_fmu_server.hpp>
+
+#include <grpcpp/grpcpp.h>
+#include <iostream>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -32,14 +33,18 @@ using grpc::ServerBuilder;
 using namespace std;
 using namespace fmuproxy::grpc::server;
 
-grpc_fmu_server::grpc_fmu_server(unordered_map<string, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus, const unsigned int port)
-        : port_(port), service_(make_shared<fmu_service_impl>(fmus)) {}
+grpc_fmu_server::grpc_fmu_server(unordered_map<string, std::shared_ptr<fmi4cpp::fmi2::cs_fmu>>& fmus, const unsigned int port)
+    : port_(port)
+    , service_(make_shared<fmu_service_impl>(fmus))
+{}
 
-void grpc_fmu_server::wait() {
+void grpc_fmu_server::wait()
+{
     server_->Wait();
 }
 
-void grpc_fmu_server::start() {
+void grpc_fmu_server::start()
+{
 
     cout << "gRPC server listening to connections on port: " << port_ << endl;
     ServerBuilder builder;
@@ -49,7 +54,8 @@ void grpc_fmu_server::start() {
     thread_ = make_unique<thread>(&grpc_fmu_server::wait, this);
 }
 
-void grpc_fmu_server::stop() {
+void grpc_fmu_server::stop()
+{
     server_->Shutdown();
     thread_->join();
     cout << "gRPC server stopped.." << endl;

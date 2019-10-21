@@ -1,5 +1,5 @@
 
-from service import fmu_service
+from service import FmuService
 from service.ttypes import *
 
 from thrift.transport import TSocket
@@ -9,7 +9,7 @@ from thrift.protocol import TBinaryProtocol
 
 class VariableReader:
 
-    def __init__(self, instance_id: int, value_reference: int, client: fmu_service.Client):
+    def __init__(self, instance_id: int, value_reference: int, client: FmuService.Client):
         self.client = client  # type: fmu_service.Client
         self.instance_id = instance_id  # type: str
         self.value_reference = [value_reference]  # type: [int]
@@ -29,7 +29,7 @@ class VariableReader:
 
 class VariableWriter:
 
-    def __init__(self, instance_id: int, value_reference: int, client: fmu_service.Client):
+    def __init__(self, instance_id: int, value_reference: int, client: FmuService.Client):
         self.client = client  # type: fmu_service.Client
         self.instance_id = instance_id  # type: str
         self.value_reference = [value_reference]  # type: [int]
@@ -54,7 +54,7 @@ class RemoteFmuInstance:
         self.remote_fmu = remote_fmu
         self.client = remote_fmu.client  # type: fmu_service.Client
         self.model_description = remote_fmu.model_description  # type: ModelDescription
-        self.simulation_time = None  # type: float
+        self.simulation_time = -1  # type: float
 
     def setup_experiment(self, start: float = 0.0, stop: float = 0.0, tolerance: float = 0.0) -> Status:
         self.simulation_time = start
@@ -104,7 +104,7 @@ class RemoteFmu:
         self.transport = TTransport.TFramedTransport(self.transport)
         self.protocol = TBinaryProtocol.TBinaryProtocol(self.transport)
 
-        self.client = fmu_service.Client(self.protocol)
+        self.client = FmuService.Client(self.protocol)
 
         self.transport.open()
 
@@ -121,9 +121,6 @@ class RemoteFmu:
                 return key
         return None
 
-    def create_instance(self, solver: Solver=None) -> RemoteFmuInstance:
-        if solver is None:
-            instance_id = self.client.create_instance_from_cs(self.fmu_id)
-        else:
-            instance_id = self.client.create_instance_from_me(self.fmu_id, solver)
+    def create_instance(self) -> RemoteFmuInstance:
+        instance_id = self.client.create_instance(self.fmu_id)
         return RemoteFmuInstance(self, instance_id)

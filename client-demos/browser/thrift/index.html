@@ -26,7 +26,7 @@
                 var fmu_id = client.load_from_url("http://folk.ntnu.no/laht/files/ControlledTemperature.fmu")
                 console.log(client.get_model_description(fmu_id))
 
-                var instance_id = client.create_instance_from_cs(fmu_id)
+                var instance_id = client.create_instance(fmu_id)
                 
                 var t = 0.0
 		        var status = undefined;

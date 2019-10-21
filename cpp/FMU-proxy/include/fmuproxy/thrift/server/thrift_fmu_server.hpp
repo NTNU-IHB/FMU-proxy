@@ -25,41 +25,40 @@
 #ifndef FMU_PROXY_THRIFTSERVER_H
 #define FMU_PROXY_THRIFTSERVER_H
 
-#include <thread>
-#include <unordered_map>
+#include "../common/service_types.h"
+#include "fmu_service_handler.hpp"
 
 #include <fmi4cpp/fmi2/fmu.hpp>
 #include <thrift/server/TServer.h>
 
-#include "../common/service_types.h"
-#include "fmu_service_handler.hpp"
+#include <thread>
+#include <unordered_map>
 
 
-namespace fmuproxy::thrift::server {
-        
-    class thrift_fmu_server {
+namespace fmuproxy::thrift::server
+{
 
-    private:
+class thrift_fmu_server
+{
 
-        const bool http_;
-        const unsigned int port_;
-        std::unique_ptr<std::thread> thread_;
-        std::unique_ptr<apache::thrift::server::TServer> server_;
+private:
+    const bool http_;
+    const unsigned int port_;
+    std::unique_ptr<std::thread> thread_;
+    std::unique_ptr<apache::thrift::server::TServer> server_;
 
-        void serve();
+    void serve();
 
-    public:
+public:
+    thrift_fmu_server(std::unordered_map<fmuproxy::thrift::FmuId,
+                          std::shared_ptr<fmi4cpp::fmi2::cs_fmu>>& fmus,
+        unsigned int port, bool http = false, bool multiThreaded = false);
 
-        thrift_fmu_server(std::unordered_map<fmuproxy::thrift::FmuId,
-                std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus,
-                unsigned int port, bool http=false, bool multiThreaded = false);
+    void start();
 
-        void start();
+    void stop();
+};
 
-        void stop();
-
-    };
-
-}
+} // namespace fmuproxy::thrift::server
 
 #endif //FMU_PROXY_THRIFTSERVER_H

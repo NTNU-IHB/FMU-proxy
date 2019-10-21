@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018 Norwegian University of Technology (NTNU)
+ * Copyright 2017-2019 Norwegian University of Technology (NTNU)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,17 +42,16 @@ message ModelDescription {
     string variable_naming_convention = 12;
     repeated ScalarVariable model_variables = 13;
     ModelStructure model_structure = 14;
+	
+	string model_identifier = 15;
+    bool can_get_and_set_fmu_state = 16;
+    bool can_serialize_fmu_state = 17;
+    bool provides_directional_derivative = 18;
+    bool can_handle_variable_communication_step_size = 19;	
+    bool can_interpolate_inputs = 20;
+    uint32 max_output_derivative_order = 21;
 }
 
-message CoSimulationAttributes {
-    string model_identifier = 1;
-    bool can_get_and_set_fmu_state = 2;
-    bool can_serialize_fmu_state = 3;
-    bool provides_directional_derivative = 4;
-    bool can_handle_variable_communication_step_size = 5;
-    bool can_interpolate_inputs = 6;
-    uint32 max_output_derivative_order = 7;
-}
 
 message IntegerAttribute {
     int32 min = 1;
@@ -148,21 +147,12 @@ message StepResponse {
     double simulation_time = 2;
 }
 
-message CreateInstanceFromCSRequest {
+message CreateInstanceRequest {
     string fmu_id = 1;
-}
-
-message CreateInstanceFromMERequest {
-    string fmu_id = 1;
-    Solver solver = 2;
 }
 
 message GetModelDescriptionRequest {
     string fmu_id = 1;
-}
-
-message GetCoSimulationAttributesRequest {
-    string instance_id = 1;
 }
 
 message SetupExperimentRequest {
@@ -242,21 +232,8 @@ message BooleanRead {
     Status status = 2;
 }
 
-message Solver {
-    string name = 1;
-    string settings = 2;
-}
-
 message Bool {
     bool value = 1;
-}
-
-message CanCreateInstanceFromCSRequest {
-    string fmu_id = 1;
-}
-
-message CanCreateInstanceFromMERequest {
-    string fmu_id = 1;
 }
 
 message GetDirectionalDerivativeRequest {
@@ -286,13 +263,8 @@ service FmuService {
     rpc LoadFromFile(File) returns (FmuId);
 
     rpc GetModelDescription (GetModelDescriptionRequest) returns (ModelDescription);
-    rpc GetCoSimulationAttributes (GetCoSimulationAttributesRequest) returns (CoSimulationAttributes);
-
-    rpc CanCreateInstanceFromCS (CanCreateInstanceFromCSRequest) returns (Bool);
-    rpc CanCreateInstanceFromME (CanCreateInstanceFromMERequest) returns (Bool);
-
-    rpc CreateInstanceFromCS (CreateInstanceFromCSRequest) returns (InstanceId);
-    rpc CreateInstanceFromME (CreateInstanceFromMERequest) returns (InstanceId);
+	
+    rpc CreateInstance(CreateInstanceRequest) returns (InstanceId);
 
     rpc SetupExperiment (SetupExperimentRequest) returns (StatusResponse);
     rpc EnterInitializationMode (EnterInitializationModeRequest) returns (StatusResponse);

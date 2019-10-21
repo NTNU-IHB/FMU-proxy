@@ -123,164 +123,36 @@ public final class FmuServiceGrpc {
      return getGetModelDescriptionMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes> getGetCoSimulationAttributesMethod;
+  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest,
+      no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "GetCoSimulationAttributes",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes> getGetCoSimulationAttributesMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest, no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes> getGetCoSimulationAttributesMethod;
-    if ((getGetCoSimulationAttributesMethod = FmuServiceGrpc.getGetCoSimulationAttributesMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getGetCoSimulationAttributesMethod = FmuServiceGrpc.getGetCoSimulationAttributesMethod) == null) {
-          FmuServiceGrpc.getGetCoSimulationAttributesMethod = getGetCoSimulationAttributesMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest, no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "GetCoSimulationAttributes"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("GetCoSimulationAttributes"))
-                  .build();
-          }
-        }
-     }
-     return getGetCoSimulationAttributesMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.Bool> getCanCreateInstanceFromCSMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CanCreateInstanceFromCS",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.Bool.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.Bool> getCanCreateInstanceFromCSMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest, no.ntnu.ihb.fmuproxy.grpc.Service.Bool> getCanCreateInstanceFromCSMethod;
-    if ((getCanCreateInstanceFromCSMethod = FmuServiceGrpc.getCanCreateInstanceFromCSMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getCanCreateInstanceFromCSMethod = FmuServiceGrpc.getCanCreateInstanceFromCSMethod) == null) {
-          FmuServiceGrpc.getCanCreateInstanceFromCSMethod = getCanCreateInstanceFromCSMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest, no.ntnu.ihb.fmuproxy.grpc.Service.Bool>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "CanCreateInstanceFromCS"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.Bool.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CanCreateInstanceFromCS"))
-                  .build();
-          }
-        }
-     }
-     return getCanCreateInstanceFromCSMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.Bool> getCanCreateInstanceFromMEMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CanCreateInstanceFromME",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.Bool.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.Bool> getCanCreateInstanceFromMEMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest, no.ntnu.ihb.fmuproxy.grpc.Service.Bool> getCanCreateInstanceFromMEMethod;
-    if ((getCanCreateInstanceFromMEMethod = FmuServiceGrpc.getCanCreateInstanceFromMEMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getCanCreateInstanceFromMEMethod = FmuServiceGrpc.getCanCreateInstanceFromMEMethod) == null) {
-          FmuServiceGrpc.getCanCreateInstanceFromMEMethod = getCanCreateInstanceFromMEMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest, no.ntnu.ihb.fmuproxy.grpc.Service.Bool>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "CanCreateInstanceFromME"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.Bool.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CanCreateInstanceFromME"))
-                  .build();
-          }
-        }
-     }
-     return getCanCreateInstanceFromMEMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceFromCSMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CreateInstanceFromCS",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest.class,
+      fullMethodName = SERVICE_NAME + '/' + "CreateInstance",
+      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest.class,
       responseType = no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceFromCSMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceFromCSMethod;
-    if ((getCreateInstanceFromCSMethod = FmuServiceGrpc.getCreateInstanceFromCSMethod) == null) {
+  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest,
+      no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceMethod() {
+    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceMethod;
+    if ((getCreateInstanceMethod = FmuServiceGrpc.getCreateInstanceMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
-        if ((getCreateInstanceFromCSMethod = FmuServiceGrpc.getCreateInstanceFromCSMethod) == null) {
-          FmuServiceGrpc.getCreateInstanceFromCSMethod = getCreateInstanceFromCSMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>newBuilder()
+        if ((getCreateInstanceMethod = FmuServiceGrpc.getCreateInstanceMethod) == null) {
+          FmuServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod = 
+              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "CreateInstanceFromCS"))
+                  "fmuproxy.grpc.FmuService", "CreateInstance"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest.getDefaultInstance()))
+                  no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CreateInstanceFromCS"))
+                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CreateInstance"))
                   .build();
           }
         }
      }
-     return getCreateInstanceFromCSMethod;
-  }
-
-  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceFromMEMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "CreateInstanceFromME",
-      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest.class,
-      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest,
-      no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceFromMEMethod() {
-    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> getCreateInstanceFromMEMethod;
-    if ((getCreateInstanceFromMEMethod = FmuServiceGrpc.getCreateInstanceFromMEMethod) == null) {
-      synchronized (FmuServiceGrpc.class) {
-        if ((getCreateInstanceFromMEMethod = FmuServiceGrpc.getCreateInstanceFromMEMethod) == null) {
-          FmuServiceGrpc.getCreateInstanceFromMEMethod = getCreateInstanceFromMEMethod = 
-              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "CreateInstanceFromME"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CreateInstanceFromME"))
-                  .build();
-          }
-        }
-     }
-     return getCreateInstanceFromMEMethod;
+     return getCreateInstanceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SetupExperimentRequest,
@@ -813,37 +685,9 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public void getCoSimulationAttributes(no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes> responseObserver) {
-      asyncUnimplementedUnaryCall(getGetCoSimulationAttributesMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void canCreateInstanceFromCS(no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Bool> responseObserver) {
-      asyncUnimplementedUnaryCall(getCanCreateInstanceFromCSMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void canCreateInstanceFromME(no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Bool> responseObserver) {
-      asyncUnimplementedUnaryCall(getCanCreateInstanceFromMEMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void createInstanceFromCS(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest request,
+    public void createInstance(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> responseObserver) {
-      asyncUnimplementedUnaryCall(getCreateInstanceFromCSMethod(), responseObserver);
-    }
-
-    /**
-     */
-    public void createInstanceFromME(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> responseObserver) {
-      asyncUnimplementedUnaryCall(getCreateInstanceFromMEMethod(), responseObserver);
+      asyncUnimplementedUnaryCall(getCreateInstanceMethod(), responseObserver);
     }
 
     /**
@@ -975,40 +819,12 @@ public final class FmuServiceGrpc {
                 no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription>(
                   this, METHODID_GET_MODEL_DESCRIPTION)))
           .addMethod(
-            getGetCoSimulationAttributesMethod(),
+            getCreateInstanceMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes>(
-                  this, METHODID_GET_CO_SIMULATION_ATTRIBUTES)))
-          .addMethod(
-            getCanCreateInstanceFromCSMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.Bool>(
-                  this, METHODID_CAN_CREATE_INSTANCE_FROM_CS)))
-          .addMethod(
-            getCanCreateInstanceFromMEMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.Bool>(
-                  this, METHODID_CAN_CREATE_INSTANCE_FROM_ME)))
-          .addMethod(
-            getCreateInstanceFromCSMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest,
+                no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest,
                 no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>(
-                  this, METHODID_CREATE_INSTANCE_FROM_CS)))
-          .addMethod(
-            getCreateInstanceFromMEMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest,
-                no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>(
-                  this, METHODID_CREATE_INSTANCE_FROM_ME)))
+                  this, METHODID_CREATE_INSTANCE)))
           .addMethod(
             getSetupExperimentMethod(),
             asyncUnaryCall(
@@ -1162,42 +978,10 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public void getCoSimulationAttributes(no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getGetCoSimulationAttributesMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void canCreateInstanceFromCS(no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Bool> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getCanCreateInstanceFromCSMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void canCreateInstanceFromME(no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Bool> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getCanCreateInstanceFromMEMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void createInstanceFromCS(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest request,
+    public void createInstance(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> responseObserver) {
       asyncUnaryCall(
-          getChannel().newCall(getCreateInstanceFromCSMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
-    public void createInstanceFromME(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest request,
-        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getCreateInstanceFromMEMethod(), getCallOptions()), request, responseObserver);
+          getChannel().newCall(getCreateInstanceMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1362,37 +1146,9 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes getCoSimulationAttributes(no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest request) {
+    public no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId createInstance(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest request) {
       return blockingUnaryCall(
-          getChannel(), getGetCoSimulationAttributesMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.Bool canCreateInstanceFromCS(no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getCanCreateInstanceFromCSMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.Bool canCreateInstanceFromME(no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest request) {
-      return blockingUnaryCall(
-          getChannel(), getCanCreateInstanceFromMEMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId createInstanceFromCS(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getCreateInstanceFromCSMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId createInstanceFromME(no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest request) {
-      return blockingUnaryCall(
-          getChannel(), getCreateInstanceFromMEMethod(), getCallOptions(), request);
+          getChannel(), getCreateInstanceMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1545,42 +1301,10 @@ public final class FmuServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes> getCoSimulationAttributes(
-        no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> createInstance(
+        no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest request) {
       return futureUnaryCall(
-          getChannel().newCall(getGetCoSimulationAttributesMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.Bool> canCreateInstanceFromCS(
-        no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getCanCreateInstanceFromCSMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.Bool> canCreateInstanceFromME(
-        no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getCanCreateInstanceFromMEMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> createInstanceFromCS(
-        no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getCreateInstanceFromCSMethod(), getCallOptions()), request);
-    }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId> createInstanceFromME(
-        no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getCreateInstanceFromMEMethod(), getCallOptions()), request);
+          getChannel().newCall(getCreateInstanceMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1707,26 +1431,22 @@ public final class FmuServiceGrpc {
   private static final int METHODID_LOAD_FROM_URL = 0;
   private static final int METHODID_LOAD_FROM_FILE = 1;
   private static final int METHODID_GET_MODEL_DESCRIPTION = 2;
-  private static final int METHODID_GET_CO_SIMULATION_ATTRIBUTES = 3;
-  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_CS = 4;
-  private static final int METHODID_CAN_CREATE_INSTANCE_FROM_ME = 5;
-  private static final int METHODID_CREATE_INSTANCE_FROM_CS = 6;
-  private static final int METHODID_CREATE_INSTANCE_FROM_ME = 7;
-  private static final int METHODID_SETUP_EXPERIMENT = 8;
-  private static final int METHODID_ENTER_INITIALIZATION_MODE = 9;
-  private static final int METHODID_EXIT_INITIALIZATION_MODE = 10;
-  private static final int METHODID_STEP = 11;
-  private static final int METHODID_RESET = 12;
-  private static final int METHODID_TERMINATE = 13;
-  private static final int METHODID_READ_INTEGER = 14;
-  private static final int METHODID_READ_REAL = 15;
-  private static final int METHODID_READ_STRING = 16;
-  private static final int METHODID_READ_BOOLEAN = 17;
-  private static final int METHODID_WRITE_INTEGER = 18;
-  private static final int METHODID_WRITE_REAL = 19;
-  private static final int METHODID_WRITE_STRING = 20;
-  private static final int METHODID_WRITE_BOOLEAN = 21;
-  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 22;
+  private static final int METHODID_CREATE_INSTANCE = 3;
+  private static final int METHODID_SETUP_EXPERIMENT = 4;
+  private static final int METHODID_ENTER_INITIALIZATION_MODE = 5;
+  private static final int METHODID_EXIT_INITIALIZATION_MODE = 6;
+  private static final int METHODID_STEP = 7;
+  private static final int METHODID_RESET = 8;
+  private static final int METHODID_TERMINATE = 9;
+  private static final int METHODID_READ_INTEGER = 10;
+  private static final int METHODID_READ_REAL = 11;
+  private static final int METHODID_READ_STRING = 12;
+  private static final int METHODID_READ_BOOLEAN = 13;
+  private static final int METHODID_WRITE_INTEGER = 14;
+  private static final int METHODID_WRITE_REAL = 15;
+  private static final int METHODID_WRITE_STRING = 16;
+  private static final int METHODID_WRITE_BOOLEAN = 17;
+  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 18;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1757,24 +1477,8 @@ public final class FmuServiceGrpc {
           serviceImpl.getModelDescription((no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription>) responseObserver);
           break;
-        case METHODID_GET_CO_SIMULATION_ATTRIBUTES:
-          serviceImpl.getCoSimulationAttributes((no.ntnu.ihb.fmuproxy.grpc.Service.GetCoSimulationAttributesRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.CoSimulationAttributes>) responseObserver);
-          break;
-        case METHODID_CAN_CREATE_INSTANCE_FROM_CS:
-          serviceImpl.canCreateInstanceFromCS((no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromCSRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Bool>) responseObserver);
-          break;
-        case METHODID_CAN_CREATE_INSTANCE_FROM_ME:
-          serviceImpl.canCreateInstanceFromME((no.ntnu.ihb.fmuproxy.grpc.Service.CanCreateInstanceFromMERequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Bool>) responseObserver);
-          break;
-        case METHODID_CREATE_INSTANCE_FROM_CS:
-          serviceImpl.createInstanceFromCS((no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromCSRequest) request,
-              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>) responseObserver);
-          break;
-        case METHODID_CREATE_INSTANCE_FROM_ME:
-          serviceImpl.createInstanceFromME((no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceFromMERequest) request,
+        case METHODID_CREATE_INSTANCE:
+          serviceImpl.createInstance((no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>) responseObserver);
           break;
         case METHODID_SETUP_EXPERIMENT:
@@ -1901,11 +1605,7 @@ public final class FmuServiceGrpc {
               .addMethod(getLoadFromUrlMethod())
               .addMethod(getLoadFromFileMethod())
               .addMethod(getGetModelDescriptionMethod())
-              .addMethod(getGetCoSimulationAttributesMethod())
-              .addMethod(getCanCreateInstanceFromCSMethod())
-              .addMethod(getCanCreateInstanceFromMEMethod())
-              .addMethod(getCreateInstanceFromCSMethod())
-              .addMethod(getCreateInstanceFromMEMethod())
+              .addMethod(getCreateInstanceMethod())
               .addMethod(getSetupExperimentMethod())
               .addMethod(getEnterInitializationModeMethod())
               .addMethod(getExitInitializationModeMethod())

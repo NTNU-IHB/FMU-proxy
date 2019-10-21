@@ -37,30 +37,19 @@ namespace fmuproxy::thrift::server {
     class fmu_service_handler : virtual public fmu_service_if {
 
     private:
-        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus_;
+        std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::cs_fmu>> &fmus_;
         std::unordered_map<InstanceId, std::unique_ptr<fmi4cpp::fmu_slave<fmi4cpp::fmi2::cs_model_description>>> slaves_;
 
     public:
-        explicit fmu_service_handler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::fmu>> &fmus);
+        explicit fmu_service_handler(std::unordered_map<FmuId, std::shared_ptr<fmi4cpp::fmi2::cs_fmu>> &fmus);
 
         void load_from_url(FmuId &_return, const std::string &url) override;
 
         void load_from_file(FmuId &_return, const std::string &name, const std::string &data) override;
 
-        bool can_create_instance_from_cs(const FmuId &fmuId) override;
-
-        bool can_create_instance_from_me(const FmuId &fmuId) override;
-
         void get_model_description(ModelDescription &_return, const FmuId &fmu_id) override;
 
-        void create_instance_from_cs(InstanceId &_return, const FmuId &fmu_id) override;
-
-        void create_instance_from_me(InstanceId &_return, const FmuId &fmu_id,
-                                  const ::fmuproxy::thrift::Solver &solver) override;
-
-
-        void get_co_simulation_attributes(::fmuproxy::thrift::CoSimulationAttributes &_return,
-                                          const InstanceId &instanceId) override;
+        void create_instance(InstanceId &_return, const FmuId &fmu_id) override;
 
         Status::type setup_experiment(const InstanceId &instanceId, double start, double stop,
                                      double tolerance) override;

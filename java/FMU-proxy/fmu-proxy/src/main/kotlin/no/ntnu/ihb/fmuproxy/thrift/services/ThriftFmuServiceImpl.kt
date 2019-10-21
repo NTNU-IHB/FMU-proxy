@@ -32,9 +32,7 @@ import no.ntnu.ihb.fmi4j.solvers.apache.ApacheSolvers
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
-import no.ntnu.ihb.fmuproxy.solver.parseSolver
 import no.ntnu.ihb.fmuproxy.thrift.*
-import no.ntnu.ihb.fmuproxy.thrift.CoSimulationAttributes
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -95,51 +93,16 @@ class ThriftFmuServiceImpl(
     }
 
     override fun getModelDescription(fmuId: FmuId): ModelDescription {
-        return getFmu(fmuId).modelDescription.thriftType()
+        return getFmu(fmuId).modelDescription.asCoSimulationModelDescription().thriftType()
     }
 
-    override fun canCreateInstanceFromCs(fmuId: FmuId): Boolean {
-        return getFmu(fmuId).supportsCoSimulation
-    }
-
-    override fun canCreateInstanceFromMe(fmuId: FmuId): Boolean {
-        return getFmu(fmuId).supportsModelExchange
-    }
-
-    override fun createInstanceFromCs(fmuId: FmuId): InstanceId {
+    override fun createInstance(fmuId: FmuId): InstanceId {
         return getFmu(fmuId).let { fmu ->
             if (!fmu.supportsCoSimulation) {
                 throw UnsupportedOperationException("FMU does not support Co-simulation!")
             }
             FmuSlaves.put(fmu.asCoSimulationFmu().newInstance())
         }
-    }
-
-    override fun createInstanceFromMe(fmuId: FmuId, solver: Solver): InstanceId {
-        return getFmu(fmuId).let { fmu ->
-            if (!fmu.supportsModelExchange) {
-                throw UnsupportedOperationException("FMU does not support Model Exchange!")
-            }
-            if (fmu.modelDescription.fmiVersion != "2.0") {
-                throw UnsupportedOperationException("Feature only available for FMI 2.0")
-            }
-            fun selectDefaultIntegrator(): no.ntnu.ihb.fmi4j.solvers.Solver {
-                val stepSize = fmu.modelDescription.defaultExperiment?.stepSize ?: 1E-3
-                LOG.warn("No valid integrator found.. Defaulting to Euler with $stepSize stepSize")
-                return ApacheSolvers.euler(stepSize)
-            }
-
-            @Suppress("NAME_SHADOWING")
-            val fmu = fmu as Fmu
-            (parseSolver(solver.name, solver.settings) ?: selectDefaultIntegrator()).let {
-                FmuSlaves.put(fmu.asModelExchangeFmu().newInstance(it))
-            }
-
-        }
-    }
-
-    override fun getCoSimulationAttributes(instanceId: InstanceId): CoSimulationAttributes {
-        return getSlave(instanceId).modelDescription.attributes.thriftType()
     }
 
     override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): Status {

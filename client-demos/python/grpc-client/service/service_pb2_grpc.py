@@ -29,29 +29,9 @@ class FmuServiceStub(object):
         request_serializer=service__pb2.GetModelDescriptionRequest.SerializeToString,
         response_deserializer=service__pb2.ModelDescription.FromString,
         )
-    self.GetCoSimulationAttributes = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/GetCoSimulationAttributes',
-        request_serializer=service__pb2.GetCoSimulationAttributesRequest.SerializeToString,
-        response_deserializer=service__pb2.CoSimulationAttributes.FromString,
-        )
-    self.CanCreateInstanceFromCS = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/CanCreateInstanceFromCS',
-        request_serializer=service__pb2.CanCreateInstanceFromCSRequest.SerializeToString,
-        response_deserializer=service__pb2.Bool.FromString,
-        )
-    self.CanCreateInstanceFromME = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/CanCreateInstanceFromME',
-        request_serializer=service__pb2.CanCreateInstanceFromMERequest.SerializeToString,
-        response_deserializer=service__pb2.Bool.FromString,
-        )
-    self.CreateInstanceFromCS = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/CreateInstanceFromCS',
-        request_serializer=service__pb2.CreateInstanceFromCSRequest.SerializeToString,
-        response_deserializer=service__pb2.InstanceId.FromString,
-        )
-    self.CreateInstanceFromME = channel.unary_unary(
-        '/fmuproxy.grpc.FmuService/CreateInstanceFromME',
-        request_serializer=service__pb2.CreateInstanceFromMERequest.SerializeToString,
+    self.CreateInstance = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/CreateInstance',
+        request_serializer=service__pb2.CreateInstanceRequest.SerializeToString,
         response_deserializer=service__pb2.InstanceId.FromString,
         )
     self.SetupExperiment = channel.unary_unary(
@@ -156,35 +136,7 @@ class FmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def GetCoSimulationAttributes(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def CanCreateInstanceFromCS(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def CanCreateInstanceFromME(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def CreateInstanceFromCS(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def CreateInstanceFromME(self, request, context):
+  def CreateInstance(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -314,29 +266,9 @@ def add_FmuServiceServicer_to_server(servicer, server):
           request_deserializer=service__pb2.GetModelDescriptionRequest.FromString,
           response_serializer=service__pb2.ModelDescription.SerializeToString,
       ),
-      'GetCoSimulationAttributes': grpc.unary_unary_rpc_method_handler(
-          servicer.GetCoSimulationAttributes,
-          request_deserializer=service__pb2.GetCoSimulationAttributesRequest.FromString,
-          response_serializer=service__pb2.CoSimulationAttributes.SerializeToString,
-      ),
-      'CanCreateInstanceFromCS': grpc.unary_unary_rpc_method_handler(
-          servicer.CanCreateInstanceFromCS,
-          request_deserializer=service__pb2.CanCreateInstanceFromCSRequest.FromString,
-          response_serializer=service__pb2.Bool.SerializeToString,
-      ),
-      'CanCreateInstanceFromME': grpc.unary_unary_rpc_method_handler(
-          servicer.CanCreateInstanceFromME,
-          request_deserializer=service__pb2.CanCreateInstanceFromMERequest.FromString,
-          response_serializer=service__pb2.Bool.SerializeToString,
-      ),
-      'CreateInstanceFromCS': grpc.unary_unary_rpc_method_handler(
-          servicer.CreateInstanceFromCS,
-          request_deserializer=service__pb2.CreateInstanceFromCSRequest.FromString,
-          response_serializer=service__pb2.InstanceId.SerializeToString,
-      ),
-      'CreateInstanceFromME': grpc.unary_unary_rpc_method_handler(
-          servicer.CreateInstanceFromME,
-          request_deserializer=service__pb2.CreateInstanceFromMERequest.FromString,
+      'CreateInstance': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateInstance,
+          request_deserializer=service__pb2.CreateInstanceRequest.FromString,
           response_serializer=service__pb2.InstanceId.SerializeToString,
       ),
       'SetupExperiment': grpc.unary_unary_rpc_method_handler(
