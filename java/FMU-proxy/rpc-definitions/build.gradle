@@ -48,7 +48,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     protobuf {
         generatedFilesBaseDir = "$projectDir/src"
         protoc {
-            artifact = 'com.google.protobuf:protoc:3.7.0'
+            artifact = 'com.google.protobuf:protoc:3.9.0'
         }
         plugins {
             grpc {

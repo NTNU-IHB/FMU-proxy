@@ -18,7 +18,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 /**
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.21.0)",
+    value = "by gRPC proto compiler (version 1.23.0)",
     comments = "Source: service.proto")
 public final class FmuServiceGrpc {
 
@@ -41,22 +41,21 @@ public final class FmuServiceGrpc {
     if ((getLoadFromUrlMethod = FmuServiceGrpc.getLoadFromUrlMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getLoadFromUrlMethod = FmuServiceGrpc.getLoadFromUrlMethod) == null) {
-          FmuServiceGrpc.getLoadFromUrlMethod = getLoadFromUrlMethod = 
+          FmuServiceGrpc.getLoadFromUrlMethod = getLoadFromUrlMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.Url, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "LoadFromUrl"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "LoadFromUrl"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.Url.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("LoadFromUrl"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("LoadFromUrl"))
+              .build();
         }
-     }
-     return getLoadFromUrlMethod;
+      }
+    }
+    return getLoadFromUrlMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.File,
@@ -73,22 +72,21 @@ public final class FmuServiceGrpc {
     if ((getLoadFromFileMethod = FmuServiceGrpc.getLoadFromFileMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getLoadFromFileMethod = FmuServiceGrpc.getLoadFromFileMethod) == null) {
-          FmuServiceGrpc.getLoadFromFileMethod = getLoadFromFileMethod = 
+          FmuServiceGrpc.getLoadFromFileMethod = getLoadFromFileMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.File, no.ntnu.ihb.fmuproxy.grpc.Service.FmuId>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "LoadFromFile"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "LoadFromFile"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.File.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.FmuId.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("LoadFromFile"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("LoadFromFile"))
+              .build();
         }
-     }
-     return getLoadFromFileMethod;
+      }
+    }
+    return getLoadFromFileMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest,
@@ -105,22 +103,21 @@ public final class FmuServiceGrpc {
     if ((getGetModelDescriptionMethod = FmuServiceGrpc.getGetModelDescriptionMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getGetModelDescriptionMethod = FmuServiceGrpc.getGetModelDescriptionMethod) == null) {
-          FmuServiceGrpc.getGetModelDescriptionMethod = getGetModelDescriptionMethod = 
+          FmuServiceGrpc.getGetModelDescriptionMethod = getGetModelDescriptionMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest, no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "GetModelDescription"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetModelDescription"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.GetModelDescriptionRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("GetModelDescription"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("GetModelDescription"))
+              .build();
         }
-     }
-     return getGetModelDescriptionMethod;
+      }
+    }
+    return getGetModelDescriptionMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest,
@@ -137,22 +134,21 @@ public final class FmuServiceGrpc {
     if ((getCreateInstanceMethod = FmuServiceGrpc.getCreateInstanceMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getCreateInstanceMethod = FmuServiceGrpc.getCreateInstanceMethod) == null) {
-          FmuServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod = 
+          FmuServiceGrpc.getCreateInstanceMethod = getCreateInstanceMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest, no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "CreateInstance"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "CreateInstance"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.CreateInstanceRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.InstanceId.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CreateInstance"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("CreateInstance"))
+              .build();
         }
-     }
-     return getCreateInstanceMethod;
+      }
+    }
+    return getCreateInstanceMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.SetupExperimentRequest,
@@ -169,22 +165,21 @@ public final class FmuServiceGrpc {
     if ((getSetupExperimentMethod = FmuServiceGrpc.getSetupExperimentMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getSetupExperimentMethod = FmuServiceGrpc.getSetupExperimentMethod) == null) {
-          FmuServiceGrpc.getSetupExperimentMethod = getSetupExperimentMethod = 
+          FmuServiceGrpc.getSetupExperimentMethod = getSetupExperimentMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.SetupExperimentRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "SetupExperiment"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "SetupExperiment"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.SetupExperimentRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("SetupExperiment"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("SetupExperiment"))
+              .build();
         }
-     }
-     return getSetupExperimentMethod;
+      }
+    }
+    return getSetupExperimentMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.EnterInitializationModeRequest,
@@ -201,22 +196,21 @@ public final class FmuServiceGrpc {
     if ((getEnterInitializationModeMethod = FmuServiceGrpc.getEnterInitializationModeMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getEnterInitializationModeMethod = FmuServiceGrpc.getEnterInitializationModeMethod) == null) {
-          FmuServiceGrpc.getEnterInitializationModeMethod = getEnterInitializationModeMethod = 
+          FmuServiceGrpc.getEnterInitializationModeMethod = getEnterInitializationModeMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.EnterInitializationModeRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "EnterInitializationMode"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "EnterInitializationMode"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.EnterInitializationModeRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("EnterInitializationMode"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("EnterInitializationMode"))
+              .build();
         }
-     }
-     return getEnterInitializationModeMethod;
+      }
+    }
+    return getEnterInitializationModeMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ExitInitializationModeRequest,
@@ -233,22 +227,21 @@ public final class FmuServiceGrpc {
     if ((getExitInitializationModeMethod = FmuServiceGrpc.getExitInitializationModeMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getExitInitializationModeMethod = FmuServiceGrpc.getExitInitializationModeMethod) == null) {
-          FmuServiceGrpc.getExitInitializationModeMethod = getExitInitializationModeMethod = 
+          FmuServiceGrpc.getExitInitializationModeMethod = getExitInitializationModeMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.ExitInitializationModeRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "ExitInitializationMode"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ExitInitializationMode"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ExitInitializationModeRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ExitInitializationMode"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ExitInitializationMode"))
+              .build();
         }
-     }
-     return getExitInitializationModeMethod;
+      }
+    }
+    return getExitInitializationModeMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.StepRequest,
@@ -265,22 +258,21 @@ public final class FmuServiceGrpc {
     if ((getStepMethod = FmuServiceGrpc.getStepMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getStepMethod = FmuServiceGrpc.getStepMethod) == null) {
-          FmuServiceGrpc.getStepMethod = getStepMethod = 
+          FmuServiceGrpc.getStepMethod = getStepMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.StepRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StepResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "Step"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Step"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StepRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StepResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Step"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Step"))
+              .build();
         }
-     }
-     return getStepMethod;
+      }
+    }
+    return getStepMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ResetRequest,
@@ -297,22 +289,21 @@ public final class FmuServiceGrpc {
     if ((getResetMethod = FmuServiceGrpc.getResetMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getResetMethod = FmuServiceGrpc.getResetMethod) == null) {
-          FmuServiceGrpc.getResetMethod = getResetMethod = 
+          FmuServiceGrpc.getResetMethod = getResetMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.ResetRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "Reset"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Reset"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ResetRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Reset"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Reset"))
+              .build();
         }
-     }
-     return getResetMethod;
+      }
+    }
+    return getResetMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest,
@@ -329,22 +320,21 @@ public final class FmuServiceGrpc {
     if ((getTerminateMethod = FmuServiceGrpc.getTerminateMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getTerminateMethod = FmuServiceGrpc.getTerminateMethod) == null) {
-          FmuServiceGrpc.getTerminateMethod = getTerminateMethod = 
+          FmuServiceGrpc.getTerminateMethod = getTerminateMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "Terminate"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Terminate"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Terminate"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("Terminate"))
+              .build();
         }
-     }
-     return getTerminateMethod;
+      }
+    }
+    return getTerminateMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest,
@@ -361,22 +351,21 @@ public final class FmuServiceGrpc {
     if ((getReadIntegerMethod = FmuServiceGrpc.getReadIntegerMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getReadIntegerMethod = FmuServiceGrpc.getReadIntegerMethod) == null) {
-          FmuServiceGrpc.getReadIntegerMethod = getReadIntegerMethod = 
+          FmuServiceGrpc.getReadIntegerMethod = getReadIntegerMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest, no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "ReadInteger"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ReadInteger"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadInteger"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadInteger"))
+              .build();
         }
-     }
-     return getReadIntegerMethod;
+      }
+    }
+    return getReadIntegerMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest,
@@ -393,22 +382,21 @@ public final class FmuServiceGrpc {
     if ((getReadRealMethod = FmuServiceGrpc.getReadRealMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getReadRealMethod = FmuServiceGrpc.getReadRealMethod) == null) {
-          FmuServiceGrpc.getReadRealMethod = getReadRealMethod = 
+          FmuServiceGrpc.getReadRealMethod = getReadRealMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest, no.ntnu.ihb.fmuproxy.grpc.Service.RealRead>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "ReadReal"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ReadReal"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.RealRead.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadReal"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadReal"))
+              .build();
         }
-     }
-     return getReadRealMethod;
+      }
+    }
+    return getReadRealMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest,
@@ -425,22 +413,21 @@ public final class FmuServiceGrpc {
     if ((getReadStringMethod = FmuServiceGrpc.getReadStringMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getReadStringMethod = FmuServiceGrpc.getReadStringMethod) == null) {
-          FmuServiceGrpc.getReadStringMethod = getReadStringMethod = 
+          FmuServiceGrpc.getReadStringMethod = getReadStringMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StringRead>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "ReadString"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ReadString"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StringRead.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadString"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadString"))
+              .build();
         }
-     }
-     return getReadStringMethod;
+      }
+    }
+    return getReadStringMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest,
@@ -457,22 +444,21 @@ public final class FmuServiceGrpc {
     if ((getReadBooleanMethod = FmuServiceGrpc.getReadBooleanMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getReadBooleanMethod = FmuServiceGrpc.getReadBooleanMethod) == null) {
-          FmuServiceGrpc.getReadBooleanMethod = getReadBooleanMethod = 
+          FmuServiceGrpc.getReadBooleanMethod = getReadBooleanMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest, no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "ReadBoolean"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ReadBoolean"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadBoolean"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("ReadBoolean"))
+              .build();
         }
-     }
-     return getReadBooleanMethod;
+      }
+    }
+    return getReadBooleanMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest,
@@ -489,22 +475,21 @@ public final class FmuServiceGrpc {
     if ((getWriteIntegerMethod = FmuServiceGrpc.getWriteIntegerMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getWriteIntegerMethod = FmuServiceGrpc.getWriteIntegerMethod) == null) {
-          FmuServiceGrpc.getWriteIntegerMethod = getWriteIntegerMethod = 
+          FmuServiceGrpc.getWriteIntegerMethod = getWriteIntegerMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "WriteInteger"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "WriteInteger"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteInteger"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteInteger"))
+              .build();
         }
-     }
-     return getWriteIntegerMethod;
+      }
+    }
+    return getWriteIntegerMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest,
@@ -521,22 +506,21 @@ public final class FmuServiceGrpc {
     if ((getWriteRealMethod = FmuServiceGrpc.getWriteRealMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getWriteRealMethod = FmuServiceGrpc.getWriteRealMethod) == null) {
-          FmuServiceGrpc.getWriteRealMethod = getWriteRealMethod = 
+          FmuServiceGrpc.getWriteRealMethod = getWriteRealMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "WriteReal"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "WriteReal"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteReal"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteReal"))
+              .build();
         }
-     }
-     return getWriteRealMethod;
+      }
+    }
+    return getWriteRealMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest,
@@ -553,22 +537,21 @@ public final class FmuServiceGrpc {
     if ((getWriteStringMethod = FmuServiceGrpc.getWriteStringMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getWriteStringMethod = FmuServiceGrpc.getWriteStringMethod) == null) {
-          FmuServiceGrpc.getWriteStringMethod = getWriteStringMethod = 
+          FmuServiceGrpc.getWriteStringMethod = getWriteStringMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "WriteString"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "WriteString"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteString"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteString"))
+              .build();
         }
-     }
-     return getWriteStringMethod;
+      }
+    }
+    return getWriteStringMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest,
@@ -585,22 +568,21 @@ public final class FmuServiceGrpc {
     if ((getWriteBooleanMethod = FmuServiceGrpc.getWriteBooleanMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getWriteBooleanMethod = FmuServiceGrpc.getWriteBooleanMethod) == null) {
-          FmuServiceGrpc.getWriteBooleanMethod = getWriteBooleanMethod = 
+          FmuServiceGrpc.getWriteBooleanMethod = getWriteBooleanMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest, no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "WriteBoolean"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "WriteBoolean"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteBoolean"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("WriteBoolean"))
+              .build();
         }
-     }
-     return getWriteBooleanMethod;
+      }
+    }
+    return getWriteBooleanMethod;
   }
 
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest,
@@ -617,22 +599,21 @@ public final class FmuServiceGrpc {
     if ((getGetDirectionalDerivativeMethod = FmuServiceGrpc.getGetDirectionalDerivativeMethod) == null) {
       synchronized (FmuServiceGrpc.class) {
         if ((getGetDirectionalDerivativeMethod = FmuServiceGrpc.getGetDirectionalDerivativeMethod) == null) {
-          FmuServiceGrpc.getGetDirectionalDerivativeMethod = getGetDirectionalDerivativeMethod = 
+          FmuServiceGrpc.getGetDirectionalDerivativeMethod = getGetDirectionalDerivativeMethod =
               io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest, no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(
-                  "fmuproxy.grpc.FmuService", "GetDirectionalDerivative"))
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetDirectionalDerivative"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("GetDirectionalDerivative"))
-                  .build();
-          }
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("GetDirectionalDerivative"))
+              .build();
         }
-     }
-     return getGetDirectionalDerivativeMethod;
+      }
+    }
+    return getGetDirectionalDerivativeMethod;
   }
 
   /**

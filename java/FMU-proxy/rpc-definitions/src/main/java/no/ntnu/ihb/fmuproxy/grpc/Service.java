@@ -381,6 +381,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModelDescription();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -484,9 +491,9 @@ public final class Service {
               break;
             }
             case 106: {
-              if (!((mutable_bitField0_ & 0x00001000) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 modelVariables_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable>();
-                mutable_bitField0_ |= 0x00001000;
+                mutable_bitField0_ |= 0x00000001;
               }
               modelVariables_.add(
                   input.readMessage(no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable.parser(), extensionRegistry));
@@ -556,7 +563,7 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00001000) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           modelVariables_ = java.util.Collections.unmodifiableList(modelVariables_);
         }
         this.unknownFields = unknownFields.build();
@@ -576,7 +583,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription.class, no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription.Builder.class);
     }
 
-    private int bitField0_;
     public static final int FMI_VERSION_FIELD_NUMBER = 1;
     private volatile java.lang.Object fmiVersion_;
     /**
@@ -1565,7 +1571,7 @@ public final class Service {
 
         if (modelVariablesBuilder_ == null) {
           modelVariables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00001000);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           modelVariablesBuilder_.clear();
         }
@@ -1616,7 +1622,6 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription result = new no.ntnu.ihb.fmuproxy.grpc.Service.ModelDescription(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.fmiVersion_ = fmiVersion_;
         result.guid_ = guid_;
         result.modelName_ = modelName_;
@@ -1634,9 +1639,9 @@ public final class Service {
         }
         result.variableNamingConvention_ = variableNamingConvention_;
         if (modelVariablesBuilder_ == null) {
-          if (((bitField0_ & 0x00001000) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             modelVariables_ = java.util.Collections.unmodifiableList(modelVariables_);
-            bitField0_ = (bitField0_ & ~0x00001000);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.modelVariables_ = modelVariables_;
         } else {
@@ -1654,7 +1659,6 @@ public final class Service {
         result.canHandleVariableCommunicationStepSize_ = canHandleVariableCommunicationStepSize_;
         result.canInterpolateInputs_ = canInterpolateInputs_;
         result.maxOutputDerivativeOrder_ = maxOutputDerivativeOrder_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1754,7 +1758,7 @@ public final class Service {
           if (!other.modelVariables_.isEmpty()) {
             if (modelVariables_.isEmpty()) {
               modelVariables_ = other.modelVariables_;
-              bitField0_ = (bitField0_ & ~0x00001000);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureModelVariablesIsMutable();
               modelVariables_.addAll(other.modelVariables_);
@@ -1767,7 +1771,7 @@ public final class Service {
               modelVariablesBuilder_.dispose();
               modelVariablesBuilder_ = null;
               modelVariables_ = other.modelVariables_;
-              bitField0_ = (bitField0_ & ~0x00001000);
+              bitField0_ = (bitField0_ & ~0x00000001);
               modelVariablesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getModelVariablesFieldBuilder() : null;
@@ -2710,9 +2714,9 @@ public final class Service {
       private java.util.List<no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable> modelVariables_ =
         java.util.Collections.emptyList();
       private void ensureModelVariablesIsMutable() {
-        if (!((bitField0_ & 0x00001000) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           modelVariables_ = new java.util.ArrayList<no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable>(modelVariables_);
-          bitField0_ |= 0x00001000;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -2862,7 +2866,7 @@ public final class Service {
       public Builder clearModelVariables() {
         if (modelVariablesBuilder_ == null) {
           modelVariables_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00001000);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           modelVariablesBuilder_.clear();
@@ -2939,7 +2943,7 @@ public final class Service {
           modelVariablesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable, no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariable.Builder, no.ntnu.ihb.fmuproxy.grpc.Service.ScalarVariableOrBuilder>(
                   modelVariables_,
-                  ((bitField0_ & 0x00001000) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           modelVariables_ = null;
@@ -3387,6 +3391,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new IntegerAttribute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3399,7 +3410,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4122,6 +4132,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RealAttribute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4134,7 +4151,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4848,6 +4864,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StringAttribute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4860,7 +4883,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5391,6 +5413,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BooleanAttribute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5403,7 +5432,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5887,6 +5915,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnumerationAttribute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5899,7 +5934,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6723,6 +6757,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScalarVariable();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6735,7 +6776,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8929,6 +8969,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DefaultExperiment();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8941,7 +8988,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9616,6 +9662,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Unknown();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9645,9 +9698,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 dependencies_ = newIntList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               dependencies_.addInt(input.readUInt32());
               break;
@@ -9655,9 +9708,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 dependencies_ = newIntList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 dependencies_.addInt(input.readUInt32());
@@ -9667,9 +9720,9 @@ public final class Service {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 dependenciesKind_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               dependenciesKind_.add(s);
               break;
@@ -9689,10 +9742,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           dependencies_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           dependenciesKind_ = dependenciesKind_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -9712,7 +9765,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.Unknown.class, no.ntnu.ihb.fmuproxy.grpc.Service.Unknown.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INDEX_FIELD_NUMBER = 1;
     private int index_;
     /**
@@ -10015,9 +10067,9 @@ public final class Service {
         index_ = 0;
 
         dependencies_ = emptyIntList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -10045,19 +10097,17 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.Unknown buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.Unknown result = new no.ntnu.ihb.fmuproxy.grpc.Service.Unknown(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.index_ = index_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           dependencies_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.dependencies_ = dependencies_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           dependenciesKind_ = dependenciesKind_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.dependenciesKind_ = dependenciesKind_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -10112,7 +10162,7 @@ public final class Service {
         if (!other.dependencies_.isEmpty()) {
           if (dependencies_.isEmpty()) {
             dependencies_ = other.dependencies_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureDependenciesIsMutable();
             dependencies_.addAll(other.dependencies_);
@@ -10122,7 +10172,7 @@ public final class Service {
         if (!other.dependenciesKind_.isEmpty()) {
           if (dependenciesKind_.isEmpty()) {
             dependenciesKind_ = other.dependenciesKind_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureDependenciesKindIsMutable();
             dependenciesKind_.addAll(other.dependenciesKind_);
@@ -10187,9 +10237,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.IntList dependencies_ = emptyIntList();
       private void ensureDependenciesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           dependencies_ = mutableCopy(dependencies_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -10197,7 +10247,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Integer>
           getDependenciesList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(dependencies_) : dependencies_;
       }
       /**
@@ -10247,16 +10297,16 @@ public final class Service {
        */
       public Builder clearDependencies() {
         dependencies_ = emptyIntList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.LazyStringList dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureDependenciesKindIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           dependenciesKind_ = new com.google.protobuf.LazyStringArrayList(dependenciesKind_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -10327,7 +10377,7 @@ public final class Service {
        */
       public Builder clearDependenciesKind() {
         dependenciesKind_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -10490,6 +10540,13 @@ public final class Service {
       outputs_ = java.util.Collections.emptyList();
       derivatives_ = java.util.Collections.emptyList();
       initialUnknowns_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModelStructure();
     }
 
     @java.lang.Override
@@ -11944,6 +12001,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FmuId();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11956,7 +12020,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12493,6 +12556,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new InstanceId();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12505,7 +12575,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13042,6 +13111,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModelDescriptionXml();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13054,7 +13130,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13590,6 +13665,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StatusResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13602,7 +13684,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -14101,6 +14182,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StepResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -14113,7 +14201,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -14667,6 +14754,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateInstanceRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -14679,7 +14773,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -15216,6 +15309,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetModelDescriptionRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -15228,7 +15328,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -15780,6 +15879,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SetupExperimentRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -15792,7 +15898,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -16506,6 +16611,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnterInitializationModeRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -16518,7 +16630,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17055,6 +17166,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExitInitializationModeRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -17067,7 +17185,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17609,6 +17726,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StepRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -17621,7 +17745,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -18217,6 +18340,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResetRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -18229,7 +18359,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -18766,6 +18895,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TerminateRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -18778,7 +18914,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -19329,6 +19464,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -19359,9 +19501,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               valueReferences_.addLong(input.readUInt64());
               break;
@@ -19369,9 +19511,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 valueReferences_.addLong(input.readUInt64());
@@ -19394,7 +19536,7 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
@@ -19414,7 +19556,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest.class, no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INSTANCE_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object instanceId_;
     /**
@@ -19695,7 +19836,7 @@ public final class Service {
         instanceId_ = "";
 
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -19723,14 +19864,12 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest result = new no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.valueReferences_ = valueReferences_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -19786,7 +19925,7 @@ public final class Service {
         if (!other.valueReferences_.isEmpty()) {
           if (valueReferences_.isEmpty()) {
             valueReferences_ = other.valueReferences_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureValueReferencesIsMutable();
             valueReferences_.addAll(other.valueReferences_);
@@ -19894,9 +20033,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           valueReferences_ = mutableCopy(valueReferences_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -19904,7 +20043,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
@@ -19954,7 +20093,7 @@ public final class Service {
        */
       public Builder clearValueReferences() {
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -20070,6 +20209,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteIntegerRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20100,9 +20246,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               valueReferences_.addLong(input.readUInt64());
               break;
@@ -20110,9 +20256,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 valueReferences_.addLong(input.readUInt64());
@@ -20121,9 +20267,9 @@ public final class Service {
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 values_ = newIntList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               values_.addInt(input.readInt32());
               break;
@@ -20131,9 +20277,9 @@ public final class Service {
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
                 values_ = newIntList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
                 values_.addInt(input.readInt32());
@@ -20156,10 +20302,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
@@ -20179,7 +20325,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest.class, no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INSTANCE_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object instanceId_;
     /**
@@ -20510,9 +20655,9 @@ public final class Service {
         instanceId_ = "";
 
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         values_ = emptyIntList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -20540,19 +20685,17 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest result = new no.ntnu.ihb.fmuproxy.grpc.Service.WriteIntegerRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           values_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.values_ = values_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -20608,7 +20751,7 @@ public final class Service {
         if (!other.valueReferences_.isEmpty()) {
           if (valueReferences_.isEmpty()) {
             valueReferences_ = other.valueReferences_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureValueReferencesIsMutable();
             valueReferences_.addAll(other.valueReferences_);
@@ -20618,7 +20761,7 @@ public final class Service {
         if (!other.values_.isEmpty()) {
           if (values_.isEmpty()) {
             values_ = other.values_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureValuesIsMutable();
             values_.addAll(other.values_);
@@ -20726,9 +20869,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           valueReferences_ = mutableCopy(valueReferences_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -20736,7 +20879,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
@@ -20786,16 +20929,16 @@ public final class Service {
        */
       public Builder clearValueReferences() {
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.Internal.IntList values_ = emptyIntList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           values_ = mutableCopy(values_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -20803,7 +20946,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Integer>
           getValuesList() {
-        return ((bitField0_ & 0x00000004) != 0) ?
+        return ((bitField0_ & 0x00000002) != 0) ?
                  java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
@@ -20853,7 +20996,7 @@ public final class Service {
        */
       public Builder clearValues() {
         values_ = emptyIntList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -20969,6 +21112,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteRealRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20999,9 +21149,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               valueReferences_.addLong(input.readUInt64());
               break;
@@ -21009,9 +21159,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 valueReferences_.addLong(input.readUInt64());
@@ -21020,9 +21170,9 @@ public final class Service {
               break;
             }
             case 25: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 values_ = newDoubleList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               values_.addDouble(input.readDouble());
               break;
@@ -21030,9 +21180,9 @@ public final class Service {
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
                 values_ = newDoubleList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
                 values_.addDouble(input.readDouble());
@@ -21055,10 +21205,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
@@ -21078,7 +21228,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest.class, no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INSTANCE_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object instanceId_;
     /**
@@ -21406,9 +21555,9 @@ public final class Service {
         instanceId_ = "";
 
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         values_ = emptyDoubleList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -21436,19 +21585,17 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest result = new no.ntnu.ihb.fmuproxy.grpc.Service.WriteRealRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           values_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.values_ = values_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -21504,7 +21651,7 @@ public final class Service {
         if (!other.valueReferences_.isEmpty()) {
           if (valueReferences_.isEmpty()) {
             valueReferences_ = other.valueReferences_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureValueReferencesIsMutable();
             valueReferences_.addAll(other.valueReferences_);
@@ -21514,7 +21661,7 @@ public final class Service {
         if (!other.values_.isEmpty()) {
           if (values_.isEmpty()) {
             values_ = other.values_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureValuesIsMutable();
             values_.addAll(other.values_);
@@ -21622,9 +21769,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           valueReferences_ = mutableCopy(valueReferences_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -21632,7 +21779,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
@@ -21682,16 +21829,16 @@ public final class Service {
        */
       public Builder clearValueReferences() {
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.Internal.DoubleList values_ = emptyDoubleList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           values_ = mutableCopy(values_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -21699,7 +21846,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Double>
           getValuesList() {
-        return ((bitField0_ & 0x00000004) != 0) ?
+        return ((bitField0_ & 0x00000002) != 0) ?
                  java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
@@ -21749,7 +21896,7 @@ public final class Service {
        */
       public Builder clearValues() {
         values_ = emptyDoubleList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -21871,6 +22018,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteStringRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -21901,9 +22055,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               valueReferences_.addLong(input.readUInt64());
               break;
@@ -21911,9 +22065,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 valueReferences_.addLong(input.readUInt64());
@@ -21923,9 +22077,9 @@ public final class Service {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 values_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               values_.add(s);
               break;
@@ -21945,10 +22099,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           values_ = values_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -21968,7 +22122,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest.class, no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INSTANCE_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object instanceId_;
     /**
@@ -22295,9 +22448,9 @@ public final class Service {
         instanceId_ = "";
 
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -22325,19 +22478,17 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest result = new no.ntnu.ihb.fmuproxy.grpc.Service.WriteStringRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           values_ = values_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.values_ = values_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -22393,7 +22544,7 @@ public final class Service {
         if (!other.valueReferences_.isEmpty()) {
           if (valueReferences_.isEmpty()) {
             valueReferences_ = other.valueReferences_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureValueReferencesIsMutable();
             valueReferences_.addAll(other.valueReferences_);
@@ -22403,7 +22554,7 @@ public final class Service {
         if (!other.values_.isEmpty()) {
           if (values_.isEmpty()) {
             values_ = other.values_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureValuesIsMutable();
             values_.addAll(other.values_);
@@ -22511,9 +22662,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           valueReferences_ = mutableCopy(valueReferences_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -22521,7 +22672,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
@@ -22571,16 +22722,16 @@ public final class Service {
        */
       public Builder clearValueReferences() {
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.LazyStringList values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           values_ = new com.google.protobuf.LazyStringArrayList(values_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -22651,7 +22802,7 @@ public final class Service {
        */
       public Builder clearValues() {
         values_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -22781,6 +22932,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteBooleanRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -22811,9 +22969,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               valueReferences_.addLong(input.readUInt64());
               break;
@@ -22821,9 +22979,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 valueReferences_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 valueReferences_.addLong(input.readUInt64());
@@ -22832,9 +22990,9 @@ public final class Service {
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 values_ = newBooleanList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               values_.addBoolean(input.readBool());
               break;
@@ -22842,9 +23000,9 @@ public final class Service {
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
                 values_ = newBooleanList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
                 values_.addBoolean(input.readBool());
@@ -22867,10 +23025,10 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           values_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
@@ -22890,7 +23048,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest.class, no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INSTANCE_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object instanceId_;
     /**
@@ -23218,9 +23375,9 @@ public final class Service {
         instanceId_ = "";
 
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         values_ = emptyBooleanList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -23248,19 +23405,17 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest result = new no.ntnu.ihb.fmuproxy.grpc.Service.WriteBooleanRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           valueReferences_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.valueReferences_ = valueReferences_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           values_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.values_ = values_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -23316,7 +23471,7 @@ public final class Service {
         if (!other.valueReferences_.isEmpty()) {
           if (valueReferences_.isEmpty()) {
             valueReferences_ = other.valueReferences_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureValueReferencesIsMutable();
             valueReferences_.addAll(other.valueReferences_);
@@ -23326,7 +23481,7 @@ public final class Service {
         if (!other.values_.isEmpty()) {
           if (values_.isEmpty()) {
             values_ = other.values_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureValuesIsMutable();
             values_.addAll(other.values_);
@@ -23434,9 +23589,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.LongList valueReferences_ = emptyLongList();
       private void ensureValueReferencesIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           valueReferences_ = mutableCopy(valueReferences_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -23444,7 +23599,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getValueReferencesList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(valueReferences_) : valueReferences_;
       }
       /**
@@ -23494,16 +23649,16 @@ public final class Service {
        */
       public Builder clearValueReferences() {
         valueReferences_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.Internal.BooleanList values_ = emptyBooleanList();
       private void ensureValuesIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           values_ = mutableCopy(values_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -23511,7 +23666,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Boolean>
           getValuesList() {
-        return ((bitField0_ & 0x00000004) != 0) ?
+        return ((bitField0_ & 0x00000002) != 0) ?
                  java.util.Collections.unmodifiableList(values_) : values_;
       }
       /**
@@ -23561,7 +23716,7 @@ public final class Service {
        */
       public Builder clearValues() {
         values_ = emptyBooleanList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -23662,6 +23817,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new IntegerRead();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -23747,7 +23909,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead.class, no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead.Builder.class);
     }
 
-    private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
     private com.google.protobuf.Internal.IntList values_;
     /**
@@ -24039,14 +24200,12 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) != 0)) {
           values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
         result.status_ = status_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -24346,6 +24505,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RealRead();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -24431,7 +24597,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.RealRead.class, no.ntnu.ihb.fmuproxy.grpc.Service.RealRead.Builder.class);
     }
 
-    private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
     private com.google.protobuf.Internal.DoubleList values_;
     /**
@@ -24720,14 +24885,12 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.RealRead buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.RealRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.RealRead(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) != 0)) {
           values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
         result.status_ = status_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -25033,6 +25196,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StringRead();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -25106,7 +25276,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.StringRead.class, no.ntnu.ihb.fmuproxy.grpc.Service.StringRead.Builder.class);
     }
 
-    private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList values_;
     /**
@@ -25393,14 +25562,12 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.StringRead buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.StringRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.StringRead(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) != 0)) {
           values_ = values_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
         result.status_ = status_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -25727,6 +25894,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BooleanRead();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -25812,7 +25986,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead.class, no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead.Builder.class);
     }
 
-    private int bitField0_;
     public static final int VALUES_FIELD_NUMBER = 1;
     private com.google.protobuf.Internal.BooleanList values_;
     /**
@@ -26101,14 +26274,12 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead result = new no.ntnu.ihb.fmuproxy.grpc.Service.BooleanRead(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) != 0)) {
           values_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.values_ = values_;
         result.status_ = status_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -26389,6 +26560,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Bool();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -26401,7 +26579,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -26912,6 +27089,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetDirectionalDerivativeRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -26942,9 +27126,9 @@ public final class Service {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 vUnknownRef_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               vUnknownRef_.addLong(input.readUInt64());
               break;
@@ -26952,9 +27136,9 @@ public final class Service {
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
                 vUnknownRef_ = newLongList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
                 vUnknownRef_.addLong(input.readUInt64());
@@ -26963,9 +27147,9 @@ public final class Service {
               break;
             }
             case 24: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 vKnownRef_ = newLongList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               vKnownRef_.addLong(input.readUInt64());
               break;
@@ -26973,9 +27157,9 @@ public final class Service {
             case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
                 vKnownRef_ = newLongList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               while (input.getBytesUntilLimit() > 0) {
                 vKnownRef_.addLong(input.readUInt64());
@@ -26984,9 +27168,9 @@ public final class Service {
               break;
             }
             case 33: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 dvKnownRef_ = newDoubleList();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               dvKnownRef_.addDouble(input.readDouble());
               break;
@@ -26994,9 +27178,9 @@ public final class Service {
             case 34: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000008) != 0) && input.getBytesUntilLimit() > 0) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
                 dvKnownRef_ = newDoubleList();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               while (input.getBytesUntilLimit() > 0) {
                 dvKnownRef_.addDouble(input.readDouble());
@@ -27019,13 +27203,13 @@ public final class Service {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           vUnknownRef_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           vKnownRef_.makeImmutable(); // C
         }
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           dvKnownRef_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
@@ -27045,7 +27229,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest.class, no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int INSTANCE_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object instanceId_;
     /**
@@ -27423,11 +27606,11 @@ public final class Service {
         instanceId_ = "";
 
         vUnknownRef_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         vKnownRef_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         dvKnownRef_ = emptyDoubleList();
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -27455,24 +27638,22 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest result = new no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.instanceId_ = instanceId_;
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           vUnknownRef_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.vUnknownRef_ = vUnknownRef_;
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           vKnownRef_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.vKnownRef_ = vKnownRef_;
-        if (((bitField0_ & 0x00000008) != 0)) {
+        if (((bitField0_ & 0x00000004) != 0)) {
           dvKnownRef_.makeImmutable();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.dvKnownRef_ = dvKnownRef_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -27528,7 +27709,7 @@ public final class Service {
         if (!other.vUnknownRef_.isEmpty()) {
           if (vUnknownRef_.isEmpty()) {
             vUnknownRef_ = other.vUnknownRef_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureVUnknownRefIsMutable();
             vUnknownRef_.addAll(other.vUnknownRef_);
@@ -27538,7 +27719,7 @@ public final class Service {
         if (!other.vKnownRef_.isEmpty()) {
           if (vKnownRef_.isEmpty()) {
             vKnownRef_ = other.vKnownRef_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureVKnownRefIsMutable();
             vKnownRef_.addAll(other.vKnownRef_);
@@ -27548,7 +27729,7 @@ public final class Service {
         if (!other.dvKnownRef_.isEmpty()) {
           if (dvKnownRef_.isEmpty()) {
             dvKnownRef_ = other.dvKnownRef_;
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             ensureDvKnownRefIsMutable();
             dvKnownRef_.addAll(other.dvKnownRef_);
@@ -27656,9 +27837,9 @@ public final class Service {
 
       private com.google.protobuf.Internal.LongList vUnknownRef_ = emptyLongList();
       private void ensureVUnknownRefIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           vUnknownRef_ = mutableCopy(vUnknownRef_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -27666,7 +27847,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getVUnknownRefList() {
-        return ((bitField0_ & 0x00000002) != 0) ?
+        return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(vUnknownRef_) : vUnknownRef_;
       }
       /**
@@ -27716,16 +27897,16 @@ public final class Service {
        */
       public Builder clearVUnknownRef() {
         vUnknownRef_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.Internal.LongList vKnownRef_ = emptyLongList();
       private void ensureVKnownRefIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           vKnownRef_ = mutableCopy(vKnownRef_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
@@ -27733,7 +27914,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Long>
           getVKnownRefList() {
-        return ((bitField0_ & 0x00000004) != 0) ?
+        return ((bitField0_ & 0x00000002) != 0) ?
                  java.util.Collections.unmodifiableList(vKnownRef_) : vKnownRef_;
       }
       /**
@@ -27783,16 +27964,16 @@ public final class Service {
        */
       public Builder clearVKnownRef() {
         vKnownRef_ = emptyLongList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
 
       private com.google.protobuf.Internal.DoubleList dvKnownRef_ = emptyDoubleList();
       private void ensureDvKnownRefIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           dvKnownRef_ = mutableCopy(dvKnownRef_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
          }
       }
       /**
@@ -27800,7 +27981,7 @@ public final class Service {
        */
       public java.util.List<java.lang.Double>
           getDvKnownRefList() {
-        return ((bitField0_ & 0x00000008) != 0) ?
+        return ((bitField0_ & 0x00000004) != 0) ?
                  java.util.Collections.unmodifiableList(dvKnownRef_) : dvKnownRef_;
       }
       /**
@@ -27850,7 +28031,7 @@ public final class Service {
        */
       public Builder clearDvKnownRef() {
         dvKnownRef_ = emptyDoubleList();
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -27951,6 +28132,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetDirectionalDerivativeResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -28036,7 +28224,6 @@ public final class Service {
               no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse.class, no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int DV_UNKNOWN_REF_FIELD_NUMBER = 1;
     private com.google.protobuf.Internal.DoubleList dvUnknownRef_;
     /**
@@ -28325,14 +28512,12 @@ public final class Service {
       public no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse buildPartial() {
         no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse result = new no.ntnu.ihb.fmuproxy.grpc.Service.GetDirectionalDerivativeResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) != 0)) {
           dvUnknownRef_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.dvUnknownRef_ = dvUnknownRef_;
         result.status_ = status_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -28619,6 +28804,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Url();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -28631,7 +28823,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -29174,6 +29365,13 @@ public final class Service {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new File();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -29186,7 +29384,6 @@ public final class Service {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -30076,18 +30273,10 @@ public final class Service {
       "etDirectionalDerivativeResponseB\033\n\031no.nt" +
       "nu.ihb.fmuproxy.grpcb\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_fmuproxy_grpc_ModelDescription_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_fmuproxy_grpc_ModelDescription_fieldAccessorTable = new
