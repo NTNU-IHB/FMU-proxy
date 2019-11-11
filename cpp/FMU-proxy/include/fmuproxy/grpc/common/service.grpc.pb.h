@@ -37,7 +37,7 @@
 #include <grpcpp/impl/codegen/client_callback.h>
 #include <grpcpp/impl/codegen/client_context.h>
 #include <grpcpp/impl/codegen/completion_queue.h>
-#include <grpcpp/impl/codegen/method_handler_impl.h>
+#include <grpcpp/impl/codegen/method_handler.h>
 #include <grpcpp/impl/codegen/proto_utils.h>
 #include <grpcpp/impl/codegen/rpc_method.h>
 #include <grpcpp/impl/codegen/server_callback.h>
@@ -638,7 +638,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_LoadFromUrl : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_LoadFromUrl() {
       ::grpc::Service::MarkMethodAsync(0);
@@ -647,7 +647,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -658,7 +658,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_LoadFromFile : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_LoadFromFile() {
       ::grpc::Service::MarkMethodAsync(1);
@@ -667,7 +667,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -678,7 +678,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_GetModelDescription : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetModelDescription() {
       ::grpc::Service::MarkMethodAsync(2);
@@ -687,7 +687,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response) override {
+    ::grpc::Status GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -698,7 +698,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_CreateInstance : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CreateInstance() {
       ::grpc::Service::MarkMethodAsync(3);
@@ -707,7 +707,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response) override {
+    ::grpc::Status CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -718,7 +718,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_SetupExperiment : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SetupExperiment() {
       ::grpc::Service::MarkMethodAsync(4);
@@ -727,7 +727,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -738,7 +738,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_EnterInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_EnterInitializationMode() {
       ::grpc::Service::MarkMethodAsync(5);
@@ -747,7 +747,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -758,7 +758,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_ExitInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ExitInitializationMode() {
       ::grpc::Service::MarkMethodAsync(6);
@@ -767,7 +767,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -778,7 +778,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_Step : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_Step() {
       ::grpc::Service::MarkMethodAsync(7);
@@ -787,7 +787,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response) override {
+    ::grpc::Status Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -798,7 +798,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_Reset : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_Reset() {
       ::grpc::Service::MarkMethodAsync(8);
@@ -807,7 +807,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -818,7 +818,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_Terminate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_Terminate() {
       ::grpc::Service::MarkMethodAsync(9);
@@ -827,7 +827,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -838,7 +838,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_ReadInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ReadInteger() {
       ::grpc::Service::MarkMethodAsync(10);
@@ -847,7 +847,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response) override {
+    ::grpc::Status ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -858,7 +858,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_ReadReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ReadReal() {
       ::grpc::Service::MarkMethodAsync(11);
@@ -867,7 +867,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response) override {
+    ::grpc::Status ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -878,7 +878,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_ReadString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ReadString() {
       ::grpc::Service::MarkMethodAsync(12);
@@ -887,7 +887,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response) override {
+    ::grpc::Status ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -898,7 +898,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_ReadBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ReadBoolean() {
       ::grpc::Service::MarkMethodAsync(13);
@@ -907,7 +907,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response) override {
+    ::grpc::Status ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -918,7 +918,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_WriteInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_WriteInteger() {
       ::grpc::Service::MarkMethodAsync(14);
@@ -927,7 +927,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -938,7 +938,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_WriteReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_WriteReal() {
       ::grpc::Service::MarkMethodAsync(15);
@@ -947,7 +947,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -958,7 +958,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_WriteString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_WriteString() {
       ::grpc::Service::MarkMethodAsync(16);
@@ -967,7 +967,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -978,7 +978,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_WriteBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_WriteBoolean() {
       ::grpc::Service::MarkMethodAsync(17);
@@ -987,7 +987,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -998,7 +998,7 @@ class FmuService final {
   template <class BaseClass>
   class WithAsyncMethod_GetDirectionalDerivative : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetDirectionalDerivative() {
       ::grpc::Service::MarkMethodAsync(18);
@@ -1007,7 +1007,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1019,7 +1019,7 @@ class FmuService final {
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_LoadFromUrl : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_LoadFromUrl() {
       ::grpc::Service::experimental().MarkMethodCallback(0,
@@ -1041,16 +1041,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_LoadFromFile : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_LoadFromFile() {
       ::grpc::Service::experimental().MarkMethodCallback(1,
@@ -1072,16 +1072,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_GetModelDescription : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_GetModelDescription() {
       ::grpc::Service::experimental().MarkMethodCallback(2,
@@ -1103,16 +1103,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response) override {
+    ::grpc::Status GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_CreateInstance : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_CreateInstance() {
       ::grpc::Service::experimental().MarkMethodCallback(3,
@@ -1134,16 +1134,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response) override {
+    ::grpc::Status CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_SetupExperiment : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_SetupExperiment() {
       ::grpc::Service::experimental().MarkMethodCallback(4,
@@ -1165,16 +1165,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_EnterInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_EnterInitializationMode() {
       ::grpc::Service::experimental().MarkMethodCallback(5,
@@ -1196,16 +1196,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_ExitInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_ExitInitializationMode() {
       ::grpc::Service::experimental().MarkMethodCallback(6,
@@ -1227,16 +1227,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_Step : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_Step() {
       ::grpc::Service::experimental().MarkMethodCallback(7,
@@ -1258,16 +1258,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response) override {
+    ::grpc::Status Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_Reset : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_Reset() {
       ::grpc::Service::experimental().MarkMethodCallback(8,
@@ -1289,16 +1289,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_Terminate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_Terminate() {
       ::grpc::Service::experimental().MarkMethodCallback(9,
@@ -1320,16 +1320,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_ReadInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_ReadInteger() {
       ::grpc::Service::experimental().MarkMethodCallback(10,
@@ -1351,16 +1351,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response) override {
+    ::grpc::Status ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_ReadReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_ReadReal() {
       ::grpc::Service::experimental().MarkMethodCallback(11,
@@ -1382,16 +1382,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response) override {
+    ::grpc::Status ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_ReadString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_ReadString() {
       ::grpc::Service::experimental().MarkMethodCallback(12,
@@ -1413,16 +1413,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response) override {
+    ::grpc::Status ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_ReadBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_ReadBoolean() {
       ::grpc::Service::experimental().MarkMethodCallback(13,
@@ -1444,16 +1444,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response) override {
+    ::grpc::Status ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_WriteInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_WriteInteger() {
       ::grpc::Service::experimental().MarkMethodCallback(14,
@@ -1475,16 +1475,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_WriteReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_WriteReal() {
       ::grpc::Service::experimental().MarkMethodCallback(15,
@@ -1506,16 +1506,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_WriteString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_WriteString() {
       ::grpc::Service::experimental().MarkMethodCallback(16,
@@ -1537,16 +1537,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_WriteBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_WriteBoolean() {
       ::grpc::Service::experimental().MarkMethodCallback(17,
@@ -1568,16 +1568,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_GetDirectionalDerivative : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithCallbackMethod_GetDirectionalDerivative() {
       ::grpc::Service::experimental().MarkMethodCallback(18,
@@ -1599,17 +1599,17 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   typedef ExperimentalWithCallbackMethod_LoadFromUrl<ExperimentalWithCallbackMethod_LoadFromFile<ExperimentalWithCallbackMethod_GetModelDescription<ExperimentalWithCallbackMethod_CreateInstance<ExperimentalWithCallbackMethod_SetupExperiment<ExperimentalWithCallbackMethod_EnterInitializationMode<ExperimentalWithCallbackMethod_ExitInitializationMode<ExperimentalWithCallbackMethod_Step<ExperimentalWithCallbackMethod_Reset<ExperimentalWithCallbackMethod_Terminate<ExperimentalWithCallbackMethod_ReadInteger<ExperimentalWithCallbackMethod_ReadReal<ExperimentalWithCallbackMethod_ReadString<ExperimentalWithCallbackMethod_ReadBoolean<ExperimentalWithCallbackMethod_WriteInteger<ExperimentalWithCallbackMethod_WriteReal<ExperimentalWithCallbackMethod_WriteString<ExperimentalWithCallbackMethod_WriteBoolean<ExperimentalWithCallbackMethod_GetDirectionalDerivative<Service > > > > > > > > > > > > > > > > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_LoadFromUrl : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_LoadFromUrl() {
       ::grpc::Service::MarkMethodGeneric(0);
@@ -1618,7 +1618,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1626,7 +1626,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_LoadFromFile : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_LoadFromFile() {
       ::grpc::Service::MarkMethodGeneric(1);
@@ -1635,7 +1635,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1643,7 +1643,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_GetModelDescription : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetModelDescription() {
       ::grpc::Service::MarkMethodGeneric(2);
@@ -1652,7 +1652,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response) override {
+    ::grpc::Status GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1660,7 +1660,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_CreateInstance : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CreateInstance() {
       ::grpc::Service::MarkMethodGeneric(3);
@@ -1669,7 +1669,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response) override {
+    ::grpc::Status CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1677,7 +1677,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_SetupExperiment : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SetupExperiment() {
       ::grpc::Service::MarkMethodGeneric(4);
@@ -1686,7 +1686,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1694,7 +1694,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_EnterInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_EnterInitializationMode() {
       ::grpc::Service::MarkMethodGeneric(5);
@@ -1703,7 +1703,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1711,7 +1711,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_ExitInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ExitInitializationMode() {
       ::grpc::Service::MarkMethodGeneric(6);
@@ -1720,7 +1720,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1728,7 +1728,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_Step : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_Step() {
       ::grpc::Service::MarkMethodGeneric(7);
@@ -1737,7 +1737,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response) override {
+    ::grpc::Status Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1745,7 +1745,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_Reset : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_Reset() {
       ::grpc::Service::MarkMethodGeneric(8);
@@ -1754,7 +1754,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1762,7 +1762,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_Terminate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_Terminate() {
       ::grpc::Service::MarkMethodGeneric(9);
@@ -1771,7 +1771,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1779,7 +1779,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_ReadInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ReadInteger() {
       ::grpc::Service::MarkMethodGeneric(10);
@@ -1788,7 +1788,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response) override {
+    ::grpc::Status ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1796,7 +1796,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_ReadReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ReadReal() {
       ::grpc::Service::MarkMethodGeneric(11);
@@ -1805,7 +1805,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response) override {
+    ::grpc::Status ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1813,7 +1813,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_ReadString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ReadString() {
       ::grpc::Service::MarkMethodGeneric(12);
@@ -1822,7 +1822,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response) override {
+    ::grpc::Status ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1830,7 +1830,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_ReadBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ReadBoolean() {
       ::grpc::Service::MarkMethodGeneric(13);
@@ -1839,7 +1839,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response) override {
+    ::grpc::Status ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1847,7 +1847,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_WriteInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_WriteInteger() {
       ::grpc::Service::MarkMethodGeneric(14);
@@ -1856,7 +1856,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1864,7 +1864,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_WriteReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_WriteReal() {
       ::grpc::Service::MarkMethodGeneric(15);
@@ -1873,7 +1873,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1881,7 +1881,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_WriteString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_WriteString() {
       ::grpc::Service::MarkMethodGeneric(16);
@@ -1890,7 +1890,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1898,7 +1898,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_WriteBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_WriteBoolean() {
       ::grpc::Service::MarkMethodGeneric(17);
@@ -1907,7 +1907,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1915,7 +1915,7 @@ class FmuService final {
   template <class BaseClass>
   class WithGenericMethod_GetDirectionalDerivative : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetDirectionalDerivative() {
       ::grpc::Service::MarkMethodGeneric(18);
@@ -1924,7 +1924,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1932,7 +1932,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_LoadFromUrl : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_LoadFromUrl() {
       ::grpc::Service::MarkMethodRaw(0);
@@ -1941,7 +1941,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1952,7 +1952,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_LoadFromFile : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_LoadFromFile() {
       ::grpc::Service::MarkMethodRaw(1);
@@ -1961,7 +1961,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1972,7 +1972,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_GetModelDescription : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetModelDescription() {
       ::grpc::Service::MarkMethodRaw(2);
@@ -1981,7 +1981,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response) override {
+    ::grpc::Status GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1992,7 +1992,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_CreateInstance : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CreateInstance() {
       ::grpc::Service::MarkMethodRaw(3);
@@ -2001,7 +2001,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response) override {
+    ::grpc::Status CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2012,7 +2012,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_SetupExperiment : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SetupExperiment() {
       ::grpc::Service::MarkMethodRaw(4);
@@ -2021,7 +2021,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2032,7 +2032,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_EnterInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_EnterInitializationMode() {
       ::grpc::Service::MarkMethodRaw(5);
@@ -2041,7 +2041,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2052,7 +2052,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_ExitInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ExitInitializationMode() {
       ::grpc::Service::MarkMethodRaw(6);
@@ -2061,7 +2061,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2072,7 +2072,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_Step : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_Step() {
       ::grpc::Service::MarkMethodRaw(7);
@@ -2081,7 +2081,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response) override {
+    ::grpc::Status Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2092,7 +2092,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_Reset : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_Reset() {
       ::grpc::Service::MarkMethodRaw(8);
@@ -2101,7 +2101,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2112,7 +2112,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_Terminate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_Terminate() {
       ::grpc::Service::MarkMethodRaw(9);
@@ -2121,7 +2121,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2132,7 +2132,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_ReadInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ReadInteger() {
       ::grpc::Service::MarkMethodRaw(10);
@@ -2141,7 +2141,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response) override {
+    ::grpc::Status ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2152,7 +2152,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_ReadReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ReadReal() {
       ::grpc::Service::MarkMethodRaw(11);
@@ -2161,7 +2161,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response) override {
+    ::grpc::Status ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2172,7 +2172,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_ReadString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ReadString() {
       ::grpc::Service::MarkMethodRaw(12);
@@ -2181,7 +2181,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response) override {
+    ::grpc::Status ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2192,7 +2192,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_ReadBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ReadBoolean() {
       ::grpc::Service::MarkMethodRaw(13);
@@ -2201,7 +2201,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response) override {
+    ::grpc::Status ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2212,7 +2212,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_WriteInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_WriteInteger() {
       ::grpc::Service::MarkMethodRaw(14);
@@ -2221,7 +2221,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2232,7 +2232,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_WriteReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_WriteReal() {
       ::grpc::Service::MarkMethodRaw(15);
@@ -2241,7 +2241,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2252,7 +2252,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_WriteString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_WriteString() {
       ::grpc::Service::MarkMethodRaw(16);
@@ -2261,7 +2261,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2272,7 +2272,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_WriteBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_WriteBoolean() {
       ::grpc::Service::MarkMethodRaw(17);
@@ -2281,7 +2281,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2292,7 +2292,7 @@ class FmuService final {
   template <class BaseClass>
   class WithRawMethod_GetDirectionalDerivative : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetDirectionalDerivative() {
       ::grpc::Service::MarkMethodRaw(18);
@@ -2301,7 +2301,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2312,7 +2312,7 @@ class FmuService final {
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_LoadFromUrl : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_LoadFromUrl() {
       ::grpc::Service::experimental().MarkMethodRawCallback(0,
@@ -2328,16 +2328,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void LoadFromUrl(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void LoadFromUrl(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_LoadFromFile : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_LoadFromFile() {
       ::grpc::Service::experimental().MarkMethodRawCallback(1,
@@ -2353,16 +2353,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void LoadFromFile(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void LoadFromFile(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_GetModelDescription : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_GetModelDescription() {
       ::grpc::Service::experimental().MarkMethodRawCallback(2,
@@ -2378,16 +2378,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response) override {
+    ::grpc::Status GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void GetModelDescription(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void GetModelDescription(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_CreateInstance : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_CreateInstance() {
       ::grpc::Service::experimental().MarkMethodRawCallback(3,
@@ -2403,16 +2403,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response) override {
+    ::grpc::Status CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void CreateInstance(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void CreateInstance(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_SetupExperiment : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_SetupExperiment() {
       ::grpc::Service::experimental().MarkMethodRawCallback(4,
@@ -2428,16 +2428,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void SetupExperiment(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void SetupExperiment(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_EnterInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_EnterInitializationMode() {
       ::grpc::Service::experimental().MarkMethodRawCallback(5,
@@ -2453,16 +2453,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void EnterInitializationMode(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_ExitInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_ExitInitializationMode() {
       ::grpc::Service::experimental().MarkMethodRawCallback(6,
@@ -2478,16 +2478,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ExitInitializationMode(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_Step : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_Step() {
       ::grpc::Service::experimental().MarkMethodRawCallback(7,
@@ -2503,16 +2503,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response) override {
+    ::grpc::Status Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void Step(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void Step(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_Reset : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_Reset() {
       ::grpc::Service::experimental().MarkMethodRawCallback(8,
@@ -2528,16 +2528,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void Reset(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void Reset(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_Terminate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_Terminate() {
       ::grpc::Service::experimental().MarkMethodRawCallback(9,
@@ -2553,16 +2553,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void Terminate(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void Terminate(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_ReadInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_ReadInteger() {
       ::grpc::Service::experimental().MarkMethodRawCallback(10,
@@ -2578,16 +2578,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response) override {
+    ::grpc::Status ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadInteger(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadInteger(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_ReadReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_ReadReal() {
       ::grpc::Service::experimental().MarkMethodRawCallback(11,
@@ -2603,16 +2603,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response) override {
+    ::grpc::Status ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadReal(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadReal(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_ReadString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_ReadString() {
       ::grpc::Service::experimental().MarkMethodRawCallback(12,
@@ -2628,16 +2628,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response) override {
+    ::grpc::Status ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadString(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadString(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_ReadBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_ReadBoolean() {
       ::grpc::Service::experimental().MarkMethodRawCallback(13,
@@ -2653,16 +2653,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response) override {
+    ::grpc::Status ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void ReadBoolean(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void ReadBoolean(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_WriteInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_WriteInteger() {
       ::grpc::Service::experimental().MarkMethodRawCallback(14,
@@ -2678,16 +2678,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteInteger(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteInteger(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_WriteReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_WriteReal() {
       ::grpc::Service::experimental().MarkMethodRawCallback(15,
@@ -2703,16 +2703,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteReal(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteReal(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_WriteString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_WriteString() {
       ::grpc::Service::experimental().MarkMethodRawCallback(16,
@@ -2728,16 +2728,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteString(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteString(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_WriteBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_WriteBoolean() {
       ::grpc::Service::experimental().MarkMethodRawCallback(17,
@@ -2753,16 +2753,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void WriteBoolean(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void WriteBoolean(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_GetDirectionalDerivative : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     ExperimentalWithRawCallbackMethod_GetDirectionalDerivative() {
       ::grpc::Service::experimental().MarkMethodRawCallback(18,
@@ -2778,16 +2778,16 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void GetDirectionalDerivative(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_LoadFromUrl : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_LoadFromUrl() {
       ::grpc::Service::MarkMethodStreamed(0,
@@ -2797,7 +2797,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status LoadFromUrl(::grpc::ServerContext* context, const ::fmuproxy::grpc::Url* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromUrl(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::Url* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2807,7 +2807,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_LoadFromFile : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_LoadFromFile() {
       ::grpc::Service::MarkMethodStreamed(1,
@@ -2817,7 +2817,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status LoadFromFile(::grpc::ServerContext* context, const ::fmuproxy::grpc::File* request, ::fmuproxy::grpc::FmuId* response) override {
+    ::grpc::Status LoadFromFile(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::File* /*request*/, ::fmuproxy::grpc::FmuId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2827,7 +2827,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_GetModelDescription : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetModelDescription() {
       ::grpc::Service::MarkMethodStreamed(2,
@@ -2837,7 +2837,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status GetModelDescription(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetModelDescriptionRequest* request, ::fmuproxy::grpc::ModelDescription* response) override {
+    ::grpc::Status GetModelDescription(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetModelDescriptionRequest* /*request*/, ::fmuproxy::grpc::ModelDescription* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2847,7 +2847,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_CreateInstance : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CreateInstance() {
       ::grpc::Service::MarkMethodStreamed(3,
@@ -2857,7 +2857,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status CreateInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::CreateInstanceRequest* request, ::fmuproxy::grpc::InstanceId* response) override {
+    ::grpc::Status CreateInstance(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::CreateInstanceRequest* /*request*/, ::fmuproxy::grpc::InstanceId* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2867,7 +2867,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_SetupExperiment : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SetupExperiment() {
       ::grpc::Service::MarkMethodStreamed(4,
@@ -2877,7 +2877,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SetupExperiment(::grpc::ServerContext* context, const ::fmuproxy::grpc::SetupExperimentRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status SetupExperiment(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::SetupExperimentRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2887,7 +2887,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_EnterInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_EnterInitializationMode() {
       ::grpc::Service::MarkMethodStreamed(5,
@@ -2897,7 +2897,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::EnterInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status EnterInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::EnterInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2907,7 +2907,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ExitInitializationMode : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ExitInitializationMode() {
       ::grpc::Service::MarkMethodStreamed(6,
@@ -2917,7 +2917,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* context, const ::fmuproxy::grpc::ExitInitializationModeRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status ExitInitializationMode(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ExitInitializationModeRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2927,7 +2927,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_Step : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_Step() {
       ::grpc::Service::MarkMethodStreamed(7,
@@ -2937,7 +2937,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request, ::fmuproxy::grpc::StepResponse* response) override {
+    ::grpc::Status Step(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::StepRequest* /*request*/, ::fmuproxy::grpc::StepResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2947,7 +2947,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_Reset : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_Reset() {
       ::grpc::Service::MarkMethodStreamed(8,
@@ -2957,7 +2957,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Reset(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ResetRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2967,7 +2967,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_Terminate : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_Terminate() {
       ::grpc::Service::MarkMethodStreamed(9,
@@ -2977,7 +2977,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status Terminate(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::TerminateRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -2987,7 +2987,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ReadInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ReadInteger() {
       ::grpc::Service::MarkMethodStreamed(10,
@@ -2997,7 +2997,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::IntegerRead* response) override {
+    ::grpc::Status ReadInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::IntegerRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3007,7 +3007,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ReadReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ReadReal() {
       ::grpc::Service::MarkMethodStreamed(11,
@@ -3017,7 +3017,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ReadReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::RealRead* response) override {
+    ::grpc::Status ReadReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::RealRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3027,7 +3027,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ReadString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ReadString() {
       ::grpc::Service::MarkMethodStreamed(12,
@@ -3037,7 +3037,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ReadString(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::StringRead* response) override {
+    ::grpc::Status ReadString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::StringRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3047,7 +3047,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_ReadBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ReadBoolean() {
       ::grpc::Service::MarkMethodStreamed(13,
@@ -3057,7 +3057,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status ReadBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request, ::fmuproxy::grpc::BooleanRead* response) override {
+    ::grpc::Status ReadBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::ReadRequest* /*request*/, ::fmuproxy::grpc::BooleanRead* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3067,7 +3067,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_WriteInteger : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_WriteInteger() {
       ::grpc::Service::MarkMethodStreamed(14,
@@ -3077,7 +3077,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status WriteInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteIntegerRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteInteger(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteIntegerRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3087,7 +3087,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_WriteReal : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_WriteReal() {
       ::grpc::Service::MarkMethodStreamed(15,
@@ -3097,7 +3097,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status WriteReal(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteRealRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteReal(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteRealRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3107,7 +3107,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_WriteString : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_WriteString() {
       ::grpc::Service::MarkMethodStreamed(16,
@@ -3117,7 +3117,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status WriteString(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteStringRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteString(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteStringRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3127,7 +3127,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_WriteBoolean : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_WriteBoolean() {
       ::grpc::Service::MarkMethodStreamed(17,
@@ -3137,7 +3137,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status WriteBoolean(::grpc::ServerContext* context, const ::fmuproxy::grpc::WriteBooleanRequest* request, ::fmuproxy::grpc::StatusResponse* response) override {
+    ::grpc::Status WriteBoolean(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::WriteBooleanRequest* /*request*/, ::fmuproxy::grpc::StatusResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3147,7 +3147,7 @@ class FmuService final {
   template <class BaseClass>
   class WithStreamedUnaryMethod_GetDirectionalDerivative : public BaseClass {
    private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetDirectionalDerivative() {
       ::grpc::Service::MarkMethodStreamed(18,
@@ -3157,7 +3157,7 @@ class FmuService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* context, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* request, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* response) override {
+    ::grpc::Status GetDirectionalDerivative(::grpc::ServerContext* /*context*/, const ::fmuproxy::grpc::GetDirectionalDerivativeRequest* /*request*/, ::fmuproxy::grpc::GetDirectionalDerivativeResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
