@@ -31,19 +31,18 @@ class TestProxy {
 
     }
 
-    private val proxy = FmuProxyBuilder(fmu).apply {
-        addServer(GrpcFmuServer().apply { addFmu(fmu) }, 9090)
-        addServer(ThriftFmuSocketServer().apply { addFmu(fmu) }, 9091)
-        addServer(ThriftFmuServlet().apply { addFmu(fmu) }, 9092)
-
-    }.build().apply {
-        start()
+    private val proxy = FmuProxy(mapOf(
+            GrpcFmuServer().apply { addFmu(fmu) } to 9090,
+            ThriftFmuSocketServer().apply { addFmu(fmu) } to 9091,
+            ThriftFmuServlet().apply { addFmu(fmu) } to 9092)
+    ).also {
+        it.start()
     }
 
 
     @AfterAll
     fun tearDown() {
-        Assertions.assertTimeout(Duration.ofSeconds(10)){
+        Assertions.assertTimeout(Duration.ofSeconds(10)) {
             proxy.stop()
             fmu.close()
         }

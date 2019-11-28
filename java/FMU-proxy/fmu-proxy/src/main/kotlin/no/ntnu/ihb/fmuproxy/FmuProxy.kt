@@ -27,7 +27,6 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
-import no.ntnu.ihb.fmuproxy.heartbeat.Heartbeat
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
@@ -42,13 +41,10 @@ typealias InstanceId = String
  * @author Lars Ivar Hatledal
  */
 class FmuProxy(
-        private val modelDescriptions: List<String>,
-        private val remote: SimpleSocketAddress? = null,
         private val servers: Map<FmuProxyServer, Int>
 ): Closeable {
 
     private var hasStarted = false
-    private var beat: Heartbeat? = null
 
     /**
      * Start proxy
@@ -58,14 +54,6 @@ class FmuProxy(
             servers.forEach { (server, port) ->
                 server.start(port)
             }
-            val ports = servers.keys.associate { server ->
-                server.simpleName to servers.getValue(server)
-            }
-            beat = remote?.let {
-                Heartbeat(remote, ports, modelDescriptions).apply {
-                    start()
-                }
-            }
         }
     }
 
@@ -74,7 +62,6 @@ class FmuProxy(
      */
     fun stop() {
         if (hasStarted) {
-            beat?.stop()
             servers.forEach {
                 it.key.stop()
             }
@@ -134,21 +121,9 @@ class FmuProxy(
 /**
  * @author Lars Ivar Hatledal
  */
-class FmuProxyBuilder(
-       fmus: List<AbstractFmu>
-) {
+class FmuProxyBuilder {
 
-    private val modelDescriptions = fmus.map { it.modelDescriptionXml }
-
-    constructor(fmu: AbstractFmu): this(listOf(fmu))
-
-    private var remote: SimpleSocketAddress? = null
     private val servers = mutableMapOf<FmuProxyServer, Int>()
-
-    fun setRemote(remote: SimpleSocketAddress?): FmuProxyBuilder {
-        this.remote = remote
-        return this
-    }
 
     fun addServer(server: FmuProxyServer, port: Int): FmuProxyBuilder {
         servers[server] = port
@@ -156,7 +131,7 @@ class FmuProxyBuilder(
     }
 
     fun build(): FmuProxy {
-        return FmuProxy(modelDescriptions, remote, servers)
+        return FmuProxy(servers)
     }
 
 }

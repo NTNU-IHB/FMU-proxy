@@ -8,7 +8,6 @@ class FMUProxyConan(ConanFile):
     generators = "cmake"
     requires = (
         "boost/1.66.0@conan/stable",
-        "libcurl/7.66.0@bincrafters/stable",
         "libzip/1.5.2@bincrafters/stable",
         "jsonformoderncpp/3.5.0@vthiery/stable",
         "bzip2/1.0.8",

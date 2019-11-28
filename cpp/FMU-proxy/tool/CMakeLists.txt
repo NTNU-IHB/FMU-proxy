@@ -2,7 +2,7 @@
 include_directories(${FMU_PROXY_SOURCE_DIR}/include)
 
 add_executable(fmu_proxy fmu_proxy.cpp)
-target_link_libraries(fmu_proxy PRIVATE fmi4cpp::fmi4cpp heartbeat Boost::program_options)
+target_link_libraries(fmu_proxy PRIVATE fmi4cpp::fmi4cpp Boost::program_options)
 
 if(FMU_PROXY_WITH_THRIFT)
     target_link_libraries(fmu_proxy PRIVATE thrift-server thrift::thriftnb)
