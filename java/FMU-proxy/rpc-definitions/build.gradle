@@ -5,17 +5,22 @@ plugins {
     id "com.google.protobuf" version '0.8.10'
 }
 
+apply from: rootProject.file("gradle/mavenpublish.gradle")
+
 dependencies {
+
+    api "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 
     api group: 'io.grpc', name: 'grpc-stub', version: grpc_version
     api group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
 
     api group: 'org.apache.thrift', name: 'libthrift', version: '0.12.0'
-    compile("javax.annotation:javax.annotation-api:1.3.2")
-
-    api "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
 
 }
+
+apply from: rootProject.file("gradle/bintraypublish.gradle")
+
 
 if (!getProperties().get("disableCodeGeneration", false)) {
     

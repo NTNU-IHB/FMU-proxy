@@ -5,6 +5,7 @@ plugins {
 }
 
 apply from: rootProject.file("gradle/mavenpublish.gradle")
+apply from: rootProject.file("gradle/bintraypublish.gradle")
 
 dependencies {
 

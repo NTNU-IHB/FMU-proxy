@@ -1,0 +1,21 @@
+
+if (hasProperty("bintrayUser") && hasProperty("bintrayKey")) {
+
+    apply plugin: "com.jfrog.bintray"
+
+    bintray {
+        user = bintrayUser
+        key = bintrayKey
+        publish = true
+        setPublications("maven")
+        pkg {
+            userOrg = "ntnu-ihb"
+            repo = "mvn"
+            name = "FMU-proxy"
+            websiteUrl = "https://github.com/NTNU-IHB/FMU-proxy"
+            vcsUrl = "https://github.com/NTNU-IHB/FMU-proxy"
+            setLicenses("MIT")
+        }
+    }
+
+}

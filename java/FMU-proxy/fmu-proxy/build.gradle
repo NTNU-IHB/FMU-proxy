@@ -6,7 +6,6 @@ plugins {
 }
 
 apply from: rootProject.file("gradle/junit.gradle")
-apply from: rootProject.file("gradle/jackson.gradle")
 
 mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxy"
 
