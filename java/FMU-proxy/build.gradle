@@ -9,11 +9,12 @@ println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.fmi4j_version = '0.25.0'
 
-ext.grpc_version = '1.23.0'
+ext.grpc_version = '1.25.0'
 ext.slf4j_version = '1.7.25'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = '6.0.1'
 }
 
 subprojects { sub ->

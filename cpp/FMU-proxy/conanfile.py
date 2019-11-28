@@ -8,9 +8,12 @@ class FMUProxyConan(ConanFile):
     generators = "cmake"
     requires = (
         "boost/1.66.0@conan/stable",
+        "libcurl/7.66.0@bincrafters/stable",
         "libzip/1.5.2@bincrafters/stable",
+        "jsonformoderncpp/3.5.0@vthiery/stable",
         "bzip2/1.0.8",
-        "zlib/1.2.11"
+        "zlib/1.2.11",
+        "openssl/1.0.2t"
     )
     options = {
         "thrift": [True, False],
@@ -29,4 +32,4 @@ class FMUProxyConan(ConanFile):
         if self.options.thrift:
             self.requires("thrift/0.12.0@bincrafters/stable")
         if self.options.grpc:
-            self.requires("grpc/1.23.0@inexorgame/stable")
+            self.requires("grpc/1.25.0@inexorgame/stable")
