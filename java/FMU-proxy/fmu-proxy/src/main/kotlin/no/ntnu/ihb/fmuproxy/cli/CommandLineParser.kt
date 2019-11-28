@@ -25,7 +25,6 @@
 package no.ntnu.ihb.fmuproxy.cli
 
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
-import no.ntnu.ihb.fmi4j.util.OsUtil
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
@@ -91,26 +90,25 @@ class Args : Callable<FmuProxy> {
         }
 
         return fmus.map { AbstractFmu.from(it) }.let { fmus ->
-            FmuProxyBuilder(fmus).apply {
+            FmuProxyBuilder().apply {
 
-                setRemote(remote)
-
-                val map = Collections.synchronizedMap(fmus.associateBy { it.modelDescription.guid }.toMutableMap())
+                val fmuMap = Collections.synchronizedMap(
+                        fmus.associateBy { it.modelDescription.guid }.toMutableMap())
 
                 grpcPort?.also {
-                    GrpcFmuServer(map).apply {
+                    GrpcFmuServer(fmuMap).apply {
                         addServer(this, it)
                     }
                 }
 
                 thriftTcpPort?.also {
-                    ThriftFmuSocketServer(map).apply {
+                    ThriftFmuSocketServer(fmuMap).apply {
                         addServer(this, it)
                     }
                 }
 
                 thriftHttpPort?.also {
-                    ThriftFmuServlet(map).apply {
+                    ThriftFmuServlet(fmuMap).apply {
                         addServer(this, it)
                     }
                 }

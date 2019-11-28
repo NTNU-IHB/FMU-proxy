@@ -22,9 +22,6 @@
  * THE SOFTWARE.
  */
 
-#include <fmuproxy/heartbeat/heartbeat.hpp>
-#include <fmuproxy/heartbeat/remote_address.hpp>
-
 #include <boost/program_options.hpp>
 #include <fmi4cpp/fmi2/fmi2.hpp>
 
@@ -66,8 +63,7 @@ void wait_for_input()
 
 int run_application(
     const vector<shared_ptr<fmi4cpp::fmi2::cs_fmu>>& fmus,
-    unordered_map<string, unsigned int> ports,
-    const optional<fmuproxy::remote_address>& remote)
+    unordered_map<string, unsigned int> ports)
 {
 
     unordered_map<string, shared_ptr<fmi4cpp::fmi2::cs_fmu>> fmu_map;
@@ -110,17 +106,9 @@ int run_application(
         servers[GRPC] = port;
     }
 #endif
-    unique_ptr<fmuproxy::heartbeat> beat = nullptr;
-    if (remote) {
-        beat = make_unique<fmuproxy::heartbeat>(*remote, servers, modelDescriptions);
-        beat->start();
-    }
 
     wait_for_input();
 
-    if (remote) {
-        beat->stop();
-    }
 #ifdef FMU_PROXY_WITH_GRPC
     if (enable_grpc) {
         grpc_server->stop();
@@ -200,13 +188,7 @@ int main(int argc, char** argv)
             ports[GRPC] = vm[GRPC].as<unsigned int>();
         }
 
-        optional<fmuproxy::remote_address> remote;
-        if (vm.count("remote")) {
-            string str = vm["remote"].as<string>();
-            remote = fmuproxy::remote_address(fmuproxy::remote_address::parse(str));
-        }
-
-        return run_application(fmus, ports, remote);
+        return run_application(fmus, ports);
 
     } catch (std::exception& e) {
         std::cerr << "Unhandled Exception reached the top of main: " << e.what() << ", application will now exit" << std::endl;

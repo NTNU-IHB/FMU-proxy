@@ -2,19 +2,6 @@
 INCLUDE_DIRECTORIES(${FMU_PROXY_SOURCE_DIR}/include/)
 
 ##################################################################
-#########################HEARTBEATING############################
-
-SET(HEARTBEAT_SRC
-        fmuproxy/heartbeat/heartbeat.cpp)
-
-add_library(heartbeat ${HEARTBEAT_SRC})
-target_link_libraries(heartbeat PRIVATE ${CURL_LIBRARIES} ${OPENSSL_LIBRARIES})
-target_include_directories(heartbeat PRIVATE ${CURL_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
-if (UNIX)
-    target_link_libraries(heartbeat PRIVATE pthread)
-endif()
-
-##################################################################
 #########################GRPC#####################################
 
 if(FMU_PROXY_WITH_GRPC)
@@ -31,7 +18,7 @@ if(FMU_PROXY_WITH_GRPC)
             fmuproxy/grpc/server/fmu_service_impl.cpp)
 
     add_library(grpc-common ${GRPC_COMMON_SRC})
-    target_link_libraries(grpc-common PUBLIC gRPC::grpc gRPC::grpc++ gRPC::grpc_unsecure PRIVATE protobuf::libprotobuf ${OPENSSL_LIBRARIES})
+    target_link_libraries(grpc-common PUBLIC gRPC::grpc gRPC::grpc++ gRPC::grpc_unsecure PRIVATE protobuf::libprotobuf)
 
     add_library(grpc-client ${GRPC_CLIENT_SRC})
     target_link_libraries(grpc-client PUBLIC grpc-common fmi4cpp::fmi4cpp)
@@ -62,7 +49,7 @@ if (FMU_PROXY_WITH_THRIFT)
             fmuproxy/thrift/server/thrift_fmu_server.cpp)
 
     add_library(thrift-common ${THRIFT_COMMON_SRC})
-    target_link_libraries(thrift-common PUBLIC thrift::thrift PRIVATE ${OPENSSL_LIBRARIES})
+    target_link_libraries(thrift-common PUBLIC thrift::thrift)
 
     add_library(thrift-client ${THRIFT_CLIENT_SRC})
     target_link_libraries(thrift-client PUBLIC thrift-common fmi4cpp::fmi4cpp)

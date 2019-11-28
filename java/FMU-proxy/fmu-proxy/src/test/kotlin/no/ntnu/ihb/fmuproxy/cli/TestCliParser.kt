@@ -16,7 +16,7 @@ class TestCliParser {
     @Test
     fun test() {
 
-        var args = arrayOf("${fmuPath.absolutePath}")
+        val args = arrayOf(fmuPath.absolutePath)
         CommandLineParser.parse(args)?.use { proxy ->
             proxy.start()
         }

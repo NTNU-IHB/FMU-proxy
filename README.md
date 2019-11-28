@@ -84,7 +84,6 @@ Usage: fmu-proxy [-h]
       FMUs...             FMU(s) to include.
       -grpc=<grpcPort>    Specify the gRPC port (enables this server).
   -h, --help              Print this message and quits.
-  -r, --remote=<remote>   Specify an address for the remoteAddress tracking server (optional).
       -thrift/http=<thriftHttpPort> Specify the Thrift http port (enables this server).
       -thrift/tcp=<thriftTcpPort> Specify the Thrift tcp port (enables this server).
 
@@ -111,7 +110,6 @@ FMU-proxy
 Options:
   -h [ --help ]         Print this help message and quits.
   --fmu arg             Path to FMUs.
-  -r [ --remote ] arg   IP address of the remote tracking server (optional).
   --thrift/tcp arg      Specify the Thrift tcp port (enables this server).
   --thrift/http arg     Specify the Thrift http port  (enables this server).
   --grpc arg            Specify gRPC port (enables this server).
@@ -126,18 +124,5 @@ This repository comes bundled with simple client implementations in Python for g
 
 A simple Thrift client running in the browser can be found [here](client-demos/browser/thrift/index.html). 
 
-
-## Software Architecture
-
-![Software architecture](doc/architecture.png)
-
-#### <a name="discovery_service"></a> The Discovery Service
-
-The discovery service is a centralized web service which FMU-proxy servers connects to. 
-As there may be many discovery services online (each company could have they own), the IP and Port should be provided to the FMU-proxy server uppon startup.
-The service has a HTTP API that allows clients to query for available FMUs. 
-The response is a JSON array with the necessary information required to connect to the FMUs directly. 
-
-The service features a web-based GUI, where users can lookup information retrieved from the FMUs _modelDescription.xml_.
 
 ***
