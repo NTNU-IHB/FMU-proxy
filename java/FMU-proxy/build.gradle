@@ -14,6 +14,7 @@ ext.slf4j_version = '1.7.25'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = '6.0.1'
 }
 
 subprojects { sub ->
