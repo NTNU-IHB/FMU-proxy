@@ -2,7 +2,7 @@
 plugins {
     id "base"
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.3.50" apply false //apply in sub-projects
+    id "org.jetbrains.kotlin.jvm" version "1.3.61" apply false //apply in sub-projects
 }
 
 println "Gradle version is ${gradle.getGradleVersion()}"
