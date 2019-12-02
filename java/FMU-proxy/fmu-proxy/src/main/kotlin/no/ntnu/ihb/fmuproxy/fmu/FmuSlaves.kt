@@ -66,11 +66,12 @@ object FmuSlaves {
         }
     }
     
-    fun terminateAll() {
+    fun closeAll() {
         synchronized(slaves) {
             slaves.values.forEach {
                 if (!it.isTerminated) {
                     it.terminate()
+                    it.close()
                 }
             }
             slaves.clear()

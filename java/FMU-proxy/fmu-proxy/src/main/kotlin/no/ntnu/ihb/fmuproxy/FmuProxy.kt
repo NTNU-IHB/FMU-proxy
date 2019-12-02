@@ -24,11 +24,9 @@
 
 package no.ntnu.ihb.fmuproxy
 
-import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
 import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
-import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
@@ -65,7 +63,7 @@ class FmuProxy(
             servers.forEach {
                 it.key.stop()
             }
-            FmuSlaves.terminateAll()
+            FmuSlaves.closeAll()
             LOG.debug("FMU-proxy stopped!")
         } else {
             LOG.warn("Calling stop, but FMU-proxy has not started..")

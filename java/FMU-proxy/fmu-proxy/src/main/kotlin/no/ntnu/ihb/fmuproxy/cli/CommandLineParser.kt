@@ -28,7 +28,6 @@ import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
 import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
-import no.ntnu.ihb.fmuproxy.net.SimpleSocketAddress
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import picocli.CommandLine
@@ -46,13 +45,6 @@ object CommandLineParser {
 
 }
 
-internal class SimpleSocketAddressConverter : CommandLine.ITypeConverter<SimpleSocketAddress> {
-    override fun convert(value: String): SimpleSocketAddress {
-        return SimpleSocketAddress.parse(value)
-    }
-}
-
-
 @CommandLine.Command(name = "fmu-proxy")
 class Args : Callable<FmuProxy> {
 
@@ -64,9 +56,6 @@ class Args : Callable<FmuProxy> {
 
     @CommandLine.Parameters(arity = "0..*", paramLabel = "FMUs", description = ["Optional FMU(s) to include."])
     var fmus = mutableListOf<File>()
-
-    @CommandLine.Option(names = ["-r", "--remote"], description = ["Specify an address for the remote tracking server (optional)."], converter = [SimpleSocketAddressConverter::class])
-    var remote: SimpleSocketAddress? = null
 
     @CommandLine.Option(names = ["-grpc"], description = ["Enable gRPC using the specified port (optional)."])
     var grpcPort: Int? = null
@@ -119,7 +108,7 @@ class Args : Callable<FmuProxy> {
     }
 
     override fun toString(): String {
-        return "Args(showHelp=$showHelp, fmus=$fmus, remote=$remote, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort)"
+        return "Args(showHelp=$showHelp, fmus=$fmus, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort)"
     }
 
 }

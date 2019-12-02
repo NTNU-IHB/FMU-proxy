@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017-2018. Norwegian University of Technology
+ * Copyright 2017. Norwegian University of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,64 @@
  * THE SOFTWARE.
  */
 
-package no.ntnu.ihb.fmuproxy.fmu
+package no.ntnu.ihb.fmuproxy.net
 
-import com.google.gson.GsonBuilder
-import no.ntnu.ihb.fmuproxy.net.NetworkInfo
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
+import java.io.Closeable
+import java.net.ServerSocket
+
 
 /**
  * @author Lars Ivar Hatledal
  */
-internal class RemoteFmu(
-        val guid: String,
-        val modelName: String,
-        val networkInfo: NetworkInfo,
-        val modelDescriptionXml: String
-) {
+interface FmuProxyServer: Closeable {
 
-    fun toJson(): String {
-        return gson.toJson(this)
+    val port: Int
+
+    val simpleName: String
+
+    /**
+     * Start the server using some available port
+     * @return the port used
+     */
+    @JvmDefault
+    fun start(): Int {
+        return getAvailablePort().also {
+            start(it)
+        }
     }
 
-    companion object {
+    /**
+     * Start the server using the provided port
+     * @param port the port to use
+     */
+    fun start(port: Int)
 
-        private val gson by lazy {
-            GsonBuilder().create()
+
+    /**
+     * Stop the server
+     */
+    fun stop()
+
+    /**
+     * Same as stop()
+     */
+    @JvmDefault
+    override fun close() {
+        stop()
+    }
+
+    fun addFmu(fmu: AbstractFmu)
+
+    fun removeFmu(fmu: AbstractFmu)
+
+    /**
+     * Finds and returns an available port
+     */
+    fun getAvailablePort(): Int {
+        return ServerSocket(0).use {
+            it.localPort
         }
-
-        fun fromJson(json: String): RemoteFmu {
-            return gson.fromJson(json, RemoteFmu::class.java)
-        }
-
     }
 
 }
