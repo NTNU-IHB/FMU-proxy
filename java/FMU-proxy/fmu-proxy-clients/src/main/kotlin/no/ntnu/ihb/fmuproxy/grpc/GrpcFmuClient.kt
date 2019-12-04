@@ -109,9 +109,9 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+        override fun setup(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
             return Service.SetupExperimentRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .setStart(start)
                     .setStop(stop)
                     .setTolerance(tolerance)
@@ -120,25 +120,25 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
+        override fun enterInitializationMode(instanceName: InstanceId): FmiStatus {
             return Service.EnterInitializationModeRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .build().let {
                         stub.enterInitializationMode(it).convert()
                     }
         }
 
-        override fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
+        override fun exitInitializationMode(instanceName: InstanceId): FmiStatus {
             return Service.ExitInitializationModeRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .build().let {
                         stub.exitInitializationMode(it).convert()
                     }
         }
 
-        override fun step(instanceId: String, stepSize: Double): StepResult {
+        override fun step(instanceName: String, stepSize: Double): StepResult {
             return Service.StepRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .setStepSize(stepSize)
                     .build().let { req ->
                         stub.step(req).let { response ->
@@ -147,39 +147,39 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun reset(instanceId: String): FmiStatus {
+        override fun reset(instanceName: String): FmiStatus {
             return Service.ResetRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .build().let {
                         stub.reset(it).status.convert()
                     }
         }
 
-        override fun terminate(instanceId: String): FmiStatus {
-            return Service.TerminateRequest.newBuilder().setInstanceId(instanceId).build().let {
+        override fun terminate(instanceName: String): FmiStatus {
+            return Service.TerminateRequest.newBuilder().setInstanceId(instanceName).build().let {
                 stub.terminate(it).status.convert()
             }
         }
 
-        override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerArrayRead {
-            return stub.readInteger(getReadRequest(instanceId, vr)).convert()
+        override fun readInteger(instanceName: String, vr: List<ValueReference>): IntegerArrayRead {
+            return stub.readInteger(getReadRequest(instanceName, vr)).convert()
         }
 
-        override fun readReal(instanceId: String, vr: List<ValueReference>): RealArrayRead {
-            return stub.readReal(getReadRequest(instanceId, vr)).convert()
+        override fun readReal(instanceName: String, vr: List<ValueReference>): RealArrayRead {
+            return stub.readReal(getReadRequest(instanceName, vr)).convert()
         }
 
-        override fun readString(instanceId: String, vr: List<ValueReference>): StringArrayRead {
-            return stub.readString(getReadRequest(instanceId, vr)).convert()
+        override fun readString(instanceName: String, vr: List<ValueReference>): StringArrayRead {
+            return stub.readString(getReadRequest(instanceName, vr)).convert()
         }
 
-        override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanArrayRead {
-            return stub.readBoolean(getReadRequest(instanceId, vr)).convert()
+        override fun readBoolean(instanceName: String, vr: List<ValueReference>): BooleanArrayRead {
+            return stub.readBoolean(getReadRequest(instanceName, vr)).convert()
         }
 
-        override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
+        override fun writeInteger(instanceName: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
             return Service.WriteIntegerRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
@@ -188,9 +188,9 @@ class GrpcFmuClient(
         }
 
 
-        override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+        override fun writeReal(instanceName: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
             return Service.WriteRealRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
@@ -198,9 +198,9 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
+        override fun writeString(instanceName: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
             return Service.WriteStringRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
@@ -208,9 +208,9 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+        override fun writeBoolean(instanceName: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
             return Service.WriteBooleanRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .addAllValueReferences(vr)
                     .addAllValues(value)
                     .build().let { request ->
@@ -218,9 +218,9 @@ class GrpcFmuClient(
                     }
         }
 
-        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult {
+        override fun getDirectionalDerivative(instanceName: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult {
             return Service.GetDirectionalDerivativeRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .addAllVUnknownRef(vUnknownRef)
                     .addAllVKnownRef(vKnownRef)
                     .addAllDvKnownRef(dvKnownRef).build().let { request ->
@@ -243,9 +243,9 @@ class GrpcFmuClient(
 
         val LOG: Logger = LoggerFactory.getLogger(GrpcFmuClient::class.java)
 
-        private fun getReadRequest(instanceId: String, vr: List<ValueReference>): Service.ReadRequest {
+        private fun getReadRequest(instanceName: String, vr: List<ValueReference>): Service.ReadRequest {
             return Service.ReadRequest.newBuilder()
-                    .setInstanceId(instanceId)
+                    .setInstanceId(instanceName)
                     .addAllValueReferences(vr)
                     .build()
         }

@@ -97,30 +97,30 @@ class ThriftFmuClient private constructor(
             return client.createInstance(fmuId)
         }
 
-        override fun setup(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
-            return client.setupExperiment(instanceId, start, stop, tolerance).convert()
+        override fun setup(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+            return client.setupExperiment(instanceName, start, stop, tolerance).convert()
         }
 
-        override fun enterInitializationMode(instanceId: InstanceId): FmiStatus {
-            return client.enterInitializationMode(instanceId).convert()
+        override fun enterInitializationMode(instanceName: InstanceId): FmiStatus {
+            return client.enterInitializationMode(instanceName).convert()
         }
 
-        override fun exitInitializationMode(instanceId: InstanceId): FmiStatus {
-            return client.exitInitializationMode(instanceId).convert()
+        override fun exitInitializationMode(instanceName: InstanceId): FmiStatus {
+            return client.exitInitializationMode(instanceName).convert()
         }
 
-        override fun terminate(instanceId: String): FmiStatus {
-            return client.terminate(instanceId).convert()
+        override fun terminate(instanceName: String): FmiStatus {
+            return client.terminate(instanceName).convert()
         }
 
-        override fun step(instanceId: String, stepSize: Double):  StepResult {
-            return client.step(instanceId, stepSize).let {
+        override fun step(instanceName: String, stepSize: Double):  StepResult {
+            return client.step(instanceName, stepSize).let {
                 StepResult(it.simulationTime, it.status.convert())
             }
         }
 
-        override fun reset(instanceId: String): FmiStatus {
-            return client.reset(instanceId).convert()
+        override fun reset(instanceName: String): FmiStatus {
+            return client.reset(instanceName).convert()
         }
 
         override fun close() {
@@ -128,40 +128,40 @@ class ThriftFmuClient private constructor(
             LOG.debug("$implementationName closed..")
         }
 
-        override fun readInteger(instanceId: String, vr: List<ValueReference>): IntegerArrayRead {
-            return client.readInteger(instanceId, vr).convert()
+        override fun readInteger(instanceName: String, vr: List<ValueReference>): IntegerArrayRead {
+            return client.readInteger(instanceName, vr).convert()
         }
 
-        override fun readReal(instanceId: String, vr: List<ValueReference>): RealArrayRead {
-            return client.readReal(instanceId, vr).convert()
+        override fun readReal(instanceName: String, vr: List<ValueReference>): RealArrayRead {
+            return client.readReal(instanceName, vr).convert()
         }
 
-        override fun readString(instanceId: String, vr: List<ValueReference>): StringArrayRead {
-            return client.readString(instanceId, vr).convert()
+        override fun readString(instanceName: String, vr: List<ValueReference>): StringArrayRead {
+            return client.readString(instanceName, vr).convert()
         }
 
-        override fun readBoolean(instanceId: String, vr: List<ValueReference>): BooleanArrayRead {
-            return client.readBoolean(instanceId, vr).convert()
+        override fun readBoolean(instanceName: String, vr: List<ValueReference>): BooleanArrayRead {
+            return client.readBoolean(instanceName, vr).convert()
         }
 
-        override fun writeInteger(instanceId: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
-            return client.writeInteger(instanceId, vr, value).convert()
+        override fun writeInteger(instanceName: String, vr: List<ValueReference>, value: List<Int>): FmiStatus {
+            return client.writeInteger(instanceName, vr, value).convert()
         }
 
-        override fun writeReal(instanceId: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
-            return client.writeReal(instanceId, vr, value).convert()
+        override fun writeReal(instanceName: String, vr: List<ValueReference>, value: List<Real>): FmiStatus {
+            return client.writeReal(instanceName, vr, value).convert()
         }
 
-        override fun writeString(instanceId: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
-            return client.writeString(instanceId, vr, value).convert()
+        override fun writeString(instanceName: String, vr: List<ValueReference>, value: List<String>): FmiStatus {
+            return client.writeString(instanceName, vr, value).convert()
         }
 
-        override fun writeBoolean(instanceId: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
-            return client.writeBoolean(instanceId, vr, value).convert()
+        override fun writeBoolean(instanceName: String, vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+            return client.writeBoolean(instanceName, vr, value).convert()
         }
 
-        override fun getDirectionalDerivative(instanceId: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult {
-            return client.getDirectionalDerivative(instanceId, vUnknownRef, vKnownRef, dvKnownRef).let {
+        override fun getDirectionalDerivative(instanceName: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult {
+            return client.getDirectionalDerivative(instanceName, vUnknownRef, vKnownRef, dvKnownRef).let {
                 DirectionalDerivativeResult(it.dvUnknownRef.toDoubleArray(), it.status.convert())
             }
         }
@@ -191,4 +191,3 @@ class ThriftFmuClient private constructor(
     }
 
 }
-

@@ -7,10 +7,9 @@ plugins {
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
-ext.fmi4j_version = '0.25.0'
-
 ext.grpc_version = '1.25.0'
 ext.slf4j_version = '1.7.25'
+ext.fmi4j_version = '0.27.3'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -20,7 +19,7 @@ wrapper {
 subprojects { sub ->
 
     group = 'no.ntnu.ihb.fmi4j'
-    version = '0.1.0'
+    version = '0.1.1'
 
     repositories {
         mavenCentral()
