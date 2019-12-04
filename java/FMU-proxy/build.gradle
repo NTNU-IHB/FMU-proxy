@@ -18,9 +18,6 @@ wrapper {
 
 subprojects { sub ->
 
-    group = 'no.ntnu.ihb.fmi4j'
-    version = '0.1.1'
-
     repositories {
         mavenCentral()
         maven { url  "https://dl.bintray.com/ntnu-ihb/mvn"  }
