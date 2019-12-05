@@ -33,3 +33,4 @@ if __name__ == '__main__':
 
     status = slave.terminate()
     print("FMU '{}' terminated with status: {}".format(client.model_description.modelName, Status._VALUES_TO_NAMES[status]))
+    slave.freeInstance()

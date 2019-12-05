@@ -71,11 +71,14 @@ class RemoteFmuInstance:
         self.simulation_time = response.simulation_time
         return response.status
 
+    def reset(self) -> Status:
+        return self.client.reset(self.instance_id)
+
     def terminate(self) -> Status:
         return self.client.terminate(self.instance_id)
 
-    def reset(self) -> Status:
-        return self.client.reset(self.instance_id)
+    def freeInstance(self) -> Status:
+        return self.client.freeInstance(self.instance_id)
 
     def get_reader(self, identifier) -> VariableReader:
         if isinstance(identifier, int):
