@@ -116,7 +116,8 @@ fmu_service_impl::SetupExperiment(::grpc::ServerContext* context, const ::fmupro
     const ::fmuproxy::grpc::EnterInitializationModeRequest* request,
     ::fmuproxy::grpc::StatusResponse* response)
 {
-    auto& slave = slaves_[request->instance_id()];
+    const auto& instance_id = request->instance_id();
+    auto& slave = slaves_[instance_id];
     bool status = slave->enter_initialization_mode();
     response->set_status(grpc_type(slave->last_status()));
     return ::Status::OK;
@@ -126,7 +127,8 @@ fmu_service_impl::SetupExperiment(::grpc::ServerContext* context, const ::fmupro
     const ::fmuproxy::grpc::ExitInitializationModeRequest* request,
     ::fmuproxy::grpc::StatusResponse* response)
 {
-    auto& slave = slaves_[request->instance_id()];
+    const auto& instance_id = request->instance_id();
+    auto& slave = slaves_[instance_id];
     bool status = slave->exit_initialization_mode();
     response->set_status(grpc_type(slave->last_status()));
     return ::Status::OK;
@@ -134,29 +136,39 @@ fmu_service_impl::SetupExperiment(::grpc::ServerContext* context, const ::fmupro
 
 ::Status fmu_service_impl::Step(ServerContext* context, const StepRequest* request, StepResponse* response)
 {
-    auto& slave = slaves_[request->instance_id()];
+    const auto& instance_id = request->instance_id();
+    auto& slave = slaves_[instance_id];
     bool status = slave->step(request->step_size());
     response->set_status(grpc_type(slave->last_status()));
     response->set_simulation_time(slave->get_simulation_time());
     return ::Status::OK;
 }
 
+::Status fmu_service_impl::Reset(ServerContext* context, const ResetRequest* request, StatusResponse* response)
+{
+    const auto& instance_id = request->instance_id();
+    auto& slave = slaves_[instance_id];
+    bool status = slave->reset();
+    response->set_status(grpc_type(slave->last_status()));
+    return ::Status::OK;
+}
+
 ::Status fmu_service_impl::Terminate(ServerContext* context, const TerminateRequest* request, StatusResponse* response)
 {
-    const auto instance_id = request->instance_id();
+    const auto& instance_id = request->instance_id();
     auto& slave = slaves_[instance_id];
     bool status = slave->terminate();
     response->set_status(grpc_type(slave->last_status()));
-    slaves_.erase(instance_id);
     std::cout << "Terminated FMU instance with id=" << instance_id << std::endl;
     return ::Status::OK;
 }
 
-::Status fmu_service_impl::Reset(ServerContext* context, const ResetRequest* request, StatusResponse* response)
+::Status fmu_service_impl::FreeInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::FreeRequest* request, ::fmuproxy::grpc::Void* response)
 {
-    auto& slave = slaves_[request->instance_id()];
-    bool status = slave->reset();
-    response->set_status(grpc_type(slave->last_status()));
+    const auto& instance_id = request->instance_id();
+    auto& slave = slaves_[instance_id];
+    slaves_.erase(instance_id);
+    std::cout << "Freed FMU instance with id=" << instance_id << std::endl;
     return ::Status::OK;
 }
 
@@ -287,6 +299,7 @@ fmu_service_impl::WriteBoolean(ServerContext* context, const WriteBooleanRequest
 
     return ::Status::OK;
 }
+
 
 //::Status
 //fmu_service_impl::GetFMUstate(ServerContext *context, const GetFMUstateRequest *request, GetFMUstateResponse *response) {

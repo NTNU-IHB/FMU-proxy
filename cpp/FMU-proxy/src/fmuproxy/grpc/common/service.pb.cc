@@ -123,6 +123,10 @@ class TerminateRequestDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TerminateRequest> _instance;
 } _TerminateRequest_default_instance_;
+class FreeRequestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<FreeRequest> _instance;
+} _FreeRequest_default_instance_;
 class ReadRequestDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ReadRequest> _instance;
@@ -179,6 +183,10 @@ class FileDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<File> _instance;
 } _File_default_instance_;
+class VoidDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Void> _instance;
+} _Void_default_instance_;
 }  // namespace grpc
 }  // namespace fmuproxy
 static void InitDefaultsscc_info_Bool_service_2eproto() {
@@ -320,6 +328,20 @@ static void InitDefaultsscc_info_FmuId_service_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FmuId_service_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_FmuId_service_2eproto}, {}};
+
+static void InitDefaultsscc_info_FreeRequest_service_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::fmuproxy::grpc::_FreeRequest_default_instance_;
+    new (ptr) ::fmuproxy::grpc::FreeRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::fmuproxy::grpc::FreeRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_FreeRequest_service_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_FreeRequest_service_2eproto}, {}};
 
 static void InitDefaultsscc_info_GetDirectionalDerivativeRequest_service_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -652,6 +674,20 @@ static void InitDefaultsscc_info_Url_service_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Url_service_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_Url_service_2eproto}, {}};
 
+static void InitDefaultsscc_info_Void_service_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::fmuproxy::grpc::_Void_default_instance_;
+    new (ptr) ::fmuproxy::grpc::Void();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::fmuproxy::grpc::Void::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Void_service_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_Void_service_2eproto}, {}};
+
 static void InitDefaultsscc_info_WriteBooleanRequest_service_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -708,7 +744,7 @@ static void InitDefaultsscc_info_WriteStringRequest_service_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_WriteStringRequest_service_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_WriteStringRequest_service_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_service_2eproto[37];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_service_2eproto[39];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_service_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_service_2eproto = nullptr;
 
@@ -904,6 +940,12 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_service_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::TerminateRequest, instance_id_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::FreeRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::FreeRequest, instance_id_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::ReadRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -1005,6 +1047,11 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_service_2eproto::offsets[] PRO
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::File, name_),
   PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::File, data_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::fmuproxy::grpc::Void, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::fmuproxy::grpc::ModelDescription)},
@@ -1030,20 +1077,22 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 171, -1, sizeof(::fmuproxy::grpc::StepRequest)},
   { 178, -1, sizeof(::fmuproxy::grpc::ResetRequest)},
   { 184, -1, sizeof(::fmuproxy::grpc::TerminateRequest)},
-  { 190, -1, sizeof(::fmuproxy::grpc::ReadRequest)},
-  { 197, -1, sizeof(::fmuproxy::grpc::WriteIntegerRequest)},
-  { 205, -1, sizeof(::fmuproxy::grpc::WriteRealRequest)},
-  { 213, -1, sizeof(::fmuproxy::grpc::WriteStringRequest)},
-  { 221, -1, sizeof(::fmuproxy::grpc::WriteBooleanRequest)},
-  { 229, -1, sizeof(::fmuproxy::grpc::IntegerRead)},
-  { 236, -1, sizeof(::fmuproxy::grpc::RealRead)},
-  { 243, -1, sizeof(::fmuproxy::grpc::StringRead)},
-  { 250, -1, sizeof(::fmuproxy::grpc::BooleanRead)},
-  { 257, -1, sizeof(::fmuproxy::grpc::Bool)},
-  { 263, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeRequest)},
-  { 272, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeResponse)},
-  { 279, -1, sizeof(::fmuproxy::grpc::Url)},
-  { 285, -1, sizeof(::fmuproxy::grpc::File)},
+  { 190, -1, sizeof(::fmuproxy::grpc::FreeRequest)},
+  { 196, -1, sizeof(::fmuproxy::grpc::ReadRequest)},
+  { 203, -1, sizeof(::fmuproxy::grpc::WriteIntegerRequest)},
+  { 211, -1, sizeof(::fmuproxy::grpc::WriteRealRequest)},
+  { 219, -1, sizeof(::fmuproxy::grpc::WriteStringRequest)},
+  { 227, -1, sizeof(::fmuproxy::grpc::WriteBooleanRequest)},
+  { 235, -1, sizeof(::fmuproxy::grpc::IntegerRead)},
+  { 242, -1, sizeof(::fmuproxy::grpc::RealRead)},
+  { 249, -1, sizeof(::fmuproxy::grpc::StringRead)},
+  { 256, -1, sizeof(::fmuproxy::grpc::BooleanRead)},
+  { 263, -1, sizeof(::fmuproxy::grpc::Bool)},
+  { 269, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeRequest)},
+  { 278, -1, sizeof(::fmuproxy::grpc::GetDirectionalDerivativeResponse)},
+  { 285, -1, sizeof(::fmuproxy::grpc::Url)},
+  { 291, -1, sizeof(::fmuproxy::grpc::File)},
+  { 298, -1, sizeof(::fmuproxy::grpc::Void)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1070,6 +1119,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_StepRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_ResetRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_TerminateRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_FreeRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_ReadRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_WriteIntegerRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_WriteRealRequest_default_instance_),
@@ -1084,6 +1134,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_GetDirectionalDerivativeResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_Url_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_File_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::fmuproxy::grpc::_Void_default_instance_),
 };
 
 const char descriptor_table_protodef_service_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -1148,78 +1199,81 @@ const char descriptor_table_protodef_service_2eproto[] PROTOBUF_SECTION_VARIABLE
   "ance_id\030\001 \001(\t\"5\n\013StepRequest\022\023\n\013instance"
   "_id\030\001 \001(\t\022\021\n\tstep_size\030\002 \001(\001\"#\n\014ResetReq"
   "uest\022\023\n\013instance_id\030\001 \001(\t\"\'\n\020TerminateRe"
-  "quest\022\023\n\013instance_id\030\001 \001(\t\"<\n\013ReadReques"
+  "quest\022\023\n\013instance_id\030\001 \001(\t\"\"\n\013FreeReques"
+  "t\022\023\n\013instance_id\030\001 \001(\t\"<\n\013ReadRequest\022\023\n"
+  "\013instance_id\030\001 \001(\t\022\030\n\020value_references\030\002"
+  " \003(\004\"T\n\023WriteIntegerRequest\022\023\n\013instance_"
+  "id\030\001 \001(\t\022\030\n\020value_references\030\002 \003(\004\022\016\n\006va"
+  "lues\030\003 \003(\005\"Q\n\020WriteRealRequest\022\023\n\013instan"
+  "ce_id\030\001 \001(\t\022\030\n\020value_references\030\002 \003(\004\022\016\n"
+  "\006values\030\003 \003(\001\"S\n\022WriteStringRequest\022\023\n\013i"
+  "nstance_id\030\001 \001(\t\022\030\n\020value_references\030\002 \003"
+  "(\004\022\016\n\006values\030\003 \003(\t\"T\n\023WriteBooleanReques"
   "t\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_referenc"
-  "es\030\002 \003(\004\"T\n\023WriteIntegerRequest\022\023\n\013insta"
-  "nce_id\030\001 \001(\t\022\030\n\020value_references\030\002 \003(\004\022\016"
-  "\n\006values\030\003 \003(\005\"Q\n\020WriteRealRequest\022\023\n\013in"
-  "stance_id\030\001 \001(\t\022\030\n\020value_references\030\002 \003("
-  "\004\022\016\n\006values\030\003 \003(\001\"S\n\022WriteStringRequest\022"
-  "\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_references"
-  "\030\002 \003(\004\022\016\n\006values\030\003 \003(\t\"T\n\023WriteBooleanRe"
-  "quest\022\023\n\013instance_id\030\001 \001(\t\022\030\n\020value_refe"
-  "rences\030\002 \003(\004\022\016\n\006values\030\003 \003(\010\"D\n\013IntegerR"
-  "ead\022\016\n\006values\030\001 \003(\005\022%\n\006status\030\002 \001(\0162\025.fm"
-  "uproxy.grpc.Status\"A\n\010RealRead\022\016\n\006values"
-  "\030\001 \003(\001\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.S"
-  "tatus\"C\n\nStringRead\022\016\n\006values\030\001 \003(\t\022%\n\006s"
-  "tatus\030\002 \001(\0162\025.fmuproxy.grpc.Status\"D\n\013Bo"
-  "oleanRead\022\016\n\006values\030\001 \003(\010\022%\n\006status\030\002 \001("
-  "\0162\025.fmuproxy.grpc.Status\"\025\n\004Bool\022\r\n\005valu"
-  "e\030\001 \001(\010\"x\n\037GetDirectionalDerivativeReque"
-  "st\022\023\n\013instance_id\030\001 \001(\t\022\025\n\rv_unknown_ref"
-  "\030\002 \003(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024\n\014dv_known_"
-  "ref\030\004 \003(\001\"a\n GetDirectionalDerivativeRes"
-  "ponse\022\026\n\016dv_unknown_ref\030\001 \003(\001\022%\n\006status\030"
-  "\002 \001(\0162\025.fmuproxy.grpc.Status\"\022\n\003Url\022\013\n\003u"
-  "rl\030\001 \001(\t\"\"\n\004File\022\014\n\004name\030\001 \001(\t\022\014\n\004data\030\002"
-  " \001(\014*w\n\006Status\022\r\n\tOK_STATUS\020\000\022\022\n\016WARNING"
-  "_STATUS\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERROR_S"
-  "TATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING_STA"
-  "TUS\020\0052\207\014\n\nFmuService\0227\n\013LoadFromUrl\022\022.fm"
-  "uproxy.grpc.Url\032\024.fmuproxy.grpc.FmuId\0229\n"
-  "\014LoadFromFile\022\023.fmuproxy.grpc.File\032\024.fmu"
-  "proxy.grpc.FmuId\022a\n\023GetModelDescription\022"
-  ").fmuproxy.grpc.GetModelDescriptionReque"
-  "st\032\037.fmuproxy.grpc.ModelDescription\022Q\n\016C"
-  "reateInstance\022$.fmuproxy.grpc.CreateInst"
-  "anceRequest\032\031.fmuproxy.grpc.InstanceId\022W"
-  "\n\017SetupExperiment\022%.fmuproxy.grpc.SetupE"
-  "xperimentRequest\032\035.fmuproxy.grpc.StatusR"
-  "esponse\022g\n\027EnterInitializationMode\022-.fmu"
-  "proxy.grpc.EnterInitializationModeReques"
-  "t\032\035.fmuproxy.grpc.StatusResponse\022e\n\026Exit"
-  "InitializationMode\022,.fmuproxy.grpc.ExitI"
-  "nitializationModeRequest\032\035.fmuproxy.grpc"
-  ".StatusResponse\022\?\n\004Step\022\032.fmuproxy.grpc."
-  "StepRequest\032\033.fmuproxy.grpc.StepResponse"
-  "\022C\n\005Reset\022\033.fmuproxy.grpc.ResetRequest\032\035"
-  ".fmuproxy.grpc.StatusResponse\022K\n\tTermina"
-  "te\022\037.fmuproxy.grpc.TerminateRequest\032\035.fm"
-  "uproxy.grpc.StatusResponse\022E\n\013ReadIntege"
-  "r\022\032.fmuproxy.grpc.ReadRequest\032\032.fmuproxy"
-  ".grpc.IntegerRead\022\?\n\010ReadReal\022\032.fmuproxy"
-  ".grpc.ReadRequest\032\027.fmuproxy.grpc.RealRe"
-  "ad\022C\n\nReadString\022\032.fmuproxy.grpc.ReadReq"
-  "uest\032\031.fmuproxy.grpc.StringRead\022E\n\013ReadB"
-  "oolean\022\032.fmuproxy.grpc.ReadRequest\032\032.fmu"
-  "proxy.grpc.BooleanRead\022Q\n\014WriteInteger\022\""
-  ".fmuproxy.grpc.WriteIntegerRequest\032\035.fmu"
-  "proxy.grpc.StatusResponse\022K\n\tWriteReal\022\037"
-  ".fmuproxy.grpc.WriteRealRequest\032\035.fmupro"
-  "xy.grpc.StatusResponse\022O\n\013WriteString\022!."
-  "fmuproxy.grpc.WriteStringRequest\032\035.fmupr"
-  "oxy.grpc.StatusResponse\022Q\n\014WriteBoolean\022"
-  "\".fmuproxy.grpc.WriteBooleanRequest\032\035.fm"
-  "uproxy.grpc.StatusResponse\022{\n\030GetDirecti"
-  "onalDerivative\022..fmuproxy.grpc.GetDirect"
-  "ionalDerivativeRequest\032/.fmuproxy.grpc.G"
-  "etDirectionalDerivativeResponseB\033\n\031no.nt"
-  "nu.ihb.fmuproxy.grpcb\006proto3"
+  "es\030\002 \003(\004\022\016\n\006values\030\003 \003(\010\"D\n\013IntegerRead\022"
+  "\016\n\006values\030\001 \003(\005\022%\n\006status\030\002 \001(\0162\025.fmupro"
+  "xy.grpc.Status\"A\n\010RealRead\022\016\n\006values\030\001 \003"
+  "(\001\022%\n\006status\030\002 \001(\0162\025.fmuproxy.grpc.Statu"
+  "s\"C\n\nStringRead\022\016\n\006values\030\001 \003(\t\022%\n\006statu"
+  "s\030\002 \001(\0162\025.fmuproxy.grpc.Status\"D\n\013Boolea"
+  "nRead\022\016\n\006values\030\001 \003(\010\022%\n\006status\030\002 \001(\0162\025."
+  "fmuproxy.grpc.Status\"\025\n\004Bool\022\r\n\005value\030\001 "
+  "\001(\010\"x\n\037GetDirectionalDerivativeRequest\022\023"
+  "\n\013instance_id\030\001 \001(\t\022\025\n\rv_unknown_ref\030\002 \003"
+  "(\004\022\023\n\013v_known_ref\030\003 \003(\004\022\024\n\014dv_known_ref\030"
+  "\004 \003(\001\"a\n GetDirectionalDerivativeRespons"
+  "e\022\026\n\016dv_unknown_ref\030\001 \003(\001\022%\n\006status\030\002 \001("
+  "\0162\025.fmuproxy.grpc.Status\"\022\n\003Url\022\013\n\003url\030\001"
+  " \001(\t\"\"\n\004File\022\014\n\004name\030\001 \001(\t\022\014\n\004data\030\002 \001(\014"
+  "\"\006\n\004Void*w\n\006Status\022\r\n\tOK_STATUS\020\000\022\022\n\016WAR"
+  "NING_STATUS\020\001\022\022\n\016DISCARD_STATUS\020\002\022\020\n\014ERR"
+  "OR_STATUS\020\003\022\020\n\014FATAL_STATUS\020\004\022\022\n\016PENDING"
+  "_STATUS\020\0052\310\014\n\nFmuService\0227\n\013LoadFromUrl\022"
+  "\022.fmuproxy.grpc.Url\032\024.fmuproxy.grpc.FmuI"
+  "d\0229\n\014LoadFromFile\022\023.fmuproxy.grpc.File\032\024"
+  ".fmuproxy.grpc.FmuId\022a\n\023GetModelDescript"
+  "ion\022).fmuproxy.grpc.GetModelDescriptionR"
+  "equest\032\037.fmuproxy.grpc.ModelDescription\022"
+  "Q\n\016CreateInstance\022$.fmuproxy.grpc.Create"
+  "InstanceRequest\032\031.fmuproxy.grpc.Instance"
+  "Id\022W\n\017SetupExperiment\022%.fmuproxy.grpc.Se"
+  "tupExperimentRequest\032\035.fmuproxy.grpc.Sta"
+  "tusResponse\022g\n\027EnterInitializationMode\022-"
+  ".fmuproxy.grpc.EnterInitializationModeRe"
+  "quest\032\035.fmuproxy.grpc.StatusResponse\022e\n\026"
+  "ExitInitializationMode\022,.fmuproxy.grpc.E"
+  "xitInitializationModeRequest\032\035.fmuproxy."
+  "grpc.StatusResponse\022\?\n\004Step\022\032.fmuproxy.g"
+  "rpc.StepRequest\032\033.fmuproxy.grpc.StepResp"
+  "onse\022C\n\005Reset\022\033.fmuproxy.grpc.ResetReque"
+  "st\032\035.fmuproxy.grpc.StatusResponse\022K\n\tTer"
+  "minate\022\037.fmuproxy.grpc.TerminateRequest\032"
+  "\035.fmuproxy.grpc.StatusResponse\022\?\n\014FreeIn"
+  "stance\022\032.fmuproxy.grpc.FreeRequest\032\023.fmu"
+  "proxy.grpc.Void\022E\n\013ReadInteger\022\032.fmuprox"
+  "y.grpc.ReadRequest\032\032.fmuproxy.grpc.Integ"
+  "erRead\022\?\n\010ReadReal\022\032.fmuproxy.grpc.ReadR"
+  "equest\032\027.fmuproxy.grpc.RealRead\022C\n\nReadS"
+  "tring\022\032.fmuproxy.grpc.ReadRequest\032\031.fmup"
+  "roxy.grpc.StringRead\022E\n\013ReadBoolean\022\032.fm"
+  "uproxy.grpc.ReadRequest\032\032.fmuproxy.grpc."
+  "BooleanRead\022Q\n\014WriteInteger\022\".fmuproxy.g"
+  "rpc.WriteIntegerRequest\032\035.fmuproxy.grpc."
+  "StatusResponse\022K\n\tWriteReal\022\037.fmuproxy.g"
+  "rpc.WriteRealRequest\032\035.fmuproxy.grpc.Sta"
+  "tusResponse\022O\n\013WriteString\022!.fmuproxy.gr"
+  "pc.WriteStringRequest\032\035.fmuproxy.grpc.St"
+  "atusResponse\022Q\n\014WriteBoolean\022\".fmuproxy."
+  "grpc.WriteBooleanRequest\032\035.fmuproxy.grpc"
+  ".StatusResponse\022{\n\030GetDirectionalDerivat"
+  "ive\022..fmuproxy.grpc.GetDirectionalDeriva"
+  "tiveRequest\032/.fmuproxy.grpc.GetDirection"
+  "alDerivativeResponseB\033\n\031no.ntnu.ihb.fmup"
+  "roxy.grpcb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_service_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_service_2eproto_sccs[37] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_service_2eproto_sccs[39] = {
   &scc_info_Bool_service_2eproto.base,
   &scc_info_BooleanAttribute_service_2eproto.base,
   &scc_info_BooleanRead_service_2eproto.base,
@@ -1230,6 +1284,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
   &scc_info_ExitInitializationModeRequest_service_2eproto.base,
   &scc_info_File_service_2eproto.base,
   &scc_info_FmuId_service_2eproto.base,
+  &scc_info_FreeRequest_service_2eproto.base,
   &scc_info_GetDirectionalDerivativeRequest_service_2eproto.base,
   &scc_info_GetDirectionalDerivativeResponse_service_2eproto.base,
   &scc_info_GetModelDescriptionRequest_service_2eproto.base,
@@ -1253,6 +1308,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
   &scc_info_TerminateRequest_service_2eproto.base,
   &scc_info_Unknown_service_2eproto.base,
   &scc_info_Url_service_2eproto.base,
+  &scc_info_Void_service_2eproto.base,
   &scc_info_WriteBooleanRequest_service_2eproto.base,
   &scc_info_WriteIntegerRequest_service_2eproto.base,
   &scc_info_WriteRealRequest_service_2eproto.base,
@@ -1261,10 +1317,10 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_service_2eproto_once;
 static bool descriptor_table_service_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_service_2eproto = {
-  &descriptor_table_service_2eproto_initialized, descriptor_table_protodef_service_2eproto, "service.proto", 5148,
-  &descriptor_table_service_2eproto_once, descriptor_table_service_2eproto_sccs, descriptor_table_service_2eproto_deps, 37, 0,
+  &descriptor_table_service_2eproto_initialized, descriptor_table_protodef_service_2eproto, "service.proto", 5257,
+  &descriptor_table_service_2eproto_once, descriptor_table_service_2eproto_sccs, descriptor_table_service_2eproto_deps, 39, 0,
   schemas, file_default_instances, TableStruct_service_2eproto::offsets,
-  file_level_metadata_service_2eproto, 37, file_level_enum_descriptors_service_2eproto, file_level_service_descriptors_service_2eproto,
+  file_level_metadata_service_2eproto, 39, file_level_enum_descriptors_service_2eproto, file_level_service_descriptors_service_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -10135,6 +10191,275 @@ void TerminateRequest::InternalSwap(TerminateRequest* other) {
 
 // ===================================================================
 
+void FreeRequest::InitAsDefaultInstance() {
+}
+class FreeRequest::_Internal {
+ public:
+};
+
+FreeRequest::FreeRequest()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:fmuproxy.grpc.FreeRequest)
+}
+FreeRequest::FreeRequest(const FreeRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  instance_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from.instance_id().empty()) {
+    instance_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
+  }
+  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.FreeRequest)
+}
+
+void FreeRequest::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_FreeRequest_service_2eproto.base);
+  instance_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+FreeRequest::~FreeRequest() {
+  // @@protoc_insertion_point(destructor:fmuproxy.grpc.FreeRequest)
+  SharedDtor();
+}
+
+void FreeRequest::SharedDtor() {
+  instance_id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void FreeRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const FreeRequest& FreeRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_FreeRequest_service_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void FreeRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.FreeRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  instance_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+const char* FreeRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string instance_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(mutable_instance_id(), ptr, ctx, "fmuproxy.grpc.FreeRequest.instance_id");
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+bool FreeRequest::MergePartialFromCodedStream(
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.FreeRequest)
+  for (;;) {
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // string instance_id = 1;
+      case 1: {
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (10 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadString(
+                input, this->mutable_instance_id()));
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+            this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+            ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE,
+            "fmuproxy.grpc.FreeRequest.instance_id"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.FreeRequest)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.FreeRequest)
+  return false;
+#undef DO_
+}
+#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+
+void FreeRequest::SerializeWithCachedSizes(
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.FreeRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.FreeRequest.instance_id");
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->instance_id(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.FreeRequest)
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* FreeRequest::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.FreeRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->instance_id().data(), static_cast<int>(this->instance_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "fmuproxy.grpc.FreeRequest.instance_id");
+    target =
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringToArray(
+        1, this->instance_id(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.FreeRequest)
+  return target;
+}
+
+size_t FreeRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.FreeRequest)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string instance_id = 1;
+  if (this->instance_id().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->instance_id());
+  }
+
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void FreeRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.FreeRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const FreeRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<FreeRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.FreeRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.FreeRequest)
+    MergeFrom(*source);
+  }
+}
+
+void FreeRequest::MergeFrom(const FreeRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.FreeRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.instance_id().size() > 0) {
+
+    instance_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.instance_id_);
+  }
+}
+
+void FreeRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.FreeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void FreeRequest::CopyFrom(const FreeRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.FreeRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool FreeRequest::IsInitialized() const {
+  return true;
+}
+
+void FreeRequest::InternalSwap(FreeRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  instance_id_.Swap(&other->instance_id_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata FreeRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
 void ReadRequest::InitAsDefaultInstance() {
 }
 class ReadRequest::_Internal {
@@ -14987,6 +15312,205 @@ void File::InternalSwap(File* other) {
 }
 
 
+// ===================================================================
+
+void Void::InitAsDefaultInstance() {
+}
+class Void::_Internal {
+ public:
+};
+
+Void::Void()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:fmuproxy.grpc.Void)
+}
+Void::Void(const Void& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:fmuproxy.grpc.Void)
+}
+
+void Void::SharedCtor() {
+}
+
+Void::~Void() {
+  // @@protoc_insertion_point(destructor:fmuproxy.grpc.Void)
+  SharedDtor();
+}
+
+void Void::SharedDtor() {
+}
+
+void Void::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const Void& Void::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Void_service_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void Void::Clear() {
+// @@protoc_insertion_point(message_clear_start:fmuproxy.grpc.Void)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+#if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+const char* Void::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      default: {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+#else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+bool Void::MergePartialFromCodedStream(
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+  // @@protoc_insertion_point(parse_start:fmuproxy.grpc.Void)
+  for (;;) {
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:fmuproxy.grpc.Void)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:fmuproxy.grpc.Void)
+  return false;
+#undef DO_
+}
+#endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+
+void Void::SerializeWithCachedSizes(
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:fmuproxy.grpc.Void)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:fmuproxy.grpc.Void)
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* Void::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:fmuproxy.grpc.Void)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:fmuproxy.grpc.Void)
+  return target;
+}
+
+size_t Void::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:fmuproxy.grpc.Void)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void Void::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:fmuproxy.grpc.Void)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Void* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Void>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:fmuproxy.grpc.Void)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:fmuproxy.grpc.Void)
+    MergeFrom(*source);
+  }
+}
+
+void Void::MergeFrom(const Void& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:fmuproxy.grpc.Void)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void Void::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:fmuproxy.grpc.Void)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Void::CopyFrom(const Void& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:fmuproxy.grpc.Void)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Void::IsInitialized() const {
+  return true;
+}
+
+void Void::InternalSwap(Void* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Void::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace grpc
 }  // namespace fmuproxy
@@ -15060,6 +15584,9 @@ template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::ResetRequest* Arena::CreateMaybeM
 template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::TerminateRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::TerminateRequest >(Arena* arena) {
   return Arena::CreateInternal< ::fmuproxy::grpc::TerminateRequest >(arena);
 }
+template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::FreeRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::FreeRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::fmuproxy::grpc::FreeRequest >(arena);
+}
 template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::ReadRequest* Arena::CreateMaybeMessage< ::fmuproxy::grpc::ReadRequest >(Arena* arena) {
   return Arena::CreateInternal< ::fmuproxy::grpc::ReadRequest >(arena);
 }
@@ -15101,6 +15628,9 @@ template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::Url* Arena::CreateMaybeMessage< :
 }
 template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::File* Arena::CreateMaybeMessage< ::fmuproxy::grpc::File >(Arena* arena) {
   return Arena::CreateInternal< ::fmuproxy::grpc::File >(arena);
+}
+template<> PROTOBUF_NOINLINE ::fmuproxy::grpc::Void* Arena::CreateMaybeMessage< ::fmuproxy::grpc::Void >(Arena* arena) {
+  return Arena::CreateInternal< ::fmuproxy::grpc::Void >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

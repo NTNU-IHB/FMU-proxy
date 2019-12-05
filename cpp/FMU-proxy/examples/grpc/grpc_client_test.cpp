@@ -27,12 +27,9 @@
 
 #include "../example_util.hpp"
 
-
 using namespace fmuproxy::grpc::client;
 
-
 int main() {
-    
 
     auto client = grpc_fmu_client("localhost", 9080);
 
@@ -46,4 +43,4 @@ int main() {
 
     return 0;
 
-};
+}

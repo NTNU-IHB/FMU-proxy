@@ -30,7 +30,6 @@
 
 #include "../example_util.hpp"
 
-
 using namespace apache::thrift;
 
 using namespace fmuproxy::thrift;

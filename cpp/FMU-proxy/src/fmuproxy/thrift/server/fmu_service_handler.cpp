@@ -125,21 +125,27 @@ void fmu_service_handler::step(StepResult& _return, const InstanceId& slave_id, 
     _return.status = thrift_type(slave->last_status());
 }
 
-Status::type fmu_service_handler::terminate(const InstanceId& slave_id)
-{
-    auto& slave = slaves_[slave_id];
-    bool success = slave->terminate();
-    auto status = thrift_type(slave->last_status());
-    slaves_.erase(slave_id);
-    cout << "Terminated FMU slave with id=" << slave_id << endl;
-    return status;
-}
-
 Status::type fmu_service_handler::reset(const InstanceId& slave_id)
 {
     auto& slave = slaves_[slave_id];
     bool success = slave->reset();
     return thrift_type(slave->last_status());
+}
+
+Status::type fmu_service_handler::terminate(const InstanceId& slave_id)
+{
+    auto& slave = slaves_[slave_id];
+    bool success = slave->terminate();
+    auto status = thrift_type(slave->last_status());
+    cout << "Terminated FMU slave with id=" << slave_id << endl;
+    return status;
+}
+
+void fmu_service_handler::freeInstance(const InstanceId& slave_id)
+{
+    auto& slave = slaves_[slave_id];
+    slaves_.erase(slave_id);
+    cout << "Freed FMU slave with id=" << slave_id << endl;
 }
 
 void fmu_service_handler::read_integer(IntegerRead& _return, const InstanceId& slave_id, const ValueReferences& vr)

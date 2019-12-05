@@ -4,7 +4,6 @@ mkdir -p gen
 
 ./thrift -r -out gen --gen cpp:no_skeleton ../../rpc-definitions/thrift/service.thrift
 
-
 mv gen/FmuService.h gen/fmu_service.h
 mv gen/FmuService.cpp gen/fmu_service.cpp
 

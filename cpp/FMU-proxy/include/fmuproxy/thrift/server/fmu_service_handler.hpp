@@ -65,6 +65,8 @@ namespace fmuproxy::thrift::server {
 
         Status::type terminate(const InstanceId &instance_id) override;
 
+        void freeInstance(const InstanceId& instanceId) override;
+
         void read_integer(::fmuproxy::thrift::IntegerRead &_return, const InstanceId &instance_id,
                          const ValueReferences &vr) override;
 

@@ -74,11 +74,14 @@ public:
     ::grpc::Status Step(::grpc::ServerContext* context, const ::fmuproxy::grpc::StepRequest* request,
         ::fmuproxy::grpc::StepResponse* response) override;
 
+    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request,
+        ::fmuproxy::grpc::StatusResponse* response) override;
+
     ::grpc::Status Terminate(::grpc::ServerContext* context, const ::fmuproxy::grpc::TerminateRequest* request,
         ::fmuproxy::grpc::StatusResponse* response) override;
 
-    ::grpc::Status Reset(::grpc::ServerContext* context, const ::fmuproxy::grpc::ResetRequest* request,
-        ::fmuproxy::grpc::StatusResponse* response) override;
+    ::grpc::Status FreeInstance(::grpc::ServerContext* context, const ::fmuproxy::grpc::FreeRequest* request,
+        ::fmuproxy::grpc::Void* response) override;
 
 
     ::grpc::Status ReadInteger(::grpc::ServerContext* context, const ::fmuproxy::grpc::ReadRequest* request,

@@ -48,7 +48,7 @@ struct TableStruct_service_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[37]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[39]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -87,6 +87,9 @@ extern FileDefaultTypeInternal _File_default_instance_;
 class FmuId;
 class FmuIdDefaultTypeInternal;
 extern FmuIdDefaultTypeInternal _FmuId_default_instance_;
+class FreeRequest;
+class FreeRequestDefaultTypeInternal;
+extern FreeRequestDefaultTypeInternal _FreeRequest_default_instance_;
 class GetDirectionalDerivativeRequest;
 class GetDirectionalDerivativeRequestDefaultTypeInternal;
 extern GetDirectionalDerivativeRequestDefaultTypeInternal _GetDirectionalDerivativeRequest_default_instance_;
@@ -156,6 +159,9 @@ extern UnknownDefaultTypeInternal _Unknown_default_instance_;
 class Url;
 class UrlDefaultTypeInternal;
 extern UrlDefaultTypeInternal _Url_default_instance_;
+class Void;
+class VoidDefaultTypeInternal;
+extern VoidDefaultTypeInternal _Void_default_instance_;
 class WriteBooleanRequest;
 class WriteBooleanRequestDefaultTypeInternal;
 extern WriteBooleanRequestDefaultTypeInternal _WriteBooleanRequest_default_instance_;
@@ -181,6 +187,7 @@ template<> ::fmuproxy::grpc::EnumerationAttribute* Arena::CreateMaybeMessage<::f
 template<> ::fmuproxy::grpc::ExitInitializationModeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::ExitInitializationModeRequest>(Arena*);
 template<> ::fmuproxy::grpc::File* Arena::CreateMaybeMessage<::fmuproxy::grpc::File>(Arena*);
 template<> ::fmuproxy::grpc::FmuId* Arena::CreateMaybeMessage<::fmuproxy::grpc::FmuId>(Arena*);
+template<> ::fmuproxy::grpc::FreeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::FreeRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetDirectionalDerivativeRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetDirectionalDerivativeRequest>(Arena*);
 template<> ::fmuproxy::grpc::GetDirectionalDerivativeResponse* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetDirectionalDerivativeResponse>(Arena*);
 template<> ::fmuproxy::grpc::GetModelDescriptionRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::GetModelDescriptionRequest>(Arena*);
@@ -204,6 +211,7 @@ template<> ::fmuproxy::grpc::StringRead* Arena::CreateMaybeMessage<::fmuproxy::g
 template<> ::fmuproxy::grpc::TerminateRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::TerminateRequest>(Arena*);
 template<> ::fmuproxy::grpc::Unknown* Arena::CreateMaybeMessage<::fmuproxy::grpc::Unknown>(Arena*);
 template<> ::fmuproxy::grpc::Url* Arena::CreateMaybeMessage<::fmuproxy::grpc::Url>(Arena*);
+template<> ::fmuproxy::grpc::Void* Arena::CreateMaybeMessage<::fmuproxy::grpc::Void>(Arena*);
 template<> ::fmuproxy::grpc::WriteBooleanRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteBooleanRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteIntegerRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteIntegerRequest>(Arena*);
 template<> ::fmuproxy::grpc::WriteRealRequest* Arena::CreateMaybeMessage<::fmuproxy::grpc::WriteRealRequest>(Arena*);
@@ -3893,6 +3901,143 @@ class TerminateRequest :
 };
 // -------------------------------------------------------------------
 
+class FreeRequest :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.FreeRequest) */ {
+ public:
+  FreeRequest();
+  virtual ~FreeRequest();
+
+  FreeRequest(const FreeRequest& from);
+  FreeRequest(FreeRequest&& from) noexcept
+    : FreeRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline FreeRequest& operator=(const FreeRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FreeRequest& operator=(FreeRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const FreeRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const FreeRequest* internal_default_instance() {
+    return reinterpret_cast<const FreeRequest*>(
+               &_FreeRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    23;
+
+  friend void swap(FreeRequest& a, FreeRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(FreeRequest* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline FreeRequest* New() const final {
+    return CreateMaybeMessage<FreeRequest>(nullptr);
+  }
+
+  FreeRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<FreeRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const FreeRequest& from);
+  void MergeFrom(const FreeRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  #else
+  bool MergePartialFromCodedStream(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(FreeRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "fmuproxy.grpc.FreeRequest";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_service_2eproto);
+    return ::descriptor_table_service_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kInstanceIdFieldNumber = 1,
+  };
+  // string instance_id = 1;
+  void clear_instance_id();
+  const std::string& instance_id() const;
+  void set_instance_id(const std::string& value);
+  void set_instance_id(std::string&& value);
+  void set_instance_id(const char* value);
+  void set_instance_id(const char* value, size_t size);
+  std::string* mutable_instance_id();
+  std::string* release_instance_id();
+  void set_allocated_instance_id(std::string* instance_id);
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.FreeRequest)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr instance_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_service_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ReadRequest :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.ReadRequest) */ {
  public:
@@ -3935,7 +4080,7 @@ class ReadRequest :
                &_ReadRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    24;
 
   friend void swap(ReadRequest& a, ReadRequest& b) {
     a.Swap(&b);
@@ -4086,7 +4231,7 @@ class WriteIntegerRequest :
                &_WriteIntegerRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    25;
 
   friend void swap(WriteIntegerRequest& a, WriteIntegerRequest& b) {
     a.Swap(&b);
@@ -4251,7 +4396,7 @@ class WriteRealRequest :
                &_WriteRealRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    26;
 
   friend void swap(WriteRealRequest& a, WriteRealRequest& b) {
     a.Swap(&b);
@@ -4416,7 +4561,7 @@ class WriteStringRequest :
                &_WriteStringRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    27;
 
   friend void swap(WriteStringRequest& a, WriteStringRequest& b) {
     a.Swap(&b);
@@ -4586,7 +4731,7 @@ class WriteBooleanRequest :
                &_WriteBooleanRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    28;
 
   friend void swap(WriteBooleanRequest& a, WriteBooleanRequest& b) {
     a.Swap(&b);
@@ -4751,7 +4896,7 @@ class IntegerRead :
                &_IntegerRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    29;
 
   friend void swap(IntegerRead& a, IntegerRead& b) {
     a.Swap(&b);
@@ -4896,7 +5041,7 @@ class RealRead :
                &_RealRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    30;
 
   friend void swap(RealRead& a, RealRead& b) {
     a.Swap(&b);
@@ -5041,7 +5186,7 @@ class StringRead :
                &_StringRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    31;
 
   friend void swap(StringRead& a, StringRead& b) {
     a.Swap(&b);
@@ -5191,7 +5336,7 @@ class BooleanRead :
                &_BooleanRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    32;
 
   friend void swap(BooleanRead& a, BooleanRead& b) {
     a.Swap(&b);
@@ -5336,7 +5481,7 @@ class Bool :
                &_Bool_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    33;
 
   friend void swap(Bool& a, Bool& b) {
     a.Swap(&b);
@@ -5467,7 +5612,7 @@ class GetDirectionalDerivativeRequest :
                &_GetDirectionalDerivativeRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    34;
 
   friend void swap(GetDirectionalDerivativeRequest& a, GetDirectionalDerivativeRequest& b) {
     a.Swap(&b);
@@ -5646,7 +5791,7 @@ class GetDirectionalDerivativeResponse :
                &_GetDirectionalDerivativeResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    35;
 
   friend void swap(GetDirectionalDerivativeResponse& a, GetDirectionalDerivativeResponse& b) {
     a.Swap(&b);
@@ -5791,7 +5936,7 @@ class Url :
                &_Url_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    36;
 
   friend void swap(Url& a, Url& b) {
     a.Swap(&b);
@@ -5928,7 +6073,7 @@ class File :
                &_File_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    37;
 
   friend void swap(File& a, File& b) {
     a.Swap(&b);
@@ -6031,6 +6176,128 @@ class File :
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr data_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_service_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Void :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:fmuproxy.grpc.Void) */ {
+ public:
+  Void();
+  virtual ~Void();
+
+  Void(const Void& from);
+  Void(Void&& from) noexcept
+    : Void() {
+    *this = ::std::move(from);
+  }
+
+  inline Void& operator=(const Void& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Void& operator=(Void&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const Void& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Void* internal_default_instance() {
+    return reinterpret_cast<const Void*>(
+               &_Void_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    38;
+
+  friend void swap(Void& a, Void& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Void* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Void* New() const final {
+    return CreateMaybeMessage<Void>(nullptr);
+  }
+
+  Void* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Void>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const Void& from);
+  void MergeFrom(const Void& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  #else
+  bool MergePartialFromCodedStream(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Void* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "fmuproxy.grpc.Void";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_service_2eproto);
+    return ::descriptor_table_service_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:fmuproxy.grpc.Void)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_service_2eproto;
 };
@@ -8704,6 +8971,61 @@ inline void TerminateRequest::set_allocated_instance_id(std::string* instance_id
 
 // -------------------------------------------------------------------
 
+// FreeRequest
+
+// string instance_id = 1;
+inline void FreeRequest::clear_instance_id() {
+  instance_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& FreeRequest::instance_id() const {
+  // @@protoc_insertion_point(field_get:fmuproxy.grpc.FreeRequest.instance_id)
+  return instance_id_.GetNoArena();
+}
+inline void FreeRequest::set_instance_id(const std::string& value) {
+  
+  instance_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:fmuproxy.grpc.FreeRequest.instance_id)
+}
+inline void FreeRequest::set_instance_id(std::string&& value) {
+  
+  instance_id_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:fmuproxy.grpc.FreeRequest.instance_id)
+}
+inline void FreeRequest::set_instance_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  instance_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:fmuproxy.grpc.FreeRequest.instance_id)
+}
+inline void FreeRequest::set_instance_id(const char* value, size_t size) {
+  
+  instance_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:fmuproxy.grpc.FreeRequest.instance_id)
+}
+inline std::string* FreeRequest::mutable_instance_id() {
+  
+  // @@protoc_insertion_point(field_mutable:fmuproxy.grpc.FreeRequest.instance_id)
+  return instance_id_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* FreeRequest::release_instance_id() {
+  // @@protoc_insertion_point(field_release:fmuproxy.grpc.FreeRequest.instance_id)
+  
+  return instance_id_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void FreeRequest::set_allocated_instance_id(std::string* instance_id) {
+  if (instance_id != nullptr) {
+    
+  } else {
+    
+  }
+  instance_id_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), instance_id);
+  // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.FreeRequest.instance_id)
+}
+
+// -------------------------------------------------------------------
+
 // ReadRequest
 
 // string instance_id = 1;
@@ -9881,9 +10203,17 @@ inline void File::set_allocated_data(std::string* data) {
   // @@protoc_insertion_point(field_set_allocated:fmuproxy.grpc.File.data)
 }
 
+// -------------------------------------------------------------------
+
+// Void
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

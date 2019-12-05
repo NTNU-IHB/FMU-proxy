@@ -77,15 +77,13 @@ int run_application(
     bool enable_thrift_tcp = ports.count(THRIFT_TCP) == 1;
     bool enable_thrift_http = ports.count(THRIFT_HTTP) == 1;
 
-    unordered_map<string, unsigned int> servers;
-
 #ifdef FMU_PROXY_WITH_THRIFT
     unique_ptr<thrift_fmu_server> thrift_socket_server = nullptr;
     if (enable_thrift_tcp) {
         const unsigned int port = ports[THRIFT_TCP];
         thrift_socket_server = make_unique<thrift_fmu_server>(fmu_map, port, false, true);
         thrift_socket_server->start();
-        servers[THRIFT_TCP] = port;
+        std::cout << "Thrift/tcp listening for connections on port " << std::to_string(port) << std::endl;
     }
 
     unique_ptr<thrift_fmu_server> thrift_http_server = nullptr;
@@ -93,7 +91,7 @@ int run_application(
         const unsigned int port = ports[THRIFT_HTTP];
         thrift_http_server = make_unique<thrift_fmu_server>(fmu_map, port, true);
         thrift_http_server->start();
-        servers[THRIFT_HTTP] = port;
+        std::cout << "Thrift/http listening for connections on port " << std::to_string(port) << std::endl;
     }
 #endif
 
@@ -103,7 +101,7 @@ int run_application(
         const unsigned int port = ports[GRPC];
         grpc_server = make_unique<grpc_fmu_server>(fmu_map, port);
         grpc_server->start();
-        servers[GRPC] = port;
+        std::cout << "gRPC/http2 listening for connections on port " << std::to_string(port) << std::endl;
     }
 #endif
 
