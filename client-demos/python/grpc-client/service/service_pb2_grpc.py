@@ -64,6 +64,11 @@ class FmuServiceStub(object):
         request_serializer=service__pb2.TerminateRequest.SerializeToString,
         response_deserializer=service__pb2.StatusResponse.FromString,
         )
+    self.FreeInstance = channel.unary_unary(
+        '/fmuproxy.grpc.FmuService/FreeInstance',
+        request_serializer=service__pb2.FreeRequest.SerializeToString,
+        response_deserializer=service__pb2.Void.FromString,
+        )
     self.ReadInteger = channel.unary_unary(
         '/fmuproxy.grpc.FmuService/ReadInteger',
         request_serializer=service__pb2.ReadRequest.SerializeToString,
@@ -185,6 +190,13 @@ class FmuServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def FreeInstance(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def ReadInteger(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -300,6 +312,11 @@ def add_FmuServiceServicer_to_server(servicer, server):
           servicer.Terminate,
           request_deserializer=service__pb2.TerminateRequest.FromString,
           response_serializer=service__pb2.StatusResponse.SerializeToString,
+      ),
+      'FreeInstance': grpc.unary_unary_rpc_method_handler(
+          servicer.FreeInstance,
+          request_deserializer=service__pb2.FreeRequest.FromString,
+          response_serializer=service__pb2.Void.SerializeToString,
       ),
       'ReadInteger': grpc.unary_unary_rpc_method_handler(
           servicer.ReadInteger,

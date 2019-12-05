@@ -33,4 +33,4 @@ if __name__ == '__main__':
 
     status = slave.terminate()
     print("Terminated with success: {}".format(status == 0))
-
+    slave.freeInstance()

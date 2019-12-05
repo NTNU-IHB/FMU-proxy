@@ -6,10 +6,10 @@ from service.service_pb2_grpc import FmuServiceStub
 
 class VariableReader:
 
-    def __init__(self, instance_id: int, value_reference: int, stub: FmuServiceStub):
+    def __init__(self, instance_id: str, value_reference: int, stub: FmuServiceStub):
         self.stub = stub  # type: FmuServiceStub
         self.request = ReadRequest()
-        self.request.instance_id = instance_id  # type: int
+        self.request.instance_id = instance_id  # type: str
         self.request.value_references.append(value_reference)  # type [int]
 
     def read_int(self) -> IntegerRead:
@@ -27,9 +27,9 @@ class VariableReader:
 
 class VariableWriter:
 
-    def __init__(self, instance_id, value_reference, stub: FmuServiceStub):
+    def __init__(self, instance_id: str, value_reference, stub: FmuServiceStub):
         self.stub = stub  # type: FmuServiceStub
-        self.instance_id = instance_id  # type: int
+        self.instance_id = instance_id  # type: str
         self.value_reference = value_reference  # type: int
 
     def write_int(self, value: int):
@@ -97,15 +97,20 @@ class RemoteFmuInstance:
         self.simulation_time = result.simulation_time
         return result.status
 
+    def reset(self) -> Status:
+        request = ResetRequest()
+        request.instance_id = self.instance_id
+        self.stub.Reset(request)
+
     def terminate(self) -> Status:
         request = TerminateRequest()
         request.instance_id = self.instance_id
         return self.stub.Terminate(request).status
 
-    def reset(self) -> Status:
-        request = ResetRequest()
+    def freeInstance(self) -> Status:
+        request = FreeRequest()
         request.instance_id = self.instance_id
-        self.stub.Reset(request)
+        self.stub.FreeInstance(request)
 
     def get_reader(self, identifier) -> VariableReader:
         if isinstance(identifier, int):
