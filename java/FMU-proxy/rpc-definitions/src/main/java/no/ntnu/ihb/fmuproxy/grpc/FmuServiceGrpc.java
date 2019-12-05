@@ -337,6 +337,37 @@ public final class FmuServiceGrpc {
     return getTerminateMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest,
+      no.ntnu.ihb.fmuproxy.grpc.Service.Void> getFreeInstanceMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "FreeInstance",
+      requestType = no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest.class,
+      responseType = no.ntnu.ihb.fmuproxy.grpc.Service.Void.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest,
+      no.ntnu.ihb.fmuproxy.grpc.Service.Void> getFreeInstanceMethod() {
+    io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest, no.ntnu.ihb.fmuproxy.grpc.Service.Void> getFreeInstanceMethod;
+    if ((getFreeInstanceMethod = FmuServiceGrpc.getFreeInstanceMethod) == null) {
+      synchronized (FmuServiceGrpc.class) {
+        if ((getFreeInstanceMethod = FmuServiceGrpc.getFreeInstanceMethod) == null) {
+          FmuServiceGrpc.getFreeInstanceMethod = getFreeInstanceMethod =
+              io.grpc.MethodDescriptor.<no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest, no.ntnu.ihb.fmuproxy.grpc.Service.Void>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "FreeInstance"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  no.ntnu.ihb.fmuproxy.grpc.Service.Void.getDefaultInstance()))
+              .setSchemaDescriptor(new FmuServiceMethodDescriptorSupplier("FreeInstance"))
+              .build();
+        }
+      }
+    }
+    return getFreeInstanceMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest,
       no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead> getReadIntegerMethod;
 
@@ -715,6 +746,13 @@ public final class FmuServiceGrpc {
 
     /**
      */
+    public void freeInstance(no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest request,
+        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Void> responseObserver) {
+      asyncUnimplementedUnaryCall(getFreeInstanceMethod(), responseObserver);
+    }
+
+    /**
+     */
     public void readInteger(no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead> responseObserver) {
       asyncUnimplementedUnaryCall(getReadIntegerMethod(), responseObserver);
@@ -848,6 +886,13 @@ public final class FmuServiceGrpc {
                 no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest,
                 no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>(
                   this, METHODID_TERMINATE)))
+          .addMethod(
+            getFreeInstanceMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest,
+                no.ntnu.ihb.fmuproxy.grpc.Service.Void>(
+                  this, METHODID_FREE_INSTANCE)))
           .addMethod(
             getReadIntegerMethod(),
             asyncUnaryCall(
@@ -1015,6 +1060,14 @@ public final class FmuServiceGrpc {
 
     /**
      */
+    public void freeInstance(no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest request,
+        io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Void> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getFreeInstanceMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void readInteger(no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest request,
         io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead> responseObserver) {
       asyncUnaryCall(
@@ -1172,6 +1225,13 @@ public final class FmuServiceGrpc {
     public no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse terminate(no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest request) {
       return blockingUnaryCall(
           getChannel(), getTerminateMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public no.ntnu.ihb.fmuproxy.grpc.Service.Void freeInstance(no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getFreeInstanceMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1338,6 +1398,14 @@ public final class FmuServiceGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.Void> freeInstance(
+        no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getFreeInstanceMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<no.ntnu.ihb.fmuproxy.grpc.Service.IntegerRead> readInteger(
         no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest request) {
       return futureUnaryCall(
@@ -1419,15 +1487,16 @@ public final class FmuServiceGrpc {
   private static final int METHODID_STEP = 7;
   private static final int METHODID_RESET = 8;
   private static final int METHODID_TERMINATE = 9;
-  private static final int METHODID_READ_INTEGER = 10;
-  private static final int METHODID_READ_REAL = 11;
-  private static final int METHODID_READ_STRING = 12;
-  private static final int METHODID_READ_BOOLEAN = 13;
-  private static final int METHODID_WRITE_INTEGER = 14;
-  private static final int METHODID_WRITE_REAL = 15;
-  private static final int METHODID_WRITE_STRING = 16;
-  private static final int METHODID_WRITE_BOOLEAN = 17;
-  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 18;
+  private static final int METHODID_FREE_INSTANCE = 10;
+  private static final int METHODID_READ_INTEGER = 11;
+  private static final int METHODID_READ_REAL = 12;
+  private static final int METHODID_READ_STRING = 13;
+  private static final int METHODID_READ_BOOLEAN = 14;
+  private static final int METHODID_WRITE_INTEGER = 15;
+  private static final int METHODID_WRITE_REAL = 16;
+  private static final int METHODID_WRITE_STRING = 17;
+  private static final int METHODID_WRITE_BOOLEAN = 18;
+  private static final int METHODID_GET_DIRECTIONAL_DERIVATIVE = 19;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1485,6 +1554,10 @@ public final class FmuServiceGrpc {
         case METHODID_TERMINATE:
           serviceImpl.terminate((no.ntnu.ihb.fmuproxy.grpc.Service.TerminateRequest) request,
               (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.StatusResponse>) responseObserver);
+          break;
+        case METHODID_FREE_INSTANCE:
+          serviceImpl.freeInstance((no.ntnu.ihb.fmuproxy.grpc.Service.FreeRequest) request,
+              (io.grpc.stub.StreamObserver<no.ntnu.ihb.fmuproxy.grpc.Service.Void>) responseObserver);
           break;
         case METHODID_READ_INTEGER:
           serviceImpl.readInteger((no.ntnu.ihb.fmuproxy.grpc.Service.ReadRequest) request,
@@ -1593,6 +1666,7 @@ public final class FmuServiceGrpc {
               .addMethod(getStepMethod())
               .addMethod(getResetMethod())
               .addMethod(getTerminateMethod())
+              .addMethod(getFreeInstanceMethod())
               .addMethod(getReadIntegerMethod())
               .addMethod(getReadRealMethod())
               .addMethod(getReadStringMethod())

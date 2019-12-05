@@ -49,7 +49,6 @@ class TestThriftCS {
     fun testInstance() {
 
         client.newInstance().use { slave ->
-
             val variableName = "Temperature_Room"
             val variable = slave.modelVariables
                     .getByName(variableName).asRealVariable()
@@ -61,7 +60,6 @@ class TestThriftCS {
             }.also {
                 LOG.info("Duration: ${it}ms")
             }
-
         }
 
     }

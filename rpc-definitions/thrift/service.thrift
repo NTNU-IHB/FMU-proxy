@@ -201,6 +201,7 @@ service FmuService {
     StepResult step(1: InstanceId instanceId, 2: double stepSize) throws (1: NoSuchInstanceException ex)
     Status reset(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
     Status terminate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    void freeInstance(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
 
     IntegerRead read_integer(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
     RealRead read_real(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)

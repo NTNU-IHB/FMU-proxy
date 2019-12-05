@@ -183,6 +183,10 @@ message TerminateRequest {
     string instance_id = 1;
 }
 
+message FreeRequest {
+    string instance_id = 1;
+}
+
 message ReadRequest {
     string instance_id = 1;
     repeated uint64 value_references = 2;
@@ -257,6 +261,8 @@ message File {
     bytes data = 2;
 }
 
+message Void {}
+
 service FmuService {
 
     rpc LoadFromUrl(Url) returns (FmuId);
@@ -273,6 +279,7 @@ service FmuService {
     rpc Step (StepRequest) returns (StepResponse);
     rpc Reset(ResetRequest) returns (StatusResponse);
     rpc Terminate (TerminateRequest) returns (StatusResponse);
+	rpc FreeInstance (FreeRequest) returns (Void);
 
     rpc ReadInteger (ReadRequest) returns (IntegerRead);
     rpc ReadReal (ReadRequest) returns (RealRead);

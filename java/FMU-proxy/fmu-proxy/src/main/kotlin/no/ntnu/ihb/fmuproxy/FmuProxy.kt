@@ -25,7 +25,6 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
-import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
 import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

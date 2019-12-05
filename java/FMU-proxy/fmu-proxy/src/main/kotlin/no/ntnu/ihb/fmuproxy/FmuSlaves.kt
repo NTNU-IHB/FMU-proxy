@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package no.ntnu.ihb.fmuproxy.fmu
+package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import org.slf4j.Logger

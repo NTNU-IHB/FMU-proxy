@@ -161,6 +161,12 @@ class GrpcFmuClient(
             }
         }
 
+        override fun freeInstance(instanceName: InstanceId) {
+            return Service.FreeRequest.newBuilder().setInstanceId(instanceName).build().let {
+                stub.freeInstance(it)
+            }
+        }
+
         override fun readInteger(instanceName: String, vr: List<ValueReference>): IntegerArrayRead {
             return stub.readInteger(getReadRequest(instanceName, vr)).convert()
         }
@@ -228,13 +234,6 @@ class GrpcFmuClient(
                             DirectionalDerivativeResult(response.dvUnknownRefList.toDoubleArray(), response.status.convert())
                         }
                     }
-
-
-        }
-
-        override fun close() {
-            super.close()
-            LOG.debug("$implementationName closed..")
         }
 
     }

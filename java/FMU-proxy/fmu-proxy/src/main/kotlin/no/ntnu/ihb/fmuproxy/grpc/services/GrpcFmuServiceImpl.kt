@@ -34,7 +34,7 @@ import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
-import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
+import no.ntnu.ihb.fmuproxy.FmuSlaves
 import no.ntnu.ihb.fmuproxy.grpc.FmuServiceGrpc
 import no.ntnu.ihb.fmuproxy.grpc.Service
 import org.slf4j.Logger
@@ -102,7 +102,6 @@ class GrpcFmuServiceImpl(
     }
 
     override fun createInstance(request: Service.CreateInstanceRequest, responseObserver: StreamObserver<Service.InstanceId>) {
-
         getFmu(request.fmuId, responseObserver) {
             if (!supportsCoSimulation) {
                 unSupportedOperationException(responseObserver, "FMU does not support Co-simulation!")
@@ -117,8 +116,72 @@ class GrpcFmuServiceImpl(
         }
     }
 
-    override fun readInteger(request: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
+    override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.trace("setupExperiment called")
+        getSlave(request.instanceId, responseObserver) {
+            setup(request.start, request.stop, request.tolerance)
+            statusReply(lastStatus, responseObserver)
+        }
+    }
 
+    override fun enterInitializationMode(request: Service.EnterInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.trace("enterInitializationMode called")
+        getSlave(request.instanceId, responseObserver) {
+            enterInitializationMode()
+            statusReply(lastStatus, responseObserver)
+        }
+    }
+
+    override fun exitInitializationMode(request: Service.ExitInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.trace("exitInitializationMode called")
+        getSlave(request.instanceId, responseObserver) {
+            exitInitializationMode()
+            statusReply(lastStatus, responseObserver)
+        }
+    }
+
+    override fun step(request: Service.StepRequest, responseObserver: StreamObserver<Service.StepResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            doStep(request.stepSize)
+            Service.StepResponse.newBuilder()
+                    .setSimulationTime(simulationTime)
+                    .setStatus(lastStatus.protoType()).also {
+                        responseObserver.onNext(it.build())
+                        responseObserver.onCompleted()
+                    }
+
+        }
+    }
+
+    override fun reset(request: Service.ResetRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        getSlave(request.instanceId, responseObserver) {
+            reset().also {
+                statusReply(lastStatus, responseObserver)
+            }
+        }
+    }
+
+    override fun terminate(request: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
+        LOG.trace("terminate called")
+        getSlave(request.instanceId, responseObserver) {
+            terminate()
+            lastStatus.also { status ->
+                LOG.debug("Terminated fmu with status: $status")
+                statusReply(status, responseObserver)
+            }
+        }
+    }
+
+    override fun freeInstance(request: Service.FreeRequest, responseObserver: StreamObserver<Service.Void>) {
+        LOG.trace("freeInstance called")
+        getSlave(request.instanceId, responseObserver) {
+            close()
+            responseObserver.onNext(Service.Void.newBuilder().build())
+            responseObserver.onCompleted()
+        }
+    }
+
+    override fun readInteger(request: Service.ReadRequest, responseObserver: StreamObserver<Service.IntegerRead>) {
         getSlave(request.instanceId, responseObserver) {
             val vr = request.valueReferencesList.toLongArray()
             val values = IntArray(vr.size)
@@ -195,64 +258,6 @@ class GrpcFmuServiceImpl(
         getSlave(request.instanceId, responseObserver) {
             val status = write(request.valueReferencesList.toLongArray(), request.valuesList.toBooleanArray())
             statusReply(status, responseObserver)
-        }
-    }
-
-
-    override fun setupExperiment(request: Service.SetupExperimentRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.trace("setupExperiment called")
-        getSlave(request.instanceId, responseObserver) {
-            setup(request.start, request.stop, request.tolerance)
-            statusReply(lastStatus, responseObserver)
-        }
-    }
-
-    override fun enterInitializationMode(request: Service.EnterInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.trace("enterInitializationMode called")
-        getSlave(request.instanceId, responseObserver) {
-            enterInitializationMode()
-            statusReply(lastStatus, responseObserver)
-        }
-    }
-
-    override fun exitInitializationMode(request: Service.ExitInitializationModeRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.trace("exitInitializationMode called")
-        getSlave(request.instanceId, responseObserver) {
-            exitInitializationMode()
-            statusReply(lastStatus, responseObserver)
-        }
-    }
-
-    override fun step(request: Service.StepRequest, responseObserver: StreamObserver<Service.StepResponse>) {
-        LOG.trace("step called, with stepSize=${request.stepSize}")
-        getSlave(request.instanceId, responseObserver) {
-            doStep(request.stepSize)
-            Service.StepResponse.newBuilder()
-                    .setSimulationTime(simulationTime)
-                    .setStatus(lastStatus.protoType()).also {
-                        responseObserver.onNext(it.build())
-                        responseObserver.onCompleted()
-                    }
-
-        }
-    }
-
-    override fun terminate(request: Service.TerminateRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        LOG.trace("terminate called")
-        getSlave(request.instanceId, responseObserver) {
-            terminate()
-            lastStatus.also { status ->
-                LOG.debug("Terminated fmu with status: $status")
-                statusReply(status, responseObserver)
-            }
-        }
-    }
-
-    override fun reset(request: Service.ResetRequest, responseObserver: StreamObserver<Service.StatusResponse>) {
-        getSlave(request.instanceId, responseObserver) {
-            reset().also {
-                statusReply(lastStatus, responseObserver)
-            }
         }
     }
 

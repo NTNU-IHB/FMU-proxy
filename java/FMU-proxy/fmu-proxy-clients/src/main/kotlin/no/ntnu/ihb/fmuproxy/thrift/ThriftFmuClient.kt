@@ -109,10 +109,6 @@ class ThriftFmuClient private constructor(
             return client.exitInitializationMode(instanceName).convert()
         }
 
-        override fun terminate(instanceName: String): FmiStatus {
-            return client.terminate(instanceName).convert()
-        }
-
         override fun step(instanceName: String, stepSize: Double):  StepResult {
             return client.step(instanceName, stepSize).let {
                 StepResult(it.simulationTime, it.status.convert())
@@ -123,9 +119,12 @@ class ThriftFmuClient private constructor(
             return client.reset(instanceName).convert()
         }
 
-        override fun close() {
-            super.close()
-            LOG.debug("$implementationName closed..")
+        override fun terminate(instanceName: String): FmiStatus {
+            return client.terminate(instanceName).convert()
+        }
+
+        override fun freeInstance(instanceName: InstanceId) {
+            client.freeInstance(instanceName)
         }
 
         override fun readInteger(instanceName: String, vr: List<ValueReference>): IntegerArrayRead {

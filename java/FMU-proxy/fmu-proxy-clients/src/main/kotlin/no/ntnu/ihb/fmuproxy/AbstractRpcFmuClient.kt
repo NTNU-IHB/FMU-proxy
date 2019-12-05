@@ -37,6 +37,8 @@ abstract class AbstractRpcFmuClient(
 
     abstract val implementationName: String
 
+    private val fmuInstances = mutableMapOf<String, FmuInstance>()
+
     protected abstract fun createInstance(): InstanceId
 
     protected abstract fun setup(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
@@ -46,6 +48,7 @@ abstract class AbstractRpcFmuClient(
     protected abstract fun step(instanceName: InstanceId, stepSize: Double): StepResult
     protected abstract fun reset(instanceName: InstanceId): FmiStatus
     protected abstract fun terminate(instanceName: InstanceId): FmiStatus
+    protected abstract fun freeInstance(instanceName: InstanceId)
 
     internal abstract fun readInteger(instanceName: InstanceId, vr: List<ValueReference>): IntegerArrayRead
     internal abstract fun readReal(instanceName: InstanceId, vr: List<ValueReference>): RealArrayRead
@@ -58,8 +61,6 @@ abstract class AbstractRpcFmuClient(
     internal abstract fun writeBoolean(instanceName: InstanceId, vr: List<ValueReference>, value: List<Boolean>): FmiStatus
 
     internal abstract fun getDirectionalDerivative(instanceName: InstanceId, vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult
-
-    private val fmuInstances = mutableMapOf<String, FmuInstance>()
 
     override fun newInstance(instanceName: String): SlaveInstance {
         val instanceId = createInstance()
@@ -74,6 +75,7 @@ abstract class AbstractRpcFmuClient(
             it.close()
         }
         fmuInstances.clear()
+        LOG.debug("'$implementationName' closed..")
     }
 
     protected companion object {
@@ -125,7 +127,6 @@ abstract class AbstractRpcFmuClient(
         }
 
         override fun terminate(): Boolean {
-
             if (!isTerminated) {
                 return try {
                     terminate(instanceId).let {
@@ -134,11 +135,9 @@ abstract class AbstractRpcFmuClient(
                     }
                 } finally {
                     isTerminated = true
-                    fmuInstances.remove(instanceId)
                 }
             }
             return true
-
         }
 
         override fun reset(): Boolean {
@@ -149,7 +148,11 @@ abstract class AbstractRpcFmuClient(
         }
 
         override fun close() {
-            terminate()
+            if (instanceId in fmuInstances) {
+                terminate()
+                freeInstance(instanceId)
+                fmuInstances.remove(instanceId)
+            }
         }
 
         override fun getDirectionalDerivative(vUnknownRef: ValueReferences, vKnownRef: ValueReferences, dvKnown: RealArray): RealArray {
@@ -158,7 +161,6 @@ abstract class AbstractRpcFmuClient(
                 it.directionalDerivative
             }
         }
-
 
         override fun read(vr: ValueReferences, ref: IntArray): FmiStatus {
             return readInteger(instanceId, vr.toList()).let {

@@ -29,7 +29,7 @@ import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.modeldescription.*
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.InstanceId
-import no.ntnu.ihb.fmuproxy.fmu.FmuSlaves
+import no.ntnu.ihb.fmuproxy.FmuSlaves
 import no.ntnu.ihb.fmuproxy.thrift.*
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import org.slf4j.Logger
@@ -136,6 +136,14 @@ class ThriftFmuServiceImpl(
         }
     }
 
+
+    override fun reset(instanceId: InstanceId): Status {
+        return getSlave(instanceId).let {
+            it.reset()
+            it.lastStatus.thriftType()
+        }
+    }
+
     override fun terminate(instanceId: InstanceId): Status {
         return getSlave(instanceId).let { slave ->
             slave.terminate()
@@ -145,10 +153,9 @@ class ThriftFmuServiceImpl(
         }
     }
 
-    override fun reset(instanceId: InstanceId): Status {
-        return getSlave(instanceId).let {
-            it.reset()
-            it.lastStatus.thriftType()
+    override fun freeInstance(instanceId: String) {
+        getSlave(instanceId).close().also {
+            FmuSlaves.remove(instanceId)
         }
     }
 
