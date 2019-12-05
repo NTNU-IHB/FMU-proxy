@@ -104,6 +104,14 @@ class Iface(object):
         """
         pass
 
+    def freeInstance(self, instanceId):
+        """
+        Parameters:
+         - instanceId
+
+        """
+        pass
+
     def read_integer(self, instanceId, vr):
         """
         Parameters:
@@ -547,6 +555,38 @@ class Client(Iface):
             raise result.ex
         raise TApplicationException(TApplicationException.MISSING_RESULT, "terminate failed: unknown result")
 
+    def freeInstance(self, instanceId):
+        """
+        Parameters:
+         - instanceId
+
+        """
+        self.send_freeInstance(instanceId)
+        self.recv_freeInstance()
+
+    def send_freeInstance(self, instanceId):
+        self._oprot.writeMessageBegin('freeInstance', TMessageType.CALL, self._seqid)
+        args = freeInstance_args()
+        args.instanceId = instanceId
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_freeInstance(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = freeInstance_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.ex is not None:
+            raise result.ex
+        return
+
     def read_integer(self, instanceId, vr):
         """
         Parameters:
@@ -916,6 +956,7 @@ class Processor(Iface, TProcessor):
         self._processMap["step"] = Processor.process_step
         self._processMap["reset"] = Processor.process_reset
         self._processMap["terminate"] = Processor.process_terminate
+        self._processMap["freeInstance"] = Processor.process_freeInstance
         self._processMap["read_integer"] = Processor.process_read_integer
         self._processMap["read_real"] = Processor.process_read_real
         self._processMap["read_string"] = Processor.process_read_string
@@ -1194,6 +1235,32 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("terminate", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_freeInstance(self, seqid, iprot, oprot):
+        args = freeInstance_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = freeInstance_result()
+        try:
+            self._handler.freeInstance(args.instanceId)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except NoSuchInstanceException as ex:
+            msg_type = TMessageType.REPLY
+            result.ex = ex
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("freeInstance", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -2867,6 +2934,131 @@ class terminate_result(object):
 all_structs.append(terminate_result)
 terminate_result.thrift_spec = (
     (0, TType.I32, 'success', None, None, ),  # 0
+    (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
+)
+
+
+class freeInstance_args(object):
+    """
+    Attributes:
+     - instanceId
+
+    """
+
+
+    def __init__(self, instanceId=None,):
+        self.instanceId = instanceId
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.instanceId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('freeInstance_args')
+        if self.instanceId is not None:
+            oprot.writeFieldBegin('instanceId', TType.STRING, 1)
+            oprot.writeString(self.instanceId.encode('utf-8') if sys.version_info[0] == 2 else self.instanceId)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(freeInstance_args)
+freeInstance_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRING, 'instanceId', 'UTF8', None, ),  # 1
+)
+
+
+class freeInstance_result(object):
+    """
+    Attributes:
+     - ex
+
+    """
+
+
+    def __init__(self, ex=None,):
+        self.ex = ex
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.ex = NoSuchInstanceException()
+                    self.ex.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('freeInstance_result')
+        if self.ex is not None:
+            oprot.writeFieldBegin('ex', TType.STRUCT, 1)
+            self.ex.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(freeInstance_result)
+freeInstance_result.thrift_spec = (
+    None,  # 0
     (1, TType.STRUCT, 'ex', [NoSuchInstanceException, None], None, ),  # 1
 )
 
