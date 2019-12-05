@@ -57,6 +57,7 @@
                 console.log((t1 - t0) + " ms.")
 
                 status = client.terminate(instance_id)
+				client.freeInstance(instance_id)
 
             })();
 
