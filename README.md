@@ -72,7 +72,6 @@ For interacting with the FMUs on the JVM, [FMI4j](https://github.com/NTNU-IHB/FM
 Clients has been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
 The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangeably in user code. 
 
-[The discovery service](#discovery_service) has also been implemented in Kotlin.  
 
 #### FMU-proxy executable
 
