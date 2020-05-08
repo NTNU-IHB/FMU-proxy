@@ -38,7 +38,7 @@ The idea is that other applications should use FMU-proxy whenever FMUs are requi
 
 ### Publications
 
-* [Hatledal, Lars Ivar, et al. "FMU-proxy: A Framework for Distributed Access to Functional Mock-up Units." Proceedings of the 13th International Modelica Conference, Regensburg, Germany, March 4–6, 2019. No. 157. Linköping University Electronic Press, 2019.](http://www.ep.liu.se/ecp/article.asp?issue=157%26article=8)
+* [Hatledal, Lars Ivar, et al. "FMU-proxy: A Framework for Distributed Access to Functional Mock-up Units." Proceedings of the 13th International Modelica Conference, Regensburg, Germany, March 4–6, 2019. No. 157. Linköping University Electronic Press, 2019.](https://www.ep.liu.se/en/conference-article.aspx?series=ecp&issue=157&Article_No=8)
 * [Hatledal, Lars Ivar, et al. "A Language and Platform Independent Co-Simulation Framework Based on the Functional Mock-Up Interface." IEEE Access 7 (2019): 109328-109339.](https://ieeexplore.ieee.org/abstract/document/8788514)
 
 ## Implementation
