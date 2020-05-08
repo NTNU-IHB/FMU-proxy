@@ -1,4 +1,4 @@
 install:
    - echo "Running a custom install command"
-   - ./java/FMU-proxy/gradlew -p java/FMU-proxy -PbuildClientsOnly=true -PdisableCodeGeneration=true clean publishToMavenLocal
+   - .gradlew -PbuildClientsOnly=true -PdisableCodeGeneration=true clean publishToMavenLocal
 
