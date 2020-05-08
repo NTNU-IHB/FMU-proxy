@@ -29,7 +29,7 @@ FMU-proxy is a framework for accessing FMUs compatible with FMI for Co-simulatio
 This is achieved using well established RPC technologies. 
 Due to the technologies involved, clients and servers for FMU-proxy can be written in almost any language, on any platform! 
 
-A [server](https://github.com/NTNU-IHB/FMU-proxy/wiki/Servers) implementation has been realized on the JVM, while [client](https://github.com/NTNU-IHB/FMU-proxy/wiki/Clients) implementations exists for C++, JVM, Python and (browser) JavaScript. 
+A server implementation has been realized on the JVM, while client implementations exists for C++, JVM, Python and (browser) JavaScript. 
 It's easy to add additional implementations, as the RPC frameworks will generate most of the code for you! 
 
 FMU-proxy is different from other frameworks for distributed FMU invocations such as 
