@@ -1,0 +1,44 @@
+
+plugins {
+    id "kotlin"
+    id "application"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxy"
+
+dependencies {
+
+    implementation project(":rpc-gen")
+    
+    implementation group: 'info.picocli', name: 'picocli', version: '3.9.2'
+
+    implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
+
+    def jetty_version = "9.4.11.v20180605"
+    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
+    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jetty_version
+
+    implementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
+
+    testImplementation project(':fmu-proxy-clients')
+
+}
+
+run {
+    if (project.hasProperty("appArgs")) {
+        args appArgs.split(" ")
+    }
+    standardInput = System.in
+}
+
+shadowJar {
+    archiveBaseName = 'fmu-proxy'
+    archiveClassifier = null
+    archiveVersion = null
+}
