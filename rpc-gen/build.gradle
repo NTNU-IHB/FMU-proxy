@@ -9,8 +9,6 @@ apply from: rootProject.file("gradle/mavenpublish.gradle")
 
 dependencies {
 
-    api "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
-
     api group: 'io.grpc', name: 'grpc-stub', version: grpc_version
     api group: 'io.grpc', name: 'grpc-protobuf', version: grpc_version
 

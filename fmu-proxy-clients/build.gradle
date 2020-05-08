@@ -10,6 +10,7 @@ apply from: rootProject.file("gradle/bintraypublish.gradle")
 dependencies {
 
     api project(":rpc-gen")
+    api "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
     
