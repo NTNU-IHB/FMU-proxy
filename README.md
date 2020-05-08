@@ -6,8 +6,7 @@
 [![Join the chat at https://gitter.im/NTNU-IHB/FMU-proxy](https://badges.gitter.im/NTNU-IHB/FMU-proxy.svg)](https://gitter.im/NTNU-IHB/FMU-proxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![](https://jitpack.io/v/NTNU-IHB/FMU-proxy.svg)](https://jitpack.io/#NTNU-IHB/FMU-proxy)
 
-
-[![CircleCI](https://circleci.com/gh/NTNU-IHB/FMU-proxy.svg?style=svg)](https://circleci.com/gh/NTNU-IHB/FMU-proxy)
+[![CI](https://github.com/NTNU-IHB/FMU-proxy/workflows/Build/badge.svg)](https://github.com/NTNU-IHB/FMU-proxy/actions)
 
 The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models to be shared across tools. 
 To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. 
