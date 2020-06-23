@@ -8,9 +8,7 @@ import kotlin.system.measureTimeMillis
 
 internal inline fun runSlave(slave: SlaveInstance, dt: Double, stop: Double, callback: () -> Unit = {}): Long {
 
-    slave.setup()
-    slave.enterInitializationMode()
-    slave.exitInitializationMode()
+    slave.simpleSetup()
 
     return measureTimeMillis {
         while (slave.simulationTime <= stop) {

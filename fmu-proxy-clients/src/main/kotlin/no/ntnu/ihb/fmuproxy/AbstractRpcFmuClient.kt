@@ -37,11 +37,11 @@ abstract class AbstractRpcFmuClient(
 
     abstract val implementationName: String
 
-    private val fmuInstances = mutableMapOf<String, FmuInstance>()
+    private val fmuInstances: MutableMap<String, FmuInstance> = mutableMapOf()
 
     protected abstract fun createInstance(): InstanceId
 
-    protected abstract fun setup(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
+    protected abstract fun setupExperiment(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus
     protected abstract fun enterInitializationMode(instanceName: InstanceId): FmiStatus
     protected abstract fun exitInitializationMode(instanceName: InstanceId): FmiStatus
 
@@ -98,8 +98,8 @@ abstract class AbstractRpcFmuClient(
             this@AbstractRpcFmuClient.modelDescription
         }
 
-        override fun setup(start: Double, stop: Double, tolerance: Double): Boolean {
-            return setup(instanceId, start, stop, tolerance).also {
+        override fun setupExperiment(start: Double, stop: Double, tolerance: Double): Boolean {
+            return setupExperiment(instanceId, start, stop, tolerance).also {
                 simulationTime = start
                 lastStatus = it
             }.isOK()
@@ -162,7 +162,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun read(vr: ValueReferences, ref: IntArray): FmiStatus {
+        override fun readInteger(vr: ValueReferences, ref: IntArray): FmiStatus {
             return readInteger(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -171,7 +171,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun read(vr: ValueReferences, ref: RealArray): FmiStatus {
+        override fun readReal(vr: ValueReferences, ref: RealArray): FmiStatus {
             return readReal(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -180,7 +180,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun read(vr: ValueReferences, ref: StringArray): FmiStatus {
+        override fun readString(vr: ValueReferences, ref: StringArray): FmiStatus {
             return readString(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -189,7 +189,7 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun read(vr: ValueReferences, ref: BooleanArray): FmiStatus {
+        override fun readBoolean(vr: ValueReferences, ref: BooleanArray): FmiStatus {
             return readBoolean(instanceId, vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
@@ -198,22 +198,21 @@ abstract class AbstractRpcFmuClient(
             }
         }
 
-        override fun write(vr: ValueReferences, value: BooleanArray): FmiStatus {
-            return writeBoolean(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
-        }
-
-        override fun write(vr: ValueReferences, value: IntArray): FmiStatus {
+        override fun writeInteger(vr: ValueReferences, value: IntArray): FmiStatus {
             return writeInteger(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 
-        override fun write(vr: ValueReferences, value: RealArray): FmiStatus {
+        override fun writeReal(vr: ValueReferences, value: RealArray): FmiStatus {
             return writeReal(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 
-        override fun write(vr: ValueReferences, value: StringArray): FmiStatus {
+        override fun writeString(vr: ValueReferences, value: StringArray): FmiStatus {
             return writeString(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
         }
 
+        override fun writeBoolean(vr: ValueReferences, value: BooleanArray): FmiStatus {
+            return writeBoolean(instanceId, vr.toList(), value.toList()).also { lastStatus = it }
+        }
 
         override fun getFMUstate(): FmuState {
             throw UnsupportedOperationException("Not supported yet!")

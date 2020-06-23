@@ -34,7 +34,7 @@ internal fun Service.StatusResponse.convert(): FmiStatus {
 }
 
 internal fun Service.Status.convert(): FmiStatus {
-    return when(this) {
+    return when (this) {
         Service.Status.OK_STATUS -> FmiStatus.OK
         Service.Status.DISCARD_STATUS -> FmiStatus.Discard
         Service.Status.ERROR_STATUS -> FmiStatus.Error
@@ -44,6 +44,7 @@ internal fun Service.Status.convert(): FmiStatus {
         Service.Status.UNRECOGNIZED -> throw AssertionError("Fatal: Unrecognized status type: $this")
     }
 }
+
 internal fun Service.IntegerRead.convert(): IntegerArrayRead {
     return IntegerArrayRead(valuesList.toIntArray(), status.convert())
 }
@@ -87,7 +88,7 @@ internal fun Service.ModelStructure.convert(): ModelStructure {
 }
 
 internal fun Service.IntegerAttribute.convert(): IntegerAttribute {
-    return object: IntegerAttribute {
+    return object : IntegerAttribute {
         override val declaredType: String?
             get() = null
         override val max: Int?
@@ -102,7 +103,7 @@ internal fun Service.IntegerAttribute.convert(): IntegerAttribute {
 }
 
 internal fun Service.RealAttribute.convert(): RealAttribute {
-    return object: RealAttribute {
+    return object : RealAttribute {
         override val declaredType: String?
             get() = null
         override val max: Double?
@@ -131,7 +132,7 @@ internal fun Service.RealAttribute.convert(): RealAttribute {
 }
 
 internal fun Service.StringAttribute.convert(): StringAttribute {
-    return object: StringAttribute {
+    return object : StringAttribute {
         override val declaredType: String?
             get() = null
         override val start: String?
@@ -140,7 +141,7 @@ internal fun Service.StringAttribute.convert(): StringAttribute {
 }
 
 internal fun Service.BooleanAttribute.convert(): BooleanAttribute {
-    return object: BooleanAttribute {
+    return object : BooleanAttribute {
         override val declaredType: String?
             get() = null
         override val start: Boolean?
@@ -149,7 +150,7 @@ internal fun Service.BooleanAttribute.convert(): BooleanAttribute {
 }
 
 internal fun Service.EnumerationAttribute.convert(): EnumerationAttribute {
-    return object: EnumerationAttribute {
+    return object : EnumerationAttribute {
         override val declaredType: String?
             get() = null
         override val max: Int?
@@ -165,7 +166,7 @@ internal fun Service.EnumerationAttribute.convert(): EnumerationAttribute {
 
 internal fun Service.ScalarVariable.convert(): TypedScalarVariable<*> {
 
-    val v = object: ScalarVariable {
+    val v = object : ScalarVariable {
         override val name: String
             get() = this@convert.name
         override val valueReference: Long
@@ -178,14 +179,23 @@ internal fun Service.ScalarVariable.convert(): TypedScalarVariable<*> {
             get() = this@convert.variability?.let { Variability.valueOf(it.toUpperCase()) }
         override val initial: Initial?
             get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
+        override val type: VariableType
+            get() = when (attributeCase) {
+                Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> VariableType.INTEGER
+                Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> VariableType.REAL
+                Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> VariableType.STRING
+                Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> VariableType.BOOLEAN
+                Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> VariableType.ENUMERATION
+                else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
+            }
     }
 
-    return when(attributeCase) {
-        Service.ScalarVariable.AttributeCase.INTEGER_ATTRIBUTE -> integerAttribute.convert().let { IntegerVariable(v, it) }
-        Service.ScalarVariable.AttributeCase.REAL_ATTRIBUTE -> realAttribute.convert().let { RealVariable(v, it) }
-        Service.ScalarVariable.AttributeCase.STRING_ATTRIBUTE -> stringAttribute.convert().let { StringVariable(v, it) }
-        Service.ScalarVariable.AttributeCase.BOOLEAN_ATTRIBUTE -> booleanAttribute.convert().let { BooleanVariable(v, it) }
-        Service.ScalarVariable.AttributeCase.ENUMERATION_ATTRIBUTE -> enumerationAttribute.convert().let { EnumerationVariable(v, it) }
+    return when (v.type) {
+        VariableType.INTEGER -> IntegerVariable(v, integerAttribute.convert())
+        VariableType.REAL -> RealVariable(v, realAttribute.convert())
+        VariableType.STRING -> StringVariable(v, stringAttribute.convert())
+        VariableType.BOOLEAN -> BooleanVariable(v, booleanAttribute.convert())
+        VariableType.ENUMERATION -> EnumerationVariable(v, enumerationAttribute.convert())
         else -> throw AssertionError("Fatal: Not a valid attribute: $attributeCase")
     }
 
@@ -213,13 +223,13 @@ internal fun Service.ModelDescription.convert(): CoSimulationModelDescription {
 
 class GrpcModelDescription(
         private val modelDescription: Service.ModelDescription
-): CoSimulationModelDescription {
+) : CoSimulationModelDescription {
 
     override val author: String?
         get() = modelDescription.author
     override val copyright: String?
         get() = modelDescription.copyright
-    override val defaultExperiment: DefaultExperiment? =  modelDescription.defaultExperiment?.convert()
+    override val defaultExperiment: DefaultExperiment? = modelDescription.defaultExperiment?.convert()
     override val description: String?
         get() = modelDescription.description
     override val fmiVersion: String

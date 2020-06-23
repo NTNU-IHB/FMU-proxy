@@ -31,7 +31,6 @@ import no.ntnu.ihb.fmi4j.modeldescription.TypeDefinitions
 import no.ntnu.ihb.fmi4j.modeldescription.UnitDefinitions
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Causality
-import no.ntnu.ihb.fmi4j.modeldescription.variables.Initial
 import no.ntnu.ihb.fmi4j.modeldescription.variables.Variability
 
 internal fun Status.convert(): FmiStatus {
@@ -179,14 +178,23 @@ internal fun ScalarVariable.convert(): TypedScalarVariable<*> {
             get() = this@convert.variability?.let { Variability.valueOf(it.toUpperCase()) }
         override val initial: Initial?
             get() = this@convert.initial?.let { Initial.valueOf(it.toUpperCase()) }
+        override val type: VariableType
+            get() = when {
+                attribute.isSetIntegerAttribute -> VariableType.INTEGER
+                attribute.isSetRealAttribute -> VariableType.REAL
+                attribute.isSetStringAttribute -> VariableType.STRING
+                attribute.isSetBooleanAttribute -> VariableType.BOOLEAN
+                attribute.isSetEnumerationAttribute -> VariableType.ENUMERATION
+                else -> throw AssertionError("All attributes are null!")
+            }
     }
 
-    return when {
-        attribute.isSetIntegerAttribute -> attribute.integerAttribute.convert().let { IntegerVariable(v, it) }
-        attribute.isSetRealAttribute -> attribute.realAttribute.convert().let { RealVariable(v, it) }
-        attribute.isSetStringAttribute -> attribute.stringAttribute.convert().let { StringVariable(v, it) }
-        attribute.isSetBooleanAttribute -> attribute.booleanAttribute.convert().let { BooleanVariable(v, it) }
-        attribute.isSetEnumerationAttribute -> attribute.enumerationAttribute.convert().let { EnumerationVariable(v, it) }
+    return when (v.type) {
+        VariableType.INTEGER -> attribute.integerAttribute.convert().let { IntegerVariable(v, it) }
+        VariableType.REAL -> attribute.realAttribute.convert().let { RealVariable(v, it) }
+        VariableType.STRING -> attribute.stringAttribute.convert().let { StringVariable(v, it) }
+        VariableType.BOOLEAN -> attribute.booleanAttribute.convert().let { BooleanVariable(v, it) }
+        VariableType.ENUMERATION -> attribute.enumerationAttribute.convert().let { EnumerationVariable(v, it) }
         else -> throw AssertionError("All attributes are null!")
     }
 

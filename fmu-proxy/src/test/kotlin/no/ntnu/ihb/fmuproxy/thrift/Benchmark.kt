@@ -40,7 +40,7 @@ class Benchmark {
 
                         client.newInstance().use { slave ->
                             runSlave(slave, stepSize, stop) {
-                                val status = slave.read(vr, buffer)
+                                val status = slave.readReal(vr, buffer)
                                 Assertions.assertEquals(FmiStatus.OK, status)
                                 Assertions.assertTrue(buffer[0] > 0)
                             }.also {

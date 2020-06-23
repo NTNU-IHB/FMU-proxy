@@ -97,7 +97,7 @@ class ThriftFmuClient private constructor(
             return client.createInstance(fmuId)
         }
 
-        override fun setup(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
+        override fun setupExperiment(instanceName: InstanceId, start: Double, stop: Double, tolerance: Double): FmiStatus {
             return client.setupExperiment(instanceName, start, stop, tolerance).convert()
         }
 
