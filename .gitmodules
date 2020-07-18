@@ -1,4 +1,0 @@
-[submodule "cpp/FMU-proxy/FMI4cpp"] 
-  path = cpp/FMU-proxy/FMI4cpp
-  url = https://github.com/NTNU-IHB/FMI4cpp
-
