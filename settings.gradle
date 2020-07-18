@@ -7,6 +7,7 @@ if (getProperties().get("buildClientsOnly", false)) {
     println "Building client library only.."
 } else {
     include 'fmu-proxy'
+    include 'fmu-proxy-starter'
 }
 
 buildscript {
