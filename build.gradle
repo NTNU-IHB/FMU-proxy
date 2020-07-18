@@ -22,15 +22,10 @@ subprojects { sub ->
         maven { url  "https://dl.bintray.com/ntnu-ihb/mvn"  }
     }
 
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    }
-
     dependencies {
 
         sub.plugins.withId('kotlin') {
             implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-            implementation 'org.jetbrains.kotlin:kotlin-reflect'
         }
         
     }
