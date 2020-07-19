@@ -32,86 +32,42 @@ import org.apache.thrift.transport.TSocket
 import java.io.Closeable
 
 class LightThriftClient(
-        private val fmuId: String,
         host: String,
         port: Int
 ): Closeable {
-
-    internal object FmuInstances: ArrayList<FmuInstance>() {
-        internal fun terminateAll() {
-            forEach { it.terminate() }
-        }
-    }
 
     private val transport= TFramedTransport.Factory().getTransport(TSocket(host, port)).apply {
         open()
     }
     private val client = FmuService.Client( TBinaryProtocol(transport))
 
-
     val modelDescription: ModelDescription by lazy {
-        client.getModelDescription(fmuId)
+        client.modelDescription
     }
 
-    fun init(instanceId: String, start: Double = 0.0, stop: Double = 0.0, tolerance: Double = 0.0) {
-        client.setupExperiment(instanceId, start, stop, tolerance)
-        client.enterInitializationMode(instanceId)
-        client.exitInitializationMode(instanceId)
+    fun init(start: Double = 0.0, stop: Double = 0.0, tolerance: Double = 0.0) {
+        client.instantiate()
+        client.setupExperiment(start, stop, tolerance)
+        client.enterInitializationMode()
+        client.exitInitializationMode()
     }
 
-    fun terminate(instanceId: String): Status {
-        return client.terminate(instanceId)
-    }
-
-    fun step(instanceId: String, stepSize: Double): Pair<Double, Status> {
-        return client.step(instanceId, stepSize).let {
+    fun step(stepSize: Double): Pair<Double, Status> {
+        return client.step(stepSize).let {
             it.simulationTime to it.status
         }
     }
 
+    fun terminate(): Status {
+        return client.terminate()
+    }
+
     override fun close() {
         transport.close()
-        FmuInstances.terminateAll()
     }
 
-    private fun readReal(instanceId: String, vr: List<ValueReference>): RealRead {
-        return client.readReal(instanceId, vr)
-    }
-
-    inner class FmuInstance(
-            private val instanceId: String
-    ): Closeable {
-
-       var isTerminated = false
-       var simulationTime: Double = 0.0
-
-       fun init(start: Double = 0.0, stop: Double = 0.0) {
-            init(instanceId, start, stop).also {
-                simulationTime = start
-            }
-        }
-
-       fun doStep(stepSize: Double): Boolean {
-            val stepResult = step(instanceId, stepSize)
-            simulationTime = stepResult.first
-            return stepResult.second == Status.OK_STATUS
-        }
-
-       fun terminate(): Boolean {
-            return try {
-                terminate(instanceId) == Status.OK_STATUS
-            } finally {
-                isTerminated = true
-                FmuInstances.remove(this)
-            }
-        }
-
-       override fun close() {
-            terminate()
-        }
-
-        fun readReal(vr: List<ValueReference>) = readReal(instanceId, vr)
-
+    private fun readReal(vr: List<ValueReference>): RealRead {
+        return client.readReal(vr)
     }
 
 }

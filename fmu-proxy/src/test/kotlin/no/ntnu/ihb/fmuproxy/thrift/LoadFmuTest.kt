@@ -1,5 +1,6 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.apache.thrift.transport.TTransportException
@@ -30,21 +31,10 @@ class LoadFmuTest {
     }
 
     @Test
-    fun loadFromUrl() {
-        val url = fmuFile.toURI().toURL()
-        ThriftFmuSocketServer().use { server ->
-            ThriftFmuClient.socketClient("localhost", server.start()).load(url).use {
-                assert(it)
-            }
-        }
-
-    }
-
-    @Test
     fun loadFromFile() {
-        ThriftFmuSocketServer().use { server ->
-            ThriftFmuClient.socketClient("localhost", server.start()).load(fmuFile).use {
-                assert(it)
+        ThriftFmuSocketServer{ AbstractFmu.from(fmuFile) }.use { server ->
+            ThriftFmuClient.socketClient("localhost", server.start()).use { client ->
+                assert(client)
             }
         }
     }

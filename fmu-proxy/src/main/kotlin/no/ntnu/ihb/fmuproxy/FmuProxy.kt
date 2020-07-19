@@ -25,31 +25,25 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
-import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
-typealias FmuId = String
-typealias InstanceId = String
-
-/**
- * @author Lars Ivar Hatledal
- */
 class FmuProxy(
-        private val servers: Map<FmuProxyServer, Int>
-): Closeable {
+    private val servers: Map<FmuProxyServer, Int>
+) : Closeable {
 
-    private var hasStarted = false
+    private var hasStarted = AtomicBoolean(false)
 
     /**
      * Start proxy
      */
     fun start() {
-        if (!hasStarted.also { hasStarted = true }) {
+        if (!hasStarted.getAndSet(true)) {
             servers.forEach { (server, port) ->
-                server.start(port)
+                server.start(port) { stop() }
             }
         }
     }
@@ -58,11 +52,10 @@ class FmuProxy(
      * Stop proxy
      */
     fun stop() {
-        if (hasStarted) {
+        if (hasStarted.get()) {
             servers.forEach {
                 it.key.stop()
             }
-            FmuSlaves.closeAll()
             LOG.debug("FMU-proxy stopped!")
         } else {
             LOG.warn("Calling stop, but FMU-proxy has not started..")
@@ -76,12 +69,12 @@ class FmuProxy(
         stop()
     }
 
-    fun <T: FmuProxyServer> getServer(server: Class<T>): T? {
+    fun <T : FmuProxyServer> getServer(server: Class<T>): T? {
         @Suppress("UNCHECKED_CAST")
-        return servers.keys.firstOrNull{ server.isAssignableFrom(it.javaClass) } as T
+        return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) } as T
     }
 
-    inline fun <reified T: FmuProxyServer> getServer(): T? {
+    inline fun <reified T : FmuProxyServer> getServer(): T? {
         return getServer(T::class.java)
     }
 
@@ -89,7 +82,7 @@ class FmuProxy(
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
     }
 
-    inline fun <reified T:FmuProxyServer> getPortFor(): Int? {
+    inline fun <reified T : FmuProxyServer> getPortFor(): Int? {
         return getPortFor(T::class.java)
     }
 
@@ -115,9 +108,6 @@ class FmuProxy(
 
 }
 
-/**
- * @author Lars Ivar Hatledal
- */
 class FmuProxyBuilder {
 
     private val servers = mutableMapOf<FmuProxyServer, Int>()

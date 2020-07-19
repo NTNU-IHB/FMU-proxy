@@ -6,15 +6,18 @@ import java.util.*
 
 object RunSocketServer {
 
-    private val fmuPath = File("../../test/fmus/" +
-            "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
+    private val fmuPath = File(
+        "test/fmus/2.0/cs/20sim/4.6.4.8004/" +
+                "ControlledTemperature/ControlledTemperature.fmu"
+    )
 
     @JvmStatic
     fun main(args: Array<String>) {
 
+        println(fmuPath.absolutePath)
+
         Fmu.from(fmuPath).use { fmu ->
-            val server = ThriftFmuSocketServer().apply {
-                addFmu(fmu)
+            val server = ThriftFmuSocketServer { fmu }.apply {
                 start(9090)
             }
 

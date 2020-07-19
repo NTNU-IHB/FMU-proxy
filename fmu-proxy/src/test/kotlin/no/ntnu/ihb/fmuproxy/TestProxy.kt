@@ -1,13 +1,14 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import no.ntnu.sfi.fmuproxy.TestUtils
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -32,9 +33,8 @@ class TestProxy {
     }
 
     private val proxy = FmuProxy(mapOf(
-            GrpcFmuServer().apply { addFmu(fmu) } to 9090,
-            ThriftFmuSocketServer().apply { addFmu(fmu) } to 9091,
-            ThriftFmuServlet().apply { addFmu(fmu) } to 9092)
+            ThriftFmuSocketServer { fmu } to 9091,
+            ThriftFmuServlet { fmu } to 9092)
     ).also {
         it.start()
     }
@@ -49,39 +49,11 @@ class TestProxy {
     }
 
     @Test
-    fun testGrpc() {
-
-        Assertions.assertTimeout(testTimeout) {
-            proxy.getPortFor<GrpcFmuServer>()?.also { port ->
-
-                GrpcFmuClient(host, port).load(fmu.guid).use { client ->
-
-                    val mdLocal = fmu.modelDescription
-                    val mdRemote = client.modelDescription
-
-                    Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-                    Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-                    Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
-
-                    client.newInstance().use { instance ->
-
-                        runSlave(instance, stepSize, stopTime).also {
-                            LOG.info("gRPC duration: ${it}ms")
-                        }
-
-                    }
-                }
-            }
-        }
-
-    }
-
-    @Test
     fun testThriftSocket() {
 
         Assertions.assertTimeout(testTimeout) {
             proxy.getPortFor<ThriftFmuSocketServer>()?.also { port ->
-                ThriftFmuClient.socketClient(host, port).load(fmu.guid).use { client ->
+                ThriftFmuClient.socketClient(host, port).use { client ->
 
                     val mdLocal = fmu.modelDescription
                     val mdRemote = client.modelDescription
@@ -110,7 +82,7 @@ class TestProxy {
 
         Assertions.assertTimeout(testTimeout) {
             proxy.getPortFor<ThriftFmuServlet>()?.also { port ->
-                ThriftFmuClient.servletClient(host, port).load(fmu.guid).use { client ->
+                ThriftFmuClient.servletClient(host, port).use { client ->
 
                     val mdLocal = fmu.modelDescription
                     val mdRemote = client.modelDescription

@@ -27,15 +27,13 @@ package no.ntnu.ihb.fmuproxy.cli
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.FmuProxyBuilder
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
 import picocli.CommandLine
 import java.io.File
-import java.util.*
 import java.util.concurrent.Callable
 
-private const val VERSION = "0.6.1"
+private const val VERSION = "0.7.0"
 
 object CommandLineParser {
 
@@ -54,16 +52,13 @@ class Args : Callable<FmuProxy> {
     @CommandLine.Option(names = ["-v", "--version"], description = ["Print the version of this application."])
     var showVersion = false
 
-    @CommandLine.Parameters(arity = "0..*", paramLabel = "FMUs", description = ["Optional FMU(s) to include."])
-    var fmus = mutableListOf<File>()
+    @CommandLine.Parameters(arity = "1", paramLabel = "FMU", description = ["FMU to load."])
+    var fmuFile: File? = null
 
-    @CommandLine.Option(names = ["-grpc"], description = ["Enable gRPC using the specified port (optional)."])
-    var grpcPort: Int? = null
-
-    @CommandLine.Option(names = ["-thrift/tcp"], description = ["Enable Thrift TCP/IP using the specified port (optional)."])
+    @CommandLine.Option(names = ["-tcp"], description = ["Enable Thrift TCP/IP using the specified port (optional)."])
     var thriftTcpPort: Int? = null
 
-    @CommandLine.Option(names = ["-thrift/http"], description = ["Enable Thrift HTTP using the specified port (optional)."])
+    @CommandLine.Option(names = ["-http"], description = ["Enable Thrift HTTP using the specified port (optional)."])
     var thriftHttpPort: Int? = null
 
     override fun call(): FmuProxy? {
@@ -73,42 +68,34 @@ class Args : Callable<FmuProxy> {
             return null
         }
 
-        if (grpcPort == null && thriftTcpPort == null && thriftHttpPort == null) {
+        require(fmuFile != null)
+
+        if (thriftTcpPort == null && thriftHttpPort == null) {
             System.err.println("Error! no ports specified. No server(s) will be started. Exiting..")
             return null
         }
 
-        return fmus.map { AbstractFmu.from(it) }.let { fmus ->
-            FmuProxyBuilder().apply {
+        val fmuProvider = { AbstractFmu.from(fmuFile!!) }
+        return FmuProxyBuilder().apply {
 
-                val fmuMap = Collections.synchronizedMap(
-                        fmus.associateBy { it.modelDescription.guid }.toMutableMap())
-
-                grpcPort?.also {
-                    GrpcFmuServer(fmuMap).apply {
-                        addServer(this, it)
-                    }
+            thriftTcpPort?.also {
+                ThriftFmuSocketServer(fmuProvider).apply {
+                    addServer(this, it)
                 }
+            }
 
-                thriftTcpPort?.also {
-                    ThriftFmuSocketServer(fmuMap).apply {
-                        addServer(this, it)
-                    }
+            thriftHttpPort?.also {
+                ThriftFmuServlet(fmuProvider).apply {
+                    addServer(this, it)
                 }
+            }
 
-                thriftHttpPort?.also {
-                    ThriftFmuServlet(fmuMap).apply {
-                        addServer(this, it)
-                    }
-                }
-
-            }.build()
-        }
+        }.build()
 
     }
 
     override fun toString(): String {
-        return "Args(showHelp=$showHelp, fmus=$fmus, grpcPort=$grpcPort, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort)"
+        return "Args(showHelp=$showHelp, thriftTcpPort=$thriftTcpPort, thriftHttpPort=$thriftHttpPort)"
     }
 
 }

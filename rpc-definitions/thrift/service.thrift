@@ -164,14 +164,6 @@ struct ModelDescription {
     21: i32 max_output_derivative_order
 }
 
-exception NoSuchFmuException {
-    1: string message
-}
-
-exception NoSuchInstanceException {
-    1: string message
-}
-
 exception NoSuchVariableException {
     1: string message
 }
@@ -187,32 +179,29 @@ struct DirectionalDerivativeResult {
 
 service FmuService {
 
-    FmuId load_from_url(1: string url)
-    FmuId load_from_file(1: string name, 2: binary data)
+    ModelDescription get_model_description()
 
-    ModelDescription get_model_description(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    void instantiate()
 
-    InstanceId create_instance(1: FmuId fmuId) throws (1: UnsupportedOperationException ex1, 2: NoSuchFmuException ex2)
-
-    Status setup_experiment(1: InstanceId instanceId, 2: double start, 3: double stop, 4: double tolerance) throws (1: NoSuchInstanceException ex)
-    Status enter_initialization_mode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
-    Status exit_initialization_mode(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    Status setup_experiment(1: double start, 2: double stop, 3: double tolerance)
+    Status enter_initialization_mode()
+    Status exit_initialization_mode()
     
-    StepResult step(1: InstanceId instanceId, 2: double stepSize) throws (1: NoSuchInstanceException ex)
-    Status reset(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
-    Status terminate(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
-    void freeInstance(1: InstanceId instanceId) throws (1: NoSuchInstanceException ex)
+    StepResult step(1: double stepSize)
+    Status reset()
+    Status terminate()
+    void close()
 
-    IntegerRead read_integer(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    RealRead read_real(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    StringRead read_string(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    BooleanRead read_boolean(1: InstanceId instanceId, 2: ValueReferences vr) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    IntegerRead read_integer(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
+    RealRead read_real(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
+    StringRead read_string(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
+    BooleanRead read_boolean(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
 
-    Status write_integer(1: InstanceId instanceId, 2: ValueReferences vr, 3: IntArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    Status write_real(1: InstanceId instanceId, 2: ValueReferences vr, 3: RealArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    Status write_string(1: InstanceId instanceId, 2: ValueReferences vr, 3: StringArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
-    Status write_boolean(1: InstanceId instanceId, 2: ValueReferences vr, 3: BooleanArray value) throws (1: NoSuchInstanceException ex1, 2: NoSuchVariableException ex2)
+    Status write_integer(1: ValueReferences vr, 2: IntArray value) throws (1: NoSuchVariableException ex)
+    Status write_real(1: ValueReferences vr, 2: RealArray value) throws (1: NoSuchVariableException ex)
+    Status write_string(1: ValueReferences vr, 2: StringArray value) throws (1: NoSuchVariableException ex)
+    Status write_boolean(1: ValueReferences vr, 2: BooleanArray value) throws (1: NoSuchVariableException ex)
 
-    DirectionalDerivativeResult get_directional_derivative(1: InstanceId instanceId, 2: ValueReferences vUnknownRef, 3: ValueReferences vKnownRef, 4: list<double> dvKnownRef) throws (1: NoSuchInstanceException ex1, 2: UnsupportedOperationException ex2)
+    DirectionalDerivativeResult get_directional_derivative(1: ValueReferences vUnknownRef, 2: ValueReferences vKnownRef, 3: list<double> dvKnownRef) throws (1: UnsupportedOperationException ex)
     
 }

@@ -22,9 +22,8 @@
  * THE SOFTWARE.
  */
 
-package no.ntnu.ihb.fmuproxy.net
+package no.ntnu.ihb.fmuproxy
 
-import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import java.io.Closeable
 import java.net.ServerSocket
 
@@ -32,20 +31,18 @@ import java.net.ServerSocket
 /**
  * @author Lars Ivar Hatledal
  */
-interface FmuProxyServer: Closeable {
+abstract class FmuProxyServer: Closeable {
 
-    val port: Int
-
-    val simpleName: String
+    abstract val port: Int
+    abstract val simpleName: String
 
     /**
      * Start the server using some available port
      * @return the port used
      */
-    @JvmDefault
-    fun start(): Int {
-        return getAvailablePort().also {
-            start(it)
+    fun start(shutdownSignal: (() -> Unit)? = null): Int {
+        return getAvailablePort().also { port ->
+            start(port, shutdownSignal)
         }
     }
 
@@ -53,30 +50,24 @@ interface FmuProxyServer: Closeable {
      * Start the server using the provided port
      * @param port the port to use
      */
-    fun start(port: Int)
-
+    abstract fun start(port: Int, shutdownSignal: (() -> Unit)? = null)
 
     /**
      * Stop the server
      */
-    fun stop()
+    abstract fun stop()
 
     /**
      * Same as stop()
      */
-    @JvmDefault
     override fun close() {
         stop()
     }
 
-    fun addFmu(fmu: AbstractFmu)
-
-    fun removeFmu(fmu: AbstractFmu)
-
     /**
      * Finds and returns an available port
      */
-    fun getAvailablePort(): Int {
+    private fun getAvailablePort(): Int {
         return ServerSocket(0).use {
             it.localPort
         }

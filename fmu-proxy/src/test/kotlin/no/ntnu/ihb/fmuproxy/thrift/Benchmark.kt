@@ -33,10 +33,10 @@ class Benchmark {
 
             val vr = longArrayOf(46)
             val buffer = RealArray(vr.size)
-            ThriftFmuSocketServer().apply { addFmu(fmu) }.use { server ->
+            ThriftFmuSocketServer{ fmu }.use { server ->
                 val port = server.start()
                 for (i in 0..2) {
-                    ThriftFmuClient.socketClient("localhost", port).load(fmu.guid).use { client ->
+                    ThriftFmuClient.socketClient("localhost", port).use { client ->
 
                         client.newInstance().use { slave ->
                             runSlave(slave, stepSize, stop) {
@@ -61,12 +61,11 @@ class Benchmark {
 
         val port = 9080
         val host = "localhost"
-        val guid = "{06c2700b-b39c-4895-9151-304ddde28443}" //20Sim ControlledTemperature FMU
 
         for (i in 0..2) {
             try {
 
-                ThriftFmuClient.socketClient(host, port).load(guid).use { client ->
+                ThriftFmuClient.socketClient(host, port).use { client ->
                     client.newInstance().use { slave ->
                         runSlave(slave, stepSize, stop) {
                             val read = slave.readReal(46)

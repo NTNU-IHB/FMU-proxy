@@ -5,8 +5,6 @@ import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.readReal
 import no.ntnu.ihb.fmuproxy.disableLog4jLoggers
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuClient
-import no.ntnu.ihb.fmuproxy.grpc.GrpcFmuServer
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
@@ -67,10 +65,9 @@ class Benchmark {
     fun measureTimeThriftSocket() {
 
         Assertions.assertTimeout(testTimeout) {
-            ThriftFmuSocketServer().use { server ->
-                server.addFmu(fmu)
+            ThriftFmuSocketServer{ fmu }.use { server ->
                 val port = server.start()
-                ThriftFmuClient.socketClient(host, port).load(fmu.guid).use { client ->
+                ThriftFmuClient.socketClient(host, port).use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {
                             LOG.info("Thrift/tcp duration=${it}ms")
@@ -89,10 +86,9 @@ class Benchmark {
         disableLog4jLoggers()
 
         Assertions.assertTimeout(testTimeout) {
-            ThriftFmuServlet().use { server ->
-                server.addFmu(fmu)
+            ThriftFmuServlet{ fmu }.use { server ->
                 val port = server.start()
-                ThriftFmuClient.servletClient(host, port).load(fmu.guid).use { client ->
+                ThriftFmuClient.servletClient(host, port).use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {
                             LOG.info("Thrift/http duration=${it}ms")
@@ -102,23 +98,6 @@ class Benchmark {
             }
         }
 
-    }
-
-    @Test
-    fun measureTimeGrpc() {
-        Assertions.assertTimeout(testTimeout) {
-            GrpcFmuServer().use { server ->
-                server.addFmu(fmu)
-                val port = server.start()
-                GrpcFmuClient(host, port).load(fmu.guid).use { client ->
-                    client.newInstance().use { slave ->
-                        testSlave(slave).also {
-                            LOG.info("gRPC duration=${it}ms")
-                        }
-                    }
-                }
-            }
-        }
     }
 
 }

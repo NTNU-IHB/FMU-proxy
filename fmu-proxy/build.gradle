@@ -15,8 +15,6 @@ dependencies {
     
     implementation group: 'info.picocli', name: 'picocli', version: '3.9.2'
 
-    implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
-
     def jetty_version = "9.4.11.v20180605"
     implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
     implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jetty_version

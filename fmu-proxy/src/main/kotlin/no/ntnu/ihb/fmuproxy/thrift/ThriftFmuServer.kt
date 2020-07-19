@@ -25,7 +25,7 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
-import no.ntnu.ihb.fmuproxy.net.FmuProxyServer
+import no.ntnu.ihb.fmuproxy.FmuProxyServer
 import no.ntnu.ihb.fmuproxy.thrift.services.ThriftFmuServiceImpl
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.protocol.TJSONProtocol
@@ -40,7 +40,6 @@ import org.eclipse.jetty.servlet.ServletHolder
 import org.eclipse.jetty.servlets.CrossOriginFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.*
 import kotlin.properties.Delegates
 
 interface IServer {
@@ -49,35 +48,22 @@ interface IServer {
 }
 
 abstract class ThriftFmuServer(
-        private val fmus: MutableMap<String, AbstractFmu>
-) : FmuProxyServer {
+        private val fmuProvider: () -> AbstractFmu
+) : FmuProxyServer() {
 
     companion object {
 
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServer::class.java)
     }
 
+    private var server: IServer? = null
     override var port: Int by Delegates.notNull()
 
-    private var server: IServer? = null
-
-    override fun addFmu(fmu: AbstractFmu) {
-        synchronized(fmus) {
-            fmus[fmu.guid] = fmu
-        }
-    }
-
-    override fun removeFmu(fmu: AbstractFmu) {
-        synchronized(fmus) {
-            fmus.remove(fmu.guid)
-        }
-    }
-
-    override fun start(port: Int) {
+    override fun start(port: Int, shutdownSignal: (() -> Unit)?) {
 
         if (server == null) {
             this.port = port
-            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmus))).apply {
+            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmuProvider, shutdownSignal))).apply {
                 Thread { serve() }.start()
             }
 
@@ -102,8 +88,8 @@ abstract class ThriftFmuServer(
 
 
 class ThriftFmuSocketServer(
-        fmus: MutableMap<String, AbstractFmu> = Collections.synchronizedMap(mutableMapOf())
-) : ThriftFmuServer(fmus) {
+        fmuProvider: () -> AbstractFmu
+) : ThriftFmuServer(fmuProvider) {
 
     override val simpleName = "thrift/tcp"
 
@@ -129,8 +115,8 @@ class ThriftFmuSocketServer(
 }
 
 class ThriftFmuServlet(
-        fmus: MutableMap<String, AbstractFmu> = Collections.synchronizedMap(mutableMapOf())
-) : ThriftFmuServer(fmus) {
+        fmuProvider: () -> AbstractFmu
+) : ThriftFmuServer(fmuProvider) {
 
     override val simpleName = "thrift/http"
 

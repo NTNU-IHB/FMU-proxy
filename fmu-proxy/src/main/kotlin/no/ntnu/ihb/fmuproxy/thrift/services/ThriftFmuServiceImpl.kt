@@ -26,207 +26,130 @@ package no.ntnu.ihb.fmuproxy.thrift.services
 
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
-import no.ntnu.ihb.fmi4j.modeldescription.*
-import no.ntnu.ihb.fmuproxy.FmuId
-import no.ntnu.ihb.fmuproxy.InstanceId
-import no.ntnu.ihb.fmuproxy.FmuSlaves
+import no.ntnu.ihb.fmi4j.modeldescription.RealArray
+import no.ntnu.ihb.fmi4j.modeldescription.StringArray
+import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
 import no.ntnu.ihb.fmuproxy.thrift.*
-import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.net.URL
-import java.nio.ByteBuffer
 
-/**
- *
- * @author Lars Ivar Hatledal
- */
 class ThriftFmuServiceImpl(
-        private val fmus: MutableMap<FmuId, AbstractFmu>
+        private val fmuProvider: () -> AbstractFmu,
+        private val shutdownSignal: (() -> Unit)?
 ) : FmuService.Iface {
+
+    private val fmu by lazy { fmuProvider.invoke() }
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
     }
 
-    private fun getFmu(fmuId: FmuId): AbstractFmu {
-        synchronized(fmus) {
-            return fmus[fmuId] ?: throw NoSuchFmuException("No such FMU with guid: '$fmuId'")
+    private lateinit var slave: SlaveInstance
+
+    override fun getModelDescription(): ModelDescription {
+        return fmu.modelDescription.asCoSimulationModelDescription().thriftType()
+    }
+
+    override fun instantiate() {
+        if (!fmu.supportsCoSimulation) {
+            throw UnsupportedOperationException("FMU does not support Co-simulation!")
+        }
+        slave = fmu.asCoSimulationFmu().newInstance()
+    }
+
+    override fun setupExperiment(start: Double, stop: Double, tolerance: Double): Status {
+        slave.setupExperiment(start, stop, tolerance)
+        return slave.lastStatus.thriftType()
+    }
+
+    override fun enterInitializationMode(): Status {
+        slave.enterInitializationMode()
+        return slave.lastStatus.thriftType()
+    }
+
+    override fun exitInitializationMode(): Status {
+        slave.exitInitializationMode()
+        return slave.lastStatus.thriftType()
+    }
+
+    override fun step(stepSize: Double): StepResult {
+        if (!slave.doStep(stepSize)) {
+            LOG.error("doStep returned with status: ${slave.lastStatus}")
+        }
+        return StepResult().apply {
+            simulationTime = slave.simulationTime
+            status = slave.lastStatus.thriftType()
         }
     }
 
-    private fun getSlave(instanceId: InstanceId): SlaveInstance {
-        return FmuSlaves[instanceId] ?: throw NoSuchInstanceException("No such slave with id: '$instanceId'")
+    override fun reset(): Status {
+        slave.reset()
+        return slave.lastStatus.thriftType()
     }
 
-    override fun loadFromUrl(url: String): String {
-        @Suppress("NAME_SHADOWING") val url = URL(url)
-        val md = ModelDescriptionParser.parseModelDescription(url)
-        val guid = md.guid
-        synchronized(fmus) {
-            if (guid !in fmus) {
-                val fmu = AbstractFmu.from(url)
-                fmus[guid] = fmu
-                LOG.info("Loaded new FMU '${md.modelName}' with guid=$guid!")
-            } else {
-                LOG.debug("FMU '${md.modelName}' with guid=$guid already loaded, re-using it!")
-            }
-            return guid
-        }
+    override fun terminate(): Status {
+        slave.terminate()
+        val status = slave.lastStatus
+        LOG.info("Terminated instance of ${slave.modelDescription.modelName} with status $status")
+        return status.thriftType()
     }
 
-    override fun loadFromFile(name: String, data: ByteBuffer): String {
-        val fmu = AbstractFmu.from(name, data.compact().array())
-        val guid = fmu.guid
-        synchronized(fmus) {
-            if (guid !in fmus) {
-                fmus[guid] = fmu
-                LOG.info("Loaded new FMU '${fmu.modelDescription.modelName}' with guid=$guid!")
-            } else {
-                fmu.close()
-                LOG.info("FMU '${fmu.modelDescription.modelName}' with guid=$guid already loaded, re-using it!")
-            }
-            return guid
-        }
+    override fun close() {
+        shutdownSignal?.invoke()
     }
 
-    override fun getModelDescription(fmuId: FmuId): ModelDescription {
-        return getFmu(fmuId).modelDescription.asCoSimulationModelDescription().thriftType()
-    }
-
-    override fun createInstance(fmuId: FmuId): InstanceId {
-        return getFmu(fmuId).let { fmu ->
-            if (!fmu.supportsCoSimulation) {
-                throw UnsupportedOperationException("FMU does not support Co-simulation!")
-            }
-            FmuSlaves.put(fmu.asCoSimulationFmu().newInstance())
-        }
-    }
-
-    override fun setupExperiment(instanceId: InstanceId, start: Double, stop: Double, tolerance: Double): Status {
-        return getSlave(instanceId).let { slave ->
-            slave.setupExperiment(start, stop, tolerance)
-            slave.lastStatus.thriftType()
-        }
-    }
-
-    override fun enterInitializationMode(instanceId: InstanceId): Status {
-        return getSlave(instanceId).let { slave ->
-            slave.enterInitializationMode()
-            slave.lastStatus.thriftType()
-        }
-    }
-
-    override fun exitInitializationMode(instanceId: InstanceId): Status {
-        return getSlave(instanceId).let {
-            it.exitInitializationMode()
-            it.lastStatus.thriftType()
-        }
-    }
-
-    override fun step(instanceId: InstanceId, stepSize: Double): StepResult {
-        return getSlave(instanceId).let {
-            if (!it.doStep(stepSize)) {
-                LOG.error("doStep returned with status: ${it.lastStatus}")
-            }
-            StepResult().apply {
-                simulationTime = it.simulationTime
-                status = it.lastStatus.thriftType()
-            }
-        }
-    }
-
-
-    override fun reset(instanceId: InstanceId): Status {
-        return getSlave(instanceId).let {
-            it.reset()
-            it.lastStatus.thriftType()
-        }
-    }
-
-    override fun terminate(instanceId: InstanceId): Status {
-        return getSlave(instanceId).let { slave ->
-            slave.terminate()
-            val status = slave.lastStatus
-            LOG.info("Terminated instance of ${slave.modelDescription.modelName} with status $status")
-            status.thriftType()
-        }
-    }
-
-    override fun freeInstance(instanceId: String) {
-        getSlave(instanceId).close().also {
-            FmuSlaves.remove(instanceId)
-        }
-    }
-
-    override fun readInteger(instanceId: InstanceId, vr: List<ValueReference>): IntegerRead {
+    override fun readInteger(vr: List<ValueReference>): IntegerRead {
         val values = IntArray(vr.size)
-        return getSlave(instanceId).let {
-            val status = it.readInteger(vr.toLongArray(), values).thriftType()
-            IntegerRead(values.toList(), status)
-        }
+        val status = slave.readInteger(vr.toLongArray(), values).thriftType()
+        return IntegerRead(values.toList(), status)
     }
 
-    override fun readReal(instanceId: InstanceId, vr: List<ValueReference>): RealRead {
+    override fun readReal(vr: List<ValueReference>): RealRead {
         val values = RealArray(vr.size)
-        return getSlave(instanceId).let {
-            val status = it.readReal(vr.toLongArray(), values).thriftType()
-            RealRead(values.asList(), status)
-        }
+        val status = slave.readReal(vr.toLongArray(), values).thriftType()
+        return RealRead(values.asList(), status)
     }
 
-    override fun readString(instanceId: InstanceId, vr: List<ValueReference>): StringRead {
+    override fun readString(vr: List<ValueReference>): StringRead {
         val values = StringArray(vr.size) { "" }
-        return getSlave(instanceId).let {
-            val status = it.readString(vr.toLongArray(), values).thriftType()
-            StringRead(values.toList(), status)
-        }
+        val status = slave.readString(vr.toLongArray(), values).thriftType()
+        return StringRead(values.toList(), status)
     }
 
-    override fun readBoolean(instanceId: InstanceId, vr: List<ValueReference>): BooleanRead {
+    override fun readBoolean(vr: List<ValueReference>): BooleanRead {
         val values = BooleanArray(vr.size)
-        return getSlave(instanceId).let {
-            val status = it.readBoolean(vr.toLongArray(), values).thriftType()
-            BooleanRead(values.toList(), status)
-        }
+        val status = slave.readBoolean(vr.toLongArray(), values).thriftType()
+        return BooleanRead(values.toList(), status)
     }
 
 
-    override fun writeInteger(instanceId: InstanceId, vr: List<ValueReference>, value: List<Int>): Status {
-        return getSlave(instanceId).let {
-            it.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
-        }
+    override fun writeInteger(vr: List<ValueReference>, value: List<Int>): Status {
+        return slave.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
     }
 
-    override fun writeReal(instanceId: InstanceId, vr: List<ValueReference>, value: List<Double>): Status {
-        return getSlave(instanceId).let {
-            it.writeReal(vr.toLongArray(), value.toDoubleArray()).thriftType()
-        }
+    override fun writeReal(vr: List<ValueReference>, value: List<Double>): Status {
+
+        return slave.writeReal(vr.toLongArray(), value.toDoubleArray()).thriftType()
+
     }
 
-    override fun writeString(instanceId: InstanceId, vr: List<ValueReference>, value: List<String>): Status {
-        return getSlave(instanceId).let {
-            it.writeString(vr.toLongArray(), value.toTypedArray()).thriftType()
-        }
+    override fun writeString(vr: List<ValueReference>, value: List<String>): Status {
+        return slave.writeString(vr.toLongArray(), value.toTypedArray()).thriftType()
     }
 
-    override fun writeBoolean(instanceId: InstanceId, vr: List<ValueReference>, value: List<Boolean>): Status {
-        return getSlave(instanceId).let {
-            it.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
-        }
+    override fun writeBoolean(vr: List<ValueReference>, value: List<Boolean>): Status {
+        return slave.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
     }
 
-    override fun getDirectionalDerivative(instanceId: InstanceId, vUnkownRef: List<Long>, vKnownRef: List<Long>, dvUnkownRef: List<Double>): DirectionalDerivativeResult {
-        return getSlave(instanceId).let {
-            if (!it.modelDescription.attributes.providesDirectionalDerivative) {
-                throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
-            }
-            val dvUnknown = it.getDirectionalDerivative(vUnkownRef.toLongArray(), vKnownRef.toLongArray(), dvUnkownRef.toDoubleArray()).toList()
-            DirectionalDerivativeResult(dvUnknown, it.lastStatus.thriftType())
+    override fun getDirectionalDerivative(vUnkownRef: List<Long>, vKnownRef: List<Long>, dvUnkownRef: List<Double>): DirectionalDerivativeResult {
+        if (!slave.modelDescription.attributes.providesDirectionalDerivative) {
+            throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
         }
+        val dvUnknown = slave.getDirectionalDerivative(vUnkownRef.toLongArray(), vKnownRef.toLongArray(), dvUnkownRef.toDoubleArray()).toList()
+        return DirectionalDerivativeResult(dvUnknown, slave.lastStatus.thriftType())
     }
 
-//    override fun getFMUstate(instanceId: InstanceId): GetFmuStateResult {
+//    override fun getFMUstate(): GetFmuStateResult {
 //        return getSlave(instanceId).let {
 //            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
 //                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
@@ -235,7 +158,7 @@ class ThriftFmuServiceImpl(
 //        }
 //    }
 //
-//    override fun setFMUstate(instanceId: InstanceId, state: Long): Status {
+//    override fun setFMUstate(, state: Long): Status {
 //        return getSlave(instanceId).let {
 //            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
 //                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
@@ -245,7 +168,7 @@ class ThriftFmuServiceImpl(
 //        }
 //    }
 //
-//    override fun freeFMUstate(instanceId: InstanceId, state: Long): Status {
+//    override fun freeFMUstate(, state: Long): Status {
 //        return getSlave(instanceId).let {
 //            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
 //                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
@@ -255,7 +178,7 @@ class ThriftFmuServiceImpl(
 //        }
 //    }
 //
-//    override fun serializeFMUstate(instanceId: InstanceId, state: Long): SerializeFmuStateResult {
+//    override fun serializeFMUstate(, state: Long): SerializeFmuStateResult {
 //        return getSlave(instanceId).let {
 //            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
 //                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
@@ -265,7 +188,7 @@ class ThriftFmuServiceImpl(
 //        }
 //    }
 //
-//    override fun deSerializeFMUstate(instanceId: InstanceId, state: ByteBuffer): DeSerializeFmuStateResult {
+//    override fun deSerializeFMUstate(, state: ByteBuffer): DeSerializeFmuStateResult {
 //        return getSlave(instanceId).let {
 //            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
 //                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
