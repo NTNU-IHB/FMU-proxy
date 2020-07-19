@@ -95,7 +95,10 @@ class ThriftFmuServiceImpl(
     }
 
     override fun close() {
-        shutdownSignal?.invoke()
+        Thread {
+            Thread.sleep(1000)
+            shutdownSignal?.invoke()
+        }.start()
     }
 
     override fun readInteger(vr: List<ValueReference>): IntegerRead {

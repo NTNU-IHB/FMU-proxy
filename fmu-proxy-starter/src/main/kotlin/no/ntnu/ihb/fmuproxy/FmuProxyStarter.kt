@@ -5,8 +5,10 @@ import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
 import info.laht.yajrpc.net.RpcServer
 import info.laht.yajrpc.net.tcp.RpcTcpServer
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStreamReader
 import java.net.ServerSocket
 import java.net.URL
 import java.nio.file.Files
@@ -15,10 +17,14 @@ import java.util.*
 
 object FmuProxyStarter {
 
+    private fun parsePort(args: Array<String>): Int {
+        return if (args.isEmpty()) return 9080 else args[0].toInt()
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val port = args[0].toInt()
+        val port = parsePort(args)
         val handler = RpcHandler(ProxyService())
 
         val server = RpcTcpServer(handler).apply {
@@ -33,9 +39,20 @@ object FmuProxyStarter {
 
     }
 
+    internal fun debugMain(args: Array<String>) {
+
+        val port = parsePort(args)
+        val handler = RpcHandler(ProxyService())
+
+        RpcTcpServer(handler).apply {
+            start(port)
+        }
+
+    }
+
 }
 
-private class ProxyService : RpcService {
+class ProxyService : RpcService {
 
     override val serviceName: String
         get() = "proxy"
@@ -70,9 +87,9 @@ private class ProxyService : RpcService {
 
     companion object {
 
-        val proxyBin = File(ProxyService::class.java.classLoader.getResource("fmu-proxy.jar")!!.file)
+        private val proxyBin = File(FmuProxyStarter::class.java.classLoader.getResource("fmu-proxy.jar")!!.file)
 
-        fun getAvailablePort(): Int {
+        private fun getAvailablePort(): Int {
             return ServerSocket(0).use {
                 it.localPort
             }
@@ -84,12 +101,17 @@ private class ProxyService : RpcService {
 
             val port = getAvailablePort()
             val cmd = arrayOf(
+                    "cmd", "/c",
                     "java", "-jar",
                     proxyBin.absolutePath,
                     "-tcp", "$port",
                     file.absolutePath
             )
-            Runtime.getRuntime().exec(cmd)
+
+            val pb = ProcessBuilder()
+            pb.command(*cmd)
+            pb.start()
+
             return port
         }
 

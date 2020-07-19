@@ -44,7 +44,7 @@ class Benchmark {
                                 Assertions.assertEquals(FmiStatus.OK, status)
                                 Assertions.assertTrue(buffer[0] > 0)
                             }.also {
-                                LOG.info("gRPC duration=${it}ms")
+                                LOG.info("Thrift (socket) duration=${it}ms")
                             }
                         }
 
@@ -71,7 +71,7 @@ class Benchmark {
                             val read = slave.readReal(46)
                             Assertions.assertTrue(read.value > 0)
                         }.also {
-                            LOG.info("gRPC remote duration=${it}ms")
+                            LOG.info("Thrift remote duration=${it}ms")
                         }
                     }
                 }
