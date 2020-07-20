@@ -97,51 +97,54 @@ class FmuProxy(
     }
 
     companion object {
+
         val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
 
         private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
 
-            val textArea = JTextArea(15, 50).apply {
+            val textArea = JTextArea(20, 60).apply {
                 isEditable = false
             }
 
-            JFrame(title).apply {
-                defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-
-                contentPane.apply {
-                    layout = BorderLayout()
-                    add(
-                        JScrollPane(
-                            textArea,
-                            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-                        ),
-                        BorderLayout.CENTER
-                    )
-                }
-
-                val out = JTextAreaOutputStream(textArea)
+            JTextAreaOutputStream(textArea).also { out ->
                 System.setOut(PrintStream(out))
+                System.setErr(PrintStream(out))
+            }
 
-                addWindowListener(object : WindowAdapter() {
-                    override fun windowClosed(e: WindowEvent) {
-                        println("Exiting..")
-                        stopSignal.invoke()
+            SwingUtilities.invokeLater {
+                JFrame(title).apply {
+
+                    defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+
+                    contentPane.apply {
+                        layout = BorderLayout()
+                        add(
+                            JScrollPane(
+                                textArea,
+                                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                            ),
+                            BorderLayout.CENTER
+                        )
                     }
-                })
 
-                pack()
-                isVisible = true
+                    addWindowListener(object : WindowAdapter() {
+                        override fun windowClosed(e: WindowEvent) {
+                            println("Exiting..")
+                            stopSignal.invoke()
+                        }
+                    })
 
+                    pack()
+                    isVisible = true
+
+                }
             }
         }
 
         @JvmStatic
         fun main(args: Array<String>) {
-            /*val args = arrayOf(
-                "-tcp", "9090", "test/fmus/2.0/cs/20sim/" +
-                        "4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"
-            )*/
+
             CommandLineParser.parse(args).also {
                 it?.apply {
 
@@ -156,10 +159,8 @@ class FmuProxy(
                         }
                     }.apply { start() }
 
-                    SwingUtilities.invokeLater {
-                        createAndShowFrame(fmu.modelName) {
-                            stop()
-                        }
+                    createAndShowFrame(fmu.modelName) {
+                        stop()
                     }
 
                     while (true) {

@@ -23,15 +23,11 @@ internal class FmuProxyStarterTest {
             arrayOf("$port")
         )
 
-        Thread.sleep(1000)
-
         val fmuPort = RpcTcpClient("localhost", port).use { client ->
             client.write(
-                "createLocalFileProxy", RpcParams.listParams(fmuFile.absolutePath), 5000
+                "createLocalFileProxy", RpcParams.listParams(fmuFile.absolutePath)
             ).get().getResult<Int>()!!
         }
-
-        Thread.sleep(1000)
 
         ThriftFmuClient.socketClient("localhost", fmuPort).use {
             Assertions.assertEquals("ControlledTemperature", it.modelDescription.modelName)

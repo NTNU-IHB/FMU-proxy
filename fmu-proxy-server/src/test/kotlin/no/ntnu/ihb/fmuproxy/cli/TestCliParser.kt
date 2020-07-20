@@ -16,10 +16,14 @@ class TestCliParser {
     @Test
     fun test() {
 
-        val args = arrayOf(fmuPath.absolutePath)
+        val args = arrayOf(
+            "-tcp", "9090",
+            fmuPath.absolutePath
+        )
         CommandLineParser.parse(args)?.use { proxy ->
             proxy.start()
         }
+
     }
 
 }

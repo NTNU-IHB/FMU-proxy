@@ -42,11 +42,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.properties.Delegates
 
-interface IServer {
-    fun serve()
-    fun stop()
-}
-
 abstract class ThriftFmuServer : FmuProxyServer() {
 
     companion object {
@@ -90,6 +85,7 @@ class ThriftFmuSocketServer: ThriftFmuServer() {
     override val simpleName = "thrift/tcp"
 
     override fun setup(port: Int, processor: FmuService.Processor<ThriftFmuServiceImpl>): IServer {
+
         val transport = TNonblockingServerSocket(port)
         val server = TThreadedSelectorServer(TThreadedSelectorServer.Args(transport)
                 .processor(processor)
