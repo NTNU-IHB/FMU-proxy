@@ -14,7 +14,7 @@ repositories {
 dependencies {
     def yajrpc_version = "0.10.7"
     implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc', version: yajrpc_version
-    implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc-ws', version: yajrpc_version
+    //implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc-ws', version: yajrpc_version
     implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc-tcp', version: yajrpc_version
 
     testImplementation project(':fmu-proxy-clients')
