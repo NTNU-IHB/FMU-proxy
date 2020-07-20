@@ -26,19 +26,22 @@ package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
+import no.ntnu.ihb.fmuproxy.util.JTextAreaOutputStream
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.awt.BorderLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import java.awt.event.WindowListener
-import java.awt.event.WindowStateListener
 import java.io.Closeable
-import java.io.File
+import java.io.PrintStream
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JFrame
+import javax.swing.JScrollPane
+import javax.swing.JTextArea
 import javax.swing.SwingUtilities
 import kotlin.system.exitProcess
+
 
 class FmuProxy(
     private val fmu: AbstractFmu,
@@ -54,7 +57,9 @@ class FmuProxy(
     fun start() {
         if (!hasStarted.getAndSet(true)) {
             servers.forEach { (server, port) ->
-                server.start(port, fmu) { stop() }
+                server.start(port, fmu) {
+                    stop()
+                }
             }
         }
     }
@@ -63,7 +68,7 @@ class FmuProxy(
      * Stop proxy
      */
     fun stop() {
-        if (hasStarted.get() && stopped.getAndSet(true)) {
+        if (hasStarted.get() && !stopped.getAndSet(true)) {
             servers.forEach {
                 it.key.stop()
             }
@@ -83,10 +88,6 @@ class FmuProxy(
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) } as T
     }
 
-    inline fun <reified T : FmuProxyServer> getServer(): T? {
-        return getServer(T::class.java)
-    }
-
     fun getPortFor(server: Class<out FmuProxyServer>): Int? {
         return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
     }
@@ -98,35 +99,78 @@ class FmuProxy(
     companion object {
         val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
 
+        private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
+
+            val textArea = JTextArea(15, 50).apply {
+                isEditable = false
+            }
+
+            JFrame(title).apply {
+                defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+
+                contentPane.apply {
+                    layout = BorderLayout()
+                    add(
+                        JScrollPane(
+                            textArea,
+                            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                        ),
+                        BorderLayout.CENTER
+                    )
+                }
+
+                val out = JTextAreaOutputStream(textArea)
+                System.setOut(PrintStream(out))
+
+                addWindowListener(object : WindowAdapter() {
+                    override fun windowClosed(e: WindowEvent) {
+                        println("Exiting..")
+                        stopSignal.invoke()
+                    }
+                })
+
+                pack()
+                isVisible = true
+
+            }
+        }
+
         @JvmStatic
         fun main(args: Array<String>) {
-
+            /*val args = arrayOf(
+                "-tcp", "9090", "test/fmus/2.0/cs/20sim/" +
+                        "4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"
+            )*/
             CommandLineParser.parse(args).also {
                 it?.apply {
 
                     start()
 
+                    Thread {
+                        println("Press any key to exit..")
+                        if (Scanner(System.`in`).hasNext()) {
+                            println("Exiting..")
+                            stop()
+                            exitProcess(0)
+                        }
+                    }.apply { start() }
+
                     SwingUtilities.invokeLater {
-                        JFrame().apply {
-                            defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-                            isVisible = true
-                            title = fmu.modelName
-                            setSize(400, 0)
-                            addWindowListener(object: WindowAdapter() {
-                                override fun windowClosed(e: WindowEvent) {
-                                    println("Exiting")
-                                    stop()
-                                }
-                            })
+                        createAndShowFrame(fmu.modelName) {
+                            stop()
                         }
                     }
 
-                    println("Press any key to exit..")
-                    if (Scanner(System.`in`).hasNext()) {
-                        println("Exiting")
-                        stop()
-                        exitProcess(0)
+                    while (true) {
+                        if (!stopped.get()) {
+                            Thread.sleep(1000)
+                        } else {
+                            break
+                        }
                     }
+
+                    exitProcess(0)
 
                 }
             }

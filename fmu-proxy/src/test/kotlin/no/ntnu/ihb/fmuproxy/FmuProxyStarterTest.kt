@@ -18,10 +18,12 @@ internal class FmuProxyStarterTest {
         )
         assert(fmuFile.exists())
 
-        val port = 9090
+        val port = 9091
         FmuProxyStarter.debugMain(
             arrayOf("$port")
         )
+
+        Thread.sleep(1000)
 
         RpcTcpClient("localhost", port).use { client ->
             val fmuPort = client.write(

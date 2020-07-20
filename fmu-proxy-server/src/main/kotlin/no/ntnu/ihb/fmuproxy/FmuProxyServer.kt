@@ -29,9 +29,6 @@ import java.io.Closeable
 import java.net.ServerSocket
 
 
-/**
- * @author Lars Ivar Hatledal
- */
 abstract class FmuProxyServer: Closeable {
 
     abstract val port: Int
@@ -41,9 +38,9 @@ abstract class FmuProxyServer: Closeable {
      * Start the server using some available port
      * @return the port used
      */
-    fun start(fmuProvider: AbstractFmu, shutdownSignal: (() -> Unit)? = null): Int {
+    fun start(fmu: AbstractFmu, shutdownSignal: (() -> Unit)? = null): Int {
         return getAvailablePort().also { port ->
-            start(port, fmuProvider, shutdownSignal)
+            start(port, fmu, shutdownSignal)
         }
     }
 
@@ -51,7 +48,7 @@ abstract class FmuProxyServer: Closeable {
      * Start the server using the provided port
      * @param port the port to use
      */
-    abstract fun start(port: Int, fmuProvider: AbstractFmu, shutdownSignal: (() -> Unit)? = null)
+    abstract fun start(port: Int, fmu: AbstractFmu, shutdownSignal: (() -> Unit)? = null)
 
     /**
      * Stop the server
