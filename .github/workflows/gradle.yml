@@ -32,7 +32,7 @@ jobs:
 
       - name: Build on Linux
         if: startsWith(runner.os, 'Linux')
-        run: sudo chmod +x gradlew && ./gradlew clean build shadowJar
+        run: sudo chmod +x gradlew && ./gradlew clean build installDist shadowJar
 
       - uses: actions/upload-artifact@v2
         with:
