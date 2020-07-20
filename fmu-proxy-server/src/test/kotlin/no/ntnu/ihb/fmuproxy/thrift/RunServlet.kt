@@ -13,8 +13,8 @@ object RunServlet {
     fun main(args: Array<String>) {
 
         Fmu.from(fmuPath).use { fmu ->
-            val server = ThriftFmuServlet{ fmu }.apply {
-                start(9091)
+            val server = ThriftFmuServlet().apply {
+                start(9091, fmu)
             }
 
             println("Press any key to quit..")

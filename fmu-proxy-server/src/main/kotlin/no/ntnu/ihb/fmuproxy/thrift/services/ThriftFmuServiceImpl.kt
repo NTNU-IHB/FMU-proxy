@@ -34,11 +34,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class ThriftFmuServiceImpl(
-        private val fmuProvider: () -> AbstractFmu,
+        private val fmu: AbstractFmu,
         private val shutdownSignal: (() -> Unit)?
 ) : FmuService.Iface {
-
-    private val fmu by lazy { fmuProvider.invoke() }
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)

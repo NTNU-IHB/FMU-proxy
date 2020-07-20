@@ -32,8 +32,9 @@ class LoadFmuTest {
 
     @Test
     fun loadFromFile() {
-        ThriftFmuSocketServer{ AbstractFmu.from(fmuFile) }.use { server ->
-            ThriftFmuClient.socketClient("localhost", server.start()).use { client ->
+        val fmu = AbstractFmu.from(fmuFile)
+        ThriftFmuSocketServer().use { server ->
+            ThriftFmuClient.socketClient("localhost", server.start(fmu)).use { client ->
                 assert(client)
             }
         }

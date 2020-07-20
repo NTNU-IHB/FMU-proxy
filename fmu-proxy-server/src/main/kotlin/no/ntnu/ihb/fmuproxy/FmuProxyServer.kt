@@ -24,6 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy
 
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import java.io.Closeable
 import java.net.ServerSocket
 
@@ -40,9 +41,9 @@ abstract class FmuProxyServer: Closeable {
      * Start the server using some available port
      * @return the port used
      */
-    fun start(shutdownSignal: (() -> Unit)? = null): Int {
+    fun start(fmuProvider: AbstractFmu, shutdownSignal: (() -> Unit)? = null): Int {
         return getAvailablePort().also { port ->
-            start(port, shutdownSignal)
+            start(port, fmuProvider, shutdownSignal)
         }
     }
 
@@ -50,7 +51,7 @@ abstract class FmuProxyServer: Closeable {
      * Start the server using the provided port
      * @param port the port to use
      */
-    abstract fun start(port: Int, shutdownSignal: (() -> Unit)? = null)
+    abstract fun start(port: Int, fmuProvider: AbstractFmu, shutdownSignal: (() -> Unit)? = null)
 
     /**
      * Stop the server

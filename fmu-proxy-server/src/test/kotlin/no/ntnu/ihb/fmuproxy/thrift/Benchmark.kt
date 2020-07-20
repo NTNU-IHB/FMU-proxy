@@ -33,8 +33,8 @@ class Benchmark {
 
             val vr = longArrayOf(46)
             val buffer = RealArray(vr.size)
-            ThriftFmuSocketServer{ fmu }.use { server ->
-                val port = server.start()
+            ThriftFmuSocketServer().use { server ->
+                val port = server.start(fmu)
                 for (i in 0..2) {
                     ThriftFmuClient.socketClient("localhost", port).use { client ->
 

@@ -75,17 +75,17 @@ class Args : Callable<FmuProxy> {
             return null
         }
 
-        val fmuProvider = { AbstractFmu.from(fmuFile!!) }
-        return FmuProxyBuilder().apply {
+        val fmu = AbstractFmu.from(fmuFile!!)
+        return FmuProxyBuilder(fmu).apply {
 
             thriftTcpPort?.also {
-                ThriftFmuSocketServer(fmuProvider).apply {
+                ThriftFmuSocketServer().apply {
                     addServer(this, it)
                 }
             }
 
             thriftHttpPort?.also {
-                ThriftFmuServlet(fmuProvider).apply {
+                ThriftFmuServlet().apply {
                     addServer(this, it)
                 }
             }

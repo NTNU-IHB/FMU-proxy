@@ -23,8 +23,8 @@ class TestThriftCS {
             "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
 
     private val modelDescription = fmu.modelDescription
-    private val server = ThriftFmuSocketServer{ fmu }
-    private val client = ThriftFmuClient.socketClient("localhost", server.start())
+    private val server = ThriftFmuSocketServer()
+    private val client = ThriftFmuClient.socketClient("localhost", server.start(fmu))
 
     @AfterAll
     fun tearDown() {

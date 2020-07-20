@@ -31,7 +31,7 @@ internal class FmuProxyStarterTest {
             ThriftFmuClient.socketClient("localhost", fmuPort).use {
                 Assertions.assertEquals("ControlledTemperature", it.modelDescription.modelName)
                 it.newInstance().use { slave ->
-                    slave.setupExperiment()
+                    Assertions.assertTrue(slave.simpleSetup())
                 }
             }
 

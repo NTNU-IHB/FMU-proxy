@@ -24,18 +24,29 @@
 
 package no.ntnu.ihb.fmuproxy
 
+import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.awt.event.WindowAdapter
+import java.awt.event.WindowEvent
+import java.awt.event.WindowListener
+import java.awt.event.WindowStateListener
 import java.io.Closeable
+import java.io.File
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
+import javax.swing.JFrame
+import javax.swing.SwingUtilities
+import kotlin.system.exitProcess
 
 class FmuProxy(
+    private val fmu: AbstractFmu,
     private val servers: Map<FmuProxyServer, Int>
 ) : Closeable {
 
     private var hasStarted = AtomicBoolean(false)
+    private var stopped = AtomicBoolean(false)
 
     /**
      * Start proxy
@@ -43,7 +54,7 @@ class FmuProxy(
     fun start() {
         if (!hasStarted.getAndSet(true)) {
             servers.forEach { (server, port) ->
-                server.start(port) { stop() }
+                server.start(port, fmu) { stop() }
             }
         }
     }
@@ -52,13 +63,11 @@ class FmuProxy(
      * Stop proxy
      */
     fun stop() {
-        if (hasStarted.get()) {
+        if (hasStarted.get() && stopped.getAndSet(true)) {
             servers.forEach {
                 it.key.stop()
             }
-            LOG.debug("FMU-proxy stopped!")
-        } else {
-            LOG.warn("Calling stop, but FMU-proxy has not started..")
+            LOG.info("FMU-proxy stopped!")
         }
     }
 
@@ -94,12 +103,31 @@ class FmuProxy(
 
             CommandLineParser.parse(args).also {
                 it?.apply {
+
                     start()
+
+                    SwingUtilities.invokeLater {
+                        JFrame().apply {
+                            defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+                            isVisible = true
+                            title = fmu.modelName
+                            setSize(400, 0)
+                            addWindowListener(object: WindowAdapter() {
+                                override fun windowClosed(e: WindowEvent) {
+                                    println("Exiting")
+                                    stop()
+                                }
+                            })
+                        }
+                    }
+
                     println("Press any key to exit..")
                     if (Scanner(System.`in`).hasNext()) {
-                        println("Exiting..")
+                        println("Exiting")
+                        stop()
+                        exitProcess(0)
                     }
-                    stop()
+
                 }
             }
         }
@@ -108,7 +136,9 @@ class FmuProxy(
 
 }
 
-class FmuProxyBuilder {
+class FmuProxyBuilder(
+    private val fmu: AbstractFmu
+) {
 
     private val servers = mutableMapOf<FmuProxyServer, Int>()
 
@@ -118,7 +148,7 @@ class FmuProxyBuilder {
     }
 
     fun build(): FmuProxy {
-        return FmuProxy(servers)
+        return FmuProxy(fmu, servers)
     }
 
 }

@@ -65,8 +65,8 @@ class Benchmark {
     fun measureTimeThriftSocket() {
 
         Assertions.assertTimeout(testTimeout) {
-            ThriftFmuSocketServer{ fmu }.use { server ->
-                val port = server.start()
+            ThriftFmuSocketServer().use { server ->
+                val port = server.start(fmu)
                 ThriftFmuClient.socketClient(host, port).use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {
@@ -86,8 +86,8 @@ class Benchmark {
         disableLog4jLoggers()
 
         Assertions.assertTimeout(testTimeout) {
-            ThriftFmuServlet{ fmu }.use { server ->
-                val port = server.start()
+            ThriftFmuServlet().use { server ->
+                val port = server.start(fmu)
                 ThriftFmuClient.servletClient(host, port).use { client ->
                     client.newInstance().use { slave ->
                         testSlave(slave).also {

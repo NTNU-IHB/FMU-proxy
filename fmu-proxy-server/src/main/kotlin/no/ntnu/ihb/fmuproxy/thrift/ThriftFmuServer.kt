@@ -47,9 +47,7 @@ interface IServer {
     fun stop()
 }
 
-abstract class ThriftFmuServer(
-        private val fmuProvider: () -> AbstractFmu
-) : FmuProxyServer() {
+abstract class ThriftFmuServer : FmuProxyServer() {
 
     companion object {
 
@@ -59,11 +57,11 @@ abstract class ThriftFmuServer(
     private var server: IServer? = null
     override var port: Int by Delegates.notNull()
 
-    override fun start(port: Int, shutdownSignal: (() -> Unit)?) {
+    override fun start(port: Int, fmu: AbstractFmu, shutdownSignal: (() -> Unit)?) {
 
         if (server == null) {
             this.port = port
-            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmuProvider, shutdownSignal))).apply {
+            this.server = setup(port, FmuService.Processor(ThriftFmuServiceImpl(fmu, shutdownSignal))).apply {
                 Thread { serve() }.start()
             }
 
@@ -87,9 +85,7 @@ abstract class ThriftFmuServer(
 }
 
 
-class ThriftFmuSocketServer(
-        fmuProvider: () -> AbstractFmu
-) : ThriftFmuServer(fmuProvider) {
+class ThriftFmuSocketServer: ThriftFmuServer() {
 
     override val simpleName = "thrift/tcp"
 
@@ -114,9 +110,7 @@ class ThriftFmuSocketServer(
 
 }
 
-class ThriftFmuServlet(
-        fmuProvider: () -> AbstractFmu
-) : ThriftFmuServer(fmuProvider) {
+class ThriftFmuServlet: ThriftFmuServer() {
 
     override val simpleName = "thrift/http"
 

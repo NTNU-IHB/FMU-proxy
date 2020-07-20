@@ -17,8 +17,8 @@ object RunSocketServer {
         println(fmuPath.absolutePath)
 
         Fmu.from(fmuPath).use { fmu ->
-            val server = ThriftFmuSocketServer { fmu }.apply {
-                start(9090)
+            val server = ThriftFmuSocketServer().apply {
+                start(9090, fmu)
             }
 
             println("Press any key to quit..")

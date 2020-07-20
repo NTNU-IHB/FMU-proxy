@@ -32,9 +32,9 @@ class TestProxy {
 
     }
 
-    private val proxy = FmuProxy(mapOf(
-            ThriftFmuSocketServer { fmu } to 9091,
-            ThriftFmuServlet { fmu } to 9092)
+    private val proxy = FmuProxy(fmu, mapOf(
+            ThriftFmuSocketServer() to 9091,
+            ThriftFmuServlet() to 9092)
     ).also {
         it.start()
     }
