@@ -28,18 +28,18 @@ jobs:
 
       - name: Build on Windows
         if: startsWith(runner.os, 'Windows')
-        run: ./gradlew clean build shadowJar
+        run: ./gradlew clean build shadowJar installDist
 
       - name: Build on Linux
         if: startsWith(runner.os, 'Linux')
-        run: sudo chmod +x gradlew && ./gradlew clean build installDist shadowJar
+        run: sudo chmod +x gradlew && ./gradlew clean build shadowJar installDist
 
       - uses: actions/upload-artifact@v2
         with:
           name: fmu-proxy
-          path: fmu-proxy/build/install/fmu-proxy
+          path: fmu-proxy/build/install
 
       - uses: actions/upload-artifact@v2
         with:
           name: fmu-proxy-server
-          path: fmu-proxy-server/build/libs
+          path: fmu-proxy-server/build/libs/fmu-proxy-server.jar
