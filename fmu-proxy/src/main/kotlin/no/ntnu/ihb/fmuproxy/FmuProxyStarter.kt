@@ -3,12 +3,9 @@ package no.ntnu.ihb.fmuproxy
 import info.laht.yajrpc.RpcHandler
 import info.laht.yajrpc.RpcMethod
 import info.laht.yajrpc.RpcService
-import info.laht.yajrpc.net.RpcServer
 import info.laht.yajrpc.net.tcp.RpcTcpServer
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStreamReader
 import java.net.ServerSocket
 import java.net.URL
 import java.nio.file.Files
@@ -76,9 +73,9 @@ class ProxyService : RpcService {
     fun createUrlProxy(urlString: String): Int {
         val file = Files.createTempFile("fmu-proxy", ".fmu").toFile().apply {
             FileOutputStream(this).buffered().write(
-                    URL(urlString).openStream().buffered().use {
-                        readBytes()
-                    }
+                URL(urlString).openStream().buffered().use {
+                    readBytes()
+                }
             )
             deleteOnExit()
         }
@@ -87,7 +84,10 @@ class ProxyService : RpcService {
 
     companion object {
 
-        private val proxyBin = File(FmuProxyStarter::class.java.classLoader.getResource("fmu-proxy.jar")!!.file)
+        private val proxyBin = File(
+            FmuProxyStarter::class.java.classLoader
+                .getResource("fmu-proxy-server.jar")!!.file
+        )
 
         private fun getAvailablePort(): Int {
             return ServerSocket(0).use {
@@ -101,11 +101,11 @@ class ProxyService : RpcService {
 
             val port = getAvailablePort()
             val cmd = arrayOf(
-                    "cmd", "/c",
-                    "java", "-jar",
-                    proxyBin.absolutePath,
-                    "-tcp", "$port",
-                    file.absolutePath
+                "cmd", "/c",
+                "java", "-jar",
+                proxyBin.absolutePath,
+                "-tcp", "$port",
+                file.absolutePath
             )
 
             val pb = ProcessBuilder()
