@@ -17,9 +17,12 @@ wrapper {
 
 subprojects { sub ->
 
+    version = "0.3.0"
+    group = "no.ntnu.ihb.fmuproxy"
+
     repositories {
         mavenCentral()
-        maven { url  "https://dl.bintray.com/ntnu-ihb/mvn"  }
+        maven { url  "https://dl.bintray.com/ntnu-ihb/mvn" }
     }
 
     dependencies {

@@ -1,9 +1,6 @@
 
 apply plugin: "maven-publish"
 
-group = "no.ntnu.ihb.fmuproxy"
-version = "0.2.0"
-
 publishing {
     publications {
         maven(MavenPublication) {
