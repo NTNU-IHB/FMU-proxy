@@ -101,7 +101,6 @@ class ProxyService : RpcService {
 
             val port = getAvailablePort()
             val cmd = arrayOf(
-                "cmd", "/c",
                 "java", "-jar",
                 proxyBin.absolutePath,
                 "-tcp", "$port",
