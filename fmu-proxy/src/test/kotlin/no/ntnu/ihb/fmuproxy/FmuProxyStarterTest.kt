@@ -30,6 +30,8 @@ internal class FmuProxyStarterTest {
                 "createLocalFileProxy", RpcParams.listParams(fmuFile.absolutePath), 5000
             ).get().getResult<Int>()!!
 
+            Thread.sleep(2000)
+
             ThriftFmuClient.socketClient("localhost", fmuPort).use {
                 Assertions.assertEquals("ControlledTemperature", it.modelDescription.modelName)
                 it.newInstance().use { slave ->
