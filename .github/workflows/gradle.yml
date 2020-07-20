@@ -37,7 +37,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: fmu-proxy
-          path: fmu-proxy/build/install
+          path: fmu-proxy/build/install/fmu-proxy
 
       - uses: actions/upload-artifact@v2
         with:
