@@ -30,4 +30,4 @@ task copyProxyJar(type: Copy) {
     dependsOn ":fmu-proxy-server:shadowJar"
 }
 
-build.dependsOn copyProxyJar
+assemble.dependsOn copyProxyJar
