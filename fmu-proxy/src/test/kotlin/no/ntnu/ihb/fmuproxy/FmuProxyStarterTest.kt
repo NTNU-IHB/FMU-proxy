@@ -20,14 +20,12 @@ internal class FmuProxyStarterTest {
 
         val port = 9090
         FmuProxyStarter.debugMain(
-            arrayOf(
-                "$port"
-            )
+            arrayOf("$port")
         )
 
         RpcTcpClient("localhost", port).use { client ->
             val fmuPort = client.write(
-                "createLocalFileProxy", RpcParams.listParams(fmuFile.absolutePath)
+                "createLocalFileProxy", RpcParams.listParams(fmuFile.absolutePath), 5000
             ).get().getResult<Int>()!!
 
             ThriftFmuClient.socketClient("localhost", fmuPort).use {
