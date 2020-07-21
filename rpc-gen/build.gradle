@@ -27,31 +27,34 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
                 generatedSrcDir.mkdirs()
 
-                try {
+                if (generatedSrcDir.listFiles().size() == 0) {
 
-                    exec {
-                        workingDir(projectDir)
-                        executable project.file('thrift')
-                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                "$definitions/defs.thrift"
-                    }
-                    exec {
-                        workingDir(projectDir)
-                        executable project.file('thrift')
-                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                "$definitions/service.thrift"
-                    }
-                    exec {
-                        workingDir(projectDir)
-                        executable project.file('thrift')
-                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                "$definitions/internal_service.thrift"
+                    try {
+
+                        exec {
+                            workingDir(projectDir)
+                            executable project.file('thrift')
+                            args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                                    "$definitions/defs.thrift"
+                        }
+                        exec {
+                            workingDir(projectDir)
+                            executable project.file('thrift')
+                            args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                                    "$definitions/service.thrift"
+                        }
+                        exec {
+                            workingDir(projectDir)
+                            executable project.file('thrift')
+                            args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                                    "$definitions/internal_service.thrift"
+                        }
+
+                    } catch (Exception ex) {
+                        println ex
                     }
 
-                } catch (Exception ex) {
-                    println ex
                 }
-
             }
 
             group 'thrift'
