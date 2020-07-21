@@ -23,6 +23,7 @@ internal class FmuProxyStarterTest {
         FmuProxyStarter.debugMain(
             arrayOf("$port")
         )
+        Thread.sleep(1000)
     }
 
     @Test
