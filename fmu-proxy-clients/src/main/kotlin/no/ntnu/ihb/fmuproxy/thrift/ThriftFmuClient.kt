@@ -90,7 +90,7 @@ class ThriftFmuClient private constructor(
         }
 
         override fun createInstance() {
-            client.instantiate(fmuId)
+            client.createInstance(fmuId)
         }
 
         override fun setupExperiment(start: Double, stop: Double, tolerance: Double): FmiStatus {
@@ -120,7 +120,7 @@ class ThriftFmuClient private constructor(
         }
 
         override fun freeInstance() {
-            client.close(fmuId)
+            client.shutdown(fmuId)
         }
 
         override fun readInteger(vr: List<ValueReference>): IntegerArrayRead {

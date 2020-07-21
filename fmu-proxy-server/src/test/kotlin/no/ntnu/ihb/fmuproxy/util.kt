@@ -7,7 +7,7 @@ import kotlin.system.measureTimeMillis
 
 internal inline fun runSlave(slave: InternalFmuService.Client, dt: Double, stop: Double, callback: () -> Unit = {}): Long {
 
-    slave.instantiate()
+    slave.createInstance()
     slave.setupExperiment(0.0, 0.0, 0.0)
     slave.enterInitializationMode()
     slave.exitInitializationMode()

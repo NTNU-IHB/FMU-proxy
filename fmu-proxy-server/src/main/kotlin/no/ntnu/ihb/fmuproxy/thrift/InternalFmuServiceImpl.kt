@@ -47,7 +47,7 @@ class InternalFmuServiceImpl(
     private val server: TNonblockingServer
     private lateinit var slave: SlaveInstance
 
-    internal val started = AtomicBoolean(false)
+    private val started = AtomicBoolean(false)
     internal val stopped = AtomicBoolean(false)
 
     init {
@@ -72,7 +72,7 @@ class InternalFmuServiceImpl(
         return fmu.modelDescription.asCoSimulationModelDescription().thriftType()
     }
 
-    override fun instantiate() {
+    override fun createInstance() {
         if (!fmu.supportsCoSimulation) {
             throw UnsupportedOperationException("FMU does not support Co-simulation!")
         }
@@ -116,14 +116,18 @@ class InternalFmuServiceImpl(
         return status.thriftType()
     }
 
+    override fun shutdown() {
+        Thread {
+            Thread.sleep(1000)
+            close()
+        }.start()
+    }
+
     override fun close() {
         if (started.get() && !stopped.get()) {
-            Thread {
-                Thread.sleep(2000)
-                server.stop()
-                stopped.set(true)
-                FmuProxy.LOG.info("FMU-proxy stopped!")
-            }.start()
+            server.stop()
+            stopped.set(true)
+            FmuProxy.LOG.info("FMU-proxy stopped!")
         }
     }
 
@@ -157,9 +161,7 @@ class InternalFmuServiceImpl(
     }
 
     override fun writeReal(vr: List<ValueReference>, value: List<Double>): Status {
-
         return slave.writeReal(vr.toLongArray(), value.toDoubleArray()).thriftType()
-
     }
 
     override fun writeString(vr: List<ValueReference>, value: List<String>): Status {

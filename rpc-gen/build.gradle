@@ -16,33 +16,32 @@ apply from: rootProject.file("gradle/bintraypublish.gradle")
 
 if (!getProperties().get("disableCodeGeneration", false)) {
 
-    def definitions = "../thrift"
-    def generatedSrcDir = "build/generated/java"
-    new File(generatedSrcDir).mkdirs()
+    def definitions = rootProject.file("thrift")
+    def generatedSrcDir = project.file("build/generated/java")
 
-    task generateThrift {
+    tasks.create('generateThrift') {
 
         doLast {
 
-            def out = new File("src/main/java")
-            if (!out.exists()) {
-                out.mkdirs()
-            }
+            generatedSrcDir.mkdirs()
 
             try {
 
                 exec {
-                    executable 'thrift'
+                    workingDir(projectDir)
+                    executable project.file('thrift')
                     args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/defs.thrift"
                 }
                 exec {
-                    executable 'thrift'
+                    workingDir(projectDir)
+                    executable project.file('thrift')
                     args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/service.thrift"
                 }
                 exec {
-                    executable 'thrift'
+                    workingDir(projectDir)
+                    executable project.file('thrift')
                     args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/internal_service.thrift"
                 }
@@ -60,4 +59,8 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
     sourceSets.main.java.srcDirs += generatedSrcDir
 
+}
+
+compileJava {
+    outputs.upToDateWhen { false }
 }

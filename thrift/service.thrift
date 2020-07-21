@@ -21,7 +21,7 @@ service FmuService {
 
     defs.ModelDescription get_model_description(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
 
-    void instantiate(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    void create_instance(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
 
     defs.Status setup_experiment(1: FmuId fmuId, 2: double start, 3: double stop, 4: double tolerance) throws (1: NoSuchFmuException ex)
     defs.Status enter_initialization_mode(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
@@ -30,7 +30,7 @@ service FmuService {
     defs.StepResult step(1: FmuId fmuId, 2: double stepSize) throws (1: NoSuchFmuException ex)
     defs.Status reset(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
     defs.Status terminate(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
-    void close(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
+    void shutdown(1: FmuId fmuId) throws (1: NoSuchFmuException ex)
 
     defs.IntegerRead read_integer(1: FmuId fmuId, 2: defs.ValueReferences vr) throws (1: NoSuchFmuException ex1, 2: defs.NoSuchVariableException ex2)
     defs.RealRead read_real(1: FmuId fmuId, 2: defs.ValueReferences vr) throws (1: NoSuchFmuException ex1, 2: defs.NoSuchVariableException ex2)

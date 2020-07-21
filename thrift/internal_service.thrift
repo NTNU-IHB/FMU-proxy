@@ -6,7 +6,7 @@ service InternalFmuService {
 
     defs.ModelDescription get_model_description()
 
-    void instantiate()
+    void create_instance()
 
     defs.Status setup_experiment(1: double start, 2: double stop, 3: double tolerance)
     defs.Status enter_initialization_mode()
@@ -15,7 +15,7 @@ service InternalFmuService {
     defs.StepResult step(1: double stepSize)
     defs.Status reset()
     defs.Status terminate()
-    void close()
+    void shutdown()
 
     defs.IntegerRead read_integer(1: defs.ValueReferences vr) throws (1: defs.NoSuchVariableException ex)
     defs.RealRead read_real(1: defs.ValueReferences vr) throws (1: defs.NoSuchVariableException ex)

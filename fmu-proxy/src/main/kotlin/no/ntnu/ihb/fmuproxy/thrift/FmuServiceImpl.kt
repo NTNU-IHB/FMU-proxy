@@ -20,7 +20,7 @@ typealias ValuesReferences = List<Long>
 
 class FmuServiceImpl(
     private val port: Int
-): FmuService.Iface, Closeable {
+) : FmuService.Iface, Closeable {
 
     private val fmuIdGen = AtomicInteger()
     private val server: TThreadedSelectorServer
@@ -44,18 +44,14 @@ class FmuServiceImpl(
         LOG.info("FMU-proxy listening for connections on port: $port")
     }
 
-    override fun close() {
-        server.stop()
-        LOG.debug("Stopping FMU-proxy ...")
-    }
-
     override fun loadFromUrl(url: String): FmuId {
-        val file = Files.createTempFile("fmu-proxy", ".fmu").toFile().apply {
-            FileOutputStream(this).buffered().write(
-                URL(url).openStream().buffered().use {
-                    readBytes()
-                }
-            )
+        LOG.info("Loading FMU from URL: '$url'")
+        val split = url.split("/")
+        val name = split[split.lastIndex].split(".").first()
+        val file = Files.createTempFile("${name}_", ".fmu").toFile().apply {
+            URL(url).openStream().buffered().use { bis ->
+                bis.copyTo(FileOutputStream(this))
+            }
             deleteOnExit()
         }
         val port = startProxy(file)
@@ -65,10 +61,10 @@ class FmuServiceImpl(
         clients[fmuId] = client
 
         return fmuId
-
     }
 
     override fun loadFromLocalFile(fileName: String): FmuId {
+        LOG.info("Loading FMU from local file: '$fileName'")
         val file = File(fileName)
         if (!file.exists()) {
             throw NoSuchFileException()
@@ -83,8 +79,11 @@ class FmuServiceImpl(
     }
 
     override fun loadFromRemoteFile(name: String, data: ByteBuffer): FmuId {
-        val file = Files.createTempFile(name, ".fmu").toFile().apply {
-            FileOutputStream(this).buffered().write(data.compact().array())
+        LOG.info("Loading FMU from remote file: '$name'")
+        val file = Files.createTempFile("${name}_", ".fmu").toFile().apply {
+            FileOutputStream(this).buffered().use { bos ->
+                bos.write(data.compact().array())
+            }
             deleteOnExit()
         }
 
@@ -105,8 +104,8 @@ class FmuServiceImpl(
         return getClient(fmuId).modelDescription
     }
 
-    override fun instantiate(fmuId: FmuId) {
-        getClient(fmuId).instantiate()
+    override fun createInstance(fmuId: FmuId) {
+        getClient(fmuId).createInstance()
     }
 
     override fun setupExperiment(fmuId: FmuId, start: Double, stop: Double, tolerance: Double): Status {
@@ -133,8 +132,16 @@ class FmuServiceImpl(
         return getClient(fmuId).terminate()
     }
 
-    override fun close(fmuId: FmuId) {
+    override fun shutdown(fmuId: FmuId) {
         return getClient(fmuId).close()
+    }
+
+    override fun close() {
+        clients.values.forEach { client ->
+            client.shutdown()
+        }
+        LOG.debug("Stopping FMU-proxy ...")
+        server.stop()
     }
 
     override fun readInteger(fmuId: FmuId, vr: ValuesReferences): IntegerRead {
@@ -208,6 +215,8 @@ class FmuServiceImpl(
                 command(*cmd)
                 start()
             }
+
+            LOG.info("Spawned new process serving FMU '${file.nameWithoutExtension}'")
 
             return port
         }

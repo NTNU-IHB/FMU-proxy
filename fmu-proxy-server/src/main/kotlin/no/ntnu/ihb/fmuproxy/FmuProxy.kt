@@ -26,18 +26,13 @@ package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.thrift.InternalFmuServiceImpl
-import no.ntnu.ihb.fmuproxy.util.JTextAreaOutputStream
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.awt.BorderLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.io.File
-import java.io.PrintStream
 import java.util.*
 import javax.swing.JFrame
-import javax.swing.JScrollPane
-import javax.swing.JTextArea
 import javax.swing.SwingUtilities
 import kotlin.system.exitProcess
 
@@ -48,31 +43,11 @@ object FmuProxy {
 
     private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
 
-        val textArea = JTextArea(20, 60).apply {
-            isEditable = false
-        }
-
-        JTextAreaOutputStream(textArea).also { out ->
-            System.setOut(PrintStream(out))
-            System.setErr(PrintStream(out))
-        }
-
         SwingUtilities.invokeLater {
             JFrame(title).apply {
 
                 defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-
-                contentPane.apply {
-                    layout = BorderLayout()
-                    add(
-                        JScrollPane(
-                            textArea,
-                            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-                        ),
-                        BorderLayout.CENTER
-                    )
-                }
+                setSize(250, 0)
 
                 addWindowListener(object : WindowAdapter() {
                     override fun windowClosed(e: WindowEvent) {
@@ -127,5 +102,3 @@ object FmuProxy {
     }
 
 }
-
-

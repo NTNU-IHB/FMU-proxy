@@ -55,3 +55,6 @@ __pycache__
 *.exe
 
 /**/vcpkg
+
+#log files
+*.out
