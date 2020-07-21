@@ -50,7 +50,7 @@ internal class FmuProxyStarterTest {
     @Test
     fun testLoadFromUrl() {
         ThriftFmuClient.socketClient("localhost", port).use { client ->
-            client.loadFromUrl(fmuFile.absoluteFile.toURI().toURL()).use { fmu ->
+            client.loadFromUrl(fmuFile.toURI().toURL()).use { fmu ->
                 Assertions.assertEquals("ControlledTemperature", fmu.modelDescription.modelName)
                 fmu.newInstance().use { instance ->
                     Assertions.assertTrue(instance.simpleSetup())
