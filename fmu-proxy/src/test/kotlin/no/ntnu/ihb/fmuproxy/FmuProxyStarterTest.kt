@@ -4,6 +4,8 @@ import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import java.io.File
 import kotlin.time.ExperimentalTime
 
@@ -48,6 +50,7 @@ internal class FmuProxyStarterTest {
     }
 
     @Test
+    @DisabledOnOs(OS.LINUX)
     fun testLoadFromUrl() {
         ThriftFmuClient.socketClient("localhost", port).use { client ->
             client.loadFromUrl(fmuFile.toURI().toURL()).use { fmu ->
