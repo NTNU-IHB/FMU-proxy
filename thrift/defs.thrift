@@ -1,32 +1,6 @@
-/*
- * The MIT License
- *
- * Copyright 2017-2019 Norwegian University of Technology (NTNU)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING  FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
 namespace cpp fmuproxy.thrift
 namespace java no.ntnu.ihb.fmuproxy.thrift
 
-typedef string FmuId
-typedef string InstanceId
 typedef i64 ValueReference
 typedef i64 FmuState
 typedef list<double> DirectionalDerivative
@@ -35,7 +9,6 @@ typedef list<i32> IntArray
 typedef list<double> RealArray
 typedef list<string> StringArray
 typedef list<bool> BooleanArray
-
 
 enum Status {
     OK_STATUS = 0,
@@ -175,33 +148,4 @@ exception UnsupportedOperationException {
 struct DirectionalDerivativeResult {
     1: DirectionalDerivative dv_unknown_ref
     2: Status status
-}
-
-service FmuService {
-
-    ModelDescription get_model_description()
-
-    void instantiate()
-
-    Status setup_experiment(1: double start, 2: double stop, 3: double tolerance)
-    Status enter_initialization_mode()
-    Status exit_initialization_mode()
-    
-    StepResult step(1: double stepSize)
-    Status reset()
-    Status terminate()
-    void close()
-
-    IntegerRead read_integer(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
-    RealRead read_real(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
-    StringRead read_string(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
-    BooleanRead read_boolean(1: ValueReferences vr) throws (1: NoSuchVariableException ex)
-
-    Status write_integer(1: ValueReferences vr, 2: IntArray value) throws (1: NoSuchVariableException ex)
-    Status write_real(1: ValueReferences vr, 2: RealArray value) throws (1: NoSuchVariableException ex)
-    Status write_string(1: ValueReferences vr, 2: StringArray value) throws (1: NoSuchVariableException ex)
-    Status write_boolean(1: ValueReferences vr, 2: BooleanArray value) throws (1: NoSuchVariableException ex)
-
-    DirectionalDerivativeResult get_directional_derivative(1: ValueReferences vUnknownRef, 2: ValueReferences vKnownRef, 3: list<double> dvKnownRef) throws (1: UnsupportedOperationException ex)
-    
 }

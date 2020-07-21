@@ -26,10 +26,19 @@ package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-abstract class AbstractRpcFmuClient : CoSimulationModel {
+typealias FmuId = Int
 
-    protected abstract fun instantiate()
+abstract class AbstractFmuClient(
+    protected val fmuId: FmuId
+) : CoSimulationModel {
+
+    abstract val implementationName: String
+    private var instance: FmuInstance? = null
+
+    protected abstract fun createInstance()
 
     protected abstract fun setupExperiment(start: Double, stop: Double, tolerance: Double): FmiStatus
     protected abstract fun enterInitializationMode(): FmiStatus
@@ -50,15 +59,31 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
     internal abstract fun writeString(vr: List<ValueReference>, value: List<String>): FmiStatus
     internal abstract fun writeBoolean(vr: List<ValueReference>, value: List<Boolean>): FmiStatus
 
-    internal abstract fun getDirectionalDerivative(vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): DirectionalDerivativeResult
+    internal abstract fun getDirectionalDerivative(
+        vUnknownRef: List<ValueReference>,
+        vKnownRef: List<ValueReference>,
+        dvKnownRef: List<Double>
+    ): DirectionalDerivativeResult
 
     override fun newInstance(instanceName: String): SlaveInstance {
-        instantiate()
-        return FmuInstance(instanceName)
+        createInstance()
+        return FmuInstance(instanceName).also { instance = it }
+    }
+
+    override fun close() {
+        LOG.debug("Closing '$implementationName' ...")
+        instance?.close()
+        LOG.debug("'$implementationName' closed..")
+    }
+
+    protected companion object {
+
+        private val LOG: Logger = LoggerFactory.getLogger(AbstractFmuClient::class.java)
+
     }
 
     inner class FmuInstance internal constructor(
-            override val instanceName: String
+        override val instanceName: String
     ) : SlaveInstance {
 
         override var isTerminated = false
@@ -67,24 +92,24 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         override var simulationTime: Double = 0.0
         override var lastStatus = FmiStatus.NONE
         override val modelDescription: CoSimulationModelDescription by lazy {
-            this@AbstractRpcFmuClient.modelDescription
+            this@AbstractFmuClient.modelDescription
         }
 
         override fun setupExperiment(start: Double, stop: Double, tolerance: Double): Boolean {
-            return this@AbstractRpcFmuClient.setupExperiment(start, stop, tolerance).also {
+            return this@AbstractFmuClient.setupExperiment(start, stop, tolerance).also {
                 simulationTime = start
                 lastStatus = it
             }.isOK()
         }
 
         override fun enterInitializationMode(): Boolean {
-            return this@AbstractRpcFmuClient.enterInitializationMode().also {
+            return this@AbstractFmuClient.enterInitializationMode().also {
                 lastStatus = it
             }.isOK()
         }
 
         override fun exitInitializationMode(): Boolean {
-            return this@AbstractRpcFmuClient.exitInitializationMode().also {
+            return this@AbstractFmuClient.exitInitializationMode().also {
                 lastStatus = it
             }.isOK()
         }
@@ -101,7 +126,7 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         override fun terminate(): Boolean {
             if (!isTerminated) {
                 return try {
-                    this@AbstractRpcFmuClient.terminate().let {
+                    this@AbstractFmuClient.terminate().let {
                         lastStatus = it
                         it == FmiStatus.OK
                     }
@@ -113,26 +138,30 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         }
 
         override fun reset(): Boolean {
-            return this@AbstractRpcFmuClient.reset().let {
+            return this@AbstractFmuClient.reset().let {
                 lastStatus = it
                 it == FmiStatus.OK
             }
         }
 
         override fun close() {
-            this@AbstractRpcFmuClient.terminate()
-            this@AbstractRpcFmuClient.freeInstance()
+            terminate()
+            freeInstance()
         }
 
-        override fun getDirectionalDerivative(vUnknownRef: ValueReferences, vKnownRef: ValueReferences, dvKnown: RealArray): RealArray {
-            return this@AbstractRpcFmuClient.getDirectionalDerivative(vKnownRef.toList(), vUnknownRef.toList(), dvKnown.toList()).let {
+        override fun getDirectionalDerivative(
+            vUnknownRef: ValueReferences,
+            vKnownRef: ValueReferences,
+            dvKnown: RealArray
+        ): RealArray {
+            return this@AbstractFmuClient.getDirectionalDerivative(vKnownRef.toList(), vUnknownRef.toList(), dvKnown.toList()).let {
                 lastStatus = it.status
                 it.directionalDerivative
             }
         }
 
         override fun readInteger(vr: ValueReferences, ref: IntArray): FmiStatus {
-            return this@AbstractRpcFmuClient.readInteger(vr.toList()).let {
+            return this@AbstractFmuClient.readInteger(vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
                 }
@@ -141,7 +170,7 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         }
 
         override fun readReal(vr: ValueReferences, ref: RealArray): FmiStatus {
-            return this@AbstractRpcFmuClient.readReal(vr.toList()).let {
+            return this@AbstractFmuClient.readReal(vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
                 }
@@ -150,7 +179,7 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         }
 
         override fun readString(vr: ValueReferences, ref: StringArray): FmiStatus {
-            return this@AbstractRpcFmuClient.readString(vr.toList()).let {
+            return this@AbstractFmuClient.readString(vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
                 }
@@ -159,7 +188,7 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         }
 
         override fun readBoolean(vr: ValueReferences, ref: BooleanArray): FmiStatus {
-            return this@AbstractRpcFmuClient.readBoolean(vr.toList()).let {
+            return this@AbstractFmuClient.readBoolean(vr.toList()).let {
                 it.value.forEachIndexed { i, v ->
                     ref[i] = v
                 }
@@ -168,19 +197,19 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
         }
 
         override fun writeInteger(vr: ValueReferences, value: IntArray): FmiStatus {
-            return this@AbstractRpcFmuClient.writeInteger(vr.toList(), value.toList()).also { lastStatus = it }
+            return this@AbstractFmuClient.writeInteger(vr.toList(), value.toList()).also { lastStatus = it }
         }
 
         override fun writeReal(vr: ValueReferences, value: RealArray): FmiStatus {
-            return this@AbstractRpcFmuClient.writeReal(vr.toList(), value.toList()).also { lastStatus = it }
+            return this@AbstractFmuClient.writeReal(vr.toList(), value.toList()).also { lastStatus = it }
         }
 
         override fun writeString(vr: ValueReferences, value: StringArray): FmiStatus {
-            return this@AbstractRpcFmuClient.writeString(vr.toList(), value.toList()).also { lastStatus = it }
+            return this@AbstractFmuClient.writeString(vr.toList(), value.toList()).also { lastStatus = it }
         }
 
         override fun writeBoolean(vr: ValueReferences, value: BooleanArray): FmiStatus {
-            return this@AbstractRpcFmuClient.writeBoolean(vr.toList(), value.toList()).also { lastStatus = it }
+            return this@AbstractFmuClient.writeBoolean(vr.toList(), value.toList()).also { lastStatus = it }
         }
 
         override fun getFMUstate(): FmuState {
@@ -206,3 +235,20 @@ abstract class AbstractRpcFmuClient : CoSimulationModel {
     }
 
 }
+
+class DirectionalDerivativeResult(
+    val directionalDerivative: RealArray,
+    val status: FmiStatus
+) {
+
+    override fun toString(): String {
+        return "DirectionalDerivativeResult(directionalDerivative=$directionalDerivative, status=$status)"
+    }
+
+}
+
+data class StepResult(
+    val simulationTime: Double,
+    val status: FmiStatus
+)
+

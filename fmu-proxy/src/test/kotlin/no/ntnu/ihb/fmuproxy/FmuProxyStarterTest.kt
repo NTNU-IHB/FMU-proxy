@@ -1,7 +1,5 @@
 package no.ntnu.ihb.fmuproxy
 
-import info.laht.yajrpc.RpcParams
-import info.laht.yajrpc.net.tcp.RpcTcpClient
 import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -19,25 +17,25 @@ internal class FmuProxyStarterTest {
         assert(fmuFile.exists())
 
         val port = 9091
-        FmuProxyStarter.debugMain(
-            arrayOf("$port")
-        )
+        FmuProxyStarter.debugMain(arrayOf(
+            "$port"
+        ))
 
-        val fmuPort = RpcTcpClient("localhost", port).use { client ->
-            client.write(
-                "createLocalFileProxy", RpcParams.listParams(fmuFile.absolutePath)
-            ).get().getResult<Int>()!!
-        }
+        ThriftFmuClient.socketClient("localhost", port).use { client ->
 
-        Thread.sleep(1000)
+            client.loadFromLocalFile(fmuFile).use { fmu ->
 
-        ThriftFmuClient.socketClient("localhost", fmuPort).use {
-            Assertions.assertEquals("ControlledTemperature", it.modelDescription.modelName)
-            it.newInstance().use { slave ->
-                Assertions.assertTrue(slave.simpleSetup())
+                Assertions.assertEquals("ControlledTemperature", fmu.modelDescription.modelName)
+
+                fmu.newInstance().use { instance ->
+
+                    Assertions.assertTrue(instance.simpleSetup())
+
+                }
+
             }
-        }
 
+        }
 
     }
 

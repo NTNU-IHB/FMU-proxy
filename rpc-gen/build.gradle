@@ -1,6 +1,4 @@
-
 plugins {
-    id 'kotlin'
     id 'java-library'
 }
 
@@ -17,13 +15,15 @@ apply from: rootProject.file("gradle/bintraypublish.gradle")
 
 
 if (!getProperties().get("disableCodeGeneration", false)) {
-    
-    def definitions = "../rpc-definitions"
 
-    tasks.create('generateThrift') {
+    def definitions = "../thrift"
+    def generatedSrcDir = "build/generated/java"
+    new File(generatedSrcDir).mkdirs()
+
+    task generateThrift {
 
         doLast {
-            
+
             def out = new File("src/main/java")
             if (!out.exists()) {
                 out.mkdirs()
@@ -33,15 +33,31 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
                 exec {
                     executable 'thrift'
-                    args '-r', '-out', 'src/main/java', '--gen', 'java:private-members,fullcamel', "$definitions/thrift/service.thrift"
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                            "$definitions/defs.thrift"
+                }
+                exec {
+                    executable 'thrift'
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                            "$definitions/service.thrift"
+                }
+                exec {
+                    executable 'thrift'
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                            "$definitions/internal_service.thrift"
                 }
 
             } catch (Exception ex) {
                 println ex
             }
-            
+
         }
 
+        group 'thrift'
+        compileJava.dependsOn generateThrift
+
     }
+
+    sourceSets.main.java.srcDirs += generatedSrcDir
 
 }

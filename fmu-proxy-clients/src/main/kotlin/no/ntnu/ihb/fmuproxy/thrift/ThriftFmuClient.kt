@@ -28,8 +28,9 @@ import no.ntnu.ihb.fmi4j.*
 import no.ntnu.ihb.fmi4j.modeldescription.CoSimulationModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.Real
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmuproxy.AbstractRpcFmuClient
+import no.ntnu.ihb.fmuproxy.AbstractFmuClient
 import no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult
+import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.StepResult
 import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -38,88 +39,38 @@ import org.apache.thrift.protocol.TProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
-
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.io.Closeable
+import java.io.File
+import java.io.FileInputStream
+import java.net.URL
+import java.nio.ByteBuffer
 
 class ThriftFmuClient private constructor(
-        private val protocol: TProtocol
-) : AbstractRpcFmuClient() {
+    private val protocol: TProtocol
+): Closeable {
 
     private val client = FmuService.Client(protocol)
 
-    override val modelDescription: CoSimulationModelDescription by lazy {
-        client.modelDescription.convert()
+    fun loadFromUrl(url: URL): AbstractFmuClient {
+        return ThriftFmu(client.loadFromUrl(url.toString()))
     }
 
-    override fun instantiate() {
-        client.instantiate()
+    fun loadFromLocalFile(file: File): AbstractFmuClient {
+        require(file.exists()) { "No such file: ${file.absolutePath}" }
+        require(file.name.endsWith(".fmu")) { "File must be an FMU!" }
+        return ThriftFmu(client.loadFromLocalFile(file.absolutePath))
     }
 
-    override fun setupExperiment(start: Double, stop: Double, tolerance: Double): FmiStatus {
-        return client.setupExperiment(start, stop, tolerance).convert()
-    }
+    fun loadFromRemoteFile(file: File): AbstractFmuClient {
+        require(file.exists()) { "No such file: ${file.absolutePath}" }
+        require(file.name.endsWith(".fmu")) { "File must be an FMU!" }
 
-    override fun enterInitializationMode(): FmiStatus {
-        return client.enterInitializationMode().convert()
-    }
-
-    override fun exitInitializationMode(): FmiStatus {
-        return client.exitInitializationMode().convert()
-    }
-
-    override fun step(stepSize: Double): StepResult {
-        return client.step(stepSize).let {
-            StepResult(it.simulationTime, it.status.convert())
+        val data = FileInputStream(file).buffered().use { fis ->
+            ByteBuffer.wrap(fis.readBytes())
         }
-    }
-
-    override fun reset(): FmiStatus {
-        return client.reset().convert()
-    }
-
-    override fun terminate(): FmiStatus {
-        return client.terminate().convert()
-    }
-
-    override fun freeInstance() {
-        client.close()
-    }
-
-    override fun readInteger(vr: List<ValueReference>): IntegerArrayRead {
-        return client.readInteger(vr).convert()
-    }
-
-    override fun readReal(vr: List<ValueReference>): RealArrayRead {
-        return client.readReal(vr).convert()
-    }
-
-    override fun readString(vr: List<ValueReference>): StringArrayRead {
-        return client.readString(vr).convert()
-    }
-
-    override fun readBoolean(vr: List<ValueReference>): BooleanArrayRead {
-        return client.readBoolean(vr).convert()
-    }
-
-    override fun writeInteger(vr: List<ValueReference>, value: List<Int>): FmiStatus {
-        return client.writeInteger(vr, value).convert()
-    }
-
-    override fun writeReal(vr: List<ValueReference>, value: List<Real>): FmiStatus {
-        return client.writeReal(vr, value).convert()
-    }
-
-    override fun writeString(vr: List<ValueReference>, value: List<String>): FmiStatus {
-        return client.writeString(vr, value).convert()
-    }
-
-    override fun writeBoolean(vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
-        return client.writeBoolean(vr, value).convert()
-    }
-
-    override fun getDirectionalDerivative(vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult {
-        return client.getDirectionalDerivative(vUnknownRef, vKnownRef, dvKnownRef).let {
-            DirectionalDerivativeResult(it.dvUnknownRef.toDoubleArray(), it.status.convert())
-        }
+        return ThriftFmu(client.loadFromRemoteFile(file.nameWithoutExtension, data))
     }
 
     override fun close() {
@@ -128,7 +79,94 @@ class ThriftFmuClient private constructor(
         }
     }
 
+    private inner class ThriftFmu(
+        fmuId: FmuId
+    ) : AbstractFmuClient(fmuId) {
+
+        override val implementationName: String = "ThriftClient"
+
+        override val modelDescription: CoSimulationModelDescription by lazy {
+            client.getModelDescription(fmuId).convert()
+        }
+
+        override fun createInstance() {
+            client.instantiate(fmuId)
+        }
+
+        override fun setupExperiment(start: Double, stop: Double, tolerance: Double): FmiStatus {
+            return client.setupExperiment(fmuId, start, stop, tolerance).convert()
+        }
+
+        override fun enterInitializationMode(): FmiStatus {
+            return client.enterInitializationMode(fmuId).convert()
+        }
+
+        override fun exitInitializationMode(): FmiStatus {
+            return client.exitInitializationMode(fmuId).convert()
+        }
+
+        override fun step(stepSize: Double):  StepResult {
+            return client.step(fmuId, stepSize).let {
+                StepResult(it.simulationTime, it.status.convert())
+            }
+        }
+
+        override fun reset(): FmiStatus {
+            return client.reset(fmuId).convert()
+        }
+
+        override fun terminate(): FmiStatus {
+            return client.terminate(fmuId).convert()
+        }
+
+        override fun freeInstance() {
+            client.close(fmuId)
+        }
+
+        override fun readInteger(vr: List<ValueReference>): IntegerArrayRead {
+            return client.readInteger(fmuId, vr).convert()
+        }
+
+        override fun readReal(vr: List<ValueReference>): RealArrayRead {
+            return client.readReal(fmuId, vr).convert()
+        }
+
+        override fun readString(vr: List<ValueReference>): StringArrayRead {
+            return client.readString(fmuId, vr).convert()
+        }
+
+        override fun readBoolean(vr: List<ValueReference>): BooleanArrayRead {
+            return client.readBoolean(fmuId, vr).convert()
+        }
+
+        override fun writeInteger(vr: List<ValueReference>, value: List<Int>): FmiStatus {
+            return client.writeInteger(fmuId, vr, value).convert()
+        }
+
+        override fun writeReal(vr: List<ValueReference>, value: List<Real>): FmiStatus {
+            return client.writeReal(fmuId, vr, value).convert()
+        }
+
+        override fun writeString(vr: List<ValueReference>, value: List<String>): FmiStatus {
+            return client.writeString(fmuId, vr, value).convert()
+        }
+
+        override fun writeBoolean(vr: List<ValueReference>, value: List<Boolean>): FmiStatus {
+            return client.writeBoolean(fmuId, vr, value).convert()
+        }
+
+        override fun getDirectionalDerivative(vUnknownRef: List<ValueReference>, vKnownRef: List<ValueReference>, dvKnownRef: List<Double>): no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult {
+            return client.getDirectionalDerivative(fmuId, vUnknownRef, vKnownRef, dvKnownRef).let {
+                DirectionalDerivativeResult(it.dvUnknownRef.toDoubleArray(), it.status.convert())
+            }
+        }
+
+    }
+
+
     companion object {
+
+        private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuClient::class.java)
 
         fun socketClient(host: String, port: Int): ThriftFmuClient {
             val transport = TFramedTransport.Factory().getTransport(TSocket(host, port))

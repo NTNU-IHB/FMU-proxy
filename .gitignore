@@ -1,5 +1,3 @@
-# Webstorm project files
-*.idea/
 
 #Java class files
 *.class
@@ -36,6 +34,7 @@ local.properties
 .settings/
 .loadpath
 
+*.idea/
 *.iml
 
 .nb-gradle/
@@ -48,22 +47,11 @@ generated/
 
 out/
 
-
 *.log
 **/logs/**
 
 __pycache__
 
-/**/web/src/main/webapp/resources/schemas/
-
-/**/cmake-build-debug
-/**/cmake-build-release
-
-/**/grpc_cpp_plugin
-/**/protoc
-
-/**/thrift
-!/**/fmuproxy/thrift
 *.exe
 
 /**/vcpkg

@@ -22,27 +22,51 @@
  * THE SOFTWARE.
  */
 
-package no.ntnu.ihb.fmuproxy.thrift.services
+package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmuproxy.thrift.*
+import no.ntnu.ihb.fmuproxy.FmuProxy
+import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
+import org.apache.thrift.protocol.TBinaryProtocol
+import org.apache.thrift.server.TNonblockingServer
+import org.apache.thrift.transport.TNonblockingServerSocket
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.Closeable
+import java.util.concurrent.atomic.AtomicBoolean
 
-class ThriftFmuServiceImpl(
-        private val fmu: AbstractFmu,
-        private val shutdownSignal: (() -> Unit)?
-) : FmuService.Iface {
+class InternalFmuServiceImpl(
+    port: Int,
+    private val fmu: AbstractFmu
+) : InternalFmuService.Iface, Closeable {
 
-    private companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuServiceImpl::class.java)
+    private val server: TNonblockingServer
+    private lateinit var slave: SlaveInstance
+
+    internal val started = AtomicBoolean(false)
+    internal val stopped = AtomicBoolean(false)
+
+    init {
+        val transport = TNonblockingServerSocket(port)
+        val processor = InternalFmuService.Processor(this)
+        server = TNonblockingServer(
+            TNonblockingServer.Args(transport)
+                .processor(processor)
+                .protocolFactory(TBinaryProtocol.Factory())
+        )
     }
 
-    private lateinit var slave: SlaveInstance
+    fun start() {
+        if (!started.getAndSet(true)) {
+            Thread {
+                server.serve()
+            }.start()
+        }
+    }
 
     override fun getModelDescription(): ModelDescription {
         return fmu.modelDescription.asCoSimulationModelDescription().thriftType()
@@ -93,10 +117,12 @@ class ThriftFmuServiceImpl(
     }
 
     override fun close() {
-        shutdownSignal?.also { signal ->
+        if (started.get() && !stopped.get()) {
             Thread {
                 Thread.sleep(2000)
-                signal.invoke()
+                server.stop()
+                stopped.set(true)
+                FmuProxy.LOG.info("FMU-proxy stopped!")
             }.start()
         }
     }
@@ -144,60 +170,24 @@ class ThriftFmuServiceImpl(
         return slave.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
     }
 
-    override fun getDirectionalDerivative(vUnkownRef: List<Long>, vKnownRef: List<Long>, dvUnkownRef: List<Double>): DirectionalDerivativeResult {
+    override fun getDirectionalDerivative(
+        vUnkownRef: List<Long>,
+        vKnownRef: List<Long>,
+        dvUnkownRef: List<Double>
+    ): DirectionalDerivativeResult {
         if (!slave.modelDescription.attributes.providesDirectionalDerivative) {
             throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
         }
-        val dvUnknown = slave.getDirectionalDerivative(vUnkownRef.toLongArray(), vKnownRef.toLongArray(), dvUnkownRef.toDoubleArray()).toList()
+        val dvUnknown = slave.getDirectionalDerivative(
+            vUnkownRef.toLongArray(),
+            vKnownRef.toLongArray(),
+            dvUnkownRef.toDoubleArray()
+        ).toList()
         return DirectionalDerivativeResult(dvUnknown, slave.lastStatus.thriftType())
     }
 
-//    override fun getFMUstate(): GetFmuStateResult {
-//        return getSlave(instanceId).let {
-//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-//            }
-//            GetFmuStateResult(it.getFMUstate(), it.lastStatus.thriftType())
-//        }
-//    }
-//
-//    override fun setFMUstate(, state: Long): Status {
-//        return getSlave(instanceId).let {
-//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-//            }
-//            it.setFMUstate(state)
-//            it.lastStatus.thriftType()
-//        }
-//    }
-//
-//    override fun freeFMUstate(, state: Long): Status {
-//        return getSlave(instanceId).let {
-//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-//            }
-//            it.freeFMUstate(state)
-//            it.lastStatus.thriftType()
-//        }
-//    }
-//
-//    override fun serializeFMUstate(, state: Long): SerializeFmuStateResult {
-//        return getSlave(instanceId).let {
-//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-//            }
-//            val bytes = ByteBuffer.wrap(it.serializeFMUstate(state))
-//            SerializeFmuStateResult(bytes, it.lastStatus.thriftType())
-//        }
-//    }
-//
-//    override fun deSerializeFMUstate(, state: ByteBuffer): DeSerializeFmuStateResult {
-//        return getSlave(instanceId).let {
-//            if (!it.modelDescription.attributes.canGetAndSetFMUstate) {
-//                throw UnsupportedOperationException("FMU instance does not have capability canGetAndSetFMUstate!")
-//            }
-//            DeSerializeFmuStateResult(it.deSerializeFMUstate(state.array()), it.lastStatus.thriftType())
-//        }
-//    }
+    private companion object {
+        private val LOG: Logger = LoggerFactory.getLogger(InternalFmuServiceImpl::class.java)
+    }
 
 }

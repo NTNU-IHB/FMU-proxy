@@ -25,17 +25,16 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
-import no.ntnu.ihb.fmuproxy.cli.CommandLineParser
+import no.ntnu.ihb.fmuproxy.thrift.InternalFmuServiceImpl
 import no.ntnu.ihb.fmuproxy.util.JTextAreaOutputStream
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.BorderLayout
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import java.io.Closeable
+import java.io.File
 import java.io.PrintStream
 import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JFrame
 import javax.swing.JScrollPane
 import javax.swing.JTextArea
@@ -43,157 +42,90 @@ import javax.swing.SwingUtilities
 import kotlin.system.exitProcess
 
 
-class FmuProxy(
-    private val fmu: AbstractFmu,
-    private val servers: Map<FmuProxyServer, Int>
-) : Closeable {
+object FmuProxy {
 
-    private var hasStarted = AtomicBoolean(false)
-    private var stopped = AtomicBoolean(false)
+    val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
 
-    /**
-     * Start proxy
-     */
-    fun start() {
-        if (!hasStarted.getAndSet(true)) {
-            servers.forEach { (server, port) ->
-                server.start(port, fmu) {
-                    stop()
+    private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
+
+        val textArea = JTextArea(20, 60).apply {
+            isEditable = false
+        }
+
+        JTextAreaOutputStream(textArea).also { out ->
+            System.setOut(PrintStream(out))
+            System.setErr(PrintStream(out))
+        }
+
+        SwingUtilities.invokeLater {
+            JFrame(title).apply {
+
+                defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+
+                contentPane.apply {
+                    layout = BorderLayout()
+                    add(
+                        JScrollPane(
+                            textArea,
+                            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                        ),
+                        BorderLayout.CENTER
+                    )
                 }
+
+                addWindowListener(object : WindowAdapter() {
+                    override fun windowClosed(e: WindowEvent) {
+                        println("Exiting..")
+                        stopSignal.invoke()
+                    }
+                })
+
+                pack()
+                isVisible = true
+
             }
         }
     }
 
-    /**
-     * Stop proxy
-     */
-    fun stop() {
-        if (hasStarted.get() && !stopped.getAndSet(true)) {
-            servers.forEach {
-                it.key.stop()
-            }
-            LOG.info("FMU-proxy stopped!")
-        }
-    }
+    @JvmStatic
+    fun main(args: Array<String>) {
 
-    /**
-     * Same as Stop()
-     */
-    override fun close() {
-        stop()
-    }
+        val port = args[0].toInt()
+        val fmuFile = File(args[1])
+        val fmu = AbstractFmu.from(fmuFile)
 
-    fun <T : FmuProxyServer> getServer(server: Class<T>): T? {
-        @Suppress("UNCHECKED_CAST")
-        return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) } as T
-    }
+        InternalFmuServiceImpl(port, fmu).apply {
 
-    fun getPortFor(server: Class<out FmuProxyServer>): Int? {
-        return servers.keys.firstOrNull { server.isAssignableFrom(it.javaClass) }?.port
-    }
+            start()
 
-    inline fun <reified T : FmuProxyServer> getPortFor(): Int? {
-        return getPortFor(T::class.java)
-    }
-
-    companion object {
-
-        val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
-
-        private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
-
-            val textArea = JTextArea(20, 60).apply {
-                isEditable = false
-            }
-
-            JTextAreaOutputStream(textArea).also { out ->
-                System.setOut(PrintStream(out))
-                System.setErr(PrintStream(out))
-            }
-
-            SwingUtilities.invokeLater {
-                JFrame(title).apply {
-
-                    defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-
-                    contentPane.apply {
-                        layout = BorderLayout()
-                        add(
-                            JScrollPane(
-                                textArea,
-                                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-                            ),
-                            BorderLayout.CENTER
-                        )
-                    }
-
-                    addWindowListener(object : WindowAdapter() {
-                        override fun windowClosed(e: WindowEvent) {
-                            println("Exiting..")
-                            stopSignal.invoke()
-                        }
-                    })
-
-                    pack()
-                    isVisible = true
-
-                }
-            }
-        }
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-
-            CommandLineParser.parse(args).also {
-                it?.apply {
-
-                    start()
-
-                    Thread {
-                        println("Press any key to exit..")
-                        if (Scanner(System.`in`).hasNext()) {
-                            println("Exiting..")
-                            stop()
-                            exitProcess(0)
-                        }
-                    }.apply { start() }
-
-                    createAndShowFrame(fmu.modelName) {
-                        stop()
-                    }
-
-                    while (true) {
-                        if (!stopped.get()) {
-                            Thread.sleep(1000)
-                        } else {
-                            break
-                        }
-                    }
-
+            Thread {
+                println("Press any key to exit..")
+                if (Scanner(System.`in`).hasNext()) {
+                    println("Exiting..")
+                    close()
                     exitProcess(0)
+                }
+            }.apply { start() }
 
+            createAndShowFrame(fmu.modelName) {
+                close()
+            }
+
+            while (true) {
+                if (!stopped.get()) {
+                    Thread.sleep(1000)
+                } else {
+                    break
                 }
             }
+
+            exitProcess(0)
+
         }
 
     }
 
 }
 
-class FmuProxyBuilder(
-    private val fmu: AbstractFmu
-) {
 
-    private val servers = mutableMapOf<FmuProxyServer, Int>()
-
-    fun addServer(server: FmuProxyServer, port: Int): FmuProxyBuilder {
-        servers[server] = port
-        return this
-    }
-
-    fun build(): FmuProxy {
-        return FmuProxy(fmu, servers)
-    }
-
-}

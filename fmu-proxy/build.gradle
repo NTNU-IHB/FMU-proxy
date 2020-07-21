@@ -12,12 +12,14 @@ repositories {
 }
 
 dependencies {
-    def yajrpc_version = "0.10.7"
-    implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc', version: yajrpc_version
-    //implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc-ws', version: yajrpc_version
-    implementation group: 'info.laht.yaj-rpc', name: 'yaj-rpc-tcp', version: yajrpc_version
+
+    implementation project(":rpc-gen")
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
     testImplementation project(':fmu-proxy-clients')
+
 }
 
 run {

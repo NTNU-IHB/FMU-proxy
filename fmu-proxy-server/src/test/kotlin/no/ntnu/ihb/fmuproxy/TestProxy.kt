@@ -1,10 +1,12 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuServlet
-import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuSocketServer
+import no.ntnu.ihb.fmuproxy.thrift.InternalFmuServiceImpl
+import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
 import no.ntnu.sfi.fmuproxy.TestUtils
+import org.apache.thrift.protocol.TBinaryProtocol
+import org.apache.thrift.transport.TFramedTransport
+import org.apache.thrift.transport.TSocket
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -21,29 +23,30 @@ class TestProxy {
 
         private val LOG: Logger = LoggerFactory.getLogger(TestProxy::class.java)
 
-        private val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(),
-                "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"))
+        private val fmu = Fmu.from(
+            File(
+                TestUtils.getTEST_FMUs(),
+                "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"
+            )
+        )
 
         private const val stepSize: Double = 1.0 / 100
         private const val stopTime: Double = 1.0
         private const val host = "localhost"
+        private const val port = 9090
 
         private val testTimeout = Duration.ofSeconds(10)
 
     }
 
-    private val proxy = FmuProxy(fmu, mapOf(
-            ThriftFmuSocketServer() to 9091,
-            ThriftFmuServlet() to 9092)
-    ).also {
+    private val proxy = InternalFmuServiceImpl(port, fmu).also {
         it.start()
     }
-
 
     @AfterAll
     fun tearDown() {
         Assertions.assertTimeout(Duration.ofSeconds(10)) {
-            proxy.stop()
+            proxy.close()
             fmu.close()
         }
     }
@@ -52,54 +55,25 @@ class TestProxy {
     fun testThriftSocket() {
 
         Assertions.assertTimeout(testTimeout) {
-            proxy.getPortFor<ThriftFmuSocketServer>()?.also { port ->
-                ThriftFmuClient.socketClient(host, port).use { client ->
 
-                    val mdLocal = fmu.modelDescription
-                    val mdRemote = client.modelDescription
+            val transport = TFramedTransport.Factory().getTransport(TSocket(host, port))
+            val protocol = TBinaryProtocol(transport)
+            transport.open()
+            val client = InternalFmuService.Client(protocol)
 
-                    Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-                    Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-                    Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
+            val mdLocal = fmu.modelDescription
+            val mdRemote = client.modelDescription
 
-                    client.newInstance().use { instance ->
+            Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
+            Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
+            Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
 
-                        runSlave(instance, stepSize, stopTime).also {
-                            LOG.info("Thrift (socket) duration: ${it}ms")
-                        }
-
-                    }
-                }
+            runSlave(client, stepSize, stopTime).also {
+                LOG.info("Thrift (socket) duration: ${it}ms")
             }
-        }
 
-    }
+            transport.close()
 
-    @Test
-    fun testThriftServlet() {
-
-        disableLog4jLoggers()
-
-        Assertions.assertTimeout(testTimeout) {
-            proxy.getPortFor<ThriftFmuServlet>()?.also { port ->
-                ThriftFmuClient.servletClient(host, port).use { client ->
-
-                    val mdLocal = fmu.modelDescription
-                    val mdRemote = client.modelDescription
-
-                    Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-                    Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-                    Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
-
-                    client.newInstance().use { instance ->
-
-                        runSlave(instance, stepSize, stopTime).also {
-                            LOG.info("Thrift (servlet) duration: ${it}ms")
-                        }
-
-                    }
-                }
-            }
         }
 
     }
