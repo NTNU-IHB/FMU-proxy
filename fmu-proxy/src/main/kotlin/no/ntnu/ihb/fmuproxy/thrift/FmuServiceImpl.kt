@@ -41,6 +41,9 @@ class FmuServiceImpl(
         Thread {
             server.serve()
         }.start()
+        while (!server.isServing) {
+            Thread.sleep(100)
+        }
         LOG.info("FMU-proxy listening for connections on port: $port")
     }
 
