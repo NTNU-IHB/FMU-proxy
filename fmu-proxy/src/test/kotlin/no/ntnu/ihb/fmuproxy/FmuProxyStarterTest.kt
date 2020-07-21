@@ -23,7 +23,6 @@ internal class FmuProxyStarterTest {
         FmuProxyStarter.debugMain(
             arrayOf("$port")
         )
-        Thread.sleep(1000)
     }
 
     @Test
@@ -51,7 +50,6 @@ internal class FmuProxyStarterTest {
     }
 
     @Test
-    @DisabledOnOs(OS.LINUX)
     fun testLoadFromUrl() {
         ThriftFmuClient.socketClient("localhost", port).use { client ->
             client.loadFromUrl(fmuFile.toURI().toURL()).use { fmu ->
