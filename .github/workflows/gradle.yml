@@ -32,9 +32,9 @@ jobs:
 
       - name: Build on Linux
         if: startsWith(runner.os, 'Linux')
-        run: sudo chmod +x gradlew && ./gradlew clean build shadowJar
+        run: sudo chmod +x gradlew && ./gradlew clean build installDist
 
       - uses: actions/upload-artifact@master
         with:
           name: fmu-proxy
-          path: fmu-proxy/build/libs
+          path: fmu-proxy/build/install

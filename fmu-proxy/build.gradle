@@ -2,7 +2,6 @@
 plugins {
     id "kotlin"
     id "application"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
 apply from: rootProject.file("gradle/junit.gradle")
@@ -35,10 +34,4 @@ run {
         args appArgs.split(" ")
     }
     standardInput = System.in
-}
-
-shadowJar {
-    archiveBaseName = 'fmu-proxy'
-    archiveClassifier = null
-    archiveVersion = null
 }
