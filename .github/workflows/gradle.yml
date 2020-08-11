@@ -28,7 +28,7 @@ jobs:
 
       - name: Build on Windows
         if: startsWith(runner.os, 'Windows')
-        run: ./gradlew clean build shadowJar
+        run: ./gradlew clean build installDist
 
       - name: Build on Linux
         if: startsWith(runner.os, 'Linux')
