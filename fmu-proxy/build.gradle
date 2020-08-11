@@ -2,7 +2,6 @@
 plugins {
     id "kotlin"
     id "application"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
 apply from: rootProject.file("gradle/junit.gradle")
@@ -13,7 +12,7 @@ dependencies {
 
     implementation project(":rpc-gen")
     
-    implementation group: 'info.picocli', name: 'picocli', version: '3.9.2'
+    implementation group: 'info.picocli', name: 'picocli', version: '4.5.0'
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
 
@@ -35,10 +34,4 @@ run {
         args appArgs.split(" ")
     }
     standardInput = System.in
-}
-
-shadowJar {
-    archiveBaseName = 'fmu-proxy'
-    archiveClassifier = null
-    archiveVersion = null
 }

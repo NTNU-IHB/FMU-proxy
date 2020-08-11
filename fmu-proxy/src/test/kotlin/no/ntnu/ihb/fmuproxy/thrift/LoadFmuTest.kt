@@ -37,7 +37,6 @@ class LoadFmuTest {
                 assert(it)
             }
         }
-
     }
 
     @Test

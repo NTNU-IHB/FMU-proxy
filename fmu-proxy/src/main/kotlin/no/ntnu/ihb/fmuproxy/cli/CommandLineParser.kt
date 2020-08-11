@@ -35,12 +35,14 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.Callable
 
-private const val VERSION = "0.6.1"
+private const val VERSION = "0.6.2"
 
 object CommandLineParser {
 
     fun parse(args: Array<String>): FmuProxy? {
-        return CommandLine.call(Args(), System.out, *args)
+        return CommandLine(Args()).apply {
+            execute(*args)
+        }.getExecutionResult()
     }
 
 }
