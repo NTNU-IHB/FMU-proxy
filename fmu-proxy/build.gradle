@@ -13,7 +13,7 @@ dependencies {
 
     implementation project(":rpc-gen")
     
-    implementation group: 'info.picocli', name: 'picocli', version: '3.9.2'
+    implementation group: 'info.picocli', name: 'picocli', version: '4.5.0'
 
     implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
 
