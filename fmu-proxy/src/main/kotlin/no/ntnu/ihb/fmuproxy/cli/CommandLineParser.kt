@@ -35,7 +35,7 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.Callable
 
-private const val VERSION = "0.6.2"
+private const val VERSION = "0.6.3"
 
 object CommandLineParser {
 
