@@ -8,7 +8,7 @@ println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.grpc_version = '1.25.0'
 ext.slf4j_version = '1.7.25'
-ext.fmi4j_version = '0.31.4'
+ext.fmi4j_version = '0.32.0'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -28,7 +28,7 @@ subprojects { sub ->
     dependencies {
 
         sub.plugins.withId('kotlin') {
-            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            implementation "org.jetbrains.kotlin:kotlin-stdlib"
         }
         
     }

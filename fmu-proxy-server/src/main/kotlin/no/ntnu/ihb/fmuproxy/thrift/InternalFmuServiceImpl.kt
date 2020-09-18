@@ -38,10 +38,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.thread
 
 class InternalFmuServiceImpl(
-    port: Int,
-    private val fmu: AbstractFmu
+        port: Int,
+        private val fmu: AbstractFmu
 ) : InternalFmuService.Iface, Closeable {
 
     private val server: TNonblockingServer
@@ -54,17 +55,17 @@ class InternalFmuServiceImpl(
         val transport = TNonblockingServerSocket(port)
         val processor = InternalFmuService.Processor(this)
         server = TNonblockingServer(
-            TNonblockingServer.Args(transport)
-                .processor(processor)
-                .protocolFactory(TBinaryProtocol.Factory())
+                TNonblockingServer.Args(transport)
+                        .processor(processor)
+                        .protocolFactory(TBinaryProtocol.Factory())
         )
     }
 
     fun start() {
         if (!started.getAndSet(true)) {
-            Thread {
+            thread(start = true) {
                 server.serve()
-            }.start()
+            }
         }
     }
 
@@ -117,10 +118,10 @@ class InternalFmuServiceImpl(
     }
 
     override fun shutdown() {
-        Thread {
+        thread(start=true) {
             Thread.sleep(1000)
             close()
-        }.start()
+        }
     }
 
     override fun close() {
@@ -173,17 +174,17 @@ class InternalFmuServiceImpl(
     }
 
     override fun getDirectionalDerivative(
-        vUnkownRef: List<Long>,
-        vKnownRef: List<Long>,
-        dvUnkownRef: List<Double>
+            vUnkownRef: List<Long>,
+            vKnownRef: List<Long>,
+            dvUnkownRef: List<Double>
     ): DirectionalDerivativeResult {
         if (!slave.modelDescription.attributes.providesDirectionalDerivative) {
             throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
         }
         val dvUnknown = slave.getDirectionalDerivative(
-            vUnkownRef.toLongArray(),
-            vKnownRef.toLongArray(),
-            dvUnkownRef.toDoubleArray()
+                vUnkownRef.toLongArray(),
+                vKnownRef.toLongArray(),
+                dvUnkownRef.toDoubleArray()
         ).toList()
         return DirectionalDerivativeResult(dvUnknown, slave.lastStatus.thriftType())
     }

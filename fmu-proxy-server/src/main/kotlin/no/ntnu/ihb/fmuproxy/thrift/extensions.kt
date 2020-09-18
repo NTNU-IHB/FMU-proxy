@@ -6,8 +6,8 @@ import no.ntnu.ihb.fmi4j.modeldescription.ModelStructure
 import no.ntnu.ihb.fmi4j.modeldescription.Unknown
 import no.ntnu.ihb.fmi4j.modeldescription.variables.*
 
-internal fun IntegerVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.IntegerAttribute {
-    return no.ntnu.ihb.fmuproxy.thrift.IntegerAttribute().also { attribute->
+internal fun IntegerVariable.thriftType(): IntegerAttribute {
+    return IntegerAttribute().also { attribute->
         min?.also { attribute.min = it }
         max?.also { attribute.max = it }
         start?.also { attribute.start = it }
@@ -15,8 +15,8 @@ internal fun IntegerVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.IntegerAt
     }
 }
 
-internal fun RealVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.RealAttribute {
-    return no.ntnu.ihb.fmuproxy.thrift.RealAttribute().also { attribute->
+internal fun RealVariable.thriftType(): RealAttribute {
+    return RealAttribute().also { attribute->
         min?.also { attribute.min = it }
         max?.also { attribute.max = it }
         start?.also { attribute.start = it }
@@ -24,20 +24,20 @@ internal fun RealVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.RealAttribut
     }
 }
 
-internal fun StringVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.StringAttribute {
-    return no.ntnu.ihb.fmuproxy.thrift.StringAttribute().also { attribute ->
+internal fun StringVariable.thriftType(): StringAttribute {
+    return StringAttribute().also { attribute ->
         start?.also { attribute.start = it }
     }
 }
 
-internal fun BooleanVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.BooleanAttribute {
-    return no.ntnu.ihb.fmuproxy.thrift.BooleanAttribute().also { attribute ->
+internal fun BooleanVariable.thriftType(): BooleanAttribute {
+    return BooleanAttribute().also { attribute ->
         start?.also { attribute.isStart = it }
     }
 }
 
-internal fun EnumerationVariable.thriftType(): no.ntnu.ihb.fmuproxy.thrift.EnumerationAttribute {
-    return no.ntnu.ihb.fmuproxy.thrift.EnumerationAttribute().also { attribute->
+internal fun EnumerationVariable.thriftType(): EnumerationAttribute {
+    return EnumerationAttribute().also { attribute->
         min?.also { attribute.min = it }
         max?.also { attribute.max = it }
         start?.also { attribute.start = it }
@@ -80,7 +80,7 @@ internal fun DefaultExperiment.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Default
 }
 
 internal fun Unknown.thriftType(): no.ntnu.ihb.fmuproxy.thrift.Unknown {
-    return no.ntnu.ihb.fmuproxy.thrift.Unknown().also { u ->
+    return Unknown().also { u ->
         u.index = index
         u.dependencies = dependencies
         u.dependenciesKind = dependenciesKind

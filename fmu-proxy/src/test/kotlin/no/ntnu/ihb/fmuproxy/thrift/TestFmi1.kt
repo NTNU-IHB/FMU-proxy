@@ -1,25 +1,34 @@
 package no.ntnu.ihb.fmuproxy.thrift
 
 import no.ntnu.ihb.fmi4j.importer.fmi1.Fmu
-import no.ntnu.sfi.fmuproxy.TestUtils
+import no.ntnu.ihb.fmuproxy.FmuProxyStarter
+import no.ntnu.ihb.fmuproxy.TestUtils
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.io.File
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TestFmi1 {
+
+    private val port = 9090
+    private val fmuFile = File(TestUtils.getTEST_FMUs(), "1.0/identity.fmu")
+    private val md = Fmu.from(fmuFile).use {
+        it.modelDescription
+    }
+
+    init {
+        FmuProxyStarter.debugMain(arrayOf("$port"))
+    }
 
     @Test
     fun testFmi1() {
-        val fmu = Fmu.from(File(TestUtils.getTEST_FMUs(), "1.0/identity.fmu"))
-        val md = fmu.modelDescription
-        ThriftFmuSocketServer().apply { addFmu(fmu) }.use { server ->
-            ThriftFmuClient.socketClient("localhost", server.start()).load(md.guid).use {
-
-                Assertions.assertEquals(md.modelName, it.modelDescription.modelName)
-
+        ThriftFmuClient.socketClient("localhost", port).use { client ->
+            client.loadFromLocalFile(fmuFile).use { fmu ->
+                Assertions.assertEquals(md.modelName, fmu.modelDescription.modelName)
+                fmu.newInstance().use { }
             }
         }
-        fmu.close()
     }
 
 }
