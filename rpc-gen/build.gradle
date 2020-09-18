@@ -40,7 +40,9 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     }
 
     if(!thriftCompiler.exists()) {
-        throw new GradleException("Could not locate thrift compiler!")
+        throw new GradleException("Could not locate thrift-compiler!")
+    } else {
+        println("Found thrift-compiler: $thriftCompiler")
     }
 
     tasks.create('generateThrift') {
