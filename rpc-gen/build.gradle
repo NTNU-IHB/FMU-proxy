@@ -24,13 +24,19 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
     def os = OperatingSystem.current()
 
+    Object thriftCompiler = null
     if (os.isWindows()) {
         def thriftFile = project.file('thrift.exe')
         if (!thriftFile.exists()) {
             def url = new URL("https://apache.uib.no/thrift/0.13.0/thrift-0.13.0.exe")
             thriftFile << url.getBytes()
         }
+        thriftCompiler = project.file('thrift')
+    } else {
+        thriftCompiler = 'thrift'
     }
+
+    println thriftCompiler
 
     tasks.create('generateThrift') {
 
@@ -42,19 +48,19 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
                 exec {
                     workingDir(projectDir)
-                    executable project.file('thrift')
+                    executable thriftCompiler
                     args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/defs.thrift"
                 }
                 exec {
                     workingDir(projectDir)
-                    executable project.file('thrift')
+                    executable thriftCompiler
                     args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/service.thrift"
                 }
                 exec {
                     workingDir(projectDir)
-                    executable project.file('thrift')
+                    executable thriftCompiler
                     args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/internal_service.thrift"
                 }
