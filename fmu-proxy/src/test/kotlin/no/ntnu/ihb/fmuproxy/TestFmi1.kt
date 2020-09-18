@@ -1,8 +1,7 @@
-package no.ntnu.ihb.fmuproxy.thrift
+package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.fmi1.Fmu
-import no.ntnu.ihb.fmuproxy.FmuProxyStarter
-import no.ntnu.ihb.fmuproxy.TestUtils
+import no.ntnu.ihb.fmuproxy.thrift.ThriftFmuClient
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -23,7 +22,7 @@ internal class TestFmi1 {
 
     @Test
     fun testFmi1() {
-        ThriftFmuClient.socketClient("localhost", port).use { client ->
+        ThriftFmuClient("localhost", port).use { client ->
             client.loadFromLocalFile(fmuFile).use { fmu ->
                 Assertions.assertEquals(md.modelName, fmu.modelDescription.modelName)
                 fmu.newInstance().use { }

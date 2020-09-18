@@ -24,7 +24,7 @@ internal class FmuProxyStarterTest {
 
     @Test
     fun testLoadFromLocalFile() {
-        ThriftFmuClient.socketClient("localhost", port).use { client ->
+        ThriftFmuClient("localhost", port).use { client ->
             client.loadFromLocalFile(fmuFile).use { fmu ->
                 Assertions.assertEquals("ControlledTemperature", fmu.modelDescription.modelName)
                 fmu.newInstance().use { instance ->
@@ -36,7 +36,7 @@ internal class FmuProxyStarterTest {
 
     @Test
     fun testLoadFromRemoteFile() {
-        ThriftFmuClient.socketClient("localhost", port).use { client ->
+        ThriftFmuClient("localhost", port).use { client ->
             client.loadFromRemoteFile(fmuFile).use { fmu ->
                 Assertions.assertEquals("ControlledTemperature", fmu.modelDescription.modelName)
                 fmu.newInstance().use { instance ->
@@ -48,7 +48,7 @@ internal class FmuProxyStarterTest {
 
     @Test
     fun testLoadFromUrl() {
-        ThriftFmuClient.socketClient("localhost", port).use { client ->
+        ThriftFmuClient("localhost", port).use { client ->
             client.loadFromUrl(fmuFile.toURI().toURL()).use { fmu ->
                 Assertions.assertEquals("ControlledTemperature", fmu.modelDescription.modelName)
                 fmu.newInstance().use { instance ->
@@ -63,7 +63,7 @@ internal class FmuProxyStarterTest {
     fun testRun() {
         val dt = 1e-2
         val stop = 10.0
-        ThriftFmuClient.socketClient("localhost", port).use { client ->
+        ThriftFmuClient("localhost", port).use { client ->
             client.loadFromLocalFile(fmuFile).use { fmu ->
                 fmu.newInstance().use {
                     val elapsed = runSlave(it, dt, stop)
