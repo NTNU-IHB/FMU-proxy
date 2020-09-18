@@ -31,8 +31,8 @@ jobs:
         run: ./gradlew clean build installDist
 
       - name: Fetch thrift (Linux)
-          if: startsWith(runner.os, 'Linux')
-          run: sudo apt-get update && apt-get install thrift
+        if: startsWith(runner.os, 'Linux')
+        run: sudo apt-get update && apt-get install thrift
 
       - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
