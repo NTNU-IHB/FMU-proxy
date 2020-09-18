@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem;
+
 plugins {
     id 'java-library'
 }
@@ -19,10 +21,15 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     def generatedSrcDir = project.file("build/generated/src/main/thrift")
     sourceSets.main.java.srcDirs += generatedSrcDir
 
-    def thriftFile = project.file('thrift.exe')
-    if (!thriftFile.exists()) {
-        def url = new URL("https://apache.uib.no/thrift/0.13.0/thrift-0.13.0.exe")
-        thriftFile << url.getBytes()
+
+    def os = OperatingSystem.current()
+
+    if (os.isWindows()) {
+        def thriftFile = project.file('thrift.exe')
+        if (!thriftFile.exists()) {
+            def url = new URL("https://apache.uib.no/thrift/0.13.0/thrift-0.13.0.exe")
+            thriftFile << url.getBytes()
+        }
     }
 
     tasks.create('generateThrift') {
@@ -64,3 +71,4 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     }
 
 }
+

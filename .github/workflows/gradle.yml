@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -26,11 +26,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build on Windows
+      - name: Build (Windows)
         if: startsWith(runner.os, 'Windows')
         run: ./gradlew clean build installDist
 
-      - name: Build on Linux
+      - name: Fetch thrift (Linux)
+          if: startsWith(runner.os, 'Linux')
+          run: sudo apt-get update && apt-get install thrift
+
+      - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
         run: sudo chmod +x gradlew && ./gradlew clean build installDist
 
