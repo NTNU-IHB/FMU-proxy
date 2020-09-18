@@ -14,8 +14,7 @@ internal class FmuProxyStarterTest {
 
     private val port = 9091
     private val fmuFile = File(TestUtils.getTEST_FMUs(), "2.0/cs/20sim/" +
-            "4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"
-    )
+            "4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
     init {
         Assertions.assertTrue(fmuFile.exists())
