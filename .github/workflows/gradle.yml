@@ -33,7 +33,7 @@ jobs:
       - name: Fetch thrift (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
-          sudo apt-get install thrift
+          sudo apt-get install thrift-compiler
         shell: bash
 
       - name: Build (Linux)
