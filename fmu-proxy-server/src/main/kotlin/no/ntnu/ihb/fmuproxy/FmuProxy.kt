@@ -34,12 +34,51 @@ import java.io.File
 import java.util.*
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
+import kotlin.concurrent.thread
 import kotlin.system.exitProcess
-
 
 object FmuProxy {
 
     val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+
+        val port = args[0].toInt()
+        val fmuFile = File(args[1])
+        val fmu = AbstractFmu.from(fmuFile)
+
+        InternalFmuServiceImpl(port, fmu).apply {
+
+            start()
+
+            thread(start = true) {
+                println("Press any key to exit..")
+                if (Scanner(System.`in`).hasNext()) {
+                    println("Exiting..")
+                    close()
+                    exitProcess(0)
+                }
+            }
+
+            createAndShowFrame(fmu.modelName) {
+                close()
+            }
+
+            while (true) {
+                if (!stopped.get()) {
+                    Thread.sleep(1000)
+                } else {
+                    break
+                }
+            }
+
+            exitProcess(0)
+
+        }
+
+    }
+
 
     private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
 
@@ -63,42 +102,5 @@ object FmuProxy {
         }
     }
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-
-        val port = args[0].toInt()
-        val fmuFile = File(args[1])
-        val fmu = AbstractFmu.from(fmuFile)
-
-        InternalFmuServiceImpl(port, fmu).apply {
-
-            start()
-
-            Thread {
-                println("Press any key to exit..")
-                if (Scanner(System.`in`).hasNext()) {
-                    println("Exiting..")
-                    close()
-                    exitProcess(0)
-                }
-            }.apply { start() }
-
-            createAndShowFrame(fmu.modelName) {
-                close()
-            }
-
-            while (true) {
-                if (!stopped.get()) {
-                    Thread.sleep(1000)
-                } else {
-                    break
-                }
-            }
-
-            exitProcess(0)
-
-        }
-
-    }
 
 }

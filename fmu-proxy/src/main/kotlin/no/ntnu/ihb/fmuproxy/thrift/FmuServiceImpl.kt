@@ -14,6 +14,7 @@ import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.file.Files
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.concurrent.thread
 
 typealias FmuId = Int
 typealias ValuesReferences = List<Long>
@@ -38,9 +39,9 @@ class FmuServiceImpl(
     }
 
     fun startServer() {
-        Thread {
+        thread (start=true) {
             server.serve()
-        }.start()
+        }
         while (!server.isServing) {
             Thread.sleep(100)
         }

@@ -7,10 +7,6 @@ apply from: rootProject.file("gradle/junit.gradle")
 
 mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxyStarter"
 
-repositories {
-    maven { url "https://dl.bintray.com/laht/mvn" }
-}
-
 dependencies {
 
     implementation project(":rpc-gen")

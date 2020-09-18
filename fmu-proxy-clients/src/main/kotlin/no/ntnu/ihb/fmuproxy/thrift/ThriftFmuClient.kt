@@ -47,11 +47,20 @@ import java.io.FileInputStream
 import java.net.URL
 import java.nio.ByteBuffer
 
-class ThriftFmuClient private constructor(
-    private val protocol: TProtocol
+class ThriftFmuClient(
+        host: String,
+        port: Int
 ): Closeable {
 
-    private val client = FmuService.Client(protocol)
+    private val protocol: TProtocol
+    private val client: FmuService.Client
+
+    init {
+        val transport = TFramedTransport.Factory().getTransport(TSocket(host, port))
+        protocol = TBinaryProtocol(transport)
+        client = FmuService.Client(protocol)
+        transport.open()
+    }
 
     fun loadFromUrl(url: URL): AbstractFmuClient {
         return ThriftFmu(client.loadFromUrl(url.toString()))
@@ -159,28 +168,6 @@ class ThriftFmuClient private constructor(
             return client.getDirectionalDerivative(fmuId, vUnknownRef, vKnownRef, dvKnownRef).let {
                 DirectionalDerivativeResult(it.dvUnknownRef.toDoubleArray(), it.status.convert())
             }
-        }
-
-    }
-
-
-    companion object {
-
-        private val LOG: Logger = LoggerFactory.getLogger(ThriftFmuClient::class.java)
-
-        fun socketClient(host: String, port: Int): ThriftFmuClient {
-            val transport = TFramedTransport.Factory().getTransport(TSocket(host, port))
-            val protocol = TBinaryProtocol(transport)
-            transport.open()
-            return ThriftFmuClient(protocol)
-        }
-
-        fun servletClient(host: String, port: Int): ThriftFmuClient {
-            val client = HttpClientBuilder.create().build()
-            val protocol = TJSONProtocol(THttpClient("http://$host:$port/thrift", client)).also {
-                it.transport.open()
-            }
-            return ThriftFmuClient(protocol)
         }
 
     }

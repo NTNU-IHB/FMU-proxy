@@ -26,20 +26,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build on Windows
+      - name: Build (Windows)
         if: startsWith(runner.os, 'Windows')
-        run: ./gradlew clean build shadowJar installDist
+        run: ./gradlew clean build installDist
 
-      - name: Build on Linux
+      - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
-        run: sudo chmod +x gradlew && ./gradlew clean build shadowJar installDist
+        run: |
+          sudo chmod +x gradlew && ./gradlew clean build installDist
+        shell: bash
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: fmu-proxy
-          path: fmu-proxy/build/install
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: fmu-proxy
+#          path: fmu-proxy/build/install
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: fmu-proxy-server
-          path: fmu-proxy-server/build/libs/fmu-proxy-server.jar
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: fmu-proxy-server
+#          path: fmu-proxy-server/build/libs/fmu-proxy-server.jar

@@ -1,25 +1,48 @@
+import org.gradle.internal.os.OperatingSystem;
+
 plugins {
     id 'java-library'
 }
 
 apply from: rootProject.file("gradle/mavenpublish.gradle")
+apply from: rootProject.file("gradle/bintraypublish.gradle")
+
+def thrift_version = "0.13.0"
 
 dependencies {
 
-    api group: 'org.apache.thrift', name: 'libthrift', version: '0.12.0'
+    api group: 'org.apache.thrift', name: 'libthrift', version: thrift_version
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
 }
 
-apply from: rootProject.file("gradle/bintraypublish.gradle")
-
 
 if (!getProperties().get("disableCodeGeneration", false)) {
 
-    def definitions = rootProject.file("thrift")
+    def definitions = project.file("src/main/thrift")
     def generatedSrcDir = project.file("src/main/java")
 
-    if (project.file('thrift.exe').exists()) {
+    if (generatedSrcDir.listFiles().size() == 0) {
+
+        def os = OperatingSystem.current()
+
+        Object thriftCompiler = null
+        if (os.isWindows()) {
+            def thriftFile = project.file('thrift.exe')
+            if (!thriftFile.exists()) {
+                def url = new URL("https://apache.uib.no/thrift/$thrift_version/thrift-$thrift_version.exe")
+                thriftFile << url.getBytes()
+            }
+            thriftCompiler = project.file('thrift.exe')
+        } else {
+            thriftCompiler = new File("/usr/bin/thrift")
+        }
+
+        if(!thriftCompiler.exists()) {
+            throw new GradleException("Could not locate thrift-compiler!")
+        } else {
+            println("Found thrift-compiler: $thriftCompiler")
+        }
 
         tasks.create('generateThrift') {
 
@@ -27,41 +50,38 @@ if (!getProperties().get("disableCodeGeneration", false)) {
 
                 generatedSrcDir.mkdirs()
 
-                if (generatedSrcDir.listFiles().size() == 0) {
+                try {
 
-                    try {
-
-                        exec {
-                            workingDir(projectDir)
-                            executable project.file('thrift')
-                            args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                    "$definitions/defs.thrift"
-                        }
-                        exec {
-                            workingDir(projectDir)
-                            executable project.file('thrift')
-                            args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                    "$definitions/service.thrift"
-                        }
-                        exec {
-                            workingDir(projectDir)
-                            executable project.file('thrift')
-                            args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                    "$definitions/internal_service.thrift"
-                        }
-
-                    } catch (Exception ex) {
-                        println ex
+                    exec {
+                        workingDir(projectDir)
+                        executable thriftCompiler
+                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                                "$definitions/defs.thrift"
+                    }
+                    exec {
+                        workingDir(projectDir)
+                        executable thriftCompiler
+                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                                "$definitions/service.thrift"
+                    }
+                    exec {
+                        workingDir(projectDir)
+                        executable thriftCompiler
+                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                                "$definitions/internal_service.thrift"
                     }
 
+                } catch (Exception ex) {
+                    println ex
                 }
+
             }
 
             group 'thrift'
             compileJava.dependsOn generateThrift
 
         }
-
     }
 
 }
+
