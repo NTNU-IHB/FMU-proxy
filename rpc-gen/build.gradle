@@ -19,45 +19,47 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     def generatedSrcDir = project.file("build/generated/src/main/thrift")
     sourceSets.main.java.srcDirs += generatedSrcDir
 
-    if (project.file('thrift.exe').exists()) {
+    def thriftFile = project.file('thrift.exe')
+    if (!thriftFile.exists()) {
+        def url = new URL("https://apache.uib.no/thrift/0.13.0/thrift-0.13.0.exe")
+        thriftFile << url.getBytes()
+    }
 
-        tasks.create('generateThrift') {
+    tasks.create('generateThrift') {
 
-            doLast {
+        doLast {
 
-                generatedSrcDir.mkdirs()
+            generatedSrcDir.mkdirs()
 
-                try {
+            try {
 
-                    exec {
-                        workingDir(projectDir)
-                        executable project.file('thrift')
-                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                "$definitions/defs.thrift"
-                    }
-                    exec {
-                        workingDir(projectDir)
-                        executable project.file('thrift')
-                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                "$definitions/service.thrift"
-                    }
-                    exec {
-                        workingDir(projectDir)
-                        executable project.file('thrift')
-                        args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
-                                "$definitions/internal_service.thrift"
-                    }
-
-                } catch (Exception ex) {
-                    println ex
+                exec {
+                    workingDir(projectDir)
+                    executable project.file('thrift')
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                            "$definitions/defs.thrift"
+                }
+                exec {
+                    workingDir(projectDir)
+                    executable project.file('thrift')
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                            "$definitions/service.thrift"
+                }
+                exec {
+                    workingDir(projectDir)
+                    executable project.file('thrift')
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                            "$definitions/internal_service.thrift"
                 }
 
+            } catch (Exception ex) {
+                println ex
             }
 
-            group 'thrift'
-            compileJava.dependsOn generateThrift
-
         }
+
+        group 'thrift'
+        compileJava.dependsOn generateThrift
 
     }
 
