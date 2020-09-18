@@ -33,9 +33,9 @@ if (!getProperties().get("disableCodeGeneration", false)) {
         }
         thriftCompiler = project.file('thrift.exe')
     } else {
-        thriftCompiler = new File("usr/bin/thrift")
+        thriftCompiler = new File("/usr/bin/thrift")
         if (!thriftCompiler.exists()) {
-            thriftCompiler = new File("usr/local/bin/thrift")
+            thriftCompiler = new File("/usr/local/bin/thrift")
         }
     }
 
