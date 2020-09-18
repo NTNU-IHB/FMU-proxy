@@ -41,8 +41,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
 class InternalFmuServiceImpl(
-        port: Int,
-        private val fmu: AbstractFmu
+    port: Int,
+    private val fmu: AbstractFmu
 ) : InternalFmuService.Iface, Closeable {
 
     private val server: TNonblockingServer
@@ -54,10 +54,10 @@ class InternalFmuServiceImpl(
     init {
         val transport = TNonblockingServerSocket(port)
         val processor = InternalFmuService.Processor(this)
-        server = TNonblockingServer(
-                TNonblockingServer.Args(transport)
-                        .processor(processor)
-                        .protocolFactory(TBinaryProtocol.Factory())
+        this.server = TNonblockingServer(
+            TNonblockingServer.Args(transport)
+                .processor(processor)
+                .protocolFactory(TBinaryProtocol.Factory())
         )
     }
 
@@ -118,7 +118,7 @@ class InternalFmuServiceImpl(
     }
 
     override fun shutdown() {
-        thread(start=true) {
+        thread(start = true) {
             Thread.sleep(1000)
             close()
         }
@@ -174,17 +174,17 @@ class InternalFmuServiceImpl(
     }
 
     override fun getDirectionalDerivative(
-            vUnkownRef: List<Long>,
-            vKnownRef: List<Long>,
-            dvUnkownRef: List<Double>
+        vUnkownRef: List<Long>,
+        vKnownRef: List<Long>,
+        dvUnkownRef: List<Double>
     ): DirectionalDerivativeResult {
         if (!slave.modelDescription.attributes.providesDirectionalDerivative) {
             throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
         }
         val dvUnknown = slave.getDirectionalDerivative(
-                vUnkownRef.toLongArray(),
-                vKnownRef.toLongArray(),
-                dvUnkownRef.toDoubleArray()
+            vUnkownRef.toLongArray(),
+            vKnownRef.toLongArray(),
+            dvUnkownRef.toDoubleArray()
         ).toList()
         return DirectionalDerivativeResult(dvUnknown, slave.lastStatus.thriftType())
     }

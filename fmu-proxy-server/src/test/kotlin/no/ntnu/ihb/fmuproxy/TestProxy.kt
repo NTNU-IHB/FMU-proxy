@@ -24,10 +24,8 @@ class TestProxy {
         private val LOG: Logger = LoggerFactory.getLogger(TestProxy::class.java)
 
         private val fmu = Fmu.from(
-            File(
-                TestUtils.getTEST_FMUs(),
-                "2.0/cs/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu"
-            )
+            File(TestUtils.getTEST_FMUs(), "2.0/cs/20sim/4.6.4.8004/" +
+                    "ControlledTemperature/ControlledTemperature.fmu")
         )
 
         private const val stepSize: Double = 1.0 / 100

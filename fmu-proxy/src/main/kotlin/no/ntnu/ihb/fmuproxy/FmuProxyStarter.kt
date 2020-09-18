@@ -6,14 +6,14 @@ import java.util.*
 
 object FmuProxyStarter {
 
-    private fun parsePort(args: Array<String>): Int {
-        return if (args.isEmpty()) return 9080 else args[0].toInt()
+    private fun parsePort(args: Array<String>): Int? {
+        return args[0].toIntOrNull()
     }
 
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val port = parsePort(args)
+        val port = parsePort(args) ?: return
 
         val server = FmuServiceImpl(port).apply {
             startServer()
@@ -30,7 +30,7 @@ object FmuProxyStarter {
 
     internal fun debugMain(args: Array<String>) {
 
-        val port = parsePort(args)
+        val port = parsePort(args) ?: return
 
         FmuServiceImpl(port).apply {
             startServer()

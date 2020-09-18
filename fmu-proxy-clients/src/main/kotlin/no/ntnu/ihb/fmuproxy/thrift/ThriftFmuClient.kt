@@ -32,15 +32,10 @@ import no.ntnu.ihb.fmuproxy.AbstractFmuClient
 import no.ntnu.ihb.fmuproxy.DirectionalDerivativeResult
 import no.ntnu.ihb.fmuproxy.FmuId
 import no.ntnu.ihb.fmuproxy.StepResult
-import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.thrift.protocol.TBinaryProtocol
-import org.apache.thrift.protocol.TJSONProtocol
 import org.apache.thrift.protocol.TProtocol
 import org.apache.thrift.transport.TFramedTransport
-import org.apache.thrift.transport.THttpClient
 import org.apache.thrift.transport.TSocket
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.Closeable
 import java.io.File
 import java.io.FileInputStream
