@@ -22,27 +22,28 @@ if (!getProperties().get("disableCodeGeneration", false)) {
     def definitions = project.file("src/main/thrift")
     def generatedSrcDir = project.file("src/main/java")
 
-    def os = OperatingSystem.current()
-
-    Object thriftCompiler = null
-    if (os.isWindows()) {
-        def thriftFile = project.file('thrift.exe')
-        if (!thriftFile.exists()) {
-            def url = new URL("https://apache.uib.no/thrift/$thrift_version/thrift-$thrift_version.exe")
-            thriftFile << url.getBytes()
-        }
-        thriftCompiler = project.file('thrift.exe')
-    } else {
-        thriftCompiler = new File("/usr/bin/thrift")
-    }
-
-    if(!thriftCompiler.exists()) {
-        throw new GradleException("Could not locate thrift-compiler!")
-    } else {
-        println("Found thrift-compiler: $thriftCompiler")
-    }
-
     if (generatedSrcDir.listFiles().size() == 0) {
+
+        def os = OperatingSystem.current()
+
+        Object thriftCompiler = null
+        if (os.isWindows()) {
+            def thriftFile = project.file('thrift.exe')
+            if (!thriftFile.exists()) {
+                def url = new URL("https://apache.uib.no/thrift/$thrift_version/thrift-$thrift_version.exe")
+                thriftFile << url.getBytes()
+            }
+            thriftCompiler = project.file('thrift.exe')
+        } else {
+            thriftCompiler = new File("/usr/bin/thrift")
+        }
+
+        if(!thriftCompiler.exists()) {
+            throw new GradleException("Could not locate thrift-compiler!")
+        } else {
+            println("Found thrift-compiler: $thriftCompiler")
+        }
+
         tasks.create('generateThrift') {
 
             doLast {
