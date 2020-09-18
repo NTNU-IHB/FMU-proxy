@@ -49,7 +49,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
                 exec {
                     workingDir(projectDir)
                     executable thriftCompiler
-                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                    args 'thrift', '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/defs.thrift"
                 }
                 exec {
