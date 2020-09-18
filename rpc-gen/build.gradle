@@ -31,12 +31,17 @@ if (!getProperties().get("disableCodeGeneration", false)) {
             def url = new URL("https://apache.uib.no/thrift/0.13.0/thrift-0.13.0.exe")
             thriftFile << url.getBytes()
         }
-        thriftCompiler = project.file('thrift')
+        thriftCompiler = project.file('thrift.exe')
     } else {
-        thriftCompiler = new File("usr/bin/local/thrift")
+        thriftCompiler = new File("usr/bin/thrift")
+        if (!thriftCompiler.exists()) {
+            thriftCompiler = new File("usr/local/bin/thrift")
+        }
     }
 
-    println thriftCompiler.exists()
+    if(!thriftCompiler.exists()) {
+        throw new GradleException("Could not locate thrift compiler!")
+    }
 
     tasks.create('generateThrift') {
 
@@ -49,7 +54,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
                 exec {
                     workingDir(projectDir)
                     executable thriftCompiler
-                    args 'thrift', '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
+                    args '-r', '-out', generatedSrcDir, '--gen', 'java:private-members,fullcamel',
                             "$definitions/defs.thrift"
                 }
                 exec {
