@@ -36,6 +36,12 @@ jobs:
           sudo apt-get install thrift-compiler
         shell: bash
 
+      - name: print thrift (Linux)
+          if: startsWith(runner.os, 'Linux')
+          run: |
+            whereis thrift
+          shell: bash
+
       - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
