@@ -30,18 +30,6 @@ jobs:
         if: startsWith(runner.os, 'Windows')
         run: ./gradlew clean build installDist
 
-      - name: Install tools (Linux)
-        if: startsWith(runner.os, 'Linux')
-        run: |
-          sudo apt-get install python3-setuptools python3-wheel python3-pip
-        shell: bash
-
-      - name: Fetch thrift (Linux)
-        if: startsWith(runner.os, 'Linux')
-        run: |
-          pip install thrift
-        shell: bash
-
       - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
