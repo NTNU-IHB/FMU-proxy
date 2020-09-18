@@ -33,7 +33,7 @@ if (!getProperties().get("disableCodeGeneration", false)) {
         }
         thriftCompiler = project.file('thrift')
     } else {
-        thriftCompiler = 'thrift'
+        thriftCompiler = new File("usr/bin/thrift")
     }
 
     println thriftCompiler
