@@ -33,10 +33,10 @@ if (!getProperties().get("disableCodeGeneration", false)) {
         }
         thriftCompiler = project.file('thrift')
     } else {
-        thriftCompiler = new File("usr/bin/thrift")
+        thriftCompiler = new File("usr/bin/local/thrift")
     }
 
-    println thriftCompiler
+    println thriftCompiler.exists()
 
     tasks.create('generateThrift') {
 
