@@ -28,11 +28,11 @@ jobs:
 
       - name: Build on Windows
         if: startsWith(runner.os, 'Windows')
-        run: ./gradlew clean build shadowJar installDist
+        run: ./gradlew clean build installDist
 
       - name: Build on Linux
         if: startsWith(runner.os, 'Linux')
-        run: sudo chmod +x gradlew && ./gradlew clean build shadowJar installDist
+        run: sudo chmod +x gradlew && ./gradlew clean build installDist
 
       - uses: actions/upload-artifact@v2
         with:

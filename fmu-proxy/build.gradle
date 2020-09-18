@@ -14,6 +14,8 @@ repositories {
 dependencies {
 
     implementation project(":rpc-gen")
+    
+    implementation group: 'info.picocli', name: 'picocli', version: '4.5.0'
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
