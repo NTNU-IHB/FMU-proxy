@@ -1,6 +1,8 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
+import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
 import no.ntnu.ihb.fmuproxy.thrift.FmuService
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
@@ -9,82 +11,104 @@ import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
 import java.io.Closeable
 import java.io.File
+import java.io.FileInputStream
+import java.io.StringReader
 import java.nio.ByteBuffer
+import javax.xml.bind.JAXB
 
 
 class FmuWrapper(
     args: Map<String, Any>
 ) : Fmi2Slave(args) {
 
-    private val client: ThriftFmuClient
+    private val client: ThriftFmuClient?
+    private val fmu = getFmuResource("proxy-model.fmu")
+
+    override val automaticallyAssignStartValues = false
 
     init {
-        val (host, port) = parseProxySettings()
         val fmu = getFmuResource("proxy-model.fmu")
-        this.client = ThriftFmuClient(fmu, host, port)
+        if (instanceName == "dummyModel") {
+            this.client = null
+        } else {
+            val (host, port) = parseProxySettings()
+            this.client = ThriftFmuClient(fmu, host, port)
+        }
     }
 
     override fun __define__() {
         super.__define__()
-        modelDescription.modelName = client.modelDescription.modelName
-        modelDescription.coSimulation.modelIdentifier = client.modelDescription.modelIdentifier
+
+        val xml = extractModelDescriptionXml(FileInputStream(fmu))
+        val modelName = when (val version = extractFmiVersion(xml)) {
+            "1.0" -> JAXB.unmarshal(StringReader(xml), FmiModelDescription::class.java).modelName
+            "2.0" -> JAXB.unmarshal(StringReader(xml), Fmi2ModelDescription::class.java).modelName
+            else -> throw IllegalArgumentException("Unknown FMI version: $version")
+        }
+
+        modelDescription.modelName = modelName
+        modelDescription.coSimulation.modelIdentifier = modelName
     }
 
     override fun enterInitialisationMode() {
-        this.client.enterInitializationMode()
+        this.client?.enterInitializationMode()
     }
 
     override fun exitInitialisationMode() {
-        this.client.exitInitializationMode()
+        this.client?.exitInitializationMode()
     }
 
-    override fun setupExperiment(startTime: Double) {
-        this.client.setupExperiment(startTime)
+    override fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
+        this.client?.setupExperiment(startTime, stopTime, tolerance)
     }
 
     override fun doStep(currentTime: Double, dt: Double) {
-        this.client.doStep(dt)
+        this.client?.doStep(dt)
     }
 
     override fun terminate() {
-        this.client.terminate()
+        this.client?.terminate()
+    }
+
+    override fun close() {
+        client?.close()
     }
 
     override fun getInteger(vr: LongArray): IntArray {
-        return client.readInteger(vr)
+        return client?.readInteger(vr) ?: throw IllegalStateException()
     }
 
     override fun getReal(vr: LongArray): DoubleArray {
-        return client.readReal(vr)
+        return client?.readReal(vr) ?: throw IllegalStateException()
     }
 
     override fun getBoolean(vr: LongArray): BooleanArray {
-        return client.readBoolean(vr)
+        return client?.readBoolean(vr) ?: throw IllegalStateException()
     }
 
     override fun getString(vr: LongArray): Array<String> {
-        return client.readString(vr)
+        return client?.readString(vr) ?: throw IllegalStateException()
     }
 
     override fun setInteger(vr: LongArray, values: IntArray) {
-        return client.writeInteger(vr, values)
+        return client?.writeInteger(vr, values) ?: throw IllegalStateException()
     }
 
     override fun setReal(vr: LongArray, values: DoubleArray) {
-        return client.writeReal(vr, values)
+        return client?.writeReal(vr, values) ?: throw IllegalStateException()
     }
 
     override fun setBoolean(vr: LongArray, values: BooleanArray) {
-        return client.writeBoolean(vr, values)
+        return client?.writeBoolean(vr, values) ?: throw IllegalStateException()
     }
 
     override fun setString(vr: LongArray, values: Array<String>) {
-        return client.writeString(vr, values)
+        return client?.writeString(vr, values) ?: throw IllegalStateException()
     }
 
     override fun registerVariables() {
 
-        client.modelDescription.modelVariables.forEach { v ->
+        client?.modelDescription?.modelVariables?.forEach { v ->
 
             val name = v.name
             val attr = v.attribute
@@ -146,8 +170,8 @@ private class ThriftFmuClient(
         client.exitInitializationMode()
     }
 
-    fun setupExperiment(startTime: Double) {
-        client.setupExperiment(startTime, 0.0, 0.0)
+    fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
+        client.setupExperiment(startTime, stopTime, tolerance)
     }
 
     fun doStep(dt: Double) {
@@ -219,8 +243,4 @@ private class ThriftFmuClient(
 
     }
 
-}
-
-private fun String.isLoopback(): Boolean {
-    return this == "localhost" || this == "127.0.0.1"
 }

@@ -13,6 +13,7 @@ dependencies {
 
     implementation project(":rpc-gen")
     implementation "info.picocli:picocli:4.5.0"
+    implementation "no.ntnu.ihb.fmi4j:fmi-md:$fmi4j_version"
     implementation "no.ntnu.ihb.fmi4j:fmi-export:$fmi4j_version"
     implementation "no.ntnu.ihb.fmi4j:fmu-builder:$fmi4j_version"
 
