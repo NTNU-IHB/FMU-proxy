@@ -1,0 +1,33 @@
+plugins {
+    id "kotlin"
+    id "application"
+    id "distribution"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxify"
+
+dependencies {
+
+    implementation project(":rpc-gen")
+    implementation "no.ntnu.ihb.fmi4j:fmi-export:$fmi4j_version"
+    implementation "no.ntnu.ihb.fmi4j:fmu-builder:$fmi4j_version"
+    implementation group: "info.picocli", name: "picocli", version: "4.5.0"
+
+    implementation group: "org.slf4j", name: "slf4j-api", version: slf4j_version
+    runtimeOnly group: "org.slf4j", name: "slf4j-log4j12", version: slf4j_version
+
+}
+
+distributions {
+    main {
+        baseName("fmuproxify")
+    }
+}
+
+startScripts {
+    applicationName = 'fmuproxify'
+}
+
+build.finalizedBy installDist

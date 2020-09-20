@@ -18,8 +18,6 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
-    testImplementation project(':fmu-proxy-clients')
-
 }
 
 run {
