@@ -1,14 +1,13 @@
 plugins {
     id "base"
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.4.0" apply false //apply in sub-projects
+    id "org.jetbrains.kotlin.jvm" version "1.4.10" apply false //apply in sub-projects
 }
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
-ext.grpc_version = '1.25.0'
 ext.slf4j_version = '1.7.25'
-ext.fmi4j_version = '0.32.0'
+ext.fmi4j_version = '0.33.0-RC1'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL

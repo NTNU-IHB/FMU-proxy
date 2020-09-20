@@ -11,16 +11,23 @@ import java.io.Closeable
 import java.io.File
 import java.nio.ByteBuffer
 
+
 class FmuWrapper(
     args: Map<String, Any>
 ) : Fmi2Slave(args) {
 
-    private var client: ThriftFmuClient
+    private val client: ThriftFmuClient
 
     init {
         val (host, port) = parseProxySettings()
         val fmu = getFmuResource("proxy-model.fmu")
         this.client = ThriftFmuClient(fmu, host, port)
+    }
+
+    override fun __define__() {
+        super.__define__()
+        modelDescription.modelName = client.modelDescription.modelName
+        modelDescription.coSimulation.modelIdentifier = client.modelDescription.modelIdentifier
     }
 
     override fun enterInitialisationMode() {
@@ -36,7 +43,7 @@ class FmuWrapper(
     }
 
     override fun doStep(currentTime: Double, dt: Double) {
-        this.client
+        this.client.doStep(dt)
     }
 
     override fun terminate() {
@@ -141,6 +148,10 @@ private class ThriftFmuClient(
 
     fun setupExperiment(startTime: Double) {
         client.setupExperiment(startTime, 0.0, 0.0)
+    }
+
+    fun doStep(dt: Double) {
+        client.step(dt)
     }
 
     fun readInteger(vr: LongArray): IntArray {
