@@ -49,15 +49,15 @@ class FmuServiceImpl(
         val name = split[split.lastIndex].split(".").first()
         val file = Files.createTempFile("${name}_", ".fmu").toFile().apply {
             URL(url).openStream().buffered().use { bis ->
-                bis.copyTo(FileOutputStream(this))
+                FileOutputStream(this).buffered().use { fis ->
+                    bis.copyTo(fis)
+                }
+
             }
             deleteOnExit()
         }
 
-        val port = startProxy(file)
-        FmuClient.create(port)
-
-        return port
+        return startProxy(file)
     }
 
     override fun loadFromLocalFile(fileName: String): Int {
@@ -67,25 +67,19 @@ class FmuServiceImpl(
             throw NoSuchFileException()
         }
 
-        val port = startProxy(file)
-        FmuClient.create(port)
-
-        return port
+        return startProxy(file)
     }
 
     override fun loadFromRemoteFile(name: String, data: ByteBuffer): Int {
         LOG.info("Loading FMU from remote file: '$name'")
         val file = Files.createTempFile("${name}_", ".fmu").toFile().apply {
-            FileOutputStream(this).buffered().use { bos ->
-                bos.write(data.compact().array())
+            FileOutputStream(this).buffered().use { fis ->
+                fis.write(data.compact().array())
             }
             deleteOnExit()
         }
 
-        val port = startProxy(file)
-        FmuClient.create(port)
-
-        return port
+        return startProxy(file)
     }
 
     override fun close() {
