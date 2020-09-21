@@ -46,10 +46,10 @@ class FmuProxifier(
         @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
         var showHelp = false
 
-        @CommandLine.Option(names = ["--port"], description = ["Port."])
+        @CommandLine.Option(names = ["--port"], description = ["Port to use. Defaults to 9090."])
         var port: Int = 9090
 
-        @CommandLine.Option(names = ["--host"], description = ["Host."])
+        @CommandLine.Option(names = ["--host"], description = ["Host to connect to. Defaults to localhost"])
         var host: String = "localhost"
 
         @CommandLine.Option(names = ["-f", "--file"], description = ["Path to the FMU to proxify."], required = true)
