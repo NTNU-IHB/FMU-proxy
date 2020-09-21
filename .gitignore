@@ -58,3 +58,6 @@ __pycache__
 
 #log files
 *.out
+
+*.fmu
+!/test/**/*.fmu
