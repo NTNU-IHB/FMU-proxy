@@ -39,8 +39,6 @@ import kotlin.system.exitProcess
 
 object FmuProxy {
 
-    val LOG: Logger = LoggerFactory.getLogger(FmuProxy::class.java)
-
     @JvmStatic
     fun main(args: Array<String>) {
 
@@ -79,7 +77,6 @@ object FmuProxy {
 
     }
 
-
     private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
 
         SwingUtilities.invokeLater {
@@ -101,6 +98,5 @@ object FmuProxy {
             }
         }
     }
-
 
 }

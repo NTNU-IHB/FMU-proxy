@@ -128,7 +128,7 @@ class InternalFmuServiceImpl(
         if (started.get() && !stopped.get()) {
             server.stop()
             stopped.set(true)
-            FmuProxy.LOG.info("FMU-proxy stopped!")
+            LOG.info("FMU-proxy stopped!")
         }
     }
 

@@ -32,5 +32,13 @@ task copyWrapperJar(type: Copy) {
     dependsOn ":fmu-wrapper:shadowJar"
 }
 
+task copyProxyJar(type: Copy) {
+    from rootProject.file("fmu-proxy-server/build/libs/fmu-proxy-server.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-proxy-server:shadowJar"
+}
+
+assemble.dependsOn copyProxyJar
 assemble.dependsOn copyWrapperJar
+
 build.finalizedBy installDist

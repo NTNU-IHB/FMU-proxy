@@ -6,9 +6,8 @@ import java.io.File
 import java.nio.file.Files
 
 class FmuProxifier(
-        private val host: String,
-        private val port: Int,
-        private val fmu: File
+    private val fmu: File,
+    private val remote: RemoteAddress? = null
 ) {
 
     init {
@@ -18,20 +17,23 @@ class FmuProxifier(
 
     fun build(dest: File? = null): File {
 
-        val tmpSettingsFolder = Files.createTempDirectory("fmu-proxifier").toFile()
-        val tmpSettingsFile = File(tmpSettingsFolder, "proxy-settings.txt").apply {
-            writeText("""
-                $host:$port
-                ${fmu.name}
-            """.trimIndent())
+        var settingsText = "fmu=${fmu.name}\n"
+        remote?.also {
+            settingsText += "remote=${it.strRepr}"
         }
 
-        val jarFile = File(FmuProxifier::class.java.classLoader.getResource("fmu-wrapper.jar")!!.file)
+        val tmpSettingsFolder = Files.createTempDirectory("fmu-proxifier").toFile()
+        val tmpSettingsFile = File(tmpSettingsFolder, "proxy-settings.txt").apply {
+            writeText(settingsText)
+        }
+
+        val fmuJar = File(FmuProxifier::class.java.classLoader.getResource("fmu-wrapper.jar")!!.file)
+        val serverJar = File(FmuProxifier::class.java.classLoader.getResource("fmu-proxy-server.jar")!!.file)
 
         val proxyFmu = FmuBuilder(
-                mainClass = "no.ntnu.ihb.fmuproxy.FmuWrapper",
-                jarFile = jarFile,
-                resources = arrayOf(fmu, tmpSettingsFile)
+            mainClass = "no.ntnu.ihb.fmuproxy.FmuWrapper",
+            jarFile = fmuJar,
+            resources = arrayOf(fmu, serverJar, tmpSettingsFile)
         ).build(dest)
 
         tmpSettingsFile.deleteRecursively()
@@ -46,20 +48,18 @@ class FmuProxifier(
         @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
         var showHelp = false
 
-        @CommandLine.Option(names = ["--port"], description = ["Port to use. Defaults to 9090."])
-        var port: Int = 9090
-
         @CommandLine.Option(names = ["--host"], description = ["Host to connect to. Defaults to localhost"])
-        var host: String = "localhost"
+        var remoteAddress: String? = null
 
         @CommandLine.Option(names = ["-f", "--file"], description = ["Path to the FMU to proxify."], required = true)
         lateinit var fmuFile: File
 
-        @CommandLine.Option(names = ["-d", "--dest"], description = ["Where to save the FMU."], required = false)
+        @CommandLine.Option(names = ["-d", "--dest"], description = ["Where to save the FMU."])
         var destFile: File? = null
 
         override fun run() {
-            FmuProxifier(host, port, fmuFile).build(destFile)
+            val remote = remoteAddress?.let { RemoteAddress.parse(it) }
+            FmuProxifier(fmuFile, remote).build(destFile)
         }
 
     }
@@ -72,3 +72,22 @@ class FmuProxifier(
     }
 
 }
+
+data class RemoteAddress(
+    val host: String,
+    val port: Int
+) {
+
+    val strRepr = "$host:$port"
+
+    companion object {
+
+        fun parse(str: String): RemoteAddress {
+            val (host, port) = str.split(":")
+            return RemoteAddress(host, port.toInt())
+        }
+
+    }
+
+}
+

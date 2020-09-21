@@ -3,10 +3,7 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
-import no.ntnu.ihb.fmuproxy.misc.ProxySettings
-import no.ntnu.ihb.fmuproxy.misc.extractFmiVersion
-import no.ntnu.ihb.fmuproxy.misc.extractModelDescriptionXml
-import no.ntnu.ihb.fmuproxy.misc.isLoopback
+import no.ntnu.ihb.fmuproxy.misc.*
 import no.ntnu.ihb.fmuproxy.thrift.FmuService
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
@@ -22,7 +19,7 @@ import javax.xml.bind.JAXB
 
 
 class FmuWrapper(
-        args: Map<String, Any>
+    args: Map<String, Any>
 ) : Fmi2Slave(args) {
 
     private val fmu: File
@@ -31,12 +28,20 @@ class FmuWrapper(
     override val automaticallyAssignStartValues = false
 
     init {
-        val (host, port, fmuName) = parseProxySettings()
-        this.fmu = getFmuResource(fmuName)
+        val settings = parseSettings(getFmuResource("proxy-settings.txt"))
+        this.fmu = getFmuResource(settings.fmuName)
         if (instanceName == "dummyInstance") {
             this.client = null
         } else {
-            this.client = ThriftFmuClient(this.fmu, host, port)
+            val remote = settings.remote
+            if (remote == null) {
+                val server = getFmuResource("fmu-proxy-server.jar")
+                val port = startProxy(server, fmu)
+                this.client = ThriftFmuClient("localhost", port)
+            } else {
+                val port = spawn(this.fmu, remote.host, remote.port)
+                this.client = ThriftFmuClient(remote.host, port)
+            }
         }
     }
 
@@ -99,7 +104,7 @@ class FmuWrapper(
     override fun registerVariables() {
 
         val xml = extractModelDescriptionXml(FileInputStream(fmu))
-         when (val version = extractFmiVersion(xml)) {
+        when (val version = extractFmiVersion(xml)) {
             "1.0" -> processFmi1ModelDescription(JAXB.unmarshal(StringReader(xml), FmiModelDescription::class.java))
             "2.0" -> processFmi2ModelDescription(JAXB.unmarshal(StringReader(xml), Fmi2ModelDescription::class.java))
             else -> throw IllegalArgumentException("Unknown FMI version: $version")
@@ -167,23 +172,33 @@ class FmuWrapper(
 
     }
 
-    private fun parseProxySettings(): ProxySettings {
-        val settings = getFmuResource("proxy-settings.txt")
-        val lines = settings.readLines()
-        val (host, port) = lines.first().split(":")
-        return ProxySettings(
-                host = host,
-                port = port.toInt(),
-                fmuName = lines[1].trim()
-        )
+    private companion object {
+
+        fun spawn(fmuFile: File, host: String, port: Int): Int {
+            //with 150 MB max message size
+            val transport = TFramedTransport.Factory(150000000)
+                .getTransport(TSocket(host, port))
+            val protocol = TBinaryProtocol(transport)
+            val client = FmuService.Client(protocol)
+            transport.open()
+
+            return if (host.isLoopback()) {
+                client.loadFromLocalFile(fmuFile.absolutePath)
+            } else {
+                val data = fmuFile.readBytes().let {
+                    ByteBuffer.wrap(it)
+                }
+                client.loadFromRemoteFile(fmuFile.name, data)
+            }
+        }
+
     }
 
 }
 
 private class ThriftFmuClient(
-        fmuFile: File,
-        host: String,
-        port: Int
+    host: String,
+    port: Int
 ) : Closeable {
 
     val protocol: TBinaryProtocol
@@ -192,15 +207,18 @@ private class ThriftFmuClient(
 
     init {
 
-        val fmuPort = spawn(fmuFile, host, port)
-
         val transport = TFramedTransport.Factory()
-                .getTransport(TSocket(host, fmuPort))
+            .getTransport(TSocket(host, port))
         this.protocol = TBinaryProtocol(transport)
         transport.open()
 
         this.client = InternalFmuService.Client(protocol)
         this.modelDescription = client.modelDescription
+        this.client.createInstance()
+    }
+
+    fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
+        client.setupExperiment(startTime, stopTime, tolerance)
     }
 
     fun enterInitializationMode() {
@@ -209,10 +227,6 @@ private class ThriftFmuClient(
 
     fun exitInitializationMode() {
         client.exitInitializationMode()
-    }
-
-    fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
-        client.setupExperiment(startTime, stopTime, tolerance)
     }
 
     fun doStep(dt: Double) {
@@ -267,7 +281,7 @@ private class ThriftFmuClient(
         fun spawn(fmuFile: File, host: String, port: Int): Int {
             //with 150 MB max message size
             val transport = TFramedTransport.Factory(150000000)
-                    .getTransport(TSocket(host, port))
+                .getTransport(TSocket(host, port))
             val protocol = TBinaryProtocol(transport)
             val client = FmuService.Client(protocol)
             transport.open()
