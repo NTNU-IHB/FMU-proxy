@@ -48,7 +48,7 @@ class FmuProxifier(
         @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
         var showHelp = false
 
-        @CommandLine.Option(names = ["--host"], description = ["Host to connect to. Defaults to localhost"])
+        @CommandLine.Option(names = ["-r", "--remote"], description = ["Optional host to connect to. e.g. 127.0.0.1:9090"])
         var remoteAddress: String? = null
 
         @CommandLine.Option(names = ["-f", "--file"], description = ["Path to the FMU to proxify."], required = true)
