@@ -16,7 +16,7 @@ class FmuProxifier(
         require(fmu.extension == "fmu") { "Invalid extension: ${fmu.extension}" }
     }
 
-    fun build(dest: File? = null) {
+    fun build(dest: File? = null): File {
 
         val tmpSettingsFolder = Files.createTempDirectory("fmu-proxifier").toFile()
         val tmpSettingsFile = File(tmpSettingsFolder, "proxy-settings.txt").apply {
@@ -28,13 +28,15 @@ class FmuProxifier(
 
         val jarFile = File(FmuProxifier::class.java.classLoader.getResource("fmu-wrapper.jar")!!.file)
 
-        FmuBuilder(
+        val proxyFmu = FmuBuilder(
                 mainClass = "no.ntnu.ihb.fmuproxy.FmuWrapper",
                 jarFile = jarFile,
                 resources = arrayOf(fmu, tmpSettingsFile)
         ).build(dest)
 
         tmpSettingsFile.deleteRecursively()
+
+        return proxyFmu
 
     }
 
