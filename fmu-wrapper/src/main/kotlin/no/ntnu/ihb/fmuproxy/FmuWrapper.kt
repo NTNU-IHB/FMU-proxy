@@ -3,6 +3,10 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
+import no.ntnu.ihb.fmuproxy.misc.ProxySettings
+import no.ntnu.ihb.fmuproxy.misc.extractFmiVersion
+import no.ntnu.ihb.fmuproxy.misc.extractModelDescriptionXml
+import no.ntnu.ihb.fmuproxy.misc.isLoopback
 import no.ntnu.ihb.fmuproxy.thrift.FmuService
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
@@ -18,36 +22,22 @@ import javax.xml.bind.JAXB
 
 
 class FmuWrapper(
-    args: Map<String, Any>
+        args: Map<String, Any>
 ) : Fmi2Slave(args) {
 
+    private val fmu: File
     private val client: ThriftFmuClient?
-    private val fmu = getFmuResource("proxy-model.fmu")
 
     override val automaticallyAssignStartValues = false
 
     init {
-        val fmu = getFmuResource("proxy-model.fmu")
-        if (instanceName == "dummyModel") {
+        val (host, port, fmuName) = parseProxySettings()
+        this.fmu = getFmuResource(fmuName)
+        if (instanceName == "dummyInstance") {
             this.client = null
         } else {
-            val (host, port) = parseProxySettings()
-            this.client = ThriftFmuClient(fmu, host, port)
+            this.client = ThriftFmuClient(this.fmu, host, port)
         }
-    }
-
-    override fun __define__() {
-        super.__define__()
-
-        val xml = extractModelDescriptionXml(FileInputStream(fmu))
-        val modelName = when (val version = extractFmiVersion(xml)) {
-            "1.0" -> JAXB.unmarshal(StringReader(xml), FmiModelDescription::class.java).modelName
-            "2.0" -> JAXB.unmarshal(StringReader(xml), Fmi2ModelDescription::class.java).modelName
-            else -> throw IllegalArgumentException("Unknown FMI version: $version")
-        }
-
-        modelDescription.modelName = modelName
-        modelDescription.coSimulation.modelIdentifier = modelName
     }
 
     override fun enterInitialisationMode() {
@@ -108,41 +98,92 @@ class FmuWrapper(
 
     override fun registerVariables() {
 
-        client?.modelDescription?.modelVariables?.forEach { v ->
+        val xml = extractModelDescriptionXml(FileInputStream(fmu))
+         when (val version = extractFmiVersion(xml)) {
+            "1.0" -> processFmi1ModelDescription(JAXB.unmarshal(StringReader(xml), FmiModelDescription::class.java))
+            "2.0" -> processFmi2ModelDescription(JAXB.unmarshal(StringReader(xml), Fmi2ModelDescription::class.java))
+            else -> throw IllegalArgumentException("Unknown FMI version: $version")
+        }
+
+        modelDescription.coSimulation.isCanBeInstantiatedOnlyOncePerProcess = false
+
+    }
+
+    private fun processFmi1ModelDescription(md: FmiModelDescription) {
+
+        modelDescription.modelName = "${md.modelName}-proxy"
+        modelDescription.coSimulation.modelIdentifier = "${md.modelIdentifier}-proxy"
+
+        modelDescription.description = md.description
+
+        md.modelVariables.scalarVariable.forEach { v ->
 
             val name = v.name
-            val attr = v.attribute
 
             when {
-                attr.integerAttribute != null -> {
+                v.integer != null -> {
                     register(integer(name) { 0 })
                 }
-                attr.realAttribute != null -> {
+                v.real != null -> {
                     register(real(v.name) { 0.0 })
                 }
-                attr.booleanAttribute != null -> {
+                v.boolean != null -> {
                     register(boolean(v.name) { false })
                 }
-                attr.stringAttribute != null -> {
+                v.string != null -> {
                     register(string(v.name) { "" })
                 }
             }
-
         }
+
     }
 
-    private fun parseProxySettings(): Pair<String, Int> {
+    private fun processFmi2ModelDescription(md: Fmi2ModelDescription) {
+
+        modelDescription.modelName = "${md.modelName}-proxy"
+        modelDescription.coSimulation.modelIdentifier = "${md.coSimulation.modelIdentifier}-proxy"
+
+        modelDescription.description = md.description
+
+        md.modelVariables.scalarVariable.forEach { v ->
+
+            val name = v.name
+
+            when {
+                v.integer != null -> {
+                    register(integer(name) { 0 })
+                }
+                v.real != null -> {
+                    register(real(v.name) { 0.0 })
+                }
+                v.boolean != null -> {
+                    register(boolean(v.name) { false })
+                }
+                v.string != null -> {
+                    register(string(v.name) { "" })
+                }
+            }
+        }
+
+    }
+
+    private fun parseProxySettings(): ProxySettings {
         val settings = getFmuResource("proxy-settings.txt")
-        val read = settings.readLines().first().split(":")
-        return read[0] to read[1].toInt()
+        val lines = settings.readLines()
+        val (host, port) = lines.first().split(":")
+        return ProxySettings(
+                host = host,
+                port = port.toInt(),
+                fmuName = lines[1].trim()
+        )
     }
 
 }
 
 private class ThriftFmuClient(
-    fmuFile: File,
-    host: String,
-    port: Int
+        fmuFile: File,
+        host: String,
+        port: Int
 ) : Closeable {
 
     val protocol: TBinaryProtocol
@@ -154,7 +195,7 @@ private class ThriftFmuClient(
         val fmuPort = spawn(fmuFile, host, port)
 
         val transport = TFramedTransport.Factory()
-            .getTransport(TSocket(host, fmuPort))
+                .getTransport(TSocket(host, fmuPort))
         this.protocol = TBinaryProtocol(transport)
         transport.open()
 
@@ -226,7 +267,7 @@ private class ThriftFmuClient(
         fun spawn(fmuFile: File, host: String, port: Int): Int {
             //with 150 MB max message size
             val transport = TFramedTransport.Factory(150000000)
-                .getTransport(TSocket(host, port))
+                    .getTransport(TSocket(host, port))
             val protocol = TBinaryProtocol(transport)
             val client = FmuService.Client(protocol)
             transport.open()

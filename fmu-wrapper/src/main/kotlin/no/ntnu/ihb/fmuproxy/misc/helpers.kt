@@ -1,12 +1,10 @@
-package no.ntnu.ihb.fmuproxy
+package no.ntnu.ihb.fmuproxy.misc
 
 import java.io.InputStream
 import java.io.StringReader
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import javax.xml.bind.JAXB
-import javax.xml.bind.annotation.XmlAttribute
-import javax.xml.bind.annotation.XmlRootElement
 
 internal fun String.isLoopback(): Boolean {
     return this == "localhost" || this == "127.0.0.1"
@@ -29,21 +27,4 @@ internal fun extractModelDescriptionXml(stream: InputStream): String {
 
 fun extractFmiVersion(xml: String): String {
     return JAXB.unmarshal(StringReader(xml), MockupModelDescription::class.java).fmiVersion
-}
-
-@XmlRootElement(name = "fmiModelDescription")
-internal class MockupModelDescription {
-
-    @XmlAttribute(name = "fmiVersion", required = true)
-    private val fmiVersion_: String? = null
-
-    @XmlAttribute(name = "guid", required = true)
-    private val guid_: String? = null
-
-    val fmiVersion: String
-        get() = fmiVersion_!!
-
-    val guid: String
-        get() = guid_!!
-
 }

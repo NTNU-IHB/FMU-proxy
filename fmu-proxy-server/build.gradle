@@ -28,6 +28,6 @@ run {
 }
 
 shadowJar {
-    archiveBaseName.set('fmu-proxy-server')
     version = null
+    archiveBaseName.set('fmu-proxy-server')
 }

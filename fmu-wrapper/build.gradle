@@ -1,0 +1,20 @@
+plugins {
+    id "kotlin"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+dependencies {
+
+    implementation project(":rpc-gen")
+    implementation "no.ntnu.ihb.fmi4j:fmi-md:$fmi4j_version"
+    implementation "no.ntnu.ihb.fmi4j:fmi-export:$fmi4j_version"
+
+}
+
+shadowJar {
+    version = null
+    archiveBaseName.set('fmu-wrapper')
+}
+

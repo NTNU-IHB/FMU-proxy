@@ -2,7 +2,6 @@ plugins {
     id "kotlin"
     id "application"
     id "distribution"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
 apply from: rootProject.file("gradle/junit.gradle")
@@ -11,20 +10,10 @@ mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxify"
 
 dependencies {
 
-    implementation project(":rpc-gen")
-    implementation "info.picocli:picocli:4.5.0"
-    implementation "no.ntnu.ihb.fmi4j:fmi-md:$fmi4j_version"
-    implementation "no.ntnu.ihb.fmi4j:fmi-export:$fmi4j_version"
+    implementation "info.picocli:picocli:$picocli_version"
     implementation "no.ntnu.ihb.fmi4j:fmu-builder:$fmi4j_version"
 
-}
-
-shadowJar {
-    version = null
-    archiveBaseName.set('proxy-model')
-    dependencies {
-        exclude(dependency("info.picocli:picocli:.*"))
-    }
+    testImplementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 }
 
 distributions {
@@ -37,4 +26,11 @@ startScripts {
     applicationName = 'fmuproxify'
 }
 
+task copyWrapperJar(type: Copy) {
+    from rootProject.file("fmu-wrapper/build/libs/fmu-wrapper.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-wrapper:shadowJar"
+}
+
+assemble.dependsOn copyWrapperJar
 build.finalizedBy installDist

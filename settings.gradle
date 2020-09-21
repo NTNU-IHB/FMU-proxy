@@ -4,6 +4,7 @@ rootProject.name = 'FMU-proxy'
 include 'rpc-gen'
 include 'fmu-proxy'
 include 'fmu-proxify'
+include 'fmu-wrapper'
 include 'fmu-proxy-server'
 
 buildscript {
