@@ -40,7 +40,7 @@ class FmuProxifier(
 
     }
 
-    @CommandLine.Command(name = "fmu-proxifier")
+    @CommandLine.Command(name = "fmu-proxify")
     class Args : Runnable {
 
         @CommandLine.Option(names = ["-h", "--help"], description = ["Print this message and quits."], usageHelp = true)
@@ -53,13 +53,13 @@ class FmuProxifier(
         var host: String = "localhost"
 
         @CommandLine.Option(names = ["-f", "--file"], description = ["Path to the FMU to proxify."], required = true)
-        lateinit var jarFile: File
+        lateinit var fmuFile: File
 
         @CommandLine.Option(names = ["-d", "--dest"], description = ["Where to save the FMU."], required = false)
         var destFile: File? = null
 
         override fun run() {
-            FmuProxifier(host, port, jarFile).build(destFile)
+            FmuProxifier(host, port, fmuFile).build(destFile)
         }
 
     }
