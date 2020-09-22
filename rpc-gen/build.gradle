@@ -4,8 +4,6 @@ plugins {
     id 'java-library'
 }
 
-apply from: rootProject.file("gradle/mavenpublish.gradle")
-
 def thrift_version = "0.13.0"
 
 dependencies {
@@ -78,4 +76,5 @@ if (generatedSrcDir.listFiles().size() == 0) {
         compileJava.dependsOn generateThrift
 
     }
+
 }
