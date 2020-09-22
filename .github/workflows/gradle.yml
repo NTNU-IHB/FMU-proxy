@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +33,7 @@ jobs:
       - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
-          sudo chmod +x gradlew && ./gradlew clean build installDist
+          sudo ./gradlew clean build installDist
         shell: bash
 
 #      - uses: actions/upload-artifact@v2
