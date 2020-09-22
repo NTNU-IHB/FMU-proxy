@@ -22,6 +22,7 @@ internal class TestClassLoader {
             fis.extractContentTo(File("build/test"))
         }
         val modelJar = File("build/test/resources/model.jar").toURI().toURL()
+        println(modelJar)
         val className = File("build/test/resources/mainclass.txt").readLines().first()
         val cls = URLClassLoader(arrayOf(modelJar)).loadClass(className)
 

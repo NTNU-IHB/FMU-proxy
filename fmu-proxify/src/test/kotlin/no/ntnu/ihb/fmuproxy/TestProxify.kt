@@ -8,6 +8,7 @@ import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
 import java.io.File
 
+@EnabledOnOs(OS.WINDOWS)
 internal class TestProxify {
 
     @Test
