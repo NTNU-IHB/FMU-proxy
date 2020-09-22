@@ -28,6 +28,7 @@ import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmuproxy.thrift.InternalFmuServiceImpl
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.awt.GraphicsEnvironment
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.io.File
@@ -59,8 +60,10 @@ object FmuProxy {
                 }
             }
 
-            createAndShowFrame(fmu.modelName) {
-                close()
+            if (!GraphicsEnvironment.isHeadless()) {
+                createAndShowFrame(fmu.modelName) {
+                    close()
+                }
             }
 
             while (true) {

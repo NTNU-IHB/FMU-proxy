@@ -8,7 +8,7 @@ println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.slf4j_version = '1.7.25'
 ext.picocli_version = '4.5.0'
-ext.fmi4j_version = '0.33.0-RC13'
+ext.fmi4j_version = '0.33.0-RC15'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -35,17 +35,11 @@ subprojects { sub ->
             kotlinOptions {
                 jvmTarget = "1.8"
                 javaParameters = true
-                
-                //required for @JvmDefault
-                freeCompilerArgs = ['-Xjvm-default=enable']
             }
         }
 
         compileTestKotlin {
-            kotlinOptions {
-                jvmTarget = "1.8"
-                javaParameters = true
-            }
+            kotlinOptions.jvmTarget = "1.8"
         }
     }
 
