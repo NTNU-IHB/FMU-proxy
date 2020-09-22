@@ -4,11 +4,14 @@ import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.readReal
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledOnOs
+import org.junit.jupiter.api.condition.OS
 import java.io.File
 
 internal class TestProxify {
 
     @Test
+    @EnabledOnOs(OS.WINDOWS)
     fun testIdentity() {
 
         val fmuToProxify = File("../test/fmus/1.0/identity.fmu")
