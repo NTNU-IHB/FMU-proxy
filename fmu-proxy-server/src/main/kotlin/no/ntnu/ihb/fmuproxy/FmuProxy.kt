@@ -60,11 +60,11 @@ object FmuProxy {
                 }
             }
 
-            if (!GraphicsEnvironment.isHeadless()) {
+            /*if (!GraphicsEnvironment.isHeadless()) {
                 createAndShowFrame(fmu.modelName) {
                     close()
                 }
-            }
+            }*/
 
             while (true) {
                 if (!stopped.get()) {
