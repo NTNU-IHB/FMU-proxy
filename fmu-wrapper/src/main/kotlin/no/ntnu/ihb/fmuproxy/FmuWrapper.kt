@@ -120,6 +120,7 @@ class FmuWrapper(
         modelDescription.coSimulation.modelIdentifier = "${md.modelIdentifier}-proxy"
 
         modelDescription.description = md.description
+        modelDescription.defaultExperiment = md.defaultExperiment.fmi2Type()
 
         md.modelVariables.scalarVariable.forEach { v ->
 
@@ -127,16 +128,41 @@ class FmuWrapper(
 
             when {
                 v.integer != null -> {
-                    register(integer(name) { 0 })
+                    register(integer(name) { 0 }.apply {
+                        description(v.description)
+                        causality(v.causality.fmi2Type(v.variability))
+                        variability(v.variability.fmi2Type())
+                        min(v.integer.min)
+                        max(v.integer.max)
+                        start(v.integer.start)
+                    })
                 }
                 v.real != null -> {
-                    register(real(v.name) { 0.0 })
+                    register(real(v.name) { 0.0 }.apply {
+                        description(v.description)
+                        causality(v.causality.fmi2Type(v.variability))
+                        variability(v.variability.fmi2Type())
+                        min(v.real.min)
+                        max(v.real.max)
+                        unit(v.real.unit)
+                        start(v.real.start)
+                    })
                 }
                 v.boolean != null -> {
-                    register(boolean(v.name) { false })
+                    register(boolean(v.name) { false }.apply {
+                        description(v.description)
+                        causality(v.causality.fmi2Type(v.variability))
+                        variability(v.variability.fmi2Type())
+                        start(v.boolean.isStart)
+                    })
                 }
                 v.string != null -> {
-                    register(string(v.name) { "" })
+                    register(string(v.name) { "" }.apply {
+                        description(v.description)
+                        causality(v.causality.fmi2Type(v.variability))
+                        variability(v.variability.fmi2Type())
+                        start(v.string.start)
+                    })
                 }
             }
         }
@@ -149,6 +175,7 @@ class FmuWrapper(
         modelDescription.coSimulation.modelIdentifier = "${md.coSimulation.modelIdentifier}-proxy"
 
         modelDescription.description = md.description
+        modelDescription.defaultExperiment = md.defaultExperiment
 
         md.modelVariables.scalarVariable.forEach { v ->
 
@@ -156,16 +183,37 @@ class FmuWrapper(
 
             when {
                 v.integer != null -> {
-                    register(integer(name) { 0 })
+                    register(integer(name) { 0 }.apply {
+                        description(v.description)
+                        causality(v.causality)
+                        variability(v.variability)
+                        initial(v.initial)
+                    })
                 }
                 v.real != null -> {
-                    register(real(v.name) { 0.0 })
+                    register(real(v.name) { 0.0 }.apply {
+                        description(v.description)
+                        causality(v.causality)
+                        variability(v.variability)
+                        initial(v.initial)
+                        start(v.real.start)
+                    })
                 }
                 v.boolean != null -> {
-                    register(boolean(v.name) { false })
+                    register(boolean(v.name) { false }.apply {
+                        description(v.description)
+                        causality(v.causality)
+                        variability(v.variability)
+                        initial(v.initial)
+                    })
                 }
                 v.string != null -> {
-                    register(string(v.name) { "" })
+                    register(string(v.name) { "" }.apply {
+                        description(v.description)
+                        causality(v.causality)
+                        variability(v.variability)
+                        initial(v.initial)
+                    })
                 }
             }
         }
@@ -265,6 +313,10 @@ private class ThriftFmuClient(
         client.writeString(vr.toList(), values.toList())
     }
 
+    fun reset() {
+        client.reset()
+    }
+
     fun terminate() {
         client.terminate()
     }
@@ -274,28 +326,6 @@ private class ThriftFmuClient(
         if (protocol.transport.isOpen) {
             protocol.transport.close()
         }
-    }
-
-    private companion object {
-
-        fun spawn(fmuFile: File, host: String, port: Int): Int {
-            //with 150 MB max message size
-            val transport = TFramedTransport.Factory(150000000)
-                .getTransport(TSocket(host, port))
-            val protocol = TBinaryProtocol(transport)
-            val client = FmuService.Client(protocol)
-            transport.open()
-
-            return if (host.isLoopback()) {
-                client.loadFromLocalFile(fmuFile.absolutePath)
-            } else {
-                val data = fmuFile.readBytes().let {
-                    ByteBuffer.wrap(it)
-                }
-                client.loadFromRemoteFile(fmuFile.name, data)
-            }
-        }
-
     }
 
 }

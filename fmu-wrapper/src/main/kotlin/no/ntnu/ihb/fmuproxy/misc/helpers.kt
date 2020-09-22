@@ -1,5 +1,12 @@
 package no.ntnu.ihb.fmuproxy.misc
 
+import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiCausality
+import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiScalarVariable
+import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiVariability
+import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Causality
+import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Variability
 import java.io.File
 import java.io.InputStream
 import java.io.StringReader
@@ -25,9 +32,9 @@ internal fun startProxy(proxyFile: File, fmuFile: File): Int {
 
     val port = getAvailablePort()
     val cmd = arrayOf(
-        "java", "-jar",
-        proxyFile.absolutePath,
-        "$port", fmuFile.absolutePath
+            "java", "-jar",
+            proxyFile.absolutePath,
+            "$port", fmuFile.absolutePath
     )
 
     ProcessBuilder().apply {
@@ -73,3 +80,34 @@ internal fun parseSettings(str: String): ProxySettings {
     return ProxySettings(fmu, remote)
 
 }
+
+internal fun FmiCausality?.fmi2Type(v: FmiVariability?): Fmi2Causality? {
+
+    return when (this) {
+        FmiCausality.input -> if (v == FmiVariability.parameter) Fmi2Causality.parameter else Fmi2Causality.input
+        FmiCausality.output -> Fmi2Causality.output
+        FmiCausality.internal, FmiCausality.none -> Fmi2Causality.local
+        else -> null
+    }
+
+}
+
+internal fun FmiVariability?.fmi2Type(): Fmi2Variability? {
+    return when (this) {
+        FmiVariability.constant -> Fmi2Variability.constant
+        FmiVariability.parameter -> Fmi2Variability.fixed
+        FmiVariability.discrete -> Fmi2Variability.discrete
+        FmiVariability.continuous -> Fmi2Variability.continuous
+        else -> null
+    }
+}
+
+internal fun FmiModelDescription.DefaultExperiment?.fmi2Type(): Fmi2ModelDescription.DefaultExperiment? {
+    if (this == null) return null
+    return Fmi2ModelDescription.DefaultExperiment().apply {
+        this.startTime = this@fmi2Type.startTime
+        this.stopTime = this@fmi2Type.stopTime
+        this.tolerance = this@fmi2Type.tolerance
+    }
+}
+

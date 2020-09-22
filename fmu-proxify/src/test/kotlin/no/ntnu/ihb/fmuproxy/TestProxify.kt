@@ -33,6 +33,7 @@ internal class TestProxify {
 
     }
 
+    @Test
     fun testControlledTemperature() {
         val fmuToProxify = File("../test/fmus/2.0/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
 
