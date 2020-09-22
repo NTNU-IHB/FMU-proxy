@@ -4,8 +4,6 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/NTNU-IHB/FMU-proxy/issues) 
 
 [![Join the chat at https://gitter.im/NTNU-IHB/FMU-proxy](https://badges.gitter.im/NTNU-IHB/FMU-proxy.svg)](https://gitter.im/NTNU-IHB/FMU-proxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![](https://jitpack.io/v/NTNU-IHB/FMU-proxy.svg)](https://jitpack.io/#NTNU-IHB/FMU-proxy)
-
 [![CI](https://github.com/NTNU-IHB/FMU-proxy/workflows/Build/badge.svg)](https://github.com/NTNU-IHB/FMU-proxy/actions)
 
 The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models to be shared across tools. 
@@ -47,63 +45,6 @@ rather than having each application creating their own solution.
 
 * [Hatledal, Lars Ivar, et al. "FMU-proxy: A Framework for Distributed Access to Functional Mock-up Units." Proceedings of the 13th International Modelica Conference, Regensburg, Germany, March 4–6, 2019. No. 157. Linköping University Electronic Press, 2019.](https://www.ep.liu.se/en/conference-article.aspx?series=ecp&issue=157&Article_No=8)
 * [Hatledal, Lars Ivar, et al. "A Language and Platform Independent Co-Simulation Framework Based on the Functional Mock-Up Interface." IEEE Access 7 (2019): 109328-109339.](https://ieeexplore.ieee.org/abstract/document/8788514)
-
-## Implementation
-
-
-##### Server
-This repository comes bundled with a **server** implementation written in Kotlin (JVM). 
-
-The JVM implementation of FMU-proxy is written in Kotlin and uses the gradle build system. 
-
-It features a server implementation that supports Apache Thrift (HTTP/JSON, TCP/IP/binary) and gRPC (HTTP2) RPCs.
-
-For interacting with the FMUs on the JVM, [FMI4j](https://github.com/NTNU-IHB/FMI4j) is used. 
-
-###### FMU-proxy server executable commands
-
-```
-Usage: fmu-proxy [-h] 
-                 [-grpc=<grpcPort>]
-                 [-r=<remote>] [-thrift/http=<thriftHttpPort>]
-                 [-thrift/tcp=<thriftTcpPort>] FMUs...
-      FMUs...             FMU(s) to include.
-      -grpc=<grpcPort>    Specify the gRPC port (enables this server).
-  -h, --help              Print this message and quits.
-      -thrift/http=<thriftHttpPort> Specify the Thrift http port (enables this server).
-      -thrift/tcp=<thriftTcpPort> Specify the Thrift tcp port (enables this server).
-
-```
-
-You can now connect to the FMU in a language of your choosing using one of the schemas available from the web server or located [here](rpc-definitions). 
-
-
-##### Clients
-
-Clients have been implemented for all server end-points. A feature of the implemented clients is that they all implement the same interface. 
-The interface is specified by FMI4j, allowing local and remote FMU instances to be used interchangeably in user code. 
-
-The available **client** implementations are given in the table below:
-
-|    RPC   	| [JVM](#jvm) 	| [C++](#cpp) 	| [Python](#python) 	| [Javascript](#javascript)
-|:--------:	|:---:	|:---:	|:------:	|:------:		|
-|   gRPC   	|  x  	|  x  	|    x   	|  			|
-|  Thrift/TCP  	|  x  	|  x  	|    x   	|  			|  
-|  Thrift/HTTP  |  x  	|   x 	|       	|	x		|
-
-
-**NOTE:** Thanks to the language independent nature of the RPC technologies and network protocols involved, 
-servers and clients may be implemented in virtually any language with relative ease. 
-
-
-### <a name="python"></a> Python
-
-This repository comes bundled with simple client implementations in Python for gRPC and Thrift.
-
-
-### <a name="javascript"></a> JavaScript
-
-A simple Thrift client running in the browser can be found [here](client-demos/browser/thrift/index.html). 
 
 
 ***
