@@ -33,7 +33,7 @@ jobs:
 
       - name: Build (Linux)
         if: startsWith(runner.os, 'Linux')
-        run: sudo ./gradlew clean build installDist --info
+        run: sudo ./gradlew clean build installDist
 
 #      - uses: actions/upload-artifact@v2
 #        with:
