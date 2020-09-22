@@ -27,8 +27,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build
+      - name: Build (Windows)
+        if: startsWith(runner.os, 'Windows')
         run: ./gradlew clean build installDist
+
+      - name: Build (Linux)
+        if: startsWith(runner.os, 'Linux')
+        run: sudo ./gradlew clean build installDist --info
 
 #      - uses: actions/upload-artifact@v2
 #        with:
