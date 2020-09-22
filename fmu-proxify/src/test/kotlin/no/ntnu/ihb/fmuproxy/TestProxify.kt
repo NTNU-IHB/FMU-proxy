@@ -11,7 +11,6 @@ import java.io.File
 internal class TestProxify {
 
     @Test
-    @EnabledOnOs(OS.WINDOWS)
     fun testIdentity() {
 
         val fmuToProxify = File("../test/fmus/1.0/identity.fmu")

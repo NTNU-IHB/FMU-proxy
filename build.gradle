@@ -8,7 +8,7 @@ println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.slf4j_version = '1.7.25'
 ext.picocli_version = '4.5.0'
-ext.fmi4j_version = '0.33.0-RC10'
+ext.fmi4j_version = '0.33.0-RC11'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
