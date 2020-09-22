@@ -8,16 +8,17 @@ import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
 import java.io.File
 
-@EnabledOnOs(OS.WINDOWS)
 internal class TestProxify {
 
     @Test
     fun testIdentity() {
 
+        val generatedFmusDir = File("build/generatedFmus")
+
         val fmuToProxify = File("../test/fmus/1.0/identity.fmu")
         Assertions.assertTrue(fmuToProxify.exists())
 
-        val proxyFmu = FmuProxifier(fmuToProxify).build()
+        val proxyFmu = FmuProxifier(fmuToProxify).build(generatedFmusDir)
         Assertions.assertTrue(proxyFmu.exists())
         Assertions.assertEquals("identity-proxy.fmu", proxyFmu.name)
 

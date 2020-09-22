@@ -22,7 +22,8 @@ internal class TestClassLoader {
             fis.extractContentTo(File("build/test"))
         }
         val modelJar = File("build/test/resources/model.jar").toURI().toURL()
-        val cls = URLClassLoader(arrayOf(modelJar)).loadClass("no.ntnu.ihb.fmuproxy.FmuWrapper")
+        val className = File("build/test/resources/mainclass.txt").readLines().first()
+        val cls = URLClassLoader(arrayOf(modelJar)).loadClass(className)
 
         Assertions.assertEquals("FmuWrapper", cls.simpleName)
 

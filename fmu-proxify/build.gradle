@@ -38,7 +38,7 @@ task copyProxyJar(type: Copy) {
     dependsOn ":fmu-proxy-server:shadowJar"
 }
 
-assemble.dependsOn copyProxyJar
-assemble.dependsOn copyWrapperJar
+compileKotlin.dependsOn copyProxyJar
+compileKotlin.dependsOn copyWrapperJar
 
 build.finalizedBy installDist
