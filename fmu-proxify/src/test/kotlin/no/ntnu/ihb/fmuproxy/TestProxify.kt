@@ -15,6 +15,7 @@ internal class TestProxify {
     fun testIdentity() {
 
         val fmuToProxify = File("../test/fmus/1.0/identity.fmu")
+        Assertions.assertTrue(fmuToProxify.exists())
 
         val proxyFmu = FmuProxifier(fmuToProxify).build()
         Assertions.assertTrue(proxyFmu.exists())
@@ -39,7 +40,9 @@ internal class TestProxify {
 
     @Test
     fun testControlledTemperature() {
+
         val fmuToProxify = File("../test/fmus/2.0/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
+        Assertions.assertTrue(fmuToProxify.exists())
 
         val proxyFmu = FmuProxifier(fmuToProxify).build()
         Assertions.assertTrue(proxyFmu.exists())
