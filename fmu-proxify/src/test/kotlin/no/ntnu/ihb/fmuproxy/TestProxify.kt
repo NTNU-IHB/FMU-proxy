@@ -1,6 +1,7 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
+import no.ntnu.ihb.fmi4j.readReal
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -23,9 +24,9 @@ internal class TestProxify {
 
             fmu.newInstance().use { slave ->
 
-                slave.simpleSetup()
-                slave.doStep(0.1)
-                slave.terminate()
+                Assertions.assertTrue(slave.simpleSetup())
+                Assertions.assertTrue(slave.doStep(0.1))
+                Assertions.assertTrue(slave.terminate())
 
             }
 
@@ -46,11 +47,14 @@ internal class TestProxify {
             val md = fmu.modelDescription
             Assertions.assertEquals("ControlledTemperature-proxy", md.modelName)
 
+            val dt = 0.01
             fmu.newInstance().use { slave ->
 
-                slave.simpleSetup()
-                slave.doStep(0.1)
-                slave.terminate()
+                Assertions.assertTrue(slave.simpleSetup())
+                for (i in 0 until 10) {
+                    Assertions.assertTrue(slave.doStep(dt))
+                }
+                Assertions.assertTrue(slave.terminate())
 
             }
 

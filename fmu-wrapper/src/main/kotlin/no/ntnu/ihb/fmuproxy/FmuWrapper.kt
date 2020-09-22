@@ -129,6 +129,7 @@ class FmuWrapper(
             when {
                 v.integer != null -> {
                     register(integer(name) { 0 }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality.fmi2Type(v.variability))
                         variability(v.variability.fmi2Type())
@@ -139,6 +140,7 @@ class FmuWrapper(
                 }
                 v.real != null -> {
                     register(real(v.name) { 0.0 }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality.fmi2Type(v.variability))
                         variability(v.variability.fmi2Type())
@@ -150,6 +152,7 @@ class FmuWrapper(
                 }
                 v.boolean != null -> {
                     register(boolean(v.name) { false }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality.fmi2Type(v.variability))
                         variability(v.variability.fmi2Type())
@@ -158,6 +161,7 @@ class FmuWrapper(
                 }
                 v.string != null -> {
                     register(string(v.name) { "" }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality.fmi2Type(v.variability))
                         variability(v.variability.fmi2Type())
@@ -184,6 +188,7 @@ class FmuWrapper(
             when {
                 v.integer != null -> {
                     register(integer(name) { 0 }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality)
                         variability(v.variability)
@@ -192,6 +197,7 @@ class FmuWrapper(
                 }
                 v.real != null -> {
                     register(real(v.name) { 0.0 }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality)
                         variability(v.variability)
@@ -201,6 +207,7 @@ class FmuWrapper(
                 }
                 v.boolean != null -> {
                     register(boolean(v.name) { false }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality)
                         variability(v.variability)
@@ -209,6 +216,7 @@ class FmuWrapper(
                 }
                 v.string != null -> {
                     register(string(v.name) { "" }.apply {
+                        __overrideValueReference = v.valueReference
                         description(v.description)
                         causality(v.causality)
                         variability(v.variability)
