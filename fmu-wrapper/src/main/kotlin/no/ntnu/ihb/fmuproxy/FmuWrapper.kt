@@ -4,7 +4,6 @@ import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
 import no.ntnu.ihb.fmuproxy.misc.*
-import no.ntnu.ihb.fmuproxy.thrift.FmuService
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
 import org.apache.thrift.protocol.TBinaryProtocol
@@ -14,7 +13,6 @@ import java.io.Closeable
 import java.io.File
 import java.io.FileInputStream
 import java.io.StringReader
-import java.nio.ByteBuffer
 import javax.xml.bind.JAXB
 
 
@@ -36,10 +34,12 @@ class FmuWrapper(
             val remote = settings.remote
             if (remote == null) {
                 val server = getFmuResource("fmu-proxy-server.jar")
-                val port = startProxy(server, fmu)
+                val port = startLocalProxy(server, fmu)
+                Thread.sleep(1000)
                 this.client = ThriftFmuClient("localhost", port)
             } else {
-                val port = spawn(this.fmu, remote.host, remote.port)
+                val port = startRemoteProxy(this.fmu, remote.host, remote.port)
+                Thread.sleep(1000)
                 this.client = ThriftFmuClient(remote.host, port)
             }
         }
@@ -225,31 +225,7 @@ class FmuWrapper(
                 }
             }
         }
-
     }
-
-    private companion object {
-
-        fun spawn(fmuFile: File, host: String, port: Int): Int {
-            //with 150 MB max message size
-            val transport = TFramedTransport.Factory(150000000)
-                .getTransport(TSocket(host, port))
-            val protocol = TBinaryProtocol(transport)
-            val client = FmuService.Client(protocol)
-            transport.open()
-
-            return if (host.isLoopback()) {
-                client.loadFromLocalFile(fmuFile.absolutePath)
-            } else {
-                val data = fmuFile.readBytes().let {
-                    ByteBuffer.wrap(it)
-                }
-                client.loadFromRemoteFile(fmuFile.name, data)
-            }
-        }
-
-    }
-
 }
 
 private class ThriftFmuClient(
@@ -257,20 +233,19 @@ private class ThriftFmuClient(
     port: Int
 ) : Closeable {
 
-    val protocol: TBinaryProtocol
-    val client: InternalFmuService.Client
-    val modelDescription: ModelDescription
+    private val transport = TFramedTransport.Factory()
+        .getTransport(TSocket(host, port))
+    private val protocol = TBinaryProtocol(transport)
 
-    init {
-
-        val transport = TFramedTransport.Factory()
-            .getTransport(TSocket(host, port))
-        this.protocol = TBinaryProtocol(transport)
+    private val client: InternalFmuService.Client by lazy {
         transport.open()
+        InternalFmuService.Client(protocol).apply {
+            createInstance()
+        }
+    }
 
-        this.client = InternalFmuService.Client(protocol)
-        this.modelDescription = client.modelDescription
-        this.client.createInstance()
+    val modelDescription: ModelDescription by lazy {
+        client.modelDescription
     }
 
     fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {

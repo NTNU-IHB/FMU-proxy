@@ -7,10 +7,15 @@ import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiVariability
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Causality
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Variability
+import no.ntnu.ihb.fmuproxy.thrift.FmuService
+import org.apache.thrift.protocol.TBinaryProtocol
+import org.apache.thrift.transport.TFramedTransport
+import org.apache.thrift.transport.TSocket
 import java.io.File
 import java.io.InputStream
 import java.io.StringReader
 import java.net.ServerSocket
+import java.nio.ByteBuffer
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import javax.xml.bind.JAXB
@@ -25,7 +30,25 @@ private fun getAvailablePort(): Int {
     }
 }
 
-internal fun startProxy(proxyFile: File, fmuFile: File): Int {
+internal fun startRemoteProxy(fmuFile: File, host: String, port: Int): Int {
+    //with 150 MB max message size
+    val transport = TFramedTransport.Factory(150000000)
+        .getTransport(TSocket(host, port))
+    val protocol = TBinaryProtocol(transport)
+    val client = FmuService.Client(protocol)
+    transport.open()
+
+    return if (host.isLoopback()) {
+        client.loadFromLocalFile(fmuFile.absolutePath)
+    } else {
+        val data = fmuFile.readBytes().let {
+            ByteBuffer.wrap(it)
+        }
+        client.loadFromRemoteFile(fmuFile.name, data)
+    }
+}
+
+internal fun startLocalProxy(proxyFile: File, fmuFile: File): Int {
 
     require(fmuFile.exists()) { "No such file: $fmuFile" }
     require(proxyFile.exists()) { "No such file: $proxyFile" }
