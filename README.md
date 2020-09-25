@@ -53,7 +53,7 @@ Usage: fmu-proxify [-h] [-d=<destFile>] -f=<fmuFile> [-r=<remoteAddress>]
                           Optional host to connect to. e.g. 127.0.0.1:9090
 ```
 
-By default the generated FMU seemingly behaves like a regular FMU. 
+By default, the generated FMU seemingly behaves like a regular FMU. 
 However, internally the FMU is communicating with the original FMU over TCP/IP.
 When targeting localhost, this all happens automatically.
 
@@ -67,6 +67,16 @@ When targeting localhost, this all happens automatically.
 
 3. Load the FMU as usual.
 
+### Environment setup
+
+FMU-proxy relies on Java and thus requires a suitable environment to run.
+
+##### Windows
+1. JAVA_HOME should point to a JDK8+ installation.
+2. %JAVA_HOME%\jre\bin\server must be added to PATH.
+
+##### Linux
+On linux things should just work after installing the JDK.  
 
 ### Publications
 
