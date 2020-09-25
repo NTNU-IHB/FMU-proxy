@@ -54,7 +54,7 @@ class FmuProxifier(
         @CommandLine.Option(names = ["-f", "--file"], description = ["Path to the FMU to proxify."], required = true)
         lateinit var fmuFile: File
 
-        @CommandLine.Option(names = ["-d", "--dest"], description = ["Where to save the FMU."])
+        @CommandLine.Option(names = ["-d", "--dest"], description = ["Where to save the FMU (defaults to current folder)."])
         var destFile: File? = null
 
         override fun run() {

@@ -46,7 +46,7 @@ This allows you to:
 
 ```
 Usage: fmu-proxify [-h] [-d=<destFile>] -f=<fmuFile> [-r=<remoteAddress>]
-  -d, --dest=<destFile>   Where to save the FMU.
+  -d, --dest=<destFile>   Where to save the FMU (defaults to current folder).
   -f, --file=<fmuFile>    Path to the FMU to proxify.
   -h, --help              Print this message and quits.
   -r, --remote=<remoteAddress>
@@ -60,7 +60,7 @@ When targeting localhost, this all happens automatically.
 #### Running the FMU on another computer
 
 1. The target computer needs to start __fmu-proxy.jar__ <br>
-`java -jar fmu-proxy-server.jar <port>`
+`java -jar fmu-proxy.jar <port>`
 
 2. Generate the FMU with the option `--remote <hostname:port>` <br>
  (or modify proxySettings.txt inside an existing FMU)
