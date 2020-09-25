@@ -1,0 +1,32 @@
+plugins {
+    id "kotlin"
+    id "application"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxy"
+
+dependencies {
+
+    implementation project(":rpc-gen")
+
+    implementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
+
+}
+
+run {
+    if (project.hasProperty("appArgs")) {
+        args appArgs.split(" ")
+    }
+    standardInput = System.in
+}
+
+shadowJar {
+    version = null
+    archiveBaseName.set('fmu-proxy-server')
+}

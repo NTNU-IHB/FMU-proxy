@@ -2,12 +2,10 @@
 rootProject.name = 'FMU-proxy'
 
 include 'rpc-gen'
-include 'fmu-proxy-clients'
-if (getProperties().get("buildClientsOnly", false)) {
-    println "Building client library only.."
-} else {
-    include 'fmu-proxy'
-}
+include 'fmu-proxy'
+include 'fmu-proxify'
+include 'fmu-wrapper'
+include 'fmu-proxy-server'
 
 buildscript {
     repositories {

@@ -1,0 +1,25 @@
+plugins {
+    id "kotlin"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+dependencies {
+
+    implementation project(":rpc-gen")
+    implementation "no.ntnu.ihb.fmi4j:fmi-md:$fmi4j_version"
+    implementation "no.ntnu.ihb.fmi4j:fmi-export:$fmi4j_version"
+
+    def slf4j_version = '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
+
+
+}
+
+shadowJar {
+    version = null
+    archiveBaseName.set('fmu-wrapper')
+}
+

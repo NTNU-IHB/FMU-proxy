@@ -1,14 +1,14 @@
 plugins {
     id "base"
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.4.0" apply false //apply in sub-projects
+    id "org.jetbrains.kotlin.jvm" version "1.4.10" apply false //apply in sub-projects
 }
 
 println "Gradle version is ${gradle.getGradleVersion()}"
 
-ext.grpc_version = '1.25.0'
 ext.slf4j_version = '1.7.25'
-ext.fmi4j_version = '0.31.4'
+ext.picocli_version = '4.5.0'
+ext.fmi4j_version = '0.33.0'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -19,13 +19,13 @@ subprojects { sub ->
 
     repositories {
         mavenCentral()
-        maven { url  "https://dl.bintray.com/ntnu-ihb/mvn"  }
+        maven { url  "https://dl.bintray.com/ntnu-ihb/mvn" }
     }
 
     dependencies {
 
         sub.plugins.withId('kotlin') {
-            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+            implementation "org.jetbrains.kotlin:kotlin-stdlib"
         }
         
     }
@@ -35,17 +35,11 @@ subprojects { sub ->
             kotlinOptions {
                 jvmTarget = "1.8"
                 javaParameters = true
-                
-                //required for @JvmDefault
-                freeCompilerArgs = ['-Xjvm-default=enable']
             }
         }
 
         compileTestKotlin {
-            kotlinOptions {
-                jvmTarget = "1.8"
-                javaParameters = true
-            }
+            kotlinOptions.jvmTarget = "1.8"
         }
     }
 

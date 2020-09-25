@@ -1,0 +1,44 @@
+plugins {
+    id "kotlin"
+    id "application"
+    id "distribution"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxify"
+
+dependencies {
+
+    implementation "info.picocli:picocli:$picocli_version"
+    implementation "no.ntnu.ihb.fmi4j:fmu-builder:$fmi4j_version"
+
+    testImplementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
+}
+
+distributions {
+    main {
+        baseName("fmuproxify")
+    }
+}
+
+startScripts {
+    applicationName = 'fmuproxify'
+}
+
+task copyWrapperJar(type: Copy) {
+    from rootProject.file("fmu-wrapper/build/libs/fmu-wrapper.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-wrapper:shadowJar"
+}
+
+task copyProxyJar(type: Copy) {
+    from rootProject.file("fmu-proxy-server/build/libs/fmu-proxy-server.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-proxy-server:shadowJar"
+}
+
+compileKotlin.dependsOn copyProxyJar
+compileKotlin.dependsOn copyWrapperJar
+
+build.finalizedBy installDist

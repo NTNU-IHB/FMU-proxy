@@ -1,4 +1,3 @@
-
 plugins {
     id "kotlin"
     id "application"
@@ -6,32 +5,25 @@ plugins {
 
 apply from: rootProject.file("gradle/junit.gradle")
 
-mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxy"
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxyStarter"
 
 dependencies {
 
     implementation project(":rpc-gen")
-    
-    implementation group: 'info.picocli', name: 'picocli', version: '4.5.0'
-
-    implementation group: 'io.grpc', name: 'grpc-netty', version: grpc_version
-
-    def jetty_version = "9.4.11.v20180605"
-    implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jetty_version
-    implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jetty_version
-
-    implementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
-    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
-
-    testImplementation project(':fmu-proxy-clients')
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
 
 }
 
 run {
-    if (project.hasProperty("appArgs")) {
-        args appArgs.split(" ")
-    }
     standardInput = System.in
 }
+
+task copyProxyJar(type: Copy) {
+    from rootProject.file("fmu-proxy-server/build/libs/fmu-proxy-server.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-proxy-server:shadowJar"
+}
+
+assemble.dependsOn copyProxyJar
