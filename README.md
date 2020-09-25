@@ -6,40 +6,57 @@
 [![Join the chat at https://gitter.im/NTNU-IHB/FMU-proxy](https://badges.gitter.im/NTNU-IHB/FMU-proxy.svg)](https://gitter.im/NTNU-IHB/FMU-proxy?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![CI](https://github.com/NTNU-IHB/FMU-proxy/workflows/Build/badge.svg)](https://github.com/NTNU-IHB/FMU-proxy/actions)
 
-The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models to be shared across tools. 
-To accomplish this, FMI relies on a combination of XML-files and compiled C-code packaged in a zip archive. 
-This archive is called a Functional Mock-up Unit (FMU) and uses the extension .fmu. 
-In theory, an FMU can support multiple platforms, however this is not always the case and depends on the type of binaries the exporting tool was able to provide. 
-Furthermore, a library providing FMI support may not be available in a particular language or platform, and/or it may not support the whole standard. 
-Another issue is related to the protection of Intellectual Property (IP). 
-While an FMU is free to only provide the C-code in its binary form, other resources shipped with the FMU may be unprotected.   
+The main goal of the Functional Mock-up Interface (FMI) standard is to allow simulation models 
+to be shared across tools. To accomplish this, FMI relies on a combination of XML-files and compiled 
+C-code packaged in a zip archive. This archive is called a Functional Mock-up Unit (FMU) and uses 
+the extension .fmu. In theory, an FMU can support multiple platforms, however this is not always 
+the case and depends on the type of binaries the exporting tool was able to provide. 
+Furthermore, a library providing FMI support may not be available in a particular language or platform, 
+and/or it may not support the whole standard. Another issue is related to the protection of 
+Intellectual Property (IP). While an FMU is free to only provide the C-code in its binary form, 
+other resources shipped with the FMU may be unprotected.   
 
-In order to overcome these challenges, we present an open-source framework for working with functional mock-up units across languages and platforms. 
-This is done by wrapping a set of FMUs inside a server program supporting multiple language independent Remote Procedure Calls (RPCs) and protocols over several network transports. 
-Currently, Apache Thrift (HTTP, TCP/IP) and gRPC (HTTP/2) are supported. 
-
-Together, they allow FMUs to be invoked from virtually any language on any platform.
-As users don't have direct access to the FMU or the resources within it, IP is effectively protected.
-
-***
-
-FMU-proxy is a framework for accessing FMUs compatible with FMI for Co-simulation and Model Exchange 2.0 in a language and platform independent way. 
-This is achieved using well established RPC technologies. 
-Due to the technologies involved, clients and servers for FMU-proxy can be written in almost any language, on any platform! 
-
-A server implementation has been realized on the JVM, while client implementations exists for C++, JVM, Python and (browser) JavaScript. 
-It's easy to add additional implementations, as the RPC frameworks will generate most of the code for you! 
+In order to overcome these challenges, we present an open-source framework for working with 
+FMUs across languages and platforms.
 
 FMU-proxy is different from other frameworks for distributed FMU invocations such as 
 [DACCOSIM](https://sourcesup.renater.fr/daccosim/), 
 [FMI GO!](https://mimmi.math.umu.se/cosimulation/fmigo) and 
 [Coral](https://github.com/viproma/coral) in that it completely separates itself from the master algorithm (logically and physically). 
-FMU-proxy is a completely standalone project which provides access to FMUs over the wire. And just that. 
+FMU-proxy is a completely standalone project, which provides access to FMUs over the wire. And just that. 
 
 The idea is that other applications should use FMU-proxy whenever FMUs are required to run distributed, 
 rather than having each application creating their own solution.
 
 ***
+
+### fmu-proxify
+
+fmu-proxify is a CLI that transforms a co-simulation FMU compatible with either version 
+FMI 1.0 or 2.0 into a __proxified__ version of the same FMU.
+Internally, the proxy FMU wraps the original FMU in a server program. 
+Each new instance of the original FMU runs in a separate process.
+
+This allows you to:
+* Import FMI 1.0 models in software that otherwise only supports FMI 2.0.
+* Instantiate multiple instances of FMUs that only allows one instance per process.
+* The ability to run the FMU on some remote resource
+    * Which in turn allows FMUs to run on otherwise unsupported platforms.
+
+By default the generated FMU seemingly behaves like a regular FMU. 
+However, internally the FMU is communicating with the original FMU over TCP/IP.
+When targeting localhost, this all happens automatically.
+
+#### Running the FMU on another computer
+
+1. The target computer needs to start __fmu-proxy.jar__ <br>
+`java -jar fmu-proxy-server.jar <port>`
+
+2. Generate the FMU with the option `--remote <hostname:port>` <br>
+ (or modify proxySettings.txt inside an existing FMU)
+
+3. Load the FMU as usual.
+
 
 ### Publications
 
@@ -48,3 +65,7 @@ rather than having each application creating their own solution.
 
 
 ***
+> Want to import FMUs in C++? Check out [FMI4cpp](https://github.com/NTNU-IHB/FMI4cpp) <br>
+> Want to develop or import FMUs in Java? Check out [FMI4j](https://github.com/NTNU-IHB/FMI4j) <br>
+> Want to develop FMUs in Python? Check out [PythonFMU](https://github.com/NTNU-IHB/PythonFMU) <br>
+> Need a complete co-simulation framework with SSP support? Check out [Vico](https://github.com/NTNU-IHB/Vico) <br>
