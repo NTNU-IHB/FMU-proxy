@@ -43,6 +43,16 @@ This allows you to:
 * The ability to run the FMU on some remote resource
     * Which in turn allows FMUs to run on otherwise unsupported platforms.
 
+
+```
+Usage: fmu-proxify [-h] [-d=<destFile>] -f=<fmuFile> [-r=<remoteAddress>]
+  -d, --dest=<destFile>   Where to save the FMU.
+  -f, --file=<fmuFile>    Path to the FMU to proxify.
+  -h, --help              Print this message and quits.
+  -r, --remote=<remoteAddress>
+                          Optional host to connect to. e.g. 127.0.0.1:9090
+```
+
 By default the generated FMU seemingly behaves like a regular FMU. 
 However, internally the FMU is communicating with the original FMU over TCP/IP.
 When targeting localhost, this all happens automatically.
