@@ -14,11 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/checkout@v1
-      - name: Set up JDK 11
+      - name: Set up JDK 8
         uses: actions/setup-java@v1
         with:
-          java-version: 11.0.3
+          java-version: 1.8
 
       - uses: actions/cache@v2
         with:
@@ -27,13 +26,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build (Windows)
-        if: startsWith(runner.os, 'Windows')
+      - name: Build
         run: ./gradlew clean build installDist
-
-      - name: Build (Linux)
-        if: startsWith(runner.os, 'Linux')
-        run: sudo ./gradlew clean build installDist
 
 #      - uses: actions/upload-artifact@v2
 #        with:
