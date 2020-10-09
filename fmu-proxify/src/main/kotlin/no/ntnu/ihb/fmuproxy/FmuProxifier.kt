@@ -22,13 +22,21 @@ class FmuProxifier(
             settingsText += "remote=${it.strRepr}"
         }
 
-        val tmpSettingsFolder = Files.createTempDirectory("fmu-proxifier").toFile()
-        val tmpSettingsFile = File(tmpSettingsFolder, "proxy-settings.txt").apply {
+        val tmpDir = Files.createTempDirectory("fmu-proxifier").toFile()
+        val tmpSettingsFile = File(tmpDir, "proxy-settings.txt").apply {
             writeText(settingsText)
         }
 
-        val fmuJar = File(FmuProxifier::class.java.classLoader.getResource("fmu-wrapper.jar")!!.file)
-        val serverJar = File(FmuProxifier::class.java.classLoader.getResource("fmu-proxy-server.jar")!!.file)
+        val fmuJarResource = FmuProxifier::class.java.classLoader.getResource("fmu-wrapper.jar")!!
+        val serverJarResource = FmuProxifier::class.java.classLoader.getResource("fmu-proxy-server.jar")!!
+
+        val fmuJar = File(tmpDir, "fmu-wrapper.jar").apply {
+            writeBytes(fmuJarResource.readBytes())
+        }
+
+        val serverJar = File(tmpDir, "fmu-proxy-server.jar").apply {
+            writeBytes(serverJarResource.readBytes())
+        }
 
         val proxyFmu = FmuBuilder(
             mainClass = "no.ntnu.ihb.fmuproxy.FmuWrapper",
@@ -36,7 +44,7 @@ class FmuProxifier(
             resources = arrayOf(fmu, serverJar, tmpSettingsFile)
         ).build(dest)
 
-        tmpSettingsFile.deleteRecursively()
+        tmpDir.deleteRecursively()
 
         return proxyFmu
 
