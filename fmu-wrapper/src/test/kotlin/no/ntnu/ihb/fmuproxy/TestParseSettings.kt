@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test
 
 internal class TestParseSettings {
 
-
     private val fmuName = "identity.fmu"
     private val remote = RemoteAddress("localhost", 9090)
 

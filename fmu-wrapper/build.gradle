@@ -22,4 +22,3 @@ shadowJar {
     version = null
     archiveBaseName.set('fmu-wrapper')
 }
-
