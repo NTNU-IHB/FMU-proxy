@@ -16,16 +16,6 @@ dependencies {
     testImplementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 }
 
-distributions {
-    main {
-        baseName("fmuproxify")
-    }
-}
-
-startScripts {
-    applicationName = 'fmuproxify'
-}
-
 task copyWrapperJar(type: Copy) {
     from rootProject.file("fmu-wrapper/build/libs/fmu-wrapper.jar")
     into project.file("src/main/resources")
