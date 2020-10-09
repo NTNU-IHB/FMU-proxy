@@ -6,7 +6,7 @@ plugins {
 
 apply from: rootProject.file("gradle/junit.gradle")
 
-mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxify"
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxifier"
 
 dependencies {
 
