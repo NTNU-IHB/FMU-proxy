@@ -45,9 +45,9 @@ This allows you to:
 
 
 ```
-Usage: fmu-proxify [-h] [-d=<destFile>] -f=<fmuFile> [-r=<remoteAddress>]
+Usage: fmu-proxify [-h] [-d=<destFile>] [-r=<remoteAddress>] FMU-FILE
+      FMU-FILE            Path to the FMU to proxify.
   -d, --dest=<destFile>   Where to save the FMU (defaults to current folder).
-  -f, --file=<fmuFile>    Path to the FMU to proxify.
   -h, --help              Print this message and quits.
   -r, --remote=<remoteAddress>
                           Optional host to connect to. e.g. 127.0.0.1:9090

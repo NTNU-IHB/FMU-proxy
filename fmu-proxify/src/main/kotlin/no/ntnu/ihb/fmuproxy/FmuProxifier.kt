@@ -59,11 +59,15 @@ class FmuProxifier(
         @CommandLine.Option(names = ["-r", "--remote"], description = ["Optional host to connect to. e.g. 127.0.0.1:9090"])
         var remoteAddress: String? = null
 
-        @CommandLine.Option(names = ["-f", "--file"], description = ["Path to the FMU to proxify."], required = true)
-        lateinit var fmuFile: File
-
         @CommandLine.Option(names = ["-d", "--dest"], description = ["Where to save the FMU (defaults to current folder)."])
         var destFile: File? = null
+
+        @CommandLine.Parameters(
+                arity = "1",
+                paramLabel = "FMU-FILE",
+                description = ["Path to the FMU to proxify."],
+        )
+        lateinit var fmuFile: File
 
         override fun run() {
             val remote = remoteAddress?.let { RemoteAddress.parse(it) }
