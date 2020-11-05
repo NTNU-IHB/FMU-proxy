@@ -8,7 +8,7 @@ println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.slf4j_version = '1.7.25'
 ext.picocli_version = '4.5.0'
-ext.fmi4j_version = '0.33.3'
+ext.fmi4j_version = '0.33.4'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -19,7 +19,7 @@ subprojects { sub ->
 
     repositories {
         mavenCentral()
-        maven { url  "https://dl.bintray.com/ntnu-ihb/mvn" }
+        maven { url "https://dl.bintray.com/ntnu-ihb/mvn" }
     }
 
     dependencies {
@@ -27,9 +27,9 @@ subprojects { sub ->
         sub.plugins.withId('kotlin') {
             implementation "org.jetbrains.kotlin:kotlin-stdlib"
         }
-        
+
     }
-    
+
     sub.plugins.withId('kotlin') {
         compileKotlin {
             kotlinOptions {
@@ -53,7 +53,8 @@ tasks.create('cleanTemp') {
         temp.listFiles(new FilenameFilter() {
             @Override
             boolean accept(File dir, String name) {
-                return dir == temp && name.startsWith("fmi4j_")
+                return dir == temp && name.startsWith("fmi4j_") ||
+                        dir == temp && name.startsWith("fmu_proxy")
             }
         }).each {
             it.deleteDir()
