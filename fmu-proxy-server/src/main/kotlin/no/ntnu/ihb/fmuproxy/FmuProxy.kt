@@ -43,8 +43,11 @@ object FmuProxy {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val port = args[0].toInt()
+        if (args.size != 2) throw IllegalArgumentException("Expected two input arguments: port fmuPath!")
+        val port = args[0].toIntOrNull() ?: throw IllegalArgumentException("Unable to parse port!")
         val fmuFile = File(args[1])
+
+        if (!fmuFile.exists()) throw IllegalArgumentException("No such file: '${fmuFile.absolutePath}'!")
         val fmu = AbstractFmu.from(fmuFile)
 
         InternalFmuServiceImpl(port, fmu).apply {
