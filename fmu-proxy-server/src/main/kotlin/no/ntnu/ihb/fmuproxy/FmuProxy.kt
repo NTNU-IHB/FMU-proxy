@@ -70,8 +70,8 @@ object FmuProxy {
             }
 
             while (true) {
-                if (!stopped.get()) {
-                    Thread.sleep(1000)
+                if (!stopped.get()) { //wait for shutdown()
+                    Thread.sleep(100)
                 } else {
                     break
                 }
