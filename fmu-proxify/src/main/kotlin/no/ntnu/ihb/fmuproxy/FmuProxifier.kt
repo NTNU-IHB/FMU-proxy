@@ -22,7 +22,7 @@ class FmuProxifier(
             settingsText += "remote=${it.strRepr}"
         }
 
-        val tmpDir = Files.createTempDirectory("fmu-proxifier").toFile()
+        val tmpDir = Files.createTempDirectory("fmu_proxy").toFile()
         val tmpSettingsFile = File(tmpDir, "proxy-settings.txt").apply {
             writeText(settingsText)
         }
