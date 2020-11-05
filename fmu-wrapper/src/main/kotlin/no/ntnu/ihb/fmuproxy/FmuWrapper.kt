@@ -146,7 +146,6 @@ class FmuWrapper(
                         variability(v.variability.fmi2Type())
                         min(v.real.min)
                         max(v.real.max)
-                        //unit(v.real.unit)
                         start(v.real.start)
                     })
                 }
