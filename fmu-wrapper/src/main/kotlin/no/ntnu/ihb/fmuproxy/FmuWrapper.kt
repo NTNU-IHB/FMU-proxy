@@ -9,19 +9,18 @@ import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
-import java.io.Closeable
-import java.io.File
-import java.io.FileInputStream
-import java.io.StringReader
+import java.io.*
+import java.util.concurrent.TimeUnit
 import javax.xml.bind.JAXB
 
 
 class FmuWrapper(
-    args: Map<String, Any>
+        args: Map<String, Any>
 ) : Fmi2Slave(args) {
 
     private val fmu: File
     private val client: ThriftFmuClient?
+    private var localProcess: Process? = null
 
     override val automaticallyAssignStartValues = false
 
@@ -34,7 +33,8 @@ class FmuWrapper(
             val remote = settings.remote
             if (remote == null) {
                 val server = getFmuResource("fmu-proxy-server.jar")
-                val port = startLocalProxy(server, fmu)
+                val (process, port) = startLocalProxy(server, fmu)
+                this.localProcess = process
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient("localhost", port)
             } else {
@@ -45,16 +45,16 @@ class FmuWrapper(
         }
     }
 
+    override fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
+        this.client?.setupExperiment(startTime, stopTime, tolerance)
+    }
+
     override fun enterInitialisationMode() {
         this.client?.enterInitializationMode()
     }
 
     override fun exitInitialisationMode() {
         this.client?.exitInitializationMode()
-    }
-
-    override fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
-        this.client?.setupExperiment(startTime, stopTime, tolerance)
     }
 
     override fun doStep(currentTime: Double, dt: Double) {
@@ -67,6 +67,10 @@ class FmuWrapper(
 
     override fun close() {
         client?.close()
+
+        localProcess?.apply {
+            waitFor(2000, TimeUnit.MILLISECONDS)
+        }
     }
 
     override fun getInteger(vr: LongArray): IntArray {
@@ -228,8 +232,8 @@ class FmuWrapper(
 }
 
 private class ThriftFmuClient(
-    host: String,
-    port: Int
+        host: String,
+        port: Int
 ) : Closeable {
 
     private val transport = TFramedTransport.Factory()

@@ -12,6 +12,7 @@ import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
 import java.io.File
+import java.io.FileInputStream
 import java.io.InputStream
 import java.io.StringReader
 import java.net.ServerSocket
@@ -19,6 +20,7 @@ import java.nio.ByteBuffer
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import javax.xml.bind.JAXB
+import kotlin.concurrent.thread
 
 internal fun String.isLoopback(): Boolean {
     return this == "localhost" || this == "127.0.0.1"
@@ -33,7 +35,7 @@ private fun getAvailablePort(): Int {
 internal fun startRemoteProxy(fmuFile: File, host: String, port: Int): Int {
     //with 150 MB max message size
     val transport = TFramedTransport.Factory(150000000)
-        .getTransport(TSocket(host, port))
+            .getTransport(TSocket(host, port))
     val protocol = TBinaryProtocol(transport)
     val client = FmuService.Client(protocol)
     transport.open()
@@ -41,14 +43,16 @@ internal fun startRemoteProxy(fmuFile: File, host: String, port: Int): Int {
     return if (host.isLoopback()) {
         client.loadFromLocalFile(fmuFile.absolutePath)
     } else {
-        val data = fmuFile.readBytes().let {
-            ByteBuffer.wrap(it)
+        val data = FileInputStream(fmuFile).buffered().use {
+            ByteBuffer.wrap(it.readBytes())
         }
         client.loadFromRemoteFile(fmuFile.name, data)
+    }.also {
+        transport.close()
     }
 }
 
-internal fun startLocalProxy(proxyFile: File, fmuFile: File): Int {
+internal fun startLocalProxy(proxyFile: File, fmuFile: File): Pair<Process, Int> {
 
     require(fmuFile.exists()) { "No such file: $fmuFile" }
     require(proxyFile.exists()) { "No such file: $proxyFile" }
@@ -60,12 +64,20 @@ internal fun startLocalProxy(proxyFile: File, fmuFile: File): Int {
             "$port", fmuFile.absolutePath
     )
 
-    ProcessBuilder().apply {
+    val pb = ProcessBuilder().apply {
         command(*cmd)
-        start()
     }
 
-    return port
+    val process = pb.start()
+    thread(true) {
+        val br = process.inputStream.bufferedReader()
+        while (true) {
+            val read = br.readLine()
+            if (read == null) break else println(read)
+        }
+    }
+
+    return process to port
 }
 
 internal fun extractModelDescriptionXml(stream: InputStream): String {
