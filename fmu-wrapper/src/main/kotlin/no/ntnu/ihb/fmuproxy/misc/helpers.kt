@@ -2,7 +2,6 @@ package no.ntnu.ihb.fmuproxy.misc
 
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiCausality
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
-import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiScalarVariable
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiVariability
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Causality
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
@@ -13,13 +12,8 @@ import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
 import java.io.File
 import java.io.FileInputStream
-import java.io.InputStream
-import java.io.StringReader
 import java.net.ServerSocket
 import java.nio.ByteBuffer
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
-import javax.xml.bind.JAXB
 import kotlin.concurrent.thread
 
 internal fun String.isLoopback(): Boolean {
@@ -78,25 +72,6 @@ internal fun startLocalProxy(proxyFile: File, fmuFile: File): Pair<Process, Int>
     }
 
     return process to port
-}
-
-internal fun extractModelDescriptionXml(stream: InputStream): String {
-    val xmlFile = "modelDescription.xml"
-    ZipInputStream(stream).use { zis ->
-        var nextEntry: ZipEntry? = zis.nextEntry
-        while (nextEntry != null) {
-            if (nextEntry.name == xmlFile) {
-                return zis.bufferedReader().use { it.readText() }
-            }
-            nextEntry = zis.nextEntry
-        }
-    }
-    throw IllegalArgumentException("Input is not an valid FMU! No $xmlFile present!")
-}
-
-
-internal fun extractFmiVersion(xml: String): String {
-    return JAXB.unmarshal(StringReader(xml), MockupModelDescription::class.java).fmiVersion
 }
 
 internal fun parseSettings(settings: File): ProxySettings {
