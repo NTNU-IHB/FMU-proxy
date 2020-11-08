@@ -1,8 +1,10 @@
 package no.ntnu.ihb.fmuproxy
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
+import no.ntnu.ihb.fmi4j.modeldescription.util.FmiModelDescriptionUtil
 import no.ntnu.ihb.fmuproxy.misc.*
 import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
@@ -11,7 +13,6 @@ import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
 import java.io.*
 import java.util.concurrent.TimeUnit
-import javax.xml.bind.JAXB
 
 
 class FmuWrapper(
@@ -107,10 +108,11 @@ class FmuWrapper(
 
     override fun registerVariables() {
 
-        val xml = extractModelDescriptionXml(FileInputStream(fmu))
-        when (val version = extractFmiVersion(xml)) {
-            "1.0" -> processFmi1ModelDescription(JAXB.unmarshal(StringReader(xml), FmiModelDescription::class.java))
-            "2.0" -> processFmi2ModelDescription(JAXB.unmarshal(StringReader(xml), Fmi2ModelDescription::class.java))
+        val mapper = XmlMapper()
+        val xml = FmiModelDescriptionUtil.extractModelDescriptionXml(FileInputStream(fmu))
+        when (val version = FmiModelDescriptionUtil.extractVersion(xml)) {
+            "1.0" -> processFmi1ModelDescription(mapper.readValue(xml, FmiModelDescription::class.java))
+            "2.0" -> processFmi2ModelDescription(mapper.readValue(xml, Fmi2ModelDescription::class.java))
             else -> throw IllegalArgumentException("Unknown FMI version: $version")
         }
 
