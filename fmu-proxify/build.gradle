@@ -13,6 +13,10 @@ dependencies {
     implementation "info.picocli:picocli:$picocli_version"
     implementation "no.ntnu.ihb.fmi4j:fmu-builder:$fmi4j_version"
 
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.3'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
+
     testImplementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
 }
 
