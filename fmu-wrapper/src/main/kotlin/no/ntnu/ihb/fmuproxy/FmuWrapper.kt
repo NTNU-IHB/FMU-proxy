@@ -1,6 +1,5 @@
 package no.ntnu.ihb.fmuproxy
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
@@ -19,7 +18,7 @@ class FmuWrapper(
         args: Map<String, Any>
 ) : Fmi2Slave(args) {
 
-    private val fmu: File
+    private val fmuFile: File
     private val client: ThriftFmuClient?
     private var localProcess: Process? = null
 
@@ -27,19 +26,19 @@ class FmuWrapper(
 
     init {
         val settings = parseSettings(getFmuResource("proxy-settings.txt"))
-        this.fmu = getFmuResource(settings.fmuName)
+        this.fmuFile = getFmuResource(settings.fmuName)
         if (instanceName == "dummyInstance") {
             this.client = null
         } else {
             val remote = settings.remote
             if (remote == null) {
                 val server = getFmuResource("fmu-proxy-server.jar")
-                val (process, port) = startLocalProxy(server, fmu)
+                val (process, port) = startLocalProxy(server, fmuFile)
                 this.localProcess = process
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient("localhost", port)
             } else {
-                val port = startRemoteProxy(this.fmu, remote.host, remote.port)
+                val port = startRemoteProxy(this.fmuFile, remote.host, remote.port)
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient(remote.host, port)
             }
@@ -108,11 +107,10 @@ class FmuWrapper(
 
     override fun registerVariables() {
 
-        val mapper = XmlMapper()
-        val xml = FmiModelDescriptionUtil.extractModelDescriptionXml(FileInputStream(fmu))
+        val xml = FmiModelDescriptionUtil.extractModelDescriptionXml(FileInputStream(fmuFile))
         when (val version = FmiModelDescriptionUtil.extractVersion(xml)) {
-            "1.0" -> processFmi1ModelDescription(mapper.readValue(xml, FmiModelDescription::class.java))
-            "2.0" -> processFmi2ModelDescription(mapper.readValue(xml, Fmi2ModelDescription::class.java))
+            "1.0" -> processFmi1ModelDescription(FmiModelDescription.fromXml(xml))
+            "2.0" -> processFmi2ModelDescription(Fmi2ModelDescription.fromXml(xml))
             else -> throw IllegalArgumentException("Unknown FMI version: $version")
         }
 
