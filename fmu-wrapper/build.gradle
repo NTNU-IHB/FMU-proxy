@@ -10,7 +10,6 @@ dependencies {
     implementation project(":rpc-gen")
     implementation "no.ntnu.ihb.fmi4j:fmi-md:$fmi4j_version"
     implementation "no.ntnu.ihb.fmi4j:fmi-export:$fmi4j_version"
-    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3"
 
     def slf4j_version = '1.7.25'
     implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
