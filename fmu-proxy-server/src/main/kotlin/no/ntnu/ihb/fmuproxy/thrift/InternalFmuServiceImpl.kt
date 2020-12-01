@@ -24,6 +24,7 @@
 
 package no.ntnu.ihb.fmuproxy.thrift
 
+import no.ntnu.ihb.fmi4j.FmiStatus
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
@@ -156,6 +157,19 @@ class InternalFmuServiceImpl(
         return BooleanRead(values.toList(), status)
     }
 
+    override fun readAll(intVr: MutableList<Long>, realVr: MutableList<Long>, strVr: MutableList<Long>, boolVr: MutableList<Long>): BulkRead {
+        val intValues = IntArray(intVr.size)
+        val realValues = RealArray(realVr.size)
+        val strValues = StringArray(strVr.size) {""}
+        val boolValues = BooleanArray(boolVr.size)
+        val status = slave.readAll(
+                intVr.toLongArray(), intValues,
+                realVr.toLongArray(), realValues,
+                strVr.toLongArray(), strValues,
+                boolVr.toLongArray(), boolValues
+        )
+        return BulkRead(intValues.toList(), realValues.toList(), strValues.toList(), boolValues.toList(), status.thriftType())
+    }
 
     override fun writeInteger(vr: List<ValueReference>, value: List<Int>): Status {
         return slave.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
@@ -171,6 +185,15 @@ class InternalFmuServiceImpl(
 
     override fun writeBoolean(vr: List<ValueReference>, value: List<Boolean>): Status {
         return slave.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
+    }
+
+    override fun writeAll(intVr: MutableList<Long>, intValue: MutableList<Int>, realVr: MutableList<Long>, realValue: MutableList<Double>, strVr: MutableList<Long>, strValue: MutableList<String>, boolVr: MutableList<Long>, boolValue: MutableList<Boolean>): Status {
+        return slave.writeAll(
+                intVr.toLongArray(), intValue.toIntArray(),
+                realVr.toLongArray(), realValue.toDoubleArray(),
+                strVr.toLongArray(), strValue.toTypedArray(),
+                boolVr.toLongArray(), boolValue.toBooleanArray()
+        ).thriftType()
     }
 
     override fun getDirectionalDerivative(

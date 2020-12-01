@@ -93,23 +93,31 @@ struct StepResult {
 }
 
 struct IntegerRead {
-    1: list<i32> value,
+    1: IntArray value,
     2: Status status
 }
 
 struct RealRead {
-    1: list<double> value,
+    1: RealArray value,
     2: Status status
 }
 
 struct StringRead {
-    1: list<string> value,
+    1: StringArray value,
     2: Status status
 }
 
 struct BooleanRead {
-    1: list<bool> value,
+    1: BooleanArray value,
     2: Status status
+}
+
+struct BulkRead {
+    1: IntArray intValue,
+    2: RealArray realValue,
+    3: StringArray stringValue,
+    4: BooleanArray booleanValue,
+    5: Status status
 }
 
 struct ModelDescription {
