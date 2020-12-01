@@ -24,13 +24,11 @@
 
 package no.ntnu.ihb.fmuproxy.thrift
 
-import no.ntnu.ihb.fmi4j.FmiStatus
 import no.ntnu.ihb.fmi4j.SlaveInstance
 import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmuproxy.FmuProxy
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.server.TNonblockingServer
@@ -157,19 +155,19 @@ class InternalFmuServiceImpl(
         return BooleanRead(values.toList(), status)
     }
 
-    override fun readAll(intVr: MutableList<Long>, realVr: MutableList<Long>, strVr: MutableList<Long>, boolVr: MutableList<Long>): BulkRead {
-        val intValues = IntArray(intVr.size)
-        val realValues = RealArray(realVr.size)
-        val strValues = StringArray(strVr.size) {""}
-        val boolValues = BooleanArray(boolVr.size)
+   /* override fun readAll(intVr: MutableList<Long>?, realVr: MutableList<Long>?, strVr: MutableList<Long>?, boolVr: MutableList<Long>?): BulkRead {
+        val intValues = IntArray(intVr?.size ?: 0)
+        val realValues = RealArray(realVr?.size ?: 0)
+        val strValues = StringArray(strVr?.size ?: 0) {""}
+        val boolValues = BooleanArray(boolVr?.size ?: 0)
         val status = slave.readAll(
-                intVr.toLongArray(), intValues,
-                realVr.toLongArray(), realValues,
-                strVr.toLongArray(), strValues,
-                boolVr.toLongArray(), boolValues
+                intVr?.toLongArray(), intValues,
+                realVr?.toLongArray(), realValues,
+                strVr?.toLongArray(), strValues,
+                boolVr?.toLongArray(), boolValues
         )
         return BulkRead(intValues.toList(), realValues.toList(), strValues.toList(), boolValues.toList(), status.thriftType())
-    }
+    }*/
 
     override fun writeInteger(vr: List<ValueReference>, value: List<Int>): Status {
         return slave.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
@@ -187,14 +185,14 @@ class InternalFmuServiceImpl(
         return slave.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
     }
 
-    override fun writeAll(intVr: MutableList<Long>, intValue: MutableList<Int>, realVr: MutableList<Long>, realValue: MutableList<Double>, strVr: MutableList<Long>, strValue: MutableList<String>, boolVr: MutableList<Long>, boolValue: MutableList<Boolean>): Status {
+    /*override fun writeAll(intVr: MutableList<Long>?, intValue: MutableList<Int>?, realVr: MutableList<Long>?, realValue: MutableList<Double>?, strVr: MutableList<Long>?, strValue: MutableList<String>?, boolVr: MutableList<Long>?, boolValue: MutableList<Boolean>?): Status {
         return slave.writeAll(
-                intVr.toLongArray(), intValue.toIntArray(),
-                realVr.toLongArray(), realValue.toDoubleArray(),
-                strVr.toLongArray(), strValue.toTypedArray(),
-                boolVr.toLongArray(), boolValue.toBooleanArray()
+                intVr?.toLongArray(), intValue?.toIntArray(),
+                realVr?.toLongArray(), realValue?.toDoubleArray(),
+                strVr?.toLongArray(), strValue?.toTypedArray(),
+                boolVr?.toLongArray(), boolValue?.toBooleanArray()
         ).thriftType()
-    }
+    }*/
 
     override fun getDirectionalDerivative(
         vUnkownRef: List<Long>,
