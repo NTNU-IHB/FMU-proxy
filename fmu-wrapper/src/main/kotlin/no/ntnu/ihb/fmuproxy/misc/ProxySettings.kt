@@ -21,7 +21,6 @@ data class RemoteAddress(
     companion object {
 
         fun parse(str: String): RemoteAddress {
-            println("str=$str")
             val (host, port) = str.split(":")
             return RemoteAddress(host, port.toInt())
         }
