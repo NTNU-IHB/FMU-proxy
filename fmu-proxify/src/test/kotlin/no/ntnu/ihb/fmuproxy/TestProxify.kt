@@ -54,6 +54,18 @@ internal class TestProxify {
         Assertions.assertTrue(proxyFmu.exists())
         Assertions.assertEquals("identity-proxy.fmu", proxyFmu.name)
 
+        val vrs = longArrayOf(0)
+
+        val intValue = intArrayOf(99)
+        val realValue = doubleArrayOf(12.3)
+        val boolValue = booleanArrayOf(true)
+        val strValue = stringArrayOf("Hello identity")
+
+        val intRef = IntArray(1)
+        val realRef = DoubleArray(1)
+        val boolRef = BooleanArray(1)
+        val strRef = StringArray(1)
+
         Fmu.from(proxyFmu).asCoSimulationFmu().use { fmu ->
 
             val md = fmu.modelDescription
@@ -62,18 +74,6 @@ internal class TestProxify {
             fmu.newInstance().use { slave ->
 
                 Assertions.assertTrue(slave.simpleSetup())
-
-                val vrs = longArrayOf(0)
-
-                val intValue = intArrayOf(99)
-                val realValue = doubleArrayOf(12.3)
-                val boolValue = booleanArrayOf(true)
-                val strValue = stringArrayOf("Hello identity")
-
-                val intRef = IntArray(1)
-                val realRef = DoubleArray(1)
-                val boolRef = BooleanArray(1)
-                val strRef = StringArray(1)
 
                 slave.writeInteger(vrs, intValue)
                 slave.writeReal(vrs, realValue)
@@ -97,18 +97,6 @@ internal class TestProxify {
             }
 
         }
-
-        val vrs = longArrayOf(0)
-
-        val intValue = intArrayOf(99)
-        val realValue = doubleArrayOf(12.3)
-        val boolValue = booleanArrayOf(true)
-        val strValue = stringArrayOf("Hello identity")
-
-        val intRef = IntArray(1)
-        val realRef = DoubleArray(1)
-        val boolRef = BooleanArray(1)
-        val strRef = StringArray(1)
 
         Fmu.from(proxyFmu).asCoSimulationFmu().use { fmu ->
 
