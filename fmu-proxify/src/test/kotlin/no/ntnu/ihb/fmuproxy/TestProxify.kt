@@ -3,7 +3,6 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.stringArrayOf
-import no.ntnu.ihb.fmi4j.readBoolean
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -42,7 +41,7 @@ internal class TestProxify {
         }
 
     }
-    
+
     @Test
     fun testIdentity() {
         val generatedFmusDir = File("build/generatedFmus")
@@ -75,17 +74,19 @@ internal class TestProxify {
 
                 Assertions.assertTrue(slave.simpleSetup())
 
-                slave.writeInteger(vrs, intValue)
-                slave.writeReal(vrs, realValue)
-                slave.writeBoolean(vrs, boolValue)
-                slave.writeString(vrs, strValue)
+                for (i in 0..100) {
+                    slave.writeInteger(vrs, intValue)
+                    slave.writeReal(vrs, realValue)
+                    slave.writeBoolean(vrs, boolValue)
+                    slave.writeString(vrs, strValue)
 
-                Assertions.assertTrue(slave.doStep(0.1))
+                    Assertions.assertTrue(slave.doStep(0.1))
 
-                slave.readInteger(vrs, intRef)
-                slave.readReal(vrs, realRef)
-                slave.readBoolean(vrs, boolRef)
-                slave.readString(vrs, strRef)
+                    slave.readInteger(vrs, intRef)
+                    slave.readReal(vrs, realRef)
+                    slave.readBoolean(vrs, boolRef)
+                    slave.readString(vrs, strRef)
+                }
 
                 Assertions.assertEquals(intRef.first(), intValue.first())
                 Assertions.assertEquals(realRef.first(), realValue.first())
@@ -104,19 +105,23 @@ internal class TestProxify {
 
                 Assertions.assertTrue(slave.simpleSetup())
 
-                slave.writeAll(
-                    vrs, intValue,
-                    vrs, realValue,
-                    vrs, boolValue,
-                    vrs, strValue
-                )
+                for (i in 0..100) {
+                    slave.writeAll(
+                        vrs, intValue,
+                        vrs, realValue,
+                        vrs, boolValue,
+                        vrs, strValue
+                    )
 
-                slave.readAll(
-                    vrs, intRef,
-                    vrs, realRef,
-                    vrs, boolRef,
-                    vrs, strRef
-                )
+                    slave.doStep(0.1)
+
+                    slave.readAll(
+                        vrs, intRef,
+                        vrs, realRef,
+                        vrs, boolRef,
+                        vrs, strRef
+                    )
+                }
 
                 Assertions.assertEquals(intRef.first(), intValue.first())
                 Assertions.assertEquals(realRef.first(), realValue.first())
