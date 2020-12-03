@@ -115,8 +115,8 @@ struct BooleanRead {
 struct BulkRead {
     1: IntArray intValue,
     2: RealArray realValue,
-    3: StringArray stringValue,
-    4: BooleanArray booleanValue,
+    3: BooleanArray booleanValue,
+    4: StringArray stringValue
     5: Status status
 }
 
