@@ -1,5 +1,6 @@
 package no.ntnu.ihb.fmuproxy
 
+import no.ntnu.ihb.fmi4j.export.BulkRead
 import no.ntnu.ihb.fmi4j.export.fmi2.Fmi2Slave
 import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
@@ -103,6 +104,19 @@ class FmuWrapper(
 
     override fun setString(vr: LongArray, values: Array<String>) {
         return client?.writeString(vr, values) ?: throw IllegalStateException()
+    }
+
+    override fun getAll(intVr: LongArray, realVr: LongArray, boolVr: LongArray, strVr: LongArray): BulkRead {
+        return client?.readAll(intVr, realVr, boolVr, strVr) ?: throw IllegalStateException()
+    }
+
+    override fun setAll(
+        intVr: LongArray, intValues: IntArray,
+        realVr: LongArray, realValues: DoubleArray,
+        boolVr: LongArray, boolValues: BooleanArray,
+        strVr: LongArray, strValues: Array<String>
+    ) {
+        client?.writeAll(intVr, intValues, realVr, realValues, boolVr, boolValues, strVr, strValues)
     }
 
     override fun registerVariables() {
@@ -297,6 +311,30 @@ private class ThriftFmuClient(
 
     fun writeString(vr: LongArray, values: Array<String>) {
         client.writeString(vr.toList(), values.toList())
+    }
+
+    fun readAll(intVr: LongArray, realVr: LongArray, boolVr: LongArray, strVr: LongArray): BulkRead {
+        val response = client.readAll(intVr.toList(), realVr.toList(), boolVr.toList(), strVr.toList())
+        return BulkRead(
+            response.intValue.toIntArray(),
+            response.realValue.toDoubleArray(),
+            response.booleanValue.toBooleanArray(),
+            response.stringValue.toTypedArray()
+        )
+    }
+
+    fun writeAll(
+        intVr: LongArray, intValues: IntArray,
+        realVr: LongArray, realValues: DoubleArray,
+        boolVr: LongArray, boolValues: BooleanArray,
+        strVr: LongArray, strValues: Array<String>
+    ) {
+        client.writeAll(
+            intVr.toList(), intValues.toList(),
+            realVr.toList(), realValues.toList(),
+            boolVr.toList(), boolValues.toList(),
+            strVr.toList(), strValues.toList()
+        )
     }
 
     fun reset() {

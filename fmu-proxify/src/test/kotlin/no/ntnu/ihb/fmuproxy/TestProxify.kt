@@ -3,66 +3,13 @@ package no.ntnu.ihb.fmuproxy
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.stringArrayOf
+import no.ntnu.ihb.fmi4j.readBoolean
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.io.File
 
 
 internal class TestProxify {
-
-    @Test
-    fun testIdentity() {
-
-        val generatedFmusDir = File("build/generatedFmus")
-
-        val fmuToProxify = File("../test/fmus/1.0/identity.fmu")
-        Assertions.assertTrue(fmuToProxify.exists())
-
-        val proxyFmu = FmuProxifier(fmuToProxify).build(generatedFmusDir)
-        Assertions.assertTrue(proxyFmu.exists())
-        Assertions.assertEquals("identity-proxy.fmu", proxyFmu.name)
-
-        Fmu.from(proxyFmu).asCoSimulationFmu().use { fmu ->
-
-            val md = fmu.modelDescription
-            Assertions.assertEquals("no.viproma.demo.identity-proxy", md.modelName)
-
-            fmu.newInstance().use { slave ->
-
-                Assertions.assertTrue(slave.simpleSetup())
-
-                val vr = longArrayOf(0)
-                val realValue = 123.0
-                val strValue = "Hello world!"
-                val doubleRef = DoubleArray(1)
-                val strRef = StringArray(1) { "" }
-
-                slave.writeAll(
-                        null, null,
-                        vr, doubleArrayOf(realValue),
-                        vr, stringArrayOf(strValue),
-                        null, null
-                )
-
-                Assertions.assertTrue(slave.doStep(0.1))
-
-                slave.readAll(
-                        null, null,
-                        vr, doubleRef,
-                        vr, strRef,
-                        null, null
-                )
-
-                Assertions.assertEquals(realValue, doubleRef.first())
-                Assertions.assertEquals(strValue, strRef.first())
-
-                Assertions.assertTrue(slave.terminate())
-
-            }
-
-        }
-
-    }
 
     @Test
     fun testControlledTemperature() {
@@ -89,6 +36,104 @@ internal class TestProxify {
                     Assertions.assertTrue(slave.doStep(dt))
                 }
                 Assertions.assertTrue(slave.terminate())
+
+            }
+
+        }
+
+    }
+    
+    @Test
+    fun testIdentity() {
+        val generatedFmusDir = File("build/generatedFmus")
+
+        val fmuToProxify = File("../test/fmus/1.0/identity.fmu")
+        Assertions.assertTrue(fmuToProxify.exists())
+
+        val proxyFmu = FmuProxifier(fmuToProxify).build(generatedFmusDir)
+        Assertions.assertTrue(proxyFmu.exists())
+        Assertions.assertEquals("identity-proxy.fmu", proxyFmu.name)
+
+        Fmu.from(proxyFmu).asCoSimulationFmu().use { fmu ->
+
+            val md = fmu.modelDescription
+            Assertions.assertEquals("no.viproma.demo.identity-proxy", md.modelName)
+
+            fmu.newInstance().use { slave ->
+
+                Assertions.assertTrue(slave.simpleSetup())
+
+                val vrs = longArrayOf(0)
+
+                val intValue = intArrayOf(99)
+                val realValue = doubleArrayOf(12.3)
+                val boolValue = booleanArrayOf(true)
+                val strValue = stringArrayOf("Hello identity")
+
+                val intRef = IntArray(1)
+                val realRef = DoubleArray(1)
+                val boolRef = BooleanArray(1)
+                val strRef = StringArray(1)
+
+                slave.writeInteger(vrs, intValue)
+                slave.writeReal(vrs, realValue)
+                slave.writeBoolean(vrs, boolValue)
+                slave.writeString(vrs, strValue)
+
+                Assertions.assertTrue(slave.doStep(0.1))
+
+                slave.readInteger(vrs, intRef)
+                slave.readReal(vrs, realRef)
+                slave.readBoolean(vrs, boolRef)
+                slave.readString(vrs, strRef)
+
+                Assertions.assertEquals(intRef.first(), intValue.first())
+                Assertions.assertEquals(realRef.first(), realValue.first())
+                Assertions.assertEquals(boolRef.first(), boolValue.first())
+                Assertions.assertEquals(strRef.first(), strValue.first())
+
+                Assertions.assertTrue(slave.terminate())
+
+            }
+
+        }
+
+        val vrs = longArrayOf(0)
+
+        val intValue = intArrayOf(99)
+        val realValue = doubleArrayOf(12.3)
+        val boolValue = booleanArrayOf(true)
+        val strValue = stringArrayOf("Hello identity")
+
+        val intRef = IntArray(1)
+        val realRef = DoubleArray(1)
+        val boolRef = BooleanArray(1)
+        val strRef = StringArray(1)
+
+        Fmu.from(proxyFmu).asCoSimulationFmu().use { fmu ->
+
+            fmu.newInstance().use { slave ->
+
+                Assertions.assertTrue(slave.simpleSetup())
+
+                slave.writeAll(
+                    vrs, intValue,
+                    vrs, realValue,
+                    vrs, boolValue,
+                    vrs, strValue
+                )
+
+                slave.readAll(
+                    vrs, intRef,
+                    vrs, realRef,
+                    vrs, boolRef,
+                    vrs, strRef
+                )
+
+                Assertions.assertEquals(intRef.first(), intValue.first())
+                Assertions.assertEquals(realRef.first(), realValue.first())
+                Assertions.assertEquals(boolRef.first(), boolValue.first())
+                Assertions.assertEquals(strRef.first(), strValue.first())
 
             }
 

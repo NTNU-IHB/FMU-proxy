@@ -29,7 +29,7 @@ import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmuproxy.FmuProxy
+import no.ntnu.ihb.fmi4j.modeldescription.stringArrayOf
 import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.server.TNonblockingServer
@@ -156,6 +156,30 @@ class InternalFmuServiceImpl(
         return BooleanRead(values.toList(), status)
     }
 
+    override fun readAll(
+        intVr: MutableList<Long>?,
+        realVr: MutableList<Long>?,
+        strVr: MutableList<Long>?,
+        boolVr: MutableList<Long>?
+    ): BulkRead {
+        val intValues = IntArray(intVr?.size ?: 0)
+        val realValues = RealArray(realVr?.size ?: 0)
+        val strValues = StringArray(strVr?.size ?: 0)
+        val boolValues = BooleanArray(boolVr?.size ?: 0)
+        val status = slave.readAll(
+            intVr?.toLongArray(), intValues,
+            realVr?.toLongArray(), realValues,
+            boolVr?.toLongArray(), boolValues,
+            strVr?.toLongArray(), strValues
+        )
+        return BulkRead(
+            intValues.toList(),
+            realValues.toList(),
+            boolValues.toList(),
+            strValues.toList(),
+            status.thriftType()
+        )
+    }
 
     override fun writeInteger(vr: List<ValueReference>, value: List<Int>): Status {
         return slave.writeInteger(vr.toLongArray(), value.toIntArray()).thriftType()
@@ -171,6 +195,20 @@ class InternalFmuServiceImpl(
 
     override fun writeBoolean(vr: List<ValueReference>, value: List<Boolean>): Status {
         return slave.writeBoolean(vr.toLongArray(), value.toBooleanArray()).thriftType()
+    }
+
+    override fun writeAll(
+        intVr: MutableList<Long>?, intValue: MutableList<Int>?,
+        realVr: MutableList<Long>?, realValue: MutableList<Double>?,
+        boolVr: MutableList<Long>?, boolValue: MutableList<Boolean>?,
+        strVr: MutableList<Long>?, strValue: MutableList<String>?,
+    ): Status {
+        return slave.writeAll(
+            intVr?.toLongArray(), intValue?.toIntArray(),
+            realVr?.toLongArray(), realValue?.toDoubleArray(),
+            boolVr?.toLongArray(), boolValue?.toBooleanArray(),
+            strVr?.toLongArray(), strValue?.toTypedArray()
+        ).thriftType()
     }
 
     override fun getDirectionalDerivative(
@@ -191,6 +229,13 @@ class InternalFmuServiceImpl(
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(InternalFmuServiceImpl::class.java)
+
+        private val emptyLongArray = longArrayOf()
+        private val emptyIntArray = intArrayOf()
+        private val emptyDoubleArray = doubleArrayOf()
+        private val emptyBooleanArray = booleanArrayOf()
+        private val emptyStringArray = stringArrayOf()
+
     }
 
 }
