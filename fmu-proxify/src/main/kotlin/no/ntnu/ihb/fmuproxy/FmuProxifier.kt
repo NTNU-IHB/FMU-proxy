@@ -11,7 +11,7 @@ class FmuProxifier(
 ) {
 
     init {
-        require(fmu.exists()) { "No such file: $fmu" }
+        require(fmu.exists()) { "No such file: ${fmu.absolutePath}" }
         require(fmu.extension == "fmu") { "Invalid extension: ${fmu.extension}" }
     }
 
