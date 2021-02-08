@@ -57,6 +57,9 @@ By default, the generated FMU seemingly behaves like a regular FMU.
 However, internally the FMU is communicating with the original FMU over TCP/IP.
 When targeting localhost, this all happens automatically.
 
+To install the CLI tool, run `./gradlew installDist`. 
+The tool is then located under fmu-proxify/build/install
+
 #### Running the FMU on another computer
 
 1. The target computer needs to start __fmu-proxy.jar__ <br>
