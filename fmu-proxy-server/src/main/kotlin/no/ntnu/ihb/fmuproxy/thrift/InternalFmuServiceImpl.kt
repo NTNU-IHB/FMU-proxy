@@ -229,13 +229,6 @@ class InternalFmuServiceImpl(
 
     private companion object {
         private val LOG: Logger = LoggerFactory.getLogger(InternalFmuServiceImpl::class.java)
-
-        private val emptyLongArray = longArrayOf()
-        private val emptyIntArray = intArrayOf()
-        private val emptyDoubleArray = doubleArrayOf()
-        private val emptyBooleanArray = booleanArrayOf()
-        private val emptyStringArray = stringArrayOf()
-
     }
 
 }
