@@ -26,15 +26,15 @@ private fun getAvailablePort(): Int {
     }
 }
 
-internal fun startRemoteProxy(fmuFile: File, instanceName: String, host: String, port: Int): Int {
+internal fun startRemoteProxy(fmuFile: File, instanceName: String, remoteAddress: RemoteAddress): Int {
     //with 150 MB max message size
     val transport = TFramedTransport.Factory(150000000)
-        .getTransport(TSocket(host, port))
+        .getTransport(TSocket(remoteAddress.host, remoteAddress.port))
     val protocol = TBinaryProtocol(transport)
     val client = BootService.Client(protocol)
     transport.open()
 
-    return if (host.isLoopback()) {
+    return if (remoteAddress.host.isLoopback()) {
         client.loadFromLocalFile(fmuFile.absolutePath, instanceName)
     } else {
         val data = FileInputStream(fmuFile).buffered().use {

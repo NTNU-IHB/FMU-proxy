@@ -18,7 +18,7 @@ internal class TestProxify {
         val fmuToProxify = File("../test/fmus/2.0/20sim/4.6.4.8004/ControlledTemperature/ControlledTemperature.fmu")
         Assertions.assertTrue(fmuToProxify.exists())
 
-        val proxyFmu = FmuProxifier(fmuToProxify).build(generatedFmusDir)
+        val proxyFmu = FmuProxifier(fmuToProxify, RemoteAddress("localhost", 9091)).build(generatedFmusDir)
         Assertions.assertTrue(proxyFmu.exists())
         Assertions.assertEquals("ControlledTemperature-proxy.fmu", proxyFmu.name)
 

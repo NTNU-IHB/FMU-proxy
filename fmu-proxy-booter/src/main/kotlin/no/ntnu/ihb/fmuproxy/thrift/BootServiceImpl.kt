@@ -34,6 +34,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.ServerSocket
 import java.nio.ByteBuffer
+import java.nio.file.Files
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
@@ -67,21 +68,29 @@ class BootServiceImpl(
 
 
     override fun loadFromLocalFile(fileName: String, instanceName: String): Int {
-        val proxyFile = File(PROXY_JAR)
+        val proxyFile = File(PROXY_JAR.replace(".zip", ".jar"))
         if (!proxyFile.exists()) {
-            FileOutputStream(proxyFile).buffered().use {
-                val resource = BootServiceImpl::class.java.classLoader.getResource(PROXY_JAR)!!
-                it.write(resource.readBytes())
+            FileOutputStream(proxyFile).buffered().use { bos ->
+                val resource = BootServiceImpl::class.java.classLoader.getResourceAsStream(PROXY_JAR)!!
+                bos.write(resource.use { it.readBytes() })
             }
         }
         val fmuFile = File(fileName)
         require(fmuFile.exists())
         val start = startLocalProxy(proxyFile, fmuFile, instanceName)
+        Thread.sleep(1000)
         return start.second
     }
 
     override fun loadFromBinaryData(name: String, instanceName: String, data: ByteBuffer): Int {
-        TODO()
+        val tmpDir = Files.createTempDirectory("fmu_proxy").toFile().apply {
+            deleteOnExit()
+        }
+        val fmuFile = File(tmpDir, "$name:$instanceName")
+        FileOutputStream(fmuFile).buffered().use {
+            it.write(data.compact().array())
+        }
+        return loadFromLocalFile(fmuFile.absolutePath, instanceName)
     }
 
     override fun close() {
@@ -96,7 +105,7 @@ class BootServiceImpl(
 
         private val LOG: Logger = LoggerFactory.getLogger(BootServiceImpl::class.java)
 
-        private const val PROXY_JAR = "fmu-proxy-server.jar"
+        private const val PROXY_JAR = "fmu-proxy-server.zip"
 
         private fun getAvailablePort(): Int {
             return ServerSocket(0).use {

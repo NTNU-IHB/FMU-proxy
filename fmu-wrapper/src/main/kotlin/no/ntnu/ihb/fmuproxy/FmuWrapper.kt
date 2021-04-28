@@ -30,6 +30,7 @@ class FmuWrapper(
             this.client = null
         } else {
             val remote = settings.remote
+            println(remote)
             if (remote == null) {
                 val server = getFmuResource("fmu-proxy-server.jar")
                 val (process, port) = startLocalProxy(server, fmuFile, instanceName)
@@ -37,7 +38,7 @@ class FmuWrapper(
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient("localhost", port)
             } else {
-                val port = startRemoteProxy(this.fmuFile, this.instanceName, remote.host, remote.port)
+                val port = startRemoteProxy(this.fmuFile, this.instanceName, remote)
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient(remote.host, port)
             }

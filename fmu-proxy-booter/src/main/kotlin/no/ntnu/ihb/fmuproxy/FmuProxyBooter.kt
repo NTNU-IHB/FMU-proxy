@@ -34,7 +34,7 @@ object FmuProxyBooter {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        if (args.size != 2) throw IllegalArgumentException("Expected a single input argument: port!")
+        if (args.size != 1) throw IllegalArgumentException("Expected a single input argument: port!")
         val port = args[0].toIntOrNull() ?: throw IllegalArgumentException("Unable to parse port!")
 
         BootServiceImpl(port).apply {
@@ -42,9 +42,9 @@ object FmuProxyBooter {
             start()
 
             thread(start = true) {
-                println("Press any key to exit..")
+                println("[Booter] Press any key to exit..")
                 if (Scanner(System.`in`).hasNext()) {
-                    println("Exiting..")
+                    println("[Booter] Exiting..")
                     close()
                     exitProcess(0)
                 }

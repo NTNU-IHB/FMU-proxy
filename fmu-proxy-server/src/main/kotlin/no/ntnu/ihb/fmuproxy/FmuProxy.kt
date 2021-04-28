@@ -53,15 +53,6 @@ object FmuProxy {
 
             start()
 
-            thread(start = true) {
-                println("Press any key to exit..")
-                if (Scanner(System.`in`).hasNext()) {
-                    println("Exiting..")
-                    close()
-                    exitProcess(0)
-                }
-            }
-
             if (!GraphicsEnvironment.isHeadless()) {
                 createAndShowFrame(fmu.modelName) {
                     close()
