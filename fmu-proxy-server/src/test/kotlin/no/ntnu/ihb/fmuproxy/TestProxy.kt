@@ -1,8 +1,8 @@
 package no.ntnu.ihb.fmuproxy
 
 import no.ntnu.ihb.fmi4j.importer.fmi2.Fmu
-import no.ntnu.ihb.fmuproxy.thrift.InternalFmuServiceImpl
-import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
+import no.ntnu.ihb.fmuproxy.thrift.FmuServiceImpl
+import no.ntnu.ihb.fmuproxy.thrift.internal.FmuService
 import no.ntnu.sfi.fmuproxy.TestUtils
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TFramedTransport
@@ -37,7 +37,7 @@ class TestProxy {
 
     }
 
-    private val proxy = InternalFmuServiceImpl(port, fmu).also {
+    private val proxy = FmuServiceImpl(port, fmu).also {
         it.start()
     }
 
@@ -58,14 +58,7 @@ class TestProxy {
                 .getTransport(TSocket(host, port))
             val protocol = TBinaryProtocol(transport)
             transport.open()
-            val client = InternalFmuService.Client(protocol)
-
-            val mdLocal = fmu.modelDescription
-            val mdRemote = client.modelDescription
-
-            Assertions.assertEquals(mdLocal.guid, mdRemote.guid)
-            Assertions.assertEquals(mdLocal.modelName, mdRemote.modelName)
-            Assertions.assertEquals(mdLocal.fmiVersion, mdRemote.fmiVersion)
+            val client = FmuService.Client(protocol)
 
             runSlave(client, stepSize, stopTime).also {
                 LOG.info("Thrift (socket) duration: ${it}ms")

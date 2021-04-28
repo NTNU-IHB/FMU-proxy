@@ -27,12 +27,15 @@ internal class TestProxify {
             val md = fmu.modelDescription
             Assertions.assertEquals("ControlledTemperature-proxy", md.modelName)
 
+            var t = 0.0
             val dt = 0.01
             fmu.newInstance().use { slave ->
 
                 Assertions.assertTrue(slave.simpleSetup())
                 for (i in 0 until 10) {
-                    Assertions.assertTrue(slave.doStep(dt))
+                    Assertions.assertTrue(slave.doStep(t, dt)).also {
+                        t += dt
+                    }
                 }
                 Assertions.assertTrue(slave.terminate())
 
@@ -80,7 +83,7 @@ internal class TestProxify {
                     slave.writeBoolean(vrs, boolValue)
                     slave.writeString(vrs, strValue)
 
-                    Assertions.assertTrue(slave.doStep(0.1))
+                    Assertions.assertTrue(slave.doStep(0.0,0.1))
 
                     slave.readInteger(vrs, intRef)
                     slave.readReal(vrs, realRef)
@@ -113,7 +116,7 @@ internal class TestProxify {
                         vrs, strValue
                     )
 
-                    slave.doStep(0.1)
+                    slave.doStep(0.0, 0.1)
 
                     slave.readAll(
                         vrs, intRef,
