@@ -24,32 +24,20 @@
 
 package no.ntnu.ihb.fmuproxy
 
-import no.ntnu.ihb.fmi4j.importer.AbstractFmu
-import no.ntnu.ihb.fmuproxy.thrift.FmuServiceImpl
-import java.awt.GraphicsEnvironment
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
-import java.io.File
+import no.ntnu.ihb.fmuproxy.thrift.BootServiceImpl
 import java.util.*
-import javax.swing.JFrame
-import javax.swing.SwingUtilities
 import kotlin.concurrent.thread
 import kotlin.system.exitProcess
 
-object FmuProxy {
+object FmuProxyBooter {
 
     @JvmStatic
     fun main(args: Array<String>) {
 
-        if (args.size != 3) throw IllegalArgumentException("Expected three input arguments: port fmuPath instanceName!")
+        if (args.size != 2) throw IllegalArgumentException("Expected a single input argument: port!")
         val port = args[0].toIntOrNull() ?: throw IllegalArgumentException("Unable to parse port!")
-        val fmuFile = File(args[1])
-        val instanceName = args[2]
 
-        if (!fmuFile.exists()) throw IllegalArgumentException("No such file: '${fmuFile.absolutePath}'!")
-        val fmu = AbstractFmu.from(fmuFile)
-
-        FmuServiceImpl(port, fmu, instanceName).apply {
+        BootServiceImpl(port).apply {
 
             start()
 
@@ -59,12 +47,6 @@ object FmuProxy {
                     println("Exiting..")
                     close()
                     exitProcess(0)
-                }
-            }
-
-            if (!GraphicsEnvironment.isHeadless()) {
-                createAndShowFrame(fmu.modelName) {
-                    close()
                 }
             }
 
@@ -80,28 +62,6 @@ object FmuProxy {
 
         }
 
-    }
-
-    private fun createAndShowFrame(title: String, stopSignal: () -> Unit) {
-
-        SwingUtilities.invokeLater {
-            JFrame(title).apply {
-
-                defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-                setSize(250, 0)
-
-                addWindowListener(object : WindowAdapter() {
-                    override fun windowClosed(e: WindowEvent) {
-                        println("Exiting..")
-                        stopSignal.invoke()
-                    }
-                })
-
-                pack()
-                isVisible = true
-
-            }
-        }
     }
 
 }

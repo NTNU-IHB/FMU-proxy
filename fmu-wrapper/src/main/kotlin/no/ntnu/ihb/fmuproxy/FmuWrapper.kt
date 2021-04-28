@@ -13,7 +13,6 @@ import org.apache.thrift.transport.TSocket
 import java.io.*
 import java.util.concurrent.TimeUnit
 
-
 class FmuWrapper(
         args: Map<String, Any>
 ) : Fmi2Slave(args) {
@@ -33,7 +32,7 @@ class FmuWrapper(
             val remote = settings.remote
             if (remote == null) {
                 val server = getFmuResource("fmu-proxy-server.jar")
-                val (process, port) = startLocalProxy(server, fmuFile)
+                val (process, port) = startLocalProxy(server, fmuFile, instanceName)
                 this.localProcess = process
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient("localhost", port)

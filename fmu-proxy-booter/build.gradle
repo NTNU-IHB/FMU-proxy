@@ -1,0 +1,37 @@
+plugins {
+    id "kotlin"
+    id "application"
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxyBooter"
+
+dependencies {
+
+    implementation project(":rpc-gen")
+
+}
+
+run {
+    if (project.hasProperty("appArgs")) {
+        args appArgs.split(" ")
+    }
+    standardInput = System.in
+}
+
+shadowJar {
+    version = null
+    archiveBaseName.set('fmu-proxy-booter')
+}
+
+task copyProxyJar(type: Copy) {
+    from rootProject.file("fmu-proxy-server/build/libs/fmu-proxy-server.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-proxy-server:shadowJar"
+}
+
+compileKotlin.dependsOn copyProxyJar
+
+build.finalizedBy installDist

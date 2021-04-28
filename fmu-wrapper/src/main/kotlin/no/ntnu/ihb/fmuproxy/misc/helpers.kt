@@ -29,13 +29,13 @@ private fun getAvailablePort(): Int {
 internal fun startRemoteProxy(fmuFile: File, instanceName: String, host: String, port: Int): Int {
     //with 150 MB max message size
     val transport = TFramedTransport.Factory(150000000)
-            .getTransport(TSocket(host, port))
+        .getTransport(TSocket(host, port))
     val protocol = TBinaryProtocol(transport)
     val client = BootService.Client(protocol)
     transport.open()
 
     return if (host.isLoopback()) {
-        client.loadFromLocalFile(fmuFile.absolutePath)
+        client.loadFromLocalFile(fmuFile.absolutePath, instanceName)
     } else {
         val data = FileInputStream(fmuFile).buffered().use {
             ByteBuffer.wrap(it.readBytes())
@@ -46,16 +46,18 @@ internal fun startRemoteProxy(fmuFile: File, instanceName: String, host: String,
     }
 }
 
-internal fun startLocalProxy(proxyFile: File, fmuFile: File): Pair<Process, Int> {
+internal fun startLocalProxy(proxyFile: File, fmuFile: File, instanceName: String): Pair<Process, Int> {
 
     require(fmuFile.exists()) { "No such file: ${fmuFile.absolutePath}" }
     require(proxyFile.exists()) { "No such file: ${proxyFile.absolutePath}" }
 
     val port = getAvailablePort()
     val cmd = arrayOf(
-            "java", "-jar",
-            proxyFile.absolutePath,
-            "$port", fmuFile.absolutePath
+        "java", "-jar",
+        proxyFile.absolutePath,
+        "$port",
+        fmuFile.absolutePath,
+        instanceName
     )
 
     val pb = ProcessBuilder().apply {

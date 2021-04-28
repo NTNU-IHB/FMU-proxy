@@ -37,7 +37,7 @@ class TestProxy {
 
     }
 
-    private val proxy = FmuServiceImpl(port, fmu).also {
+    private val proxy = FmuServiceImpl(port, fmu, "instance").also {
         it.start()
     }
 

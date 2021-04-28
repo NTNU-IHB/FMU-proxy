@@ -41,7 +41,8 @@ import kotlin.concurrent.thread
 
 class FmuServiceImpl(
     port: Int,
-    private val fmu: AbstractFmu
+    fmu: AbstractFmu,
+    instanceName: String
 ) : FmuService.Iface, Closeable {
 
     private val server: TNonblockingServer
@@ -55,7 +56,7 @@ class FmuServiceImpl(
         if (!fmu.supportsCoSimulation) {
             throw UnsupportedOperationException("FMU does not support Co-simulation!")
         }
-        slave = fmu.asCoSimulationFmu().newInstance()
+        slave = fmu.asCoSimulationFmu().newInstance(instanceName)
 
         val transport = TNonblockingServerSocket(port)
         val processor = FmuService.Processor(this)

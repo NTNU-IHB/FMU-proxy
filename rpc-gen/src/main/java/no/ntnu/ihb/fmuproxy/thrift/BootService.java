@@ -12,7 +12,7 @@ public class BootService {
 
   public interface Iface {
 
-    public int loadFromLocalFile(java.lang.String fileName) throws org.apache.thrift.TException;
+    public int loadFromLocalFile(java.lang.String fileName, java.lang.String instanceName) throws org.apache.thrift.TException;
 
     public int loadFromBinaryData(java.lang.String name, java.lang.String instanceName, java.nio.ByteBuffer data) throws org.apache.thrift.TException;
 
@@ -20,7 +20,7 @@ public class BootService {
 
   public interface AsyncIface {
 
-    public void loadFromLocalFile(java.lang.String fileName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
+    public void loadFromLocalFile(java.lang.String fileName, java.lang.String instanceName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
     public void loadFromBinaryData(java.lang.String name, java.lang.String instanceName, java.nio.ByteBuffer data, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException;
 
@@ -46,16 +46,17 @@ public class BootService {
       super(iprot, oprot);
     }
 
-    public int loadFromLocalFile(java.lang.String fileName) throws org.apache.thrift.TException
+    public int loadFromLocalFile(java.lang.String fileName, java.lang.String instanceName) throws org.apache.thrift.TException
     {
-      sendLoadFromLocalFile(fileName);
+      sendLoadFromLocalFile(fileName, instanceName);
       return recvLoadFromLocalFile();
     }
 
-    public void sendLoadFromLocalFile(java.lang.String fileName) throws org.apache.thrift.TException
+    public void sendLoadFromLocalFile(java.lang.String fileName, java.lang.String instanceName) throws org.apache.thrift.TException
     {
       loadFromLocalFile_args args = new loadFromLocalFile_args();
       args.setFileName(fileName);
+      args.setInstanceName(instanceName);
       sendBase("loadFromLocalFile", args);
     }
 
@@ -112,24 +113,27 @@ public class BootService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void loadFromLocalFile(java.lang.String fileName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
+    public void loadFromLocalFile(java.lang.String fileName, java.lang.String instanceName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      loadFromLocalFile_call method_call = new loadFromLocalFile_call(fileName, resultHandler, this, ___protocolFactory, ___transport);
+      loadFromLocalFile_call method_call = new loadFromLocalFile_call(fileName, instanceName, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class loadFromLocalFile_call extends org.apache.thrift.async.TAsyncMethodCall<java.lang.Integer> {
       private java.lang.String fileName;
-      public loadFromLocalFile_call(java.lang.String fileName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private java.lang.String instanceName;
+      public loadFromLocalFile_call(java.lang.String fileName, java.lang.String instanceName, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.fileName = fileName;
+        this.instanceName = instanceName;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("loadFromLocalFile", org.apache.thrift.protocol.TMessageType.CALL, 0));
         loadFromLocalFile_args args = new loadFromLocalFile_args();
         args.setFileName(fileName);
+        args.setInstanceName(instanceName);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -220,7 +224,7 @@ public class BootService {
 
       public loadFromLocalFile_result getResult(I iface, loadFromLocalFile_args args) throws org.apache.thrift.TException {
         loadFromLocalFile_result result = new loadFromLocalFile_result();
-        result.success = iface.loadFromLocalFile(args.fileName);
+        result.success = iface.loadFromLocalFile(args.fileName, args.instanceName);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -328,7 +332,7 @@ public class BootService {
       }
 
       public void start(I iface, loadFromLocalFile_args args, org.apache.thrift.async.AsyncMethodCallback<java.lang.Integer> resultHandler) throws org.apache.thrift.TException {
-        iface.loadFromLocalFile(args.fileName,resultHandler);
+        iface.loadFromLocalFile(args.fileName, args.instanceName,resultHandler);
       }
     }
 
@@ -400,15 +404,18 @@ public class BootService {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("loadFromLocalFile_args");
 
     private static final org.apache.thrift.protocol.TField FILE_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("fileName", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField INSTANCE_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("instanceName", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new loadFromLocalFile_argsStandardSchemeFactory();
     private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new loadFromLocalFile_argsTupleSchemeFactory();
 
     private @org.apache.thrift.annotation.Nullable java.lang.String fileName; // required
+    private @org.apache.thrift.annotation.Nullable java.lang.String instanceName; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      FILE_NAME((short)1, "fileName");
+      FILE_NAME((short)1, "fileName"),
+      INSTANCE_NAME((short)2, "instanceName");
 
       private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
 
@@ -426,6 +433,8 @@ public class BootService {
         switch(fieldId) {
           case 1: // FILE_NAME
             return FILE_NAME;
+          case 2: // INSTANCE_NAME
+            return INSTANCE_NAME;
           default:
             return null;
         }
@@ -472,6 +481,8 @@ public class BootService {
       java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.FILE_NAME, new org.apache.thrift.meta_data.FieldMetaData("fileName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.INSTANCE_NAME, new org.apache.thrift.meta_data.FieldMetaData("instanceName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(loadFromLocalFile_args.class, metaDataMap);
     }
@@ -480,10 +491,12 @@ public class BootService {
     }
 
     public loadFromLocalFile_args(
-      java.lang.String fileName)
+      java.lang.String fileName,
+      java.lang.String instanceName)
     {
       this();
       this.fileName = fileName;
+      this.instanceName = instanceName;
     }
 
     /**
@@ -492,6 +505,9 @@ public class BootService {
     public loadFromLocalFile_args(loadFromLocalFile_args other) {
       if (other.isSetFileName()) {
         this.fileName = other.fileName;
+      }
+      if (other.isSetInstanceName()) {
+        this.instanceName = other.instanceName;
       }
     }
 
@@ -502,6 +518,7 @@ public class BootService {
     @Override
     public void clear() {
       this.fileName = null;
+      this.instanceName = null;
     }
 
     @org.apache.thrift.annotation.Nullable
@@ -529,6 +546,31 @@ public class BootService {
       }
     }
 
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.String getInstanceName() {
+      return this.instanceName;
+    }
+
+    public loadFromLocalFile_args setInstanceName(@org.apache.thrift.annotation.Nullable java.lang.String instanceName) {
+      this.instanceName = instanceName;
+      return this;
+    }
+
+    public void unsetInstanceName() {
+      this.instanceName = null;
+    }
+
+    /** Returns true if field instanceName is set (has been assigned a value) and false otherwise */
+    public boolean isSetInstanceName() {
+      return this.instanceName != null;
+    }
+
+    public void setInstanceNameIsSet(boolean value) {
+      if (!value) {
+        this.instanceName = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
       switch (field) {
       case FILE_NAME:
@@ -536,6 +578,14 @@ public class BootService {
           unsetFileName();
         } else {
           setFileName((java.lang.String)value);
+        }
+        break;
+
+      case INSTANCE_NAME:
+        if (value == null) {
+          unsetInstanceName();
+        } else {
+          setInstanceName((java.lang.String)value);
         }
         break;
 
@@ -547,6 +597,9 @@ public class BootService {
       switch (field) {
       case FILE_NAME:
         return getFileName();
+
+      case INSTANCE_NAME:
+        return getInstanceName();
 
       }
       throw new java.lang.IllegalStateException();
@@ -561,6 +614,8 @@ public class BootService {
       switch (field) {
       case FILE_NAME:
         return isSetFileName();
+      case INSTANCE_NAME:
+        return isSetInstanceName();
       }
       throw new java.lang.IllegalStateException();
     }
@@ -589,6 +644,15 @@ public class BootService {
           return false;
       }
 
+      boolean this_present_instanceName = true && this.isSetInstanceName();
+      boolean that_present_instanceName = true && that.isSetInstanceName();
+      if (this_present_instanceName || that_present_instanceName) {
+        if (!(this_present_instanceName && that_present_instanceName))
+          return false;
+        if (!this.instanceName.equals(that.instanceName))
+          return false;
+      }
+
       return true;
     }
 
@@ -599,6 +663,10 @@ public class BootService {
       hashCode = hashCode * 8191 + ((isSetFileName()) ? 131071 : 524287);
       if (isSetFileName())
         hashCode = hashCode * 8191 + fileName.hashCode();
+
+      hashCode = hashCode * 8191 + ((isSetInstanceName()) ? 131071 : 524287);
+      if (isSetInstanceName())
+        hashCode = hashCode * 8191 + instanceName.hashCode();
 
       return hashCode;
     }
@@ -617,6 +685,16 @@ public class BootService {
       }
       if (isSetFileName()) {
         lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.fileName, other.fileName);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.valueOf(isSetInstanceName()).compareTo(other.isSetInstanceName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetInstanceName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.instanceName, other.instanceName);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -647,6 +725,14 @@ public class BootService {
         sb.append("null");
       } else {
         sb.append(this.fileName);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("instanceName:");
+      if (this.instanceName == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.instanceName);
       }
       first = false;
       sb.append(")");
@@ -700,6 +786,14 @@ public class BootService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 2: // INSTANCE_NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.instanceName = iprot.readString();
+                struct.setInstanceNameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -718,6 +812,11 @@ public class BootService {
         if (struct.fileName != null) {
           oprot.writeFieldBegin(FILE_NAME_FIELD_DESC);
           oprot.writeString(struct.fileName);
+          oprot.writeFieldEnd();
+        }
+        if (struct.instanceName != null) {
+          oprot.writeFieldBegin(INSTANCE_NAME_FIELD_DESC);
+          oprot.writeString(struct.instanceName);
           oprot.writeFieldEnd();
         }
         oprot.writeFieldStop();
@@ -741,19 +840,29 @@ public class BootService {
         if (struct.isSetFileName()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetInstanceName()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
         if (struct.isSetFileName()) {
           oprot.writeString(struct.fileName);
+        }
+        if (struct.isSetInstanceName()) {
+          oprot.writeString(struct.instanceName);
         }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, loadFromLocalFile_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
-        java.util.BitSet incoming = iprot.readBitSet(1);
+        java.util.BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
           struct.fileName = iprot.readString();
           struct.setFileNameIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.instanceName = iprot.readString();
+          struct.setInstanceNameIsSet(true);
         }
       }
     }
