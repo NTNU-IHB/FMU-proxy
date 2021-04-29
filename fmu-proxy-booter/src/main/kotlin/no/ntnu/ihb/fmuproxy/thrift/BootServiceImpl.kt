@@ -68,7 +68,7 @@ class BootServiceImpl(
 
 
     override fun loadFromLocalFile(fileName: String, instanceName: String): Int {
-        val proxyFile = File(PROXY_JAR.replace(".zip", ".jar"))
+        val proxyFile = File(PROXY_JAR)
         if (!proxyFile.exists()) {
             FileOutputStream(proxyFile).buffered().use { bos ->
                 val resource = BootServiceImpl::class.java.classLoader.getResourceAsStream(PROXY_JAR)!!
@@ -105,7 +105,7 @@ class BootServiceImpl(
 
         private val LOG: Logger = LoggerFactory.getLogger(BootServiceImpl::class.java)
 
-        private const val PROXY_JAR = "fmu-proxy-server.zip"
+        private const val PROXY_JAR = "fmu-proxy-server.jar"
 
         private fun getAvailablePort(): Int {
             return ServerSocket(0).use {

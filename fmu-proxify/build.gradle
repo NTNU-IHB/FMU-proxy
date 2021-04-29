@@ -1,7 +1,6 @@
 plugins {
     id "kotlin"
     id "application"
-    id "distribution"
 }
 
 apply from: rootProject.file("gradle/junit.gradle")

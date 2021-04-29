@@ -1,7 +1,6 @@
 plugins {
     id "kotlin"
     id "application"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
 }
 
 apply from: rootProject.file("gradle/junit.gradle")
@@ -18,25 +17,9 @@ dependencies {
 
 }
 
-run {
-    if (project.hasProperty("appArgs")) {
-        args appArgs.split(" ")
-    }
-    standardInput = System.in
-}
-
-shadowJar {
-    version = null
-    archiveBaseName.set('fmu-proxy-booter')
-    append("fmu-proxy-server.jar")
-}
-
 task copyProxyJar(type: Copy) {
     from rootProject.file("fmu-proxy-server/build/libs/fmu-proxy-server.jar")
     into project.file("src/main/resources")
-    rename { filename ->
-        filename.replace '.jar', '.zip'
-    }
     dependsOn ":fmu-proxy-server:shadowJar"
 }
 
