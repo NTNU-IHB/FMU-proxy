@@ -8,7 +8,7 @@ println "Gradle version is ${gradle.getGradleVersion()}"
 
 ext.slf4j_version = '1.7.25'
 ext.picocli_version = '4.5.0'
-ext.fmi4j_version = '0.36.6'
+ext.fmi4j_version = '0.37.0'
 
 wrapper {
     distributionType = Wrapper.DistributionType.ALL
@@ -19,7 +19,6 @@ subprojects { sub ->
 
     repositories {
         mavenCentral()
-        maven { url "https://dl.bintray.com/ntnu-ihb/mvn" }
     }
 
     dependencies {

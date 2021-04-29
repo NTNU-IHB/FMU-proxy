@@ -6,14 +6,12 @@ import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.util.FmiModelDescriptionUtil
 import no.ntnu.ihb.fmuproxy.misc.*
-import no.ntnu.ihb.fmuproxy.thrift.ModelDescription
-import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
+import no.ntnu.ihb.fmuproxy.thrift.internal.FmuService
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
 import java.io.*
 import java.util.concurrent.TimeUnit
-
 
 class FmuWrapper(
         args: Map<String, Any>
@@ -34,12 +32,12 @@ class FmuWrapper(
             val remote = settings.remote
             if (remote == null) {
                 val server = getFmuResource("fmu-proxy-server.jar")
-                val (process, port) = startLocalProxy(server, fmuFile)
+                val (process, port) = startLocalProxy(server, fmuFile, instanceName)
                 this.localProcess = process
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient("localhost", port)
             } else {
-                val port = startRemoteProxy(this.fmuFile, remote.host, remote.port)
+                val port = startRemoteProxy(this.fmuFile, this.instanceName, remote)
                 Thread.sleep(1000)
                 this.client = ThriftFmuClient(remote.host, port)
             }
@@ -59,7 +57,7 @@ class FmuWrapper(
     }
 
     override fun doStep(currentTime: Double, dt: Double) {
-        this.client?.doStep(dt)
+        this.client?.doStep(currentTime, dt)
     }
 
     override fun terminate() {
@@ -254,15 +252,9 @@ private class ThriftFmuClient(
         .getTransport(TSocket(host, port))
     private val protocol = TBinaryProtocol(transport)
 
-    private val client: InternalFmuService.Client by lazy {
+    private val client: FmuService.Client by lazy {
         transport.open()
-        InternalFmuService.Client(protocol).apply {
-            createInstance()
-        }
-    }
-
-    val modelDescription: ModelDescription by lazy {
-        client.modelDescription
+        FmuService.Client(protocol)
     }
 
     fun setupExperiment(startTime: Double, stopTime: Double, tolerance: Double) {
@@ -277,8 +269,8 @@ private class ThriftFmuClient(
         client.exitInitializationMode()
     }
 
-    fun doStep(dt: Double) {
-        client.step(dt)
+    fun doStep(currentTime: Double, dt: Double) {
+        client.step(currentTime, dt)
     }
 
     fun readInteger(vr: LongArray): IntArray {

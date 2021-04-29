@@ -6,7 +6,7 @@ import no.ntnu.ihb.fmi4j.modeldescription.fmi1.FmiVariability
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Causality
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2ModelDescription
 import no.ntnu.ihb.fmi4j.modeldescription.fmi2.Fmi2Variability
-import no.ntnu.ihb.fmuproxy.thrift.FmuService
+import no.ntnu.ihb.fmuproxy.thrift.BootService
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.transport.TFramedTransport
 import org.apache.thrift.transport.TSocket
@@ -26,36 +26,38 @@ private fun getAvailablePort(): Int {
     }
 }
 
-internal fun startRemoteProxy(fmuFile: File, host: String, port: Int): Int {
+internal fun startRemoteProxy(fmuFile: File, instanceName: String, remoteAddress: RemoteAddress): Int {
     //with 150 MB max message size
     val transport = TFramedTransport.Factory(150000000)
-            .getTransport(TSocket(host, port))
+        .getTransport(TSocket(remoteAddress.host, remoteAddress.port))
     val protocol = TBinaryProtocol(transport)
-    val client = FmuService.Client(protocol)
+    val client = BootService.Client(protocol)
     transport.open()
 
-    return if (host.isLoopback()) {
-        client.loadFromLocalFile(fmuFile.absolutePath)
+    return if (remoteAddress.host.isLoopback()) {
+        client.loadFromLocalFile(fmuFile.absolutePath, instanceName)
     } else {
         val data = FileInputStream(fmuFile).buffered().use {
             ByteBuffer.wrap(it.readBytes())
         }
-        client.loadFromRemoteFile(fmuFile.name, data)
+        client.loadFromBinaryData(fmuFile.name, instanceName, data)
     }.also {
         transport.close()
     }
 }
 
-internal fun startLocalProxy(proxyFile: File, fmuFile: File): Pair<Process, Int> {
+internal fun startLocalProxy(proxyFile: File, fmuFile: File, instanceName: String): Pair<Process, Int> {
 
-    require(fmuFile.exists()) { "No such file: $fmuFile" }
-    require(proxyFile.exists()) { "No such file: $proxyFile" }
+    require(fmuFile.exists()) { "No such file: ${fmuFile.absolutePath}" }
+    require(proxyFile.exists()) { "No such file: ${proxyFile.absolutePath}" }
 
     val port = getAvailablePort()
     val cmd = arrayOf(
-            "java", "-jar",
-            proxyFile.absolutePath,
-            "$port", fmuFile.absolutePath
+        "java", "-jar",
+        proxyFile.absolutePath,
+        "$port",
+        fmuFile.absolutePath,
+        instanceName
     )
 
     val pb = ProcessBuilder().apply {
@@ -75,7 +77,7 @@ internal fun startLocalProxy(proxyFile: File, fmuFile: File): Pair<Process, Int>
 }
 
 internal fun parseSettings(settings: File): ProxySettings {
-    require(settings.exists()) { "No such file: $settings" }
+    require(settings.exists()) { "No such file: ${settings.absolutePath}" }
     return parseSettings(settings.readText())
 }
 

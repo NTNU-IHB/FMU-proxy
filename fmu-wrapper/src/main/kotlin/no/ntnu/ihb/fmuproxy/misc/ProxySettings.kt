@@ -9,6 +9,10 @@ class ProxySettings(
         RemoteAddress.parse(it)
     }
 
+    override fun toString(): String {
+        return "ProxySettings(fmuName='$fmuName', remote=$remote)"
+    }
+
 }
 
 data class RemoteAddress(

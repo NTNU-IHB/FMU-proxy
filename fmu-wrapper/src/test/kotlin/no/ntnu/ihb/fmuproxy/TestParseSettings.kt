@@ -10,20 +10,6 @@ internal class TestParseSettings {
     private val fmuName = "identity.fmu"
     private val remote = RemoteAddress("localhost", 9090)
 
-    private val testStrings by lazy {
-        val str1 = """
-            fmu=identity.fmu
-            remote=${remote.strRepr}
-        """.trimIndent()
-
-        val str2 = """
-            remote=${remote.strRepr}
-            fmu=identity.fmu
-        """.trimIndent()
-
-        listOf(str1, str2)
-    }
-
     @Test
     fun testParseSettings() {
 

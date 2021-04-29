@@ -1,0 +1,28 @@
+plugins {
+    id "kotlin"
+    id "application"
+}
+
+apply from: rootProject.file("gradle/junit.gradle")
+
+mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxyBooter"
+
+dependencies {
+
+    implementation project(":rpc-gen")
+
+    def slf4j_version = '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+    runtimeOnly group: 'org.slf4j', name: 'slf4j-log4j12', version: slf4j_version
+
+}
+
+task copyProxyJar(type: Copy) {
+    from rootProject.file("fmu-proxy-server/build/libs/fmu-proxy-server.jar")
+    into project.file("src/main/resources")
+    dependsOn ":fmu-proxy-server:shadowJar"
+}
+
+compileKotlin.dependsOn copyProxyJar
+
+build.finalizedBy installDist

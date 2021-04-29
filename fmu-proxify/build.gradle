@@ -1,7 +1,6 @@
 plugins {
     id "kotlin"
     id "application"
-    id "distribution"
 }
 
 apply from: rootProject.file("gradle/junit.gradle")
@@ -11,9 +10,9 @@ mainClassName = "no.ntnu.ihb.fmuproxy.FmuProxifier"
 dependencies {
 
     implementation "info.picocli:picocli:$picocli_version"
-    implementation "no.ntnu.ihb.fmi4j:fmu-builder:$fmi4j_version"
+    implementation "info.laht.fmi4j:fmu-builder:$fmi4j_version"
 
-    testImplementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
+    testImplementation "info.laht.fmi4j:fmi-import:$fmi4j_version"
 }
 
 task copyWrapperJar(type: Copy) {

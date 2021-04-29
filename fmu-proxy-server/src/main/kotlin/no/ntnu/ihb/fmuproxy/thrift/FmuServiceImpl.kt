@@ -29,8 +29,7 @@ import no.ntnu.ihb.fmi4j.importer.AbstractFmu
 import no.ntnu.ihb.fmi4j.modeldescription.RealArray
 import no.ntnu.ihb.fmi4j.modeldescription.StringArray
 import no.ntnu.ihb.fmi4j.modeldescription.ValueReference
-import no.ntnu.ihb.fmi4j.modeldescription.stringArrayOf
-import no.ntnu.ihb.fmuproxy.thrift.internal.InternalFmuService
+import no.ntnu.ihb.fmuproxy.thrift.internal.FmuService
 import org.apache.thrift.protocol.TBinaryProtocol
 import org.apache.thrift.server.TNonblockingServer
 import org.apache.thrift.transport.TNonblockingServerSocket
@@ -40,20 +39,27 @@ import java.io.Closeable
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.thread
 
-class InternalFmuServiceImpl(
+class FmuServiceImpl(
     port: Int,
-    private val fmu: AbstractFmu
-) : InternalFmuService.Iface, Closeable {
+    fmu: AbstractFmu,
+    instanceName: String
+) : FmuService.Iface, Closeable {
 
     private val server: TNonblockingServer
-    private lateinit var slave: SlaveInstance
+    private var slave: SlaveInstance
 
     private val started = AtomicBoolean(false)
     internal val stopped = AtomicBoolean(false)
 
     init {
+
+        if (!fmu.supportsCoSimulation) {
+            throw UnsupportedOperationException("FMU does not support Co-simulation!")
+        }
+        slave = fmu.asCoSimulationFmu().newInstance(instanceName)
+
         val transport = TNonblockingServerSocket(port)
-        val processor = InternalFmuService.Processor(this)
+        val processor = FmuService.Processor(this)
         this.server = TNonblockingServer(
             TNonblockingServer.Args(transport)
                 .processor(processor)
@@ -67,17 +73,6 @@ class InternalFmuServiceImpl(
                 server.serve()
             }
         }
-    }
-
-    override fun getModelDescription(): ModelDescription {
-        return fmu.modelDescription.asCoSimulationModelDescription().thriftType()
-    }
-
-    override fun createInstance() {
-        if (!fmu.supportsCoSimulation) {
-            throw UnsupportedOperationException("FMU does not support Co-simulation!")
-        }
-        slave = fmu.asCoSimulationFmu().newInstance()
     }
 
     override fun setupExperiment(start: Double, stop: Double, tolerance: Double): Status {
@@ -95,14 +90,11 @@ class InternalFmuServiceImpl(
         return slave.lastStatus.thriftType()
     }
 
-    override fun step(stepSize: Double): StepResult {
-        if (!slave.doStep(stepSize)) {
+    override fun step(currentTime: Double, stepSize: Double): Status {
+        if (!slave.doStep(currentTime, stepSize)) {
             LOG.error("doStep returned with status: ${slave.lastStatus}")
         }
-        return StepResult().apply {
-            simulationTime = slave.simulationTime
-            status = slave.lastStatus.thriftType()
-        }
+        return slave.lastStatus.thriftType()
     }
 
     override fun reset(): Status {
@@ -211,24 +203,8 @@ class InternalFmuServiceImpl(
         ).thriftType()
     }
 
-    override fun getDirectionalDerivative(
-        vUnkownRef: List<Long>,
-        vKnownRef: List<Long>,
-        dvUnkownRef: List<Double>
-    ): DirectionalDerivativeResult {
-        if (!slave.modelDescription.attributes.providesDirectionalDerivative) {
-            throw UnsupportedOperationException("FMU instance does not provide DirectionalDerivative!")
-        }
-        val dvUnknown = slave.getDirectionalDerivative(
-            vUnkownRef.toLongArray(),
-            vKnownRef.toLongArray(),
-            dvUnkownRef.toDoubleArray()
-        ).toList()
-        return DirectionalDerivativeResult(dvUnknown, slave.lastStatus.thriftType())
-    }
-
     private companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(InternalFmuServiceImpl::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(FmuServiceImpl::class.java)
     }
 
 }

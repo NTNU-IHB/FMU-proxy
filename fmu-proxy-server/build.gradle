@@ -12,7 +12,7 @@ dependencies {
 
     implementation project(":rpc-gen")
 
-    implementation "no.ntnu.ihb.fmi4j:fmi-import:$fmi4j_version"
+    implementation "info.laht.fmi4j:fmi-import:$fmi4j_version"
 
 }
 
