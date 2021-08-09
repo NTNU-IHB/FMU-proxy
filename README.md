@@ -64,8 +64,8 @@ Likewise, the booter executable needed to spawn processes on a different compute
 
 #### Running the FMU on another computer
 
-1. The target computer needs to start __fmu-proxy.jar__ <br>
-`java -jar fmu-proxy.jar <port>`
+1. The target computer needs to start __fmu-proxy-booter__ <br>
+`./fmu-proxy-booter <port>`
 
 2. Generate the FMU with the option `--remote <hostname:port>` <br>
  (or modify proxySettings.txt inside an existing FMU)
